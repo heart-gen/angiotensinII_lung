@@ -175,7 +175,8 @@ outdir = "all_cells"
 dir.create(outdir)
 plot_dotplot(fn, outdir, FALSE)
 df0 <- prepare_data(fn)
-df0 |> data.table::fwrite("normalized_expression.tsv", sep='\t')
+df0 |> data.table::fwrite("normalized_expression.txt.gz", sep='\t', 
+                          compress="auto")
 calculate_proportion(df0, outdir)
 
 #### Reproducibility information ####
