@@ -1,0 +1,67 @@
+Gene_Name	Cell_Annotation	Proportion	Total_Cells
+AGTR1	AT1	0.75	3
+AGTR1	AT2	0.00496277915632754	26
+AGTR1	Adventitial fibroblasts	0.993451211525868	1517
+AGTR1	Alveolar fibroblasts	0.991266375545852	681
+AGTR1	Alveolar macrophages	0.623762376237624	63
+AGTR1	B cell	1	1
+AGTR1	Basal	0.692307692307692	9
+AGTR1	DC1	0	0
+AGTR1	DC2	0.25	1
+AGTR1	EC arterial	0.444444444444444	4
+AGTR1	EC capillary	0.8125	13
+AGTR1	EC venous	0.444444444444444	4
+AGTR1	Hematopoietic stem cells	0	0
+AGTR1	Innate lymphoid cell NK	0.714285714285714	5
+AGTR1	Interstitial Mph perivascular	0	0
+AGTR1	Ionocyte	1	1
+AGTR1	Lymphatic EC	0.375	3
+AGTR1	Mast cells	1	9
+AGTR1	Mesothelium	1	2
+AGTR1	Monocyte-derived Mph	0.0967741935483871	3
+AGTR1	Monocytes	0.6	12
+AGTR1	Multiciliated	0.212121212121212	7
+AGTR1	Myofibroblasts	1	14
+AGTR1	Neuroendocrine	1	1
+AGTR1	Peribronchial fibroblasts	0.851351351351351	63
+AGTR1	Pericytes	1	1460
+AGTR1	Plasma cells	0.666666666666667	2
+AGTR1	Secretory	0.142857142857143	1
+AGTR1	Smooth muscle	0.995594713656388	226
+AGTR1	Smooth muscle FAM83D+	1	3
+AGTR1	Subpleural fibroblasts	1	6
+AGTR1	T cell lineage	0.5	11
+AGTR1	Transitional Club-AT2 cells	0.333333333333333	3
+AGTR2	AT1	0.25	1
+AGTR2	AT2	0.995991601450659	5218
+AGTR2	Adventitial fibroblasts	0.00785854616895874	12
+AGTR2	Alveolar fibroblasts	0.0116448326055313	8
+AGTR2	Alveolar macrophages	0.376237623762376	38
+AGTR2	B cell	0	0
+AGTR2	Basal	0.307692307692308	4
+AGTR2	DC1	1	2
+AGTR2	DC2	0.75	3
+AGTR2	EC arterial	0.555555555555556	5
+AGTR2	EC capillary	0.1875	3
+AGTR2	EC venous	0.555555555555556	5
+AGTR2	Hematopoietic stem cells	1	1
+AGTR2	Innate lymphoid cell NK	0.285714285714286	2
+AGTR2	Interstitial Mph perivascular	1	2
+AGTR2	Ionocyte	0	0
+AGTR2	Lymphatic EC	0.625	5
+AGTR2	Mast cells	0	0
+AGTR2	Mesothelium	0	0
+AGTR2	Monocyte-derived Mph	0.903225806451613	28
+AGTR2	Monocytes	0.4	8
+AGTR2	Multiciliated	0.787878787878788	26
+AGTR2	Myofibroblasts	0	0
+AGTR2	Neuroendocrine	0	0
+AGTR2	Peribronchial fibroblasts	0.148648648648649	11
+AGTR2	Pericytes	0	0
+AGTR2	Plasma cells	0.333333333333333	1
+AGTR2	Secretory	0.857142857142857	6
+AGTR2	Smooth muscle	0.00440528634361234	1
+AGTR2	Smooth muscle FAM83D+	0	0
+AGTR2	Subpleural fibroblasts	0	0
+AGTR2	T cell lineage	0.5	11
+AGTR2	Transitional Club-AT2 cells	0.666666666666667	6
