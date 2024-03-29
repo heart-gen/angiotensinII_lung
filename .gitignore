@@ -30,11 +30,8 @@ nohup.out
 .ipynb_checkpoints/*
 */.ipynb_checkpoints
 .ipynb_checkpoints
-input/*
-inputs/*
 gene2go
 go-basic.obo
-.pybiomart.sqlite
 *.gz
 *.toc
 *.aux
