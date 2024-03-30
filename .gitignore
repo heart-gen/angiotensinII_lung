@@ -41,3 +41,6 @@ go-basic.obo
 dev/*
 *.svg
 *.eps
+*.h5ad
+*.pt
+*.slurm
