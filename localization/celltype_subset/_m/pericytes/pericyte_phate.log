@@ -1,0 +1,129 @@
+**** Job starts ****
+Sat Mar 30 04:20:58 PM EDT 2024
+**** JHPCE info ****
+User: jbenjami
+Job id: 3624198
+Job name: pericyte_phate
+Node name: 
+Hostname: compute-099
+Task id: 
+
+Currently Loaded Modules:
+  1) JHPCE_ROCKY9_DEFAULT_ENV   2) JHPCE_tools/3.0
+
+ 
+
+**** Run PHATE on pericytes ****
+'../_h/01.pericyte_phate.ipynb' -> './01.pericyte_phate.ipynb'
+
+Starting python3 kernel...Done
+
+Executing '01.pericyte_phate.ipynb'
+  Cell 1/26: ''...Done
+  Cell 2/26: ''...Done
+  Cell 3/26: ''...Done
+  Cell 4/26: ''...Done
+  Cell 5/26: ''...Done
+  Cell 6/26: ''...Done
+  Cell 7/26: ''...Done
+  Cell 8/26: ''...Done
+  Cell 9/26: ''...Done
+  Cell 10/26: ''...Done
+  Cell 11/26: ''...Done
+  Cell 12/26: ''...Done
+  Cell 13/26: ''...Done
+  Cell 14/26: ''...Done
+  Cell 15/26: ''...Done
+  Cell 16/26: ''...Done
+  Cell 17/26: ''...Done
+  Cell 18/26: ''...Done
+  Cell 19/26: ''...Done
+  Cell 20/26: ''...Done
+  Cell 21/26: ''...Done
+  Cell 22/26: ''...Done
+  Cell 23/26: ''...Done
+  Cell 24/26: ''...Done
+  Cell 25/26: ''...Done
+  Cell 26/26: ''...Done
+
+[1mpandoc [22m
+  to: ipynb
+  output-file: pericyte_phate.ipynb
+  standalone: true
+  default-image-extension: png
+  number-sections: true
+  
+[1mmetadata[22m
+  ipynb-title-block: /dcs05/lieber/hanlab/jbenjami/opt/quarto-1.4.552/share/formats/ipynb/templates/title-block.md
+  title: 'Dimensional reduction with PHATE: Pericytes'
+  author: Kynon J Benjamin
+  date: 3/30/2024
+  jupyter: python3
+  
+
+Starting python3 kernel...Done
+
+Executing '01.pericyte_phate.ipynb'
+  Cell 1/26: ''...Done
+  Cell 2/26: ''...Done
+  Cell 3/26: ''...Done
+  Cell 4/26: ''...Done
+  Cell 5/26: ''...Done
+  Cell 6/26: ''...Done
+  Cell 7/26: ''...Done
+  Cell 8/26: ''...Done
+  Cell 9/26: ''...Done
+  Cell 10/26: ''...Done
+  Cell 11/26: ''...Done
+  Cell 12/26: ''...Done
+  Cell 13/26: ''...Done
+  Cell 14/26: ''...Done
+  Cell 15/26: ''...Done
+  Cell 16/26: ''...Done
+  Cell 17/26: ''...Done
+  Cell 18/26: ''...Done
+  Cell 19/26: ''...Done
+  Cell 20/26: ''...Done
+  Cell 21/26: ''...Done
+  Cell 22/26: ''...Done
+  Cell 23/26: ''...Done
+  Cell 24/26: ''...Done
+  Cell 25/26: ''...Done
+  Cell 26/26: ''...Done
+
+[1mpandoc [22m
+  to: html
+  output-file: pericyte_phate.html
+  standalone: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  number-sections: true
+  
+[1mmetadata[22m
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: 'Dimensional reduction with PHATE: Pericytes'
+  author: Kynon J Benjamin
+  date: 3/30/2024
+  jupyter: python3
+  toc-location: right-body
+  theme: darkly
+  
+Output created: pericyte_phate.ipynb
+
+renamed 'pericyte_phate.boxplot_AGTR1.pdf' -> 'pericytes/pericyte_phate.boxplot_AGTR1.pdf'
+renamed 'pericyte_phate_clustering.AGTR1.pdf' -> 'pericytes/pericyte_phate_clustering.AGTR1.pdf'
+renamed 'pericyte_phate_clustering.kmeans.pdf' -> 'pericytes/pericyte_phate_clustering.kmeans.pdf'
+renamed 'pericyte_phate_clustering.pdf' -> 'pericytes/pericyte_phate_clustering.pdf'
+renamed 'pericyte_phate.html' -> 'pericytes/pericyte_phate.html'
+renamed 'pericyte_phate.ipynb' -> 'pericytes/pericyte_phate.ipynb'
+renamed 'pericyte_phate_kde.pdf' -> 'pericytes/pericyte_phate_kde.pdf'
+renamed 'pericyte_phate.log' -> 'pericytes/pericyte_phate.log'
+**** Job ends ****
+Sat Mar 30 04:25:33 PM EDT 2024
