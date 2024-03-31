@@ -5,7 +5,7 @@
 #SBATCH --mail-user=jbenja13@jh.edu
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=30gb
+#SBATCH --mem=50gb
 #SBATCH --output=at2_phate.log
 
 echo "**** Job starts ****"
