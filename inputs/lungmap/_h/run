@@ -1,0 +1,14 @@
+#!/bin/bash
+
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000004388/download/GSE161382_metadata.txt.gz
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000004388/download/GSE161382_counts_matrix.txt.gz
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000004388/download/GSE161382_counts_matrix_CPTT.txt.gz
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000004388/download/GSE161382_UMAP_coord.tsv.gz
+
+mkdir rnaseq
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000003691/download/LMEX0000003691_cell_sorting_results.pdf
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000003691/download/LMEX0000003691_normalized_counts.txt.gz
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000003691/download/LMEX0000003691_raw_counts.txt.gz
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000003691/download/LMEX0000003691_sample_metadata.xlsx
+wget https://lungmap-breath-data.s3.amazonaws.com/LMEX0000003691/download/LMEX0000003691_rna_qc.xlsx
+mv -v LMEX* rnaseq/
