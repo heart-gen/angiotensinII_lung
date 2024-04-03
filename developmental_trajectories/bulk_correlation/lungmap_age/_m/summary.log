@@ -1,0 +1,87 @@
+========================================================================= 
+Log Path: summary.log 
+Working Directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/developmental_trajectories/bulk_correlation/lungmap_age/_m 
+User Name: jbenjami 
+R Version: 4.3.1 Patched (2023-07-19 r84711) 
+Machine: compute-093.cm.cluster x86_64 
+Operating System: Linux 5.14.0-284.11.1.el9_2.x86_64 #1 SMP PREEMPT_DYNAMIC Tue May 9 17:09:15 UTC 2023 
+Base Packages: stats graphics grDevices utils datasets methods base 
+Other Packages: RColorBrewer_1.1-3 rafalib_1.0.0 ggpubr_0.6.0 ggplot2_3.4.4 dplyr_1.1.4 
+Log Start Time: 2024-04-03 10:52:45.53419 
+========================================================================= 
+
+Summary of correlation between normalized expression and age: 
+
+NOTE: Log Print Time:  2024-04-03 10:52:45.571399 
+NOTE: Elapsed Time: 0.0289700031280518 secs 
+
+
+Call:
+lm(formula = model, data = memDF())
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-603.50 -158.67    9.47  161.60  811.74 
+
+Coefficients:
+                                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        148.126    141.026   1.050 0.297175    
+age                                -17.028      5.343  -3.187 0.002148 ** 
+derivative_typeEND                -257.110    124.977  -2.057 0.043388 *  
+derivative_typeEPI                  -8.189    124.977  -0.066 0.947943    
+derivative_typeMES                 493.074    124.977   3.945 0.000187 ***
+derivative_typeMIC                -253.161    124.977  -2.026 0.046613 *  
+derivative_typePMX                  87.352    111.620   0.783 0.436509    
+donor_sexMale                      171.454     76.145   2.252 0.027483 *  
+donor_raceUnknown or Not Reported  102.443    118.291   0.866 0.389431    
+donor_raceWhite                    125.008     97.993   1.276 0.206284    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 291.5 on 70 degrees of freedom
+Multiple R-squared:  0.4897,	Adjusted R-squared:  0.4241 
+F-statistic: 7.464 on 9 and 70 DF,  p-value: 1.465e-07
+
+
+NOTE: Log Print Time:  2024-04-03 10:52:52.598607 
+NOTE: Elapsed Time: 7.02720713615417 secs 
+
+
+	***Regression Model with Segmented Relationship(s)***
+
+Call: 
+segmented.lm(obj = fit0, seg.Z = ~age, npsi = npsi)
+
+Estimated Break-Point(s):
+           Est. St.Err
+psi1.age 0.024  0.008
+
+Coefficients of the linear terms:
+                                   Estimate Std. Error t value Pr(>|t|)   
+(Intercept)                         111.590     45.689   2.442  0.01719 * 
+age                               -5265.730   1878.252  -2.804  0.00658 **
+derivative_typeEND                  -21.234     26.578  -0.799  0.42713   
+derivative_typeEPI                   25.348     26.578   0.954  0.34360   
+derivative_typeMES                   -1.850     26.578  -0.070  0.94471   
+derivative_typeMIC                  -38.201     26.578  -1.437  0.15522   
+derivative_typePMX                   -8.471     23.742  -0.357  0.72234   
+donor_sexMale                        20.351     21.346   0.953  0.34377   
+donor_raceUnknown or Not Reported   -47.337     40.207  -1.177  0.24316   
+donor_raceWhite                      14.876     25.454   0.584  0.56087   
+U1.age                             5268.741   1877.957   2.806       NA   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 61.94 on 68 degrees of freedom
+Multiple R-Squared: 0.3726,  Adjusted R-squared: 0.2712 
+
+Boot restarting based on 8 samples. Last fit:
+Convergence attained in 4 iterations (rel. change 4.6752e-07)
+
+NOTE: Log Print Time:  2024-04-03 10:52:53.353683 
+NOTE: Elapsed Time: 0.755075931549072 secs 
+
+========================================================================= 
+Log End Time: 2024-04-03 10:52:53.361371 
+Log Elapsed Time: 0 00:00:07 
+========================================================================= 
