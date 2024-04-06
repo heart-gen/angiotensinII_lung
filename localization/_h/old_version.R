@@ -16,7 +16,10 @@ save_ggplots <- function(fn, p, w, h){
 
 load_data <- function(){
     fn  <- here::here("inputs/hlca/_m/hlca_core.rds")
-    sce <- as.SingleCellExperiment(readRDS(fn))
+    sce <- zellkonverter::readH5AD(fn)
+    names(assays(sce)) <- "counts"
+    sce <- scuttle::logNormCounts(sce)
+    sce <- scran::computeSumFactors(sce)
     colData(sce)$subclusters <- sce$ann_finest_level
     colData(sce)$clusters    <- sce$cell_type
     colData(sce)$cell_type   <- sce$ann_coarse_for_GWAS_and_modeling
@@ -93,20 +96,16 @@ plot_dotplot <- function(outdir, FILTER=FALSE){
     }
     pp = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2")) +
         RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_cell_annotation"),
-                 pp, w, h)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_cell_annotation"), pp, w, h)
     rr = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="compartment") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_compartment"),
-                 rr, 4, 5)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_compartment"), rr, 4, 5)
     qq = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="subclusters") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_subcluster"),
-                 qq, w, h+2.5)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_subcluster"), qq, w, h+2.5)
     gg = DotPlot(object=df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="clusters") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_clusters"),
-                 gg, w, h)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_clusters"), gg, w, h)
 }
 
 prepare_data <- function(){

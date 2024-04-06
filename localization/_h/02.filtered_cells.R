@@ -14,11 +14,9 @@ save_ggplots <- function(fn, p, w, h){
     }
 }
 
-load_data <- function(fn){
-    sce <- zellkonverter::readH5AD(fn)
-    names(assays(sce)) <- "counts"
-    sce <- scuttle::logNormCounts(sce)
-    sce <- scran::computeSumFactors(sce)
+load_data <- function(){
+    fn  <- here::here("inputs/hlca/_m/hlca_core.rds")
+    sce <- as.SingleCellExperiment(readRDS(fn))
     colData(sce)$subclusters <- sce$ann_finest_level
     colData(sce)$clusters    <- sce$cell_type
     colData(sce)$cell_type   <- sce$ann_coarse_for_GWAS_and_modeling
@@ -49,9 +47,9 @@ filter_qc <- function(sce){
     return(sce)
 }
 
-extract_angiotensinII <- function(fn){
+extract_angiotensinII <- function(){
                                         # Load data
-    sce <- memSC(fn)
+    sce <- memSC()
                                         # Add QC
     sce <- add_qc(sce)
                                         # Filter QC
@@ -64,8 +62,8 @@ extract_angiotensinII <- function(fn){
 }
 memAGTR <- memoise::memoise(extract_angiotensinII)
 
-plot_dotplot <- function(fn, outdir, FILTER=FALSE){
-    df.seurat <- as.Seurat(memAGTR(fn), counts = "counts", data = "logcounts")
+plot_dotplot <- function(outdir, FILTER=FALSE){
+    df.seurat <- as.Seurat(memAGTR(), counts = "counts", data = "logcounts")
     df.seurat$cell_type   <- forcats::fct_rev(factor(df.seurat$cell_type))
     df.seurat$compartment <- forcats::fct_rev(factor(df.seurat$compartment))
     df.seurat$subclusters <- forcats::fct_rev(factor(df.seurat$subclusters))
@@ -80,20 +78,24 @@ plot_dotplot <- function(fn, outdir, FILTER=FALSE){
     }
     pp = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2")) +
         RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_cell_annotation"), pp, w, h)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_cell_annotation"),
+                 pp, w, h)
     rr = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="compartment") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_compartment"), rr, 4, 5)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_compartment"),
+                 rr, 4, 5)
     qq = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="subclusters") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_subcluster"), qq, w, h+2.5)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_subcluster"),
+                 qq, w, h+2.5)
     gg = DotPlot(object=df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="clusters") + RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_clusters"), gg, w, h)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_clusters"),
+                 gg, w, h)
 }
 
-prepare_filtered_data <- function(fn){
-    angiotensin2 <- memAGTR(fn)
+prepare_filtered_data <- function(){
+    angiotensin2 <- memAGTR()
     df <- logcounts(angiotensin2) |> t() |> as.data.frame() |>
         mutate(Patient=colData(angiotensin2)$patient,
                Cell_Annotation=colData(angiotensin2)$cell_type,
@@ -157,7 +159,8 @@ plot_box_stats <- function(dt, xlab, outdir, mycomps){
     outfile = paste0(outdir,"/normalized_expression_boxplot_", xlab)
     bar = ggboxplot(dt, x=xlab, y="Normalized Expression", fill=xlab,
                     facet.by="Gene_Name", add="jitter", legend="bottom",
-                    outlier.shape=NA, xlab="",panel.labs.font=list(face='bold'),
+                    outlier.shape=NA, xlab="",
+                    panel.labs.font=list(face='bold'),
                     add.params=list(alpha=0.5),
                     ggtheme=theme_pubclean(base_size=15),
                     ncol=2) + rotate_x_text(45) +
@@ -170,7 +173,8 @@ plot_box_noStats <- function(dt, xlab, outdir, r, w, h){
     bar = dt |> mutate_if(is.character, as.factor) |>
         ggboxplot(x=xlab, y="Normalized Expression", fill=xlab,
                   facet.by="Gene_Name", add="jitter", legend="bottom",
-                  outlier.shape=NA, xlab="",panel.labs.font=list(face='bold'),
+                  outlier.shape=NA, xlab="",
+                  panel.labs.font=list(face='bold'),
                   add.params=list(alpha=0.5),
                   ggtheme=theme_pubr(base_size=15, border=TRUE), ncol=2) +
         rotate_x_text(r)
@@ -185,7 +189,8 @@ plot_box_byPatient <- function(dt, xlab, outdir, r, w, h){
         ggboxplot(x=xlab, y="mean_var", fill=xlab, facet.by="Gene_Name",
                   add="jitter", legend="bottom", outlier.shape=NA, xlab="",
                   ylab="Normalized Expression", #palette="npg",
-                  panel.labs.font=list(face='bold'), add.params=list(alpha=0.8),
+                  panel.labs.font=list(face='bold'),
+                  add.params=list(alpha=0.8),
                   ggtheme=theme_pubr(base_size=15, border=TRUE), ncol=2) +
         rotate_x_text(r)
     save_ggplots(tolower(outfile), bxp, w, h)
@@ -297,12 +302,11 @@ run_statistical_model <- function(df, label, fnc){
 }
 
 ### Main script section
-fn <- here::here("inputs/hlca/_m/hlca_core.h5ad")
                                         # Filtered cells
 outdir = "filter_cells"
 dir.create(outdir)
-plot_dotplot(fn, outdir, TRUE)
-df <- prepare_filtered_data(fn)
+plot_dotplot(outdir, TRUE)
+df <- prepare_filtered_data()
 calculate_proportion(df, outdir, TRUE)
 generate_boxplots(df, outdir)
                                         # Statistical model
