@@ -1,0 +1,77 @@
+========================================================================= 
+Log Path: summary.log 
+Working Directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/deconvolution/age_correlation/_m 
+User Name: jbenjami 
+R Version: 4.3.1 Patched (2023-07-19 r84711) 
+Machine: compute-096.cm.cluster x86_64 
+Operating System: Linux 5.14.0-284.11.1.el9_2.x86_64 #1 SMP PREEMPT_DYNAMIC Tue May 9 17:09:15 UTC 2023 
+Base Packages: stats graphics grDevices utils datasets methods base 
+Other Packages: BayesPrism_2.2.2 NMF_0.27 synchronicity_1.3.5 bigmemory_4.6.1 Biobase_2.62.0 BiocGenerics_0.48.1 cluster_2.1.4 rngtools_1.5.2 registry_0.5-1 snowfall_1.84-6.3 snow_0.4-4 ggpubr_0.6.0 ggplot2_3.5.0 dplyr_1.1.4 here_1.0.1 
+Log Start Time: 2024-04-12 17:56:44.191199 
+========================================================================= 
+
+Summary of correlation between residualized expression and age: 
+
+NOTE: Log Print Time:  2024-04-12 17:56:44.446131 
+NOTE: Elapsed Time: 0.00096893310546875 secs 
+
+Marker genes 
+
+NOTE: Log Print Time:  2024-04-12 17:56:44.675092 
+NOTE: Elapsed Time: 0.228961706161499 secs 
+
+# A tibble: 2 × 2
+  p.bonf.cat     n
+  <fct>      <int>
+1 <= 0.005       1
+2 <= 0.01        1
+
+NOTE: Data frame has 2 rows and 2 columns. 
+
+NOTE: Log Print Time:  2024-04-12 17:56:49.757189 
+NOTE: Elapsed Time: 5.08209681510925 secs 
+
+  symbol term     estimate   std.error statistic      p.value       p.bonf
+1  AGTR1  age  0.006468653 0.002263792  2.857441 4.425024e-03 8.850049e-03
+2  AGTR2  age -0.070976479 0.011456315 -6.195402 1.107264e-09 2.214529e-09
+  p.bonf.sig p.bonf.cat        p.fdr log.p.bonf
+1       TRUE    <= 0.01 4.425024e-03   2.053054
+2       TRUE   <= 0.005 2.214529e-09   8.654719
+
+NOTE: Data frame has 2 rows and 11 columns. 
+
+NOTE: Log Print Time:  2024-04-12 17:56:50.472306 
+NOTE: Elapsed Time: 0.71511697769165 secs 
+
+All genes 
+
+NOTE: Log Print Time:  2024-04-12 17:56:50.706203 
+NOTE: Elapsed Time: 0.233896493911743 secs 
+
+# A tibble: 2 × 2
+  p.bonf.cat     n
+  <fct>      <int>
+1 <= 0.005       1
+2 <= 0.01        1
+
+NOTE: Data frame has 2 rows and 2 columns. 
+
+NOTE: Log Print Time:  2024-04-12 17:56:51.531231 
+NOTE: Elapsed Time: 0.82502818107605 secs 
+
+  symbol term     estimate   std.error statistic      p.value       p.bonf
+1  AGTR1  age  0.006468653 0.002263792  2.857441 4.425024e-03 8.850049e-03
+2  AGTR2  age -0.070976479 0.011456315 -6.195402 1.107264e-09 2.214529e-09
+  p.bonf.sig p.bonf.cat        p.fdr log.p.bonf
+1       TRUE    <= 0.01 4.425024e-03   2.053054
+2       TRUE   <= 0.005 2.214529e-09   8.654719
+
+NOTE: Data frame has 2 rows and 11 columns. 
+
+NOTE: Log Print Time:  2024-04-12 17:56:51.617752 
+NOTE: Elapsed Time: 0.0865211486816406 secs 
+
+========================================================================= 
+Log End Time: 2024-04-12 17:56:51.620617 
+Log Elapsed Time: 0 00:00:07 
+========================================================================= 
