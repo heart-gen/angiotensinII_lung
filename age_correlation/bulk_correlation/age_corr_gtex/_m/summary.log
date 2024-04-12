@@ -1,0 +1,44 @@
+========================================================================= 
+Log Path: summary.log 
+Working Directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/developmental_trajectories/bulk_correlation/age_corr_gtex/_m 
+User Name: jbenjami 
+R Version: 4.3.1 Patched (2023-07-19 r84711) 
+Machine: compute-100.cm.cluster x86_64 
+Operating System: Linux 5.14.0-284.11.1.el9_2.x86_64 #1 SMP PREEMPT_DYNAMIC Tue May 9 17:09:15 UTC 2023 
+Base Packages: stats graphics grDevices utils datasets methods base 
+Other Packages: ggpubr_0.6.0 ggplot2_3.4.4 dplyr_1.1.4 here_1.0.1 
+Log Start Time: 2024-04-03 14:56:03.620092 
+========================================================================= 
+
+Summary of correlation between log2 TPM expression and age: 
+
+NOTE: Log Print Time:  2024-04-03 14:56:03.655317 
+NOTE: Elapsed Time: 0.0160043239593506 secs 
+
+# A tibble: 2 × 2
+  p.bonf.cat     n
+  <fct>      <int>
+1 <= 0.005       1
+2 <= 0.05        1
+
+NOTE: Data frame has 2 rows and 2 columns. 
+
+NOTE: Log Print Time:  2024-04-03 14:56:05.073716 
+NOTE: Elapsed Time: 1.41839933395386 secs 
+
+  Symbol term     estimate    std.error statistic      p.value       p.bonf
+1  AGTR1  AGE  0.001901300 0.0006780282  2.804161 5.214918e-03 1.042984e-02
+2  AGTR2  AGE -0.009595114 0.0016623774 -5.771923 1.281437e-08 2.562874e-08
+  p.bonf.sig p.bonf.cat        p.fdr log.p.bonf
+1       TRUE    <= 0.05 5.214918e-03   1.981723
+2       TRUE   <= 0.005 2.562874e-08   7.591273
+
+NOTE: Data frame has 2 rows and 11 columns. 
+
+NOTE: Log Print Time:  2024-04-03 14:56:05.084159 
+NOTE: Elapsed Time: 0.0104432106018066 secs 
+
+========================================================================= 
+Log End Time: 2024-04-03 14:56:05.087662 
+Log Elapsed Time: 0 00:00:01 
+========================================================================= 
