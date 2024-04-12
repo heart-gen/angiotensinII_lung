@@ -44,3 +44,4 @@ dev/*
 *.h5ad
 *.pt
 *.slurm
+*.rds
