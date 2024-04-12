@@ -45,3 +45,5 @@ dev/*
 *.pt
 *.slurm
 *.rds
+*.RDat
+*.RData
