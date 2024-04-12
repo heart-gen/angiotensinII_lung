@@ -27,6 +27,21 @@ load_data <- function(){
 }
 memSC <- memoise::memoise(load_data)
 
+get_rowData <- function(){
+    fn  <- here::here("inputs/hlca/_m/hlca_core.h5ad")
+    sce <- zellkonverter::readH5AD(fn)
+    dfx <- rowData(sce); rm(sce)
+    return(dfx)
+}
+
+add_rowdata <- function(sce){
+    dfx          <- get_rowData()
+    sgenes       <- intersect(rownames(dfx), rownames(sce))
+    sce          <- sce[sgenes, ]
+    rowData(sce) <- dfx[sgenes,]
+    return(sce)
+}
+
 add_qc <- function(sce){
     is_mito <- grep("MT-", rowData(sce)$feature_name)
     sce     <- scuttle::addPerCellQCMetrics(sce,
@@ -50,6 +65,7 @@ filter_qc <- function(sce){
 extract_angiotensinII <- function(){
                                         # Load data
     sce <- memSC()
+    sce <- add_rowdata(sce)
                                         # Add QC
     sce <- add_qc(sce)
                                         # Filter QC

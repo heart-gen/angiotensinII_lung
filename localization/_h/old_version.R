@@ -15,7 +15,7 @@ save_ggplots <- function(fn, p, w, h){
 }
 
 load_data <- function(){
-    fn  <- here::here("inputs/hlca/_m/hlca_core.rds")
+    fn  <- here::here("inputs/hlca/_m/hlca_core.h5ad")
     sce <- zellkonverter::readH5AD(fn)
     names(assays(sce)) <- "counts"
     sce <- scuttle::logNormCounts(sce)

@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=shared,bluejay
+#SBATCH --partition=bluejay,shared
 #SBATCH --job-name=hlca_version2_all
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=jbenja13@jh.edu
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=175gb
+#SBATCH --mem=100gb
 #SBATCH --output=summary_all.log
 #SBATCH --time=48:00:00
 
