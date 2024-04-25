@@ -47,3 +47,4 @@ dev/*
 *.rds
 *.RDat
 *.RData
+.virtual_documents/
