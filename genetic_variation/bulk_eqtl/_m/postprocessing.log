@@ -1,0 +1,30 @@
+**** Job starts ****
+Tue Apr 16 06:34:37 PM EDT 2024
+**** JHPCE info ****
+User: jbenjami
+Job id: 
+Job name: 
+Hostname: compute-123
+Loading LIBD SLURM module for tensorQTL/1.0.8
+
+Currently Loaded Modules:
+  1) JHPCE_ROCKY9_DEFAULT_ENV   3) conda/3-23.3.1
+  2) JHPCE_tools/3.0            4) tensorqtl/1.0.8
+
+ 
+
+**** Run tensorQTL post processing ****
+[Apr 16 18:35:54] tensorQTL: parsing all significant variant-phenotype pairs
+  * processing chr. 1/23  * processing chr. 2/23  * processing chr. 3/23  * processing chr. 4/23  * processing chr. 5/23  * processing chr. 6/23  * processing chr. 7/23  * processing chr. 8/23  * processing chr. 9/23  * processing chr. 10/23  * processing chr. 11/23  * processing chr. 12/23  * processing chr. 13/23  * processing chr. 14/23  * processing chr. 15/23  * processing chr. 16/23  * processing chr. 17/23  * processing chr. 18/23  * processing chr. 19/23  * processing chr. 20/23  * processing chr. 21/23  * processing chr. 22/23  * processing chr. 23/23
+[Apr 16 18:38:30] done
+-----
+pandas              2.1.1
+session_info        1.0.0
+tensorqtl           1.0.8
+-----
+Python 3.9.0 (default, Nov 15 2020, 14:28:56) [GCC 7.3.0]
+Linux-5.14.0-284.11.1.el9_2.x86_64-x86_64-with-glibc2.34
+-----
+Session information updated at 2024-04-16 18:39
+**** Job ends ****
+Tue Apr 16 06:39:30 PM EDT 2024
