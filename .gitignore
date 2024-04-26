@@ -23,16 +23,19 @@
 ehthumbs.db
 Thumbs.db
 
-# Additional files #
-####################
+# Log files #
+#############
 SUCCESS
 nohup.out
 .ipynb_checkpoints/*
 */.ipynb_checkpoints
 .ipynb_checkpoints
+
+# Additional files #
+####################
 gene2go
 go-basic.obo
-*.gz
+*.tbi
 *.toc
 *.aux
 *.snm
@@ -41,10 +44,22 @@ go-basic.obo
 dev/*
 *.svg
 *.eps
-*.h5ad
 *.pt
 *.slurm
 *.rds
 *.RDat
 *.RData
 .virtual_documents/
+*.gct
+
+# Compressed files #
+####################
+*.parquet
+*.gz
+*.h5ad
+
+# Genotypes #
+#############
+*.fam
+*.bim
+*.bed
