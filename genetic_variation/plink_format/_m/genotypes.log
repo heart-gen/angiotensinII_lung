@@ -1,0 +1,27 @@
+PLINK v2.00a4.6LM 64-bit Intel (29 Aug 2023)
+Options in effect:
+  --bfile ../../../../inputs/gtex/genotypes/_m/gtex_v8
+  --keep ../../_m/keepFam.txt
+  --make-bed
+  --out genotypes
+
+Hostname: compute-096.cm.cluster
+Working directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/genetic_variation/proportion_eqtl/plink_format/_m
+Start time: Tue Apr 16 10:03:33 2024
+
+Random number seed: 1713276213
+257817 MiB RAM detected, ~235915 available; reserving 128908 MiB for main
+workspace.
+Using up to 40 threads (change this with --threads).
+838 samples (0 females, 0 males, 838 ambiguous; 838 founders) loaded from
+../../../../inputs/gtex/genotypes/_m/gtex_v8.fam.
+10458373 variants loaded from ../../../../inputs/gtex/genotypes/_m/gtex_v8.bim.
+Note: No phenotype data present.
+--keep: 515 samples remaining.
+515 samples (0 females, 0 males, 515 ambiguous; 515 founders) remaining after
+main filters.
+Writing genotypes.fam ... done.
+Writing genotypes.bim ... done.
+Writing genotypes.bed ... done.
+
+End time: Tue Apr 16 10:04:01 2024
