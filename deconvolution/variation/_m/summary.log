@@ -3,22 +3,22 @@ Log Path: summary.log
 Working Directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/deconvolution/variation/_m 
 User Name: jbenjami 
 R Version: 4.3.1 Patched (2023-07-19 r84711) 
-Machine: compute-098.cm.cluster x86_64 
+Machine: compute-093.cm.cluster x86_64 
 Operating System: Linux 5.14.0-284.11.1.el9_2.x86_64 #1 SMP PREEMPT_DYNAMIC Tue May 9 17:09:15 UTC 2023 
 Base Packages: stats graphics grDevices utils datasets methods base 
 Other Packages: BayesPrism_2.2.2 NMF_0.27 synchronicity_1.3.5 bigmemory_4.6.1 Biobase_2.62.0 BiocGenerics_0.48.1 cluster_2.1.4 rngtools_1.5.2 registry_0.5-1 snowfall_1.84-6.3 snow_0.4-4 ggpubr_0.6.0 plotly_4.10.4 ggplot2_3.5.0 dplyr_1.1.4 
-Log Start Time: 2024-04-12 09:46:04.79574 
+Log Start Time: 2024-04-26 10:04:31.103803 
 ========================================================================= 
 
 Summary of proportion variation: 
 
-NOTE: Log Print Time:  2024-04-12 09:46:04.885687 
-NOTE: Elapsed Time: 0.00147914886474609 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:31.10814 
+NOTE: Elapsed Time: 0.00131773948669434 secs 
 
 Compartment: 
 
-NOTE: Log Print Time:  2024-04-12 09:46:04.893405 
-NOTE: Elapsed Time: 0.00771832466125488 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:31.110557 
+NOTE: Elapsed Time: 0.00241637229919434 secs 
 
     cell_type      Mean         SD    Variance
 1 Endothelial 0.1801907 0.07234010 0.005233089
@@ -28,20 +28,20 @@ NOTE: Elapsed Time: 0.00771832466125488 secs
 
 NOTE: Data frame has 4 rows and 4 columns. 
 
-NOTE: Log Print Time:  2024-04-12 09:46:11.693392 
-NOTE: Elapsed Time: 6.79998707771301 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:36.528144 
+NOTE: Elapsed Time: 5.41758751869202 secs 
 
 Cell types: Marker Genes 
 
-NOTE: Log Print Time:  2024-04-12 09:46:11.869481 
-NOTE: Elapsed Time: 0.176088809967041 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:36.533868 
+NOTE: Elapsed Time: 0.00572371482849121 secs 
 
                        cell_type         Mean           SD     Variance
-1                            AT1 0.0716212838 0.0378132160 1.429839e-03
-2                            AT2 0.0881928657 0.0944529118 8.921353e-03
-3        Adventitial fibroblasts 0.0083766349 0.0308457068 9.514576e-04
-4           Alveolar fibroblasts 0.2353374837 0.1145131563 1.311326e-02
-5           Alveolar macrophages 0.0075139705 0.0188736207 3.562136e-04
+1        Adventitial fibroblasts 0.0083766349 0.0308457068 9.514576e-04
+2           Alveolar fibroblasts 0.2353374837 0.1145131563 1.311326e-02
+3           Alveolar macrophages 0.0075139705 0.0188736207 3.562136e-04
+4                            AT1 0.0716212838 0.0378132160 1.429839e-03
+5                            AT2 0.0881928657 0.0944529118 8.921353e-03
 6                         B cell 0.0083848045 0.0167198109 2.795521e-04
 7                          Basal 0.0011223921 0.0049907094 2.490718e-05
 8                            DC1 0.0042487421 0.0091389341 8.352012e-05
@@ -66,10 +66,10 @@ NOTE: Elapsed Time: 0.176088809967041 secs
 27                     Pericytes 0.1506369152 0.0450226933 2.027043e-03
 28                  Plasma cells 0.0079384396 0.0112687209 1.269841e-04
 29              Plasmacytoid DCs 0.0008272441 0.0020786816 4.320917e-06
-30                      SMG duct 0.0003927073 0.0014007059 1.961977e-06
-31                    SMG mucous 0.0003981237 0.0017301590 2.993450e-06
-32                    SMG serous 0.0003584397 0.0042431679 1.800447e-05
-33                     Secretory 0.0006488230 0.0044465920 1.977218e-05
+30                     Secretory 0.0006488230 0.0044465920 1.977218e-05
+31                      SMG duct 0.0003927073 0.0014007059 1.961977e-06
+32                    SMG mucous 0.0003981237 0.0017301590 2.993450e-06
+33                    SMG serous 0.0003584397 0.0042431679 1.800447e-05
 34                 Smooth muscle 0.0133677701 0.0314428003 9.886497e-04
 35         Smooth muscle FAM83D+ 0.0092982569 0.0117928383 1.390710e-04
 36        Subpleural fibroblasts 0.0112389236 0.0286322107 8.198035e-04
@@ -79,20 +79,20 @@ NOTE: Elapsed Time: 0.176088809967041 secs
 
 NOTE: Data frame has 39 rows and 4 columns. 
 
-NOTE: Log Print Time:  2024-04-12 09:46:20.31649 
-NOTE: Elapsed Time: 8.44700932502747 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:45.372931 
+NOTE: Elapsed Time: 8.83906269073486 secs 
 
 Cell types: All Genes 
 
-NOTE: Log Print Time:  2024-04-12 09:46:20.323758 
-NOTE: Elapsed Time: 0.00726723670959473 secs 
+NOTE: Log Print Time:  2024-04-26 10:04:45.382865 
+NOTE: Elapsed Time: 0.00993442535400391 secs 
 
                        cell_type         Mean           SD     Variance
-1                            AT1 0.1300427522 0.0535878339 2.871656e-03
-2                            AT2 0.0670560308 0.0748862149 5.607945e-03
-3        Adventitial fibroblasts 0.0068940671 0.0227375618 5.169967e-04
-4           Alveolar fibroblasts 0.1832979528 0.0846282919 7.161948e-03
-5           Alveolar macrophages 0.0040353484 0.0121477465 1.475677e-04
+1        Adventitial fibroblasts 0.0068940671 0.0227375618 5.169967e-04
+2           Alveolar fibroblasts 0.1832979528 0.0846282919 7.161948e-03
+3           Alveolar macrophages 0.0040353484 0.0121477465 1.475677e-04
+4                            AT1 0.1300427522 0.0535878339 2.871656e-03
+5                            AT2 0.0670560308 0.0748862149 5.607945e-03
 6                         B cell 0.0132197984 0.0239691034 5.745179e-04
 7                          Basal 0.0027428100 0.0108600535 1.179408e-04
 8                            DC1 0.0026375872 0.0062261934 3.876548e-05
@@ -117,10 +117,10 @@ NOTE: Elapsed Time: 0.00726723670959473 secs
 27                     Pericytes 0.1946808817 0.0527626397 2.783896e-03
 28                  Plasma cells 0.0072885695 0.0105661729 1.116440e-04
 29              Plasmacytoid DCs 0.0030435655 0.0046921354 2.201614e-05
-30                      SMG duct 0.0002353895 0.0009471815 8.971527e-07
-31                    SMG mucous 0.0001554968 0.0007941930 6.307425e-07
-32                    SMG serous 0.0001770474 0.0023431546 5.490373e-06
-33                     Secretory 0.0005343333 0.0037394269 1.398331e-05
+30                     Secretory 0.0005343333 0.0037394269 1.398331e-05
+31                      SMG duct 0.0002353895 0.0009471815 8.971527e-07
+32                    SMG mucous 0.0001554968 0.0007941930 6.307425e-07
+33                    SMG serous 0.0001770474 0.0023431546 5.490373e-06
 34                 Smooth muscle 0.0145446656 0.0340917314 1.162246e-03
 35         Smooth muscle FAM83D+ 0.0031127720 0.0060086219 3.610354e-05
 36        Subpleural fibroblasts 0.0056385089 0.0172356472 2.970675e-04
@@ -130,10 +130,10 @@ NOTE: Elapsed Time: 0.00726723670959473 secs
 
 NOTE: Data frame has 39 rows and 4 columns. 
 
-NOTE: Log Print Time:  2024-04-12 09:47:46.609399 
-NOTE: Elapsed Time: 1.43809402783712 mins 
+NOTE: Log Print Time:  2024-04-26 10:06:12.999407 
+NOTE: Elapsed Time: 1.46027570565542 mins 
 
 ========================================================================= 
-Log End Time: 2024-04-12 09:47:47.428552 
+Log End Time: 2024-04-26 10:06:14.010435 
 Log Elapsed Time: 0 00:01:42 
 ========================================================================= 
