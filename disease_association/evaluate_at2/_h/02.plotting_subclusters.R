@@ -11,7 +11,7 @@ save_ggplots <- function(fn, p, w, h){
 }
 
 plot_box_stats <- function(){
-    dt <- data.table::fread("at2_phate.normalized_expression.tsv",
+    dt <- data.table::fread("at2_phate.normalized_expression.tsv.gz",
                             sep="\t")
     mycomps <- list(c("Control", "COPD"), c("Control", "IPF"),
                     c("COPD", "IPF"))
