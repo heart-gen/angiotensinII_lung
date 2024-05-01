@@ -63,3 +63,7 @@ dev/*
 *.fam
 *.bim
 *.bed
+
+# Project specific files #
+##########################
+genetic_variation/bulk_eqtl/_m/combine.log
