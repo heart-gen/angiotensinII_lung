@@ -1,0 +1,137 @@
+**** Job starts ****
+Thu May 16 10:13:52 AM EDT 2024
+**** JHPCE info ****
+User: jbenjami
+Job id: 5535072
+Job name: pericyte_phate
+Node name: 
+Hostname: compute-095
+Task id: 
+
+Currently Loaded Modules:
+  1) JHPCE_ROCKY9_DEFAULT_ENV   2) JHPCE_tools/3.0
+
+ 
+
+**** Run PHATE on AT2 ****
+'../_h/01.at2_phate.ipynb' -> './01.at2_phate.ipynb'
+
+Starting python3 kernel...Done
+
+Executing '01.at2_phate.ipynb'
+  Cell 1/34: ''...Done
+  Cell 2/34: ''...Done
+  Cell 3/34: ''...Done
+  Cell 4/34: ''...Done
+  Cell 5/34: ''...Done
+  Cell 6/34: ''...Done
+  Cell 7/34: ''...Done
+  Cell 8/34: ''...Done
+  Cell 9/34: ''...Done
+  Cell 10/34: ''...Done
+  Cell 11/34: ''...Done
+  Cell 12/34: ''...Done
+  Cell 13/34: ''...Done
+  Cell 14/34: ''...Done
+  Cell 15/34: ''...Done
+  Cell 16/34: ''...Done
+  Cell 17/34: ''...Done
+  Cell 18/34: ''...Done
+  Cell 19/34: ''...Done
+  Cell 20/34: ''...Done
+  Cell 21/34: ''...Done
+  Cell 22/34: ''...Done
+  Cell 23/34: ''...Done
+  Cell 24/34: ''...Done
+  Cell 25/34: ''...Done
+  Cell 26/34: ''...Done
+  Cell 27/34: ''...Done
+  Cell 28/34: ''...Done
+  Cell 29/34: ''...Done
+  Cell 30/34: ''...Done
+  Cell 31/34: ''...Done
+  Cell 32/34: ''...Done
+  Cell 33/34: ''...Done
+  Cell 34/34: ''...Done
+
+[1mpandoc [22m
+  to: ipynb
+  output-file: at2_phate.ipynb
+  standalone: true
+  default-image-extension: png
+  number-sections: true
+  
+[1mmetadata[22m
+  ipynb-title-block: /dcs05/lieber/hanlab/jbenjami/opt/quarto-1.4.552/share/formats/ipynb/templates/title-block.md
+  title: 'Dimensional reduction with PHATE: AT2 and COPD'
+  author: Kynon J Benjamin
+  date: 4/25/2024
+  jupyter: python3
+  
+
+Starting python3 kernel...Done
+
+Executing '01.at2_phate.ipynb'
+  Cell 1/34: ''...Done
+  Cell 2/34: ''...Done
+  Cell 3/34: ''...Done
+  Cell 4/34: ''...Done
+  Cell 5/34: ''...Done
+  Cell 6/34: ''...Done
+  Cell 7/34: ''...Done
+  Cell 8/34: ''...Done
+  Cell 9/34: ''...Done
+  Cell 10/34: ''...Done
+  Cell 11/34: ''...Done
+  Cell 12/34: ''...Done
+  Cell 13/34: ''...Done
+  Cell 14/34: ''...Done
+  Cell 15/34: ''...Done
+  Cell 16/34: ''...Done
+  Cell 17/34: ''...Done
+  Cell 18/34: ''...Done
+  Cell 19/34: ''...Done
+  Cell 20/34: ''...Done
+  Cell 21/34: ''...Done
+  Cell 22/34: ''...Done
+  Cell 23/34: ''...Done
+  Cell 24/34: ''...Done
+  Cell 25/34: ''...Done
+  Cell 26/34: ''...Done
+  Cell 27/34: ''...Done
+  Cell 28/34: ''...Done
+  Cell 29/34: ''...Done
+  Cell 30/34: ''...Done
+  Cell 31/34: ''...Done
+  Cell 32/34: ''...Done
+  Cell 33/34: ''...Done
+  Cell 34/34: ''...Done
+
+[1mpandoc [22m
+  to: html
+  output-file: at2_phate.html
+  standalone: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  number-sections: true
+  
+[1mmetadata[22m
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: 'Dimensional reduction with PHATE: AT2 and COPD'
+  author: Kynon J Benjamin
+  date: 4/25/2024
+  jupyter: python3
+  toc-location: right-body
+  theme: darkly
+  
+Output created: at2_phate.ipynb
+
+**** Job ends ****
+Thu May 16 10:23:35 AM EDT 2024

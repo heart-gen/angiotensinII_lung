@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kynon J Benjamin">
+<meta name="dcterms.date" content="2024-04-25">
+
+<title>Dimensional reduction with PHATE: AT2 and COPD</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="01.at2_phate_files/libs/clipboard/clipboard.min.js"></script>
+<script src="01.at2_phate_files/libs/quarto-html/quarto.js"></script>
+<script src="01.at2_phate_files/libs/quarto-html/popper.min.js"></script>
+<script src="01.at2_phate_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="01.at2_phate_files/libs/quarto-html/anchor.min.js"></script>
+<link href="01.at2_phate_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="01.at2_phate_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="01.at2_phate_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="01.at2_phate_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="01.at2_phate_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link active" data-scroll-target="#import-libraries"><span class="header-section-number">1</span> Import libraries</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">2</span> Load data</a>
+  <ul class="collapse">
+  <li><a href="#subset-for-at2-cell-type" id="toc-subset-for-at2-cell-type" class="nav-link" data-scroll-target="#subset-for-at2-cell-type"><span class="header-section-number">2.0.1</span> Subset for AT2 cell type</a></li>
+  <li><a href="#convert-to-counts-matrix" id="toc-convert-to-counts-matrix" class="nav-link" data-scroll-target="#convert-to-counts-matrix"><span class="header-section-number">2.0.2</span> Convert to counts matrix</a></li>
+  </ul></li>
+  <li><a href="#preprocessing-filtering-normalizing-and-transforming" id="toc-preprocessing-filtering-normalizing-and-transforming" class="nav-link" data-scroll-target="#preprocessing-filtering-normalizing-and-transforming"><span class="header-section-number">3</span> Preprocessing: Filtering, Normalizing, and Transforming</a>
+  <ul class="collapse">
+  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">3.1</span> Filtering</a></li>
+  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization"><span class="header-section-number">3.2</span> Normalization</a></li>
+  <li><a href="#transformation" id="toc-transformation" class="nav-link" data-scroll-target="#transformation"><span class="header-section-number">3.3</span> Transformation</a></li>
+  </ul></li>
+  <li><a href="#phate" id="toc-phate" class="nav-link" data-scroll-target="#phate"><span class="header-section-number">4</span> PHATE</a></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">5</span> Plotting</a>
+  <ul class="collapse">
+  <li><a href="#angiotensin-ii-receptor-2-agtr2" id="toc-angiotensin-ii-receptor-2-agtr2" class="nav-link" data-scroll-target="#angiotensin-ii-receptor-2-agtr2"><span class="header-section-number">5.1</span> Angiotensin II receptor 2 (AGTR2)</a></li>
+  <li><a href="#kde-plot-of-pericytes" id="toc-kde-plot-of-pericytes" class="nav-link" data-scroll-target="#kde-plot-of-pericytes"><span class="header-section-number">5.2</span> KDE plot of pericytes</a></li>
+  <li><a href="#clustering-data-using-phate" id="toc-clustering-data-using-phate" class="nav-link" data-scroll-target="#clustering-data-using-phate"><span class="header-section-number">5.3</span> Clustering data using PHATE</a></li>
+  </ul></li>
+  <li><a href="#comparison-of-phate-clusters-and-agtr2-expressoin" id="toc-comparison-of-phate-clusters-and-agtr2-expressoin" class="nav-link" data-scroll-target="#comparison-of-phate-clusters-and-agtr2-expressoin"><span class="header-section-number">6</span> Comparison of PHATE clusters and AGTR2 expressoin</a>
+  <ul class="collapse">
+  <li><a href="#subset-data" id="toc-subset-data" class="nav-link" data-scroll-target="#subset-data"><span class="header-section-number">6.1</span> Subset data</a></li>
+  <li><a href="#qualitative-review" id="toc-qualitative-review" class="nav-link" data-scroll-target="#qualitative-review"><span class="header-section-number">6.2</span> Qualitative review</a></li>
+  <li><a href="#statistical-comparison" id="toc-statistical-comparison" class="nav-link" data-scroll-target="#statistical-comparison"><span class="header-section-number">6.3</span> Statistical comparison</a>
+  <ul class="collapse">
+  <li><a href="#one-way-anova" id="toc-one-way-anova" class="nav-link" data-scroll-target="#one-way-anova"><span class="header-section-number">6.3.1</span> One-way ANOVA</a></li>
+  <li><a href="#tukeyhsd" id="toc-tukeyhsd" class="nav-link" data-scroll-target="#tukeyhsd"><span class="header-section-number">6.3.2</span> TukeyHSD</a></li>
+  <li><a href="#t-test-two-sided" id="toc-t-test-two-sided" class="nav-link" data-scroll-target="#t-test-two-sided"><span class="header-section-number">6.3.3</span> T-test (two-sided)</a></li>
+  <li><a href="#mann-whitney-u" id="toc-mann-whitney-u" class="nav-link" data-scroll-target="#mann-whitney-u"><span class="header-section-number">6.3.4</span> Mann-Whitney U</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#session-information" id="toc-session-information" class="nav-link" data-scroll-target="#session-information"><span class="header-section-number">7</span> Session information</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="at2_phate.ipynb" download="at2_phate.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Dimensional reduction with PHATE: AT2 and COPD</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kynon J Benjamin </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 25, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+<nav id="TOC-body" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#import-libraries" id="toc-import-libraries"><span class="header-section-number">1</span> Import libraries</a></li>
+  <li><a href="#load-data" id="toc-load-data"><span class="header-section-number">2</span> Load data</a>
+  <ul>
+  <li><a href="#subset-for-at2-cell-type" id="toc-subset-for-at2-cell-type"><span class="header-section-number">2.0.1</span> Subset for AT2 cell type</a></li>
+  <li><a href="#convert-to-counts-matrix" id="toc-convert-to-counts-matrix"><span class="header-section-number">2.0.2</span> Convert to counts matrix</a></li>
+  </ul></li>
+  <li><a href="#preprocessing-filtering-normalizing-and-transforming" id="toc-preprocessing-filtering-normalizing-and-transforming"><span class="header-section-number">3</span> Preprocessing: Filtering, Normalizing, and Transforming</a>
+  <ul>
+  <li><a href="#filtering" id="toc-filtering"><span class="header-section-number">3.1</span> Filtering</a></li>
+  <li><a href="#normalization" id="toc-normalization"><span class="header-section-number">3.2</span> Normalization</a></li>
+  <li><a href="#transformation" id="toc-transformation"><span class="header-section-number">3.3</span> Transformation</a></li>
+  </ul></li>
+  <li><a href="#phate" id="toc-phate"><span class="header-section-number">4</span> PHATE</a></li>
+  <li><a href="#plotting" id="toc-plotting"><span class="header-section-number">5</span> Plotting</a>
+  <ul>
+  <li><a href="#angiotensin-ii-receptor-2-agtr2" id="toc-angiotensin-ii-receptor-2-agtr2"><span class="header-section-number">5.1</span> Angiotensin II receptor 2 (AGTR2)</a></li>
+  <li><a href="#kde-plot-of-pericytes" id="toc-kde-plot-of-pericytes"><span class="header-section-number">5.2</span> KDE plot of pericytes</a></li>
+  <li><a href="#clustering-data-using-phate" id="toc-clustering-data-using-phate"><span class="header-section-number">5.3</span> Clustering data using PHATE</a></li>
+  </ul></li>
+  <li><a href="#comparison-of-phate-clusters-and-agtr2-expressoin" id="toc-comparison-of-phate-clusters-and-agtr2-expressoin"><span class="header-section-number">6</span> Comparison of PHATE clusters and AGTR2 expressoin</a>
+  <ul>
+  <li><a href="#subset-data" id="toc-subset-data"><span class="header-section-number">6.1</span> Subset data</a></li>
+  <li><a href="#qualitative-review" id="toc-qualitative-review"><span class="header-section-number">6.2</span> Qualitative review</a></li>
+  <li><a href="#statistical-comparison" id="toc-statistical-comparison"><span class="header-section-number">6.3</span> Statistical comparison</a>
+  <ul>
+  <li><a href="#one-way-anova" id="toc-one-way-anova"><span class="header-section-number">6.3.1</span> One-way ANOVA</a></li>
+  <li><a href="#tukeyhsd" id="toc-tukeyhsd"><span class="header-section-number">6.3.2</span> TukeyHSD</a></li>
+  <li><a href="#t-test-two-sided" id="toc-t-test-two-sided"><span class="header-section-number">6.3.3</span> T-test (two-sided)</a></li>
+  <li><a href="#mann-whitney-u" id="toc-mann-whitney-u"><span class="header-section-number">6.3.4</span> Mann-Whitney U</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#session-information" id="toc-session-information"><span class="header-section-number">7</span> Session information</a></li>
+  </ul>
+</nav>
+<section id="import-libraries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Import libraries</h1>
+<div id="cdee0f9f-5e61-4beb-a1a6-42d3d12f9689" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> phate, scprep, session_info</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> mannwhitneyu, ttest_ind</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.multicomp <span class="im">import</span> MultiComparison</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c69f6b63-ca18-4a9b-bc20-23ce9f242d26" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sc.settings.verbosity <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-data" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Load data</h1>
+<div id="38a53dd0-58e1-4056-a980-4d951272495b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(<span class="st">"../../_m/ipf_dataset.h5ad"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>AnnData object with n_obs × n_vars = 312928 × 45947
+    obs: 'CellBarcode_Identity', 'nUMI', 'nGene', 'CellType_Category', 'Manuscript_Identity', 'Subclass_Cell_Identity', 'Disease_Identity', 'Subject_Identity', 'Library_Identity', 'cell_type', 'location', 'disease', 'patient', 'label'
+    var: 'Ensembl_GeneID', 'HGNC_EnsemblAlt_GeneID'
+    uns: 'X_name', 'study'</code></pre>
+</div>
+</div>
+<section id="subset-for-at2-cell-type" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="subset-for-at2-cell-type"><span class="header-section-number">2.0.1</span> Subset for AT2 cell type</h3>
+<div id="d2848b5e-f768-4b02-a549-6ecbd5936ea8" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.obs.cell_type.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>['ncMonocyte', 'Macrophage_Alveolar', 'NK', 'cMonocyte', 'Lymphatic', ..., 'VE_Peribronchial', 'Pericyte', 'Aberrant_Basaloid', 'Ionocyte', 'PNEC']
+Length: 39
+Categories (39, object): ['ATI', 'ATII', 'Aberrant_Basaloid', 'B', ..., 'cDC2', 'cMonocyte', 'ncMonocyte', 'pDC']</code></pre>
+</div>
+</div>
+<div id="d3f39957-90f3-4962-ba86-15253381fb03" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_adata <span class="op">=</span> adata[adata.obs[<span class="st">"cell_type"</span>] <span class="op">==</span> <span class="st">"ATII"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>new_adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>View of AnnData object with n_obs × n_vars = 3961 × 45947
+    obs: 'CellBarcode_Identity', 'nUMI', 'nGene', 'CellType_Category', 'Manuscript_Identity', 'Subclass_Cell_Identity', 'Disease_Identity', 'Subject_Identity', 'Library_Identity', 'cell_type', 'location', 'disease', 'patient', 'label'
+    var: 'Ensembl_GeneID', 'HGNC_EnsemblAlt_GeneID'
+    uns: 'X_name', 'study'</code></pre>
+</div>
+</div>
+</section>
+<section id="convert-to-counts-matrix" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="convert-to-counts-matrix"><span class="header-section-number">2.0.2</span> Convert to counts matrix</h3>
+<div id="5ec3863c-694d-4390-aa17-679e8b212699" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ipf_counts <span class="op">=</span> pd.DataFrame(new_adata.X.toarray(), </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                          columns<span class="op">=</span>[new_adata.var.index],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                          index<span class="op">=</span>new_adata.obs.index)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ipf_counts.shape)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ipf_counts.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(3961, 45947)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TSPAN6</th>
+<th data-quarto-table-cell-role="th">TNMD</th>
+<th data-quarto-table-cell-role="th">DPM1</th>
+<th data-quarto-table-cell-role="th">SCYL3</th>
+<th data-quarto-table-cell-role="th">C1orf112</th>
+<th data-quarto-table-cell-role="th">FGR</th>
+<th data-quarto-table-cell-role="th">CFH</th>
+<th data-quarto-table-cell-role="th">FUCA2</th>
+<th data-quarto-table-cell-role="th">GCLC</th>
+<th data-quarto-table-cell-role="th">NFYA</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">LINC02379</th>
+<th data-quarto-table-cell-role="th">HIGD1AP6</th>
+<th data-quarto-table-cell-role="th">ENSG00000255486</th>
+<th data-quarto-table-cell-role="th">ENSG00000221498</th>
+<th data-quarto-table-cell-role="th">RNU6-648P</th>
+<th data-quarto-table-cell-role="th">ENSG00000227029</th>
+<th data-quarto-table-cell-role="th">RN7SL782P</th>
+<th data-quarto-table-cell-role="th">ENSG00000274532</th>
+<th data-quarto-table-cell-role="th">ENSG00000277705</th>
+<th data-quarto-table-cell-role="th">ENSG00000280139</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">001C_ACACCCTCATTGTGCA</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">001C_AGGGAGTGTTGTGGAG</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>2 rows × 45947 columns</p>
+</div>
+</div>
+</div>
+</div>
+<div id="56ab57f2-1b20-4d54-bd26-b8ffce507d2d" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>scprep.plot.plot_library_size(ipf_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/users/jbenjami/.local/lib/python3.9/site-packages/scprep/plot/utils.py:104: UserWarning:
+
+Matplotlib is currently using module://matplotlib_inline.backend_inline, which is a non-GUI backend, so cannot show the figure.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-8-output-2.png" width="660" height="467" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="preprocessing-filtering-normalizing-and-transforming" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Preprocessing: Filtering, Normalizing, and Transforming</h1>
+<section id="filtering" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="filtering"><span class="header-section-number">3.1</span> Filtering</h2>
+<div id="c039ae3e-a491-4476-983d-24e0df1b6658" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ipf_counts <span class="op">=</span> scprep.<span class="bu">filter</span>.filter_rare_genes(ipf_counts, min_cells<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ipf_counts.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>(3961, 25358)</code></pre>
+</div>
+</div>
+</section>
+<section id="normalization" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="normalization"><span class="header-section-number">3.2</span> Normalization</h2>
+<div id="ce9d7054-ce86-487c-af31-9a603b71f56a" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ipf_counts <span class="op">=</span> scprep.normalize.library_size_normalize(ipf_counts)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ipf_counts.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TSPAN6</th>
+<th data-quarto-table-cell-role="th">DPM1</th>
+<th data-quarto-table-cell-role="th">SCYL3</th>
+<th data-quarto-table-cell-role="th">C1orf112</th>
+<th data-quarto-table-cell-role="th">FGR</th>
+<th data-quarto-table-cell-role="th">CFH</th>
+<th data-quarto-table-cell-role="th">FUCA2</th>
+<th data-quarto-table-cell-role="th">GCLC</th>
+<th data-quarto-table-cell-role="th">NFYA</th>
+<th data-quarto-table-cell-role="th">STPG1</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">RAB5CP2</th>
+<th data-quarto-table-cell-role="th">SLC5A4P1</th>
+<th data-quarto-table-cell-role="th">LINC02038</th>
+<th data-quarto-table-cell-role="th">ENSG00000199473</th>
+<th data-quarto-table-cell-role="th">H1FNT</th>
+<th data-quarto-table-cell-role="th">USP17L13</th>
+<th data-quarto-table-cell-role="th">USP17L10</th>
+<th data-quarto-table-cell-role="th">USP17L19</th>
+<th data-quarto-table-cell-role="th">USP17L16P</th>
+<th data-quarto-table-cell-role="th">USP17L9P</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">001C_ACACCCTCATTGTGCA</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">001C_AGGGAGTGTTGTGGAG</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>2 rows × 25358 columns</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="transformation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="transformation"><span class="header-section-number">3.3</span> Transformation</h2>
+<div id="f46aeac5-5418-426c-ac25-0b6ef2710f38" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ipf_counts <span class="op">=</span> scprep.transform.sqrt(ipf_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="phate" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> PHATE</h1>
+<div id="74c2a50c-a475-4979-990f-1d44287f8be5" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>phate_operator <span class="op">=</span> phate.PHATE(n_jobs<span class="op">=-</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">13</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Y_phate <span class="op">=</span> phate_operator.fit_transform(ipf_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculating PHATE...
+  Running PHATE on 3961 observations and 25358 variables.
+  Calculating graph and diffusion operator...
+    Calculating PCA...
+    Calculated PCA in 38.60 seconds.
+    Calculating KNN search...
+    Calculated KNN search in 3.27 seconds.
+    Calculating affinities...
+    Calculated affinities in 0.14 seconds.
+  Calculated graph and diffusion operator in 42.45 seconds.
+  Calculating landmark operator...
+    Calculating SVD...
+    Calculated SVD in 0.76 seconds.
+    Calculating KMeans...
+    Calculated KMeans in 16.14 seconds.
+  Calculated landmark operator in 19.90 seconds.
+  Calculating optimal t...
+    Automatically selected t = 29
+  Calculated optimal t in 9.99 seconds.
+  Calculating diffusion potential...
+  Calculated diffusion potential in 7.53 seconds.
+  Calculating metric MDS...
+  Calculated metric MDS in 14.97 seconds.
+Calculated PHATE in 94.90 seconds.</code></pre>
+</div>
+</div>
+<div id="f48ee2bb-1240-4d34-af4d-2b326612ee73" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>scprep.plot.scatter2d(Y_phate, ticks<span class="op">=</span><span class="va">None</span>, label_prefix<span class="op">=</span><span class="st">"PHATE"</span>, figsize<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                      filename<span class="op">=</span><span class="st">"at2_phate_clustering.pdf"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/users/jbenjami/.local/lib/python3.9/site-packages/scprep/plot/utils.py:104: UserWarning:
+
+Matplotlib is currently using module://matplotlib_inline.backend_inline, which is a non-GUI backend, so cannot show the figure.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-13-output-2.png" width="469" height="469" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Plotting</h1>
+<section id="angiotensin-ii-receptor-2-agtr2" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="angiotensin-ii-receptor-2-agtr2"><span class="header-section-number">5.1</span> Angiotensin II receptor 2 (AGTR2)</h2>
+<div id="979bc3cf-2026-4add-a455-eed14f6bf776" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting mitochondrial expression</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">4</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>scprep.plot.scatter2d(Y_phate, ax<span class="op">=</span>ax, c<span class="op">=</span>ipf_counts[<span class="st">'AGTR2'</span>],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                      title<span class="op">=</span><span class="st">'AGTR2'</span>, ticks<span class="op">=</span><span class="va">False</span>, label_prefix<span class="op">=</span><span class="st">'PHATE'</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                      filename<span class="op">=</span><span class="st">"at2_phate_clustering.AGTR2.pdf"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-14-output-1.png" width="455" height="373" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="kde-plot-of-pericytes" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="kde-plot-of-pericytes"><span class="header-section-number">5.2</span> KDE plot of pericytes</h2>
+<div id="1de0fa7c-faf5-49f7-a09d-03eb92d5ef57" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">4</span>,<span class="dv">4</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>kde_plot <span class="op">=</span> sns.kdeplot(x<span class="op">=</span>Y_phate[:, <span class="dv">0</span>], y<span class="op">=</span>Y_phate[:, <span class="dv">1</span>], fill<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax, zorder<span class="op">=</span><span class="dv">0</span>, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                       n_levels<span class="op">=</span><span class="dv">100</span>, cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'PHATE 1'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">'PHATE 2'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'KDE - AT2'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> kde_plot.get_figure()</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"at2_phate_kde.pdf"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-15-output-1.png" width="374" height="374" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-data-using-phate" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="clustering-data-using-phate"><span class="header-section-number">5.3</span> Clustering data using PHATE</h2>
+<div id="cd5e26a7-b973-42d4-87dd-5638447891e7" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> phate.cluster.kmeans(phate_operator, k<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>scprep.plot.scatter2d(Y_phate, c<span class="op">=</span>clusters, s<span class="op">=</span><span class="dv">1</span>,figsize<span class="op">=</span>(<span class="fl">4.3</span>,<span class="dv">4</span>), ticks<span class="op">=</span><span class="va">None</span>, label_prefix<span class="op">=</span><span class="st">'PHATE'</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                      legend_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>), fontsize<span class="op">=</span><span class="dv">12</span>, title<span class="op">=</span><span class="st">'PHATE clusters'</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                      filename<span class="op">=</span><span class="st">"at2_phate_clustering.kmeans.pdf"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/users/jbenjami/.local/lib/python3.9/site-packages/phate/cluster.py:57: FutureWarning:
+
+k is deprecated. Please use n_clusters in future.
+
+/users/jbenjami/.local/lib/python3.9/site-packages/scprep/plot/utils.py:104: UserWarning:
+
+Matplotlib is currently using module://matplotlib_inline.backend_inline, which is a non-GUI backend, so cannot show the figure.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-16-output-2.png" width="397" height="367" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparison-of-phate-clusters-and-agtr2-expressoin" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Comparison of PHATE clusters and AGTR2 expressoin</h1>
+<section id="subset-data" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="subset-data"><span class="header-section-number">6.1</span> Subset data</h2>
+<div id="8159d4ae-d3d9-4f2d-bcf9-7a7f15c47aeb" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gene_list <span class="op">=</span> []</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> ipf_counts.columns:</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    gene_list.append(<span class="bu">str</span>(item).replace(<span class="st">"('"</span>, <span class="st">""</span>).replace(<span class="st">"',)"</span>, <span class="st">""</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>new_adata <span class="op">=</span> new_adata[ipf_counts.index, new_adata.var.index.isin(gene_list)]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>new_adata.obsm[<span class="st">"X_phate"</span>] <span class="op">=</span> Y_phate</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>new_adata.obs[<span class="st">"phate_clusters"</span>] <span class="op">=</span> [<span class="st">"Group_"</span><span class="op">+</span><span class="bu">str</span>(clu) <span class="cf">for</span> clu <span class="kw">in</span> clusters]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>new_adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_4005062/2896849848.py:6: ImplicitModificationWarning:
+
+Setting element `.obsm['X_phate']` of view, initializing view as actual.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>AnnData object with n_obs × n_vars = 3961 × 25358
+    obs: 'CellBarcode_Identity', 'nUMI', 'nGene', 'CellType_Category', 'Manuscript_Identity', 'Subclass_Cell_Identity', 'Disease_Identity', 'Subject_Identity', 'Library_Identity', 'cell_type', 'location', 'disease', 'patient', 'label', 'phate_clusters'
+    var: 'Ensembl_GeneID', 'HGNC_EnsemblAlt_GeneID'
+    uns: 'X_name', 'study'
+    obsm: 'X_phate'</code></pre>
+</div>
+</div>
+</section>
+<section id="qualitative-review" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="qualitative-review"><span class="header-section-number">6.2</span> Qualitative review</h2>
+<div id="1eaa8b3d-6d4f-4683-9c28-de6740a03083" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ipf_counts.loc[:, <span class="st">"PHATE"</span>] <span class="op">=</span> clusters</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ipf_counts.loc[:, <span class="st">"patient"</span>] <span class="op">=</span> new_adata.obs[<span class="st">"patient"</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ipf_counts.loc[:, <span class="st">"disease"</span>] <span class="op">=</span> new_adata.obs[<span class="st">"disease"</span>]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.from_pandas(ipf_counts.loc[:, [<span class="st">"AGTR2"</span>, <span class="st">"PHATE"</span>, <span class="st">"patient"</span>, <span class="st">"disease"</span>]])<span class="op">\</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>       .rename({<span class="st">"('AGTR2',)"</span>: <span class="st">"AGTR2"</span>, <span class="st">"('PHATE',)"</span>: <span class="st">"PHATE"</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"('patient',)"</span>: <span class="st">"patient"</span>, <span class="st">"('disease',)"</span>: <span class="st">"disease"</span>})</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (5, 4)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">AGTR2</th>
+<th data-quarto-table-cell-role="th">PHATE</th>
+<th data-quarto-table-cell-role="th">patient</th>
+<th data-quarto-table-cell-role="th">disease</th>
+</tr>
+<tr class="odd">
+<th>f64</th>
+<th>i32</th>
+<th>cat</th>
+<th>cat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.0</td>
+<td>1</td>
+<td>"001C"</td>
+<td>"Control"</td>
+</tr>
+<tr class="even">
+<td>0.0</td>
+<td>1</td>
+<td>"001C"</td>
+<td>"Control"</td>
+</tr>
+<tr class="odd">
+<td>0.0</td>
+<td>1</td>
+<td>"001C"</td>
+<td>"Control"</td>
+</tr>
+<tr class="even">
+<td>0.0</td>
+<td>1</td>
+<td>"001C"</td>
+<td>"Control"</td>
+</tr>
+<tr class="odd">
+<td>0.0</td>
+<td>1</td>
+<td>"001C"</td>
+<td>"Control"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="bee1189b-b0ae-44f8-b666-3550271a24e6" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df.write_csv(<span class="st">"at2_phate.normalized_expression.tsv"</span>, separator<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5ead8bd8-3239-4775-a343-c5cee068cb98" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">filter</span>(pl.col(<span class="st">"AGTR2"</span>) <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  .group_by([<span class="st">"PHATE"</span>, <span class="st">"patient"</span>, <span class="st">"disease"</span>])<span class="op">\</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  .agg([pl.<span class="bu">sum</span>(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_sum"</span>), </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        pl.mean(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_mean"</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>        pl.count(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_count"</span>),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        pl.std(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_std"</span>)])<span class="op">\</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  .sort(<span class="st">"PHATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (30, 7)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">PHATE</th>
+<th data-quarto-table-cell-role="th">patient</th>
+<th data-quarto-table-cell-role="th">disease</th>
+<th data-quarto-table-cell-role="th">AGTR2_sum</th>
+<th data-quarto-table-cell-role="th">AGTR2_mean</th>
+<th data-quarto-table-cell-role="th">AGTR2_count</th>
+<th data-quarto-table-cell-role="th">AGTR2_std</th>
+</tr>
+<tr class="odd">
+<th>i32</th>
+<th>cat</th>
+<th>cat</th>
+<th>f64</th>
+<th>f64</th>
+<th>u32</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>"003C"</td>
+<td>"Control"</td>
+<td>0.77791</td>
+<td>0.77791</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"010I"</td>
+<td>"IPF"</td>
+<td>2.248464</td>
+<td>1.124232</td>
+<td>2</td>
+<td>0.296049</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"052CO"</td>
+<td>"COPD"</td>
+<td>16.213452</td>
+<td>1.247189</td>
+<td>13</td>
+<td>0.430442</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"063I"</td>
+<td>"IPF"</td>
+<td>1.999001</td>
+<td>1.999001</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"098C"</td>
+<td>"Control"</td>
+<td>3.233417</td>
+<td>1.077806</td>
+<td>3</td>
+<td>0.186578</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"133C"</td>
+<td>"Control"</td>
+<td>29.634272</td>
+<td>1.097566</td>
+<td>27</td>
+<td>0.319397</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"152CO"</td>
+<td>"COPD"</td>
+<td>12.52984</td>
+<td>1.56623</td>
+<td>8</td>
+<td>0.317935</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"153CO"</td>
+<td>"COPD"</td>
+<td>2.944575</td>
+<td>2.944575</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"177I"</td>
+<td>"IPF"</td>
+<td>1.215631</td>
+<td>1.215631</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"184CO"</td>
+<td>"COPD"</td>
+<td>1.144446</td>
+<td>1.144446</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"226C"</td>
+<td>"Control"</td>
+<td>20.309202</td>
+<td>1.128289</td>
+<td>18</td>
+<td>0.424496</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"465C"</td>
+<td>"Control"</td>
+<td>2.914045</td>
+<td>1.457023</td>
+<td>2</td>
+<td>0.84473</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"193CO"</td>
+<td>"COPD"</td>
+<td>3.093311</td>
+<td>1.546655</td>
+<td>2</td>
+<td>0.068019</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"217CO"</td>
+<td>"COPD"</td>
+<td>2.865293</td>
+<td>1.432647</td>
+<td>2</td>
+<td>0.177462</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"218C"</td>
+<td>"Control"</td>
+<td>2.840214</td>
+<td>1.420107</td>
+<td>2</td>
+<td>0.543909</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"235CO"</td>
+<td>"COPD"</td>
+<td>4.457729</td>
+<td>1.114432</td>
+<td>4</td>
+<td>0.214635</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"237CO"</td>
+<td>"COPD"</td>
+<td>2.797636</td>
+<td>2.797636</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"8CO"</td>
+<td>"COPD"</td>
+<td>1.857471</td>
+<td>0.928735</td>
+<td>2</td>
+<td>0.450254</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>"010I"</td>
+<td>"IPF"</td>
+<td>1.336545</td>
+<td>1.336545</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>"1372C"</td>
+<td>"Control"</td>
+<td>2.366905</td>
+<td>2.366905</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>"218C"</td>
+<td>"Control"</td>
+<td>0.758578</td>
+<td>0.758578</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>"052CO"</td>
+<td>"COPD"</td>
+<td>1.930229</td>
+<td>1.930229</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>"098C"</td>
+<td>"Control"</td>
+<td>2.972191</td>
+<td>2.972191</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>"235CO"</td>
+<td>"COPD"</td>
+<td>2.458108</td>
+<td>2.458108</td>
+<td>1</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="a4b6a8ec-c410-423c-a9ca-67bbec047e81" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">filter</span>(pl.col(<span class="st">"AGTR2"</span>) <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  .group_by([<span class="st">"PHATE"</span>, <span class="st">"disease"</span>])<span class="op">\</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  .agg([pl.<span class="bu">sum</span>(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_sum"</span>), </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        pl.mean(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_mean"</span>),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        pl.count(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_count"</span>),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        pl.std(<span class="st">"AGTR2"</span>).name.suffix(<span class="st">"_std"</span>)])<span class="op">\</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  .sort(<span class="st">"PHATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (6, 6)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">PHATE</th>
+<th data-quarto-table-cell-role="th">disease</th>
+<th data-quarto-table-cell-role="th">AGTR2_sum</th>
+<th data-quarto-table-cell-role="th">AGTR2_mean</th>
+<th data-quarto-table-cell-role="th">AGTR2_count</th>
+<th data-quarto-table-cell-role="th">AGTR2_std</th>
+</tr>
+<tr class="odd">
+<th>i32</th>
+<th>cat</th>
+<th>f64</th>
+<th>f64</th>
+<th>u32</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>"IPF"</td>
+<td>24.491344</td>
+<td>1.289018</td>
+<td>19</td>
+<td>0.449634</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>"COPD"</td>
+<td>47.903753</td>
+<td>1.408934</td>
+<td>34</td>
+<td>0.523677</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>"Control"</td>
+<td>89.711193</td>
+<td>1.107546</td>
+<td>81</td>
+<td>0.356819</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>"IPF"</td>
+<td>1.336545</td>
+<td>1.336545</td>
+<td>1</td>
+<td>null</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>"Control"</td>
+<td>6.097675</td>
+<td>2.032558</td>
+<td>3</td>
+<td>1.144055</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>"COPD"</td>
+<td>4.388337</td>
+<td>2.194168</td>
+<td>2</td>
+<td>0.373267</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="be6620e4-8578-4d5d-9e69-69d70ccfcc6e" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> df.<span class="bu">filter</span>(pl.col(<span class="st">"PHATE"</span>) <span class="op">==</span> <span class="dv">1</span>, pl.col(<span class="st">"AGTR2"</span>) <span class="op">&gt;</span> <span class="dv">0</span>).group_by([<span class="st">"patient"</span>, <span class="st">"disease"</span>]).agg(pl.mean(<span class="st">"AGTR2"</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>dx.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (2, 3)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">patient</th>
+<th data-quarto-table-cell-role="th">disease</th>
+<th data-quarto-table-cell-role="th">AGTR2</th>
+</tr>
+<tr class="odd">
+<th>cat</th>
+<th>cat</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"010I"</td>
+<td>"IPF"</td>
+<td>1.336545</td>
+</tr>
+<tr class="even">
+<td>"052CO"</td>
+<td>"COPD"</td>
+<td>1.930229</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="9a62416c-593e-481c-adab-5a095dcfe5f6" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.boxplot(data<span class="op">=</span>dx, x<span class="op">=</span><span class="st">"disease"</span>, y<span class="op">=</span><span class="st">"AGTR2"</span>, fill<span class="op">=</span><span class="va">False</span>, width<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>box_plot <span class="op">=</span> sns.stripplot(data<span class="op">=</span>dx, x<span class="op">=</span><span class="st">"disease"</span>, y<span class="op">=</span><span class="st">"AGTR2"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Disease'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)<span class="op">;</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Normalized Expression (AGTR2)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> box_plot.get_figure()</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"at2_phate.PHATE_cluster_1.boxplot_AGTR2.pdf"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01.at2_phate_files/figure-html/cell-23-output-1.png" width="591" height="432" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="statistical-comparison" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="statistical-comparison"><span class="header-section-number">6.3</span> Statistical comparison</h2>
+<section id="one-way-anova" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">6.3.1</span> One-way ANOVA</h3>
+<div id="fc9e6626-f3a0-4681-868a-7ba1ae8537bf" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> dx.<span class="bu">filter</span>(pl.col(<span class="st">"disease"</span>) <span class="op">==</span> <span class="st">"Control"</span>).to_pandas().AGTR2.values</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> dx.<span class="bu">filter</span>(pl.col(<span class="st">"disease"</span>) <span class="op">==</span> <span class="st">"COPD"</span>).to_pandas().AGTR2.values</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> dx.<span class="bu">filter</span>(pl.col(<span class="st">"disease"</span>) <span class="op">==</span> <span class="st">"IPF"</span>).to_pandas().AGTR2.values</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>f_oneway(c0, c1, c2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>F_onewayResult(statistic=0.27937860330302505, pvalue=0.773988205432517)</code></pre>
+</div>
+</div>
+</section>
+<section id="tukeyhsd" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="tukeyhsd"><span class="header-section-number">6.3.2</span> TukeyHSD</h3>
+<div id="b1e5a653-64b0-4350-83e4-9d420eb38a47" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MultiComparison(dx.to_pandas().AGTR2, dx.to_pandas().disease)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>res_mod <span class="op">=</span> model.tukeyhsd()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+=====================================================
+ group1  group2 meandiff p-adj   lower  upper  reject
+-----------------------------------------------------
+   COPD Control  -0.1616 0.9815 -3.8185 3.4953  False
+   COPD     IPF  -0.8576 0.7647 -5.7639 4.0486  False
+Control     IPF   -0.696  0.816 -5.3217 3.9297  False
+-----------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="t-test-two-sided" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="t-test-two-sided"><span class="header-section-number">6.3.3</span> T-test (two-sided)</h3>
+<div id="b3d3ba16-7d9a-4cd0-9d32-3017c461e2a0" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>ttest_ind(c0, c1) <span class="co"># Control VS COPD</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>Ttest_indResult(statistic=-0.1846704770781784, pvalue=0.8652661565736242)</code></pre>
+</div>
+</div>
+<div id="6a6519c6-220e-4391-9f15-93a8e39b0b29" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>ttest_ind(c0, c2) <span class="co"># Control VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/users/jbenjami/.local/lib/python3.9/site-packages/numpy/core/fromnumeric.py:3747: RuntimeWarning:
+
+Degrees of freedom &lt;= 0 for slice
+
+/users/jbenjami/.local/lib/python3.9/site-packages/numpy/core/_methods.py:261: RuntimeWarning:
+
+invalid value encountered in scalar divide
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>Ttest_indResult(statistic=nan, pvalue=nan)</code></pre>
+</div>
+</div>
+<div id="71c2b29f-b43d-4d7e-98c2-929260644aec" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ttest_ind(c1, c2) <span class="co"># COPD VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>Ttest_indResult(statistic=nan, pvalue=nan)</code></pre>
+</div>
+</div>
+</section>
+<section id="mann-whitney-u" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="mann-whitney-u"><span class="header-section-number">6.3.4</span> Mann-Whitney U</h3>
+<section id="two-sided-test" class="level4" data-number="6.3.4.1">
+<h4 data-number="6.3.4.1" class="anchored" data-anchor-id="two-sided-test"><span class="header-section-number">6.3.4.1</span> Two-sided test</h4>
+<div id="ad3b2866-dabc-41bc-870f-783cd253fa5e" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c0, c1) <span class="co"># Control VS COPD</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>MannwhitneyuResult(statistic=3.0, pvalue=1.0)</code></pre>
+</div>
+</div>
+<div id="78b6d626-7cb2-43a0-b3e7-5779b00724d0" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c0, c2) <span class="co"># Control VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>MannwhitneyuResult(statistic=2.0, pvalue=1.0)</code></pre>
+</div>
+</div>
+<div id="fad20ffa-439a-42ae-835d-ff0a2185092c" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c1, c2) <span class="co"># COPD VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>MannwhitneyuResult(statistic=2.0, pvalue=0.6666666666666666)</code></pre>
+</div>
+</div>
+</section>
+<section id="one-sided-test" class="level4" data-number="6.3.4.2">
+<h4 data-number="6.3.4.2" class="anchored" data-anchor-id="one-sided-test"><span class="header-section-number">6.3.4.2</span> One-sided test</h4>
+<div id="ceaf743c-9635-44b9-a341-d06d4c5d75dc" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c0, c1, alternative<span class="op">=</span><span class="st">"less"</span>) <span class="co"># Control VS COPD</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>MannwhitneyuResult(statistic=3.0, pvalue=0.6000000000000001)</code></pre>
+</div>
+</div>
+<div id="56a0480b-91fd-4979-a70a-ecde502aa27f" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c0, c2, alternative<span class="op">=</span><span class="st">"less"</span>) <span class="co"># Control VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>MannwhitneyuResult(statistic=2.0, pvalue=0.75)</code></pre>
+</div>
+</div>
+<div id="d691a877-14ae-49d8-a02e-9cf68673bf04" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>mannwhitneyu(c1, c2, alternative<span class="op">=</span><span class="st">"greater"</span>) <span class="co"># COPD VS IPF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>MannwhitneyuResult(statistic=2.0, pvalue=0.3333333333333333)</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="session-information" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Session information</h1>
+<div id="5f0f67b8-80dc-4a52-8613-fd7ace999b45" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>session_info.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<details>
+<summary>Click to view session information</summary>
+<pre>-----
+anndata             0.10.5.post1
+matplotlib          3.7.1
+numpy               1.24.4
+pandas              2.0.3
+phate               1.0.11
+polars              0.19.12
+scanpy              1.9.8
+scipy               1.8.1
+scprep              1.2.3
+seaborn             0.13.2
+session_info        1.0.0
+statsmodels         0.14.0
+-----
+</pre>
+<details>
+<summary>Click to view modules imported as dependencies</summary>
+<pre>PIL                         8.2.0
+anyio                       NA
+argcomplete                 NA
+arrow                       1.2.3
+asttokens                   NA
+attr                        23.2.0
+attrs                       23.2.0
+babel                       2.10.3
+backcall                    0.2.0
+beta_ufunc                  NA
+binom_ufunc                 NA
+cairo                       1.20.1
+certifi                     2024.02.02
+cffi                        1.14.5
+chardet                     4.0.0
+charset_normalizer          3.3.2
+cloudpickle                 2.1.0
+comm                        0.2.2
+contourpy                   1.1.0
+cycler                      0.10.0
+cython_runtime              NA
+dask                        2022.8.1
+dateutil                    2.8.2
+debugpy                     1.6.3
+decorator                   5.1.1
+deprecated                  1.2.13
+exceptiongroup              1.2.0
+executing                   0.10.0
+fastjsonschema              NA
+fontTools                   4.33.3
+fqdn                        NA
+fsspec                      2022.7.1
+future                      0.18.2
+gi                          3.40.1
+gio                         NA
+glib                        NA
+gobject                     NA
+graphtools                  1.5.3
+gtk                         NA
+h5py                        3.7.0
+hypergeom_ufunc             NA
+idna                        2.10
+igraph                      0.10.4
+importlib_metadata          NA
+importlib_resources         NA
+ipykernel                   6.15.1
+ipywidgets                  8.1.2
+isoduration                 NA
+jedi                        0.19.1
+jinja2                      3.1.1
+joblib                      1.2.0
+json5                       NA
+jsonpointer                 2.3
+jsonschema                  4.21.1
+jsonschema_specifications   NA
+jupyter_events              0.10.0
+jupyter_server              2.13.0
+jupyterlab_server           2.25.4
+kaleido                     0.2.1
+kiwisolver                  1.4.3
+leidenalg                   0.9.1
+llvmlite                    0.42.0
+louvain                     0.8.1
+lxml                        4.9.1
+markupsafe                  2.1.1
+matplotlib_inline           0.1.6
+mpl_toolkits                NA
+natsort                     8.2.0
+nbformat                    5.4.0
+nbinom_ufunc                NA
+netifaces                   0.10.6
+numba                       0.59.0
+opt_einsum                  v3.3.0
+overrides                   NA
+packaging                   21.3
+parso                       0.8.3
+patsy                       0.5.2
+pexpect                     4.8.0
+pickleshare                 0.7.5
+pkg_resources               NA
+platformdirs                3.8.0
+plotly                      5.9.0
+ply                         3.11
+prometheus_client           NA
+prompt_toolkit              3.0.30
+psutil                      5.9.1
+ptyprocess                  0.7.0
+pure_eval                   0.2.2
+pyarrow                     15.0.0
+pycparser                   2.20
+pydev_ipython               NA
+pydevconsole                NA
+pydevd                      2.8.0
+pydevd_file_utils           NA
+pydevd_plugins              NA
+pydevd_tracing              NA
+pygments                    2.13.0
+pygsp                       0.5.1
+pyparsing                   3.0.9
+pythonjsonlogger            NA
+pytz                        2022.1
+referencing                 NA
+requests                    2.31.0
+rfc3339_validator           0.1.4
+rfc3986_validator           0.1.1
+rpds                        NA
+s_gd2                       1.8.1
+send2trash                  NA
+six                         1.16.0
+sklearn                     1.4.1.post1
+sniffio                     1.2.0
+socks                       1.7.1
+stack_data                  0.4.0
+swig_runtime_data4          NA
+tasklogger                  1.2.0
+tenacity                    NA
+texttable                   1.6.7
+threadpoolctl               3.1.0
+tlz                         0.12.0
+toolz                       0.12.0
+torch                       1.13.1+cu117
+tornado                     6.2
+tqdm                        4.64.0
+traitlets                   5.9.0
+typing_extensions           NA
+uri_template                NA
+urllib3                     1.26.5
+wcwidth                     0.2.5
+webcolors                   1.11.1
+websocket                   1.4.0
+wrapt                       1.16.0
+yaml                        6.0
+zipp                        NA
+zmq                         25.0.0
+zoneinfo                    NA
+zstandard                   0.18.0
+</pre>
+</details> <!-- seems like this ends pre, so might as well be explicit -->
+<pre>-----
+IPython             8.4.0
+jupyter_client      8.0.2
+jupyter_core        5.2.0
+jupyterlab          4.1.5
+notebook            7.1.2
+-----
+Python 3.9.16 (main, Dec  8 2022, 00:00:00) [GCC 11.3.1 20221121 (Red Hat 11.3.1-4)]
+Linux-5.14.0-284.11.1.el9_2.x86_64-x86_64-with-glibc2.34
+-----
+Session information updated at 2024-05-16 10:23
+</pre>
+</details>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
