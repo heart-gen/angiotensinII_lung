@@ -30,7 +30,8 @@ get_cellprop <- function(FULL){
         tidyr::pivot_longer(!Sample_ID,
                             names_to="Cell_Type",
                             values_to="Proportion") |>
-        janitor::clean_names()
+        janitor::clean_names() |>
+        mutate_at("cell_type", as.factor)
     return(theta)
 }
 
@@ -44,7 +45,8 @@ get_compartment <- function(FULL){
         tidyr::pivot_longer(!Sample_ID,
                             names_to="Cell_Type",
                             values_to="Proportion") |>
-        janitor::clean_names()
+        janitor::clean_names() |>
+        mutate_at("cell_type", as.factor)
     return(theta)
 }
 
