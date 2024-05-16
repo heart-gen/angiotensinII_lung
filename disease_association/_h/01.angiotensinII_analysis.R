@@ -199,11 +199,12 @@ plot_box_stats_celltype_all <- function(dt, outdir){
                   facet.by=c("Gene_Name", "Cell_Annotation"), ylim=c(0, 4.25),
                   legend="bottom", outlier.shape=NA, xlab="",
                   ylab="Normalized Expression", palette="npg",
-                  panel.labs.font=list(face='bold'), add.params=list(alpha=0.8),
-                  ggtheme=theme_pubr(base_size=15, border=TRUE), ncol=6) +
+                  panel.labs.font=list(face='bold', size=12), 
+                  add.params=list(alpha=0.8),
+                  ggtheme=theme_pubr(base_size=15, border=TRUE)) +
         rotate_x_text(45) +
         stat_compare_means(comparisons=mycomps, method="t.test")
-    save_ggplots(tolower(outfile), bxp, 36, 6)
+    save_ggplots(tolower(outfile), bxp, 48, 6)
 }
 
 generate_boxplots <- function(dt, outdir){
@@ -213,7 +214,7 @@ generate_boxplots <- function(dt, outdir){
     plot_box_stats_celltype_all(dt, outdir)
 }
 
-### Main script section
+#### Main script section
                                         # Plot venn diagrams by age group
 venn_diagrams()
                                         # All cells
