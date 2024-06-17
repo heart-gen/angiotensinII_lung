@@ -23,7 +23,7 @@ get_phenotypes <- function(){
                           function(x) eval(parse(text=x)))) |>
         select(c("Donor Id", "Sample Inventory ID", "Age", "Donor Sex",
                  "Donor Race", "Age Cohort", "Derivative Type")) |>
-        janitor::clean_names()
+        janitor::clean_names() |> as.data.frame()
     return(df)
 }
 memPHENO <- memoise::memoise(get_phenotypes)
