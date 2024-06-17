@@ -1,0 +1,80 @@
+| Subject | Library IDs                           | Sex    | Age | Race  | Ever Smoker | Disease Group |
+|---------|---------------------------------------|--------|-----|-------|-------------|---------------|
+| 133C    | 133C-a                                | Female | 32  | white | No          | Control       |
+| 1372C   | 137C-a, 137C-b                        | Female | 21  | white | No          | Control       |
+| 034C    | 034C                                  | Male   | 49  | asian | Yes         | Control       |
+| 218C    | 218C-a, 218C-b, 219C-a, 219C-b        | Male   | 29  | white | No          | Control       |
+| 226C    | 226C-a, 226C-b                        | Male   | 32  | white | Yes         | Control       |
+| 244C    | 244C                                  | Male   | 50  | white | Yes         | Control       |
+| 098C    | 098C-a, 098C-b                        | Female | 41  | white | No          | Control       |
+| 465C    | 465C                                  | Male   | 56  | white | No          | Control       |
+| 396C    | 396C                                  | Female | 37  | white | No          | Control       |
+| 296C    | 296C                                  | Female | 80  | white | No          | Control       |
+| 208C    | 208C                                  | Male   | 23  | white | No          | Control       |
+| 222C    | 222C, 022C-a, 022C-b                  | Male   | 65  | white | Yes         | Control       |
+| 160C    | 160C                                  | Male   | 64  | white | No          | Control       |
+| 092C    | 092C                                  | Male   | 29  | latino| No          | Control       |
+| 439C    | 439C, 439C-b                          | Female | 66  | white | No          | Control       |
+| 065C    | 065C                                  | Female | 66  | white | No          | Control       |
+| 388C    | 388C                                  | Male   | 61  | white | No          | Control       |
+| 192C    | 92C, 192C-a                           | Female | 62  | white | No          | Control       |
+| 483C    | 483C                                  | Male   | 35  | white | No          | Control       |
+| 001C    | 001C                                  | Male   | 22  | white | No          | Control       |
+| 002C    | 002C                                  | Female | 25  | white | No          | Control       |
+| 003C    | 003C                                  | Female | 67  | white | No          | Control       |
+| 454C    | 454C                                  | Female | 48  | white | No          | Control       |
+| 253C    | 253C                                  | Female | 66  | white | Yes         | Control       |
+| 484C    | 484C                                  | Male   | 31  | white | Yes         | Control       |
+| 081C    | 081C                                  | Male   | 20  | white | No          | Control       |
+| 137C    | 137C                                  | Male   | 54  | white | No          | Control       |
+| 084C    | 084C                                  | Male   | 46  | black | No          | Control       |
+| 152CO   | 152CO, 152CO-a                        | Male   | 57  | white | Yes         | COPD          |
+| 153CO   | 153CO-a, 153CO-b                      | Male   | 62  | white | Yes         | COPD          |
+| 178CO   | 178CO                                 | Female | 58  | white | Yes         | COPD          |
+| 184CO   | 184CO-a, 184CO-b                      | Female | 55  | white | No          | COPD          |
+| 186CO   | 186CO-b                               | Male   | 66  | white | Yes         | COPD          |
+| 192CO   | 192CO, 192CO-a, 192CO-b               | Male   | 66  | white | Yes         | COPD          |
+| 193CO   | 193CO-a, 193CO-b                      | Male   | 63  | white | Yes         | COPD          |
+| 194CO   | 194CO-a                               | Male   | 59  | white | Yes         | COPD          |
+| 207CO   | 207CO                                 | Female | 60  | white | Yes         | COPD          |
+| 217CO   | 217CO-a                               | Female | 70  | white | Yes         | COPD          |
+| 23CO    | 23CO                                  | Male   | 66  | white | Yes         | COPD          |
+| 235CO   | 235CO                                 | Female | 61  | white | Yes         | COPD          |
+| 237CO   | 237CO                                 | Female | 57  | white | Yes         | COPD          |
+| 238CO   | 238CO                                 | Male   | 66  | white | Yes         | COPD          |
+| 8CO     | 8CO                                   | Male   | 65  | white | Yes         | COPD          |
+| 052CO   | 052CO-a                               | Female | 62  | white | Yes         | COPD          |
+| 056CO   | 056CO                                 | Female | 57  | white | Yes         | COPD          |
+| 137CO   | 137CO                                 | Female | 73  | white | Yes         | COPD          |
+| 210I    | 210CO                                 | Male   | 68  | white | Yes         | IPF           |
+| 135I    | 135I-a, 135I-b                        | Male   | 59  | white | Yes         | IPF           |
+| 138I    | 138I, 138I-a                          | Male   | 56  | white | Yes         | IPF           |
+| 145I    | 145I-a                                | Male   | 67  | white | Yes         | IPF           |
+| 157I    | 157I, 157I-a, 157I-b                  | Female | 66  | white | Yes         | IPF           |
+| 166I    | 166I-a                                | Male   | 63  | white | Yes         | IPF           |
+| 174I    | 174I-a                                | Female | 67  | white | Yes         | IPF           |
+| 179I    | 179I                                  | Male   | 70  | white | Yes         | IPF           |
+| 209I    | 209I-a                                | Female | 65  | asian | No          | IPF           |
+| 212I    | 212I-a                                | Male   | 71  | white | No          | IPF           |
+| 214I    | 214I-a                                | Male   | 69  | white | Yes         | IPF           |
+| 221I    | 221I-a                                | Female | 67  | white | No          | IPF           |
+| 222I    | 222I-a, 222I-b                        | Male   | 59  | white | No          | IPF           |
+| 225I    | 225I-a, 225I-b                        | Female | 70  | white | Yes         | IPF           |
+| 228I    | 228I-a, 228I-b                        | Male   | 56  | white | No          | IPF           |
+| 29I     | 29I                                   | Male   | 61  | white | No          | IPF           |
+| 051I    | 051I, 051I-a                          | Male   | 62  | other | Yes         | IPF           |
+| 025I    | 025I                                  | Male   | 65  | white | Yes         | IPF           |
+| 010I    | 010I                                  | Male   | 78  | white | Yes         | IPF           |
+| 021I    | 021I                                  | Male   | 69  | white | No          | IPF           |
+| 022I    | 022I                                  | Male   | 67  | white | Yes         | IPF           |
+| 041I    | 041I-b                                | Male   | 59  | white | No          | IPF           |
+| 040I    | 040I, 040I-b                          | Male   | 70  | white | Yes         | IPF           |
+| 47I     | 47I-a, 47I-b                          | Male   | 64  | white | No          | IPF           |
+| 49I     | 49I-a, 49I-b                          | Male   | 66  | white | Yes         | IPF           |
+| 053I    | 53I, 053I-d, 053I-n                   | Male   | 60  | white | Yes         | IPF           |
+| 59I     | 59I                                   | Female | 66  | white | No          | IPF           |
+| 063I    | 063I-b                                | Male   | 68  | white | No          | IPF           |
+| 034I    | 034I-a                                | Male   | 54  | white | Yes         | IPF           |
+| 123I    | 123I                                  | Male   | 74  | white | Yes         | IPF           |
+| 158I    | 158I-b                                | Male   | 68  | white | Yes         | IPF           |
+| 177I    | 177I                                  | Male   | 69  | white | Yes         | IPF           |
