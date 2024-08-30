@@ -8,7 +8,7 @@ The renin-angiotensin system is a highly characterized integrative pathway in ma
 
 If you the anything in this repository please cite the following pre-print:
 
-Benjamin, KJM, Sauler, M, Poonyagariyagorn, H, and Enid R Neptune. "Cell type-specific expression of angiotensin receptors in the human lung with implications for health, aging, and chronic disease". *BioRxiv*. 2024. PMID: [38948835](https://biorxiv.org/cgi/content/short/2024.06.17.599425v1).
+Benjamin, K J M, Sauler, M, Poonyagariyagorn, H, and Enid R Neptune. "Cell type-specific expression of angiotensin receptors in the human lung with implications for health, aging, and chronic disease". *BioRxiv*. 2024. PMID: [38948835](https://biorxiv.org/cgi/content/short/2024.06.17.599425v1).
 
 ## License
 
