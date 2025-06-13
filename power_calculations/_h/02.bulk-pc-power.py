@@ -27,9 +27,9 @@ def power_calc(n, mu=50, disp=0.3, fc=2.0, alpha=0.05, cv_between=0.4):
     # Total variance includes technical (NB) and biological
     var_control = mu + disp * mu**2 + bio_var
     var_treat = mu_treat + disp * mu_treat**2 + bio_var_treat
-    # Standard error of log fold change
+    # Standard error of log2 fold change
     se_logfc = np.sqrt(var_control / (n * mu**2) + var_treat / (n * mu_treat**2))
-    log_fc = np.log(fc)
+    log_fc = np.log2(fc)
     # Power calculation
     z_alpha = norm.ppf(1 - alpha / 2)
     z_score = log_fc / se_logfc - z_alpha
@@ -58,10 +58,11 @@ def plot_power_vs_dispersion(max_samples, dispersion_range, mu=50, fc=2.0,
         powers = [power_calc(n=n, disp=d) for d in dispersion_range]
         plt.plot(dispersion_range, powers, label=f'n = {n}', color=color)
     plt.axhline(0.8, color='gray', linestyle='--', label='80% power threshold')
-    plt.xlabel('Dispersion (φ)')
-    plt.ylabel('Power')
-    plt.title('Power vs. Dispersion in Bulk RNA-seq (log2 FC = 1)')
-    plt.legend()
+    plt.xlabel('Dispersion (φ)', fontsize=18)
+    plt.ylabel('Power', fontsize=18)
+    plt.title('Power vs. Dispersion\nin Bulk RNA-seq (log2 FC=1)', fontsize=20)
+    plt.xticks(fontsize=14); plt.yticks(fontsize=14)
+    plt.legend(loc='lower left', title='Samples per Group')
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(save_path)
@@ -70,5 +71,6 @@ def plot_power_vs_dispersion(max_samples, dispersion_range, mu=50, fc=2.0,
 
 def main():
     # Calculate required sample size
-    max_samples = 35
-    plot_power_vs_dispersion(max_samples, dispersion_range=np.linspace(0.05, 0.5, 100))
+    max_samples = 10
+    plot_power_vs_dispersion(max_samples,
+                             dispersion_range=np.linspace(0.05, 0.5, 100))
