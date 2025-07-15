@@ -1,5 +1,5 @@
 ## Subset lung single-cell data
-
+                                        # Load required libraries
 suppressPackageStartupMessages({
     library(here)
     library(scater)
@@ -8,9 +8,24 @@ suppressPackageStartupMessages({
     library(SingleCellExperiment)
 })
 
-subset_data <- function(input_file, COMPARTMENT=FALSE) {
+                                        # Set zellkonverter parameters
+Sys.setenv(ZELLKONVERTER_USE_BASILISK = "FALSE")
+reticulate::use_python("/ocean/projects/bio250020p/shared/opt/env/R_env/bin/python",
+                       required = TRUE)
+
+                                        # Parse command-line arguments
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) < 1) {
+    stop("Usage: Rscript script.R <model>")
+}
+
+model <- args[1]
+cat("Model selected:", model, "\n")
+
+                                        # Functions
+subset_data <- function(input_file, COMPARTMENT = FALSE) {
 					# Load data
-    sce <- zellkonverter::readH5AD(fn)
+    sce <- zellkonverter::readH5AD(input_file)
     if ("soupX" %in% names(assays(sce))) {
         names(assays(sce)) <- c("counts", "soupX")
     } else {
@@ -50,9 +65,6 @@ subset_data <- function(input_file, COMPARTMENT=FALSE) {
 }
 
 preprocess_data <- function(sce) {    
-                                        # Preprocessing
-    sce <- scuttle::logNormCounts(sce)
-
                                         # Check for batch variables
     batch_vars <- c(
         "data", "assay", "tissue_sampling_method", "sequencing_platform",
@@ -65,6 +77,10 @@ preprocess_data <- function(sce) {
         warning(paste("Missing batch variables:",
                       paste(missing_vars, collapse = ", ")))
     }
+
+                                        # Preprocessing
+    sce <- scuttle::logNormCounts(sce)
+
                                         # Run Harmony batch correction
     if (length(present_vars) > 0) {
         sce <- scater::runPCA(sce)
@@ -81,28 +97,23 @@ preprocess_data <- function(sce) {
     return(sce)
 }
 
-save_data <- function(sce, output_prefix) {
-                                        # Write as H5AD
-    outfile <- paste0(output_prefix, ".h5ad")
-    zellkonverter::writeH5AD(sce, file=outfile)
-}
+#### Main execution loop
 
-#### Main
-for (model %in% c("core", "full") {
-    for (COMPARTMENT %in% c(FALSE, TRUE)) {
-        lab <- ifelse(COMPARTMENT, "stroma", "pericyte")
-        out <- paste0(lab, ".hlca_", model, ".dataset.h5ad")
-        fn  <- here("inputs/hlca/_m", paste0("hlca_", model, ".h5ad"))
-        sce <- subset_data(fn, COMPARTMENT)
-        sce <- preprocess_data(sce)
-        zellkonverter::writeH5AD(sce, file=out)
-    }
+for (COMPARTMENT in c(FALSE, TRUE)) {
+    label    <- ifelse(COMPARTMENT, "stroma", "pericyte")
+    out_file <- paste0(label, ".hlca_", model, ".dataset.h5ad")
+    in_file  <- here("inputs/hlca/_m", paste0("hlca_", model, ".h5ad"))
+                                        # Call function
+    sce <- subset_data(in_file, COMPARTMENT)
+    sce <- preprocess_data(sce)
+                                        # Write as H5AD
+    zellkonverter::writeH5AD(sce, file = out_file)
 }
     
 #### Reproducibility information ####
-print("Reproducibility information:")
+cat("Reproducibility information:\n")
 Sys.time()
 proc.time()
 options(width = 120)
+reticulate::py_config()
 sessioninfo::session_info()
-
