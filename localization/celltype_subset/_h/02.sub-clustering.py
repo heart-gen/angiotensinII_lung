@@ -82,9 +82,14 @@ def subcluster_pericytes(
 
 
 def main():
+    # Load data
     adata = sc.read_h5ad('../_m/pericyte.hlca_core.dataset.h5ad')
+    # Subcluster
     adata = subcluster_pericytes(adata)
+    # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
+    # Session information
+    session_info.show()
 
 
 if __name__ == "__main__":
