@@ -1,0 +1,224 @@
+2025-07-15 12:57:19 - **** Job starts ****
+2025-07-15 12:57:19 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 33534206
+Job name: core_subset
+Node name: 
+Hostname: r047
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-07-15 12:57:20 - **** Loading mamba environment ****
+2025-07-15 12:57:22 - **** Run subsetting ****
+Model selected: core 
+Registered S3 method overwritten by 'zellkonverter':
+  method                                             from      
+  py_to_r.pandas.core.arrays.categorical.Categorical reticulate
+Transposing data matrix
+Initializing state using k-means centroids initialization
+Harmony 1/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 2/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 3/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 4/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony converged after 4 iterations
+i Using the 'counts' assay as the X matrix
+Transposing data matrix
+Initializing state using k-means centroids initialization
+Harmony 1/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 2/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 3/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 4/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 5/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony 6/10
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Harmony converged after 6 iterations
+i Using the 'counts' assay as the X matrix
+Warning messages:
+1: Previous request to `use_python("/ocean/projects/bio250020p/shared/opt/env/R_env/bin/python", required = TRUE)` will be ignored. It is superseded by request to `use_python("/ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/bin/python") 
+2: In preprocess_data(sce) : Missing batch variables: data
+3: In HarmonyMatrix(reducedDim(sce, "PCA"), harmony_df, vars_use = present_vars) :
+  HarmonyMatrix is deprecated and will be removed in the future from the API in the future
+4: In preprocess_data(sce) : Missing batch variables: data
+5: In HarmonyMatrix(reducedDim(sce, "PCA"), harmony_df, vars_use = present_vars) :
+  HarmonyMatrix is deprecated and will be removed in the future from the API in the future
+Reproducibility information:
+[1] "2025-07-15 13:16:33 EDT"
+    user   system  elapsed 
+2186.037  133.422 1151.391 
+python:         /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/bin/python
+libpython:      /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/libpython3.12.so
+pythonhome:     /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9:/ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9
+version:        3.12.7 | packaged by conda-forge | (main, Oct  4 2024, 16:05:46) [GCC 13.3.0]
+numpy:          /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/python3.12/site-packages/numpy
+numpy_version:  2.1.2
+
+NOTE: Python version was forced by use_python() function
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2025-07-15
+ pandoc   NA
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package              * version date (UTC) lib source
+ abind                  1.4-8   2024-09-12 [1] CRAN (R 4.4.3)
+ basilisk               1.18.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ basilisk.utils         1.18.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ beachmat               2.22.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ beeswarm               0.4.0   2021-06-01 [1] CRAN (R 4.4.3)
+ Biobase              * 2.66.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ BiocGenerics         * 0.52.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ BiocNeighbors          2.0.1   2024-11-28 [1] Bioconductor 3.20 (R 4.4.3)
+ BiocParallel           1.40.2  2025-07-15 [1] Bioconductor
+ BiocSingular           1.22.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ cli                    3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ codetools              0.2-20  2024-03-31 [1] CRAN (R 4.4.1)
+ cowplot                1.2.0   2025-07-07 [1] CRAN (R 4.4.3)
+ crayon                 1.5.3   2024-06-20 [1] CRAN (R 4.4.1)
+ DelayedArray           0.32.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ dir.expiry             1.14.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ dplyr                  1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver                 2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ filelock               1.0.3   2023-12-11 [1] CRAN (R 4.4.3)
+ generics               0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ GenomeInfoDb         * 1.42.3  2025-01-27 [1] Bioconductor 3.20 (R 4.4.3)
+ GenomeInfoDbData       1.2.13  2025-03-19 [1] Bioconductor
+ GenomicRanges        * 1.58.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ ggbeeswarm             0.7.2   2023-04-29 [1] CRAN (R 4.4.3)
+ ggplot2              * 3.5.2   2025-04-09 [1] CRAN (R 4.4.3)
+ ggrepel                0.9.6   2024-09-07 [1] CRAN (R 4.4.3)
+ glue                   1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gridExtra              2.3     2017-09-09 [1] CRAN (R 4.4.3)
+ gtable                 0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ harmony              * 1.2.3   2024-11-27 [1] CRAN (R 4.4.3)
+ here                 * 1.0.1   2020-12-13 [1] CRAN (R 4.4.3)
+ httr                   1.4.7   2023-08-15 [1] CRAN (R 4.4.1)
+ IRanges              * 2.40.1  2024-12-05 [1] Bioconductor 3.20 (R 4.4.3)
+ irlba                  2.3.5.1 2022-10-03 [1] CRAN (R 4.4.3)
+ jsonlite               2.0.0   2025-03-27 [1] CRAN (R 4.4.3)
+ lattice                0.22-7  2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle              1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr               2.0.3   2022-03-30 [1] CRAN (R 4.4.1)
+ Matrix                 1.7-3   2025-03-11 [1] CRAN (R 4.4.3)
+ MatrixGenerics       * 1.18.1  2025-01-09 [1] Bioconductor 3.20 (R 4.4.3)
+ matrixStats          * 1.5.0   2025-01-07 [1] CRAN (R 4.4.3)
+ pillar                 1.11.0  2025-07-04 [1] CRAN (R 4.4.3)
+ pkgconfig              2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ png                    0.1-8   2022-11-29 [1] CRAN (R 4.4.3)
+ R6                     2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rappdirs               0.3.3   2021-01-31 [1] CRAN (R 4.4.1)
+ RColorBrewer           1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp                 * 1.1.0   2025-07-02 [1] CRAN (R 4.4.3)
+ reticulate             1.42.0  2025-03-25 [1] CRAN (R 4.4.3)
+ RhpcBLASctl            0.23-42 2023-02-11 [1] CRAN (R 4.4.3)
+ rlang                  1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ rprojroot              2.1.0   2025-07-12 [1] CRAN (R 4.4.3)
+ rsvd                   1.0.5   2021-04-16 [1] CRAN (R 4.4.3)
+ S4Arrays               1.6.0   2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ S4Vectors            * 0.44.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ ScaledMatrix           1.14.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ scales                 1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ scater               * 1.34.1  2025-03-03 [1] Bioconductor 3.20 (R 4.4.2)
+ scuttle              * 1.16.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ sessioninfo            1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ SingleCellExperiment * 1.28.1  2024-11-10 [1] Bioconductor 3.20 (R 4.4.3)
+ SparseArray            1.6.2   2025-02-20 [1] Bioconductor 3.20 (R 4.4.3)
+ SummarizedExperiment * 1.36.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ tibble                 3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect             1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ UCSC.utils             1.2.0   2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ vctrs                  0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ vipor                  0.4.7   2023-12-18 [1] CRAN (R 4.4.3)
+ viridis                0.6.5   2024-01-29 [1] CRAN (R 4.4.3)
+ viridisLite            0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr                  3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+ XVector                0.46.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ zellkonverter          1.16.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ zlibbioc               1.52.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+- Python configuration -----------------------------------------------------------------------------------------------
+ python:         /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/bin/python
+ libpython:      /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/libpython3.12.so
+ pythonhome:     /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9:/ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9
+ version:        3.12.7 | packaged by conda-forge | (main, Oct  4 2024, 16:05:46) [GCC 13.3.0]
+ numpy:          /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/python3.12/site-packages/numpy
+ numpy_version:  2.1.2
+ 
+ NOTE: Python version was forced by use_python() function
+
+----------------------------------------------------------------------------------------------------------------------
+2025-07-15 13:16:38 - **** Job ends ****
