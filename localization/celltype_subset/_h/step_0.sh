@@ -4,7 +4,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=40
-#SBATCH --time=04:00:00
+#SBATCH --time=01:30:00
 #SBATCH --output=core_subsetting.log
 
 log_message() {
