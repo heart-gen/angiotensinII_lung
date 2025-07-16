@@ -1,0 +1,34 @@
+2025-07-16 13:47:13 - **** Job starts ****
+2025-07-16 13:47:13 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 33565253
+Job name: stats_cluster
+Node name: 
+Hostname: r005
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-07-16 13:47:15 - **** Loading mamba environment ****
+2025-07-16 13:47:16 - **** Run subclustering ****
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/03.pericyte_stats.py:53: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/03.pericyte_stats.py:53: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
+-----
+matplotlib          3.10.3
+pandas              2.0.3
+scanpy              1.11.3
+scikit_posthocs     0.11.4
+scipy               1.15.2
+seaborn             0.13.2
+session_info        v1.0.1
+-----
+Python 3.10.9 (main, Jan 11 2023, 15:21:40) [GCC 11.2.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-07-16 13:49
+2025-07-16 13:49:43 - **** Job ends ****
