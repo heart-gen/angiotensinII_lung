@@ -36,7 +36,7 @@ def normalize_marker_expression(adata, markers, ref_adata=None,
                                 ref_label='Alveolar fibroblasts'):
     ensembl_markers = adata.var[adata.var.feature_name.isin(markers)].index.values
     pericyte_expr = adata[:, ensembl_markers].X.mean(axis=1)
-    
+
     if ref_adata is not None and 'cell_type' in ref_adata.obs:
         fibroblast_cells = ref_adata.obs['cell_type'] == ref_label
         fibroblast_count = fibroblast_cells.sum()
@@ -57,11 +57,11 @@ def normalize_marker_expression(adata, markers, ref_adata=None,
 def normalize_by_fibroblast_count(adata, ref_adata, ref_label='Alveolar fibroblasts'):
     if ref_adata is None or 'cell_type' not in ref_adata.obs:
         raise ValueError("Reference AnnData (`ref_adata`) with 'cell_type' annotation required.")
-        
+
     fibroblast_count = (ref_adata.obs['cell_type'] == ref_label).sum()
     if fibroblast_count == 0:
         print(f"Warning: No fibroblast cells labeled '{ref_label}' found. No normalization performed.")
-        return adata  # or adata unchanged
+        return adata
 
     normalized_total = adata.X.sum(axis=1) / fibroblast_count
     adata.obs['normalized_total_expression_by_fibroblast'] = normalized_total
@@ -73,6 +73,7 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
     makedirs(outdir, exist_ok=True)
 
     def save_plot(plot_func, fname, **kwargs):
+        plt.figure(figsize=figsize)
         plot_func(show=False, **kwargs)
         for ext in formats:
             plt.savefig(path.join(outdir, f"{fname}.{ext}"))
@@ -80,9 +81,9 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
 
     # Plot clusters
     save_plot(lambda **kwargs: sc.pl.umap(adata, color=cluster_key, title='Leiden Clusters',
-                                          figsize=figsize, **kwargs), 'leiden_clusters')
+                                          **kwargs), 'leiden_clusters')
     save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=cluster_key,
-                                               title='PHATE Clusters', figsize=figsize, **kwargs),
+                                               title='PHATE Clusters', **kwargs),
               'phate_clusters')
 
     # Plot markers
@@ -90,35 +91,31 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         if gene in adata.var_names:
             save_plot(lambda **kwargs: sc.pl.umap(adata, color=gene,
                                                   title=f'UMAP: {gene} expression',
-                                                  figsize=figsize, **kwargs),
-                      f'{gene.lower()}_umap')
+                                                  **kwargs), f'{gene.lower()}_umap')
             save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=gene,
                                                        title=f'PHATE: {gene} expression',
-                                                       figsize=figsize, **kwargs),
-                      f'{gene.lower()}_phate')
+                                                       **kwargs), f'{gene.lower()}_phate')
         else:
             print(f"Warning: Gene {gene} not found in dataset")
 
     if 'normalized_pericyte_marker_expr' in adata.obs:
         save_plot(lambda **kwargs: sc.pl.umap(adata, color='normalized_pericyte_marker_expr',
                                               title='Normalized Pericyte Marker Expression',
-                                              figsize=figsize, **kwargs),
-                  'pericyte_marker_expression')
+                                              **kwargs), 'pericyte_marker_expression')
         save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate',
                                                    color='normalized_pericyte_marker_expr',
                                                    title='Normalized Pericyte Marker Expression',
-                                                   figsize=figsize, **kwargs),
+                                                   **kwargs),
                   'pericyte_marker_expression_phate')
 
     if 'normalized_total_expression_by_fibroblast' in adata.obs:
         save_plot(lambda **kwargs: sc.pl.umap(adata, color='normalized_total_expression_by_fibroblast',
-                                              title='Normalized Pericyte Expression',
-                                              figsize=figsize, **kwargs),
+                                              title='Normalized Pericyte Expression', **kwargs),
                   'pericyte_fibroblast_expression')
         save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate',
                                                    color='normalized_total_expression_by_fibroblast',
                                                    title='Normalized Pericyte Expression',
-                                                   figsize=figsize, **kwargs),
+                                                   **kwargs),
                   'pericyte_fibroblast_expression_phate')
 
 
