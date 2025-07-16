@@ -1,7 +1,7 @@
 ## This script subclusters pericytes
 
 import phate
-import numpy as np
+import pandas as pd
 import scanpy as sc
 import session_info
 from os import makedirs, path
@@ -27,8 +27,18 @@ def perform_clustering(adata, resolution=1.0):
     return adata
 
 
-def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon'):
+def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon', outdir="."):
     sc.tl.rank_genes_groups(adata, groupby=groupby, method=method)
+    # Reformat results
+    result = adata.uns['rank_genes_groups']
+    groups = result['names'].dtype.names
+    # Save rank_genes_groups results
+    rank_df = pd.DataFrame({
+        group + '_' + key: result[key][group]
+        for group in groups
+        for key in ['names', 'pvals', 'logfoldchanges']
+    })
+    rank_df.to_csv(path.join(outdir, "rank_genes_groups_results.tsv"), sep='\t')
     return adata
 
 
@@ -88,11 +98,12 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
 
     # Plot markers
     for gene in marker_genes:
-        if gene in adata.var_names:
-            save_plot(lambda **kwargs: sc.pl.umap(adata, color=gene,
+        ensembl_id = adata.var[adata.var.feature_name == gene].index.values[0]
+        if ensembl_id in adata.var_names:
+            save_plot(lambda **kwargs: sc.pl.umap(adata, color=ensembl_id,
                                                   title=f'UMAP: {gene} expression',
                                                   **kwargs), f'{gene.lower()}_umap')
-            save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=gene,
+            save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=ensembl_id,
                                                        title=f'PHATE: {gene} expression',
                                                        **kwargs), f'{gene.lower()}_phate')
         else:
