@@ -67,7 +67,7 @@ subset_data <- function(input_file, COMPARTMENT = FALSE) {
 preprocess_data <- function(sce) {    
                                         # Check for batch variables
     batch_vars <- c(
-        "data", "assay", "tissue_sampling_method", "sequencing_platform",
+        "donor_id", "data", "assay", "tissue_sampling_method", "sequencing_platform",
         "development_stage", "tissue", "subject_type", "study",
         "lung_condition", "sex", "self_reported_ethnicity", "age_or_mean_of_age_range"
     )
