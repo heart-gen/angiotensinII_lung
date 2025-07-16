@@ -1,36 +1,43 @@
 #!/bin/bash
-#SBATCH --partition=shared,bluejay
-#SBATCH --job-name=pericyte_phate
+#SBATCH --partition=RM-shared
+#SBATCH --job-name=subclustering
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=jbenja13@jh.edu
-#SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --output=pericyte_phate.log
+#SBATCH --mail-user=kj.benjamin90@gmail.com
+#SBATCH --ntasks-per-node=4
+#SBATCH --time=00:30:00
+#SBATCH --output=visualize.log
 
-echo "**** Job starts ****"
-date
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
 
-echo "**** JHPCE info ****"
+log_message "**** Job starts ****"
+
+log_message "**** Bridges-2 info ****"
 echo "User: ${USER}"
 echo "Job id: ${SLURM_JOBID}"
 echo "Job name: ${SLURM_JOB_NAME}"
 echo "Node name: ${SLURM_NODENAME}"
 echo "Hostname: ${HOSTNAME}"
-echo "Task id: ${SLURM_ARRAY_TASK_ID}"
+echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 ## List current modules for reproducibility
 
+module purge
+module load anaconda3/2024.10-1
 module list
 
-echo "**** Run PHATE on pericytes ****"
+log_message "**** Loading mamba environment ****"
+conda activate /ocean/projects/bio250020p/shared/opt/env/AI_env
 
-cp -v ../_h/01.pericyte_phate.ipynb .
-quarto render 01.pericyte_phate.ipynb --execute
-rm 01.pericyte_phate.ipynb
+log_message "**** Run subclustering ****"
 
-mkdir pericytes
-mv -v pericyte_* pericytes/
-mv 01.pericyte_phate_files pericytes/
+python ../_h/02.sub-clustering.py
 
-echo "**** Job ends ****"
-date
+if [ $? -ne 0 ]; then
+    log_message "Error: Python execution failed"
+    exit 1
+fi
+
+conda deactivate
+log_message "**** Job ends ****"
