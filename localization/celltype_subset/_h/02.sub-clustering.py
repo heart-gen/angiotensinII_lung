@@ -4,6 +4,7 @@ import phate
 import numpy as np
 import scanpy as sc
 import session_info
+from os import makedirs, path
 import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
@@ -67,89 +68,79 @@ def normalize_by_fibroblast_count(adata, ref_adata, ref_label='Alveolar fibrobla
     return adata
 
 
-def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden'):
-    # Plot Leiden Clusters in a separate figure
-    plt.figure(figsize=(7, 6))
-    sc.pl.umap(adata, color=cluster_key, title='Leiden Clusters', show=True)
-    plt.savefig('leiden_clusters.png')
-    plt.savefig('leiden_clusters.pdf')
-    plt.close()
-    
-    plt.figure(figsize=(7, 6))
-    sc.pl.embedding(adata, basis='X_phate', color=cluster_key, title='PHATE Clusters', show=True)
-    plt.savefig('phate_clusters.png')
-    plt.savefig('phate_clusters.pdf')
-    plt.close()
+def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=True,
+                              outdir=".", formats=('png', 'pdf'), figsize=(7, 6)):
+    makedirs(outdir, exist_ok=True)
 
-    # Plot gene expression
+    def save_plot(plot_func, fname, **kwargs):
+        plot_func(show=False, **kwargs)
+        for ext in formats:
+            plt.savefig(path.join(outdir, f"{fname}.{ext}"))
+        plt.close()
+
+    # Plot clusters
+    save_plot(lambda **kwargs: sc.pl.umap(adata, color=cluster_key, title='Leiden Clusters',
+                                          figsize=figsize, **kwargs), 'leiden_clusters')
+    save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=cluster_key,
+                                               title='PHATE Clusters', figsize=figsize, **kwargs),
+              'phate_clusters')
+
+    # Plot markers
     for gene in marker_genes:
-        ensembl_id = adata.var[adata.var.feature_name == gene].index.values[0]
-        if ensembl_id in adata.var_names:
-            plt.figure(figsize=(7, 6))
-            sc.pl.umap(adata, color=ensembl_id, title=f'UMAP: {gene} expression', show=True)
-            plt.savefig(gene.lower() + '_umap.png')
-            plt.savefig(gene.lower() + '_umap.pdf')
-            plt.close()
-
-            plt.figure(figsize=(7, 6))
-            sc.pl.embedding(adata, basis='X_phate', color=ensembl_id, title=f'PHATE: {gene} expression', show=True)
-            plt.savefig(gene.lower() + '_phate.png')
-            plt.savefig(gene.lower() + '_phate.pdf')
-            plt.close()
+        if gene in adata.var_names:
+            save_plot(lambda **kwargs: sc.pl.umap(adata, color=gene,
+                                                  title=f'UMAP: {gene} expression',
+                                                  figsize=figsize, **kwargs),
+                      f'{gene.lower()}_umap')
+            save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate', color=gene,
+                                                       title=f'PHATE: {gene} expression',
+                                                       figsize=figsize, **kwargs),
+                      f'{gene.lower()}_phate')
         else:
             print(f"Warning: Gene {gene} not found in dataset")
 
     if 'normalized_pericyte_marker_expr' in adata.obs:
-        plt.figure(figsize=(7, 6))
-        sc.pl.umap(adata, color='normalized_pericyte_marker_expr',
-                   title='Normalized Pericyte Marker Expression', show=True)
-        plt.savefig('pericyte_marker_expression.png')
-        plt.savefig('pericyte_marker_expression.pdf')
-        plt.close()
-        
-        plt.figure(figsize=(7, 6))
-        sc.pl.embedding(adata, basis='X_phate', color='normalized_pericyte_marker_expr',
-                        title='Normalized Pericyte Marker Expression', show=True)
-        plt.savefig('pericyte_marker_expression_phate.png')
-        plt.savefig('pericyte_marker_expression_phate.pdf')
-        plt.close()
+        save_plot(lambda **kwargs: sc.pl.umap(adata, color='normalized_pericyte_marker_expr',
+                                              title='Normalized Pericyte Marker Expression',
+                                              figsize=figsize, **kwargs),
+                  'pericyte_marker_expression')
+        save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate',
+                                                   color='normalized_pericyte_marker_expr',
+                                                   title='Normalized Pericyte Marker Expression',
+                                                   figsize=figsize, **kwargs),
+                  'pericyte_marker_expression_phate')
 
     if 'normalized_total_expression_by_fibroblast' in adata.obs:
-        plt.figure(figsize=(7, 6))
-        sc.pl.umap(adata, color='normalized_total_expression_by_fibroblast',
-                   title='Normalized Pericyte Expression', show=True)
-        plt.savefig('pericyte_fibroblast_expression.png')
-        plt.savefig('pericyte_fibroblast_expression.pdf')
-        plt.close()
-
-        plt.figure(figsize=(7, 6))
-        sc.pl.embedding(adata, basis='X_phate',
-                        color='normalized_total_expression_by_fibroblast',
-                        title='Normalized Pericyte Expression', show=True)
-        plt.savefig('pericyte_fibroblast_expression_phate.png')
-        plt.savefig('pericyte_fibroblast_expression_phate.pdf')
-        plt.close()
+        save_plot(lambda **kwargs: sc.pl.umap(adata, color='normalized_total_expression_by_fibroblast',
+                                              title='Normalized Pericyte Expression',
+                                              figsize=figsize, **kwargs),
+                  'pericyte_fibroblast_expression')
+        save_plot(lambda **kwargs: sc.pl.embedding(adata, basis='X_phate',
+                                                   color='normalized_total_expression_by_fibroblast',
+                                                   title='Normalized Pericyte Expression',
+                                                   figsize=figsize, **kwargs),
+                  'pericyte_fibroblast_expression_phate')
 
 
 def subcluster_pericytes(
         adata, ref_adata=None, fibroblast_label='Alveolar fibroblasts',
         pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'],
         marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=40,
-        leiden_resolution=0.5):
+        leiden_resolution=0.5, figsize=(7, 6)):
     adata = preprocess_adata(adata)
     adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
     adata = perform_clustering(adata, resolution=leiden_resolution)
     adata = analyze_marker_genes(adata)
     adata = normalize_marker_expression(adata, pericyte_markers, ref_adata, fibroblast_label)
     adata = normalize_by_fibroblast_count(adata, ref_adata, fibroblast_label)
-    plot_clusters_and_markers(adata, marker_genes)
+    plot_clusters_and_markers(adata, marker_genes, figsize=figsize)
     return adata
 
 
 def main():
     # Load data
-    adata = sc.read_h5ad('../_m/pericyte.hlca_core.dataset.h5ad')
-    ref_adata = sc.read_h5ad("../_m/stroma.hlca_core.dataset.h5ad")
+    adata = sc.read_h5ad('pericyte.hlca_core.dataset.h5ad')
+    ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
     # Subcluster
     adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
     # Save the subclusters
