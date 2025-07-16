@@ -3,7 +3,7 @@
 #SBATCH --job-name=stats_cluster
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:10:00
 #SBATCH --output=statistics.log
 
