@@ -40,4 +40,8 @@ if [ $? -ne 0 ]; then
 fi
 
 conda deactivate
+
+## Compress data
+gzip rank_genes_groups_results.tsv
+
 log_message "**** Job ends ****"
