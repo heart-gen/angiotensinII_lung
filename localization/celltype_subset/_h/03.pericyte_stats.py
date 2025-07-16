@@ -6,7 +6,7 @@ import seaborn as sns
 import scikit_posthocs as sp
 from os import makedirs, path
 from scipy.stats import kruskal
-
+import matplotlib.pyplot as plt
 
 def extract_expression_by_cluster(adata, gene, cluster_key='leiden'):
     ensembl_id = adata.var[adata.var.feature_name == gene].index.values[0]
