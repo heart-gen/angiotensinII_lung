@@ -3,7 +3,7 @@
 #SBATCH --job-name=stats_cluster
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=2
+#SBATCH --ntasks-per-node=4
 #SBATCH --time=00:10:00
 #SBATCH --output=statistics.log
 
@@ -25,6 +25,7 @@ echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 module purge
 module load anaconda3/2024.10-1
+module load gcc/13.3.1-p20240614
 module list
 
 log_message "**** Loading mamba environment ****"

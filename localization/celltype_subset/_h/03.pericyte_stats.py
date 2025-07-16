@@ -8,13 +8,29 @@ from os import makedirs, path
 from scipy.stats import kruskal
 import matplotlib.pyplot as plt
 
-def extract_expression_by_cluster(adata, gene, cluster_key='leiden'):
-    ensembl_id = adata.var[adata.var.feature_name == gene].index.values[0]
-    df = adata[:, ensembl_id].to_df()
-    df['cluster'] = adata.obs[cluster_key].values
-    df['donor_id'] = adata.obs['donor_id'].values
-    df.columns = ["expression", "cluster", "donor_id"]
-    return df
+def extract_expression(adata, marker_genes, cluster_key="leiden"):
+    # Get corresponding ensembl ids
+    ensembl_ids = adata.var[adata.var.feature_name.isin(marker_genes)].index.tolist()
+    feature_map = adata.var.loc[ensembl_ids, "feature_name"].to_dict()
+
+    # Subset expression from logcounts layer
+    expr = pd.DataFrame(adata[:, ensembl_ids].layers["logcounts"].toarray(),
+                        columns=ensembl_ids, index=adata.obs_names)
+
+    # Annotate with metadata
+    expr['cluster'] = adata.obs[cluster_key].values
+    expr['donor_id'] = adata.obs['donor_id'].values
+
+    # Melt for long format
+    df = expr.melt(id_vars=["cluster", "donor_id"],
+                   value_vars=ensembl_ids,
+                   var_name="gene_id", value_name="expression")
+
+    # Map gene id to feature name
+    df["gene_name"] = df["gene_id"].map(feature_map)
+    group_df = df.groupby(["cluster", "donor_id", "gene_name"])["expression"]\
+                 .mean().reset_index()
+    return group_df
 
 
 def run_kruskal_test(df):
@@ -31,8 +47,8 @@ def run_posthoc_dunn(df):
 def plot_boxplot_with_jitter(df, gene, stat, p_val, outdir):
     plt.figure(figsize=(8, 6))
     sns.boxplot(data=df, x="cluster", y="expression", whis=1.5, showfliers=False)
-    sns.stripplot(data=df, x="cluster", y="expression", hue="donor_id",
-                  dodge=True, jitter=True, linewidth=0.5, alpha=0.7)
+    sns.stripplot(data=df, x="cluster", y="expression", #hue="donor_id",
+                  dodge=True, jitter=True, linewidth=0.5, alpha=0.25)
     plt.title(f"{gene} expression by cluster\nKruskal-Wallis H={stat:.2f}, p={p_val:.1e}")
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
     plt.tight_layout()
@@ -42,17 +58,13 @@ def plot_boxplot_with_jitter(df, gene, stat, p_val, outdir):
 
 
 def calculate_and_plot_stats(adata, marker_genes, outdir=".", cluster_key='leiden'):
+    big_df = extract_expression(adata, marker_genes, cluster_key)
+    big_df.to_csv(path.join(outdir, "aggregate_data.tsv"), index=False, sep="\t")
     results = []
     for gene in marker_genes:
-        ensembl_id = adata.var[adata.var.feature_name == gene].index.values[0]
-        if ensembl_id not in adata.var_names:
-            print(f"Warning: Gene {gene} not found in adata.var_names")
-            continue
-
-        df = extract_expression_by_cluster(adata, gene, cluster_key)
+        df = big_df[(big_df["gene_name"] == gene)].copy()
         stat, p_val = run_kruskal_test(df)
         posthoc_df = run_posthoc_dunn(df)
-
         df_out = path.join(outdir, f"{gene.lower()}_dunn_posthoc.tsv")
         posthoc_df.to_csv(df_out, sep='\t')
 
