@@ -50,7 +50,7 @@ def plot_boxplot_with_jitter(df, gene, stat, p_val, outdir):
     sns.stripplot(data=df, x="cluster", y="expression", #hue="donor_id",
                   dodge=True, jitter=True, linewidth=0.5, alpha=0.25)
     plt.title(f"{gene} expression by cluster\nKruskal-Wallis H={stat:.2f}, p={p_val:.1e}")
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
+    #plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
     plt.tight_layout()
     for ext in ['png', 'pdf']:
         plt.savefig(path.join(outdir, f"{gene.lower()}_expression_boxplot.{ext}"))
