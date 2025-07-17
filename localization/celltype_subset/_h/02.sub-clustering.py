@@ -8,9 +8,9 @@ from os import makedirs, path
 import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
-    if 'X_pca' not in adata.obsm:
-        sc.tl.pca(adata, svd_solver='arpack')
-    sc.pp.neighbors(adata, use_rep='X_pca')
+    # if 'X_pca' not in adata.obsm:
+    #     sc.tl.pca(adata, svd_solver='arpack')
+    sc.pp.neighbors(adata, use_rep='X_pca_harmony')
     sc.tl.umap(adata)
     return adata
 
@@ -148,7 +148,9 @@ def subcluster_pericytes(
 def main():
     # Load data
     adata = sc.read_h5ad('pericyte.hlca_core.dataset.h5ad')
+    adata.obsm["X_pca_harmony"] = adata.obsm["HARMONY"]
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
+    ref_adata.obsm["X_pca_harmony"] = ref_adata.obsm["HARMONY"]
     # Subcluster
     adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
     # Save the subclusters
