@@ -44,9 +44,4 @@ conda deactivate
 ## Compress data
 gzip rank_genes_groups_results.tsv
 
-## Cleanup figures
-mkdir figures
-mv -v *pdf figures/
-mv -v *png figures/
-
 log_message "**** Job ends ****"
