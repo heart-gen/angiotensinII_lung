@@ -155,7 +155,7 @@ def main():
     adata.obsm["X_pca_harmony"] = adata.obsm["HARMONY"]
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
     # Subcluster
-    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.3)
+    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
     # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
     # Session information
