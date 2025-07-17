@@ -13,10 +13,14 @@ def load_adata(filepath):
 
 def compute_pseudotime(adata, root_cell=None, phate_key='X_phate'):
     '''Compute diffusion pseudotime using PHATE embedding and set root'''
-    sc.pp.neighbors(adata, use_rep=phate_key)
+    sc.pp.neighbors(adata, use_rep=phate_key, random_state=13)
+    # PAGA
+    sc.tl.draw_graph(adata, random_state=13)
+    sc.tl.paga(adata, groups="leiden")
     if root_cell is None:
         root_cell = np.argmin(adata.obsm[phate_key][:, 0])
-    sc.tl.dpt(adata, root=root_cell)
+        adata.uns['iroot'] = root_cell
+    sc.tl.dpt(adata)
     print("Pseudotime added to adata.obs['dpt_pseudotime']")
     return adata
 

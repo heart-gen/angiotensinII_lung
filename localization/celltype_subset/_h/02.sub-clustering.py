@@ -21,7 +21,8 @@ def add_phate_embedding(adata, knn=5, decay=40):
 
 
 def perform_clustering(adata, resolution=1.0):
-    sc.tl.leiden(adata, resolution=resolution)
+    sc.tl.leiden(adata, resolution=resolution, random_state=13,
+                 directed=True, flavor="leidenalg")
     return adata
 
 
@@ -135,12 +136,11 @@ def subcluster_pericytes(
         pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'],
         marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=40,
         leiden_resolution=0.5, figsize=(7, 6)):
-    if 'X_phate' not in adata.obsm:
-        adata = preprocess_adata(adata)
-        adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
-        adata = normalize_marker_expression(adata, pericyte_markers, ref_adata,
-                                            fibroblast_label)
-        adata = normalize_by_fibroblast_count(adata, ref_adata, fibroblast_label)
+    adata = preprocess_adata(adata)
+    adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
+    adata = normalize_marker_expression(adata, pericyte_markers, ref_adata,
+                                        fibroblast_label)
+    adata = normalize_by_fibroblast_count(adata, ref_adata, fibroblast_label)
     adata = perform_clustering(adata, resolution=leiden_resolution)
     adata = analyze_marker_genes(adata)
     plot_clusters_and_markers(adata, marker_genes, outdir="figures",
@@ -155,7 +155,7 @@ def main():
     adata.obsm["X_pca_harmony"] = adata.obsm["HARMONY"]
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
     # Subcluster
-    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.3)
+    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
     # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
     # Session information
