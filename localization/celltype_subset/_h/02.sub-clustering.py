@@ -8,8 +8,6 @@ from os import makedirs, path
 import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
-    # if 'X_pca' not in adata.obsm:
-    #     sc.tl.pca(adata, svd_solver='arpack')
     sc.pp.neighbors(adata, use_rep='X_pca_harmony')
     sc.tl.umap(adata)
     return adata
@@ -24,21 +22,6 @@ def add_phate_embedding(adata, knn=5, decay=40):
 
 def perform_clustering(adata, resolution=1.0):
     sc.tl.leiden(adata, resolution=resolution)
-    return adata
-
-
-def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon', outdir="."):
-    sc.tl.rank_genes_groups(adata, groupby=groupby, method=method)
-    # Reformat results
-    result = adata.uns['rank_genes_groups']
-    groups = result['names'].dtype.names
-    # Save rank_genes_groups results
-    rank_df = pd.DataFrame({
-        group + '_' + key: result[key][group]
-        for group in groups
-        for key in ['names', 'pvals', 'logfoldchanges']
-    })
-    rank_df.to_csv(path.join(outdir, "rank_genes_groups_results.tsv"), sep='\t')
     return adata
 
 
@@ -75,6 +58,21 @@ def normalize_by_fibroblast_count(adata, ref_adata, ref_label='Alveolar fibrobla
 
     normalized_total = adata.X.sum(axis=1) / fibroblast_count
     adata.obs['normalized_total_expression_by_fibroblast'] = normalized_total
+    return adata
+
+
+def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon', outdir="."):
+    sc.tl.rank_genes_groups(adata, groupby=groupby, method=method)
+    # Reformat results
+    result = adata.uns['rank_genes_groups']
+    groups = result['names'].dtype.names
+    # Save rank_genes_groups results
+    rank_df = pd.DataFrame({
+        group + '_' + key: result[key][group]
+        for group in groups
+        for key in ['names', 'pvals', 'logfoldchanges']
+    })
+    rank_df.to_csv(path.join(outdir, "rank_genes_groups_results.tsv"), sep='\t')
     return adata
 
 
@@ -137,16 +135,16 @@ def subcluster_pericytes(
         pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'],
         marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=40,
         leiden_resolution=0.5, figsize=(7, 6)):
-    if 'X_umap' not in adata.obsm:
-        adata = preprocess_adata(adata)
     if 'X_phate' not in adata.obsm:
+        adata = preprocess_adata(adata)
         adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
+        adata = normalize_marker_expression(adata, pericyte_markers, ref_adata,
+                                            fibroblast_label)
+        adata = normalize_by_fibroblast_count(adata, ref_adata, fibroblast_label)
     adata = perform_clustering(adata, resolution=leiden_resolution)
     adata = analyze_marker_genes(adata)
-    adata = normalize_marker_expression(adata, pericyte_markers, ref_adata,
-                                        fibroblast_label)
-    adata = normalize_by_fibroblast_count(adata, ref_adata, fibroblast_label)
-    plot_clusters_and_markers(adata, marker_genes, figsize=figsize)
+    plot_clusters_and_markers(adata, marker_genes, outdir="figures",
+                              figsize=figsize)
     return adata
 
 
@@ -157,7 +155,7 @@ def main():
     adata.obsm["X_pca_harmony"] = adata.obsm["HARMONY"]
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
     # Subcluster
-    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
+    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.3)
     # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
     # Session information
