@@ -46,12 +46,16 @@ def run_posthoc_dunn(df):
 
 
 def plot_boxplot_with_jitter(df, gene, stat, p_val, outdir):
-    plt.figure(figsize=(8, 6))
-    sns.boxplot(data=df, x="cluster", y="expression", whis=1.5, showfliers=False)
-    sns.stripplot(data=df, x="cluster", y="expression", #hue="donor_id",
-                  dodge=True, jitter=True, linewidth=0.5, alpha=0.25)
-    plt.title(f"{gene} expression by cluster\nKruskal-Wallis H={stat:.2f}, p={p_val:.1e}")
-    #plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Donor ID')
+    plt.figure(figsize=(7, 6))
+    sns.boxplot(data=df, x="cluster", y="expression", whis=1.5,
+                showfliers=False, width=0.5, color="gray")
+    sns.stripplot(data=df, x="cluster", y="expression", color="black",
+                  dodge=True, jitter=True, linewidth=0.5, alpha=0.5)
+    plt.title(f"{gene} expression by cluster\nKruskal-Wallis H={stat:.2f}, p={p_val:.1e}",
+              fontsize=15)
+    plt.xlabel("Pericyte Subclusters", fontsize=20)
+    plt.ylabel("Normalized Expression", fontsize=20)
+    plt.xticks(fontsize=15); plt.yticks(fontsize=15)
     plt.tight_layout()
     for ext in ['png', 'pdf']:
         plt.savefig(path.join(outdir, f"{gene.lower()}_expression_boxplot.{ext}"))
