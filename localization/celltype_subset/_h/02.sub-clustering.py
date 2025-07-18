@@ -8,13 +8,15 @@ from os import makedirs, path
 import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
-    sc.pp.neighbors(adata, use_rep='X_pca_harmony')
+    sc.pp.neighbors(adata, n_neighbors=50, use_rep='X_pca_harmony',
+                    random_state=13)
     sc.tl.umap(adata)
     return adata
 
 
-def add_phate_embedding(adata, knn=5, decay=40):
-    phate_op = phate.PHATE(knn=knn, decay=decay, n_jobs=-1)
+def add_phate_embedding(adata, knn=5, decay=20):
+    phate_op = phate.PHATE(knn=knn, decay=decay, n_jobs=-1,
+                           random_state=13)
     phate_emb = phate_op.fit_transform(adata.obsm['X_pca_harmony'])
     adata.obsm['X_phate'] = phate_emb
     return adata
@@ -85,16 +87,16 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         plt.figure(figsize=figsize)
         plot_func(show=False, **kwargs)
         for ext in formats:
-            plt.savefig(path.join(outdir, f"{fname}.{ext}"))
+            plt.savefig(path.join(outdir, f"{fname}.{ext}"), bbox_inches='tight')
         plt.close()
 
     # Plot clusters
     save_plot(lambda **kwargs: sc.pl.umap(
-        adata, color=cluster_key, title='Leiden Clusters', **kwargs),
-              'leiden_clusters')
+        adata, color=cluster_key, title='Subclusters', **kwargs),
+              f'{cluster_key}.umap_clusters')
     save_plot(lambda **kwargs: sc.pl.embedding(
-        adata, basis='X_phate', color=cluster_key, title='PHATE Clusters',
-        **kwargs), 'phate_clusters')
+        adata, basis='X_phate', color=cluster_key, title='Subclusters',
+        **kwargs), f'{cluster_key}.phate_clusters')
 
     # Plot markers
     for gene in marker_genes:
@@ -102,11 +104,11 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         if ensembl_id in adata.var_names:
             save_plot(lambda **kwargs: sc.pl.umap(
                 adata, color=ensembl_id, title=f'UMAP: {gene} expression',
-                **kwargs), f'{gene.lower()}_umap')
+                **kwargs), f'{gene.lower()}_umap.{cluster_key}')
             save_plot(lambda **kwargs: sc.pl.embedding(
                 adata, basis='X_phate', color=ensembl_id,
                 title=f'PHATE: {gene} expression',
-                **kwargs), f'{gene.lower()}_phate')
+                **kwargs), f'{gene.lower()}_phate.{cluster_key}')
         else:
             print(f"Warning: Gene {gene} not found in dataset")
 
@@ -134,7 +136,7 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
 def subcluster_pericytes(
         adata, ref_adata=None, fibroblast_label='Alveolar fibroblasts',
         pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'],
-        marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=40,
+        marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=20,
         leiden_resolution=0.5, figsize=(7, 6)):
     adata = preprocess_adata(adata)
     adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
@@ -144,20 +146,43 @@ def subcluster_pericytes(
     adata = perform_clustering(adata, resolution=leiden_resolution)
     adata = analyze_marker_genes(adata)
     plot_clusters_and_markers(adata, marker_genes, outdir="figures",
-                              figsize=figsize)
+                              figsize=figsize, cluster_key="leiden")
     return adata
+
+
+def visualize_stroma(
+        adata, marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=20,
+        leiden_resolution=0.5, figsize=(9, 6), outdir="."):
+    adata = preprocess_adata(adata)
+    adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
+    adata = perform_clustering(adata, resolution=leiden_resolution)
+    adata = analyze_marker_genes(adata, outdir=outdir)
+    plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
+                              figsize=figsize, cluster_key="leiden")
+    plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
+                              figsize=figsize, cluster_key="cell_type")
 
 
 def main():
     # Load data
     adata = sc.read_h5ad('pericyte.hlca_core.dataset.h5ad')
+    adata.obs["cell_type"] = adata.obs["cell_type"]\
+                                  .cat.remove_unused_categories()
     adata.obsm["X_pca"] = adata.obsm["PCA"]
     adata.obsm["X_pca_harmony"] = adata.obsm["HARMONY"]
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
+    ref_adata.obs["cell_type"] = ref_adata.obs["cell_type"]\
+                                          .cat.remove_unused_categories()
     # Subcluster
-    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.25)
+    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.45)
     # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
+    # Stromal clustering
+    output_dir = "stroma_clustering"
+    makedirs(output_dir, exist_ok=True)
+    ref_adata.obsm["X_pca"] = ref_adata.obsm["PCA"]
+    ref_adata.obsm["X_pca_harmony"] = ref_adata.obsm["HARMONY"]
+    visualize_stroma(ref_adata, leiden_resolution=0.40, outdir=output_dir)
     # Session information
     session_info.show()
 
