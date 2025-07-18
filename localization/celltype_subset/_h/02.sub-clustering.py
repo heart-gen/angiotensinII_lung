@@ -161,6 +161,7 @@ def visualize_stroma(
                               figsize=figsize, cluster_key="leiden")
     plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
                               figsize=figsize, cluster_key="cell_type")
+    return adata
 
 
 def main():
@@ -173,16 +174,19 @@ def main():
     ref_adata = sc.read_h5ad("stroma.hlca_core.dataset.h5ad")
     ref_adata.obs["cell_type"] = ref_adata.obs["cell_type"]\
                                           .cat.remove_unused_categories()
-    # Subcluster
+
+    # Subcluster and save
     adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.45)
-    # Save the subclusters
     adata.write('pericyte.hlca_core.subclustered.h5ad')
+
     # Stromal clustering
     output_dir = "stroma_clustering"
     makedirs(output_dir, exist_ok=True)
     ref_adata.obsm["X_pca"] = ref_adata.obsm["PCA"]
     ref_adata.obsm["X_pca_harmony"] = ref_adata.obsm["HARMONY"]
-    visualize_stroma(ref_adata, leiden_resolution=0.40, outdir=output_dir)
+    ref_adata = visualize_stroma(ref_adata, leiden_resolution=0.40, outdir=output_dir)
+    ref_adata.write("stroma.hlca_core.clustered.h5ad")
+
     # Session information
     session_info.show()
 
