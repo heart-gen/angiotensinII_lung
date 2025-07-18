@@ -24,12 +24,13 @@ def extract_expression(adata, marker_genes, cluster_key="leiden"):
     # Melt for long format
     df = expr.melt(id_vars=["cluster", "donor_id"],
                    value_vars=ensembl_ids,
-                   var_name="gene_id", value_name="expression")
+                   var_name="gene_id", value_name="expression")\
+             .dropna(axis=0)
 
     # Map gene id to feature name
     df["gene_name"] = df["gene_id"].map(feature_map)
     group_df = df.groupby(["cluster", "donor_id", "gene_name"])["expression"]\
-                 .mean().reset_index()
+                 .mean().reset_index().dropna(subset=["expression"])
     return group_df
 
 
