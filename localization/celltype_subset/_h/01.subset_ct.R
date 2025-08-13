@@ -24,7 +24,7 @@ cat("Model selected:", model, "\n")
 
                                         # Functions
 subset_data <- function(input_file, COMPARTMENT = FALSE) {
-					# Load data
+                                        # Load data
     sce <- zellkonverter::readH5AD(input_file)
     if ("soupX" %in% names(assays(sce))) {
         names(assays(sce)) <- c("counts", "soupX")
@@ -64,7 +64,7 @@ subset_data <- function(input_file, COMPARTMENT = FALSE) {
     return(sce_sub)
 }
 
-preprocess_data <- function(sce) {    
+preprocess_data <- function(sce) {
                                         # Check for batch variables
     batch_vars <- c(
         "donor_id", "data", "assay", "tissue_sampling_method", "sequencing_platform",
@@ -109,7 +109,7 @@ for (COMPARTMENT in c(FALSE, TRUE)) {
                                         # Write as H5AD
     zellkonverter::writeH5AD(sce, file = out_file)
 }
-    
+
 #### Reproducibility information ####
 cat("Reproducibility information:\n")
 Sys.time()
