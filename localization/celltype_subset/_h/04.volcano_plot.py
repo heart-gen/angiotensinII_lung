@@ -117,7 +117,7 @@ def main():
     adata_file_path = "pericyte.hlca_core.subclustered.h5ad"
 
     # Load and process cluster data
-    clusters_data = load_all_clusters(filepath, mapping_file=mapping_file)
+    clusters_data = load_all_clusters(filepath, mapping_file=adata_file_path)
 
     # Generate volcano plots
     for cid, cdata in clusters_data.items():
