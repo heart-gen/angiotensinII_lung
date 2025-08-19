@@ -22,10 +22,47 @@ if (length(args) < 1) {
 model <- args[1]
 cat("Model selected:", model, "\n")
 
+load_cellxgene <- function() {
+    library("httr")
+    library("rjson")
+    library("readr")
+    library("stringr")
+    library("cellxgene.census")
+                                        # Full model IDs
+    collection_id <- "6f6d381a-7701-4781-935c-db10d30de293"
+    dataset_id <- "a4dbbb30-3d3d-4760-b6d3-bc899f748cf7"
+                                        # Specify domain
+    domain_name <- "cellxgene.cziscience.com"
+    site_url <- str_interp("https://${domain_name}")
+    api_url_base <- str_interp("https://api.${domain_name}")
+                                        # Fetch dataset
+    dataset_path <- str_interp("/curation/v1/collections/{dataset_id}") 
+    url <- str_interp("{dataset_path}")
+    res <- GET(url=url, add_headers(`Content-Type`="application/json"))
+    stop_for_status(res)
+    res_content <- content(res)
+    print(res_content)
+                                        # Download dataset assets
+    assets <- content(res)
+    dataset_id
+    for (asset in assets) {
+        download_filename <- str_interp("{asset$filetype}")
+        print(str_interp("Downloading ${download_filename}... "))
+        res <- GET(asset$url, write_disk(download_filename), progress())
+        stop_for_status(res)
+    }
+    print("Done downloading assets")
+}
                                         # Functions
-subset_data <- function(input_file, COMPARTMENT = FALSE) {
+subset_data <- function(input_file, COMPARTMENT = FALSE, model = "core") {
                                         # Load data
-    sce <- zellkonverter::readH5AD(input_file)
+    if (model == "core") {
+        sce <- zellkonverter::readH5AD(input_file)
+    } else {
+        collection_id <- "6f6d381a-7701-4781-935c-db10d30de293"
+        dataset_id <- "a4dbbb30-3d3d-4760-b6d3-bc899f748cf7"
+    }
+              
     if ("soupX" %in% names(assays(sce))) {
         names(assays(sce)) <- c("counts", "soupX")
     } else {
