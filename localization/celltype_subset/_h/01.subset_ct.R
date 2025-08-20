@@ -25,7 +25,7 @@ cat("Model selected:", model, "\n")
                                         # Functions
 subset_data <- function(input_file, COMPARTMENT = FALSE) {
                                         # Load data
-    sce <- zellkonverter::readH5AD(input_file)
+    sce <- zellkonverter::readH5AD(input_file, reader = "python")
     
     if ("soupX" %in% names(assays(sce))) {
         names(assays(sce)) <- c("counts", "soupX")
