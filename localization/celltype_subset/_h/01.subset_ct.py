@@ -117,7 +117,7 @@ def main():
 
         # Run processing
         adata = subset_data(in_file, COMPARTMENT)
-        adata = preprocess_data(adata, m_iter=args.m_iter)
+        adata = preprocess_data(adata, max_iter=args.m_iter)
 
         # Save
         adata.write(out_file)
