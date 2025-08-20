@@ -34,10 +34,10 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run subsetting ****"
 MODEL="full"
 
-Rscript ../_h/01.subset_ct.py --model "$MODEL"
+python ../_h/01.subset_ct.py --model "$MODEL"
 
 if [ $? -ne 0 ]; then
-    log_message "Error: Rscript execution failed"
+    log_message "Error: python execution failed"
     exit 1
 fi
 

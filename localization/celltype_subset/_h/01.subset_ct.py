@@ -31,6 +31,11 @@ def subset_data(input_file, COMPARTMENT=False):
         adata.obs["ann_finest_level"].isin(vsm_clusters) &
         (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
     )
+
+    if "Vascular smooth muscle" not in adata.obs["ann_level_4"].cat.categories:
+        adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories(
+            ["Vascular smooth muscle"]
+        )
     adata.obs.loc[cond, "ann_level_4"] = "Vascular smooth muscle"
 
     # Update annotation columns
