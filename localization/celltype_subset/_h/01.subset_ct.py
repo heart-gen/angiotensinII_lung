@@ -6,7 +6,6 @@ import scanpy as sc
 import harmonypy as hm
 from pyhere import here
 from pathlib import Path
-from warnings import warn
 
 def subset_data(input_file, COMPARTMENT=False):
     """Subset lung single-cell data."""
@@ -51,17 +50,18 @@ def subset_data(input_file, COMPARTMENT=False):
         valid_studies = study_counts[study_counts >= 20].index
         adata = adata[adata.obs["study"].isin(valid_studies)].copy()
     else:
-        warn("Variable 'study' not found in observation metadata; skipping study filter.")
+        print("Warning: Variable 'study' not found in observation metadata; skipping study filter.")
 
     # Subset data
     if COMPARTMENT:
         adata = adata[adata.obs["compartment"].isin(["Stroma"])].copy()
     else:
         adata = adata[adata.obs["subclusters"].isin(["Pericytes"])].copy()
+
     return adata
 
 
-def preprocess_data(adata):
+def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     """Preprocess and batch-correct data with Harmony."""
     batch_vars = [
         "donor_id", "data", "assay", "tissue_sampling_method", "sequencing_platform",
@@ -71,27 +71,31 @@ def preprocess_data(adata):
 
     present_vars = [v for v in batch_vars if v in adata.obs.columns]
     missing_vars = [v for v in batch_vars if v not in adata.obs.columns]
-    if missing_vars:
-        warn(f"Missing batch variables: {', '.join(missing_vars)}")
 
-    # Normalize total counts and log1p transform
+    if missing_vars:
+        print(f"Warning: Missing batch variables: {', '.join(missing_vars)}")
+
+    # Preprocess data
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
-
-    # Run PCA
     sc.tl.pca(adata, svd_solver="arpack")
 
-    # Run Harmony if batch vars exist
+    # Run harmony
     if present_vars:
         meta = adata.obs[present_vars].copy()
         
         for col in present_vars:
             meta[col] = meta[col].astype("category").astype(str)
 
-        harmony_embed = hm.run_harmony(adata.obsm["X_pca"], meta, vars_use=present_vars)
+        harmony_embed = hm.run_harmony(
+            adata.obsm["X_pca"], meta, vars_use=present_vars,
+            max_iter_harmony=max_iter, epsilon_harmony=1e-5, 
+            random_state=seed
+        )
         adata.obsm["X_pca_harmony"] = harmony_embed.Z_corr.T
     else:
-        warn("No batch variables found for Harmony correction.")
+        print("Warning: No batch variables found for Harmony correction.")
+
     return adata
 
 
@@ -99,6 +103,8 @@ def main():
     parser = argparse.ArgumentParser(description="Subset and preprocess lung single-cell data.")
     parser.add_argument("--model", type=str, default="core",
                         help="Model name (string). Default: 'core'")
+    parser.add_argument("--m_iter", type=int, default=30,
+                        help="Harmony max iterations. Default: 30.")
     args = parser.parse_args()
 
     model = args.model
@@ -111,7 +117,7 @@ def main():
 
         # Run processing
         adata = subset_data(in_file, COMPARTMENT)
-        adata = preprocess_data(adata)
+        adata = preprocess_data(adata, m_iter=args.m_iter)
 
         # Save
         adata.write(out_file)
