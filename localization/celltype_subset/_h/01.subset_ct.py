@@ -1,16 +1,17 @@
-import os
+## This is a converted script from our original R version.
+## Issues with loading the full model with `zellkonverter`.
+
 import argparse
-import numpy as np
 import scanpy as sc
-import pandas as pd
 import harmonypy as hm
+from pyhere import here
 from pathlib import Path
 from warnings import warn
 
 def subset_data(input_file, COMPARTMENT=False):
     """Subset lung single-cell data."""
     # Load AnnData
-    adata = sc.read_h5ad(input_file)
+    adata = sc.read_h5ad(here(input_file))
 
     # Ensure count layer
     if "soupX" in adata.layers:
@@ -19,12 +20,18 @@ def subset_data(input_file, COMPARTMENT=False):
         if "counts" not in adata.layers and adata.raw is not None:
             adata.layers["counts"] = adata.raw.X.copy()
 
-    # Remove missing or unknown annotations (level 4)
-    mask = (
-        adata.obs["ann_level_4"].notna() &
-        ~adata.obs["ann_level_4"].isin(["None", "Unknown"])
+    # Handle annotation issues
+    vsm_clusters = [ # Identify vascular smooth muscle clusters, by hand
+        "Smooth muscle",
+        "Smooth muscle FAM83D+",
+        "SM activated stress response"
+    ]
+
+    cond = ( # Replace NaN or "None" with "Vascular smooth muscle"
+        adata.obs["ann_finest_level"].isin(vsm_clusters) &
+        (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
     )
-    adata = adata[mask].copy()
+    adata.obs.loc[cond, "ann_level_4"] = "Vascular smooth muscle"
 
     # Update annotation columns
     adata.obs["subclusters"] = adata.obs["ann_finest_level"]
@@ -80,7 +87,8 @@ def preprocess_data(adata):
 
 def main():
     parser = argparse.ArgumentParser(description="Subset and preprocess lung single-cell data.")
-    parser.add_argument("model", type=str, help="Model name (string)")
+    parser.add_argument("--model", type=str, default="core",
+                        help="Model name (string). Default: 'core'")
     args = parser.parse_args()
 
     model = args.model
@@ -100,8 +108,8 @@ def main():
         print(f"Saved: {out_file}")
 
     # Reproducibility info
-    import sessioninfo
-    sessioninfo.show()
+    import session_info
+    session_info.show()
 
 
 if __name__ == "__main__":

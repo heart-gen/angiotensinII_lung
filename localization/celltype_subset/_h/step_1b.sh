@@ -29,12 +29,12 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subsetting ****"
 MODEL="full"
 
-Rscript ../_h/01.subset_ct.R "$MODEL"
+Rscript ../_h/01.subset_ct.py --model "$MODEL"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Rscript execution failed"
