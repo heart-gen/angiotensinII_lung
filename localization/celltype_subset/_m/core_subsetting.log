@@ -1,0 +1,16 @@
+2025-08-20 16:05:08 - **** Job starts ****
+2025-08-20 16:05:08 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34390681
+Job name: core_subset
+Node name: 
+Hostname: e004
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-08-20 16:05:09 - **** Loading mamba environment ****
+2025-08-20 16:05:10 - **** Run subsetting ****
