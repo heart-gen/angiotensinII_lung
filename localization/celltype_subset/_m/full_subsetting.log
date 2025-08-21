@@ -1,10 +1,10 @@
-2025-08-20 13:28:58 - **** Job starts ****
-2025-08-20 13:28:58 - **** Bridges-2 info ****
+2025-08-21 15:29:00 - **** Job starts ****
+2025-08-21 15:29:00 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 34388839
+Job id: 34404455
 Job name: full_subset
 Node name: 
-Hostname: e004
+Hostname: e003
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,47 +12,47 @@ Currently Loaded Modules:
 
  
 
-2025-08-20 13:28:59 - **** Loading mamba environment ****
-2025-08-20 13:28:59 - **** Run subsetting ****
-2025-08-20 13:36:42,707 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
-2025-08-20 13:36:44,937 - harmonypy - INFO - sklearn.KMeans initialization complete.
-2025-08-20 13:36:45,029 - harmonypy - INFO - Iteration 1 of 50
-2025-08-20 13:36:54,985 - harmonypy - INFO - Iteration 2 of 50
-2025-08-20 13:37:04,890 - harmonypy - INFO - Iteration 3 of 50
-2025-08-20 13:37:14,769 - harmonypy - INFO - Iteration 4 of 50
-2025-08-20 13:37:24,772 - harmonypy - INFO - Iteration 5 of 50
-2025-08-20 13:37:34,683 - harmonypy - INFO - Iteration 6 of 50
-2025-08-20 13:37:44,682 - harmonypy - INFO - Iteration 7 of 50
-2025-08-20 13:37:53,713 - harmonypy - INFO - Iteration 8 of 50
-2025-08-20 13:38:02,272 - harmonypy - INFO - Iteration 9 of 50
-2025-08-20 13:38:10,874 - harmonypy - INFO - Iteration 10 of 50
-2025-08-20 13:38:19,436 - harmonypy - INFO - Iteration 11 of 50
-2025-08-20 13:38:27,251 - harmonypy - INFO - Iteration 12 of 50
-2025-08-20 13:38:36,255 - harmonypy - INFO - Iteration 13 of 50
-2025-08-20 13:38:44,686 - harmonypy - INFO - Iteration 14 of 50
-2025-08-20 13:38:53,441 - harmonypy - INFO - Iteration 15 of 50
-2025-08-20 13:39:00,977 - harmonypy - INFO - Iteration 16 of 50
-2025-08-20 13:39:08,418 - harmonypy - INFO - Iteration 17 of 50
-2025-08-20 13:39:15,795 - harmonypy - INFO - Converged after 17 iterations
-2025-08-20 13:49:39,293 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
-2025-08-20 13:50:14,643 - harmonypy - INFO - sklearn.KMeans initialization complete.
-2025-08-20 13:50:16,560 - harmonypy - INFO - Iteration 1 of 50
-2025-08-20 13:56:39,989 - harmonypy - INFO - Iteration 2 of 50
-2025-08-20 14:03:05,512 - harmonypy - INFO - Iteration 3 of 50
-2025-08-20 14:09:32,853 - harmonypy - INFO - Iteration 4 of 50
-2025-08-20 14:15:58,660 - harmonypy - INFO - Iteration 5 of 50
-2025-08-20 14:22:22,572 - harmonypy - INFO - Iteration 6 of 50
-2025-08-20 14:28:37,277 - harmonypy - INFO - Iteration 7 of 50
-2025-08-20 14:35:01,122 - harmonypy - INFO - Iteration 8 of 50
-2025-08-20 14:39:49,407 - harmonypy - INFO - Iteration 9 of 50
-2025-08-20 14:46:13,576 - harmonypy - INFO - Iteration 10 of 50
-2025-08-20 14:52:38,614 - harmonypy - INFO - Iteration 11 of 50
-2025-08-20 14:57:26,251 - harmonypy - INFO - Iteration 12 of 50
-2025-08-20 15:03:51,164 - harmonypy - INFO - Iteration 13 of 50
-2025-08-20 15:10:15,406 - harmonypy - INFO - Iteration 14 of 50
-2025-08-20 15:15:20,213 - harmonypy - INFO - Iteration 15 of 50
-2025-08-20 15:21:19,083 - harmonypy - INFO - Iteration 16 of 50
-2025-08-20 15:27:40,310 - harmonypy - INFO - Converged after 16 iterations
+2025-08-21 15:29:01 - **** Loading mamba environment ****
+2025-08-21 15:29:01 - **** Run subsetting ****
+2025-08-21 15:41:23,738 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-08-21 15:41:28,551 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-08-21 15:41:28,634 - harmonypy - INFO - Iteration 1 of 50
+2025-08-21 15:41:39,045 - harmonypy - INFO - Iteration 2 of 50
+2025-08-21 15:41:49,444 - harmonypy - INFO - Iteration 3 of 50
+2025-08-21 15:41:59,855 - harmonypy - INFO - Iteration 4 of 50
+2025-08-21 15:42:10,358 - harmonypy - INFO - Iteration 5 of 50
+2025-08-21 15:42:20,827 - harmonypy - INFO - Iteration 6 of 50
+2025-08-21 15:42:31,313 - harmonypy - INFO - Iteration 7 of 50
+2025-08-21 15:42:40,751 - harmonypy - INFO - Iteration 8 of 50
+2025-08-21 15:42:49,766 - harmonypy - INFO - Iteration 9 of 50
+2025-08-21 15:42:58,758 - harmonypy - INFO - Iteration 10 of 50
+2025-08-21 15:43:07,787 - harmonypy - INFO - Iteration 11 of 50
+2025-08-21 15:43:15,948 - harmonypy - INFO - Iteration 12 of 50
+2025-08-21 15:43:25,390 - harmonypy - INFO - Iteration 13 of 50
+2025-08-21 15:43:34,196 - harmonypy - INFO - Iteration 14 of 50
+2025-08-21 15:43:43,446 - harmonypy - INFO - Iteration 15 of 50
+2025-08-21 15:43:51,422 - harmonypy - INFO - Iteration 16 of 50
+2025-08-21 15:43:59,172 - harmonypy - INFO - Iteration 17 of 50
+2025-08-21 15:44:06,905 - harmonypy - INFO - Converged after 17 iterations
+2025-08-21 15:54:47,880 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-08-21 15:55:33,636 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-08-21 15:55:35,536 - harmonypy - INFO - Iteration 1 of 50
+2025-08-21 16:01:59,719 - harmonypy - INFO - Iteration 2 of 50
+2025-08-21 16:08:24,665 - harmonypy - INFO - Iteration 3 of 50
+2025-08-21 16:14:48,998 - harmonypy - INFO - Iteration 4 of 50
+2025-08-21 16:21:13,660 - harmonypy - INFO - Iteration 5 of 50
+2025-08-21 16:27:37,787 - harmonypy - INFO - Iteration 6 of 50
+2025-08-21 16:33:51,464 - harmonypy - INFO - Iteration 7 of 50
+2025-08-21 16:40:15,929 - harmonypy - INFO - Iteration 8 of 50
+2025-08-21 16:45:04,669 - harmonypy - INFO - Iteration 9 of 50
+2025-08-21 16:51:31,481 - harmonypy - INFO - Iteration 10 of 50
+2025-08-21 16:57:58,423 - harmonypy - INFO - Iteration 11 of 50
+2025-08-21 17:02:49,245 - harmonypy - INFO - Iteration 12 of 50
+2025-08-21 17:09:16,309 - harmonypy - INFO - Iteration 13 of 50
+2025-08-21 17:15:42,627 - harmonypy - INFO - Iteration 14 of 50
+2025-08-21 17:20:56,280 - harmonypy - INFO - Iteration 15 of 50
+2025-08-21 17:26:59,526 - harmonypy - INFO - Iteration 16 of 50
+2025-08-21 17:33:24,492 - harmonypy - INFO - Converged after 16 iterations
 Model selected: full
 Warning: Missing batch variables: data
 Saved: pericyte.hlca_full.dataset.h5ad
@@ -66,5 +66,5 @@ scanpy      1.11.4
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-08-20 15:28
-2025-08-20 15:28:28 - **** Job ends ****
+Session information updated at 2025-08-21 17:34
+2025-08-21 17:34:16 - **** Job ends ****
