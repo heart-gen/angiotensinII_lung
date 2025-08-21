@@ -1,0 +1,83 @@
+2025-08-21 16:06:40 - **** Job starts ****
+2025-08-21 16:06:40 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34406325
+Job name: core_subclustering
+Node name: 
+Hostname: r035
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-08-21 16:06:41 - **** Loading mamba environment ****
+2025-08-21 16:06:41 - **** Run subclustering ****
+Calculating PHATE...
+  Running PHATE on 3032 observations and 50 variables.
+  Calculating graph and diffusion operator...
+    Calculating KNN search...
+    Calculated KNN search in 0.60 seconds.
+    Calculating affinities...
+    Calculated affinities in 0.89 seconds.
+  Calculated graph and diffusion operator in 1.53 seconds.
+  Calculating landmark operator...
+    Calculating SVD...
+    Calculated SVD in 4.47 seconds.
+    Calculating KMeans...
+    Calculated KMeans in 2.63 seconds.
+  Calculated landmark operator in 8.77 seconds.
+  Calculating optimal t...
+    Automatically selected t = 9
+  Calculated optimal t in 3.19 seconds.
+  Calculating diffusion potential...
+  Calculated diffusion potential in 0.92 seconds.
+  Calculating metric MDS...
+  Calculated metric MDS in 4.29 seconds.
+Calculated PHATE in 18.73 seconds.
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/02.sub-clustering.py:27: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(adata, resolution=resolution, random_state=13,
+Calculating PHATE...
+  Running PHATE on 25217 observations and 50 variables.
+  Calculating graph and diffusion operator...
+    Calculating KNN search...
+    Calculated KNN search in 33.38 seconds.
+    Calculating affinities...
+    Calculated affinities in 33.06 seconds.
+  Calculated graph and diffusion operator in 66.69 seconds.
+  Calculating landmark operator...
+    Calculating SVD...
+    Calculated SVD in 16.21 seconds.
+    Calculating KMeans...
+    Calculated KMeans in 4.75 seconds.
+  Calculated landmark operator in 22.79 seconds.
+  Calculating optimal t...
+    Automatically selected t = 27
+  Calculated optimal t in 2.91 seconds.
+  Calculating diffusion potential...
+  Calculated diffusion potential in 1.02 seconds.
+  Calculating metric MDS...
+  Calculated metric MDS in 5.12 seconds.
+Calculated PHATE in 98.54 seconds.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/plotting/_tools/scatterplots.py:263: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  fig = plt.figure()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/02.sub-clustering.py:92: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=figsize)
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/02.sub-clustering.py:92: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=figsize)
+-----
+matplotlib          3.10.5
+pandas              2.0.3
+phate               1.0.11
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-08-21 16:12
+gzip: rank_genes_groups_results.tsv: No such file or directory
+2025-08-21 16:13:00 - **** Job ends ****
