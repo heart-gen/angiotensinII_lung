@@ -1,4 +1,5 @@
 ## This script examines differences in expression
+import argparse
 import session_info
 import scanpy as sc
 import pandas as pd
@@ -82,12 +83,20 @@ def calculate_and_plot_stats(adata, marker_genes, outdir=".", cluster_key='leide
 
 
 def main():
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Expression stats analysis for pericyte subclusters.")
+    parser.add_argument("--model", choices=["core", "full"], default="core",
+                        help="Run analysis on 'core' or 'full' model (default: core).")
+    args = parser.parse_args()
+
     # General setup
     marker_genes = ['AGTR1', 'ACTA2']
-    output_dir = "cluster_marker_stats"
+    output_dir = f"cluster_marker_stats/{args.model}"
     makedirs(output_dir, exist_ok=True)
+
     # Load data
-    adata = sc.read_h5ad("pericyte.hlca_core.subclustered.h5ad")
+    adata = sc.read_h5ad(f"pericyte.hlca_{args.model}.subclustered.h5ad")
+    
     # Calculate and plot statistics
     calculate_and_plot_stats(adata, marker_genes, outdir=output_dir,
                              cluster_key='leiden')
