@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
     sc.pp.neighbors(adata, n_neighbors=50, use_rep='X_pca_harmony',
-                    random_state=13)
-    sc.tl.umap(adata)
+                    random_state=13, metric='euclidean')
+    sc.tl.umap(adata, min_dist=0.4)
     return adata
 
 
@@ -66,12 +66,15 @@ def normalize_by_fibroblast_count(adata, ref_adata, ref_label='Alveolar fibrobla
 
 
 def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon', outdir="."):
-    sc.tl.rank_genes_groups(adata, groupby=groupby, method=method)
+    sc.tl.rank_genes_groups(adata, groupby=groupby, method=method,
+                            layer="logcounts", use_raw=False)
     # Reformat results
     result = adata.uns['rank_genes_groups']
     groups = result['names'].dtype.names
 
     # Save rank_genes_groups results
+    makedirs(outdir, exist_ok=True)
+
     rank_df = pd.DataFrame({
         group + '_' + key: result[key][group]
         for group in groups
@@ -166,32 +169,55 @@ def visualize_stroma(
     return adata
 
 
+def _test_resolution(ref_adata, model, resolution, knn, decay):
+    adata = sc.read_h5ad(f'../_m/pericyte.hlca_{model}.dataset.h5ad')
+    adata.obs["cell_type"] = adata.obs["cell_type"]\
+                                  .cat.remove_unused_categories()
+    adata.layers["logcounts"] = adata.X.copy()
+    adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn,
+                                 phate_decay=decay,
+                                 leiden_resolution=resolution,
+                                 model=model)
+    return adata
+
+
+def _testing():
+    genes=['AGTR1', 'ACTA2']
+    adata = _test_resolution(ref_adata, model, 0.4, 20, 15)
+    adata = compute_pseudotime(adata)
+    plot_pseudotime(adata)
+    plot_gene_dynamics(adata, genes)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Pericyte/stroma subclustering with model-aware outputs")
     parser.add_argument("--model", type=str, default="core",
                         help="Model type: 'core' or 'full'. Default: core")
+    parser.add_argument("--resolution", type=float, default=0.4,
+                        help="Leiden resolution. Default: 0.4")
     args = parser.parse_args()
     model = args.model
+    resolution = args.resolution
 
     # Load data
     adata = sc.read_h5ad(f'pericyte.hlca_{model}.dataset.h5ad')
     adata.obs["cell_type"] = adata.obs["cell_type"]\
                                   .cat.remove_unused_categories()
+    adata.layers["logcounts"] = adata.X.copy()
 
     ref_adata = sc.read_h5ad(f"stroma.hlca_{model}.dataset.h5ad")
     ref_adata.obs["cell_type"] = ref_adata.obs["cell_type"]\
                                           .cat.remove_unused_categories()
+    ref_adata.layers["logcounts"] = ref_adata.X.copy()
 
     # Subcluster and save
-    adata = subcluster_pericytes(adata, ref_adata, leiden_resolution=0.45,
-                                 model=model)
+    adata = subcluster_pericytes(adata, ref_adata, phate_knn=20, phate_decay=15,
+                                 leiden_resolution=resolution, model=model)
     adata.write(f'pericyte.hlca_{model}.subclustered.h5ad')
 
     # Stromal clustering
     output_dir = f"stroma_clustering/{model}"
     makedirs(output_dir, exist_ok=True)
-    ref_adata.obsm["X_pca"] = ref_adata.obsm["PCA"]
-    ref_adata.obsm["X_pca_harmony"] = ref_adata.obsm["HARMONY"]
     ref_adata = visualize_stroma(ref_adata, leiden_resolution=0.40, outdir=output_dir)
     ref_adata.write(f"stroma.hlca_{model}.clustered.h5ad")
 
