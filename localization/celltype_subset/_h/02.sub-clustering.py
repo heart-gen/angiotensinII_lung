@@ -80,7 +80,7 @@ def analyze_marker_genes(adata, groupby='leiden', method='wilcoxon', outdir=".")
         for group in groups
         for key in ['names', 'pvals', 'logfoldchanges']
     })
-    rank_df.to_csv(path.join(outdir, "rank_genes_groups_results.tsv"), sep='\t')
+    rank_df.to_csv(path.join(outdir, "rank_genes_groups_results.txt.gz"), sep='\t')
     return adata
 
 
@@ -92,7 +92,8 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         plt.figure(figsize=figsize)
         plot_func(show=False, **kwargs)
         for ext in formats:
-            plt.savefig(path.join(outdir, f"{fname}.{ext}"), bbox_inches='tight')
+            plt.savefig(path.join(outdir, f"{fname}.{ext}"), dpi=300,
+                        bbox_inches='tight')
         plt.close()
 
     # Plot clusters
@@ -164,8 +165,13 @@ def visualize_stroma(
     adata = analyze_marker_genes(adata, outdir=outdir)
     plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
                               figsize=figsize, cluster_key="leiden")
+    plt.close() # Adding for safety
     plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
                               figsize=figsize, cluster_key="cell_type")
+    plt.close()
+    plot_clusters_and_markers(adata, marker_genes, outdir=outdir,
+                              figsize=figsize, cluster_key="subclusters")
+    plt.close()
     return adata
 
 
@@ -179,6 +185,17 @@ def _test_resolution(ref_adata, model, resolution, knn, decay):
                                  leiden_resolution=resolution,
                                  model=model)
     return adata
+
+
+def _test_stromal_clustering(model, resolution, knn, decay):
+    ref_adata = sc.read_h5ad(f"../_m/stroma.hlca_{model}.dataset.h5ad")
+    ref_adata.obs["cell_type"] = ref_adata.obs["cell_type"]\
+                                          .cat.remove_unused_categories()
+    ref_adata.layers["logcounts"] = ref_adata.X.copy()
+    ref_adata = visualize_stroma(ref_adata, leiden_resolution=resolution,
+                                 phate_knn=knn, phate_decay=decay,
+                                 outdir=output_dir)
+    return ref_adata
 
 
 def _testing():
@@ -195,9 +212,12 @@ def main():
                         help="Model type: 'core' or 'full'. Default: core")
     parser.add_argument("--resolution", type=float, default=0.4,
                         help="Leiden resolution. Default: 0.4")
+    parser.add_argument("--phate_knn", type=int, default=20,
+                        help="Leiden resolution. Default: 20")
     args = parser.parse_args()
     model = args.model
     resolution = args.resolution
+    knn = args.phate_knn
 
     # Load data
     adata = sc.read_h5ad(f'pericyte.hlca_{model}.dataset.h5ad')
@@ -211,14 +231,17 @@ def main():
     ref_adata.layers["logcounts"] = ref_adata.X.copy()
 
     # Subcluster and save
-    adata = subcluster_pericytes(adata, ref_adata, phate_knn=20, phate_decay=15,
+    adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn, phate_decay=15,
                                  leiden_resolution=resolution, model=model)
     adata.write(f'pericyte.hlca_{model}.subclustered.h5ad')
+    del adata
 
     # Stromal clustering
     output_dir = f"stroma_clustering/{model}"
     makedirs(output_dir, exist_ok=True)
-    ref_adata = visualize_stroma(ref_adata, leiden_resolution=0.40, outdir=output_dir)
+    ref_adata = visualize_stroma(ref_adata, leiden_resolution=resolution,
+                                 phate_knn=knn, phate_decay=15,
+                                 outdir=output_dir)
     ref_adata.write(f"stroma.hlca_{model}.clustered.h5ad")
 
     # Session information

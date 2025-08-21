@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=subclustering
+#SBATCH --job-name=full_subclustering
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=4
-#SBATCH --time=00:25:00
-#SBATCH --output=visualize.log
+#SBATCH --ntasks-per-node=24
+#SBATCH --time=03:00:00
+#SBATCH --output=visualize_full.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -32,7 +32,8 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/02.sub-clustering.py
+python ../_h/02.sub-clustering.py \
+       --model "full" --resolution 0.5 --phate_knn 15
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
