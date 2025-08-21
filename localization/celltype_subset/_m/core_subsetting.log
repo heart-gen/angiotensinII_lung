@@ -68,3 +68,37 @@ Currently Loaded Modules:
 2025-08-20 16:08:58,781 - harmonypy - INFO - Iteration 50 of 100
 2025-08-20 16:08:59,328 - harmonypy - INFO - Iteration 51 of 100
 2025-08-20 16:08:59,865 - harmonypy - INFO - Converged after 51 iterations
+2025-08-20 16:11:13,436 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-08-20 16:11:17,077 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-08-20 16:11:17,256 - harmonypy - INFO - Iteration 1 of 100
+2025-08-20 16:11:34,136 - harmonypy - INFO - Iteration 2 of 100
+2025-08-20 16:11:51,076 - harmonypy - INFO - Iteration 3 of 100
+2025-08-20 16:12:08,059 - harmonypy - INFO - Iteration 4 of 100
+2025-08-20 16:12:25,070 - harmonypy - INFO - Iteration 5 of 100
+2025-08-20 16:12:39,743 - harmonypy - INFO - Iteration 6 of 100
+2025-08-20 16:12:55,784 - harmonypy - INFO - Iteration 7 of 100
+2025-08-20 16:13:06,992 - harmonypy - INFO - Iteration 8 of 100
+2025-08-20 16:13:21,698 - harmonypy - INFO - Iteration 9 of 100
+2025-08-20 16:13:38,739 - harmonypy - INFO - Iteration 10 of 100
+2025-08-20 16:13:54,772 - harmonypy - INFO - Iteration 11 of 100
+2025-08-20 16:14:10,246 - harmonypy - INFO - Iteration 12 of 100
+2025-08-20 16:14:24,594 - harmonypy - INFO - Iteration 13 of 100
+2025-08-20 16:14:39,653 - harmonypy - INFO - Iteration 14 of 100
+2025-08-20 16:14:52,429 - harmonypy - INFO - Iteration 15 of 100
+2025-08-20 16:15:07,140 - harmonypy - INFO - Iteration 16 of 100
+2025-08-20 16:15:18,501 - harmonypy - INFO - Converged after 16 iterations
+Model selected: core
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_core.dataset.h5ad
+Warning: Missing batch variables: data
+Saved: stroma.hlca_core.dataset.h5ad
+-----
+harmonypy   0.0.10
+pyhere      1.0.3
+scanpy      1.11.4
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-08-20 16:15
+2025-08-20 16:15:28 - **** Job ends ****
