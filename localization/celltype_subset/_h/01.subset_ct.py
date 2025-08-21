@@ -8,43 +8,56 @@ from pyhere import here
 from pathlib import Path
 
 def subset_data(input_file, COMPARTMENT=False):
-    """Subset lung single-cell data."""
+    """Subset lung single-cell data, harmonizing annotations and filtering studies."""
     # Load AnnData
     adata = sc.read_h5ad(here(input_file))
 
     # Ensure count layer
-    if "soupX" in adata.layers:
-        adata.layers["counts"] = adata.layers["counts"] if "counts" in adata.layers else adata.layers["soupX"]
-    else:
-        if "counts" not in adata.layers and adata.raw is not None:
+    if "counts" not in adata.layers:
+        if "soupX" in adata.layers:
+            adata.layers["counts"] = adata.layers["soupX"]
+        elif adata.raw is not None:
             adata.layers["counts"] = adata.raw.X.copy()
+        else:
+            raise ValueError("No suitable count layer found (expected 'counts', 'soupX', or .raw).")
+
+    # Define categories to add
+    required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
+    for cat in required_cats:
+        if cat not in adata.obs["ann_level_4"].cat.categories:
+            adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
 
     # Handle annotation issues
-    vsm_clusters = [ # Identify vascular smooth muscle clusters, by hand
-        "Smooth muscle",
-        "Smooth muscle FAM83D+",
-        "SM activated stress response"
-    ]
+    vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+",
+                    "SM activated stress response"}
+    fixes = {
+        "Vascular smooth muscle": vsm_clusters,
+        "Mesothelium": {"Mesothelium"},
+        "Myofibroblasts": {"Myofibroblasts"},
+    }
 
-    cond = ( # Replace NaN or "None" with "Vascular smooth muscle"
-        adata.obs["ann_finest_level"].isin(vsm_clusters) &
-        (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
-    )
-
-    if "Vascular smooth muscle" not in adata.obs["ann_level_4"].cat.categories:
-        adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories(
-            ["Vascular smooth muscle"]
+    for label, fine_clusters in fixes.items():
+        cond = (
+            adata.obs["ann_finest_level"].isin(fine_clusters)
+            & (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
         )
-    adata.obs.loc[cond, "ann_level_4"] = "Vascular smooth muscle"
+        adata.obs.loc[cond, "ann_level_4"] = label
 
     # Update annotation columns
-    adata.obs["subclusters"] = adata.obs["ann_finest_level"]
-    adata.obs["cell_type"] = adata.obs["ann_level_4"]
-    adata.obs["clusters"] = adata.obs["cell_type"]
-    adata.obs["compartment"] = adata.obs["ann_level_1"]
-    adata.obs["patient"] = adata.obs["donor_id"]
+    obs_map = {
+        "subclusters": "ann_finest_level",
+        "cell_type": "ann_level_4",
+        "clusters": "ann_level_4",
+        "compartment": "ann_level_1",
+        "patient": "donor_id",
+    }
+    for new, old in obs_map.items():
+        if old in adata.obs:
+            adata.obs[new] = adata.obs[old]
+        else:
+            print(f"Warning: '{old}' not found in obs; skipping {new} mapping.")
 
-    # Remove studies with fewer than 20 pericytes
+    # Filter studies (>= 20 cells)
     if "study" in adata.obs:
         study_counts = adata.obs["study"].value_counts()
         valid_studies = study_counts[study_counts >= 20].index
@@ -54,9 +67,11 @@ def subset_data(input_file, COMPARTMENT=False):
 
     # Subset data
     if COMPARTMENT:
-        adata = adata[adata.obs["compartment"].isin(["Stroma"])].copy()
+        mask = adata.obs["compartment"].eq("Stroma")
     else:
-        adata = adata[adata.obs["subclusters"].isin(["Pericytes"])].copy()
+        mask = adata.obs["subclusters"].eq("Pericytes")
+
+    adata = adata[mask].copy()
 
     return adata
 
