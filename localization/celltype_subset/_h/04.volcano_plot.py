@@ -1,5 +1,7 @@
 ## This script generates volcano plots
 import re
+import random
+import argparse
 import numpy as np
 import session_info
 import scanpy as sc
@@ -8,6 +10,12 @@ from os import makedirs, path
 import matplotlib.pyplot as plt
 from adjustText import adjust_text
 from statsmodels.stats.multitest import multipletests
+
+def set_seed(seed: int = 13):
+    """Set seeds for reproducibility."""
+    np.random.seed(seed)
+    random.seed(seed)
+
 
 def load_ensembl_to_geneid_map(adata_file_path):
     """
@@ -42,14 +50,10 @@ def load_all_clusters(filepath, mapping_file=None):
 
     clusters_data = {}
     for cid in cluster_ids:
-        name_col = f"{cid}_names"
-        pval_col = f"{cid}_pvals"
-        logfc_col = f"{cid}_logfoldchanges"
-
         cluster_df = pd.DataFrame({
-            'gene_id': df[name_col],
-            'pvals': df[pval_col],
-            'logfoldchanges': df[logfc_col]
+            'gene_id': df[f"{cid}_names"],
+            'pvals': df[f"{cid}_pvals"],
+            'logfoldchanges': df[f"{cid}_logfoldchanges"]
         })
 
         # Convert Ensembl IDs → gene symbols if mapping provided
@@ -57,6 +61,8 @@ def load_all_clusters(filepath, mapping_file=None):
             cluster_df['gene_name'] = cluster_df['gene_id'].map(
                 lambda x: ensembl_to_gene.get(x, x)
             )
+        else:
+            cluster_df['gene_name'] = cluster_df['gene_id']
 
         # Calculate adjusted p-values (FDR Benjamini-Hochberg)
         cluster_df['pvals_adj'] = multipletests(
@@ -69,11 +75,11 @@ def load_all_clusters(filepath, mapping_file=None):
 
 
 def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
-                 top_n_labels=10, outdir="volcano_plots"):
+                 top_n_labels=10, outdir="volcano_plots", model="core"):
     """
     Make a volcano plot for one cluster and save to file.
     """
-    makedirs(outdir, exist_ok=True)
+    makedirs(f"{outdir}/{model}", exist_ok=True)
     sig_mask = (cluster_df['pvals_adj'] < pval_cutoff) & \
                (np.abs(cluster_df['logfoldchanges']) > logfc_cutoff)
 
@@ -87,20 +93,16 @@ def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
     plt.axvline(-logfc_cutoff, color='grey', ls='--', lw=1)
     plt.xlabel('log2 Fold Change')
     plt.ylabel('-log10(FDR)')
-    plt.title(f'Volcano Plot — Cluster {cluster_id}')
+    plt.title(f'Volcano Plot - Cluster {cluster_id}')
 
     # Label top significant genes
     top_hits = cluster_df[sig_mask].nlargest(top_n_labels, '-log10_fdr')
-    texts = []
-    for _, row in top_hits.iterrows():
-        texts.append(
-            plt.text(row['logfoldchanges'], row['-log10_fdr'], row['gene_name'],
-                 fontsize=7, ha='right')
-        )
-
+    texts = [plt.text(row['logfoldchanges'], row['-log10_fdr'],
+                      row['gene_name'], fontsize=7, ha='right')
+             for _, row in top_hits.iterrows()]
     adjust_text(texts, arrowprops=dict(arrowstyle='-', color='black', lw=0.5))
 
-    outfile = path.join(outdir, f"volcano_cluster_{cluster_id}.png")
+    outfile = path.join(outdir, model, f"volcano_cluster_{cluster_id}.png")
     plt.tight_layout()
     plt.savefig(outfile, dpi=300)
 
@@ -112,16 +114,28 @@ def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Generate volcano plots from rank_genes_groups results.")
+    parser.add_argument("--model", type=str, default="core",
+                        choices=["core", "full"],
+                        help="Model type: 'core' (default) or 'full'")
+    parser.add_argument("--seed", type=int, default=13,
+                        help="Random seed for reproducibility")
+    args = parser.parse_args()
+
+    set_seed(args.seed)
+    
     # File paths
-    filepath = "rank_genes_groups_results.tsv.gz"
-    adata_file_path = "pericyte.hlca_core.subclustered.h5ad"
+    filepath = f"figures/{model}/rank_genes_groups_results.tsv.gz"
+    adata_file_path = f"pericyte.hlca_{model}.subclustered.h5ad"
 
     # Load and process cluster data
     clusters_data = load_all_clusters(filepath, mapping_file=adata_file_path)
 
     # Generate volcano plots
     for cid, cdata in clusters_data.items():
-        plot_volcano(cdata, cluster_id=cid, pval_cutoff=0.05, logfc_cutoff=1.0)
+        plot_volcano(cdata, cluster_id=cid, pval_cutoff=0.05,
+                     logfc_cutoff=1.0, model=model)
 
     # Session information
     session_info.show()

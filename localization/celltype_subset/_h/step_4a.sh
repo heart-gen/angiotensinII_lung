@@ -29,11 +29,11 @@ module load gcc/13.3.1-p20240614
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/AI_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/04.volcano_plot.py
+python ../_h/04.volcano_plot.py --model "core"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
