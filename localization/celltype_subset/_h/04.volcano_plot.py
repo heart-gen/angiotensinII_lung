@@ -34,6 +34,9 @@ def load_all_clusters(filepath, mapping_file=None):
     Load a precomputed rank_genes_groups export (wide format) into
     a dict of DataFrames, keyed by cluster ID.
     If mapping_file is provided, convert Ensembl IDs to gene symbols.
+
+    This also returns a data frame of reformatted input rank_genes_groups
+    in the long format.
     """
     df = pd.read_csv(filepath, sep="\t", compression="infer", index_col=0)
 
@@ -48,7 +51,7 @@ def load_all_clusters(filepath, mapping_file=None):
         for col in df.columns if re.match(r"^\d+_names$", col)
     })
 
-    clusters_data = {}
+    clusters_data = {}; long_list = []
     for cid in cluster_ids:
         cluster_df = pd.DataFrame({
             'gene_id': df[f"{cid}_names"],
@@ -71,7 +74,16 @@ def load_all_clusters(filepath, mapping_file=None):
         cluster_df['-log10_fdr'] = -np.log10(cluster_df['pvals_adj'] + 1e-300)
         clusters_data[cid] = cluster_df
 
-    return clusters_data
+        # Add cluster label for long format
+        tmp_df = cluster_df.rename(columns={"logfoldchanges": "logfc"}).copy()
+        tmp_df["cluster_id"] = int(cid)
+        long_list.append(tmp_df)
+
+    rank_df = pd.concat(long_list, ignore_index=True)
+    rank_df = rank_df[["gene_id", "gene_name", "cluster_id",
+                       "logfc", "pvals", "pvals_adj"]]
+
+    return clusters_data, rank_df
 
 
 def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
@@ -126,16 +138,22 @@ def main():
     set_seed(args.seed)
     
     # File paths
-    filepath = f"figures/{model}/rank_genes_groups_results.tsv.gz"
-    adata_file_path = f"pericyte.hlca_{model}.subclustered.h5ad"
+    filepath = f"figures/{args.model}/rank_genes_groups_results.txt.gz"
+    adata_file_path = f"pericyte.hlca_{args.model}.subclustered.h5ad"
 
     # Load and process cluster data
-    clusters_data = load_all_clusters(filepath, mapping_file=adata_file_path)
+    clusters_data, rank_df = load_all_clusters(
+        filepath, mapping_file=adata_file_path
+    )
 
     # Generate volcano plots
     for cid, cdata in clusters_data.items():
-        plot_volcano(cdata, cluster_id=cid, pval_cutoff=0.05,
-                     logfc_cutoff=1.0, model=model)
+        plot_volcano(cdata, cluster_id=cid, model=args.model)
+
+    # Reformat marker gene analysis
+    makedirs(f"marker_genes/{args.model}", exist_ok=True)
+    outfile = path.join(outdir, args.model, "rank_genes.pericyte_subclusters.txt.gz")
+    rank_df.to_csv(outfile, sep="\t", index=False)
 
     # Session information
     session_info.show()

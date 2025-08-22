@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=stats_cluster
+#SBATCH --job-name=core_volcano
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=4
 #SBATCH --time=00:10:00
-#SBATCH --output=volcano-plots.log
+#SBATCH --output=volcano-plots_core.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"

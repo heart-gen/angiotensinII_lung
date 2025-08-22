@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=stats_cluster
+#SBATCH --job-name=full_volcano
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=4
-#SBATCH --time=00:10:00
-#SBATCH --output=volcano-plots.log
+#SBATCH --ntasks-per-node=16
+#SBATCH --time=00:20:00
+#SBATCH --output=volcano-plots_full.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -33,7 +33,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/04.volcano_plot.py --model "core"
+python ../_h/04.volcano_plot.py --model "full"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
