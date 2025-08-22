@@ -3,11 +3,9 @@ suppressPackageStartupMessages({
     library("here")
     library("dplyr")
     library("scran")
-    library("edgeR")
     library("ggpubr")
     library("Seurat")
     library("speckle")
-    library("scuttle")
     library("viridisLite")
     library("DeconvoBuddies")
     library("SingleCellExperiment")
@@ -107,30 +105,31 @@ generate_marker_genes <- function(sce, model_tag) {
     return(ratios)
 }
 
-run_de_analysis <- function(sce, cluster_key = "leiden") {
-    clusters <- factor(colData(sce)[[cluster_key]])
-    design <- model.matrix(~0 + clusters)
-    colnames(design) <- paste0("cluster_", levels(clusters))
-    
-    y <- edgeR::DGEList(counts = counts(sce), genes = rowData(sce))
-    y <- edgeR::calcNormFactors(y)
-    
-    v <- limma::voom(y, design, plot = FALSE)
-    fit <- limma::lmFit(v, design)
-  
-                                        # Make contrasts: each cluster vs rest
+run_de_analysis <- function(sce, cluster_key = "leiden",
+                            assay_type = "logcounts") {
+                                        # Find marker genes (one vs rest)
+    marker_stats <- findMarkers(
+        sce, groups = sce[[cluster_key]], assay.type = assay_type,
+        test = "wilcox", direction = "up", lfc = 0
+    )
+
+                                        # Process list of results
     results_list <- list()
-    cluster_names <- paste0("cluster_", levels(clusters))
-    for (cl in cluster_names) {
-        contrast_vec <- rep(-1 / (length(cluster_names) - 1),
-                            length(cluster_names))
-        names(contrast_vec) <- cluster_names
-        contrast_vec[cl]    <- 1
-        
-        fit2 <- limma::contrasts.fit(fit, contrasts = contrast_vec)
-        fit2 <- limma::eBayes(fit2)
-        tab  <- limma::topTable(fit2, number = Inf, sort.by = "P")
-        results_list[[cl]] <- tab
+    for (cl in names(marker_stats)) {
+        markers <- as.data.frame(marker_stats[[cl]])
+        markers$gene_names <- rownames(markers)
+
+        markers <- markers |>
+            dplyr::rename(
+                       beta_auc = summary.AUC,
+                       pval = p.value,
+                       pval_adj = FDR
+                   ) |>
+            dplyr::mutate(cluster = paste0("cluster_", cl)) |>
+            dplyr::select(gene_names, cluster, beta_auc, pval,
+                          pval_adj, dplyr::everything())
+
+        results_list[[cl]] <- markers
     }
     return(results_list)
 }
@@ -196,31 +195,35 @@ select_markers <- function(cluster_avg_expr_df, specificity_ratio,
         common_genes <- intersect(common_genes,
                                   rownames(specificity_ratio))
         if (length(common_genes) == 0) next
-        
-        spec <- specificity_ratio[common_genes, cl]
-        avg <- cluster_avg_expr_df[common_genes, cl]
-        de_sub <- de_df[common_genes, , drop = FALSE]
+        cl_name <- paste0("cluster_", cl)
+        spec <- specificity_ratio[common_genes, cl_name]
+        avg  <- cluster_avg_expr_df[common_genes, cl]
+        de_sub  <- de_df[common_genes, , drop = FALSE]
     
         candidates <- common_genes[
             spec > specificity_threshold &
             avg > expression_threshold &
-            de_sub$adj.P.Val < fdr_threshold
+            de_sub[["pval_adj"]] < fdr_threshold
         ]
     
         if (length(candidates) > 0) {
             markers[[cl]] <- data.frame(
-                cluster = cl,
-                gene = candidates,
-                specificity_ratio = spec[candidates],
-                mean_expression = avg[candidates],
-                pval_adj = de_sub[candidates, "adj.P.Val"],
-                logfc = de_sub[candidates, "logFC"],
-                stringsAsFactors = FALSE
+                cluster_id        = cl,
+                gene              = candidates,
+                specificity_ratio = specificity_ratio[candidates, cl_name],
+                mean_expression   = cluster_avg_expr_df[candidates, cl],
+                pval_adj          = de_sub[candidates, "pval_adj"],
+                logfc             = de_sub[candidates, "beta_auc"],
+                stringsAsFactors  = FALSE
             )
         }
     }
-    return(dplyr::bind_rows(markers) |>
-           arrange(cluster, desc(specificity_ratio)))
+    if (length(markers) == 0) {
+        return(NULL)
+    } else {
+        return(dplyr::bind_rows(markers) |>
+               dplyr::arrange(cluster_id, dplyr::desc(specificity_ratio)))
+    }
 }
 
 plot_marker_expression <- function(sce, gene, cluster_key = "leiden",
@@ -249,9 +252,8 @@ calculate_specificity_markers <- function(sce, model, cluster_key,
     cluster_avg_expr_df <- compute_cluster_avg(sce, cluster_key)
     specificity_ratio   <- calc_specificity_ratio(cluster_avg_expr_df)
     de_results <- run_de_analysis(sce, cluster_key)
-    markers_df <- select_markers(cluster_avg_expr_df, specificity_ratio,
-                                 de_results,
-                                 specificity_threshold = 1.25)
+    markers_df <- select_markers(cluster_avg_expr_df, specificity_ratio, de_results,
+                                 specificity_threshold = 0.35)
     write.table(specificity_ratio, file.path(outdir, "specificity_data.tsv"),
                 sep = "\t", quote = FALSE)
     write.table(markers_df, file.path(outdir, "candidate_markers_for_qpcr.tsv"),
