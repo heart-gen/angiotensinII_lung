@@ -152,7 +152,8 @@ def main():
 
     # Reformat marker gene analysis
     makedirs(f"marker_genes/{args.model}", exist_ok=True)
-    outfile = path.join(outdir, args.model, "rank_genes.pericyte_subclusters.txt.gz")
+    outfile = path.join("marker_genes", args.model,
+                        "rank_genes.pericyte_subclusters.txt.gz")
     rank_df.to_csv(outfile, sep="\t", index=False)
 
     # Session information
