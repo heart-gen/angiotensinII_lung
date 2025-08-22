@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
+#SBATCH --partition=EM
 #SBATCH --job-name=full_subclustering
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
@@ -41,8 +41,4 @@ if [ $? -ne 0 ]; then
 fi
 
 conda deactivate
-
-## Compress data
-gzip rank_genes_groups_results.tsv
-
 log_message "**** Job ends ****"
