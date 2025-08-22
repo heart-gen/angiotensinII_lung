@@ -67,3 +67,4 @@ dev/*
 # Project specific files #
 ##########################
 genetic_variation/bulk_eqtl/_m/combine.log
+stroma.hlca_full.clustered.h5ad
