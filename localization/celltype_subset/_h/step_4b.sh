@@ -4,7 +4,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=16
-#SBATCH --time=00:20:00
+#SBATCH --time=00:10:00
 #SBATCH --output=volcano-plots_full.log
 
 log_message() {

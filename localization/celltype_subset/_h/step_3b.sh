@@ -3,8 +3,8 @@
 #SBATCH --job-name=full_stats
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=48
-#SBATCH --time=00:30:00
+#SBATCH --ntasks-per-node=24
+#SBATCH --time=00:15:00
 #SBATCH --output=statistics_full.log
 
 log_message() {
