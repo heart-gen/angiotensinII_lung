@@ -66,7 +66,7 @@ calc_specificity_ratio <- function(cluster_avg_expr_df) {
 
 plot_overlap <- function(sce, model_tag, dirname = "figures") {
     outdir   <- file.path(dirname, model_tag)
-    dir.create(outdir, showWarnings=FALSE)
+    dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     seur <- as.Seurat(sce, counts = "counts", data = "logcounts")
     seur$leiden       <- forcats::fct_rev(factor(seur$leiden))
     seur$active.ident <- seur$leiden
@@ -137,7 +137,7 @@ run_de_analysis <- function(sce, cluster_key = "leiden",
 props_analysis <- function(sce, gene_name, model_tag,
                            transform = "asin", dirname = "cell_props") {
     outdir <- file.path(dirname, model_tag)
-    dir.create(outdir, showWarnings = FALSE)
+    dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
                                         # Generate mask
     expr_matrix <- counts(sce)[gene_name, , drop = FALSE]
@@ -229,7 +229,7 @@ select_markers <- function(cluster_avg_expr_df, specificity_ratio,
 plot_marker_expression <- function(sce, gene, cluster_key = "leiden",
                                    dirname = "marker_genes", model = "core") {
     outdir <- file.path(dirname, model)
-    dir.create(outdir, showWarnings = FALSE)
+    dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     df <- data.frame(
         expression = assay(sce, "logcounts")[gene, ],
         cluster = colData(sce)[[cluster_key]]
