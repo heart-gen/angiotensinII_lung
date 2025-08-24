@@ -11,10 +11,10 @@ suppressPackageStartupMessages({
     library("SingleCellExperiment")
 })
 
-local_setup <- function() {
-    system_readline <- "/usr/lib/libreadline.so.8"
-    Sys.setenv(LD_PRELOAD = system_readline)
-}
+## local_setup <- function() {
+##     system_readline <- "/usr/lib/libreadline.so.8"
+##     Sys.setenv(LD_PRELOAD = system_readline)
+## }
 
 save_plot <- function(p, fn, w, h){
     for(ext in c(".pdf", ".png")){
@@ -265,6 +265,7 @@ calculate_specificity_markers <- function(sce, model, cluster_key,
 for (model in c("core", "full")) {   
                                         # Load data
     sce <- load_data(model)
+    sce <- sce[!duplicated(rownames(sce)), ]
 
                                         # Plot overlap
     plot_overlap(sce, model)
