@@ -5,7 +5,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=4
 #SBATCH --time=00:10:00
-#SBATCH --output=volcano-plots_full.log
+#SBATCH --output=heatmap-plots_core.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"

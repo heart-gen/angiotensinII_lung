@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=core_heatmap
+#SBATCH --job-name=full_heatmap
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=16
 #SBATCH --time=00:10:00
-#SBATCH --output=volcano-plots_full.log
+#SBATCH --output=heatmap-plots_full.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -32,7 +32,7 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
-MODEL="core"
+MODEL="full"
 
 python ../_h/06.heatmap_plot.py \
        --adata "pericyte.hlca_${MODEL}.subclustered.h5ad" \
