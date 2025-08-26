@@ -34,7 +34,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run analysis ****"
 MODELS=('core' 'full')
 
-for model in "${MODELS}"; do
+for model in "${MODELS[@]}"; do
     python ../_h/07.trajectory_analysis.py \
 	   --model "${model}" --stroma --outdir "plots"
 done
