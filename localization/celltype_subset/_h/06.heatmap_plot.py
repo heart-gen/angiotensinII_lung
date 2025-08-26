@@ -50,7 +50,7 @@ def load_markers(adata, marker_file, n_top=5):
     return top_markers
 
 
-def filter_genes(adata: sc.AnnData, markers: pd.DataFrame) -> List[str]:
+def filter_genes(adata, markers):
     """Extract marker genes present in AnnData var_names."""
     genes = markers["feature_name"].unique()
     new_genes = list(genes) + ["AGTR1", "ACTA2"]
@@ -81,8 +81,7 @@ def plot_markers(adata, genes, groupby="leiden", prefix="markers", model="core",
         gene_symbols="feature_name", **kwargs), f'{prefix}.dotplot_subclusters')
 
 
-def main(adata_file: str, marker_file: str, cluster_key: str = "leiden",
-         n_top: int = 5, model: str = "core"):
+def main(adata_file, marker_file, cluster_key="leiden", n_top=5, model="core"):
     """Main pipeline to run heatmap plotting."""
     # Load inputs
     adata = sc.read_h5ad(adata_file)
