@@ -151,7 +151,7 @@ def plot_gene_dynamics(adata, genes, outdir="figures", model="core",
 
     fig, ax = plt.subplots(figsize=(8, 5), constrained_layout=True)
     for gene in genes:
-        if gene not in adata.var.feature_name:
+        if gene not in adata.var["feature_name"].values:
             print(f"Gene {gene} not found; skipping.")
             continue
         g_annot = pd.DataFrame(adata.var)
