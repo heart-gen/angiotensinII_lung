@@ -5,7 +5,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=24
 #SBATCH --time=01:30:00
-#SBATCH --output=trajectory.log
+#SBATCH --output=trajectory-stroma.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -32,8 +32,9 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
+MODELS=('core' 'full')
 
-for model in ["core", "full"]; do
+for model in "${MODELS}"; do
     python ../_h/07.trajectory_analysis.py \
 	   --model "${model}" --stroma --outdir "plots"
 done
