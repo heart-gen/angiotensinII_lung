@@ -7,14 +7,14 @@ Description:
     computes cluster-averaged expression,
     z-scores them, and plots a heatmap.
 """
-
+import session_info
 import scanpy as sc
 import pandas as pd
+from os import path
 import seaborn as sns
-from typing import List
 import matplotlib.pyplot as plt
 
-def load_markers(adata: sc.AnnData, marker_file: str, n_top: int = 5):
+def load_markers(adata, marker_file, n_top=5):
     """Load top N markers per cluster from TSV."""
     df = pd.read_csv(marker_file, sep="\t", index_col=0, nrows=100)
     clusters = sorted(set(col.split('_')[0] for col in df.columns))
@@ -36,8 +36,8 @@ def load_markers(adata: sc.AnnData, marker_file: str, n_top: int = 5):
 
     # Concatenate all clusters long DataFrames
     long_df = pd.concat(dfs, ignore_index=True)
-    g_annot = pd.DataFrame(adata.var.loc[:, ["feature_name"]].reset_index())
-    markers = g_annot.merge(long_df, left_on="ensembl_id", right_on="gene")
+    g_annot = pd.DataFrame(adata.var.loc[:, ["feature_name"]])
+    markers = g_annot.merge(long_df, left_index=True, right_on="gene")
 
     # Filter out mitochrondria genes
     markers = markers[~markers["feature_name"].str.startswith("MT-")].copy()
@@ -69,15 +69,15 @@ def plot_markers(adata, genes, groupby="leiden", prefix="markers", model="core",
             plt.savefig(path.join(outdir, model, f"{fname}.{ext}"), dpi=300,
                         bbox_inches='tight')
         plt.close()
-        
+
     save_plot(lambda **kwargs: sc.pl.heatmap(
-        adata, var_names=genes, groupby=groupby, cmap=cmap, title="Subclusters",
+        adata, var_names=genes, groupby=groupby, cmap=cmap, #title="Subclusters",
         use_raw=False, layer="logcounts", gene_symbols="feature_name", **kwargs),
               f'{prefix}.heatmap_subclusters')
 
     save_plot(lambda **kwargs: sc.pl.dotplot(
         adata, var_names=genes, groupby=groupby, dot_min=0.1, dot_max=1,
-        color_map=cmap, title="Subclusters", use_raw=False, layer="logcounts",
+        color_map=cmap, use_raw=False, layer="logcounts",
         gene_symbols="feature_name", **kwargs), f'{prefix}.dotplot_subclusters')
 
 
@@ -97,20 +97,27 @@ def main(adata_file: str, marker_file: str, cluster_key: str = "leiden",
         raise ValueError("No marker genes found in AnnData var_names!")
 
     # Plot results and save
-    plot_markers(adata, genes_to_plot, model)
+    plot_markers(adata, genes_to_plot, model=model)
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Plot heatmap of top marker genes per cluster.")
-    parser.add_argument("--cluster_key", default="leiden", help="Column in obs for cluster IDs")
-    parser.add_argument("--n_top", type=int, default=5, help="Number of top markers per cluster")
+    parser = argparse.ArgumentParser(
+        description="Plot heatmap of top marker genes per cluster.")
+    parser.add_argument("--cluster_key", default="leiden",
+                        help="Column in obs for cluster IDs")
+    parser.add_argument("--n_top", type=int, default=5,
+                        help="Number of top markers per cluster")
     parser.add_argument("--model", default="core",
                         help="Model type: 'core' or 'full'. Default: core")
     args = parser.parse_args()
 
+    # Main analysis
     adata_file = f"pericyte.hlca_{args.model}.subclustered.h5ad"
     marker_file = f"figures/{args.model}/rank_genes_groups_results.txt.gz"
     main(adata_file, marker_file, cluster_key=args.cluster_key,
          n_top=args.n_top, model=args.model)
+
+    # Session information
+    session_info.show()
