@@ -97,11 +97,13 @@ def compute_pseudotime(adata, root_cell=None, phate_key='X_phate',
 def _save_plot(plot_func, outdir, model, fname, **kwargs):
     formats = ["png", "pdf"]
     plt.figure()
-    plot_func(show=False, **kwargs)
+    ax = plot_func(show=False, **kwargs)
+    fig = ax.get_figure() if hasattr(ax, "get_figure") else plt.gcf()
     for ext in formats:
-        plt.savefig(path.join(outdir, model, f"{fname}.{ext}"), dpi=300,
-                    bbox_inches='tight')
-    plt.close()
+        plt.savefig(path.join(outdir, model, f"{fname}.{ext}"),
+                    dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
 
 def plot_pseudotime(adata, phate_key="X_phate", outdir="figures", model="core",
                     save_prefix="pseudotime", cmap="viridis"):
@@ -111,13 +113,13 @@ def plot_pseudotime(adata, phate_key="X_phate", outdir="figures", model="core",
     """
     ensure_dir(path.join(outdir, model))
     # PHATE
-    _save_plot(lambda *kwargs: sc.pl.embedding(
+    _save_plot(lambda **kwargs: sc.pl.embedding(
         adata, basis=phate_key, color="dpt_pseudotime", show=False,
         title="Pseudotime (PHATE)", cmap=cmap, **kwargs),
                outdir, model, f"{save_prefix}_phate")
 
     # Diffusion map
-    _save_plot(lambda *kwargs: sc.pl.embedding(
+    _save_plot(lambda **kwargs: sc.pl.embedding(
         adata, basis="X_diffmap", color="dpt_pseudotime", show=False,
         title="Pseudotime (Diffusion Map)", cmap=cmap, **kwargs),
                outdir, model, f"{save_prefix}_diffmap")
@@ -172,7 +174,8 @@ def plot_paga(adata, outdir="figures", model="core", save_prefix="paga"):
     """Optional: PAGA connectivity & positions (requires sc.tl.paga)."""
     ensure_dir(path.join(outdir, model))
     try:
-        _save_plot(lambda *kwags: sc.pl.paga(adata, show=False, **kwargs),
+        _save_plot(lambda **kwargs: sc.pl.paga(
+            adata, show=False, **kwargs),
                    outdir, model, f"{save_prefix}")
     except Exception as e:
         print(f"PAGA plot skipped: {e}")
