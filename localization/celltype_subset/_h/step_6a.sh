@@ -34,10 +34,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run subclustering ****"
 MODEL="core"
 
-python ../_h/06.heatmap_plot.py \
-       --adata "pericyte.hlca_${MODEL}.subclustered.h5ad" \
-       --markers "figures/${MODEL}/rank_genes_groups_results.txt.gz" \
-       --n_top 4 --save_prefix "marker-genes.${MODEL}"
+python ../_h/06.heatmap_plot.py --n_top 4 --model "${MODEL}"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

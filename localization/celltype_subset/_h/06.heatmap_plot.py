@@ -57,27 +57,32 @@ def filter_genes(adata: sc.AnnData, markers: pd.DataFrame) -> List[str]:
     return [g for g in new_genes if g in adata.var.feature_name.values]
 
 
-def plot_markers(adata: sc.AnnData, genes, groupby="leiden", prefix="markers", cmap="viridis"):
+def plot_markers(adata, genes, groupby="leiden", prefix="markers", model="core",
+                 cmap="viridis", outdir="figures", formats=('png', 'pdf')):
     """
     Generate both heatmap and dotplot for selected genes and save as PNG + PDF.
     """
-    sc.pl.heatmap(adata, var_names=genes, groupby=groupby, cmap=cmap, dpi=300,
-                  use_raw=False, layers="logcounts", gene_symbols="feature_name",
-                  show=False, save=f"_{prefix}_heatmap.png")
-    sc.pl.heatmap(adata, var_names=genes, groupby=groupby, cmap=cmap, use_raw=False,
-                  layers="logcounts", gene_symbols="feature_name", show=False,
-                  save=f"_{prefix}_heatmap.pdf")
+    def save_plot(plot_func, fname, **kwargs):
+        plt.figure()
+        plot_func(show=False, **kwargs)
+        for ext in formats:
+            plt.savefig(path.join(outdir, model, f"{fname}.{ext}"), dpi=300,
+                        bbox_inches='tight')
+        plt.close()
+        
+    save_plot(lambda **kwargs: sc.pl.heatmap(
+        adata, var_names=genes, groupby=groupby, cmap=cmap, title="Subclusters",
+        use_raw=False, layer="logcounts", gene_symbols="feature_name", **kwargs),
+              f'{prefix}.heatmap_subclusters')
 
-    sc.pl.dotplot(adata, var_names=genes, groupby=groupby, use_raw=False, show=False,
-                  layers="logcounts", dpi=300, dot_min=0.1, dot_max=1, color_map=cmap,
-                  gene_symbols="feature_name", save=f"{prefix}_dotplot.png")
-    sc.pl.dotplot(adata, var_names=genes, groupby=groupby, use_raw=False, show=False,
-                  layers="logcounts", dot_min=0.1, dot_max=1, color_map=cmap,
-                  gene_symbols="feature_name", save=f"{prefix}_dotplot.pdf")
+    save_plot(lambda **kwargs: sc.pl.dotplot(
+        adata, var_names=genes, groupby=groupby, dot_min=0.1, dot_max=1,
+        color_map=cmap, title="Subclusters", use_raw=False, layer="logcounts",
+        gene_symbols="feature_name", **kwargs), f'{prefix}.dotplot_subclusters')
 
 
 def main(adata_file: str, marker_file: str, cluster_key: str = "leiden",
-         n_top: int = 5, save_prefix: str = "markers"):
+         n_top: int = 5, model: str = "core"):
     """Main pipeline to run heatmap plotting."""
     # Load inputs
     adata = sc.read_h5ad(adata_file)
@@ -92,20 +97,20 @@ def main(adata_file: str, marker_file: str, cluster_key: str = "leiden",
         raise ValueError("No marker genes found in AnnData var_names!")
 
     # Plot results and save
-    plot_markers(adata, genes_to_plot, prefix=save_prefix)
+    plot_markers(adata, genes_to_plot, model)
 
 
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Plot heatmap of top marker genes per cluster.")
-    parser.add_argument("--adata", required=True, help="Path to AnnData (.h5ad) file")
-    parser.add_argument("--markers", required=True, help="Path to TSV marker gene file")
     parser.add_argument("--cluster_key", default="leiden", help="Column in obs for cluster IDs")
     parser.add_argument("--n_top", type=int, default=5, help="Number of top markers per cluster")
-    parser.add_argument("--save_prefix", default="marker_genes_heatmap",
-                        help="Prefix for saved heatmap files (PDF and PNG)")
+    parser.add_argument("--model", default="core",
+                        help="Model type: 'core' or 'full'. Default: core")
     args = parser.parse_args()
 
-    main(args.adata, args.markers, cluster_key=args.cluster_key, n_top=args.n_top,
-         save_prefix=args.save_prefix)
+    adata_file = f"pericyte.hlca_{args.model}.subclustered.h5ad"
+    marker_file = f"figures/{args.model}/rank_genes_groups_results.txt.gz"
+    main(adata_file, marker_file, cluster_key=args.cluster_key,
+         n_top=args.n_top, model=args.model)
