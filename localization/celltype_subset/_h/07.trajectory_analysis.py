@@ -114,13 +114,13 @@ def plot_pseudotime(adata, phate_key="X_phate", outdir="figures", model="core",
     ensure_dir(path.join(outdir, model))
     # PHATE
     _save_plot(lambda **kwargs: sc.pl.embedding(
-        adata, basis=phate_key, color="dpt_pseudotime", show=False,
+        adata, basis=phate_key, color="dpt_pseudotime",
         title="Pseudotime (PHATE)", cmap=cmap, **kwargs),
                outdir, model, f"{save_prefix}_phate")
 
     # Diffusion map
     _save_plot(lambda **kwargs: sc.pl.embedding(
-        adata, basis="X_diffmap", color="dpt_pseudotime", show=False,
+        adata, basis="X_diffmap", color="dpt_pseudotime",
         title="Pseudotime (Diffusion Map)", cmap=cmap, **kwargs),
                outdir, model, f"{save_prefix}_diffmap")
 
@@ -151,10 +151,12 @@ def plot_gene_dynamics(adata, genes, outdir="figures", model="core",
 
     fig, ax = plt.subplots(figsize=(8, 5), constrained_layout=True)
     for gene in genes:
-        if gene not in adata.var_names:
+        if gene not in adata.var.feature_name:
             print(f"Gene {gene} not found; skipping.")
             continue
-        vals = _get_layer_or_X(adata, gene, prefer_layer=prefer_layer)[order_pt]
+        g_annot = pd.DataFrame(adata.var)
+        new_gene = g_annot[(g_annot["feature_name"] == gene)].index[0]
+        vals = _get_layer_or_X(adata, new_gene, prefer_layer=prefer_layer)[order_pt]
         # simple rolling mean
         kernel = np.ones(win) / win
         smooth = np.convolve(vals, kernel, mode="same")
@@ -174,8 +176,7 @@ def plot_paga(adata, outdir="figures", model="core", save_prefix="paga"):
     """Optional: PAGA connectivity & positions (requires sc.tl.paga)."""
     ensure_dir(path.join(outdir, model))
     try:
-        _save_plot(lambda **kwargs: sc.pl.paga(
-            adata, show=False, **kwargs),
+        _save_plot(lambda **kwargs: sc.pl.paga(adata, **kwargs),
                    outdir, model, f"{save_prefix}")
     except Exception as e:
         print(f"PAGA plot skipped: {e}")
