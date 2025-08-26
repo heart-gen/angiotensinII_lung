@@ -5,6 +5,7 @@ Trajectory analysis with PHATE/Diffusion Map pseudotime
 - Model-aware I/O (core/full)
 - Side-by-side pseudotime plots (PHATE & Diffusion Map)
 - Optional smoothed gene dynamics along pseudotime
+- Works with stromal and pericytes subclusters
 """
 import argparse
 import numpy as np
@@ -182,6 +183,8 @@ def main():
     parser.add_argument("--model", type=str, default="core",
                         choices=["core", "full"],
                         help="Model type: 'core' or 'full'. Default: core")
+    parser.add_argument("--stroma", action="store_true",
+                        help="Flag to indicate input data is stroma (default: False)")
     parser.add_argument("--outdir", type=str, default="figures",
                         help="Output directory for figures")
     parser.add_argument("--genes", type=str, nargs="*", default=["ACTA2", "AGTR1"],
@@ -190,16 +193,26 @@ def main():
 
     set_seed(13)
 
+    # Load data depending on stroma flag
+    if args.stroma:
+        cluster_key = "subclusters"; knn=15
+        input_file = f"stroma.hlca_{args.model}.clustered.h5ad"
+        output_file = f"stroma.hlca_{args.model}.clustered.analysis.h5ad"
+    else:
+        cluster_key = "leiden"; knn=20
+        input_file = f'pericyte.hlca_{args.model}.subclustered.h5ad'
+        output_file = f'pericyte.hlca_{args.model}.subclustered.analysis.h5ad'
+
     # Load data
-    adata = load_adata(f'pericyte.hlca_{args.model}.subclustered.h5ad')
+    adata = load_adata(input_file)
 
     # Ensure PHATE exists (compute if needed)
     adata = ensure_phate(adata, use_rep="X_pca_harmony",
-                         knn=15, decay=20, seed=13)
+                         knn=knn, decay=15, seed=13)
     
     # Trajectory inference & pseudotime
     adata = compute_pseudotime(adata, phate_key="X_phate",
-                               groups_key="leiden", seed=13)
+                               groups_key=cluster_key, seed=13)
 
     # Plots
     plot_pseudotime(adata, phate_key="X_phate",
@@ -209,7 +222,7 @@ def main():
     plot_paga(adata, outdir=args.outdir, model=args.model)
     
     # Save processed data
-    adata.write(f'pericyte.hlca_{args.model}.subclustered.analysis.h5ad')
+    adata.write(output_file)
     
     # Session information
     session_info.show()

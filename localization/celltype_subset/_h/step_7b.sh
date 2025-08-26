@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=trajectory_pericyte
+#SBATCH --job-name=trajectory_stroma
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=16
-#SBATCH --time=00:45:00
-#SBATCH --output=trajectory-pericyte.log
+#SBATCH --ntasks-per-node=24
+#SBATCH --time=01:30:00
+#SBATCH --output=trajectory.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -34,7 +34,8 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run analysis ****"
 
 for model in ["core", "full"]; do
-    python ../_h/07.trajectory_analysis.py --model "${model}"
+    python ../_h/07.trajectory_analysis.py \
+	   --model "${model}" --stroma --outdir "plots"
 done
 
 if [ $? -ne 0 ]; then
