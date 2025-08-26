@@ -1,0 +1,69 @@
+2025-08-26 12:33:02 - **** Job starts ****
+2025-08-26 12:33:02 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34476743
+Job name: trajectory_pericyte
+Node name: 
+Hostname: r014
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-08-26 12:33:03 - **** Loading mamba environment ****
+2025-08-26 12:33:03 - **** Run analysis ****
+computing neighbors
+    finished (0:00:12)
+computing Diffusion Maps using n_comps=15(=n_dcs)
+computing transitions
+    finished (0:00:00)
+    eigenvalues of transition matrix
+    [1.         0.9998887  0.99965775 0.99933654 0.9987203  0.99819964
+     0.99742675 0.99671394 0.9957818  0.9946462  0.99392325 0.992802
+     0.99130946 0.99032456 0.9892382 ]
+    finished (0:00:00)
+running PAGA
+    finished (0:00:00)
+computing Diffusion Pseudotime using n_dcs=10
+    finished (0:00:00)
+-----
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.0.3
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-08-26 12:34
+computing neighbors
+    finished (0:00:25)
+computing Diffusion Maps using n_comps=15(=n_dcs)
+computing transitions
+    finished (0:00:00)
+    eigenvalues of transition matrix
+    [1.         0.999944   0.9997354  0.99959326 0.999466   0.9991095
+     0.9988172  0.998723   0.99839413 0.99797636 0.99778306 0.9975278
+     0.9970286  0.99686    0.99643093]
+    finished (0:00:00)
+running PAGA
+    finished (0:00:00)
+computing Diffusion Pseudotime using n_dcs=10
+    finished (0:00:00)
+-----
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.0.3
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-08-26 12:34
+2025-08-26 12:34:50 - **** Job ends ****
