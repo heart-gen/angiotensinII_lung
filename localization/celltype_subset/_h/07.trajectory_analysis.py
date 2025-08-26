@@ -14,15 +14,16 @@ import scanpy as sc
 import session_info
 from os import makedirs, path
 import matplotlib.pyplot as plt
+from scipy.sparse import issparse
 
-def set_seed(seed: int = 13):
+def set_seed(seed=13):
     np.random.seed(seed)
     try:
         import random
         random.seed(seed)
     except Exception:
         pass
-    sc.settings.set_figure_params(dpi=100)
+    sc.settings.set_figure_params(dpi=300)
     sc.settings.verbosity = 2
 
 
@@ -93,12 +94,14 @@ def compute_pseudotime(adata, root_cell=None, phate_key='X_phate',
     return adata
 
 
-def _save_fig(fig, out_png, out_pdf):
-    ensure_dir(path.dirname(out_png))
-    fig.savefig(out_png, dpi=300, bbox_inches="tight")
-    fig.savefig(out_pdf, bbox_inches="tight")
-    plt.close(fig)
-
+def _save_plot(plot_func, outdir, model, fname, **kwargs):
+    formats = ["png", "pdf"]
+    plt.figure()
+    plot_func(show=False, **kwargs)
+    for ext in formats:
+        plt.savefig(path.join(outdir, model, f"{fname}.{ext}"), dpi=300,
+                    bbox_inches='tight')
+    plt.close()
 
 def plot_pseudotime(adata, phate_key="X_phate", outdir="figures", model="core",
                     save_prefix="pseudotime", cmap="viridis"):
@@ -106,22 +109,18 @@ def plot_pseudotime(adata, phate_key="X_phate", outdir="figures", model="core",
     Plot pseudotime on PHATE and Diffusion Map embeddings (side by side).
     Saves as PNG and PDF.
     """
-    ensure_dir(f"{outdir}/{model}")
+    ensure_dir(path.join(outdir, model))
     # PHATE
-    fig1 = sc.pl.embedding(
+    _save_plot(lambda *kwargs: sc.pl.embedding(
         adata, basis=phate_key, color="dpt_pseudotime", show=False,
-        title="Pseudotime (PHATE)", cmap=cmap
-    )
-    _save_fig(fig1, path.join(outdir, model, f"{save_prefix}_phate.png"),
-              path.join(outdir, model, f"{save_prefix}_phate.pdf"))
+        title="Pseudotime (PHATE)", cmap=cmap, **kwargs),
+               outdir, model, f"{save_prefix}_phate")
 
     # Diffusion map
-    fig2 = sc.pl.embedding(
+    _save_plot(lambda *kwargs: sc.pl.embedding(
         adata, basis="X_diffmap", color="dpt_pseudotime", show=False,
-        title="Pseudotime (Diffusion Map)", cmap=cmap
-    )
-    _save_fig(fig2, path.join(outdir, model, f"{save_prefix}_diffmap.png"),
-              path.join(outdir, model, f"{save_prefix}_diffmap.pdf"))
+        title="Pseudotime (Diffusion Map)", cmap=cmap, **kwargs),
+               outdir, model, f"{save_prefix}_diffmap")
 
 
 def _get_layer_or_X(adata, gene, prefer_layer="logcounts"):
@@ -130,7 +129,7 @@ def _get_layer_or_X(adata, gene, prefer_layer="logcounts"):
         X = adata[:, gene].layers[prefer_layer]
     else:
         X = adata[:, gene].X
-    return X.toarray().ravel() if hasattr(X, "toarray") else np.ravel(X)
+    return X.toarray().ravel() if issparse(X) else np.ravel(X)
 
 
 def plot_gene_dynamics(adata, genes, outdir="figures", model="core",
@@ -140,7 +139,7 @@ def plot_gene_dynamics(adata, genes, outdir="figures", model="core",
     Smoothed gene expression (rolling mean) along pseudotime.
     - window size = max(5, floor(window_frac * n_cells))
     """
-    ensure_dir(f"{outdir}/{model}")
+    ensure_dir(path.join(outdir, model))
     if "dpt_pseudotime" not in adata.obs:
         raise KeyError("dpt_pseudotime not found; run compute_pseudotime first.")
     pseudotime = adata.obs["dpt_pseudotime"].values
@@ -162,17 +161,19 @@ def plot_gene_dynamics(adata, genes, outdir="figures", model="core",
     ax.set_xlabel("Pseudotime (DPT)")
     ax.set_ylabel("Smoothed Expression")
     ax.legend(frameon=False)
-    _save_fig(fig, path.join(outdir, model, f"{save_prefix}.png"),
-              path.join(outdir, model, f"{save_prefix}.pdf"))
+    plt.savefig(path.join(outdir, model, f"{save_prefix}.png"), dpi=300,
+                bbox_inches='tight')
+    plt.savefig(path.join(outdir, model, f"{save_prefix}.pdf"),
+                bbox_inches='tight')
+    plt.close(fig)
 
 
 def plot_paga(adata, outdir="figures", model="core", save_prefix="paga"):
     """Optional: PAGA connectivity & positions (requires sc.tl.paga)."""
-    ensure_dir(f"{outdir}/{model}")
+    ensure_dir(path.join(outdir, model))
     try:
-        fig = sc.pl.paga(adata, show=False, return_fig=True)
-        _save_fig(fig, path.join(outdir, model, f"{save_prefix}.png"),
-                  path.join(outdir, model, f"{save_prefix}.pdf"))
+        _save_plot(lambda *kwags: sc.pl.paga(adata, show=False, **kwargs),
+                   outdir, model, f"{save_prefix}")
     except Exception as e:
         print(f"PAGA plot skipped: {e}")
 
