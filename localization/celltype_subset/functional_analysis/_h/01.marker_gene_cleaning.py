@@ -144,15 +144,9 @@ def main(model):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Cluster-specific gene program extraction and analysis with NMF and Factor Analysis"
-    )
+    parser = argparse.ArgumentParser(description="Cluster specific analysis")
     parser.add_argument("--model", type=str, default="core",
                         help="Model type: 'core' or 'full'. Default: core")
     args = parser.parse_args()
 
-    # Load data
-    fname = f'../../_m/pericyte.hlca_{args.model}.subclustered.analysis.h5ad'
-    adata = sc.read_h5ad(fname)
-    outdir = path.join(args.output_dir, args.model)
-    main(adata, args.cluster_key, outdir)
+    main(args.model)
