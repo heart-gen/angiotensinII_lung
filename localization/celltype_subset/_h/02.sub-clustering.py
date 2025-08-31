@@ -98,11 +98,12 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
 
     # Plot clusters
     save_plot(lambda **kwargs: sc.pl.umap(
-        adata, color=cluster_key, title='Subclusters', **kwargs),
+        adata, color=cluster_key, title='Subclusters',
+        layer="logcounts", **kwargs),
               f'{cluster_key}.umap_clusters')
     save_plot(lambda **kwargs: sc.pl.embedding(
         adata, basis='X_phate', color=cluster_key, title='Subclusters',
-        **kwargs), f'{cluster_key}.phate_clusters')
+        layer="logcounts", **kwargs), f'{cluster_key}.phate_clusters')
 
     # Plot markers
     for gene in marker_genes:
@@ -110,11 +111,13 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         if ensembl_id in adata.var_names:
             save_plot(lambda **kwargs: sc.pl.umap(
                 adata, color=ensembl_id, title=f'UMAP: {gene} expression',
-                **kwargs), f'{gene.lower()}_umap.{cluster_key}')
+                layer="logcounts", **kwargs),
+                      f'{gene.lower()}_umap.{cluster_key}')
             save_plot(lambda **kwargs: sc.pl.embedding(
                 adata, basis='X_phate', color=ensembl_id,
                 title=f'PHATE: {gene} expression',
-                **kwargs), f'{gene.lower()}_phate.{cluster_key}')
+                layer="logcounts", **kwargs),
+                      f'{gene.lower()}_phate.{cluster_key}')
         else:
             print(f"Warning: Gene {gene} not found in dataset")
 
