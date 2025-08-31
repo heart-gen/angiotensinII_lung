@@ -136,7 +136,7 @@ def main(model):
     split_rank_results(res_file, adata, outdir)
 
     # Pathway heatmap
-    pathway_heatmap(marker_dir, outdir=path.join("figures", model),
+    pathway_heatmap(marker_dir, path.join("figures", model),
                     "pathway_heatmap")
 
     # Session information
