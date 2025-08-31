@@ -4,7 +4,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=4
-#SBATCH --time=00:30:00
+#SBATCH --time=00:10:00
 #SBATCH --output=marker_core.log
 
 log_message() {

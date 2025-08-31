@@ -123,7 +123,7 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
     enrich_df = pd.DataFrame(enrich_mat).fillna(0)
 
     # Plot heatmap (top 10)
-    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(8, 10))
+    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(12, 8))
     plt.title("Top 10 Pathway Enrichment per Cluster")
 
     # Save plot
