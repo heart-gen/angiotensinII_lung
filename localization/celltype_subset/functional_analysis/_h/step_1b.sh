@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=full_stats
+#SBATCH --job-name=full_markers
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=24
-#SBATCH --time=00:15:00
-#SBATCH --output=statistics_full.log
+#SBATCH --ntasks-per-node=16
+#SBATCH --time=00:30:00
+#SBATCH --output=marker_full.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -33,7 +33,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/03.pericyte_stats.py --model "full"
+python ../_h/01.marker_gene_cleaning.py --model "full"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
