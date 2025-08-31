@@ -102,10 +102,10 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
             )
             results.append(enr.results)
             # Keep only top 10 terms for plotting
-            top10 = (enr.results\
-                     .sort_values("Adjusted P-value")\
-                     .drop_duplicates(subset=["Term"])\
-                     .head(10).set_index("Term"))
+            enr_df = enr.results[(enr.results["Gene_set"] != "KEGG_2021_Human")].copy()
+            top10 = enr_df.sort_values("Adjusted P-value")\
+                          .drop_duplicates(subset=["Term"])\
+                          .head(10).set_index("Term")
             enrich_mat[cl] = top10["-log10FDR"]
 
     if not enrich_mat:
@@ -123,7 +123,7 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
     enrich_df = pd.DataFrame(enrich_mat).fillna(0)
 
     # Plot heatmap (top 10)
-    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(16,12))
+    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(8, 10))
     plt.title("Top 10 Pathway Enrichment per Cluster")
 
     # Save plot
