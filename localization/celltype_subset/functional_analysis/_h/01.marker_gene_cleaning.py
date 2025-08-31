@@ -46,7 +46,7 @@ def split_rank_results(res_file, adata, outdir="cluster_markers", uniq_thresh=No
     # Filter out ribosomal and mitochondrial
     mask_ribo = combined["gene_name"].str.match(r"^RP[SL]")
     mask_mt = combined["gene_name"].str.match(r"^MT-")
-    combined = combined[~(mask_ribo | mask_mt)]
+    combined = combined[~(mask_ribo | mask_mt)].copy()
 
     # Determine uniqueness threshold
     if uniq_thresh is None:
@@ -78,9 +78,10 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
                'GO_Molecular_Function_2021',
                'KEGG_2021_Human']
     filenames = [path.join(marker_dir, f) for f in listdir(marker_dir) 
-                 if f.startswith("cluster_") and f.endswith(".tsv")]
+                 if f.startswith("cluster_") and f.endswith("all.tsv")]
     filenames = sorted(filenames)
 
+    results = []
     enrich_mat = {}
     for fn in filenames:
         # Load data
@@ -95,23 +96,35 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
         # Run enrichment
         enr = gp.enrichr(gene_list=genes, gene_sets=gene_sets, organism="Human")
         if enr.results is not None and not enr.results.empty:
-            enr.results["-log10FDR"] = -np.log10(enr.results["Adjusted P-value"].clip(lower=1e-300))
-            enr_unique = enr.results.drop_duplicates(subset=["Term"]).set_index("Term")
-            enrich_mat[cl] = enr_unique["-log10FDR"]
+            enr.results["cluster"] = cl
+            enr.results["-log10FDR"] = -np.log10(
+                enr.results["Adjusted P-value"].clip(lower=1e-300)
+            )
+            results.append(enr.results)
+            # Keep only top 10 terms for plotting
+            top10 = (enr.results\
+                     .sort_values("Adjusted P-value")\
+                     .drop_duplicates(subset=["Term"])\
+                     .head(10).set_index("Term"))
+            enrich_mat[cl] = top10["-log10FDR"]
 
     if not enrich_mat:
         print("No enrichment results found.")
         return
 
+    # Combine and save results
+    res_df = pd.concat(results, ignore_index=True)
+    makedirs(outdir, exist_ok=True)
+    out_file = path.join(outdir, f"{prefix}_all_results.tsv")
+    res_df.to_csv(out_file, sep="\t", index=False)
+    print(f"Saved full enrichment results to {out_file}")
+    
     # Combine into one matrix
     enrich_df = pd.DataFrame(enrich_mat).fillna(0)
 
-    # Make output directory
-    makedirs(outdir, exist_ok=True)
-    
-    # Plot heatmap
-    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(10,12))
-    plt.title("Pathway Enrichment Heatmap")
+    # Plot heatmap (top 10)
+    g = sns.clustermap(enrich_df, cmap="viridis", figsize=(16,12))
+    plt.title("Top 10 Pathway Enrichment per Cluster")
 
     # Save plot
     png_file = path.join(outdir, f"{prefix}.png")
@@ -124,8 +137,7 @@ def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
 
 def main(model):
     # General outputs
-    marker_dir = "cluster_markers"
-    outdir = path.join(marker_dir, model)
+    outdir = path.join("cluster_markers", model)
     adata_file = f"../../_m/pericyte.hlca_{model}.subclustered.analysis.h5ad"
     res_file = f"../../_m/figures/{model}/rank_genes_groups_results.txt.gz"
 
@@ -136,7 +148,7 @@ def main(model):
     split_rank_results(res_file, adata, outdir)
 
     # Pathway heatmap
-    pathway_heatmap(marker_dir, path.join("figures", model),
+    pathway_heatmap(outdir, path.join("figures", model),
                     "pathway_heatmap")
 
     # Session information
