@@ -58,7 +58,7 @@ def split_rank_results(res_file, adata, outdir="cluster_markers", uniq_thresh=No
 
     # Export per cluster
     for cl in clusters:
-        sub = combined[combined["clusterr"] == cl].sort_values("pval")
+        sub = combined[combined["cluster"] == cl].sort_values("pval")
         # All DEGs
         sub.to_csv(path.join(outdir, f"cluster_{cl}.all.tsv"),
                    sep="\t", index=False)
