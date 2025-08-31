@@ -57,7 +57,7 @@ def split_rank_results(res_file, adata, outdir="cluster_markers", uniq_thresh=No
     mcluster_genes = counts[counts > uniq_thresh].index
 
     # Export per cluster
-    for cl inclusters:
+    for cl in clusters:
         sub = combined[combined["clusterr"] == cl].sort_values("pval")
         # All DEGs
         sub.to_csv(path.join(outdir, f"cluster_{cl}.all.tsv"),
@@ -67,7 +67,7 @@ def split_rank_results(res_file, adata, outdir="cluster_markers", uniq_thresh=No
         sub_unique.to_csv(path.join(outdir, f"cluster_{cl}.unique.tsv"),
                           sep="\t", index=False)
         print(f"Saved per-cluster 'all' and 'unique' marker files to {outdir}")
-        
+
 
 def pathway_heatmap(marker_dir, outdir="figures", prefix="pathway_heatmap"):
     """
