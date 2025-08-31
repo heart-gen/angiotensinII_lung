@@ -1,0 +1,70 @@
+2025-08-31 17:25:45 - **** Job starts ****
+2025-08-31 17:25:45 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34523709
+Job name: full_subset
+Node name: 
+Hostname: e004
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-08-31 17:25:46 - **** Loading mamba environment ****
+2025-08-31 17:25:46 - **** Run subsetting ****
+2025-08-31 17:38:02,091 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-08-31 17:38:03,990 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-08-31 17:38:04,057 - harmonypy - INFO - Iteration 1 of 50
+2025-08-31 17:38:13,363 - harmonypy - INFO - Iteration 2 of 50
+2025-08-31 17:38:22,703 - harmonypy - INFO - Iteration 3 of 50
+2025-08-31 17:38:32,039 - harmonypy - INFO - Iteration 4 of 50
+2025-08-31 17:38:41,399 - harmonypy - INFO - Iteration 5 of 50
+2025-08-31 17:38:50,688 - harmonypy - INFO - Iteration 6 of 50
+2025-08-31 17:39:00,065 - harmonypy - INFO - Iteration 7 of 50
+2025-08-31 17:39:08,431 - harmonypy - INFO - Iteration 8 of 50
+2025-08-31 17:39:16,442 - harmonypy - INFO - Iteration 9 of 50
+2025-08-31 17:39:24,413 - harmonypy - INFO - Iteration 10 of 50
+2025-08-31 17:39:32,426 - harmonypy - INFO - Iteration 11 of 50
+2025-08-31 17:39:39,647 - harmonypy - INFO - Iteration 12 of 50
+2025-08-31 17:39:48,043 - harmonypy - INFO - Iteration 13 of 50
+2025-08-31 17:39:55,841 - harmonypy - INFO - Iteration 14 of 50
+2025-08-31 17:40:04,043 - harmonypy - INFO - Iteration 15 of 50
+2025-08-31 17:40:11,065 - harmonypy - INFO - Iteration 16 of 50
+2025-08-31 17:40:17,928 - harmonypy - INFO - Iteration 17 of 50
+2025-08-31 17:40:24,766 - harmonypy - INFO - Converged after 17 iterations
+2025-08-31 17:50:46,218 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-08-31 17:51:20,388 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-08-31 17:51:22,083 - harmonypy - INFO - Iteration 1 of 50
+2025-08-31 17:57:36,829 - harmonypy - INFO - Iteration 2 of 50
+2025-08-31 18:03:52,253 - harmonypy - INFO - Iteration 3 of 50
+2025-08-31 18:10:07,255 - harmonypy - INFO - Iteration 4 of 50
+2025-08-31 18:16:21,942 - harmonypy - INFO - Iteration 5 of 50
+2025-08-31 18:22:37,163 - harmonypy - INFO - Iteration 6 of 50
+2025-08-31 18:28:40,999 - harmonypy - INFO - Iteration 7 of 50
+2025-08-31 18:34:55,429 - harmonypy - INFO - Iteration 8 of 50
+2025-08-31 18:39:30,590 - harmonypy - INFO - Iteration 9 of 50
+2025-08-31 18:45:44,749 - harmonypy - INFO - Iteration 10 of 50
+2025-08-31 18:51:56,847 - harmonypy - INFO - Iteration 11 of 50
+2025-08-31 18:56:31,086 - harmonypy - INFO - Iteration 12 of 50
+2025-08-31 19:02:42,901 - harmonypy - INFO - Iteration 13 of 50
+2025-08-31 19:08:54,839 - harmonypy - INFO - Iteration 14 of 50
+2025-08-31 19:13:50,611 - harmonypy - INFO - Iteration 15 of 50
+2025-08-31 19:19:41,058 - harmonypy - INFO - Iteration 16 of 50
+2025-08-31 19:25:53,351 - harmonypy - INFO - Converged after 16 iterations
+Model selected: full
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_full.dataset.h5ad
+Warning: Missing batch variables: data
+Saved: stroma.hlca_full.dataset.h5ad
+-----
+harmonypy   0.0.10
+pyhere      1.0.3
+scanpy      1.11.4
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-08-31 19:26
+2025-08-31 19:27:06 - **** Job ends ****
