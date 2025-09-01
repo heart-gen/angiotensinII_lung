@@ -122,10 +122,15 @@ def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
 
     # Label top significant genes
     top_hits = cluster_df[sig_mask].nlargest(top_n_labels, '-log10_fdr')
-    texts = [plt.text(row['logfoldchanges'], row['-log10_fdr'],
-                      row['gene_name'], fontsize=7, ha='right')
-             for _, row in top_hits.iterrows()]
-    adjust_text(texts, arrowprops=dict(arrowstyle='-', color='black', lw=0.5))
+    texts = [
+        plt.text(row['logfoldchanges'] + np.random.uniform(-0.05, 0.05),
+                 row['-log10_fdr'] + np.random.uniform(-0.05, 0.05),
+                 row['gene_name'], fontsize=7, ha='right')
+        for _, row in top_hits.iterrows()
+    ]
+    adjust_text(texts, arrowprops=dict(arrowstyle='-', color='black', lw=0.5),
+                expand_points=(1.2, 1.4), expand_text=(1.2, 1.4),
+                force_text=0.8, force_points=0.3, lim=500)
 
     outfile = path.join(outdir, model, f"volcano_cluster_{cluster_id}.png")
     plt.tight_layout()
