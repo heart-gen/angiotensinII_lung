@@ -176,8 +176,29 @@ def plot_paga(adata, outdir="figures", model="core", save_prefix="paga"):
     """Optional: PAGA connectivity & positions (requires sc.tl.paga)."""
     ensure_dir(path.join(outdir, model))
     try:
-        _save_plot(lambda **kwargs: sc.pl.paga(adata, **kwargs),
-                   outdir, model, f"{save_prefix}")
+        # PAGA overlap on UMAP
+        sc.pl.umap(adata, color=None, alpha=0.05, size=5, show=False)
+        sc.pl.paga(adata, layout="fa", random_state=13, threshold=0.05, show=False)
+        plt.savefig(
+            path.join(outdir, model, f"{save_prefix}_on_umap.png"),
+            dpi=300, bbox_inches="tight"
+        )
+        plt.savefig(
+            path.join(outdir, model, f"{save_prefix}_on_umap.pdf"),
+            bbox_inches="tight"
+        )
+        plt.close()
+        # Standalone PAGA
+        fig, ax = plt.subplots(figsize=(20, 20))
+        sc.pl.paga(
+            adata, layout="fa", random_state=13, node_size_scale=1.2,
+            node_size_power=0.5, font_size=7
+        )
+        plt.savefig(path.join(outdir, model, f"{save_prefix}_graph.png"),
+                    dpi=300, bbox_inches="tight")
+        plt.savefig(path.join(outdir, model, f"{save_prefix}_graph.pdf"),
+                    bbox_inches="tight")
+        plt.close(fig)
     except Exception as e:
         print(f"PAGA plot skipped: {e}")
 
