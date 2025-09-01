@@ -88,7 +88,7 @@ def per_cluster_stats(counts: pd.DataFrame) -> pd.DataFrame:
     """
     col_totals = counts.sum(axis=0).values.astype(float)
     grand_total = col_totals.sum()
-    
+
     rows = []
     for core, obs in counts.iterrows():
         obs = obs.astype(float)
@@ -137,7 +137,7 @@ def save_heatmap(props: pd.DataFrame, full_disease_frac: pd.Series, out_png: str
         for col in props.columns
     ]
 
-    fig, ax = plt.subplots(figsize=(1.4*props.shape[1] + 3, 0.5*props.shape[0] + 3))
+    fig, ax = plt.subplots(figsize=(1.4*props.shape[1] + 1, 0.5*props.shape[0] + 1))
     im = ax.imshow(props.values, aspect="auto", vmin=0, vmax=1)
     ax.set_xticks(range(props.shape[1]))
     ax.set_xticklabels(col_labels, rotation=45, ha="right")
@@ -154,7 +154,7 @@ def save_heatmap(props: pd.DataFrame, full_disease_frac: pd.Series, out_png: str
             val = props.values[i, j]
             if val >= 0.02:  # annotate only non-trivial
                 ax.text(j, i, f"{val*100:.0f}%", ha="center", va="center",
-                        fontsize=8, color="white" if val > 0.5 else "black")
+                        fontsize=8, color="white" if val < 0.5 else "black")
 
     fig.tight_layout()
     for path in [out_png, out_pdf]:
@@ -162,13 +162,13 @@ def save_heatmap(props: pd.DataFrame, full_disease_frac: pd.Series, out_png: str
     plt.close(fig)
 
 
-def _interp_color(a: float, c0=(0, 0, 1), c1=(1, 0, 0)) -> str:
+def _interp_color(a: float, c0=(0, 0, 1), c1=(1, 0, 0), alpha=0.5) -> str:
     """Linear interpolate between blue (control) and red (disease) in RGB, return hex."""
     a = float(np.clip(a, 0, 1))
     r = c0[0] + a * (c1[0] - c0[0])
     g = c0[1] + a * (c1[1] - c0[1])
     b = c0[2] + a * (c1[2] - c0[2])
-    return to_hex((r, g, b))
+    return f"rgba({int(r*255)}, {int(g*255)}, {int(b*255)}, {alpha})"
 
 
 def make_sankey(counts: pd.DataFrame, full_disease_frac: pd.Series, out_html: str,
@@ -200,7 +200,7 @@ def make_sankey(counts: pd.DataFrame, full_disease_frac: pd.Series, out_html: st
             tgt.append(len(core_nodes) + j)         # full node index
             val.append(float(v))
             # color like destination node, semi-transparent
-            link_colors.append(_interp_color(full_disease_frac.get(f, 0.0)) + "80")  # add alpha
+            link_colors.append(_interp_color(full_disease_frac.get(f, 0.0), alpha=0.5))
 
     fig = go.Figure(
         data=[go.Sankey(
@@ -216,9 +216,9 @@ def make_sankey(counts: pd.DataFrame, full_disease_frac: pd.Series, out_html: st
     fig.write_html(out_html)
     if out_png:
         try:
-            fig.write_image(out_png, scale=2)
-        except Exception:
-            print("Kaleido not available; saved HTML only.")
+            fig.write_image(out_png, scale=2, engine="kaleido")
+        except Exception as e:
+            print(f"[WARN] Could not save PNG: {e}")
 
 
 def plot_umaps(adata_full: sc.AnnData, df_labels: pd.DataFrame, cluster_key: str,
@@ -243,7 +243,7 @@ def plot_umaps(adata_full: sc.AnnData, df_labels: pd.DataFrame, cluster_key: str
     ax.scatter(X[:, 0], X[:, 1], s=6, c=point_colors, linewidths=0, alpha=0.9)
     handles = [plt.Line2D([], [], marker='o', linestyle='', color=color_map[c],
                           label=c, markersize=6) for c in cats.categories]
-    ax.legend(handles=handles, loc='upper right', title=full_cluster_key,
+    ax.legend(handles=handles, loc='upper right', title=cluster_key,
               fontsize=8, frameon=False, ncol=1)
     ax.set_title("UMAP -- Full pericyte subclusters")
 
@@ -292,7 +292,7 @@ def plot_umaps(adata_full: sc.AnnData, df_labels: pd.DataFrame, cluster_key: str
     plt.close(fig)
 
     # UMAP by disease (specific)
-    fig, ax = plt.subplots(figsize=(7, 6))
+    fig, ax = plt.subplots(figsize=(12, 6))
     disease_cat = pd.Categorical(df_full["disease"])
     categories = disease_cat.categories
     # Pick a colormap with enough distinct colors
@@ -308,7 +308,7 @@ def plot_umaps(adata_full: sc.AnnData, df_labels: pd.DataFrame, cluster_key: str
         for cat in categories
     ]
     ax.legend(handles=handles, loc='center left', bbox_to_anchor=(1.02, 0.5),
-              title="Disease", fontsize=7, frameon=False, ncol=2)
+              title="Disease", fontsize=7, frameon=False, ncol=1)
     ax.set_title("UMAP -- Disease")
     ax.set_xlabel("UMAP1"); ax.set_ylabel("UMAP2")
     fig.tight_layout()
