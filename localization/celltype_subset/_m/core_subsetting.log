@@ -1,0 +1,111 @@
+2025-09-06 11:27:54 - **** Job starts ****
+2025-09-06 11:27:54 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34611368
+Job name: core_subset
+Node name: 
+Hostname: e003
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-09-06 11:27:55 - **** Loading mamba environment ****
+2025-09-06 11:27:55 - **** Run subsetting ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:309: RuntimeWarning: invalid value encountered in log
+  dispersion = np.log(dispersion)
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-09-06 11:29:43,348 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-09-06 11:29:45,943 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-09-06 11:29:45,972 - harmonypy - INFO - Iteration 1 of 100
+2025-09-06 11:29:46,990 - harmonypy - INFO - Iteration 2 of 100
+2025-09-06 11:29:47,989 - harmonypy - INFO - Iteration 3 of 100
+2025-09-06 11:29:48,982 - harmonypy - INFO - Iteration 4 of 100
+2025-09-06 11:29:49,977 - harmonypy - INFO - Iteration 5 of 100
+2025-09-06 11:29:50,882 - harmonypy - INFO - Iteration 6 of 100
+2025-09-06 11:29:51,707 - harmonypy - INFO - Iteration 7 of 100
+2025-09-06 11:29:52,494 - harmonypy - INFO - Iteration 8 of 100
+2025-09-06 11:29:53,518 - harmonypy - INFO - Iteration 9 of 100
+2025-09-06 11:29:54,180 - harmonypy - INFO - Iteration 10 of 100
+2025-09-06 11:29:54,859 - harmonypy - INFO - Iteration 11 of 100
+2025-09-06 11:29:55,612 - harmonypy - INFO - Iteration 12 of 100
+2025-09-06 11:29:56,247 - harmonypy - INFO - Iteration 13 of 100
+2025-09-06 11:29:56,995 - harmonypy - INFO - Iteration 14 of 100
+2025-09-06 11:29:57,754 - harmonypy - INFO - Iteration 15 of 100
+2025-09-06 11:29:58,487 - harmonypy - INFO - Iteration 16 of 100
+2025-09-06 11:29:59,063 - harmonypy - INFO - Iteration 17 of 100
+2025-09-06 11:29:59,788 - harmonypy - INFO - Iteration 18 of 100
+2025-09-06 11:30:00,728 - harmonypy - INFO - Iteration 19 of 100
+2025-09-06 11:30:01,328 - harmonypy - INFO - Iteration 20 of 100
+2025-09-06 11:30:01,936 - harmonypy - INFO - Iteration 21 of 100
+2025-09-06 11:30:02,483 - harmonypy - INFO - Iteration 22 of 100
+2025-09-06 11:30:03,056 - harmonypy - INFO - Iteration 23 of 100
+2025-09-06 11:30:03,607 - harmonypy - INFO - Iteration 24 of 100
+2025-09-06 11:30:04,151 - harmonypy - INFO - Iteration 25 of 100
+2025-09-06 11:30:04,824 - harmonypy - INFO - Iteration 26 of 100
+2025-09-06 11:30:05,427 - harmonypy - INFO - Iteration 27 of 100
+2025-09-06 11:30:06,043 - harmonypy - INFO - Iteration 28 of 100
+2025-09-06 11:30:06,636 - harmonypy - INFO - Iteration 29 of 100
+2025-09-06 11:30:07,179 - harmonypy - INFO - Iteration 30 of 100
+2025-09-06 11:30:07,791 - harmonypy - INFO - Iteration 31 of 100
+2025-09-06 11:30:08,367 - harmonypy - INFO - Iteration 32 of 100
+2025-09-06 11:30:08,948 - harmonypy - INFO - Iteration 33 of 100
+2025-09-06 11:30:09,528 - harmonypy - INFO - Iteration 34 of 100
+2025-09-06 11:30:10,165 - harmonypy - INFO - Iteration 35 of 100
+2025-09-06 11:30:10,837 - harmonypy - INFO - Iteration 36 of 100
+2025-09-06 11:30:11,379 - harmonypy - INFO - Iteration 37 of 100
+2025-09-06 11:30:11,959 - harmonypy - INFO - Iteration 38 of 100
+2025-09-06 11:30:12,536 - harmonypy - INFO - Iteration 39 of 100
+2025-09-06 11:30:13,082 - harmonypy - INFO - Iteration 40 of 100
+2025-09-06 11:30:13,690 - harmonypy - INFO - Iteration 41 of 100
+2025-09-06 11:30:14,244 - harmonypy - INFO - Iteration 42 of 100
+2025-09-06 11:30:14,785 - harmonypy - INFO - Iteration 43 of 100
+2025-09-06 11:30:15,399 - harmonypy - INFO - Iteration 44 of 100
+2025-09-06 11:30:15,941 - harmonypy - INFO - Converged after 44 iterations
+2025-09-06 11:32:06,867 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-09-06 11:32:13,872 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-09-06 11:32:14,040 - harmonypy - INFO - Iteration 1 of 100
+2025-09-06 11:32:31,948 - harmonypy - INFO - Iteration 2 of 100
+2025-09-06 11:32:49,983 - harmonypy - INFO - Iteration 3 of 100
+2025-09-06 11:33:07,965 - harmonypy - INFO - Iteration 4 of 100
+2025-09-06 11:33:26,007 - harmonypy - INFO - Iteration 5 of 100
+2025-09-06 11:33:40,941 - harmonypy - INFO - Iteration 6 of 100
+2025-09-06 11:33:55,241 - harmonypy - INFO - Iteration 7 of 100
+2025-09-06 11:34:08,623 - harmonypy - INFO - Iteration 8 of 100
+2025-09-06 11:34:20,690 - harmonypy - INFO - Iteration 9 of 100
+2025-09-06 11:34:35,840 - harmonypy - INFO - Iteration 10 of 100
+2025-09-06 11:34:51,186 - harmonypy - INFO - Iteration 11 of 100
+2025-09-06 11:35:03,882 - harmonypy - INFO - Iteration 12 of 100
+2025-09-06 11:35:17,782 - harmonypy - INFO - Iteration 13 of 100
+2025-09-06 11:35:30,838 - harmonypy - INFO - Iteration 14 of 100
+2025-09-06 11:35:44,507 - harmonypy - INFO - Iteration 15 of 100
+2025-09-06 11:35:56,380 - harmonypy - INFO - Iteration 16 of 100
+2025-09-06 11:36:09,071 - harmonypy - INFO - Iteration 17 of 100
+2025-09-06 11:36:20,715 - harmonypy - INFO - Iteration 18 of 100
+2025-09-06 11:36:32,544 - harmonypy - INFO - Iteration 19 of 100
+2025-09-06 11:36:44,266 - harmonypy - INFO - Iteration 20 of 100
+2025-09-06 11:36:56,992 - harmonypy - INFO - Iteration 21 of 100
+2025-09-06 11:37:10,101 - harmonypy - INFO - Iteration 22 of 100
+2025-09-06 11:37:20,933 - harmonypy - INFO - Iteration 23 of 100
+2025-09-06 11:37:32,744 - harmonypy - INFO - Converged after 23 iterations
+Model selected: core
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_core.dataset.h5ad
+Warning: Missing batch variables: data
+Saved: stroma.hlca_core.dataset.h5ad
+-----
+harmonypy           0.0.10
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-09-06 11:37
+2025-09-06 11:37:47 - **** Job ends ****
