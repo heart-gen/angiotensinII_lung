@@ -95,7 +95,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
     sc.pp.highly_variable_genes(
-        adata, n_top_genes=2000, batch_key='combined_batch'
+        adata, n_top_genes=2000, batch_key='study'
     )
     sc.tl.pca(
         adata, n_comps=50, mask_var="highly_variable",
