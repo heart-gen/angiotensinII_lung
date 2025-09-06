@@ -1,6 +1,7 @@
 ## This is a converted script from our original R version.
 ## Issues with loading the full model with `zellkonverter`.
 
+import session_info
 import argparse
 import scanpy as sc
 import harmonypy as hm
@@ -93,7 +94,13 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     # Preprocess data
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
-    sc.tl.pca(adata, svd_solver="arpack")
+    sc.pp.highly_variable_genes(
+        adata, n_top_genes=2000, batch_key='combined_batch'
+    )
+    sc.tl.pca(
+        adata, n_comps=50, mask_var="highly_variable",
+        svd_solver="arpack"
+    )
 
     # Run harmony
     if present_vars:
