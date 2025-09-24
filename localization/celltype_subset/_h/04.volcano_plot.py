@@ -29,16 +29,6 @@ def load_ensembl_to_geneid_map(adata_file_path):
     return dict(zip(mapping_df['ensembl_id'], mapping_df['feature_name']))
 
 
-def filter_genes(df):
-    """
-    Remove ribosomal protein (RPS*/RPL*) and mitochondrial (MT-*) genes.
-    Expects a column 'gene_name'.
-    """
-    mask_ribo = df["gene_name"].str.match(r"^RP[SL]", na=False)
-    mask_mt = df["gene_name"].str.match(r"^MT-", na=False)
-    return df[~(mask_ribo | mask_mt)].copy()
-
-
 def load_all_clusters(filepath, mapping_file=None):
     """
     Load a precomputed rank_genes_groups export (wide format) into
@@ -77,9 +67,6 @@ def load_all_clusters(filepath, mapping_file=None):
         else:
             cluster_df['gene_name'] = cluster_df['gene_id']
 
-        # # Filter ribosomal/mitochondrial
-        # cluster_df = filter_genes(cluster_df)
-        
         # Calculate adjusted p-values (FDR Benjamini-Hochberg)
         cluster_df['pvals_adj'] = multipletests(
             cluster_df['pvals'], method='fdr_bh'
@@ -123,8 +110,7 @@ def plot_volcano(cluster_df, cluster_id, pval_cutoff=0.05, logfc_cutoff=1.0,
     # Label top significant genes
     top_hits = cluster_df[sig_mask].nlargest(top_n_labels, '-log10_fdr')
     texts = [
-        plt.text(row['logfoldchanges'] + np.random.uniform(-0.05, 0.05),
-                 row['-log10_fdr'] + np.random.uniform(-0.05, 0.05),
+        plt.text(row['logfoldchanges'], row['-log10_fdr'],
                  row['gene_name'], fontsize=7, ha='right')
         for _, row in top_hits.iterrows()
     ]
