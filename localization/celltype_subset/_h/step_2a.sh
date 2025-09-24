@@ -33,7 +33,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run subclustering ****"
 
 python ../_h/02.sub-clustering.py \
-       --model "core" --resolution 0.4 --phate_knn 20
+       --model "core" --resolution 0.3 --phate_knn 15 --phate_decay 5
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

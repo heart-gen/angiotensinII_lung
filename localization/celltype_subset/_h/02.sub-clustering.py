@@ -10,14 +10,14 @@ import matplotlib.pyplot as plt
 
 def preprocess_adata(adata):
     sc.pp.neighbors(adata, n_neighbors=50, use_rep='X_pca_harmony',
-                    random_state=13, metric='euclidean')
-    sc.tl.umap(adata, min_dist=0.4)
+                    random_state=13, metric='cosine')
+    sc.tl.umap(adata, min_dist=0.9, spread=1.5, random_state=13)
     return adata
 
 
 def add_phate_embedding(adata, knn=5, decay=20):
     phate_op = phate.PHATE(knn=knn, decay=decay, n_jobs=-1,
-                           random_state=13)
+                           random_state=13, knn_dist="cosine")
     phate_emb = phate_op.fit_transform(adata.obsm['X_pca_harmony'])
     adata.obsm['X_phate'] = phate_emb
     return adata
@@ -101,9 +101,11 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
         adata, color=cluster_key, title='Subclusters',
         layer="logcounts", **kwargs),
               f'{cluster_key}.umap_clusters')
+    plt.close()
     save_plot(lambda **kwargs: sc.pl.embedding(
         adata, basis='X_phate', color=cluster_key, title='Subclusters',
         layer="logcounts", **kwargs), f'{cluster_key}.phate_clusters')
+    plt.close()
 
     # Plot markers
     for gene in marker_genes:
@@ -187,6 +189,7 @@ def _test_resolution(ref_adata, model, resolution, knn, decay):
                                  phate_decay=decay,
                                  leiden_resolution=resolution,
                                  model=model)
+    plt.close()
     return adata
 
 
@@ -217,10 +220,13 @@ def main():
                         help="Leiden resolution. Default: 0.4")
     parser.add_argument("--phate_knn", type=int, default=20,
                         help="Leiden resolution. Default: 20")
+    parser.add_argument("--phate_decay", type=int, default=15,
+                        help="Leiden resolution. Default: 15")
     args = parser.parse_args()
     model = args.model
     resolution = args.resolution
     knn = args.phate_knn
+    decay = args.phate_decay
 
     # Load data
     adata = sc.read_h5ad(f'pericyte.hlca_{model}.dataset.h5ad')
@@ -234,7 +240,7 @@ def main():
     ref_adata.layers["logcounts"] = ref_adata.X.copy()
 
     # Subcluster and save
-    adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn, phate_decay=15,
+    adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn, phate_decay=decay,
                                  leiden_resolution=resolution, model=model)
     adata.write(f'pericyte.hlca_{model}.subclustered.h5ad')
     del adata
@@ -243,7 +249,7 @@ def main():
     output_dir = f"stroma_clustering/{model}"
     makedirs(output_dir, exist_ok=True)
     ref_adata = visualize_stroma(ref_adata, leiden_resolution=resolution,
-                                 phate_knn=knn, phate_decay=15,
+                                 phate_knn=knn, phate_decay=decay,
                                  outdir=output_dir)
     ref_adata.write(f"stroma.hlca_{model}.clustered.h5ad")
 
