@@ -8,7 +8,7 @@ import session_info
 from os import makedirs, path
 import matplotlib.pyplot as plt
 
-def preprocess_adata(adata, n_neighbors):
+def preprocess_adata(adata, n_neighbors=50):
     sc.pp.neighbors(adata, n_neighbors=n_neighbors,
                     use_rep='X_pca_harmony', random_state=13,
                     metric='cosine')
@@ -168,8 +168,8 @@ def subcluster_pericytes(
 
 def visualize_stroma(
         adata, marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=20,
-        leiden_resolution=0.5, figsize=(9, 6), outdir="."):
-    adata = preprocess_adata(adata)
+        leiden_resolution=0.5, figsize=(9, 6), outdir=".", n_neighbors=50):
+    adata = preprocess_adata(adata, n_neighbors)
     adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
     adata = perform_clustering(adata, resolution=leiden_resolution)
     adata = analyze_marker_genes(adata, outdir=outdir)
@@ -183,38 +183,6 @@ def visualize_stroma(
                               figsize=figsize, cluster_key="subclusters")
     plt.close()
     return adata
-
-
-def _test_resolution(ref_adata, model, resolution, knn, decay):
-    adata = sc.read_h5ad(f'../_m/pericyte.hlca_{model}.dataset.h5ad')
-    adata.obs["cell_type"] = adata.obs["cell_type"]\
-                                  .cat.remove_unused_categories()
-    adata.layers["logcounts"] = adata.X.copy()
-    adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn,
-                                 phate_decay=decay,
-                                 leiden_resolution=resolution,
-                                 model=model)
-    plt.close()
-    return adata
-
-
-def _test_stromal_clustering(model, resolution, knn, decay):
-    ref_adata = sc.read_h5ad(f"../_m/stroma.hlca_{model}.dataset.h5ad")
-    ref_adata.obs["cell_type"] = ref_adata.obs["cell_type"]\
-                                          .cat.remove_unused_categories()
-    ref_adata.layers["logcounts"] = ref_adata.X.copy()
-    ref_adata = visualize_stroma(ref_adata, leiden_resolution=resolution,
-                                 phate_knn=knn, phate_decay=decay,
-                                 outdir=output_dir)
-    return ref_adata
-
-
-def _testing():
-    genes=['AGTR1', 'ACTA2']
-    adata = _test_resolution(ref_adata, model, 0.4, 20, 15)
-    adata = compute_pseudotime(adata)
-    plot_pseudotime(adata)
-    plot_gene_dynamics(adata, genes)
 
 
 def main():
@@ -259,7 +227,7 @@ def main():
     makedirs(output_dir, exist_ok=True)
     ref_adata = visualize_stroma(ref_adata, leiden_resolution=resolution,
                                  phate_knn=knn, phate_decay=decay,
-                                 outdir=output_dir)
+                                 outdir=output_dir, n_neighbors=n_neighbors)
     ref_adata.write(f"stroma.hlca_{model}.clustered.h5ad")
 
     # Session information

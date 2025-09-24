@@ -77,8 +77,8 @@ def load_all_clusters(filepath, mapping_file=None):
         else:
             cluster_df['gene_name'] = cluster_df['gene_id']
 
-        # Filter ribosomal/mitochondrial
-        cluster_df = filter_genes(cluster_df)
+        # # Filter ribosomal/mitochondrial
+        # cluster_df = filter_genes(cluster_df)
         
         # Calculate adjusted p-values (FDR Benjamini-Hochberg)
         cluster_df['pvals_adj'] = multipletests(
