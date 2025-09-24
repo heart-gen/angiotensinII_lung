@@ -1,10 +1,10 @@
-2025-09-24 12:51:27 - **** Job starts ****
-2025-09-24 12:51:27 - **** Bridges-2 info ****
+2025-09-24 19:07:40 - **** Job starts ****
+2025-09-24 19:07:40 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35181655
+Job id: 35186691
 Job name: marker_genes
 Node name: 
-Hostname: r030
+Hostname: r037
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-09-24 12:51:28 - **** Loading mamba environment ****
-2025-09-24 12:51:30 - **** Run analysis ****
+2025-09-24 19:07:41 - **** Loading mamba environment ****
+2025-09-24 19:08:04 - **** Run analysis ****
 Loading model: core (pericyte.hlca_core.subclustered.h5ad)
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
@@ -27,34 +27,28 @@ Warning: Feature names cannot have underscores ('_'), replacing with dashes ('-'
 
 [[3]]
 
-[[4]]
-
-Saved 917 candidate markers.
+Saved 2318 candidate markers.
 Performing arcsin square root transformation of proportions
 group variable has 2 levels, t-tests will be performed
-  BaselineProp.clusters BaselineProp.Freq PropMean.0  PropMean.1 PropRatio
-3                     3        0.02968338  0.2012232 -0.09755365 -2.062693
-0                     0        0.45976253  0.2574066  0.30647981  0.839881
-1                     1        0.27968338  0.1154469  0.10589371  1.090214
-2                     2        0.23087071  0.1481456  0.12962456  1.142882
-   Tstatistic   P.Value       FDR
-3  2.20011286 0.0330022 0.1320088
-0 -0.24699347 0.8060424 0.9737976
-1 -0.14386760 0.8862507 0.9737976
-2  0.03302991 0.9737976 0.9737976
-Performing arcsin square root transformation of proportions
-Performing arcsin square root transformation of proportions
-group variable has 2 levels, t-tests will be performed
-  BaselineProp.clusters BaselineProp.Freq  PropMean.0 PropMean.1  PropRatio
-0                     0        0.45976253 0.068541650 0.46508928 0.14737310
-2                     2        0.23087071 0.231225481 0.09909663 2.33333333
-3                     3        0.02968338 0.005479644 0.10591985 0.05173387
-1                     1        0.27968338 0.127185657 0.08665100 1.46779222
+  BaselineProp.clusters BaselineProp.Freq PropMean.0 PropMean.1  PropRatio
+2                     2         0.2598945  0.3491213 0.03157588 11.0565826
+0                     0         0.4597625  0.2574880 0.30664274  0.8397004
+1                     1         0.2803430  0.1156129 0.10622583  1.0883692
   Tstatistic    P.Value       FDR
-0 -2.2325476 0.03030087 0.1212035
-2  1.2500844 0.21735666 0.4347133
-3 -0.7452983 0.45974198 0.6129893
-1  0.3771004 0.70776864 0.7077686
+2  1.9068120 0.06344202 0.1903261
+0 -0.2420234 0.80994690 0.8848019
+1 -0.1457733 0.88480186 0.8848019
+Performing arcsin square root transformation of proportions
+Performing arcsin square root transformation of proportions
+group variable has 2 levels, t-tests will be performed
+  BaselineProp.clusters BaselineProp.Freq PropMean.0 PropMean.1 PropRatio
+0                     0         0.4597625  0.0687266 0.46516854 0.1477456
+1                     1         0.2803430  0.1275627 0.08681256 1.4694031
+2                     2         0.2598945  0.2361432 0.20477565 1.1531800
+  Tstatistic    P.Value       FDR
+0 -2.1730496 0.03520978 0.1056293
+1  0.3765870 0.70829268 0.8575984
+2  0.1804891 0.85759837 0.8575984
 Performing arcsin square root transformation of proportions
 Loading model: full (pericyte.hlca_full.subclustered.h5ad)
 Warning: Feature names cannot have underscores ('_'), replacing with dashes ('-')
@@ -109,9 +103,9 @@ group variable has 2 levels, t-tests will be performed
 Performing arcsin square root transformation of proportions
 There were 15 warnings (use warnings() to see them)
 Reproducibility information:
-[1] "2025-09-24 12:53:00 EDT"
+[1] "2025-09-24 19:11:40 EDT"
    user  system elapsed 
- 85.712   7.670  90.251 
+109.007   7.220 215.557 
 python:         /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/bin/python
 libpython:      /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/libpython3.12.so
 pythonhome:     /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9:/ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9
@@ -360,4 +354,4 @@ NOTE: Python version was forced by use_python() function
  NOTE: Python version was forced by use_python() function
 
 ----------------------------------------------------------------------------------------------------------------------
-2025-09-24 12:53:02 - **** Job ends ****
+2025-09-24 19:11:42 - **** Job ends ****

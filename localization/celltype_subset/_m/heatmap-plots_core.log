@@ -1,10 +1,10 @@
-2025-09-24 12:56:31 - **** Job starts ****
-2025-09-24 12:56:31 - **** Bridges-2 info ****
+2025-09-24 19:07:39 - **** Job starts ****
+2025-09-24 19:07:39 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35181667
+Job id: 35186692
 Job name: core_heatmap
 Node name: 
-Hostname: r014
+Hostname: r023
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-09-24 12:56:32 - **** Loading mamba environment ****
-2025-09-24 12:56:33 - **** Run subclustering ****
+2025-09-24 19:07:40 - **** Loading mamba environment ****
+2025-09-24 19:07:41 - **** Run subclustering ****
 /ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/06.heatmap_plot.py:48: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
   .apply(lambda x: x.nsmallest(n_top, "pval"))
 -----
@@ -26,5 +26,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-09-24 12:58
-2025-09-24 12:58:34 - **** Job ends ****
+Session information updated at 2025-09-24 19:09
+2025-09-24 19:09:44 - **** Job ends ****
