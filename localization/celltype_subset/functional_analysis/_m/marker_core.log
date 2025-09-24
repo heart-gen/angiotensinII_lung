@@ -1,10 +1,10 @@
-2025-08-31 16:57:44 - **** Job starts ****
-2025-08-31 16:57:44 - **** Bridges-2 info ****
+2025-09-24 13:31:20 - **** Job starts ****
+2025-09-24 13:31:20 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 34523625
+Job id: 35181807
 Job name: core_markers
 Node name: 
-Hostname: r276
+Hostname: r373
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,25 +12,5 @@ Currently Loaded Modules:
 
  
 
-2025-08-31 16:57:45 - **** Loading mamba environment ****
-2025-08-31 16:57:45 - **** Run subclustering ****
-Saved per-cluster 'all' and 'unique' marker files to cluster_markers/core
-Saved per-cluster 'all' and 'unique' marker files to cluster_markers/core
-Saved per-cluster 'all' and 'unique' marker files to cluster_markers/core
-Saved per-cluster 'all' and 'unique' marker files to cluster_markers/core
-Saved full enrichment results to figures/core/pathway_heatmap_all_results.tsv
-Saved heatmap to figures/core/pathway_heatmap.png and figures/core/pathway_heatmap.pdf
------
-gseapy              1.1.9
-matplotlib          3.10.5
-numpy               2.2.6
-pandas              2.3.2
-scanpy              1.11.4
-seaborn             0.13.2
-session_info        v1.0.1
------
-Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
-Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
------
-Session information updated at 2025-08-31 16:58
-2025-08-31 16:58:36 - **** Job ends ****
+2025-09-24 13:31:21 - **** Loading mamba environment ****
+2025-09-24 13:31:22 - **** Run subclustering ****
