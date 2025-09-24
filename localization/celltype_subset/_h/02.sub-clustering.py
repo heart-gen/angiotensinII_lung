@@ -8,9 +8,10 @@ import session_info
 from os import makedirs, path
 import matplotlib.pyplot as plt
 
-def preprocess_adata(adata):
-    sc.pp.neighbors(adata, n_neighbors=50, use_rep='X_pca_harmony',
-                    random_state=13, metric='cosine')
+def preprocess_adata(adata, n_neighbors):
+    sc.pp.neighbors(adata, n_neighbors=n_neighbors,
+                    use_rep='X_pca_harmony', random_state=13,
+                    metric='cosine')
     sc.tl.umap(adata, min_dist=0.9, spread=1.5, random_state=13)
     return adata
 
@@ -120,6 +121,7 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
                 title=f'PHATE: {gene} expression',
                 layer="logcounts", **kwargs),
                       f'{gene.lower()}_phate.{cluster_key}')
+            plt.close()
         else:
             print(f"Warning: Gene {gene} not found in dataset")
 
@@ -132,6 +134,7 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
             adata, basis='X_phate', color='normalized_pericyte_marker_expr',
             title='Normalized Pericyte Marker Expression', **kwargs),
                   'pericyte_marker_expression_phate')
+        plt.close()
 
     if 'normalized_total_expression_by_fibroblast' in adata.obs:
         save_plot(lambda **kwargs: sc.pl.umap(
@@ -142,14 +145,15 @@ def plot_clusters_and_markers(adata, marker_genes, cluster_key='leiden', save=Tr
             adata, basis='X_phate', color='normalized_total_expression_by_fibroblast',
             title='Normalized Pericyte Expression', **kwargs),
                   'pericyte_fibroblast_expression_phate')
+        plt.close()
 
 
 def subcluster_pericytes(
         adata, ref_adata=None, fibroblast_label='Alveolar fibroblasts',
-        pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'],
+        pericyte_markers=['HIGD1B', 'PDGFRB', 'CSPG4'], n_neighbors=50,
         marker_genes=['AGTR1', 'ACTA2'], phate_knn=5, phate_decay=20,
         leiden_resolution=0.5, figsize=(7, 6), model="core"):
-    adata = preprocess_adata(adata)
+    adata = preprocess_adata(adata, n_neighbors)
     adata = add_phate_embedding(adata, knn=phate_knn, decay=phate_decay)
     adata = normalize_marker_expression(adata, pericyte_markers, ref_adata,
                                         fibroblast_label)
@@ -158,6 +162,7 @@ def subcluster_pericytes(
     adata = analyze_marker_genes(adata, outdir=f"figures/{model}")
     plot_clusters_and_markers(adata, marker_genes, outdir=f"figures/{model}",
                               figsize=figsize, cluster_key="leiden")
+    plt.close()
     return adata
 
 
@@ -219,14 +224,17 @@ def main():
     parser.add_argument("--resolution", type=float, default=0.4,
                         help="Leiden resolution. Default: 0.4")
     parser.add_argument("--phate_knn", type=int, default=20,
-                        help="Leiden resolution. Default: 20")
+                        help="Phate KNN. Default: 20")
     parser.add_argument("--phate_decay", type=int, default=15,
-                        help="Leiden resolution. Default: 15")
+                        help="Phate decay rate. Default: 15")
+    parser.add_argument("--n_neighbors", type=int, default=50,
+                        help="UMAP nearest neighbors. Default: 50")
     args = parser.parse_args()
     model = args.model
     resolution = args.resolution
     knn = args.phate_knn
     decay = args.phate_decay
+    n_neighbors = args.n_neighbors
 
     # Load data
     adata = sc.read_h5ad(f'pericyte.hlca_{model}.dataset.h5ad')
@@ -241,7 +249,8 @@ def main():
 
     # Subcluster and save
     adata = subcluster_pericytes(adata, ref_adata, phate_knn=knn, phate_decay=decay,
-                                 leiden_resolution=resolution, model=model)
+                                 leiden_resolution=resolution, model=model,
+                                 n_neighbors=n_neighbors)
     adata.write(f'pericyte.hlca_{model}.subclustered.h5ad')
     del adata
 
