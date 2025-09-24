@@ -39,9 +39,9 @@ def load_markers(adata, marker_file, n_top=5):
     g_annot = pd.DataFrame(adata.var.loc[:, ["feature_name"]])
     markers = g_annot.merge(long_df, left_index=True, right_on="gene")
 
-    # Filter out mitochrondria genes
-    markers = markers[~markers["feature_name"].str.startswith("MT-")].copy()
-    markers = markers[~markers["feature_name"].isin(["MALAT1"])].copy()
+    # # Filter out mitochrondria genes
+    # markers = markers[~markers["feature_name"].str.startswith("MT-")].copy()
+    # markers = markers[~markers["feature_name"].isin(["MALAT1"])].copy()
     top_markers = (
         markers.groupby("cluster")
         .apply(lambda x: x.nsmallest(n_top, "pval"))

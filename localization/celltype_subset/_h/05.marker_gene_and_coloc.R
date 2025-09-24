@@ -11,11 +11,6 @@ suppressPackageStartupMessages({
     library("SingleCellExperiment")
 })
 
-## local_setup <- function() {
-##     system_readline <- "/usr/lib/libreadline.so.8"
-##     Sys.setenv(LD_PRELOAD = system_readline)
-## }
-
 save_plot <- function(p, fn, w, h){
     for(ext in c(".pdf", ".png")){
         ggsave(filename=paste0(fn,ext), plot=p, width=w, height=h)
