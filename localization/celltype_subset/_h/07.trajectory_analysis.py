@@ -36,7 +36,7 @@ def load_adata(filepath):
     return sc.read_h5ad(filepath)
 
 
-def ensure_phate(adata, use_rep="X_pca_harmony", knn=15, decay=20, seed=13):
+def ensure_phate(adata, use_rep="X_pca_harmony", knn=15, decay=10, seed=13):
     """
     Ensure adata.obsm['X_phate'] exists; compute if missing.
     Requires 'phate' package and a representation to neighbor on.
