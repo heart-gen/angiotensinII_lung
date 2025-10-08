@@ -229,12 +229,14 @@ def mapping_distance(ref_adata, query_adata, k=10, outdir="qc_plots"):
 
 
 def composition_parity(ref_adata, query_adata, outdir="qc_plots"):
-    ref_counts = ref_adata.obs["celltype"].value_counts(normalize=True)
-    query_counts = query_adata.obs["predicted_labels"].value_counts(normalize=True)
+    # Raw data
+    ref_counts = ref_adata.obs["celltype"].value_counts()
+    query_counts = query_adata.obs["predicted_labels"].value_counts()
     common = ref_counts.index.intersection(query_counts.index)
 
-    chi2, p = chisquare(query_counts.loc[common],
-                        f_exp=ref_counts.loc[common] * query_counts.sum())
+    # Rescale expected frequencies to match observed total
+    f_exp = ref_counts / ref_counts.sum() * query_counts.sum()
+    chi2, p = chisquare(query_counts, f_exp=f_exp)
     print(f"Composition parity chi-square={chi2:.2f}, p={p:.3e}")
 
     # Visualization
