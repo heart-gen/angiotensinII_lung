@@ -1,11 +1,5 @@
 """
-Single-Cell Data Clustering and Visualization
-
-This script clusters the data and extracts marker genes for cell type annotation.
-
-Author: Kynon J Benjamin
-Date: August 23, 2024
-Revision: September 27, 2025
+Single-Cell Data Clustering and Visualization -- Training.
 """
 import torch, scvi
 import session_info

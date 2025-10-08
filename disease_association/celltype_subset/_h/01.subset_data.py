@@ -35,7 +35,6 @@ def check_data(adata, outdir="qc_plots"):
     sc.tl.umap(adata)
     
     # Plot & Save
-    outdir = "figures"
     os.makedirs(outdir, exist_ok=True)
 
     # Define the filename base
