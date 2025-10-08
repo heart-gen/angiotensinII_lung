@@ -237,7 +237,7 @@ def composition_parity(ref_adata, query_adata, outdir="qc_plots"):
     # Rescale expected frequencies to match observed total
     f_exp = ref_counts / ref_counts.sum() * query_counts.sum()
     chi2, p = chisquare(query_counts, f_exp=f_exp)
-    print(f"Composition parity chi-square={chi2:.2f}, p={p:.3e}")
+    print(f"Composition parity χ²={chi2:.2f}, p={p:.3e}")
 
     # Visualization
     comp_file = os.path.join(outdir, "composition_parity")
@@ -255,7 +255,7 @@ def composition_parity(ref_adata, query_adata, outdir="qc_plots"):
     sns.barplot(data=comp_df, x="CellType", y="Proportion",
                 hue="Dataset", palette="Set2")
     plt.xticks(rotation=45, ha="right")
-    plt.title()
+    plt.title(f"Composition Parity (χ²={chi2:.2f}, p={p:.3e})")
     plt.tight_layout()
     plt.savefig(f"{comp_file}.png", dpi=300, bbox_inches="tight")
     plt.savefig(f"{comp_file}.pdf", bbox_inches="tight")
