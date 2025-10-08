@@ -11,7 +11,6 @@ import harmonypy as hm
 from pathlib import Path
 import matplotlib.pyplot as plt
 from scipy.spatial import cKDTree
-from scipy.stats import chisquare
 from sklearn.calibration import calibration_curve
 
 def subset_data(subset_key: str = "cell_type",
@@ -228,40 +227,6 @@ def mapping_distance(ref_adata, query_adata, k=10, outdir="qc_plots"):
         plt.close()
 
 
-def composition_parity(ref_adata, query_adata, outdir="qc_plots"):
-    # Raw data
-    ref_counts = ref_adata.obs["celltype"].value_counts()
-    query_counts = query_adata.obs["predicted_labels"].value_counts()
-    common = ref_counts.index.intersection(query_counts.index)
-
-    # Rescale expected frequencies to match observed total
-    f_exp = ref_counts / ref_counts.sum() * query_counts.sum()
-    chi2, p = chisquare(query_counts, f_exp=f_exp)
-    print(f"Composition parity χ²={chi2:.2f}, p={p:.3e}")
-
-    # Visualization
-    comp_file = os.path.join(outdir, "composition_parity")
-    comp_df = (
-        pd.DataFrame({
-            "Reference": ref_counts.loc[common],
-            "Query": query_counts.loc[common]
-        })
-        .reset_index()
-        .melt(id_vars="index", var_name="Dataset", value_name="Proportion")
-        .rename(columns={"index": "CellType"})
-    )
-
-    plt.figure(figsize=(8, 5))
-    sns.barplot(data=comp_df, x="CellType", y="Proportion",
-                hue="Dataset", palette="Set2")
-    plt.xticks(rotation=45, ha="right")
-    plt.title(f"Composition Parity (χ²={chi2:.2f}, p={p:.3e})")
-    plt.tight_layout()
-    plt.savefig(f"{comp_file}.png", dpi=300, bbox_inches="tight")
-    plt.savefig(f"{comp_file}.pdf", bbox_inches="tight")
-    plt.close()
-
-
 def main():
     # Make directory
     outdir = "qc_plots"
@@ -278,7 +243,6 @@ def main():
     # Quality control analysis
     neighborhood_purity(adata, outdir=outdir)
     mapping_distance(ref_hvg, query_hvg, outdir=outdir)
-    composition_parity(ref_hvg, adata, outdir=outdir)
     
     # Save data
     adata.write_h5ad("clustered_data.h5ad", compression="gzip")
