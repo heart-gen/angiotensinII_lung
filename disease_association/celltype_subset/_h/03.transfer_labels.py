@@ -172,7 +172,7 @@ def neighborhood_purity(adata, label_key="predicted_labels", k=30, outdir="qc_pl
     for i in range(adata.n_obs):
         neigh = conn.col[conn.row == i]
         same = np.mean(adata.obs[label_key].iloc[neigh] == adata.obs[label_key].iloc[i])
-        purity_scores.append(same)
+        purity_scores[i] = same
 
     adata.obs[f"purity_k{k}"] = purity_scores
     mean_purity = purity_scores.mean()
