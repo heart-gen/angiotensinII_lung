@@ -70,6 +70,7 @@ def transfer_labels(confidence_threshold=0.7, outdir="qc_plots"):
     query_adata = process_query_data()
     query_adata.X = query_adata.layers["counts"]
     query_hvg = sc.read_h5ad("query_hvg.h5ad")
+    query_hvg.obs["celltype"] = "unknown"
 
     # Load model with reference data
     scanvi_model = scvi.model.SCANVI.load("scanvi_model/", adata=ref_hvg)
@@ -265,7 +266,7 @@ def main():
     os.makedirs(outdir, exist_ok=True)
 
     # Transfer labels    
-    adata, query_hvg, ref_hvg = transfer_labels(0.9, outdir=outdir)
+    adata, query_hvg, ref_hvg = transfer_labels(0.75, outdir=outdir)
 
     # Cluster data and visualization
     adata = cluster_data(adata)
