@@ -2,29 +2,30 @@
 """
 Analyze pericyte subclusters and disease association.
 """
+import numpy as np
 import session_info
 import scanpy as sc
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
 import scikit_posthocs as sp
 from os import makedirs, path
 from scipy.stats import kruskal
 import matplotlib.pyplot as plt
-import statsmodels.formula.api as smf
+from statsmodels.formula.api import ols
 from statsmodels.stats.multitest import multipletests
 
 def extract_agtr1_expression(adata, gene_name="AGTR1",
                              cluster_key="leiden", disease_key="Disease_Identity"):
     """Extract AGTR1 expression with cluster and disease annotations."""
-    # Get corresponding Ensembl ID
-    ensembl_ids = adata.var.index[adata.var["feature_name"] == gene_name].tolist()
-    if not ensembl_ids:
-        raise ValueError(f"Gene {gene_name} not found in adata.var['feature_name']")
-    gene_id = ensembl_ids[0]
-
     # Extract expression from logcounts layer
+    if "logcounts" not in adata.layers:
+        sc.pp.normalize_total(adata)
+        sc.pp.log1p(adata)
+        adata.layers["logcounts"] = adata.X
+
     expr = pd.Series(
-        adata[:, gene_id].layers["logcounts"].toarray().flatten(),
+        adata[:, gene_name].layers["logcounts"].toarray().flatten(),
         index=adata.obs_names, name="expression"
     )
 
@@ -37,9 +38,13 @@ def extract_agtr1_expression(adata, gene_name="AGTR1",
 
     # Aggregate per donor × cluster × disease to reduce pseudo-replication
     group_df = (
-        df.groupby(["donor_id", "cluster", "disease"])["expression"]
+        df.groupby(["donor_id", "cluster", "disease"], observed=False)["expression"]
           .mean().reset_index()
     )
+
+    # Remove NaNs
+    group_df = group_df.dropna(subset=["expression", "cluster", "disease"]).copy()
+    group_df = group_df[~(group_df["cluster"] == "4")].copy()
     return group_df
 
 
@@ -54,8 +59,8 @@ def run_agtr1_stats(df):
     stat_d, p_d = kruskal(*grouped_d)
 
     # OLS model (ANOVA-style)
-    model = smf.ols("expression ~ C(cluster) * C(disease)", data=df).fit()
-    anova_table = smf.stats.anova_lm(model, typ=2)
+    model = ols("expression ~ C(cluster) * C(disease)", data=df).fit()
+    anova_table = sm.stats.anova_lm(model, typ=2)
 
     return (stat_c, p_c), (stat_d, p_d), anova_table
 
@@ -94,59 +99,59 @@ def analyze_agtr1_expression(adata, gene_name="AGTR1",
     plot_agtr1_expression(df, gene_name, outdir)
 
     # Posthoc Dunn tests
-    posthoc_cluster = sp.posthoc_dunn(df, val_col='expression',
-                                      group_col='cluster', p_adjust='fdr_bh')
+    posthoc_cluster = sp.posthoc_dunn(df, val_col='expression', group_col='cluster')
     posthoc_cluster.to_csv(path.join(outdir, f"{gene_name.lower()}_dunn_cluster.tsv"), sep="\t")
 
-    posthoc_disease = sp.posthoc_dunn(df, val_col='expression',
-                                      group_col='disease', p_adjust='fdr_bh')
+    posthoc_disease = sp.posthoc_dunn(df, val_col='expression', group_col='disease')
     posthoc_disease.to_csv(path.join(outdir, f"{gene_name.lower()}_dunn_disease.tsv"), sep="\t")
 
 
 def calculate_cluster_proportions(adata, cluster_key="leiden",
                                   disease_key="Disease_Identity"):
     """Compute per-donor per-cluster proportions across disease states."""
-    df = adata.obs[[cluster_key, disease_key, "donor_id"]].copy()
+    df = adata.obs[[cluster_key, disease_key, "patient"]].copy()
     df["count"] = 1
+    df = df.dropna(subset=[cluster_key, disease_key, "patient"]).copy()
+
     donor_cluster = (
-        df.groupby(["donor_id", disease_key, cluster_key])["count"]
+        df.groupby(["patient", disease_key, cluster_key], observed=False)["count"]
           .sum().reset_index()
     )
 
-    donor_totals = donor_cluster.groupby(["donor_id", disease_key])["count"].transform("sum")
+    donor_totals = donor_cluster.groupby(["patient", disease_key], observed=False)["count"].transform("sum")
     donor_cluster["proportion"] = donor_cluster["count"] / donor_totals
+
     donor_cluster.rename(columns={cluster_key: "cluster"}, inplace=True)
+    donor_cluster = donor_cluster.dropna(subset=["proportion"]).copy()
+    donor_cluster = donor_cluster[~(donor_cluster["cluster"] == "4")].copy()
+    donor_cluster["proportion_transformed"] = np.arcsin(np.sqrt(donor_cluster["proportion"]))
     return donor_cluster
 
 
 def test_cluster_proportion_differences(prop_df, outdir="."):
-    """Kruskal–Wallis test per cluster comparing proportions across diseases."""
-    results = []
-    for clust, subdf in prop_df.groupby("cluster"):
-        grouped = [grp["proportion"].values for _, grp in subdf.groupby("Disease_Identity")]
-        if len(grouped) > 1:
-            stat, p = kruskal(*grouped)
-            results.append({"cluster": clust, "H": stat, "p_value": p})
-    results_df = pd.DataFrame(results)
-    results_df["FDR"] = multipletests(results_df["p_value"], method="fdr_bh")[1]
-    results_df.to_csv(path.join(outdir, "cluster_proportion_tests.tsv"), sep="\t", index=False)
-    return results_df
+    """ANOVA proportions across diseases."""
+    model = ols("proportion_transformed ~ C(cluster) * C(disease)", data=prop_df).fit()
+    anova_table = sm.stats.anova_lm(model, typ=2)
+    anova_table.to_csv(path.join(outdir, "cluster_proportion_anova.tsv"), sep="\t")
+    return anova_table
 
 
 def plot_cluster_proportions(prop_df, outdir="."):
     """Visualize pericyte subcluster proportions by disease."""
     plt.figure(figsize=(9, 6))
-    sns.boxplot(data=prop_df, x="cluster", y="proportion", hue="Disease_Identity",
+    sns.boxplot(data=prop_df, x="cluster", y="proportion_transformed", hue="disease",
                 palette="Set2", showfliers=False)
-    sns.stripplot(data=prop_df, x="cluster", y="proportion", hue="Disease_Identity",
+    sns.stripplot(data=prop_df, x="cluster", y="proportion", hue="disease",
                   dodge=True, jitter=True, color="black", alpha=0.5)
     plt.title("Pericyte subcluster proportions by disease", fontsize=15)
     plt.xlabel("Pericyte Subcluster", fontsize=13)
-    plt.ylabel("Proportion (per donor)", fontsize=13)
+    plt.ylabel("Transformed Proportion (per donor)", fontsize=13)
     plt.legend(title="Disease", bbox_to_anchor=(1.05, 1), loc="upper left")
     plt.tight_layout()
     plt.savefig(path.join(outdir, "cluster_proportions_by_disease.png"),
                 dpi=300, bbox_inches="tight")
+    plt.savefig(path.join(outdir, "cluster_proportions_by_disease.pdf"),
+                bbox_inches="tight")
     plt.close()
 
 
