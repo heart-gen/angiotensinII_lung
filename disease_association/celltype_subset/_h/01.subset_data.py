@@ -81,7 +81,7 @@ def process_query_data():
 
 def load_reference():
     input_path = Path(here("localization/celltype_subset/_m",
-                           "pericyte.hlca_full.subclustered.analysis.h5ad"))
+                           "pericyte.hlca_core.subclustered.analysis.h5ad"))
     adata = sc.read_h5ad(input_path)
     adata.obs["celltype"] = adata.obs["leiden"]
     mask = adata.var["feature_name"].notna() & (adata.var["feature_name"] != "")
