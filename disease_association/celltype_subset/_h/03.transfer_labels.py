@@ -7,6 +7,8 @@ import session_info
 import pandas as pd
 import scanpy as sc
 import seaborn as sns
+import harmonypy as hm
+from pathlib import Path
 import matplotlib.pyplot as plt
 from scipy.spatial import cKDTree
 from scipy.stats import chisquare
