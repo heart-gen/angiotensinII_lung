@@ -3,6 +3,7 @@
 import os
 import numpy as np
 import session_info
+import pandas as pd
 import scanpy as sc
 import harmonypy as hm
 from pyhere import here
@@ -12,7 +13,7 @@ import matplotlib.pyplot as plt
 def load_data():
     """Load data for label transfer."""
     # Load AnnData
-    input_path = Path('../_m/lungmap_dataset.h5ad')
+    input_path = Path('lungmap_dataset.h5ad')
     adata = sc.read_h5ad(Path(input_path))
     # Ensure count layer
     if "counts" not in adata.layers:
@@ -55,7 +56,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     meta = adata.obs[batch_vars].copy()
 
     for col in batch_vars:
-        meta[col] = meta[col].astype("category").astype(str)
+        meta[col] = meta[col].astype("category")
 
     harmony_embed = hm.run_harmony(
         adata.obsm["X_pca"], meta, vars_use=batch_vars,
@@ -89,6 +90,9 @@ def load_reference():
 
     # Define categories to add
     required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
+    if not pd.api.types.is_categorical_dtype(adata.obs["ann_level_4"]):
+	adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
+
     for cat in required_cats:
         if cat not in adata.obs["ann_level_4"].cat.categories:
             adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
@@ -105,7 +109,7 @@ def load_reference():
     for label, fine_clusters in fixes.items():
         cond = (
             adata.obs["ann_finest_level"].isin(fine_clusters)
-            & (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
+            & (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"].isin(["None", ""])))
         )
         adata.obs.loc[cond, "ann_level_4"] = label
 
@@ -142,6 +146,7 @@ def prepare_data(query_adata, ref_adata):
 
     # Preprocessing
     hvgs = ref_adata.var.highly_variable
+    hvgs = hvgs.intersection(query_adata.var_names)
     ref_hvg = ref_adata[:, hvgs].copy()
     query_hvg = query_adata[:, hvgs].copy()
     return ref_hvg, query_hvg
