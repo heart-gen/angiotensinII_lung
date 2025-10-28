@@ -1,94 +1,303 @@
-## Test for enrichment
+#!/usr/bin/env Rscript
+
 suppressPackageStartupMessages({
-    library(dplyr)
+  library(dplyr)
+  library(data.table)
+  library(ggplot2)
+  library(tidyverse)
+  library(memoise)
+  library(ggfittext)
+  library(ggpubr)
+  library(scales)
+  library(sessioninfo)
 })
 
-fishers_exact_compartment <- function(dt, xlab){
-    dx        <- dt |> group_by(Patient, Compartment) |>
-        summarize(mean_expr=mean(`Normalized Expression`,na.rm=TRUE))
-    group_yes <- dim(filter(dx,Compartment == xlab,mean_expr > 0))[1]
-    group_no  <- dim(filter(dx,Compartment == xlab,mean_expr ==0))[1]
-    loc_yes   <- dim(filter(dx,Compartment != xlab,mean_expr > 0))[1]
-    loc_no    <- dim(filter(dx,Compartment != xlab,mean_expr ==0))[1]
-    table <- data.frame("present"=c(group_yes, loc_yes),
-                        "not_present"=c(group_no, loc_no),
-                        row.names=c("In Compartment", "Not in Compartment"))
-    colnames(table) <- c("Present", "Not Present")
-    return(fisher.test(table))
+#----------------------------#
+# Fisher's exact test helpers
+#----------------------------#
+
+fisher_exact_generic <- function(df,
+                                 group_col,
+                                 in_group_label,
+                                 in_group_name,
+                                 out_group_name) {
+  # df: data for ONE gene, columns include Patient, <group_col>, Normalized Expression
+  # group_col: string, column to group by (e.g. "Compartment")
+  # in_group_label: value of that column we're testing enrichment for
+  # in_group_name / out_group_name: row labels (for readability only)
+
+  # compute mean expression per patient x group
+  dx <- df |>
+    group_by(.data$Patient, .data[[group_col]]) |>
+    summarize(
+      mean_expr = mean(`Normalized Expression`, na.rm = TRUE),
+      .groups = "drop"
+    )
+
+  # present / not present counts within the focal group vs all other groups
+  group_yes <- dx |>
+    filter(.data[[group_col]] == in_group_label, mean_expr > 0) |>
+    nrow()
+
+  group_no <- dx |>
+    filter(.data[[group_col]] == in_group_label, mean_expr == 0) |>
+    nrow()
+
+  other_yes <- dx |>
+    filter(.data[[group_col]] != in_group_label, mean_expr > 0) |>
+    nrow()
+
+  other_no <- dx |>
+    filter(.data[[group_col]] != in_group_label, mean_expr == 0) |>
+    nrow()
+
+  contingency <- data.frame(
+    Present      = c(group_yes, other_yes),
+    `Not Present` = c(group_no, other_no),
+    row.names    = c(in_group_name, out_group_name)
+  )
+
+  fisher.test(contingency)
 }
 
-fishers_exact_annotation <- function(dt, xlab){
-    dx        <- dt |> group_by(Patient, Cell_Annotation) |>
-        summarize(mean_expr=mean(`Normalized Expression`,na.rm=TRUE))
-    group_yes <- dim(filter(dx,Cell_Annotation == xlab,mean_expr > 0))[1]
-    group_no  <- dim(filter(dx,Cell_Annotation == xlab,mean_expr ==0))[1]
-    loc_yes   <- dim(filter(dx,Cell_Annotation != xlab,mean_expr > 0))[1]
-    loc_no    <- dim(filter(dx,Cell_Annotation != xlab,mean_expr ==0))[1]
-    table <- data.frame("present"=c(group_yes, loc_yes),
-                        "not_present"=c(group_no, loc_no),
-                        row.names=c("In Cell type", "Not in Cell type"))
-    colnames(table) <- c("Present", "Not Present")
-    return(fisher.test(table))
+fisher_exact_compartment <- function(df, xlab) {
+  fisher_exact_generic(
+    df = df,
+    group_col = "Compartment",
+    in_group_label = xlab,
+    in_group_name = "In Compartment",
+    out_group_name = "Not in Compartment"
+  )
 }
 
-fishers_exact_subcluster <- function(dt, xlab){
-    dx        <- dt |> group_by(Patient, Subcluster) |>
-        summarize(mean_expr=mean(`Normalized Expression`,na.rm=TRUE))
-    group_yes <- dim(filter(dx,Subcluster == xlab,mean_expr > 0))[1]
-    group_no  <- dim(filter(dx,Subcluster == xlab,mean_expr ==0))[1]
-    loc_yes   <- dim(filter(dx,Subcluster != xlab,mean_expr > 0))[1]
-    loc_no    <- dim(filter(dx,Subcluster != xlab,mean_expr ==0))[1]
-    table <- data.frame("present"=c(group_yes, loc_yes),
-                        "not_present"=c(group_no, loc_no),
-                        row.names=c("In Cell type", "Not in Cell type"))
-    colnames(table) <- c("Present", "Not Present")
-    return(fisher.test(table))
+fisher_exact_annotation <- function(df, xlab) {
+  fisher_exact_generic(
+    df = df,
+    group_col = "Cell_Annotation",
+    in_group_label = xlab,
+    in_group_name = "In Cell type",
+    out_group_name = "Not in Cell type"
+  )
 }
 
-enrichment_loop <- function(df, fnc, locs, label){
-    datalist  <- list(); locations <- c();
-    gnames <- c(); pvalues <- c(); oddratio <- c();
-    for(gene in c("AGTR1","AGTR2")){
-        dt <- df |> filter(Gene_Name == gene)
-        for(location in locs){
-            gnames    <- c(gnames, gene)
-            locations <- c(locations, location)
-            pvalues   <- c(pvalues,fnc(dt,location)$p.value)
-            oddratio  <- c(oddratio,fnc(dt,location)$estimate)
-        }
-    }
-    fdr <- p.adjust(pvalues, method="fdr")
-    return(data.frame("Annotation"=label,
-                      "Annotation_Name"=locations,
-                      "Gene"=gnames, "OR"=oddratio,
-                      "P"=pvalues, "FDR"=fdr))
+fisher_exact_subcluster <- function(df, xlab) {
+  fisher_exact_generic(
+    df = df,
+    group_col = "Subcluster",
+    in_group_label = xlab,
+    in_group_name = "In Cell type",
+    out_group_name = "Not in Cell type"
+  )
 }
 
-enrichment_analysis <- function(){
-    df <- data.table::fread("../../_m/normalized_expression.txt.gz")
-                                        # Compartment
-    locs <- df$Compartment |> unique()
-    dat1 <- enrichment_loop(df, fishers_exact_compartment,
-                            locs, "Compartment")
-                                        # Cell type
-    locs <- df$Cell_Annotation |> unique()
-    dat2 <- enrichment_loop(df, fishers_exact_annotation,
-                            locs, "Cell type")
-                                        # Subclusters
-    locs <- df$Subcluster |> unique()
-    dat3 <- enrichment_loop(df, fishers_exact_subcluster,
-                            locs, "Subcluster")
-    return(bind_rows(dat1, dat2, dat3))
+#--------------------------------------#
+# Run enrichment for a set of locations
+#--------------------------------------#
+
+enrichment_loop <- function(df,
+                            fisher_fun,
+                            locations,
+                            annotation_label,
+                            genes = c("AGTR1", "AGTR2")) {
+  results <- lapply(genes, function(gene) {
+    gene_df <- df |> filter(Gene_Name == gene)
+
+    loc_stats <- lapply(locations, function(loc) {
+      ft <- fisher_fun(gene_df, loc)
+
+      data.frame(
+        Annotation       = annotation_label,
+        Annotation_Name  = loc,
+        Gene             = gene,
+        OR               = unname(ft$estimate),
+        P                = ft$p.value,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    bind_rows(loc_stats)
+  })
+
+  out <- bind_rows(results)
+
+  out |>
+    mutate(FDR = p.adjust(P, method = "fdr"))
 }
 
-#### MAIN
-enrichment_analysis() |>
-    data.table::fwrite("cell_annotation_enrichment_analysis.tsv",
-                       sep='\t')
+#----------------------#
+# Full enrichment stage
+#----------------------#
 
-#### Reproducibility information ####
-print("Reproducibility information:")
-Sys.time()
-proc.time()
-options(width = 120)
-sessioninfo::session_info()
+run_enrichment <- function(expr_path) {
+  df <- data.table::fread(expr_path)
+
+  # Compartment
+  comp_locs <- unique(df$Compartment)
+  dat_comp <- enrichment_loop(
+    df = df,
+    fisher_fun = fisher_exact_compartment,
+    locations = comp_locs,
+    annotation_label = "Compartment"
+  )
+
+  # Cell type
+  celltype_locs <- unique(df$Cell_Annotation)
+  dat_celltype <- enrichment_loop(
+    df = df,
+    fisher_fun = fisher_exact_annotation,
+    locations = celltype_locs,
+    annotation_label = "Cell type"
+  )
+
+  # Subcluster
+  subcluster_locs <- unique(df$Subcluster)
+  dat_subcluster <- enrichment_loop(
+    df = df,
+    fisher_fun = fisher_exact_subcluster,
+    locations = subcluster_locs,
+    annotation_label = "Subcluster"
+  )
+
+  bind_rows(dat_comp, dat_celltype, dat_subcluster)
+}
+
+#----------------------------#
+# Plotting utilities / theming
+#----------------------------#
+
+save_plot <- function(p, file_stub, w, h) {
+  for (ext in c(".pdf", ".png")) {
+    ggsave(
+      filename = paste0(file_stub, ext),
+      plot = p,
+      width = w,
+      height = h
+    )
+  }
+}
+
+# memoised loader so we don't reread on every plot
+load_enrichment <- function(tsv_path) {
+  data.table::fread(tsv_path)
+}
+mem_enrich <- memoise::memoise(load_enrichment)
+
+prepare_plot_data <- function(tsv_path) {
+  err  <- 1e-7
+  err2 <- 1e-100  # (kept for parity with original intent)
+
+  mem_enrich(tsv_path) |>
+    mutate_if(is.character, as.factor) |>
+    mutate(
+      `-log10(FDR)`   = ifelse(FDR != 0, -log10(FDR), -log10(err)),
+      `OR Percentile` = OR / (1 + OR),
+      p_fdr_sig       = FDR < 0.05,
+      `log2(OR)`      = log2(OR + err2),
+      p_fdr_cat       = cut(
+        FDR,
+        breaks = c(1, 0.05, 0.01, 0.005, 0),
+        labels = c("<= 0.005", "<= 0.01", "<= 0.05", "> 0.05"),
+        include.lowest = TRUE
+      )
+    )
+}
+mem_plot_df <- memoise::memoise(prepare_plot_data)
+
+plot_tile <- function(tsv_path,
+                      annotation_label,
+                      w,
+                      h,
+                      out_stub_prefix = "tileplot_enrichment_") {
+  dt <- mem_plot_df(tsv_path) |>
+    filter(Annotation == annotation_label)
+
+  y0 <- min(dt$`log2(OR)`, na.rm = TRUE) - 0.1
+  y1 <- max(dt$`log2(OR)`, na.rm = TRUE) + 0.1
+
+  p <- ggplot(
+    dt,
+    aes(
+      x = Gene,
+      y = Annotation_Name,
+      fill = `log2(OR)`,
+      label = ifelse(
+        p_fdr_sig,
+        format(round(`-log10(FDR)`, 1), nsmall = 1),
+        ""
+      )
+    )
+  ) +
+    geom_tile(color = "grey") +
+    ggfittext::geom_fit_text(contrast = TRUE) +
+    scale_fill_gradientn(
+      colors = c("blue", "white", "red"),
+      values = scales::rescale(c(y0, 0, y1)),
+      limits = c(y0, y1)
+    ) +
+    labs(x = NULL, y = NULL) +
+    ggpubr::theme_pubr(base_size = 20, border = FALSE) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "right",
+      axis.title = element_text(face = "bold"),
+      axis.text.y = element_text(face = "bold"),
+      strip.text = element_text(face = "bold")
+    )
+
+  outfile <- paste0(
+    out_stub_prefix,
+    gsub(" ", "_", tolower(annotation_label))
+  )
+
+  save_plot(p, outfile, w, h)
+}
+
+#----------------------------#
+# Main pipeline
+#----------------------------#
+
+main <- function() {
+  expression_file <- "../../_m/normalized_expression.txt.gz"
+  enrichment_tsv  <- "cell_annotation_enrichment_analysis.tsv"
+
+  # Enrichment analysis + write TSV
+  enrichment_results <- run_enrichment(expression_file)
+
+  data.table::fwrite(
+    enrichment_results,
+    enrichment_tsv,
+    sep = "\t"
+  )
+
+  # Plots from TSV
+  plot_tile(
+    tsv_path = enrichment_tsv,
+    annotation_label = "Compartment",
+    w = 5.4,
+    h = 4
+  )
+
+  plot_tile(
+    tsv_path = enrichment_tsv,
+    annotation_label = "Cell type",
+    w = 8,
+    h = 13
+  )
+
+  plot_tile(
+    tsv_path = enrichment_tsv,
+    annotation_label = "Subcluster",
+    w = 8,
+    h = 17
+  )
+
+  # Reproducibility info
+  cat("Reproducibility information:\n")
+  print(Sys.time())
+  print(proc.time())
+  options(width = 120)
+  print(sessioninfo::session_info())
+}
+
+# Execute when run as script
+main()
