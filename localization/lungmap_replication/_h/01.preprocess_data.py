@@ -9,19 +9,15 @@ from pyhere import here
 from pathlib import Path
 import matplotlib.pyplot as plt
 
-def subset_data(subset_key: str = "cell_type",
-                subset_value: str = "Pericyte"):
-    """Subset lung single-cell data for label transfer."""
+def load_data():
+    """Load data for label transfer."""
     # Load AnnData
-    input_path = Path('../../_m/ipf_dataset.h5ad')
-    adata = sc.read_h5ad(Path(input_path))
-    
+    input_path = Path('../_m/lungmap_dataset.h5ad')
+    adata = sc.read_h5ad(Path(input_path))    
     # Ensure count layer
     if "counts" not in adata.layers:
         adata.layers["counts"] = adata.X.copy()
-    mask = adata.obs[subset_key].eq(subset_value)
-
-    return adata[mask].copy()
+    return adata
 
 
 def check_data(adata, outdir="qc_plots"):
@@ -41,7 +37,7 @@ def check_data(adata, outdir="qc_plots"):
     umap_file = os.path.join(outdir, "umap_overview")
 
     # Create and save the plot
-    sc.pl.umap(adata, color=["Library_Identity", "patient", "disease"],
+    sc.pl.umap(adata, color=["donor", "age", "sex", "batch"],
                wspace=0.4, ncols=1, save=None, show=False)
 
     # Save manually for full control
@@ -55,7 +51,7 @@ def check_data(adata, outdir="qc_plots"):
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     """Preprocess and batch-correct data with Harmony."""    
     # Run harmony
-    batch_vars = ["patient"]
+    batch_vars = ["donor"]
     meta = adata.obs[batch_vars].copy()
         
     for col in batch_vars:
@@ -73,20 +69,68 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
 
 def process_query_data():
     # Preprocessing query data
-    adata = subset_data()
+    adata = load_data()
     adata = check_data(adata, outdir="qc_plots")
     adata = preprocess_data(adata)
     return adata
 
 
 def load_reference():
-    input_path = Path(here("localization/celltype_subset/_m",
-                           "pericyte.hlca_core.subclustered.analysis.h5ad"))
+    input_path = Path(here("inputs/hlca/_m/hlca_core.h5ad"))
     adata = sc.read_h5ad(input_path)
-    adata.obs["celltype"] = adata.obs["leiden"]
-    mask = adata.var["feature_name"].notna() & (adata.var["feature_name"] != "")
-    adata.var_names = np.where(mask, adata.var["feature_name"], adata.var_names)
-    adata = adata[:, ~adata.var_names.duplicated()].copy()
+    # Ensure count layer
+    if "counts" not in adata.layers:
+        if "soupX" in adata.layers:
+            adata.layers["counts"] = adata.layers["soupX"]
+        elif adata.raw is not None:
+            adata.layers["counts"] = adata.raw.X.copy()
+        else:
+            raise ValueError("No suitable count layer found (expected 'counts', 'soupX', or .raw).")
+
+    # Define categories to add
+    required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
+    for cat in required_cats:
+        if cat not in adata.obs["ann_level_4"].cat.categories:
+            adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
+
+    # Handle annotation issues
+    vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+",
+                    "SM activated stress response"}
+    fixes = {
+        "Vascular smooth muscle": vsm_clusters,
+        "Mesothelium": {"Mesothelium"},
+        "Myofibroblasts": {"Myofibroblasts"},
+    }
+
+    for label, fine_clusters in fixes.items():
+        cond = (
+            adata.obs["ann_finest_level"].isin(fine_clusters)
+            & (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
+        )
+        adata.obs.loc[cond, "ann_level_4"] = label
+
+    # Update annotation columns
+    obs_map = {
+        "subclusters": "ann_finest_level",
+        "cell_type": "ann_level_4",
+        "clusters": "ann_level_4",
+        "compartment": "ann_level_1",
+        "patient": "donor_id",
+    }
+    for new, old in obs_map.items():
+        if old in adata.obs:
+            adata.obs[new] = adata.obs[old]
+        else:
+            print(f"Warning: '{old}' not found in obs; skipping {new} mapping.")
+
+    # Filter studies (>= 20 cells)
+    if "study" in adata.obs:
+        study_counts = adata.obs["study"].value_counts()
+        valid_studies = study_counts[study_counts >= 20].index
+        adata = adata[adata.obs["study"].isin(valid_studies)].copy()
+    else:
+        print("Warning: Variable 'study' not found in observation metadata; skipping study filter.")
+
     return adata
 
 
