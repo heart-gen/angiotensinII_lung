@@ -1,0 +1,65 @@
+Gene_Name	Celltype	Proportion	Total_Cells
+AGTR1	AT1/AT2-like	0.00377833753148615	3
+AGTR1	AT2/Club-like	0.00235294117647059	1
+AGTR1	Alveolar macrophages	0.00184283269711728	14
+AGTR1	B cells	0.00387221684414327	4
+AGTR1	Cap1	0.00371747211895911	4
+AGTR1	Cap2	0.0025062656641604	2
+AGTR1	Interstitial macrophages	0.000873362445414847	1
+AGTR1	NK cells	0.00189214758751183	2
+AGTR1	PNECs	0	0
+AGTR1	T cells	0.00096961861667744	3
+AGTR1	airway smooth muscle	0.0111358574610245	5
+AGTR1	alveolar type 1 cells	0.00165883328725463	6
+AGTR1	alveolar type 2 cells	0.000830909846281679	6
+AGTR1	arteries	0	0
+AGTR1	basal cells	0	0
+AGTR1	bronchial vessel	0	0
+AGTR1	chondrocytes	0.0281329923273657	11
+AGTR1	ciliated cells	0.00300751879699248	2
+AGTR1	club cells	0.00154918667699458	2
+AGTR1	dendritic cells	0	0
+AGTR1	enucleated erythrocytes	0.129353233830846	26
+AGTR1	goblet cells	0	0
+AGTR1	lymphatics	0.00339366515837104	3
+AGTR1	mast cells	0.0155038759689922	2
+AGTR1	matrix fibroblast 1	0.138083538083538	562
+AGTR1	matrix fibroblast 2	0.068643785404865	206
+AGTR1	monocytes	0.00152671755725191	4
+AGTR1	myofibroblasts	0.0269784172661871	15
+AGTR1	pericytes	0.146067415730337	117
+AGTR1	unclassified	0.0136054421768707	30
+AGTR1	vascular smooth muscle	0.050251256281407	10
+AGTR1	veins	0	0
+AGTR2	AT1/AT2-like	0.00125944584382872	1
+AGTR2	AT2/Club-like	0.00235294117647059	1
+AGTR2	Alveolar macrophages	0.000131630906936949	1
+AGTR2	B cells	0	0
+AGTR2	Cap1	0	0
+AGTR2	Cap2	0	0
+AGTR2	Interstitial macrophages	0	0
+AGTR2	NK cells	0	0
+AGTR2	PNECs	0	0
+AGTR2	T cells	0.000323206205559147	1
+AGTR2	airway smooth muscle	0.0022271714922049	1
+AGTR2	alveolar type 1 cells	0.000552944429084877	2
+AGTR2	alveolar type 2 cells	0.00512394405207035	37
+AGTR2	arteries	0	0
+AGTR2	basal cells	0	0
+AGTR2	bronchial vessel	0	0
+AGTR2	chondrocytes	0	0
+AGTR2	ciliated cells	0.00150375939849624	1
+AGTR2	club cells	0.000774593338497289	1
+AGTR2	dendritic cells	0	0
+AGTR2	enucleated erythrocytes	0	0
+AGTR2	goblet cells	0	0
+AGTR2	lymphatics	0	0
+AGTR2	mast cells	0	0
+AGTR2	matrix fibroblast 1	0.000982800982800983	4
+AGTR2	matrix fibroblast 2	0.00733088970343219	22
+AGTR2	monocytes	0	0
+AGTR2	myofibroblasts	0.00359712230215827	2
+AGTR2	pericytes	0	0
+AGTR2	unclassified	0.00136054421768707	3
+AGTR2	vascular smooth muscle	0	0
+AGTR2	veins	0	0
