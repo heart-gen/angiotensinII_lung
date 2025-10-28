@@ -3,12 +3,12 @@
 import os
 import numpy as np
 import session_info
-import pandas as pd
 import scanpy as sc
 import harmonypy as hm
 from pyhere import here
 from pathlib import Path
 import matplotlib.pyplot as plt
+from pandas.api.types import CategoricalDtype
 
 def load_data():
     """Load data for label transfer."""
@@ -90,8 +90,8 @@ def load_reference():
 
     # Define categories to add
     required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
-    if not pd.api.types.is_categorical_dtype(adata.obs["ann_level_4"]):
-	adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
+    if not isinstance(adata.obs["ann_level_4"].dtype, CategoricalDtype):
+        adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
 
     for cat in required_cats:
         if cat not in adata.obs["ann_level_4"].cat.categories:
@@ -135,14 +135,20 @@ def load_reference():
     else:
         print("Warning: Variable 'study' not found in observation metadata; skipping study filter.")
 
+    # Preprocess data
+    sc.pp.normalize_total(adata, target_sum=1e4)
+    sc.pp.log1p(adata)
+    sc.pp.highly_variable_genes(
+        adata, n_top_genes=2000, batch_key='study'
+    )
     return adata
 
 
 def prepare_data(query_adata, ref_adata):
     # Ensure common genes
-    common_genes = ref_adata.var_names.intersection(query_adata.var_names)
-    ref_adata = ref_adata[:, common_genes].copy()
-    query_adata = query_adata[:, common_genes].copy()
+    common = ref_adata.var_names.intersection(query_adata.var_names)
+    ref = ref_adata[:, common].copy()
+    query = query_adata[:, common].copy()
 
     # Preprocessing
     hvgs = ref_adata.var.highly_variable
