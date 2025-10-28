@@ -18,7 +18,7 @@ suppressPackageStartupMessages({
 fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
                                  out_group_name) {
                                         # Compute mean expression per patient x group
-    dx <- df |>
+    dx <- df |> 
         group_by(.data$Donor, .data[[group_col]]) |>
         summarize(
             mean_expr = mean(`Normalized Expression`, na.rm = TRUE),
@@ -26,20 +26,20 @@ fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
         )
 
                                         # Present / not present counts
-    group_yes <- dx |>
-        filter(.data[[group_col]] == in_group_label, mean_expr > 0) |>
+    group_yes <- df |>
+        filter(.data[[group_col]] == in_group_label, `Normalized Expression` > 0) |>
         nrow()
 
-    group_no <- dx |>
-        filter(.data[[group_col]] == in_group_label, mean_expr == 0) |>
+    group_no <- df |>
+        filter(.data[[group_col]] == in_group_label, `Normalized Expression` == 0) |>
         nrow()
 
-    other_yes <- dx |>
-        filter(.data[[group_col]] != in_group_label, mean_expr > 0) |>
+    other_yes <- df |>
+        filter(.data[[group_col]] != in_group_label, `Normalized Expression` > 0) |>
         nrow()
 
-    other_no <- dx |>
-        filter(.data[[group_col]] != in_group_label, mean_expr == 0) |>
+    other_no <- df |>
+        filter(.data[[group_col]] != in_group_label, `Normalized Expression` == 0) |>
         nrow()
 
     contingency <- data.frame(
@@ -47,7 +47,6 @@ fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
         `Not Present` = c(group_no, other_no),
         row.names    = c(in_group_name, out_group_name)
     )
-
     return(fisher.test(contingency))
 }
 
@@ -91,7 +90,7 @@ enrichment_loop <- function(df, fisher_fun, locations, annotation_label,
     })
 
 
-    return(bind_rows(results) |> mutate(FDR = p.adjust(P, method = "fdr")))
+    return(bind_rows(results) |> mutate(FDR = p.adjust(P, method = "bonferroni")))
 }
 
 #----------------------#
@@ -200,25 +199,25 @@ plot_tile <- function(tsv_path, annotation_label, w, h,
 # Main pipeline
 #----------------------------#
 main <- function() {
-  expression_file <- "../_m/normalized_expression.txt.gz"
-  enrichment_tsv  <- "cell_annotation_enrichment_analysis.tsv"
+    expression_file <- "../_m/normalized_expression.txt.gz"
+    enrichment_tsv  <- "cell_annotation_enrichment_analysis.tsv"
 
                                         # Enrichment analysis + write TSV
-  enrichment_results <- run_enrichment(expression_file)
-  data.table::fwrite(enrichment_results, enrichment_tsv, sep = "\t")
+    enrichment_results <- run_enrichment(expression_file)
+    data.table::fwrite(enrichment_results, enrichment_tsv, sep = "\t")
 
                                         # Plots from TSV
-  plot_tile(tsv_path = enrichment_tsv, annotation_label = "Compartment",
-            w = 5.4, h = 4)
-  plot_tile(tsv_path = enrichment_tsv, annotation_label = "Cell type",
-            w = 8, h = 13)
+    plot_tile(tsv_path = enrichment_tsv, annotation_label = "Compartment",
+              w = 5.4, h = 4)
+    plot_tile(tsv_path = enrichment_tsv, annotation_label = "Cell type",
+              w = 8, h = 13)
 
                                         # Reproducibility info
-  cat("Reproducibility information:\n")
-  print(Sys.time())
-  print(proc.time())
-  options(width = 120)
-  print(sessioninfo::session_info())
+    cat("Reproducibility information:\n")
+    print(Sys.time())
+    print(proc.time())
+    options(width = 120)
+    print(sessioninfo::session_info())
 }
 
                                         # Execute when run as script
