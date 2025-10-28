@@ -19,7 +19,7 @@ fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
                                  out_group_name) {
                                         # Compute mean expression per patient x group
     dx <- df |>
-        group_by(.data$Patient, .data[[group_col]]) |>
+        group_by(.data$Donor, .data[[group_col]]) |>
         summarize(
             mean_expr = mean(`Normalized Expression`, na.rm = TRUE),
             .groups = "drop"
