@@ -13,7 +13,7 @@ def load_data():
     """Load data for label transfer."""
     # Load AnnData
     input_path = Path('../_m/lungmap_dataset.h5ad')
-    adata = sc.read_h5ad(Path(input_path))    
+    adata = sc.read_h5ad(Path(input_path))
     # Ensure count layer
     if "counts" not in adata.layers:
         adata.layers["counts"] = adata.X.copy()
@@ -29,7 +29,7 @@ def check_data(adata, outdir="qc_plots"):
     sc.tl.pca(adata)
     sc.pp.neighbors(adata)
     sc.tl.umap(adata)
-    
+
     # Plot & Save
     os.makedirs(outdir, exist_ok=True)
 
@@ -49,17 +49,17 @@ def check_data(adata, outdir="qc_plots"):
 
 
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
-    """Preprocess and batch-correct data with Harmony."""    
+    """Preprocess and batch-correct data with Harmony."""
     # Run harmony
     batch_vars = ["donor"]
     meta = adata.obs[batch_vars].copy()
-        
+
     for col in batch_vars:
         meta[col] = meta[col].astype("category").astype(str)
 
     harmony_embed = hm.run_harmony(
         adata.obsm["X_pca"], meta, vars_use=batch_vars,
-        max_iter_harmony=max_iter, epsilon_harmony=1e-5, 
+        max_iter_harmony=max_iter, epsilon_harmony=1e-5,
         random_state=seed
     )
     adata.obsm["X_pca_harmony"] = harmony_embed.Z_corr.T
@@ -156,7 +156,7 @@ def main():
 
     # Prepare data
     ref_hvg, query_hvg = prepare_data(query_adata, ref_adata)
-    
+
     # Save preprocessed objects for GPU step
     ref_hvg.write_h5ad("ref_hvg.h5ad", compression="gzip")
     query_hvg.write_h5ad("query_hvg.h5ad", compression="gzip")
@@ -168,4 +168,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
