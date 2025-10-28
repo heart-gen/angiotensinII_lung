@@ -81,15 +81,15 @@ extract_angiotensinII <- function(){
 memAGTR <- memoise::memoise(extract_angiotensinII)
 
                                         # Prepare data functions
-prepare_counts <- function(){
+prepare_data <- function(){
     angiotensin2 <- memAGTR()
-    df = counts(angiotensin2) |> t() |> as.data.frame() |>
+    df = logcounts(angiotensin2) |> t() |> as.data.frame() |>
         mutate(Donor=colData(angiotensin2)$donor,
                Celltype=colData(angiotensin2)$celltype,
                Lineage=colData(angiotensin2)$lineage) |>
-        filter(AGTR1 > 0 | AGTR2 > 0) |> droplevels() |>
         tidyr::pivot_longer(-c(Donor, Celltype, Lineage),
-                            names_to="Gene_Name", values_to="Counts") |>
+                            names_to="Gene_Name",
+                            values_to="Normalized Expression") |>
         mutate_if(is.character, as.factor)
     return(df)
 }
@@ -124,9 +124,7 @@ venn_diagrams <- function(){
     save_ggplots(tolower(outfile), vv, 5, 5)
 }
 
-plot_dotplot <- function(){
-    outdir = "all_cells"
-    dir.create(outdir)
+plot_dotplot <- function(outdir="all_cells"){
     df.seurat <- as.Seurat(memAGTR(), counts = "counts", data = "logcounts")
     df.seurat$celltype <- forcats::fct_rev(factor(df.seurat$celltype))
     df.seurat$lineage  <- forcats::fct_rev(factor(df.seurat$lineage))
@@ -160,7 +158,7 @@ calculate_proportion <- function(df, outdir){
         summarise(Proportion=sum(`Normalized Expression` > 0)/n(),
                   Total_Cells=sum(`Normalized Expression` > 0))
     print(dt); plot_bar(dt, "Lineage", 45, 3, 5, outdir)
-    dt = df |> group_by(Gene_Name, Subcluster) |>
+    dt = df |> group_by(Gene_Name, Celltype) |>
         summarise(Proportion=sum(`Normalized Expression` > 0)/n(),
                   Total_Cells=sum(`Normalized Expression` > 0))
     print(arrange(dt, desc(Proportion)) |> head(10));
@@ -174,12 +172,19 @@ calculate_proportion <- function(df, outdir){
                                         # Plot venn diagram
 venn_diagrams()
                                         # All cells
+outdir = "all_cells"; dir.create(outdir)
+
 plot_dotplot()
-                                        # Filtered cells
-df1 <- prepare_counts()
+df1 <- prepare_data()
 df1 |> data.table::fwrite("normalized_expression.txt.gz", sep='\t', 
                           compress="auto")
-calculate_proportion(df1, "all_cells")
+calculate_proportion(df1, outdir)
+
+                                        # Filtered
+outdir = "filtered_cells"; dir.create(outdir)
+df2 <- prepare_filtered_data()
+calculate_proportion(df2, outdir)
+
 
 #### Reproducibility information ####
 print("Reproducibility information:")
