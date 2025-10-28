@@ -18,7 +18,7 @@ def train_model():
 
     scanvi_model = scvi.model.SCANVI.from_scvi_model(
         vae, unlabeled_category="unknown",
-        labels_key="celltype"
+        labels_key="cell_type"
     )
     scanvi_model.train(
         max_epochs=500,

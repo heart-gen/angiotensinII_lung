@@ -13,19 +13,15 @@ import matplotlib.pyplot as plt
 from scipy.spatial import cKDTree
 from sklearn.calibration import calibration_curve
 
-def subset_data(subset_key: str = "cell_type",
-                subset_value: str = "Pericyte"):
-    """Subset lung single-cell data for label transfer."""
+def load_data():
+    """Load data for label transfer."""
     # Load AnnData
-    input_path = Path('../../_m/ipf_dataset.h5ad')
+    input_path = Path('lungmap_dataset.h5ad')
     adata = sc.read_h5ad(Path(input_path))
-    
     # Ensure count layer
     if "counts" not in adata.layers:
         adata.layers["counts"] = adata.X.copy()
-    mask = adata.obs[subset_key].eq(subset_value)
-
-    return adata[mask].copy()
+    return adata
 
 
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
@@ -40,7 +36,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     sc.tl.umap(adata)    
 
     # Run harmony
-    batch_vars = ["patient"]
+    batch_vars = ["donor", "batch"]
     meta = adata.obs[batch_vars].copy()
         
     for col in batch_vars:
@@ -58,7 +54,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
 
 def process_query_data():
     # Preprocessing query data
-    adata = subset_data()
+    adata = load_data()
     adata = preprocess_data(adata)
     return adata
 
@@ -69,7 +65,7 @@ def transfer_labels(confidence_threshold=0.7, outdir="qc_plots"):
     query_adata = process_query_data()
     query_adata.X = query_adata.layers["counts"]
     query_hvg = sc.read_h5ad("query_hvg.h5ad")
-    query_hvg.obs["celltype"] = "unknown"
+    query_hvg.obs["cell_type"] = "unknown"
 
     # Load model with reference data
     scanvi_model = scvi.model.SCANVI.load("scanvi_model/", adata=ref_hvg)
@@ -135,8 +131,8 @@ def cluster_data(adata):
 def visualize_clusters(adata, resolution, outdir):
     sc.tl.leiden(adata, resolution=resolution)
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
-    sc.pl.umap(adata, color='disease', ax=axes[1],show=False, title='Disease')
-    sc.pl.umap(adata, color='patient', ax=axes[0], show=False,
+    sc.pl.umap(adata, color='age', ax=axes[1],show=False, title='Age')
+    sc.pl.umap(adata, color='donor', ax=axes[0], show=False,
                title='Donors')
     plt.tight_layout()
     plt.savefig(f'{outdir}/harmony_batch_correction.clustering.png',
@@ -245,6 +241,7 @@ def main():
     mapping_distance(ref_hvg, query_hvg, outdir=outdir)
     
     # Save data
+    adata.obs["cell_type"] = adata.obs["predicted_labels"]
     adata.write_h5ad("clustered_data.h5ad", compression="gzip")
 
     # Session information

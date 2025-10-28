@@ -152,7 +152,6 @@ def prepare_data(query_adata, ref_adata):
 
     # Preprocessing
     hvgs = ref_adata.var.highly_variable
-    hvgs = hvgs.intersection(query_adata.var_names)
     ref_hvg = ref_adata[:, hvgs].copy()
     query_hvg = query_adata[:, hvgs].copy()
     return ref_hvg, query_hvg
