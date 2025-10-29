@@ -52,7 +52,7 @@ def check_data(adata, outdir="qc_plots"):
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     """Preprocess and batch-correct data with Harmony."""
     # Run harmony
-    batch_vars = ["donor"]
+    batch_vars = ["donor", "batch"]
     meta = adata.obs[batch_vars].copy()
 
     for col in batch_vars:
@@ -146,9 +146,17 @@ def load_reference():
 
 def prepare_data(query_adata, ref_adata):
     # Ensure common genes
-    common = ref_adata.var_names.intersection(query_adata.var_names)
-    ref = ref_adata[:, common].copy()
-    query = query_adata[:, common].copy()
+    feature_names = set(ref_adata.var['feature_name'])
+    var_names = set(query_adata.var_names)
+    common = feature_names.intersection(var_names)
+    ref_adata = ref_adata[:, ref_adata.var["feature_name"].isin(common)].copy()
+    query_adata = query_adata[:, query_adata.var_names.isin(common)].copy()
+
+    # Remove duplicates
+    mask = ref_adata.var['feature_name'].duplicated(keep='first')
+    unique_names = ref_adata.var['feature_name'][~mask].unique()
+    ref_adata = ref_adata[:, unique_names].copy()
+    ref_adata.var.reset_index(drop=True, inplace=True)
 
     # Preprocessing
     hvgs = ref_adata.var.highly_variable
