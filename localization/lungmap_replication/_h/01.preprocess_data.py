@@ -145,23 +145,28 @@ def load_reference():
 
 
 def prepare_data(query_adata, ref_adata):
-    # Ensure common genes
+    # Match common genes on gene names
     feature_names = set(ref_adata.var['feature_name'])
     var_names = set(query_adata.var_names)
     common = feature_names.intersection(var_names)
+
+    # Subset both objects
     ref_adata = ref_adata[:, ref_adata.var["feature_name"].isin(common)].copy()
     query_adata = query_adata[:, query_adata.var_names.isin(common)].copy()
 
     # Remove duplicates
     mask = ref_adata.var['feature_name'].duplicated(keep='first')
-    unique_names = ref_adata.var['feature_name'][~mask].unique()
+    unique_names = ref_adata.var_names[~mask].unique()
     ref_adata = ref_adata[:, unique_names].copy()
-    ref_adata.var.reset_index(drop=True, inplace=True)
 
-    # Preprocessing
-    hvgs = ref_adata.var.highly_variable
+    # Rename ref_adata var_names to feature_name
+    ref_adata.var_names = ref_adata.var["feature_name"]
+    
+    # Subset to HVGs
+    hvgs = ref_adata.var.loc[ref_adata.var['highly_variable']].index
     ref_hvg = ref_adata[:, hvgs].copy()
     query_hvg = query_adata[:, hvgs].copy()
+
     return ref_hvg, query_hvg
 
 
