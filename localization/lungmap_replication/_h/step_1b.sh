@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --partition=RM-512
+#SBATCH --partition=RM-shared
 #SBATCH --job-name=load_data
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=128
-#SBATCH --time=02:00:00
+#SBATCH --ntasks-per-node=64
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/load_data.log
 
 log_message() {
@@ -29,7 +29,7 @@ log_message "**** Loading conda environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
-python ../_h/01.preprocess_data.py
+python ../_h/01b.preprocess_data.py
 
 if [ $? -ne 0 ]; then
     echo "Python script failed. Check the error logs."
