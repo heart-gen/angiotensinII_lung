@@ -1,6 +1,7 @@
 ## This is a converted script from our original R version.
 ## Issues with loading the full model with `zellkonverter`.
 import os
+import numpy as np
 import pandas as pd
 import session_info
 import scanpy as sc
@@ -8,6 +9,17 @@ import harmonypy as hm
 from pathlib import Path
 import matplotlib.pyplot as plt
 from pandas.api.types import CategoricalDtype
+
+def _to_float32(data):
+    """Downcast dense or sparse arrays to float32 when possible."""
+    if data is None:
+        return data
+
+    if hasattr(data, "dtype") and data.dtype != np.float32:
+        return data.astype(np.float32, copy=False)
+
+    return data
+
 
 def _sanitize_var_for_h5ad(adata):
     if isinstance(adata.var.index.dtype, CategoricalDtype):
@@ -35,9 +47,11 @@ def check_data(adata, outdir="qc_plots"):
     # Preprocess and dimensionality reduction
     sc.pp.normalize_total(adata)
     sc.pp.log1p(adata)
+    adata.X = _to_float32(adata.X)
     sc.pp.highly_variable_genes(adata, n_top_genes=3000)
     sc.pp.scale(adata, zero_center=False)
     sc.tl.pca(adata)
+    adata.obsm["X_pca"] = _to_float32(adata.obsm.get("X_pca"))
     sc.pp.neighbors(adata)
     sc.tl.umap(adata)
 
@@ -72,7 +86,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
         max_iter_harmony=max_iter, epsilon_harmony=1e-5,
         random_state=seed
     )
-    adata.obsm["X_pca_harmony"] = harmony_embed.Z_corr.T
+    adata.obsm["X_pca_harmony"] = _to_float32(harmony_embed.Z_corr.T)
 
     return adata
 
@@ -88,27 +102,39 @@ def process_query_data():
 def prepare_data(query_adata, ref_adata):
     # Align by gene symbols
     ref_feat = ref_adata.var['feature_name'].astype(str)
-    qry_names = query_adata.var_names.astype(str)
-    common = pd.Index(ref_feat).intersection(pd.Index(qry_names))
+    qry_names = pd.Index(query_adata.var_names.astype(str))
 
-    # Subset both to common genes
-    ref = ref_adata[:, ref_feat.isin(common)].copy()
-    qry = query_adata[:, query_adata.var_names.isin(common)].copy()
+    # Build a mask for features present in both datasets
+    common_mask_ref = ref_feat.isin(qry_names)
+    if not common_mask_ref.any():
+        raise ValueError("No overlapping features found between reference and query data.")
 
-    # Drop duplicate feature_names in reference
-    dedup_mask = ~ref.var['feature_name'].duplicated(keep='first')
-    ref = ref[:, dedup_mask].copy()
+    # Drop duplicate feature names while preserving the first occurrence
+    common_ref_features = ref_feat[common_mask_ref]
+    dedup_mask = ~common_ref_features.duplicated(keep='first')
+    final_ref_mask = common_mask_ref.copy()
+    final_ref_mask[common_mask_ref] = dedup_mask
+
+    # Subset the reference once using the combined mask
+    ref = ref_adata[:, final_ref_mask].copy()
 
     # Set reference var_names to 'feature_name'
     ref.var_names = ref.var['feature_name'].astype(str).values
     if 'feature_name' in ref.var.columns:
         ref.var = ref.var.rename(columns={'feature_name': 'gene_name'})
-        
-    # Subset both by the same HVG set (order-preserving)
+
+    # Determine HVGs that are shared with the query dataset
     hvg_genes = ref.var_names[ref.var['highly_variable'].values]
-    hvg_genes = [g for g in hvg_genes if g in qry.var_names]  # safety
+    hvg_genes = [gene for gene in hvg_genes if gene in qry_names]
+    if not hvg_genes:
+        raise ValueError("No shared highly variable genes found between reference and query data.")
+
+    # Slice without creating intermediate dense copies
     ref_hvg = ref[:, hvg_genes].copy()
-    query_hvg = qry[:, hvg_genes].copy()
+    query_hvg = query_adata[:, hvg_genes].copy()
+
+    ref_hvg.X = _to_float32(ref_hvg.X)
+    query_hvg.X = _to_float32(query_hvg.X)
 
     # Sanity check same order
     assert (ref_hvg.var_names == query_hvg.var_names).all()
