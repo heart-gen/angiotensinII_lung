@@ -29,7 +29,7 @@ log_message "**** Loading conda environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
-python ../_h/01b.preprocess_data.py
+python ../_h/01c.process_data.py
 
 if [ $? -ne 0 ]; then
     echo "Python script failed. Check the error logs."
