@@ -1,19 +1,17 @@
 """Query-side preprocessing utilities for lungmap label transfer."""
 
-import gc
-import os
-from pathlib import Path
-
-import harmonypy as hm
-import matplotlib.pyplot as plt
+import gc, os
 import numpy as np
 import pandas as pd
 import scanpy as sc
+import session_info
+import harmonypy as hm
+from pathlib import Path
+import matplotlib.pyplot as plt
 
 
 def _to_float32(data):
     """Downcast dense or sparse arrays to float32 when possible."""
-
     if data is None:
         return data
 
@@ -25,7 +23,6 @@ def _to_float32(data):
 
 def load_data():
     """Load the query AnnData object."""
-
     input_path = Path("lungmap_dataset.h5ad")
     adata = sc.read_h5ad(input_path)
 
@@ -37,7 +34,6 @@ def load_data():
 
 def check_data(adata, outdir: str = "qc_plots"):
     """Run basic QC, dimensionality reduction, and UMAP plotting."""
-
     sc.pp.normalize_total(adata)
     sc.pp.log1p(adata)
     adata.X = _to_float32(adata.X)
@@ -69,7 +65,6 @@ def check_data(adata, outdir: str = "qc_plots"):
 
 def preprocess_data(adata, *, max_iter: int = 30, seed: int = 13):
     """Batch-correct query data with Harmony."""
-
     batch_vars = ["donor", "batch"]
     for col in batch_vars:
         if not pd.api.types.is_categorical_dtype(adata.obs[col]):
@@ -94,12 +89,20 @@ def preprocess_data(adata, *, max_iter: int = 30, seed: int = 13):
 
 def process_query_data():
     """Convenience wrapper that executes the full query preprocessing flow."""
-
     adata = load_data()
     adata = check_data(adata, outdir="qc_plots")
     adata = preprocess_data(adata)
     return adata
 
 
+def main():
+    # Preprocess data
+    adata = process_query_data()
+    adata.write_h5ad("lungmap_query.h5ad", compression="gzip")
+
+    # Session information
+    session_info.show()
+
+
 if __name__ == "__main__":
-    process_query_data()
+    main()
