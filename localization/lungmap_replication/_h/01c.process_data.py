@@ -62,17 +62,15 @@ def prepare_data(query_adata, ref_adata):
     if ref_hvg_mask.dtype != bool:
         ref_hvg_mask = ref_hvg_mask.astype(bool, copy=False)
 
-    shared_mask = pd.Index(ref.var_names).isin(qry_names)
-    ref_hvg_mask &= shared_mask.to_numpy()
-    if not ref_hvg_mask.any():
+    hvg_genes = ref.var_names[ref.var['highly_variable'].values]
+    hvg_genes = [gene for gene in hvg_genes if gene in qry_names]
+    if not hvg_genes:
         raise ValueError("No shared highly variable genes found between reference and query data.")
 
     # Slice without creating intermediate dense copies
-    ref_hvg = ref[:, ref_hvg_mask].copy()
-    del ref
-
-    shared_genes = ref_hvg.var_names
-    query_hvg = query_adata[:, shared_genes].copy()
+    ref_hvg = ref[:, hvg_genes].copy()
+    query_hvg = query_adata[:, hvg_genes].copy()
+    del ref, query_adata
 
     ref_hvg.X = _to_float32(ref_hvg.X)
     query_hvg.X = _to_float32(query_hvg.X)
