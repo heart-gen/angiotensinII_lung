@@ -13,7 +13,6 @@ from pandas.api.types import CategoricalDtype
 
 def _to_float32(data):
     """Downcast dense or sparse arrays to float32 when possible."""
-
     if data is None:
         return data
 
@@ -32,15 +31,6 @@ def _sanitize_var_for_h5ad(adata):
     adata.var.index.name = None
     adata.var_names_make_unique()
     return adata
-
-
-def _load_process_query_module():
-    module_path = Path(__file__).with_name("01b.process_query.py")
-    spec = importlib.util.spec_from_file_location("process_query", module_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
 
 
 def prepare_data(query_adata, ref_adata):
@@ -89,28 +79,27 @@ def prepare_data(query_adata, ref_adata):
 
     # Sanity check same order
     assert (ref_hvg.var_names == query_hvg.var_names).all()
-
     gc.collect()
 
     return ref_hvg, query_hvg
 
 
 def main():
-    process_query = _load_process_query_module()
-    query_adata = process_query.process_query_data()
-
+    # Load data
+    query_adata = sc.read_h5ad(Path("lungmap_query.h5ad"))
     ref_adata = sc.read_h5ad(Path("ref_preprocessed.h5ad"))
-    if "counts" not in ref_adata.layers:
-        ref_adata.layers["counts"] = ref_adata.X
 
+    # Prepare for trainning
     ref_hvg, query_hvg = prepare_data(query_adata, ref_adata)
 
     ref_hvg = _sanitize_var_for_h5ad(ref_hvg)
     query_hvg = _sanitize_var_for_h5ad(query_hvg)
 
+    # Write to file
     ref_hvg.write_h5ad("ref_hvg.h5ad", compression="gzip")
     query_hvg.write_h5ad("query_hvg.h5ad", compression="gzip")
 
+    # Session information
     session_info.show()
 
 
