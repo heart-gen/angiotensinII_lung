@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
+#SBATCH --partition=RM-512
 #SBATCH --job-name=load_data
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=64
-#SBATCH --time=01:00:00
+#SBATCH --ntasks-per-node=128
+#SBATCH --time=02:00:00
 #SBATCH --output=logs/load_data.log
 
 log_message() {

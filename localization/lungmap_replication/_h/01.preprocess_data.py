@@ -10,6 +10,17 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 from pandas.api.types import CategoricalDtype
 
+def _sanitize_var_for_h5ad(adata):
+    if isinstance(adata.var.index.dtype, CategoricalDtype):
+        adata.var.index = pd.Index(adata.var.index.astype(str))
+    else:
+        adata.var.index = pd.Index(adata.var.index.astype(str))
+
+    adata.var.index.name = None
+    adata.var_names_make_unique()
+    return adata
+
+
 def load_data():
     """Load data for label transfer."""
     # Load AnnData
@@ -42,7 +53,6 @@ def check_data(adata, outdir="qc_plots"):
                wspace=0.4, ncols=1, save=None, show=False)
 
     # Save manually for full control
-    plt.tight_layout()
     plt.savefig(f"{umap_file}.png", dpi=300, bbox_inches="tight")
     plt.savefig(f"{umap_file}.pdf", bbox_inches="tight")
     plt.close()
@@ -145,27 +155,32 @@ def load_reference():
 
 
 def prepare_data(query_adata, ref_adata):
-    # Match common genes on gene names
-    feature_names = set(ref_adata.var['feature_name'])
-    var_names = set(query_adata.var_names)
-    common = feature_names.intersection(var_names)
+    # Align by gene symbols
+    ref_feat = ref_adata.var['feature_name'].astype(str)
+    qry_names = query_adata.var_names.astype(str)
+    common = pd.Index(ref_feat).intersection(pd.Index(qry_names))
 
-    # Subset both objects
-    ref_adata = ref_adata[:, ref_adata.var["feature_name"].isin(common)].copy()
-    query_adata = query_adata[:, query_adata.var_names.isin(common)].copy()
+    # Subset both to common genes
+    ref = ref_adata[:, ref_feat.isin(common)].copy()
+    qry = query_adata[:, query_adata.var_names.isin(common)].copy()
 
-    # Remove duplicates
-    mask = ref_adata.var['feature_name'].duplicated(keep='first')
-    unique_names = ref_adata.var_names[~mask].unique()
-    ref_adata = ref_adata[:, unique_names].copy()
+    # Drop duplicate feature_names in reference
+    dedup_mask = ~ref.var['feature_name'].duplicated(keep='first')
+    ref = ref[:, dedup_mask].copy()
 
-    # Rename ref_adata var_names to feature_name
-    ref_adata.var_names = ref_adata.var["feature_name"]
-    
-    # Subset to HVGs
-    hvgs = ref_adata.var.loc[ref_adata.var['highly_variable']].index
-    ref_hvg = ref_adata[:, hvgs].copy()
-    query_hvg = query_adata[:, hvgs].copy()
+    # Set reference var_names to 'feature_name'
+    ref.var_names = ref.var['feature_name'].astype(str).values
+    if 'feature_name' in ref.var.columns:
+        ref.var = ref.var.rename(columns={'feature_name': 'gene_name'})
+        
+    # Subset both by the same HVG set (order-preserving)
+    hvg_genes = ref.var_names[ref.var['highly_variable'].values]
+    hvg_genes = [g for g in hvg_genes if g in qry.var_names]  # safety
+    ref_hvg = ref[:, hvg_genes].copy()
+    query_hvg = qry[:, hvg_genes].copy()
+
+    # Sanity check same order
+    assert (ref_hvg.var_names == query_hvg.var_names).all()
 
     return ref_hvg, query_hvg
 
@@ -180,7 +195,11 @@ def main():
     # Prepare data
     ref_hvg, query_hvg = prepare_data(query_adata, ref_adata)
 
-    # Save preprocessed objects for GPU step
+    # Sanitize .var for HDF5
+    ref_hvg = _sanitize_var_for_h5ad(ref_hvg)
+    query_hvg = _sanitize_var_for_h5ad(query_hvg)
+
+    # Write files
     ref_hvg.write_h5ad("ref_hvg.h5ad", compression="gzip")
     query_hvg.write_h5ad("query_hvg.h5ad", compression="gzip")
 
