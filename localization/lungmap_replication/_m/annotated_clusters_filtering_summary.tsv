@@ -1,0 +1,38 @@
+Cell_Type	Original	Filtered	Difference	Percent Retained
+Interstitial macrophages	3628	896.0	2732.0	24.7
+None	15198	12963.0	2235.0	85.29
+Non-classical monocytes	2435	878.0	1557.0	36.06
+Adventitial fibroblasts	2207	673.0	1534.0	30.49
+Alveolar fibroblasts	4756	3401.0	1355.0	71.51
+Alveolar macrophages	3873	2642.0	1231.0	68.22
+CD4 T cells	3362	2333.0	1029.0	69.39
+CD8 T cells	1499	690.0	809.0	46.03
+Transitional Club-AT2	1200	394.0	806.0	32.83
+EC general capillary	1335	538.0	797.0	40.3
+Peribronchial fibroblasts	844	91.0	753.0	10.78
+DC2	532	125.0	407.0	23.5
+Myofibroblasts	551	154.0	397.0	27.95
+Basal resting	376	101.0	275.0	26.86
+B cells	909	703.0	206.0	77.34
+Goblet	185	11.0	174.0	5.95
+Pericytes	865	705.0	160.0	81.5
+EC aerocyte capillary	823	668.0	155.0	81.17
+Vascular smooth muscle	198	59.0	139.0	29.8
+Multiciliated	722	624.0	98.0	86.43
+Club	96	2.0	94.0	2.08
+EC venous pulmonary	163	96.0	67.0	58.9
+NK cells	58	12.0	46.0	20.69
+Plasmacytoid DCs	70	25.0	45.0	35.71
+Ionocyte	40	1.0	39.0	2.5
+EC venous systemic	40	5.0	35.0	12.5
+Plasma cells	101	72.0	29.0	71.29
+Neuroendocrine	21	5.0	16.0	23.81
+Suprabasal	12	1.0	11.0	8.33
+Migratory DCs	15	4.0	11.0	26.67
+Deuterosomal	35	28.0	7.0	80.0
+SMG serous	9	4.0	5.0	44.44
+DC1	7	4.0	3.0	57.14
+AT2 proliferating	3			
+Classical monocytes	328			
+SMG duct	1			
+SMG mucous	3			

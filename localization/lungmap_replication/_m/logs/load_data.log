@@ -1,0 +1,27 @@
+2025-10-30 16:40:09 - **** Job starts ****
+2025-10-30 16:40:09 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35731529
+Job name: load_data
+Node name: 
+Hostname: r281
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-10-30 16:40:10 - **** Loading conda environment ****
+2025-10-30 16:40:10 - **** Run analysis ****
+-----
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-10-30 16:50
+2025-10-30 16:51:04 - Job finished at: Thu Oct 30 16:51:04 EDT 2025
