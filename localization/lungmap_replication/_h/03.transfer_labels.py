@@ -11,12 +11,11 @@ import harmonypy as hm
 from pathlib import Path
 import matplotlib.pyplot as plt
 from scipy.spatial import cKDTree
-from sklearn.calibration import calibration_curve
 
-def load_data():
+def load_query():
     """Load data for label transfer."""
     # Load AnnData
-    input_path = Path('lungmap_dataset.h5ad')
+    input_path = Path('lungmap_query.h5ad')
     adata = sc.read_h5ad(Path(input_path))
     # Ensure count layer
     if "counts" not in adata.layers:
@@ -24,45 +23,10 @@ def load_data():
     return adata
 
 
-def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
-    """Preprocess and batch-correct data with Harmony."""    
-    # Preprocess and dimensionality reduction
-    sc.pp.normalize_total(adata)
-    sc.pp.log1p(adata)
-    sc.pp.highly_variable_genes(adata, n_top_genes=3000)
-    sc.pp.scale(adata, zero_center=False)
-    sc.tl.pca(adata)
-    sc.pp.neighbors(adata)
-    sc.tl.umap(adata)    
-
-    # Run harmony
-    batch_vars = ["donor", "batch"]
-    meta = adata.obs[batch_vars].copy()
-        
-    for col in batch_vars:
-        meta[col] = meta[col].astype("category").astype(str)
-
-    harmony_embed = hm.run_harmony(
-        adata.obsm["X_pca"], meta, vars_use=batch_vars,
-        max_iter_harmony=max_iter, epsilon_harmony=1e-5, 
-        random_state=seed
-    )
-    adata.obsm["X_pca_harmony"] = harmony_embed.Z_corr.T
-
-    return adata
-
-
-def process_query_data():
-    # Preprocessing query data
-    adata = load_data()
-    adata = preprocess_data(adata)
-    return adata
-
-
 def transfer_labels(confidence_threshold=0.7, outdir="qc_plots"):
     # Load data
     ref_hvg = sc.read_h5ad("ref_hvg.h5ad")
-    query_adata = process_query_data()
+    query_adata = load_query()
     query_adata.X = query_adata.layers["counts"]
     query_hvg = sc.read_h5ad("query_hvg.h5ad")
     query_hvg.obs["cell_type"] = "unknown"
@@ -229,11 +193,11 @@ def main():
     os.makedirs(outdir, exist_ok=True)
 
     # Transfer labels    
-    adata, query_hvg, ref_hvg = transfer_labels(0.75, outdir=outdir)
+    adata, query_hvg, ref_hvg = transfer_labels(0.90, outdir=outdir)
 
     # Cluster data and visualization
     adata = cluster_data(adata)
-    adata = visualize_clusters(adata, 0.45, outdir)
+    adata = visualize_clusters(adata, 0.50, outdir)
     additional_viz(adata, outdir)
 
     # Quality control analysis
@@ -242,7 +206,7 @@ def main():
     
     # Save data
     adata.obs["cell_type"] = adata.obs["predicted_labels"]
-    adata.write_h5ad("clustered_data.h5ad", compression="gzip")
+    adata.write_h5ad("lungmap_transferred.h5ad", compression="gzip")
 
     # Session information
     session_info.show()

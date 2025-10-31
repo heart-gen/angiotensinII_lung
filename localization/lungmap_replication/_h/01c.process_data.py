@@ -34,23 +34,19 @@ def _sanitize_var_for_h5ad(adata):
 
 
 def prepare_data(query_adata, ref_adata):
-    # Align by gene symbols
-    ref_feat = ref_adata.var["feature_name"].astype(str)
-    qry_names = pd.Index(query_adata.var_names.astype(str))
+    # Enrsure string
+    ref_adata.var_names = ref_adata.var_names.astype(str)
+    query_adata.var_names = query_adata.var_names.astype(str)
 
-    # Build a mask for features present in both datasets
-    common_mask_ref = ref_feat.isin(qry_names)
-    if not common_mask_ref.any():
-        raise ValueError("No overlapping features found between reference and query data.")
+    # Align on gene symbols
+    ref_feat  = ref_adata.var["feature_name"].astype(str)
+    qry_names = pd.Index(query_adata.var_names)
+    
+    # Build final mask
+    final_ref_mask = ref_feat.isin(qry_names) & ~ref_feat.duplicated(keep="first")
 
-    # Drop duplicate feature names while preserving the first occurrence
-    common_ref_features = ref_feat[common_mask_ref]
-    dedup_mask = ~common_ref_features.duplicated(keep="first")
-    final_ref_mask = common_mask_ref.copy()
-    final_ref_mask[common_mask_ref] = dedup_mask
-
-    # Subset the reference once using the combined mask
-    ref = ref_adata[:, final_ref_mask].copy()
+    # Subset refernece once
+    ref = ref_adata[:, final_ref_mask.to_numpy()].copy()
 
     # Set reference var_names to 'feature_name'
     ref.var_names = ref.var["feature_name"].astype(str).values
@@ -58,26 +54,19 @@ def prepare_data(query_adata, ref_adata):
         ref.var = ref.var.rename(columns={"feature_name": "gene_name"})
 
     # Determine HVGs that are shared with the query dataset
-    ref_hvg_mask = ref.var["highly_variable"].to_numpy()
-    if ref_hvg_mask.dtype != bool:
-        ref_hvg_mask = ref_hvg_mask.astype(bool, copy=False)
+    hvg = ref.var_names[ref.var["highly_variable"].astype(bool).values]
+    hvg = pd.Index(hvg).intersection(qry_names)
 
-    hvg_genes = ref.var_names[ref.var['highly_variable'].values]
-    hvg_genes = [gene for gene in hvg_genes if gene in qry_names]
-    if not hvg_genes:
+    if len(hvg) == 0:
         raise ValueError("No shared highly variable genes found between reference and query data.")
 
     # Slice without creating intermediate dense copies
-    ref_hvg = ref[:, hvg_genes].copy()
-    query_hvg = query_adata[:, hvg_genes].copy()
-    del ref, query_adata
+    ref_hvg   = ref[:, hvg].copy()
+    query_hvg = query_adata[:, hvg].copy()
 
     ref_hvg.X = _to_float32(ref_hvg.X)
     query_hvg.X = _to_float32(query_hvg.X)
-
-    # Sanity check same order
     assert (ref_hvg.var_names == query_hvg.var_names).all()
-    gc.collect()
 
     return ref_hvg, query_hvg
 
@@ -95,7 +84,7 @@ def main():
 
     # Write to file
     ref_hvg.write_h5ad("ref_hvg.h5ad", compression="gzip")
-    query_hvg.write_h5ad("query_hvg.h5ad", compression="gzip")
+    query_hvg.write_h5ad("../_m/query_hvg.h5ad", compression="gzip")
 
     # Session information
     session_info.show()
