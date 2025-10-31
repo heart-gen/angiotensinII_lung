@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=generate_ref
+#SBATCH --job-name=gen_ref
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
