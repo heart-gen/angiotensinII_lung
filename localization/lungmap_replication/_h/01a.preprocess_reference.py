@@ -1,12 +1,10 @@
 """Preprocess reference data for localization workflow."""
-
 import pandas as pd
 import scanpy as sc
 import session_info
-from pandas.api.types import CategoricalDtype
-from pathlib import Path
 from pyhere import here
-
+from pathlib import Path
+from pandas.api.types import CategoricalDtype
 
 def _sanitize_var_for_h5ad(adata):
     if isinstance(adata.var.index.dtype, CategoricalDtype):
@@ -22,15 +20,11 @@ def _sanitize_var_for_h5ad(adata):
 def load_reference():
     input_path = Path(here("inputs/hlca/_m/hlca_core.h5ad"))
     adata = sc.read_h5ad(input_path)
-    if "counts" not in adata.layers:
-        if "soupX" in adata.layers:
-            adata.layers["counts"] = adata.layers["soupX"]
-        elif adata.raw is not None:
-            adata.layers["counts"] = adata.raw.X.copy()
-        else:
-            raise ValueError("No suitable count layer found (expected 'counts', 'soupX', or .raw).")
-
-    required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
+    required_cats = [
+        "Vascular smooth muscle", "Mesothelium", "Myofibroblasts",
+        "AT1", "AT2", "Hematopoietic stem cells", "Lymphatic EC",
+        'Mast cells', "Monocyte-derived Mph"
+    ]
     if not isinstance(adata.obs["ann_level_4"].dtype, CategoricalDtype):
         adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
 
@@ -38,11 +32,20 @@ def load_reference():
         if cat not in adata.obs["ann_level_4"].cat.categories:
             adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
 
-    vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+", "SM activated stress response"}
+    vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+",
+                    "SM activated stress response"}
+    lec_clusters = {"Lymphatic EC differentiating",
+                    "Lymphatic EC mature",
+                    "Lymphatic EC proliferating"}
     fixes = {
         "Vascular smooth muscle": vsm_clusters,
         "Mesothelium": {"Mesothelium"},
         "Myofibroblasts": {"Myofibroblasts"},
+        "AT1": {"AT1"}, "AT2": {"AT2"},
+        "Hematopoietic stem cells": {"Hematopoietic stem cells"},
+        "Lymphatic EC": lec_clusters,
+        "Mast cells": {"Mast cells"},
+        "Monocyte-derived Mph": {"Monocyte-derived Mph"},
     }
 
     for label, fine_clusters in fixes.items():
