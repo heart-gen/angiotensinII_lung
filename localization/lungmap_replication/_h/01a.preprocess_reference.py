@@ -20,6 +20,15 @@ def _sanitize_var_for_h5ad(adata):
 def load_reference():
     input_path = Path(here("inputs/hlca/_m/hlca_core.h5ad"))
     adata = sc.read_h5ad(input_path)
+    # Ensure count layer
+    if "counts" not in adata.layers:
+        if "soupX" in adata.layers:
+            adata.layers["counts"] = adata.layers["soupX"]
+        elif adata.raw is not None:
+            adata.layers["counts"] = adata.raw.X.copy()
+        else:
+            raise ValueError("No suitable count layer found (expected 'counts', 'soupX', or .raw).")
+
     required_cats = [
         "Vascular smooth muscle", "Mesothelium", "Myofibroblasts",
         "AT1", "AT2", "Hematopoietic stem cells", "Lymphatic EC",
