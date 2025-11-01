@@ -1,10 +1,10 @@
-2025-10-31 11:32:37 - **** Job starts ****
-2025-10-31 11:32:37 - **** Bridges-2 info ****
+2025-10-31 21:01:20 - **** Job starts ****
+2025-10-31 21:01:20 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35736035
-Job name: generate_ref
+Job id: 35741000
+Job name: gen_ref
 Node name: 
-Hostname: r039
+Hostname: r254
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-10-31 11:32:37 - **** Loading conda environment ****
-2025-10-31 11:32:38 - **** Run analysis ****
+2025-10-31 21:01:20 - **** Loading conda environment ****
+2025-10-31 21:01:21 - **** Run analysis ****
 -----
 pandas              2.3.2
 pyhere              1.0.3
@@ -23,5 +23,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-10-31 11:47
-2025-10-31 11:47:33 - Job finished at: Fri Oct 31 11:47:33 EDT 2025
+Session information updated at 2025-10-31 21:28
+2025-10-31 21:29:05 - Job finished at: Fri Oct 31 21:29:05 EDT 2025

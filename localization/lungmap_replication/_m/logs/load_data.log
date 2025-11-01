@@ -1,10 +1,10 @@
-2025-10-31 12:40:53 - **** Job starts ****
-2025-10-31 12:40:53 - **** Bridges-2 info ****
+2025-10-31 21:29:19 - **** Job starts ****
+2025-10-31 21:29:19 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35736432
+Job id: 35741003
 Job name: load_data
 Node name: 
-Hostname: r359
+Hostname: r302
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-10-31 12:40:54 - **** Loading conda environment ****
-2025-10-31 12:40:54 - **** Run analysis ****
+2025-10-31 21:29:20 - **** Loading conda environment ****
+2025-10-31 21:29:21 - **** Run analysis ****
 -----
 numpy               1.26.4
 pandas              2.3.2
@@ -21,7 +21,7 @@ scanpy              1.11.4
 session_info        v1.0.1
 -----
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
-Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+Linux-4.18.0-553.40.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-10-31 12:50
-2025-10-31 12:50:34 - Job finished at: Fri Oct 31 12:50:34 EDT 2025
+Session information updated at 2025-10-31 21:39
+2025-10-31 21:40:12 - Job finished at: Fri Oct 31 21:40:12 EDT 2025
