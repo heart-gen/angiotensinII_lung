@@ -65,7 +65,7 @@ def check_data(adata, outdir: str = "qc_plots"):
 
 def preprocess_data(adata, *, max_iter: int = 30, seed: int = 13):
     """Batch-correct query data with Harmony."""
-    batch_vars = ["donor", "batch"]
+    batch_vars = ["donor", "batch", "age", "sex"]
     for col in batch_vars:
         if not pd.api.types.is_categorical_dtype(adata.obs[col]):
             adata.obs[col] = adata.obs[col].astype("category")
