@@ -1,0 +1,17 @@
+2025-11-02 10:45:16 - **** Job starts ****
+2025-11-02 10:45:16 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35752761
+Job name: transfer_labels
+Node name: 
+Hostname: r182
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-11-02 10:45:16 - **** Loading conda environment ****
+2025-11-02 10:45:17 - **** Run analysis ****
+2025-11-02 10:50:23 - Job finished at: Sun Nov  2 10:50:23 EST 2025
