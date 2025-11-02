@@ -72,3 +72,6 @@ stroma.hlca_full.clustered.analysis.h5ad
 ipf_dataset.h5ad
 inputs/hlca/_m/hlca_core.h5ad
 localization/celltype_subset/_m/stroma.hlca_full.dataset.h5ad
+lungmap_query.h5ad
+ref_preprocessed.h5ad
+lungmap_dataset.h5ad

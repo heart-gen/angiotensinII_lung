@@ -1,0 +1,45 @@
+2025-11-01 21:26:48 - **** Job starts ****
+2025-11-01 21:26:48 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35747547
+Job name: process_query
+Node name: 
+Hostname: r235
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-11-01 21:26:49 - **** Loading conda environment ****
+2025-11-01 21:26:49 - **** Run analysis ****
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/lungmap_replication/_m/../_h/01b.process_query.py:70: DeprecationWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+  if not pd.api.types.is_categorical_dtype(adata.obs[col]):
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/lungmap_replication/_m/../_h/01b.process_query.py:70: DeprecationWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+  if not pd.api.types.is_categorical_dtype(adata.obs[col]):
+2025-11-01 21:30:35,291 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-11-01 21:30:58,061 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-11-01 21:30:58,403 - harmonypy - INFO - Iteration 1 of 30
+2025-11-01 21:31:13,856 - harmonypy - INFO - Iteration 2 of 30
+2025-11-01 21:31:29,342 - harmonypy - INFO - Iteration 3 of 30
+2025-11-01 21:31:44,397 - harmonypy - INFO - Iteration 4 of 30
+2025-11-01 21:31:59,463 - harmonypy - INFO - Iteration 5 of 30
+2025-11-01 21:32:14,255 - harmonypy - INFO - Iteration 6 of 30
+2025-11-01 21:32:20,424 - harmonypy - INFO - Iteration 7 of 30
+2025-11-01 21:32:30,261 - harmonypy - INFO - Iteration 8 of 30
+2025-11-01 21:32:36,809 - harmonypy - INFO - Iteration 9 of 30
+2025-11-01 21:32:44,919 - harmonypy - INFO - Converged after 9 iterations
+-----
+harmonypy           0.0.10
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-11-01 21:34
+2025-11-01 21:34:45 - Job finished at: Sat Nov  1 21:34:45 EDT 2025
