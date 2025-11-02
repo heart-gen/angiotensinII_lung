@@ -1,0 +1,8 @@
+#!/bin/bash
+
+wget https://storage.googleapis.com/gtex_analysis_v8/single_tissue_qtl_data/GTEx_Analysis_v8_eQTL_expression_matrices.tar
+tar -xvf GTEx_Analysis_v8_eQTL_expression_matrices.tar
+ln -sfn /ceph/projects/v3_phase3_paper/inputs/gtex_v8/expression/_m/genes_gtex_v8_counts.txt.gz .
+ln -sfn /ceph/projects/v4_phase3_paper/inputs/gtex_v8/counts/tpm_v2/_m/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz .
+
+python ../_h/prepare_phenotype.py

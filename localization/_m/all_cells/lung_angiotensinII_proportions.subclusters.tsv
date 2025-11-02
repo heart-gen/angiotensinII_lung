@@ -1,0 +1,123 @@
+Gene_Name	Subcluster	Proportion	Total_Cells
+AGTR1	Basal resting	2.56706456167373e-05	1
+AGTR1	Suprabasal	0.000170076291364984	7
+AGTR1	Hillock-like	0.000217391304347826	1
+AGTR1	Deuterosomal	0	0
+AGTR1	Multiciliated (nasal)	0	0
+AGTR1	Multiciliated (non-nasal)	0.000198722498225692	7
+AGTR1	Club (non-nasal)	0.000100452034153692	1
+AGTR1	Club (nasal)	0	0
+AGTR1	Goblet (nasal)	0	0
+AGTR1	Goblet (bronchial)	0	0
+AGTR1	Goblet (subsegmental)	0	0
+AGTR1	AT0	0.000694444444444445	1
+AGTR1	pre-TB secretory	0.00045526974732529	2
+AGTR1	Ionocyte	0.0017825311942959	1
+AGTR1	Tuft	0	0
+AGTR1	Neuroendocrine	0.00628930817610063	1
+AGTR1	SMG serous (nasal)	0	0
+AGTR1	SMG serous (bronchial)	0	0
+AGTR1	SMG mucous	0	0
+AGTR1	SMG duct	0	0
+AGTR1	AT1	0.000377976565452942	3
+AGTR1	AT2	0.000423252861026551	26
+AGTR1	AT2 proliferating	0	0
+AGTR1	EC arterial	0.000541198755242863	4
+AGTR1	EC aerocyte capillary	0.000139723347771413	1
+AGTR1	EC general capillary	0.000747756729810568	12
+AGTR1	EC venous systemic	0.000610035077016929	4
+AGTR1	EC venous pulmonary	0	0
+AGTR1	Lymphatic EC mature	0.00049987503124219	2
+AGTR1	Lymphatic EC proliferating	0	0
+AGTR1	Lymphatic EC differentiating	0.00176678445229682	1
+AGTR1	Peribronchial fibroblasts	0.0400508582326764	63
+AGTR1	Adventitial fibroblasts	0.14698188160062	1517
+AGTR1	Alveolar fibroblasts	0.131609417213431	682
+AGTR1	Pericytes	0.481530343007916	1460
+AGTR1	Subpleural fibroblasts	0.0217391304347826	6
+AGTR1	Myofibroblasts	0.0195530726256983	14
+AGTR1	Smooth muscle	0.0617489986648865	185
+AGTR1	Smooth muscle FAM83D+	0.00895522388059702	3
+AGTR1	SM activated stress response	0.0737410071942446	41
+AGTR1	Mesothelium	0.00869565217391304	2
+AGTR1	Hematopoietic stem cells	0	0
+AGTR1	B cells	0.000221680336954112	1
+AGTR1	Plasma cells	0.00112803158488438	2
+AGTR1	CD4 T cells	9.39628846605591e-05	2
+AGTR1	CD8 T cells	0.000309554928802366	9
+AGTR1	T cells proliferating	0	0
+AGTR1	NK cells	0.000294498763105195	5
+AGTR1	DC1	0	0
+AGTR1	DC2	0.000109493047191503	1
+AGTR1	Migratory DCs	0	0
+AGTR1	Plasmacytoid DCs	0	0
+AGTR1	Alveolar macrophages	0.000832274738271497	57
+AGTR1	Alveolar Mph CCL3+	0.000743955362678239	6
+AGTR1	Alveolar Mph MT-positive	0	0
+AGTR1	Alveolar Mph proliferating	0	0
+AGTR1	Monocyte-derived Mph	0.000106296283173298	3
+AGTR1	Interstitial Mph perivascular	0	0
+AGTR1	Classical monocytes	0.000565131393048884	10
+AGTR1	Non-classical monocytes	0.000226398007697532	2
+AGTR1	Mast cells	0.00135890080024158	9
+AGTR2	Basal resting	0	0
+AGTR2	Suprabasal	9.71864522085621e-05	4
+AGTR2	Hillock-like	0	0
+AGTR2	Deuterosomal	0	0
+AGTR2	Multiciliated (nasal)	0	0
+AGTR2	Multiciliated (non-nasal)	0.000738112136266856	26
+AGTR2	Club (non-nasal)	0.00060271220492215	6
+AGTR2	Club (nasal)	0	0
+AGTR2	Goblet (nasal)	0	0
+AGTR2	Goblet (bronchial)	0	0
+AGTR2	Goblet (subsegmental)	0	0
+AGTR2	AT0	0.00277777777777778	4
+AGTR2	pre-TB secretory	0.00045526974732529	2
+AGTR2	Ionocyte	0	0
+AGTR2	Tuft	0	0
+AGTR2	Neuroendocrine	0	0
+AGTR2	SMG serous (nasal)	0	0
+AGTR2	SMG serous (bronchial)	0	0
+AGTR2	SMG mucous	0	0
+AGTR2	SMG duct	0	0
+AGTR2	AT1	0.000125992188484314	1
+AGTR2	AT2	0.084097087694737	5166
+AGTR2	AT2 proliferating	0.0543032786885246	53
+AGTR2	EC arterial	0.000676498444053579	5
+AGTR2	EC aerocyte capillary	0	0
+AGTR2	EC general capillary	0.000186939182452642	3
+AGTR2	EC venous systemic	0.000457526307762696	3
+AGTR2	EC venous pulmonary	0.000311623558741041	2
+AGTR2	Lymphatic EC mature	0.00124968757810547	5
+AGTR2	Lymphatic EC proliferating	0	0
+AGTR2	Lymphatic EC differentiating	0	0
+AGTR2	Peribronchial fibroblasts	0.00699300699300699	11
+AGTR2	Adventitial fibroblasts	0.00116267803507412	12
+AGTR2	Alveolar fibroblasts	0.00154380548050946	8
+AGTR2	Pericytes	0	0
+AGTR2	Subpleural fibroblasts	0	0
+AGTR2	Myofibroblasts	0	0
+AGTR2	Smooth muscle	0.000333778371161549	1
+AGTR2	Smooth muscle FAM83D+	0	0
+AGTR2	SM activated stress response	0	0
+AGTR2	Mesothelium	0	0
+AGTR2	Hematopoietic stem cells	0.0166666666666667	1
+AGTR2	B cells	0	0
+AGTR2	Plasma cells	0.000564015792442188	1
+AGTR2	CD4 T cells	0.000234907211651398	5
+AGTR2	CD8 T cells	0.000206369952534911	6
+AGTR2	T cells proliferating	0	0
+AGTR2	NK cells	0.000117799505242078	2
+AGTR2	DC1	0.0062111801242236	2
+AGTR2	DC2	0.00032847914157451	3
+AGTR2	Migratory DCs	0	0
+AGTR2	Plasmacytoid DCs	0	0
+AGTR2	Alveolar macrophages	0.000379634091141384	26
+AGTR2	Alveolar Mph CCL3+	0.00111593304401736	9
+AGTR2	Alveolar Mph MT-positive	0.00166251039068994	2
+AGTR2	Alveolar Mph proliferating	0.000942507068803016	1
+AGTR2	Monocyte-derived Mph	0.000992098642950785	28
+AGTR2	Interstitial Mph perivascular	0.000416233090530697	2
+AGTR2	Classical monocytes	0.000113026278609777	2
+AGTR2	Non-classical monocytes	0.000679194023092597	6
+AGTR2	Mast cells	0	0

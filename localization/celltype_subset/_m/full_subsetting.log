@@ -1,0 +1,73 @@
+2025-09-06 11:37:51 - **** Job starts ****
+2025-09-06 11:37:51 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 34611369
+Job name: full_subset
+Node name: 
+Hostname: e003
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-09-06 11:37:52 - **** Loading mamba environment ****
+2025-09-06 11:37:52 - **** Run subsetting ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-09-06 11:45:38,512 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-09-06 11:45:44,195 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-09-06 11:45:44,311 - harmonypy - INFO - Iteration 1 of 50
+2025-09-06 11:45:54,678 - harmonypy - INFO - Iteration 2 of 50
+2025-09-06 11:46:05,104 - harmonypy - INFO - Iteration 3 of 50
+2025-09-06 11:46:15,506 - harmonypy - INFO - Iteration 4 of 50
+2025-09-06 11:46:25,876 - harmonypy - INFO - Iteration 5 of 50
+2025-09-06 11:46:35,954 - harmonypy - INFO - Iteration 6 of 50
+2025-09-06 11:46:46,277 - harmonypy - INFO - Iteration 7 of 50
+2025-09-06 11:46:55,718 - harmonypy - INFO - Iteration 8 of 50
+2025-09-06 11:47:05,412 - harmonypy - INFO - Iteration 9 of 50
+2025-09-06 11:47:12,995 - harmonypy - INFO - Iteration 10 of 50
+2025-09-06 11:47:20,444 - harmonypy - INFO - Converged after 10 iterations
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:309: RuntimeWarning: invalid value encountered in log
+  dispersion = np.log(dispersion)
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-09-06 11:55:50,677 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-09-06 11:56:36,225 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-09-06 11:56:37,953 - harmonypy - INFO - Iteration 1 of 50
+2025-09-06 12:03:36,790 - harmonypy - INFO - Iteration 2 of 50
+2025-09-06 12:10:12,362 - harmonypy - INFO - Iteration 3 of 50
+2025-09-06 12:16:47,256 - harmonypy - INFO - Iteration 4 of 50
+2025-09-06 12:23:22,442 - harmonypy - INFO - Iteration 5 of 50
+2025-09-06 12:29:56,686 - harmonypy - INFO - Iteration 6 of 50
+2025-09-06 12:36:32,520 - harmonypy - INFO - Iteration 7 of 50
+2025-09-06 12:42:21,785 - harmonypy - INFO - Iteration 8 of 50
+2025-09-06 12:47:04,166 - harmonypy - INFO - Iteration 9 of 50
+2025-09-06 12:51:24,680 - harmonypy - INFO - Iteration 10 of 50
+2025-09-06 12:55:36,069 - harmonypy - INFO - Iteration 11 of 50
+2025-09-06 12:59:35,504 - harmonypy - INFO - Iteration 12 of 50
+2025-09-06 13:03:35,135 - harmonypy - INFO - Iteration 13 of 50
+2025-09-06 13:07:23,309 - harmonypy - INFO - Iteration 14 of 50
+2025-09-06 13:11:11,481 - harmonypy - INFO - Iteration 15 of 50
+2025-09-06 13:15:01,017 - harmonypy - INFO - Converged after 15 iterations
+Model selected: full
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_full.dataset.h5ad
+Warning: Missing batch variables: data
+Saved: stroma.hlca_full.dataset.h5ad
+-----
+harmonypy           0.0.10
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-09-06 13:16
+2025-09-06 13:16:23 - **** Job ends ****

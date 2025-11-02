@@ -1,0 +1,40 @@
+compartment	cell_type	clean_cell_type
+Immune	Alveolar macrophages	alveolar_macrophages
+Immune	Innate lymphoid cell NK	innate_lymphoid_cell_nk
+Epithelial	AT2	at2
+Epithelial	Basal	basal
+Endothelial	EC venous	ec_venous
+Immune	T cell lineage	t_cell_lineage
+Endothelial	EC arterial	ec_arterial
+Stroma	Peribronchial fibroblasts	peribronchial_fibroblasts
+Epithelial	AT1	at1
+Epithelial	Multiciliated	multiciliated
+Immune	Plasma cells	plasma_cells
+Epithelial	Secretory	secretory
+Stroma	Smooth muscle	smooth_muscle
+Immune	Monocytes	monocytes
+Immune	Monocyte-derived Mph	monocyte_derived_mph
+Epithelial	SMG serous	smg_serous
+Endothelial	EC capillary	ec_capillary
+Stroma	Adventitial fibroblasts	adventitial_fibroblasts
+Endothelial	Lymphatic EC	lymphatic_ec
+Epithelial	Transitional Club-AT2 cells	transitional_club_at2_cells
+Stroma	Alveolar fibroblasts	alveolar_fibroblasts
+Epithelial	Neuroendocrine	neuroendocrine
+Immune	DC2	dc2
+Immune	DC1	dc1
+Stroma	Myofibroblasts	myofibroblasts
+Immune	B cell	b_cell
+Immune	Mast cells	mast_cells
+Immune	Interstitial Mph perivascular	interstitial_mph_perivascular
+Epithelial	SMG mucous	smg_mucous
+Stroma	Pericytes	pericytes
+Epithelial	SMG duct	smg_duct
+Stroma	Mesothelium	mesothelium
+Epithelial	Ionocyte	ionocyte
+Stroma	Smooth muscle FAM83D+	smooth_muscle_fam83d
+Epithelial	Tuft	tuft
+Immune	Plasmacytoid DCs	plasmacytoid_d_cs
+Stroma	Subpleural fibroblasts	subpleural_fibroblasts
+Immune	Hematopoietic stem cells	hematopoietic_stem_cells
+Immune	Migratory DCs	migratory_d_cs

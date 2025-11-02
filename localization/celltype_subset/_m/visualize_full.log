@@ -1,0 +1,80 @@
+2025-09-24 12:40:35 - **** Job starts ****
+2025-09-24 12:40:35 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35181168
+Job name: full_subclustering
+Node name: 
+Hostname: r076
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-09-24 12:40:35 - **** Loading mamba environment ****
+2025-09-24 12:40:36 - **** Run subclustering ****
+Calculating PHATE...
+  Running PHATE on 11680 observations and 50 variables.
+  Calculating graph and diffusion operator...
+    Calculating KNN search...
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/graphtools/graphs.py:236: UserWarning: Metric cosine not valid for `sklearn.neighbors.BallTree`. Graph instantiation may be slower than normal.
+  warnings.warn(
+    Calculated KNN search in 3.47 seconds.
+    Calculating affinities...
+    Calculated affinities in 3.32 seconds.
+  Calculated graph and diffusion operator in 6.88 seconds.
+  Calculating landmark operator...
+    Calculating SVD...
+    Calculated SVD in 4.09 seconds.
+    Calculating KMeans...
+    Calculated KMeans in 2.80 seconds.
+  Calculated landmark operator in 8.66 seconds.
+  Calculating optimal t...
+    Automatically selected t = 41
+  Calculated optimal t in 0.94 seconds.
+  Calculating diffusion potential...
+  Calculated diffusion potential in 0.48 seconds.
+  Calculating metric MDS...
+  Calculated metric MDS in 5.15 seconds.
+Calculated PHATE in 22.12 seconds.
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/celltype_subset/_m/../_h/02.sub-clustering.py:28: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(adata, resolution=resolution, random_state=13,
+Calculating PHATE...
+  Running PHATE on 181028 observations and 50 variables.
+  Calculating graph and diffusion operator...
+    Calculating KNN search...
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/graphtools/graphs.py:236: UserWarning: Metric cosine not valid for `sklearn.neighbors.BallTree`. Graph instantiation may be slower than normal.
+  warnings.warn(
+    Calculated KNN search in 654.33 seconds.
+    Calculating affinities...
+    Calculated affinities in 597.69 seconds.
+  Calculated graph and diffusion operator in 1255.13 seconds.
+  Calculating landmark operator...
+    Calculating SVD...
+    Calculated SVD in 194.05 seconds.
+    Calculating KMeans...
+    Calculated KMeans in 14.29 seconds.
+  Calculated landmark operator in 219.17 seconds.
+  Calculating optimal t...
+    Automatically selected t = 14
+  Calculated optimal t in 1.01 seconds.
+  Calculating diffusion potential...
+  Calculated diffusion potential in 0.38 seconds.
+  Calculating metric MDS...
+  Calculated metric MDS in 4.92 seconds.
+Calculated PHATE in 1480.65 seconds.
+-----
+matplotlib          3.10.5
+pandas              2.3.2
+phate               1.0.11
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-09-24 13:35
+2025-09-24 13:35:27 - **** Job ends ****

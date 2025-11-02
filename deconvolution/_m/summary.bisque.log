@@ -1,0 +1,53 @@
+**** Job starts ****
+Tue Apr  9 09:27:14 PM EDT 2024
+**** JHPCE info ****
+User: jbenjami
+Job id: 4187786
+Job name: run_bisque
+Node name: 
+Hostname: compute-124
+Task id: 
+Loading R/4.3
+
+Currently Loaded Modules:
+  1) JHPCE_ROCKY9_DEFAULT_ENV   3) conda/3-23.3.1
+  2) JHPCE_tools/3.0            4) R/4.3
+
+ 
+
+**** Run BisqueRNA deconvolution ****
+Warning message:
+In filterByExpr.DGEList(x) :
+  All samples appear to belong to the same group.
+           used  (Mb) gc trigger   (Mb)   max used   (Mb)
+Ncells  6724032 359.2   11535008  616.1    9946634  531.3
+Vcells 17886876 136.5  832463504 6351.2 1300696018 9923.6
+Loading objects:
+  sce
+             used    (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells    7326842   391.3   11535008   616.1    9946634   531.3
+Vcells 1732991797 13221.7 4994575900 38105.6 5205450752 39714.5
+Gene symbols detected. Recommend to use EMSEMBLE IDs for more unique mapping.
+number of genes filtered in each category: 
+      Rb      Mrp other_Rb     chrM     chrX     chrY   MALAT1 
+      89       78       18       13      827       53        1 
+A total of  1033  genes from Rb Mrp other_Rb chrM chrX chrY MALAT1  have been excluded 
+A total of  0  gene expressed in fewer than  5  cells have been excluded 
+Warning messages:
+1: replacing previous import ‘gplots::lowess’ by ‘stats::lowess’ when loading ‘BayesPrism’ 
+2: replacing previous import ‘BiocParallel::register’ by ‘NMF::register’ when loading ‘BayesPrism’ 
+3: In asMethod(object) :
+  sparse->dense coercion: allocating vector of size 117.3 GiB
+              used     (Mb)  gc trigger     (Mb)    max used     (Mb)
+Ncells     8725518    466.0    16477320    880.0    11535008    616.1
+Vcells 15771797844 120329.3 22858109495 174393.6 19046680234 145314.7
+              used     (Mb)  gc trigger     (Mb)    max used     (Mb)
+Ncells     8726097    466.1    16477320    880.0    15070424    804.9
+Vcells 15771799480 120329.3 37822877853 288565.7 31530873833 240561.5
+Decomposing into 4 cell types.
+Using 16072 genes in both bulk and single-cell expression.
+Converting single-cell counts to CPM and filtering zero variance genes.
+/var/spool/slurm/d/job4187786/slurm_script: line 32: 581828 Killed                  Rscript ../_h/01.bisque_decon.R
+**** Job ends ****
+Tue Apr  9 09:39:41 PM EDT 2024
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=4187786.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

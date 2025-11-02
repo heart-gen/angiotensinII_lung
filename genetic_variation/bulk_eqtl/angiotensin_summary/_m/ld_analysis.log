@@ -1,0 +1,47 @@
+PLINK v2.00a4.6LM 64-bit Intel (29 Aug 2023)
+Options in effect:
+  --bfile ../../../plink_format/_m/genotypes
+  --ld chr3_148474928_A_G_b38 chr3_148742201_A_C_b38
+  --out ld_analysis
+
+Hostname: compute-097.cm.cluster
+Working directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/genetic_variation/general_eqtl/bulk_eqtl/angiotensin_summary/_m
+Start time: Sat Apr 20 12:47:32 2024
+
+Random number seed: 1713631652
+257817 MiB RAM detected, ~207353 available; reserving 128908 MiB for main
+workspace.
+Using up to 2 compute threads.
+515 samples (0 females, 0 males, 515 ambiguous; 515 founders) loaded from
+../../../plink_format/_m/genotypes.fam.
+10458373 variants loaded from ../../../plink_format/_m/genotypes.bim.
+Note: No phenotype data present.
+Calculating allele frequencies... done.
+
+--ld chr3_148474928_A_G_b38 chr3_148742201_A_C_b38:
+
+chr3_148474928_A_G_b38 alleles:
+  MAJOR = G
+  MINOR = A
+  (REF = A)
+chr3_148742201_A_C_b38 alleles:
+  MAJOR = REF = A
+  MINOR = C
+
+515 valid samples; 28 het pairs statistically phased.
+
+  r^2 = 0.00017034    D' = 0.0654239
+
+        Frequencies      :       chr3_148742201_A_C_b38
+  (expectations under LE)          MAJOR       MINOR
+                                 ----------  ----------
+                           MAJOR  0.658537    0.243404
+                                 (0.660256)  (0.241685)
+    chr3_148474928_A_G_b38
+                           MINOR  0.073502    0.024557
+                                 (0.071782)  (0.026276)
+
+  Major alleles are out of phase with each other.
+
+
+End time: Sat Apr 20 12:48:12 2024

@@ -1,0 +1,51 @@
+chromosome,snp,phewas phenotype,cases,p-value,odds-ratio,gene_name,phewas code,gwas-associations
+X,rs1403543,"Other conditions of brain, NOS",83,0.0008951,1.837,AGTR2,348.9,Cystic fibrosis severity
+X,rs1403543,"Cyst of kidney, acquired",235,0.006594,0.7225,AGTR2,586.2,Cystic fibrosis severity
+X,rs1403543,Displacement of intervertebral disc,801,0.008806,1.172,AGTR2,722.1,Cystic fibrosis severity
+X,rs1403543,Acute periodontitis,154,0.009121,1.421,AGTR2,523.31,Cystic fibrosis severity
+X,rs1403543,Anterior pituitary disorders,60,0.009492,1.856,AGTR2,253.4,Cystic fibrosis severity
+X,rs1403543,Chronic nonalcoholic liver disease,336,0.009594,1.254,AGTR2,571.5,Cystic fibrosis severity
+X,rs1403543,pulmonary heart disease,772,0.009934,0.8536,AGTR2,415,Cystic fibrosis severity
+X,rs1403543,Abnormal results of function studies,69,0.01238,1.594,AGTR2,794,Cystic fibrosis severity
+X,rs1403543,Other disorders of the kidney and ureters,1530,0.01428,0.8899,AGTR2,586,Cystic fibrosis severity
+X,rs1403543,Chronic liver disease and cirrhosis,377,0.01507,1.223,AGTR2,571,Cystic fibrosis severity
+X,rs1403543,Malignant neoplasm of brain and nervous system,123,0.01523,1.421,AGTR2,191,Cystic fibrosis severity
+X,rs1403543,Subdural hemorrhage (injury),59,0.01661,0.5735,AGTR2,818.1,Cystic fibrosis severity
+X,rs1403543,Diseases of hard tissues of teeth,557,0.01688,1.197,AGTR2,521,Cystic fibrosis severity
+X,rs1403543,Blood in stool,846,0.01989,0.8702,AGTR2,578.2,Cystic fibrosis severity
+X,rs1403543,Cardiomyopathy,579,0.02181,0.8444,AGTR2,425,Cystic fibrosis severity
+X,rs1403543,Immunity deficiency,60,0.0222,1.645,AGTR2,279.1,Cystic fibrosis severity
+X,rs1403543,Loose body in joint,28,0.02226,0.4522,AGTR2,742.1,Cystic fibrosis severity
+X,rs1403543,Lung cancer,336,0.02251,0.8134,AGTR2,165.1,Cystic fibrosis severity
+X,rs1403543,Intracranial hemorrhage (injury),101,0.02341,0.6785,AGTR2,818,Cystic fibrosis severity
+X,rs1403543,Pancytopenia,80,0.02364,0.6388,AGTR2,284.1,Cystic fibrosis severity
+X,rs1403543,Primary/intrinsic cardiomyopathies,546,0.02392,0.8423,AGTR2,425.1,Cystic fibrosis severity
+X,rs1403543,Pain in limb,4913,0.0255,1.081,AGTR2,773,Cystic fibrosis severity
+X,rs1403543,Spinal stenosis,1275,0.02617,1.119,AGTR2,720,Cystic fibrosis severity
+X,rs1403543,Brain cancer,61,0.02791,1.578,AGTR2,191.11,Cystic fibrosis severity
+X,rs1403543,Secondary malignant neoplasm of liver,154,0.03043,0.7501,AGTR2,198.4,Cystic fibrosis severity
+X,rs1403543,Aplastic anemia,172,0.03098,0.757,AGTR2,284,Cystic fibrosis severity
+X,rs1403543,ASCVD,166,0.0313,0.7469,AGTR2,414.2,Cystic fibrosis severity
+X,rs1403543,Degeneration of intervertebral disc,1656,0.03203,1.103,AGTR2,722.6,Cystic fibrosis severity
+X,rs1403543,Cancer within the respiratory system,346,0.03226,0.8261,AGTR2,165,Cystic fibrosis severity
+X,rs1403543,Paralysis/spasm of vocal cords or larynx,72,0.0335,1.503,AGTR2,473.3,Cystic fibrosis severity
+X,rs1403543,Dental caries,525,0.0339,1.178,AGTR2,521.1,Cystic fibrosis severity
+X,rs1403543,Spinal stenosis of lumbar region,1005,0.03458,1.125,AGTR2,720.1,Cystic fibrosis severity
+X,rs1403543,Impaction of intestine,27,0.03616,1.969,AGTR2,560.2,Cystic fibrosis severity
+X,rs1403543,Intervertebral disc disorders,2407,0.03618,1.086,AGTR2,722,Cystic fibrosis severity
+X,rs1403543,Torticollis,83,0.03665,1.441,AGTR2,723.1,Cystic fibrosis severity
+X,rs1403543,Other specified cardiac dysrhythmias,1581,0.03806,1.115,AGTR2,427.3,Cystic fibrosis severity
+X,rs1403543,Disorders of sacrum,358,0.0388,1.198,AGTR2,724.1,Cystic fibrosis severity
+X,rs1403543,Complication of internal orthopedic device,373,0.03897,1.189,AGTR2,858,Cystic fibrosis severity
+X,rs1403543,Type 1 diabetic ketoacidosis,127,0.03939,1.347,AGTR2,250.11,Cystic fibrosis severity
+X,rs1403543,Intestinal infection,406,0.03975,1.179,AGTR2,8,Cystic fibrosis severity
+X,rs1403543,Other local infections of skin and subcutaneous tissue,697,0.04056,1.143,AGTR2,686,Cystic fibrosis severity
+X,rs1403543,Mixed hyperlipidemia,771,0.04215,1.145,AGTR2,272.13,Cystic fibrosis severity
+X,rs1403543,Paralytic strabismus,97,0.04246,0.691,AGTR2,378.5,Cystic fibrosis severity
+X,rs1403543,Open wound of toe(s),49,0.04252,1.636,AGTR2,871.4,Cystic fibrosis severity
+X,rs1403543,Absent or infrequent menstruation,111,0.04293,0.7307,AGTR2,626.11,Cystic fibrosis severity
+X,rs1403543,Renal colic,59,0.0435,0.6308,AGTR2,594.8,Cystic fibrosis severity
+X,rs1403543,Blindness and low vision,249,0.04541,1.247,AGTR2,367.9,Cystic fibrosis severity
+X,rs1403543,Other rheumatic heart disease,34,0.0476,1.721,AGTR2,420.4,Cystic fibrosis severity
+X,rs1403543,Endocarditis,177,0.04805,0.785,AGTR2,420.3,Cystic fibrosis severity
+X,rs1403543,Pituitary hyperfunction,28,0.04991,1.881,AGTR2,253.1,Cystic fibrosis severity

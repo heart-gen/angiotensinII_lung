@@ -1,0 +1,139 @@
+========================================================================= 
+Log Path: summary.log 
+Working Directory: /dcs05/lieber/hanlab/jbenjami/projects/neptune_collab/angiotensinII_lung/deconvolution/variation/_m 
+User Name: jbenjami 
+R Version: 4.3.1 Patched (2023-07-19 r84711) 
+Machine: compute-093.cm.cluster x86_64 
+Operating System: Linux 5.14.0-284.11.1.el9_2.x86_64 #1 SMP PREEMPT_DYNAMIC Tue May 9 17:09:15 UTC 2023 
+Base Packages: stats graphics grDevices utils datasets methods base 
+Other Packages: BayesPrism_2.2.2 NMF_0.27 synchronicity_1.3.5 bigmemory_4.6.1 Biobase_2.62.0 BiocGenerics_0.48.1 cluster_2.1.4 rngtools_1.5.2 registry_0.5-1 snowfall_1.84-6.3 snow_0.4-4 ggpubr_0.6.0 plotly_4.10.4 ggplot2_3.5.0 dplyr_1.1.4 
+Log Start Time: 2024-04-26 10:04:31.103803 
+========================================================================= 
+
+Summary of proportion variation: 
+
+NOTE: Log Print Time:  2024-04-26 10:04:31.10814 
+NOTE: Elapsed Time: 0.00131773948669434 secs 
+
+Compartment: 
+
+NOTE: Log Print Time:  2024-04-26 10:04:31.110557 
+NOTE: Elapsed Time: 0.00241637229919434 secs 
+
+    cell_type      Mean         SD    Variance
+1 Endothelial 0.1801907 0.07234010 0.005233089
+2  Epithelial 0.1773944 0.12088981 0.014614346
+3      Immune 0.1268818 0.06341453 0.004021402
+4      Stroma 0.5155331 0.13589839 0.018468371
+
+NOTE: Data frame has 4 rows and 4 columns. 
+
+NOTE: Log Print Time:  2024-04-26 10:04:36.528144 
+NOTE: Elapsed Time: 5.41758751869202 secs 
+
+Cell types: Marker Genes 
+
+NOTE: Log Print Time:  2024-04-26 10:04:36.533868 
+NOTE: Elapsed Time: 0.00572371482849121 secs 
+
+                       cell_type         Mean           SD     Variance
+1        Adventitial fibroblasts 0.0083766349 0.0308457068 9.514576e-04
+2           Alveolar fibroblasts 0.2353374837 0.1145131563 1.311326e-02
+3           Alveolar macrophages 0.0075139705 0.0188736207 3.562136e-04
+4                            AT1 0.0716212838 0.0378132160 1.429839e-03
+5                            AT2 0.0881928657 0.0944529118 8.921353e-03
+6                         B cell 0.0083848045 0.0167198109 2.795521e-04
+7                          Basal 0.0011223921 0.0049907094 2.490718e-05
+8                            DC1 0.0042487421 0.0091389341 8.352012e-05
+9                            DC2 0.0045953386 0.0123685164 1.529802e-04
+10                   EC arterial 0.0214483945 0.0242754790 5.892989e-04
+11                  EC capillary 0.1237806198 0.0595796796 3.549738e-03
+12                     EC venous 0.0266086814 0.0279768021 7.827015e-04
+13      Hematopoietic stem cells 0.0090457705 0.0336377337 1.131497e-03
+14       Innate lymphoid cell NK 0.0022919179 0.0030135707 9.081608e-06
+15 Interstitial Mph perivascular 0.0425113597 0.0347536745 1.207818e-03
+16                      Ionocyte 0.0020836594 0.0051329478 2.634715e-05
+17                  Lymphatic EC 0.0018919958 0.0023742148 5.636896e-06
+18                    Mast cells 0.0022270740 0.0019715928 3.887178e-06
+19                   Mesothelium 0.0018743734 0.0109962338 1.209172e-04
+20                 Migratory DCs 0.0023075708 0.0062888803 3.955002e-05
+21          Monocyte-derived Mph 0.0145973891 0.0323553571 1.046869e-03
+22                     Monocytes 0.0274269457 0.0393860664 1.551262e-03
+23                 Multiciliated 0.0091509038 0.0216079073 4.669017e-04
+24                Myofibroblasts 0.0081795125 0.0153867471 2.367520e-04
+25                Neuroendocrine 0.0001746314 0.0008502532 7.229304e-07
+26     Peribronchial fibroblasts 0.0695433536 0.0919168219 8.448702e-03
+27                     Pericytes 0.1506369152 0.0450226933 2.027043e-03
+28                  Plasma cells 0.0079384396 0.0112687209 1.269841e-04
+29              Plasmacytoid DCs 0.0008272441 0.0020786816 4.320917e-06
+30                     Secretory 0.0006488230 0.0044465920 1.977218e-05
+31                      SMG duct 0.0003927073 0.0014007059 1.961977e-06
+32                    SMG mucous 0.0003981237 0.0017301590 2.993450e-06
+33                    SMG serous 0.0003584397 0.0042431679 1.800447e-05
+34                 Smooth muscle 0.0133677701 0.0314428003 9.886497e-04
+35         Smooth muscle FAM83D+ 0.0092982569 0.0117928383 1.390710e-04
+36        Subpleural fibroblasts 0.0112389236 0.0286322107 8.198035e-04
+37                T cell lineage 0.0032759087 0.0080352067 6.456455e-05
+38   Transitional Club-AT2 cells 0.0006468067 0.0016902317 2.856883e-06
+39                          Tuft 0.0064339721 0.0162387983 2.636986e-04
+
+NOTE: Data frame has 39 rows and 4 columns. 
+
+NOTE: Log Print Time:  2024-04-26 10:04:45.372931 
+NOTE: Elapsed Time: 8.83906269073486 secs 
+
+Cell types: All Genes 
+
+NOTE: Log Print Time:  2024-04-26 10:04:45.382865 
+NOTE: Elapsed Time: 0.00993442535400391 secs 
+
+                       cell_type         Mean           SD     Variance
+1        Adventitial fibroblasts 0.0068940671 0.0227375618 5.169967e-04
+2           Alveolar fibroblasts 0.1832979528 0.0846282919 7.161948e-03
+3           Alveolar macrophages 0.0040353484 0.0121477465 1.475677e-04
+4                            AT1 0.1300427522 0.0535878339 2.871656e-03
+5                            AT2 0.0670560308 0.0748862149 5.607945e-03
+6                         B cell 0.0132197984 0.0239691034 5.745179e-04
+7                          Basal 0.0027428100 0.0108600535 1.179408e-04
+8                            DC1 0.0026375872 0.0062261934 3.876548e-05
+9                            DC2 0.0017485845 0.0059760482 3.571315e-05
+10                   EC arterial 0.0396495337 0.0298872076 8.932452e-04
+11                  EC capillary 0.1116645209 0.0587109594 3.446977e-03
+12                     EC venous 0.0207280936 0.0283253481 8.023253e-04
+13      Hematopoietic stem cells 0.0010931200 0.0030583306 9.353386e-06
+14       Innate lymphoid cell NK 0.0048935467 0.0048656679 2.367472e-05
+15 Interstitial Mph perivascular 0.0382404024 0.0335430592 1.125137e-03
+16                      Ionocyte 0.0017326137 0.0037794327 1.428411e-05
+17                  Lymphatic EC 0.0019759788 0.0025732551 6.621642e-06
+18                    Mast cells 0.0014713060 0.0014205326 2.017913e-06
+19                   Mesothelium 0.0013265393 0.0087797011 7.708315e-05
+20                 Migratory DCs 0.0014597312 0.0068442750 4.684410e-05
+21          Monocyte-derived Mph 0.0106836037 0.0256087416 6.558076e-04
+22                     Monocytes 0.0321312546 0.0425281926 1.808647e-03
+23                 Multiciliated 0.0141609340 0.0318064537 1.011650e-03
+24                Myofibroblasts 0.0101109740 0.0145261479 2.110090e-04
+25                Neuroendocrine 0.0004123651 0.0088830475 7.890853e-05
+26     Peribronchial fibroblasts 0.0497574459 0.0643631033 4.142609e-03
+27                     Pericytes 0.1946808817 0.0527626397 2.783896e-03
+28                  Plasma cells 0.0072885695 0.0105661729 1.116440e-04
+29              Plasmacytoid DCs 0.0030435655 0.0046921354 2.201614e-05
+30                     Secretory 0.0005343333 0.0037394269 1.398331e-05
+31                      SMG duct 0.0002353895 0.0009471815 8.971527e-07
+32                    SMG mucous 0.0001554968 0.0007941930 6.307425e-07
+33                    SMG serous 0.0001770474 0.0023431546 5.490373e-06
+34                 Smooth muscle 0.0145446656 0.0340917314 1.162246e-03
+35         Smooth muscle FAM83D+ 0.0031127720 0.0060086219 3.610354e-05
+36        Subpleural fibroblasts 0.0056385089 0.0172356472 2.970675e-04
+37                T cell lineage 0.0047784509 0.0106042135 1.124493e-04
+38   Transitional Club-AT2 cells 0.0002852958 0.0008064183 6.503105e-07
+39                          Tuft 0.0123581283 0.0246068063 6.054949e-04
+
+NOTE: Data frame has 39 rows and 4 columns. 
+
+NOTE: Log Print Time:  2024-04-26 10:06:12.999407 
+NOTE: Elapsed Time: 1.46027570565542 mins 
+
+========================================================================= 
+Log End Time: 2024-04-26 10:06:14.010435 
+Log Elapsed Time: 0 00:01:42 
+========================================================================= 

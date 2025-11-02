@@ -1,0 +1,71 @@
+2025-09-24 19:07:40 - **** Job starts ****
+2025-09-24 19:07:40 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35186695
+Job name: trajectory_pericyte
+Node name: 
+Hostname: r176
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-09-24 19:07:41 - **** Loading mamba environment ****
+2025-09-24 19:07:41 - **** Run analysis ****
+computing neighbors
+    finished (0:00:17)
+computing Diffusion Maps using n_comps=15(=n_dcs)
+computing transitions
+    finished (0:00:00)
+    eigenvalues of transition matrix
+    [1.         0.99975395 0.9991425  0.998004   0.99644905 0.9955013
+     0.9949048  0.9938034  0.9931464  0.99237645 0.99177593 0.9903179
+     0.9887874  0.9869571  0.9856254 ]
+    finished (0:00:00)
+running PAGA
+    finished (0:00:00)
+computing Diffusion Pseudotime using n_dcs=10
+    finished (0:00:00)
+PAGA plot skipped: paga() got an unexpected keyword argument 'font_size'
+-----
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-09-24 19:10
+computing neighbors
+    finished (0:00:32)
+computing Diffusion Maps using n_comps=15(=n_dcs)
+computing transitions
+    finished (0:00:00)
+    eigenvalues of transition matrix
+    [1.         0.9999957  0.99998254 0.9999628  0.9999405  0.9999239
+     0.9998692  0.99983317 0.9997866  0.99975145 0.99966395 0.99960196
+     0.99957144 0.9994437  0.9993837 ]
+    finished (0:00:02)
+running PAGA
+    finished (0:00:00)
+computing Diffusion Pseudotime using n_dcs=10
+    finished (0:00:00)
+PAGA plot skipped: paga() got an unexpected keyword argument 'font_size'
+-----
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-09-24 19:11
+2025-09-24 19:11:02 - **** Job ends ****
