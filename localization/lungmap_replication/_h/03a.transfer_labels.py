@@ -27,6 +27,7 @@ def transfer_labels(confidence_threshold=0.7, outdir="qc_plots"):
     # Load data
     ref_hvg = sc.read_h5ad("ref_hvg.h5ad")
     query_adata = load_query()
+    query_adata.var["gene_name"] = query_adata.var_names
     query_adata.X = query_adata.layers["counts"]
     query_hvg = sc.read_h5ad("query_hvg.h5ad")
     query_hvg.obs["cell_type"] = "unknown"

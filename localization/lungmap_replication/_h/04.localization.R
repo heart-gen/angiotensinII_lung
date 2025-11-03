@@ -9,78 +9,26 @@ suppressPackageStartupMessages({
 })
 
 #### Functions
-                                        # Basic plotting helper function
 save_ggplots <- function(fn, p, w, h){
     for(ext in c('.pdf', '.svg')){
         ggsave(paste0(fn, ext), plot=p, width=w, height=h)
     }
 }
 
-                                        # Prepare single cell data for angiotensin II
 load_data <- function(){
-    ## Load counts
-    fn1 = here::here("inputs/lungmap/_m/GSE161382_counts_matrix.txt.gz")
-    counts <- data.table::fread(fn1) |> tibble::column_to_rownames("UID")
-    ## Load meta data
-    fn2 = here::here("inputs/lungmap/_m/GSE161382_metadata.txt.gz")
-    meta <- data.table::fread(fn2) |> tibble::column_to_rownames("V1")
-    ## Generate RSE object
-    sce <- SingleCellExperiment(list(counts=counts),
-                                colData=meta,
-                                metadata=list(study="GSE161382"))
-    sce <- scuttle::logNormCounts(sce)
-    sce <- scran::computeSumFactors(sce)
-    colLabels(sce) <- colData(sce)$celltype
+    sce <- zellkonverter::readH5AD("lungmap_transferred.h5ad")
     return(sce)
 }
 memSC <- memoise::memoise(load_data)
 
-add_qc <- function(sce){
-    is.mito <- grep("^MT", rownames(sce))
-    sce <- scuttle::addPerCellQC(sce, subsets=list(Mito=is.mito))
-    sce <- scuttle::addPerFeatureQC(sce)
-    return(sce)
-}
-
-add_umap <- function(sce){
-    fn = here::here("inputs/lungmap/_m/GSE161382_UMAP_coord.tsv.gz")
-    umap <- data.table::fread(fn) |> tibble::column_to_rownames("V1")
-    reducedDims(sce) <- list(UMAP=umap)
-    return(sce)
-}
-
-filter_qc <- function(sce){
-    ## Remove cells with > 25% mitochondria and library size < 1000
-    qc.lib <- sce$sum > 1000
-    lib = paste("Removing", sum(!qc.lib),
-                "cells due to small (< 1000) lib size!")
-    print(lib)
-    qc.mito <- sce$subsets_Mito_percent < 25
-    mito = paste("Removing", sum(!qc.mito),
-                 "cells due large percentage (> 25%) of mitochondria genes!")
-    print(mito)
-    discard <- qc.mito | qc.lib
-    sce <- sce[, discard]
-    return(sce)
-}
-
 extract_angiotensinII <- function(){
-                                        # Load data
     sce <- memSC()
-    sce <- add_umap(sce)
-                                        # Add QC
-    sce <- add_qc(sce)
-                                        # Filter QC
-    sce <- filter_qc(sce)
-                                        # Select angiotensin II genes
     genes = c("AGTR1", "AGTR2")
     angiotensin2 <- sce[genes,]
-    angiotensin2$age <- factor(angiotensin2$age, levels=c("31wk","3yr","31yr"))
     return(angiotensin2)
 }
 memAGTR <- memoise::memoise(extract_angiotensinII)
 
-                                        # Prepare data functions
 prepare_data <- function(){
     angiotensin2 <- memAGTR()
     df = logcounts(angiotensin2) |> t() |> as.data.frame() |>
@@ -149,7 +97,6 @@ plot_bar <- function(dt, xlab, r, w, h, outdir){
 }
 
 calculate_proportion <- function(df, outdir){
-    ## Print proportions to screen
     dt = df |> group_by(Gene_Name) |>
         summarise(Proportion=sum(`Normalized Expression` > 0)/n(),
                   Total_Cells=sum(`Normalized Expression` > 0))
