@@ -1,10 +1,10 @@
-2025-11-02 00:18:51 - **** Job starts ****
-2025-11-02 00:18:51 - **** Bridges-2 info ****
+2025-11-03 11:00:03 - **** Job starts ****
+2025-11-03 11:00:03 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35747554
+Job id: 35773432
 Job name: transfer_labels
 Node name: 
-Hostname: r366
+Hostname: r296
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,12 +12,12 @@ Currently Loaded Modules:
 
  
 
-2025-11-02 00:18:52 - **** Loading conda environment ****
-2025-11-02 00:18:52 - **** Run analysis ****
+2025-11-03 11:00:04 - **** Loading conda environment ****
+2025-11-03 11:00:05 - **** Run analysis ****
 [34mINFO    [0m File scanvi_model/model.pt already downloaded                          
 [34mINFO    [0m Input AnnData not setup with scvi-tools. attempting to transfer AnnData
          setup                                                                  
-/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/lungmap_replication/_m/../_h/03.transfer_labels.py:96: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/lungmap_replication/_m/../_h/03a.transfer_labels.py:97: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
 
  To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
   sc.tl.leiden(adata, resolution=resolution)
@@ -39,5 +39,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-11-02 00:37
-2025-11-02 00:37:58 - Job finished at: Sun Nov  2 00:37:58 EDT 2025
+Session information updated at 2025-11-03 11:19
+2025-11-03 11:20:18 - Job finished at: Mon Nov  3 11:20:18 EST 2025
