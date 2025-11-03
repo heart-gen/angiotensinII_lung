@@ -1,0 +1,35 @@
+Gene_Name	Celltype	Proportion	Total_Cells
+AGTR1	AT1	0.8	8
+AGTR1	AT2	0.0731707317073171	3
+AGTR1	Adventitial fibroblasts	1	84
+AGTR1	Alveolar fibroblasts	0.98758865248227	557
+AGTR1	Alveolar macrophages	1	3
+AGTR1	B cells	1	2
+AGTR1	CD4 T cells	1	1
+AGTR1	EC aerocyte capillary	1	2
+AGTR1	EC general capillary	1	2
+AGTR1	Lymphatic EC	1	3
+AGTR1	Multiciliated	0.666666666666667	2
+AGTR1	Myofibroblasts	1	4
+AGTR1	Non-classical monocytes	1	1
+AGTR1	Peribronchial fibroblasts	0.75	3
+AGTR1	Pericytes	1	121
+AGTR1	Transitional Club-AT2	0.5	1
+AGTR1	Vascular smooth muscle	1	2
+AGTR2	AT1	0.2	2
+AGTR2	AT2	0.926829268292683	38
+AGTR2	Adventitial fibroblasts	0	0
+AGTR2	Alveolar fibroblasts	0.0141843971631206	8
+AGTR2	Alveolar macrophages	0	0
+AGTR2	B cells	0	0
+AGTR2	CD4 T cells	0	0
+AGTR2	EC aerocyte capillary	0	0
+AGTR2	EC general capillary	0	0
+AGTR2	Lymphatic EC	0	0
+AGTR2	Multiciliated	0.333333333333333	1
+AGTR2	Myofibroblasts	0	0
+AGTR2	Non-classical monocytes	0	0
+AGTR2	Peribronchial fibroblasts	0.25	1
+AGTR2	Pericytes	0	0
+AGTR2	Transitional Club-AT2	0.5	1
+AGTR2	Vascular smooth muscle	0	0

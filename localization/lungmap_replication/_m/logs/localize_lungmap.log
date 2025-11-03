@@ -1,0 +1,287 @@
+2025-11-03 13:01:39 - **** Job starts ****
+2025-11-03 13:01:39 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 35778102
+Job name: localize_lungmap
+Node name: 
+Hostname: r286
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-11-03 13:01:40 - **** Loading conda environment ****
+2025-11-03 13:01:52 - **** Run analysis ****
+Registered S3 method overwritten by 'zellkonverter':
+  method                                             from      
+  py_to_r.pandas.core.arrays.categorical.Categorical reticulate
+i Using stored X_name value 'counts'
+Warning message:
+In .check_reddim_names(x, value[[v]], withDimnames = TRUE, vname = sprintf("value[[%s]]",  :
+  non-NULL 'rownames(value[[1]])' should be the same as 'colnames(x)' for
+'reducedDims<-'. This will be an error in the next release of
+Bioconductor.
+Warning: The column names of the counts matrix is NULL. Setting cell names to cell_columnidx (e.g 'cell_1').
+Warning: The column names of the data matrix is NULL. Setting cell names to cell_columnidx (e.g 'cell_1').
+Warning messages:
+1: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_combined_ to Xcombined_ 
+2: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_pca_ to Xpca_ 
+3: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_pca_harmony_ to Xpcaharmony_ 
+4: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_scANVI_ to XscANVI_ 
+5: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_tsne_ to Xtsne_ 
+6: Keys should be one or more alphanumeric characters followed by an underscore, setting key from X_umap_ to Xumap_ 
+# A tibble: 2 x 3
+  Gene_Name Proportion Total_Cells
+  <fct>          <dbl>       <int>
+1 AGTR1        0.0287          799
+2 AGTR2        0.00183          51
+`summarise()` has grouped output by 'Gene_Name'. You can override using the
+`.groups` argument.
+# A tibble: 10 x 4
+# Groups:   Gene_Name [2]
+   Gene_Name Lineage      Proportion Total_Cells
+   <fct>     <fct>             <dbl>       <int>
+ 1 AGTR1     Endothelium    0.00257            6
+ 2 AGTR1     Epithelial     0.00126           14
+ 3 AGTR1     Immune         0.000861           7
+ 4 AGTR1     Mesenchymal    0.144            762
+ 5 AGTR1     Unclassified   0.0107            10
+ 6 AGTR2     Endothelium    0                  0
+ 7 AGTR2     Epithelial     0.00359           40
+ 8 AGTR2     Immune         0                  0
+ 9 AGTR2     Mesenchymal    0.00170            9
+10 AGTR2     Unclassified   0.00213            2
+`summarise()` has grouped output by 'Gene_Name'. You can override using the
+`.groups` argument.
+# A tibble: 10 x 4
+# Groups:   Gene_Name [2]
+   Gene_Name Celltype                  Proportion Total_Cells
+   <fct>     <fct>                          <dbl>       <int>
+ 1 AGTR1     Alveolar fibroblasts         0.165           557
+ 2 AGTR1     Pericytes                    0.159           121
+ 3 AGTR1     Adventitial fibroblasts      0.107            84
+ 4 AGTR1     Peribronchial fibroblasts    0.0268            3
+ 5 AGTR1     Vascular smooth muscle       0.0263            2
+ 6 AGTR1     Myofibroblasts               0.0177            4
+ 7 AGTR2     Peribronchial fibroblasts    0.00893           1
+ 8 AGTR2     AT2                          0.00576          38
+ 9 AGTR1     Lymphatic EC                 0.00353           3
+10 AGTR1     EC aerocyte capillary        0.00312           2
+# A tibble: 2 x 3
+  Gene_Name Proportion Total_Cells
+  <fct>          <dbl>       <int>
+1 AGTR1         0.941          799
+2 AGTR2         0.0601          51
+`summarise()` has grouped output by 'Gene_Name'. You can override using the
+`.groups` argument.
+# A tibble: 10 x 4
+# Groups:   Gene_Name [2]
+   Gene_Name Lineage      Proportion Total_Cells
+   <fct>     <fct>             <dbl>       <int>
+ 1 AGTR1     Endothelium      1                6
+ 2 AGTR1     Epithelial       0.259           14
+ 3 AGTR1     Immune           1                7
+ 4 AGTR1     Mesenchymal      0.990          762
+ 5 AGTR1     Unclassified     0.833           10
+ 6 AGTR2     Endothelium      0                0
+ 7 AGTR2     Epithelial       0.741           40
+ 8 AGTR2     Immune           0                0
+ 9 AGTR2     Mesenchymal      0.0117           9
+10 AGTR2     Unclassified     0.167            2
+`summarise()` has grouped output by 'Gene_Name'. You can override using the
+`.groups` argument.
+# A tibble: 10 x 4
+# Groups:   Gene_Name [1]
+   Gene_Name Celltype                Proportion Total_Cells
+   <fct>     <fct>                        <dbl>       <int>
+ 1 AGTR1     Adventitial fibroblasts          1          84
+ 2 AGTR1     Alveolar macrophages             1           3
+ 3 AGTR1     B cells                          1           2
+ 4 AGTR1     CD4 T cells                      1           1
+ 5 AGTR1     EC aerocyte capillary            1           2
+ 6 AGTR1     EC general capillary             1           2
+ 7 AGTR1     Lymphatic EC                     1           3
+ 8 AGTR1     Myofibroblasts                   1           4
+ 9 AGTR1     Non-classical monocytes          1           1
+10 AGTR1     Pericytes                        1         121
+[1] "Reproducibility information:"
+[1] "2025-11-03 13:05:27 EST"
+   user  system elapsed 
+127.535  44.659 215.564 
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2025-11-03
+ pandoc   NA
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package              * version date (UTC) lib source
+ abind                  1.4-8   2024-09-12 [1] CRAN (R 4.4.3)
+ backports              1.5.0   2024-05-23 [1] CRAN (R 4.4.3)
+ basilisk               1.18.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ basilisk.utils         1.18.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ Biobase              * 2.66.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ BiocGenerics         * 0.52.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ broom                  1.0.10  2025-09-13 [1] CRAN (R 4.4.3)
+ cachem                 1.1.0   2024-05-16 [1] CRAN (R 4.4.1)
+ car                    3.1-3   2024-09-27 [1] CRAN (R 4.4.3)
+ carData                3.0-5   2022-01-06 [1] CRAN (R 4.4.3)
+ cli                    3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ cluster                2.1.8.1 2025-03-12 [1] CRAN (R 4.4.3)
+ codetools              0.2-20  2024-03-31 [1] CRAN (R 4.4.1)
+ cowplot                1.2.0   2025-07-07 [1] CRAN (R 4.4.3)
+ crayon                 1.5.3   2024-06-20 [1] CRAN (R 4.4.1)
+ data.table             1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ DelayedArray           0.32.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ deldir                 2.0-4   2024-02-28 [1] CRAN (R 4.4.3)
+ digest                 0.6.37  2024-08-19 [1] CRAN (R 4.4.1)
+ dir.expiry             1.14.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ dotCall64              1.2     2024-10-04 [1] CRAN (R 4.4.3)
+ dplyr                * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver                 2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ fastDummies            1.7.5   2025-01-20 [1] CRAN (R 4.4.3)
+ fastmap                1.2.0   2024-05-15 [1] CRAN (R 4.4.1)
+ filelock               1.0.3   2023-12-11 [1] CRAN (R 4.4.3)
+ fitdistrplus           1.2-4   2025-07-03 [1] CRAN (R 4.4.3)
+ forcats                1.0.1   2025-09-25 [1] CRAN (R 4.4.3)
+ Formula                1.2-5   2023-02-24 [1] CRAN (R 4.4.3)
+ future                 1.67.0  2025-07-29 [1] CRAN (R 4.4.3)
+ future.apply           1.20.0  2025-06-06 [1] CRAN (R 4.4.3)
+ generics               0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ GenomeInfoDb         * 1.42.3  2025-01-27 [1] Bioconductor 3.20 (R 4.4.3)
+ GenomeInfoDbData       1.2.13  2025-03-19 [1] Bioconductor
+ GenomicRanges        * 1.58.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ ggplot2              * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ ggpubr               * 0.6.2   2025-10-17 [1] CRAN (R 4.4.3)
+ ggrepel                0.9.6   2024-09-07 [1] CRAN (R 4.4.3)
+ ggridges               0.5.7   2025-08-27 [1] CRAN (R 4.4.3)
+ ggsci                  4.1.0   2025-10-25 [1] CRAN (R 4.4.3)
+ ggsignif               0.6.4   2022-10-13 [1] CRAN (R 4.4.3)
+ ggvenn               * 0.1.19  2025-10-08 [1] CRAN (R 4.4.3)
+ globals                0.18.0  2025-05-08 [1] CRAN (R 4.4.3)
+ glue                   1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ goftest                1.2-3   2021-10-07 [1] CRAN (R 4.4.3)
+ gridExtra              2.3     2017-09-09 [1] CRAN (R 4.4.3)
+ gtable                 0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ htmltools              0.5.8.1 2024-04-04 [1] CRAN (R 4.4.1)
+ htmlwidgets            1.6.4   2023-12-06 [1] CRAN (R 4.4.1)
+ httpuv                 1.6.16  2025-04-16 [1] CRAN (R 4.4.3)
+ httr                   1.4.7   2023-08-15 [1] CRAN (R 4.4.1)
+ ica                    1.0-3   2022-07-08 [1] CRAN (R 4.4.3)
+ igraph                 2.2.1   2025-10-27 [1] CRAN (R 4.4.3)
+ IRanges              * 2.40.1  2024-12-05 [1] Bioconductor 3.20 (R 4.4.3)
+ irlba                  2.3.5.1 2022-10-03 [1] CRAN (R 4.4.3)
+ jsonlite               2.0.0   2025-03-27 [1] CRAN (R 4.4.3)
+ KernSmooth             2.23-26 2025-01-01 [1] CRAN (R 4.4.2)
+ labeling               0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ later                  1.4.4   2025-08-27 [1] CRAN (R 4.4.3)
+ lattice                0.22-7  2025-04-02 [1] CRAN (R 4.4.3)
+ lazyeval               0.2.2   2019-03-15 [1] CRAN (R 4.4.1)
+ lifecycle              1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ listenv                0.9.1   2024-01-29 [1] CRAN (R 4.4.1)
+ lmtest                 0.9-40  2022-03-21 [1] CRAN (R 4.4.3)
+ magrittr               2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ MASS                   7.3-65  2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix                 1.7-4   2025-08-28 [1] CRAN (R 4.4.3)
+ MatrixGenerics       * 1.18.1  2025-01-09 [1] Bioconductor 3.20 (R 4.4.3)
+ matrixStats          * 1.5.0   2025-01-07 [1] CRAN (R 4.4.3)
+ memoise                2.0.1   2021-11-26 [1] CRAN (R 4.4.1)
+ mime                   0.13    2025-03-17 [1] CRAN (R 4.4.3)
+ miniUI                 0.1.2   2025-04-17 [1] CRAN (R 4.4.3)
+ nlme                   3.1-168 2025-03-31 [1] CRAN (R 4.4.3)
+ otel                   0.2.0   2025-08-29 [1] CRAN (R 4.4.3)
+ parallelly             1.45.1  2025-07-24 [1] CRAN (R 4.4.3)
+ patchwork              1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pbapply                1.7-4   2025-07-20 [1] CRAN (R 4.4.3)
+ pillar                 1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig              2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ plotly                 4.11.0  2025-06-19 [1] CRAN (R 4.4.3)
+ plyr                   1.8.9   2023-10-02 [1] CRAN (R 4.4.1)
+ png                    0.1-8   2022-11-29 [1] CRAN (R 4.4.3)
+ polyclip               1.10-7  2024-07-23 [1] CRAN (R 4.4.3)
+ progressr              0.17.0  2025-10-15 [1] CRAN (R 4.4.3)
+ promises               1.4.0   2025-10-22 [1] CRAN (R 4.4.3)
+ purrr                  1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R6                     2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg                   1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RANN                   2.6.2   2024-08-25 [1] CRAN (R 4.4.3)
+ RColorBrewer           1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp                   1.1.0   2025-07-02 [1] CRAN (R 4.4.3)
+ RcppAnnoy              0.0.22  2024-01-23 [1] CRAN (R 4.4.3)
+ RcppHNSW               0.6.0   2024-02-04 [1] CRAN (R 4.4.3)
+ reshape2               1.4.4   2020-04-09 [1] CRAN (R 4.4.1)
+ reticulate             1.44.0  2025-10-25 [1] CRAN (R 4.4.3)
+ rlang                  1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ ROCR                   1.0-11  2020-05-02 [1] CRAN (R 4.4.3)
+ RSpectra               0.16-2  2024-07-18 [1] CRAN (R 4.4.3)
+ rstatix                0.7.3   2025-10-18 [1] CRAN (R 4.4.3)
+ Rtsne                  0.17    2023-12-07 [1] CRAN (R 4.4.3)
+ S4Arrays               1.6.0   2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ S4Vectors            * 0.44.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ S7                     0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales                 1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ scattermore            1.2     2023-06-12 [1] CRAN (R 4.4.3)
+ sctransform            0.4.2   2025-04-30 [1] CRAN (R 4.4.3)
+ sessioninfo            1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ Seurat               * 5.3.1   2025-10-29 [1] CRAN (R 4.4.3)
+ SeuratObject         * 5.2.0   2025-08-27 [1] CRAN (R 4.4.3)
+ shiny                  1.11.1  2025-07-03 [1] CRAN (R 4.4.3)
+ SingleCellExperiment * 1.28.1  2024-11-10 [1] Bioconductor 3.20 (R 4.4.3)
+ sp                   * 2.2-0   2025-02-01 [1] CRAN (R 4.4.3)
+ spam                   2.11-1  2025-01-20 [1] CRAN (R 4.4.3)
+ SparseArray            1.6.2   2025-02-20 [1] Bioconductor 3.20 (R 4.4.3)
+ spatstat.data          3.1-9   2025-10-18 [1] CRAN (R 4.4.3)
+ spatstat.explore       3.5-3   2025-09-22 [1] CRAN (R 4.4.3)
+ spatstat.geom          3.6-0   2025-09-20 [1] CRAN (R 4.4.3)
+ spatstat.random        3.4-2   2025-09-21 [1] CRAN (R 4.4.3)
+ spatstat.sparse        3.1-0   2024-06-21 [1] CRAN (R 4.4.3)
+ spatstat.univar        3.1-4   2025-07-13 [1] CRAN (R 4.4.3)
+ spatstat.utils         3.2-0   2025-09-20 [1] CRAN (R 4.4.3)
+ stringi                1.8.7   2025-03-27 [1] CRAN (R 4.4.3)
+ stringr                1.5.2   2025-09-08 [1] CRAN (R 4.4.3)
+ SummarizedExperiment * 1.36.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ survival               3.8-3   2024-12-17 [1] CRAN (R 4.4.2)
+ svglite                2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts            1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ tensor                 1.5.1   2025-06-17 [1] CRAN (R 4.4.3)
+ textshaping            1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble                 3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr                  1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect             1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ UCSC.utils             1.2.0   2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ utf8                   1.2.6   2025-06-08 [1] CRAN (R 4.4.3)
+ uwot                   0.2.3   2025-02-24 [1] CRAN (R 4.4.3)
+ vctrs                  0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite            0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr                  3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+ xtable                 1.8-4   2019-04-21 [1] CRAN (R 4.4.1)
+ XVector                0.46.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ zellkonverter          1.16.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ zlibbioc               1.52.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
+ zoo                    1.8-14  2025-04-10 [1] CRAN (R 4.4.3)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+- Python configuration -----------------------------------------------------------------------------------------------
+ python:         /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/bin/python
+ libpython:      /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/libpython3.12.so
+ pythonhome:     /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9:/ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9
+ version:        3.12.7 | packaged by conda-forge | (main, Oct  4 2024, 16:05:46) [GCC 13.3.0]
+ numpy:          /ocean/projects/bio250020p/shared/opt/basilisk_cache/1.18.0/zellkonverter/1.16.0/zellkonverterAnnDataEnv-0.10.9/lib/python3.12/site-packages/numpy
+ numpy_version:  2.1.2
+ 
+ NOTE: Python version was forced by use_python() function
+
+----------------------------------------------------------------------------------------------------------------------
+2025-11-03 13:05:30 - Job finished at: Mon Nov  3 13:05:30 EST 2025

@@ -1,0 +1,71 @@
+Gene_Name	Celltype	Proportion	Total_Cells
+AGTR1	AT1	0.00199950012496876	8
+AGTR1	AT2	0.000454959053685168	3
+AGTR1	Adventitial fibroblasts	0.10727969348659	84
+AGTR1	Alveolar fibroblasts	0.164646763227904	557
+AGTR1	Alveolar macrophages	0.00116595413913719	3
+AGTR1	B cells	0.0026246719160105	2
+AGTR1	Basal resting	0	0
+AGTR1	CD4 T cells	0.000413564929693962	1
+AGTR1	CD8 T cells	0	0
+AGTR1	Classical monocytes	0	0
+AGTR1	Club	0	0
+AGTR1	DC2	0	0
+AGTR1	Deuterosomal	0	0
+AGTR1	EC aerocyte capillary	0.0031201248049922	2
+AGTR1	EC general capillary	0.00272479564032698	2
+AGTR1	EC venous pulmonary	0	0
+AGTR1	EC venous systemic	0	0
+AGTR1	Goblet	0	0
+AGTR1	Interstitial macrophages	0	0
+AGTR1	Lymphatic EC	0.00352526439482961	3
+AGTR1	Mast cells	0	0
+AGTR1	Migratory DCs	0	0
+AGTR1	Multiciliated	0.00309119010819165	2
+AGTR1	Myofibroblasts	0.0176991150442478	4
+AGTR1	NK cells	0	0
+AGTR1	Neuroendocrine	0	0
+AGTR1	Non-classical monocytes	0.00234741784037559	1
+AGTR1	None	0	0
+AGTR1	Peribronchial fibroblasts	0.0267857142857143	3
+AGTR1	Pericytes	0.158792650918635	121
+AGTR1	Plasma cells	0	0
+AGTR1	Plasmacytoid DCs	0	0
+AGTR1	Suprabasal	0	0
+AGTR1	Transitional Club-AT2	0.00179533213644524	1
+AGTR1	Vascular smooth muscle	0.0263157894736842	2
+AGTR2	AT1	0.00049987503124219	2
+AGTR2	AT2	0.00576281468001213	38
+AGTR2	Adventitial fibroblasts	0	0
+AGTR2	Alveolar fibroblasts	0.00236476500147798	8
+AGTR2	Alveolar macrophages	0	0
+AGTR2	B cells	0	0
+AGTR2	Basal resting	0	0
+AGTR2	CD4 T cells	0	0
+AGTR2	CD8 T cells	0	0
+AGTR2	Classical monocytes	0	0
+AGTR2	Club	0	0
+AGTR2	DC2	0	0
+AGTR2	Deuterosomal	0	0
+AGTR2	EC aerocyte capillary	0	0
+AGTR2	EC general capillary	0	0
+AGTR2	EC venous pulmonary	0	0
+AGTR2	EC venous systemic	0	0
+AGTR2	Goblet	0	0
+AGTR2	Interstitial macrophages	0	0
+AGTR2	Lymphatic EC	0	0
+AGTR2	Mast cells	0	0
+AGTR2	Migratory DCs	0	0
+AGTR2	Multiciliated	0.00154559505409583	1
+AGTR2	Myofibroblasts	0	0
+AGTR2	NK cells	0	0
+AGTR2	Neuroendocrine	0	0
+AGTR2	Non-classical monocytes	0	0
+AGTR2	None	0	0
+AGTR2	Peribronchial fibroblasts	0.00892857142857143	1
+AGTR2	Pericytes	0	0
+AGTR2	Plasma cells	0	0
+AGTR2	Plasmacytoid DCs	0	0
+AGTR2	Suprabasal	0	0
+AGTR2	Transitional Club-AT2	0.00179533213644524	1
+AGTR2	Vascular smooth muscle	0	0
