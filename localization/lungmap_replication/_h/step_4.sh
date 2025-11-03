@@ -5,7 +5,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=32
 #SBATCH --time=01:00:00
-#SBATCH --output=localize_lungmap.log
+#SBATCH --output=logs/localize_lungmap.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -29,7 +29,7 @@ log_message "**** Loading conda environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
 log_message "**** Run analysis ****"
-Rscript ../_h/01.localization.R
+Rscript ../_h/04.localization.R
 
 if [ $? -ne 0 ]; then
     echo "R script failed. Check the error logs."
