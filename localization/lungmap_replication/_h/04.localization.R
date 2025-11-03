@@ -23,6 +23,7 @@ memSC <- memoise::memoise(load_data)
 
 extract_angiotensinII <- function(){
     sce <- memSC()
+    rownames(sce) <- rowData(sce)$gene_name
     genes = c("AGTR1", "AGTR2")
     angiotensin2 <- sce[genes,]
     return(angiotensin2)
@@ -33,7 +34,7 @@ prepare_data <- function(){
     angiotensin2 <- memAGTR()
     df = logcounts(angiotensin2) |> t() |> as.data.frame() |>
         mutate(Donor=colData(angiotensin2)$donor,
-               Celltype=colData(angiotensin2)$celltype,
+               Celltype=colData(angiotensin2)$predicted_labels,
                Lineage=colData(angiotensin2)$lineage) |>
         tidyr::pivot_longer(-c(Donor, Celltype, Lineage),
                             names_to="Gene_Name",
@@ -46,7 +47,7 @@ prepare_filtered_data <- function(){
     angiotensin2 <- memAGTR()
     df = logcounts(angiotensin2) |> t() |> as.data.frame() |>
         mutate(Donor=colData(angiotensin2)$donor,
-               Celltype=colData(angiotensin2)$celltype,
+               Celltype=colData(angiotensin2)$predicted_labels,
                Lineage=colData(angiotensin2)$lineage) |>
         filter(AGTR1 > 0 | AGTR2 > 0) |> droplevels() |>
         tidyr::pivot_longer(-c(Donor, Celltype, Lineage),
