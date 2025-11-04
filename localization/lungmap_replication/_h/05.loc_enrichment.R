@@ -112,7 +112,7 @@ enrichment_loop <- function(df, fisher_fun, locations, annotation_label,
         bind_rows(loc_stats)
     })
 
-    return(bind_rows(results) |> mutate(FDR = p.adjust(P, method = "bonferroni")))
+    return(bind_rows(results) |> mutate(FDR = p.adjust(P, method = "fdr")))
 }
 
 #----------------------#
