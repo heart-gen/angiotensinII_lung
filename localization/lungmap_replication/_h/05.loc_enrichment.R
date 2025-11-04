@@ -26,19 +26,19 @@ fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
         )
 
                                         # Present / not present counts
-    group_yes <- df |>
+    group_yes <- dx |>
         filter(.data[[group_col]] == in_group_label, `Normalized Expression` > 0) |>
         nrow()
 
-    group_no <- df |>
+    group_no <- dx |>
         filter(.data[[group_col]] == in_group_label, `Normalized Expression` == 0) |>
         nrow()
 
-    other_yes <- df |>
+    other_yes <- dx |>
         filter(.data[[group_col]] != in_group_label, `Normalized Expression` > 0) |>
         nrow()
 
-    other_no <- df |>
+    other_no <- dx |>
         filter(.data[[group_col]] != in_group_label, `Normalized Expression` == 0) |>
         nrow()
 
@@ -67,7 +67,6 @@ fisher_exact_annotation <- function(df, xlab) {
 #--------------------------------------#
 # Run enrichment for a set of locations
 #--------------------------------------#
-
 enrichment_loop <- function(df, fisher_fun, locations, annotation_label,
                             genes = c("AGTR1", "AGTR2")) {
     results <- lapply(genes, function(gene) {
@@ -88,7 +87,6 @@ enrichment_loop <- function(df, fisher_fun, locations, annotation_label,
 
         bind_rows(loc_stats)
     })
-
 
     return(bind_rows(results) |> mutate(FDR = p.adjust(P, method = "bonferroni")))
 }
