@@ -1,7 +1,7 @@
-2025-11-04 08:26:53 - **** Job starts ****
-2025-11-04 08:26:53 - **** Bridges-2 info ****
+2025-11-04 11:25:10 - **** Job starts ****
+2025-11-04 11:25:10 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35788966
+Job id: 35790790
 Job name: enrich_lungmap
 Node name: 
 Hostname: r226
@@ -12,12 +12,12 @@ Currently Loaded Modules:
 
  
 
-2025-11-04 08:26:54 - **** Loading conda environment ****
-2025-11-04 08:27:06 - **** Run analysis ****
+2025-11-04 11:25:11 - **** Loading conda environment ****
+2025-11-04 11:25:22 - **** Run analysis ****
 Reproducibility information:
-[1] "2025-11-04 08:27:25 EST"
+[1] "2025-11-04 11:25:39 EST"
    user  system elapsed 
-  4.636   0.395  19.192 
+  4.376   0.311  17.071 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -93,4 +93,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2025-11-04 08:27:27 - Job finished at: Tue Nov  4 08:27:27 EST 2025
+2025-11-04 11:25:41 - Job finished at: Tue Nov  4 11:25:41 EST 2025
