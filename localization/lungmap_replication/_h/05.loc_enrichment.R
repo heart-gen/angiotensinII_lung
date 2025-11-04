@@ -15,39 +15,63 @@ suppressPackageStartupMessages({
 #----------------------------#
 # Fisher's exact test helpers
 #----------------------------#
+safe_fisher <- function(tab, alternative = "two.sided", pseudo = 0.5) {
+    stopifnot(all(dim(tab) == c(2, 2)))
+                                        # guard against empty margins (no information)
+    if (any(rowSums(tab) == 0) || any(colSums(tab) == 0)) {
+        return(list(
+            estimate = NA_real_, p.value = NA_real_, conf.int = c(NA_real_, NA_real_),
+            method = "Fisher's exact test (insufficient margins)"
+        ))
+    }
+
+    ft <- fisher.test(tab, alternative = alternative)  # exact p-value
+
+    a <- tab[1, 1]; b <- tab[1, 2]; c <- tab[2, 1]; d <- tab[2, 2]
+    if (any(tab == 0) || is.infinite(unname(ft$estimate))) {
+                                        # Haldane-Anscombe OR and Wald CI on log(OR)
+        ap <- a + pseudo; bp <- b + pseudo; cp <- c + pseudo; dp <- d + pseudo
+        or <- (ap * dp) / (bp * cp)
+        se <- sqrt(1/ap + 1/bp + 1/cp + 1/dp)
+        ci <- exp(log(or) + qnorm(c(0.025, 0.975)) * se)
+
+        ft$estimate <- or
+        ft$conf.int <- ci
+        ft$method <- "Fisher's exact (HA-corrected OR)"
+    }
+    ft
+}
+
 fisher_exact_generic <- function(df, group_col, in_group_label, in_group_name,
                                  out_group_name) {
                                         # Compute mean expression per patient x group
     dx <- df |> 
         group_by(.data$Donor, .data[[group_col]]) |>
-        summarize(
-            mean_expr = mean(`Normalized Expression`, na.rm = TRUE),
-            .groups = "drop"
-        )
+        summarize(mean_expr = mean(`Normalized Expression`, na.rm = TRUE),
+                  .groups = "drop")
 
                                         # Present / not present counts
     group_yes <- dx |>
-        filter(.data[[group_col]] == in_group_label, `Normalized Expression` > 0) |>
+        filter(.data[[group_col]] == in_group_label, mean_expr > 0) |>
         nrow()
 
     group_no <- dx |>
-        filter(.data[[group_col]] == in_group_label, `Normalized Expression` == 0) |>
+        filter(.data[[group_col]] == in_group_label, mean_expr == 0) |>
         nrow()
 
     other_yes <- dx |>
-        filter(.data[[group_col]] != in_group_label, `Normalized Expression` > 0) |>
+        filter(.data[[group_col]] != in_group_label, mean_expr > 0) |>
         nrow()
 
     other_no <- dx |>
-        filter(.data[[group_col]] != in_group_label, `Normalized Expression` == 0) |>
+        filter(.data[[group_col]] != in_group_label, mean_expr == 0) |>
         nrow()
 
-    contingency <- data.frame(
-        Present      = c(group_yes, other_yes),
-        `Not Present` = c(group_no, other_no),
-        row.names    = c(in_group_name, out_group_name)
-    )
-    return(fisher.test(contingency))
+    tab <- matrix(c(group_yes, group_no, other_yes, other_no),
+                  nrow = 2, byrow = TRUE,
+                  dimnames = list(c(in_group_name, out_group_name),
+                                  c("Present", "Not Present")))
+    return(safe_fisher(tab))
 }
 
 fisher_exact_compartment <- function(df, xlab) {
@@ -63,7 +87,7 @@ fisher_exact_annotation <- function(df, xlab) {
         in_group_name = "In Cell type", out_group_name = "Not in Cell type"
     )
 }
-
+    
 #--------------------------------------#
 # Run enrichment for a set of locations
 #--------------------------------------#
