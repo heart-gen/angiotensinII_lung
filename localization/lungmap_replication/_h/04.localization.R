@@ -75,13 +75,13 @@ venn_diagrams <- function(){
 
 plot_dotplot <- function(outdir="all_cells"){
     df.seurat <- as.Seurat(memAGTR(), counts = "counts", data = "logcounts")
-    df.seurat$celltype <- forcats::fct_rev(factor(df.seurat$celltype))
+    df.seurat$celltype <- forcats::fct_rev(factor(df.seurat$predicted_labels))
     df.seurat$lineage  <- forcats::fct_rev(factor(df.seurat$lineage))
     df.seurat$active.ident <- df.seurat$celltype
     Idents(df.seurat)  <- "celltype"
     pp = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2")) +
         RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_celltype"), pp, 6, 7)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_celltype"), pp, 10, 7.5)
     qq = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="lineage") + RotatedAxis()
     save_ggplots(paste0(outdir,"/dotplot_angiotensinII_lineage"), qq, 6, 7)
