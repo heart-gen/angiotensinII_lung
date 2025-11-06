@@ -81,7 +81,7 @@ plot_dotplot <- function(outdir="all_cells"){
     Idents(df.seurat)  <- "celltype"
     pp = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2")) +
         RotatedAxis()
-    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_celltype"), pp, 10, 7.5)
+    save_ggplots(paste0(outdir,"/dotplot_angiotensinII_celltype"), pp, 7, 10)
     qq = DotPlot(object = df.seurat, features = c("AGTR1", "AGTR2"),
                  group.by="lineage") + RotatedAxis()
     save_ggplots(paste0(outdir,"/dotplot_angiotensinII_lineage"), qq, 6, 7)
