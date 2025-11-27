@@ -1,10 +1,10 @@
-2025-11-06 12:30:14 - **** Job starts ****
-2025-11-06 12:30:14 - **** Bridges-2 info ****
+2025-11-06 12:52:43 - **** Job starts ****
+2025-11-06 12:52:43 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 35843704
+Job id: 35844050
 Job name: localize_lungmap
 Node name: 
-Hostname: r249
+Hostname: r400
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-11-06 12:30:14 - **** Loading conda environment ****
-2025-11-06 12:30:27 - **** Run analysis ****
+2025-11-06 12:52:44 - **** Loading conda environment ****
+2025-11-06 12:52:56 - **** Run analysis ****
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
   py_to_r.pandas.core.arrays.categorical.Categorical reticulate
@@ -111,9 +111,9 @@ In dir.create(outdir) : 'filtered_cells' already exists
  9 AGTR1     Non-classical monocytes          1           1
 10 AGTR1     Pericytes                        1         121
 [1] "Reproducibility information:"
-[1] "2025-11-06 12:33:06 EST"
+[1] "2025-11-06 12:55:17 EST"
    user  system elapsed 
- 71.622  20.124 158.121 
+ 74.193  21.148 140.880 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -288,4 +288,4 @@ In dir.create(outdir) : 'filtered_cells' already exists
  NOTE: Python version was forced by use_python() function
 
 ----------------------------------------------------------------------------------------------------------------------
-2025-11-06 12:33:07 - Job finished at: Thu Nov  6 12:33:07 EST 2025
+2025-11-06 12:55:18 - Job finished at: Thu Nov  6 12:55:18 EST 2025
