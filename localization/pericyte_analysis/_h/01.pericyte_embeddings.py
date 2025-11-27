@@ -1,8 +1,7 @@
 """
 Compute embeddings + marker overlays for pericytes.
 """
-import argparse
-import logging
+import logging, argparse
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -10,11 +9,11 @@ import yaml
 import numpy as np
 import pandas as pd
 import scanpy as sc
-import seaborn as sns
-import matplotlib.pyplot as plt
-from anndata import AnnData
-from scipy import sparse
 import session_info
+import seaborn as sns
+from scipy import sparse
+from anndata import AnnData
+import matplotlib.pyplot as plt
 
 sns.set_context("talk")
 sns.set_style("whitegrid")
@@ -54,7 +53,29 @@ def load_anndata(path: Path) -> AnnData:
         adata.layers["counts"] = adata.X
     if "logcounts" not in adata.layers:
         adata.layers["logcounts"] = adata.X
+    if "feature_name" not in adata.var.columns:
+        logging.warning("No feature_name column detected. Using var_names as symbols.")
+        adata.var["feature_name"] = adata.var_names
     return adata
+
+
+def compute_embeddings(adata: AnnData, use_rep: str,
+                       neighbors=30, min_dist=0.5, spread=1.2,
+                       perplexity=30, seed=13):
+    sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=neighbors,
+                    metric="cosine", random_state=seed)
+    sc.tl.umap(adata, min_dist=min_dist, spread=spread, random_state=seed)
+    sc.tl.tsne(adata, use_rep=use_rep, perplexity=perplexity, random_state=seed)
+
+
+def symbol_to_varname(adata: AnnData, symbol: str) -> Optional[str]:
+    """Return var_name (ENSEMBL) for a gene symbol."""
+    if symbol in adata.var["feature_name"].values:
+        return adata.var.index[adata.var["feature_name"] == symbol][0]
+    elif symbol in adata.var_names:
+        return symbol
+    logging.warning("Gene symbol '%s' not found.", symbol)
+    return None
 
 
 def resolve_gene_symbol(adata: AnnData, gene: str) -> Optional[str]:
@@ -76,15 +97,6 @@ def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
     expr = expr.toarray().ravel() if sparse.issparse(expr) else np.asarray(expr).ravel()
     adata.obs[f"{gene}_expr"] = expr
     adata.obs[f"{gene}_detect"] = (expr > 0).astype(int)
-
-
-def compute_embeddings(adata: AnnData, use_rep: str,
-                       neighbors=30, min_dist=0.5, spread=1.2,
-                       perplexity=30, seed=13):
-    sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=neighbors,
-                    metric="cosine", random_state=seed)
-    sc.tl.umap(adata, min_dist=min_dist, spread=spread, random_state=seed)
-    sc.tl.tsne(adata, use_rep=use_rep, perplexity=perplexity, random_state=seed)
 
 
 def make_df(adata: AnnData, emb_key: str, cols: List[str]) -> pd.DataFrame:
@@ -127,34 +139,62 @@ def load_marker_panels(path: Path) -> Dict[str, List[str]]:
     return data["pericyte"]
 
 
-def convert_panels_to_varnames(adata: AnnData,
-                               panels: Dict[str, List[str]]) -> Dict[str, List[str]]:
+def convert_panels_to_varnames(adata: AnnData, panels) -> Dict[str, List[str]]:
     out = {}
-    for label, genes in panels.items():
-        var_list = []
-        for g in genes:
-            v = resolve_gene_symbol(adata, g)
-            if v is not None:
-                var_list.append(v)
-        if var_list:
-            out[label] = var_list
+    for label, symbols in panels.items():
+        mapping = {}
+        for sym in symbols:
+            var = symbol_to_varname(adata, sym)
+            if var is not None:
+                mapping[sym] = var
+        if mapping:
+            out[label] = mapping
     return out
 
 
 def plot_marker_dotplot(adata: AnnData, panels: Dict[str, List[str]],
                         cluster_key: str, outdir: Path):
-    all_genes = sorted({g for glist in panels.values() for g in glist})
-    dp = sc.pl.dotplot(adata, var_names=all_genes,
-                       groupby=cluster_key, show=False,
-                       standard_scale="var", return_fig=True)
+    groups = list(panels.keys())
+
+    all_symbols = []; all_varnames = []
+    group_positions = []; current_idx = 0
+
+    for group in groups:
+        mapping = panels[group]
+        syms = list(mapping.keys())
+        vars_ = [mapping[s] for s in syms]
+
+        start = current_idx
+        end = current_idx + len(vars_) - 1
+        group_positions.append((start, end))
+
+        all_symbols.extend(syms)
+        all_varnames.extend(vars_)
+        current_idx += len(vars_)
+
+    dp = sc.pl.dotplot(
+        adata, var_names=all_varnames, groupby=cluster_key,
+        var_group_labels=groups, var_group_positions=group_positions,
+        standard_scale="var", show=False, return_fig=True,
+    )
+
+    dp.ax.set_xticklabels(all_symbols, rotation=90)
     save_figure(dp, outdir / "dotplot_markers")
 
 
 def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
                             outdir: Path):
-    for label, genes in panels.items():
-        fig = sc.pl.umap(adata, color=genes, layer="logcounts",
+    """UMAP feature plots with gene SYMBOLS."""
+    for label, mapping in panels.items():
+        symbols = list(mapping.keys())
+        varnames = list(mapping.values())
+
+        fig = sc.pl.umap(adata, color=varnames, layer="logcounts",
                          show=False, return_fig=True)
+
+        for ax, sym in zip(fig.axes, symbols):            
+            ax.set_title(sym)
+
         save_figure(fig, outdir / f"umap_markers_{label}")
 
 
