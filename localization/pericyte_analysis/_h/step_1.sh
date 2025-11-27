@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=full_subclustering
+#SBATCH --job-name=peri_clustering
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
 #SBATCH --time=03:00:00
-#SBATCH --output=visualize_full.log
+#SBATCH --output=logs/clustering_pericytes.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -32,8 +32,9 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/02.sub-clustering.py \
-       --model "full" --resolution 0.5 --phate_knn 15 --phate_decay 10
+python ../_h/01.pericyte_embeddings.py \
+       --adata pericyte.hlca_full.dataset.h5ad \
+       --outdir "results" --markers-yaml ../_h/pericyte_markers.yml
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
