@@ -78,19 +78,8 @@ def symbol_to_varname(adata: AnnData, symbol: str) -> Optional[str]:
     return None
 
 
-def resolve_gene_symbol(adata: AnnData, gene: str) -> Optional[str]:
-    if "feature_name" in adata.var.columns:
-        mask = adata.var["feature_name"] == gene
-        if mask.any():
-            return adata.var.index[mask][0]
-    if gene in adata.var_names:
-        return gene
-    logging.warning("Marker gene '%s' not found.", gene)
-    return None
-
-
 def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
-    var = resolve_gene_symbol(adata, gene)
+    var = symbol_to_varname(adata, gene)
     if var is None:
         return
     expr = adata[:, var].layers["logcounts"]
@@ -139,7 +128,9 @@ def load_marker_panels(path: Path) -> Dict[str, List[str]]:
     return data["pericyte"]
 
 
-def convert_panels_to_varnames(adata: AnnData, panels) -> Dict[str, List[str]]:
+def convert_panels_to_varnames(
+    adata: AnnData, panels: Dict[str, List[str]]
+) -> Dict[str, Dict[str, str]]:
     out = {}
     for label, symbols in panels.items():
         mapping = {}
