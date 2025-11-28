@@ -37,6 +37,8 @@ def parse_args():
     parser.add_argument("--umap-min-dist", type=float, default=0.5)
     parser.add_argument("--umap-spread", type=float, default=1.2)
     parser.add_argument("--tsne-perplexity", type=float, default=30.0)
+    parser.add_argument("--leiden-resolution", type=float, default=0.5,
+                        help="Leiden clustering resolution")
     parser.add_argument("--seed", type=int, default=13)
     return parser.parse_args()
 
@@ -66,6 +68,13 @@ def compute_embeddings(adata: AnnData, use_rep: str,
                     metric="cosine", random_state=seed)
     sc.tl.umap(adata, min_dist=min_dist, spread=spread, random_state=seed)
     sc.tl.tsne(adata, use_rep=use_rep, perplexity=perplexity, random_state=seed)
+
+
+def run_leiden(adata: AnnData, resolution: float = 0.5, seed: int = 13):
+    logging.info(f"Running Leiden clustering (resolution={resolution})...")
+    sc.tl.leiden(
+        adata, resolution=resolution, key_added="leiden", random_state=seed,
+    )
 
 
 def symbol_to_varname(adata: AnnData, symbol: str) -> Optional[str]:
@@ -208,6 +217,9 @@ def main():
         seed=args.seed
     )
 
+    # Leiden clustering
+    run_leiden(adata, resolution=args.leiden_resolution, seed=args.seed)
+
     # AGTR1
     add_agtr1_expression(adata, gene="AGTR1")
 
@@ -216,13 +228,13 @@ def main():
     agtr_dir.mkdir(exist_ok=True)
 
     for emb in ["X_umap", "X_tsne"]:
-        df = make_df(adata, emb, ["AGTR1_expr", "AGTR1_detect"])
-        plot_seaborn_embedding(df, "AGTR1_expr",
-                               f"{emb}: AGTR1 expression",
+        df = make_df(adata, emb, ["AGTR1_expr", "AGTR1_detect", "leiden"])
+        plot_seaborn_embedding(df, "AGTR1_expr", f"{emb}: AGTR1 expression",
                                agtr_dir / f"{emb}_agtr1_expr", categorical=False)
-        plot_seaborn_embedding(df, "AGTR1_detect",
-                               f"{emb}: AGTR1 detection",
+        plot_seaborn_embedding(df, "AGTR1_detect", f"{emb}: AGTR1 detection",
                                agtr_dir / f"{emb}_agtr1_detect", categorical=True)
+        plot_seaborn_embedding(df, "leiden", f"{emb}: Leiden clusters",
+                               outdir / f"{emb}_leiden", categorical=True)
 
     # Marker panels
     raw_panels = load_marker_panels(args.markers_yaml)
