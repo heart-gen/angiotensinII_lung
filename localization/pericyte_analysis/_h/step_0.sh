@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --partition=EM
+#SBATCH --partition=RM-shared
 #SBATCH --job-name=full_subset
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=24
-#SBATCH --time=03:00:00
+#SBATCH --ntasks-per-node=64
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/full_subsetting.log
 
 log_message() {

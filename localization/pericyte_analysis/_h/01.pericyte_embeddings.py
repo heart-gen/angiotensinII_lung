@@ -152,12 +152,50 @@ def convert_panels_to_varnames(
     return out
 
 
+def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
+                            outdir: Path):
+    """UMAP feature plots with gene SYMBOLS."""
+    for label, mapping in panels.items():
+        symbols = list(mapping.keys())
+        varnames = list(mapping.values())
+
+        fig = sc.pl.umap(adata, color=varnames, layer="logcounts",
+                         show=False, return_fig=True)
+
+        for ax, sym in zip(fig.axes, symbols):            
+            ax.set_title(sym)
+
+        save_figure(fig, outdir / f"umap_markers_{label}")
+
+
+def extract_dotplot_figure(dp):
+    """
+    Normalize Scanpy dotplot output to a matplotlib Figure.
+    """
+    if hasattr(dp, "make_figure"): # DotPlot object
+        return dp.make_figure()
+    if hasattr(dp, "fig"):
+        return dp.fig
+
+    if isinstance(dp, dict) and "fig" in dp: # dict output
+        return dp["fig"]
+
+    if isinstance(dp, tuple) and len(dp) == 2: # tuple output: (fig, ax)
+        fig, _ = dp
+        return fig
+
+    import matplotlib.figure
+    if isinstance(dp, matplotlib.figure.Figure): # already a figure
+        return dp
+
+    raise RuntimeError(f"Cannot extract figure from object of type {type(dp)}")
+
+
 def plot_marker_dotplot(adata: AnnData, panels: Dict[str, List[str]],
                         cluster_key: str, outdir: Path):
     groups = list(panels.keys())
-
-    all_symbols = []; all_varnames = []
-    group_positions = []; current_idx = 0
+    all_symbols, all_varnames, group_positions = [], [], []
+    current_idx = 0
 
     for group in groups:
         mapping = panels[group]
@@ -175,27 +213,13 @@ def plot_marker_dotplot(adata: AnnData, panels: Dict[str, List[str]],
     dp = sc.pl.dotplot(
         adata, var_names=all_varnames, groupby=cluster_key,
         var_group_labels=groups, var_group_positions=group_positions,
-        standard_scale="var", show=False, return_fig=True,
+        standard_scale="var", show=False, return_fig=False,
     )
 
-    dp.ax.set_xticklabels(all_symbols, rotation=90)
-    save_figure(dp, outdir / "dotplot_markers")
-
-
-def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
-                            outdir: Path):
-    """UMAP feature plots with gene SYMBOLS."""
-    for label, mapping in panels.items():
-        symbols = list(mapping.keys())
-        varnames = list(mapping.values())
-
-        fig = sc.pl.umap(adata, color=varnames, layer="logcounts",
-                         show=False, return_fig=True)
-
-        for ax, sym in zip(fig.axes, symbols):            
-            ax.set_title(sym)
-
-        save_figure(fig, outdir / f"umap_markers_{label}")
+    fig = next(iter(dp.values())).figure
+    ax_var = dp["gene_group_ax"]
+    ax_var.set_xticklabels(all_symbols, rotation=90)
+    save_figure(fig, outdir / "dotplot_markers")
 
 
 def main():
@@ -243,8 +267,8 @@ def main():
     marker_dir = outdir / "markers"
     marker_dir.mkdir(exist_ok=True)
 
-    plot_marker_dotplot(adata, panels, args.cluster_key, marker_dir)
     plot_marker_panels_umap(adata, panels, marker_dir)
+    plot_marker_dotplot(adata, panels, args.cluster_key, marker_dir)
 
     # Save updated AnnData
     adata.write(outdir / "pericyte_with_embeddings.h5ad")
