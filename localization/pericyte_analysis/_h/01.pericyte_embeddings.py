@@ -163,7 +163,8 @@ def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
                          show=False, return_fig=True)
 
         for ax, sym in zip(fig.axes, symbols):            
-            ax.set_title(sym)
+            ax.set_title(sym, ha="center")
+            ax.title.set_ha("center")
 
         save_figure(fig, outdir / f"umap_markers_{label}")
 
@@ -191,35 +192,38 @@ def extract_dotplot_figure(dp):
     raise RuntimeError(f"Cannot extract figure from object of type {type(dp)}")
 
 
-def plot_marker_dotplot(adata: AnnData, panels: Dict[str, List[str]],
+def plot_marker_dotplot(adata: AnnData, panels: Dict[str, Dict[str, str]],
                         cluster_key: str, outdir: Path):
-    groups = list(panels.keys())
-    all_symbols, all_varnames, group_positions = [], [], []
-    current_idx = 0
+    for panel_name, mapping in panels.items():
+        symbols = list(mapping.keys())
+        varnames = list(mapping.values())
 
-    for group in groups:
-        mapping = panels[group]
-        syms = list(mapping.keys())
-        vars_ = [mapping[s] for s in syms]
+        dp = sc.pl.dotplot(
+            adata,
+            var_names=varnames,
+            groupby=cluster_key,
+            standard_scale="var",
+            show=False,
+            return_fig=False,
+        )
 
-        start = current_idx
-        end = current_idx + len(vars_) - 1
-        group_positions.append((start, end))
+        fig = next(iter(dp.values())).figure
 
-        all_symbols.extend(syms)
-        all_varnames.extend(vars_)
-        current_idx += len(vars_)
+        ax = dp.get("gene_group_ax", None)
+        if ax is None:
+            ax = list(dp.values())[-1]
 
-    dp = sc.pl.dotplot(
-        adata, var_names=all_varnames, groupby=cluster_key,
-        var_group_labels=groups, var_group_positions=group_positions,
-        standard_scale="var", show=False, return_fig=False,
-    )
+        ax.set_xticks(range(len(symbols)))
+        ax.set_xticklabels(symbols)
 
-    fig = next(iter(dp.values())).figure
-    ax_var = dp["gene_group_ax"]
-    ax_var.set_xticklabels(all_symbols, rotation=90)
-    save_figure(fig, outdir / "dotplot_markers")
+        for t in ax.get_xticklabels():
+            t.set_ha("center")
+            t.set_rotation(90)
+            t.set_rotation_mode("anchor")
+
+        fig.suptitle(f"{panel_name} markers", y=1.02)
+
+        save_figure(fig, outdir / f"dotplot_{panel_name}")
 
 
 def main():
