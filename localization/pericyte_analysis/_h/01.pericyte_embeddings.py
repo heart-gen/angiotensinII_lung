@@ -33,9 +33,9 @@ def parse_args():
     parser.add_argument("--markers-yaml", required=True, type=Path)
     parser.add_argument("--cluster-key", default="leiden")
     parser.add_argument("--use-rep", default="X_pca_harmony")
-    parser.add_argument("--neighbors", type=int, default=30)
-    parser.add_argument("--umap-min-dist", type=float, default=0.5)
-    parser.add_argument("--umap-spread", type=float, default=1.2)
+    parser.add_argument("--neighbors", type=int, default=50)
+    parser.add_argument("--umap-min-dist", type=float, default=0.9)
+    parser.add_argument("--umap-spread", type=float, default=1.5)
     parser.add_argument("--tsne-perplexity", type=float, default=30.0)
     parser.add_argument("--leiden-resolution", type=float, default=0.5,
                         help="Leiden clustering resolution")

@@ -5,7 +5,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
 #SBATCH --time=03:00:00
-#SBATCH --output=visualize_full.log
+#SBATCH --output=logs/pericyte_metrics.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
