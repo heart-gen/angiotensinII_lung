@@ -6,6 +6,7 @@ import scanpy as sc
 import harmonypy as hm
 from pyhere import here
 from pathlib import Path
+from pandas.api.types import CategoricalDtype
 
 def subset_data(input_file, COMPARTMENT=False):
     """Subset lung single-cell data, harmonizing annotations and filtering studies."""
