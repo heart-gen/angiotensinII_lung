@@ -67,12 +67,12 @@ def subset_data(input_file, COMPARTMENT=False):
         print("Warning: Variable 'study' not found in observation metadata; skipping study filter.")
 
     # Subset data
-    if COMPARTMENT:
-        mask = adata.obs["compartment"].eq("Stroma")
-    else:
+    if AIRSPACE:
         mask = adata.obs["subclusters"].isin(
             ["Pericytes", 'EC general capillary', 'EC aerocyte capillary']
         )
+    else:
+        mask = adata.obs["subclusters"].eq("Pericytes")
 
     adata = adata[mask].copy()
 
@@ -134,13 +134,13 @@ def main():
     model = args.model
     print("Model selected:", model)
 
-    for COMPARTMENT in [False]: # Just runt he pericyte+ subclustering
-        label = "stroma" if COMPARTMENT else "pericyte"
+    for AIRSPACE in [False, True]:
+        label = "airspace" if AIRSPACE else "pericyte"
         out_file = f"{label}.hlca_{model}.dataset.h5ad"
         in_file = Path("inputs/hlca/_m") / f"hlca_{model}.h5ad"
 
         # Run processing
-        adata = subset_data(in_file, COMPARTMENT)
+        adata = subset_data(in_file, AIRSPACE)
         adata = preprocess_data(adata, max_iter=args.m_iter)
 
         # Save
