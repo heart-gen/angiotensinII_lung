@@ -58,6 +58,12 @@ def load_anndata(path: Path) -> AnnData:
     if "feature_name" not in adata.var.columns:
         logging.warning("No feature_name column detected. Using var_names as symbols.")
         adata.var["feature_name"] = adata.var_names
+    symbols = adata.var["feature_name"].astype(str)
+    if symbols.duplicated().any():
+        symbols = symbols.groupby(symbols).cumcount().astype(str).radd(symbols + "_")
+    adata.var["ensembl_id"] = adata.var_names
+    adata.var_names = symbols
+    adata.var.index = symbols
     return adata
 
 
@@ -77,22 +83,14 @@ def run_leiden(adata: AnnData, resolution: float = 0.5, seed: int = 13):
     )
 
 
-def symbol_to_varname(adata: AnnData, symbol: str) -> Optional[str]:
-    """Return var_name (ENSEMBL) for a gene symbol."""
-    if symbol in adata.var["feature_name"].values:
-        return adata.var.index[adata.var["feature_name"] == symbol][0]
-    elif symbol in adata.var_names:
-        return symbol
-    logging.warning("Gene symbol '%s' not found.", symbol)
-    return None
-
-
 def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
-    var = symbol_to_varname(adata, gene)
-    if var is None:
+    if gene not in adata.var_names:
+        logging.warning(f"{gene} not in var_names")
         return
-    expr = adata[:, var].layers["logcounts"]
+
+    expr = adata[:, gene].layers["logcounts"]
     expr = expr.toarray().ravel() if sparse.issparse(expr) else np.asarray(expr).ravel()
+
     adata.obs[f"{gene}_expr"] = expr
     adata.obs[f"{gene}_detect"] = (expr > 0).astype(int)
 
@@ -137,34 +135,13 @@ def load_marker_panels(path: Path) -> Dict[str, List[str]]:
     return data["pericyte"]
 
 
-def convert_panels_to_varnames(
-    adata: AnnData, panels: Dict[str, List[str]]
-) -> Dict[str, Dict[str, str]]:
-    out = {}
-    for label, symbols in panels.items():
-        mapping = {}
-        for sym in symbols:
-            var = symbol_to_varname(adata, sym)
-            if var is not None:
-                mapping[sym] = var
-        if mapping:
-            out[label] = mapping
-    return out
-
-
 def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
                             outdir: Path):
-    """UMAP feature plots with gene SYMBOLS."""
+    """UMAP feature plots with gene names."""
     for label, mapping in panels.items():
-        symbols = list(mapping.keys())
-        varnames = list(mapping.values())
-
-        fig = sc.pl.umap(adata, color=varnames, layer="logcounts",
+        symbols = panels[label]
+        fig = sc.pl.umap(adata, color=symbols, layer="logcounts",
                          show=False, return_fig=True)
-
-        for ax, sym in zip(fig.axes, symbols):            
-            ax.set_title(sym, ha="center")
-            ax.title.set_ha("center")
 
         save_figure(fig, outdir / f"umap_markers_{label}")
 
@@ -194,35 +171,17 @@ def extract_dotplot_figure(dp):
 
 def plot_marker_dotplot(adata: AnnData, panels: Dict[str, Dict[str, str]],
                         cluster_key: str, outdir: Path):
-    for panel_name, mapping in panels.items():
-        symbols = list(mapping.keys())
-        varnames = list(mapping.values())
-
+    for panel_name, symbols in panels.items():
         dp = sc.pl.dotplot(
             adata,
-            var_names=varnames,
+            var_names=symbols,
             groupby=cluster_key,
             standard_scale="var",
             show=False,
-            return_fig=False,
+            return_fig=True,
         )
 
-        fig = next(iter(dp.values())).figure
-
-        ax = dp.get("gene_group_ax", None)
-        if ax is None:
-            ax = list(dp.values())[-1]
-
-        ax.set_xticks(range(len(symbols)))
-        ax.set_xticklabels(symbols)
-
-        for t in ax.get_xticklabels():
-            t.set_ha("center")
-            t.set_rotation(90)
-            t.set_rotation_mode("anchor")
-
         fig.suptitle(f"{panel_name} markers", y=1.02)
-
         save_figure(fig, outdir / f"dotplot_{panel_name}")
 
 
@@ -265,8 +224,9 @@ def main():
                                outdir / f"{emb}_leiden", categorical=True)
 
     # Marker panels
-    raw_panels = load_marker_panels(args.markers_yaml)
-    panels = convert_panels_to_varnames(adata, raw_panels)
+    panels = load_marker_panels(args.markers_yaml)
+    for p, genes in panels.items():
+        panels[p] = [g for g in genes if g in adata.var_names]
 
     marker_dir = outdir / "markers"
     marker_dir.mkdir(exist_ok=True)
