@@ -25,15 +25,17 @@ echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 module purge
 module load anaconda3/2024.10-1
+module load gcc/13.3.1-p20240614
 module list
 
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
+OUTDIR="results"
 
-python ../_h/02.sub-clustering.py \
-       --model "full" --resolution 0.5 --phate_knn 15 --phate_decay 10
+python ../_h/02.pericyte_metrics.py \
+       --adata "${OUTDIR}/pericyte_with_embeddings.h5ad" --outdir "${OUTDIR}"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

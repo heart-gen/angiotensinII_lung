@@ -70,7 +70,9 @@ def subset_data(input_file, COMPARTMENT=False):
     if COMPARTMENT:
         mask = adata.obs["compartment"].eq("Stroma")
     else:
-        mask = adata.obs["subclusters"].eq(["Pericytes", 'EC general capillary', 'EC aerocyte capillary'])
+        mask = adata.obs["subclusters"].isin(
+            ["Pericytes", 'EC general capillary', 'EC aerocyte capillary']
+        )
 
     adata = adata[mask].copy()
 
@@ -132,7 +134,7 @@ def main():
     model = args.model
     print("Model selected:", model)
 
-    for COMPARTMENT in False: # Just runt he pericyte+ subclustering
+    for COMPARTMENT in [False]: # Just runt he pericyte+ subclustering
         label = "stroma" if COMPARTMENT else "pericyte"
         out_file = f"{label}.hlca_{model}.dataset.h5ad"
         in_file = Path("inputs/hlca/_m") / f"hlca_{model}.h5ad"

@@ -58,7 +58,9 @@ def load_anndata(path: Path) -> AnnData:
     if "feature_name" not in adata.var.columns:
         logging.warning("No feature_name column detected. Using var_names as symbols.")
         adata.var["feature_name"] = adata.var_names
-    return adata
+    # Mask for pericytes only
+    mask = adata.obs["subclusters"].eq("Pericytes")
+    return adata[mask].copy()
 
 
 def compute_embeddings(adata: AnnData, use_rep: str,
