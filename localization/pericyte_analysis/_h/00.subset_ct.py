@@ -1,6 +1,5 @@
 ## This is a converted script from our original R version.
 ## Issues with loading the full model with `zellkonverter`.
-
 import argparse
 import session_info
 import scanpy as sc
@@ -23,7 +22,14 @@ def subset_data(input_file, COMPARTMENT=False):
             raise ValueError("No suitable count layer found (expected 'counts', 'soupX', or .raw).")
 
     # Define categories to add
-    required_cats = ["Vascular smooth muscle", "Mesothelium", "Myofibroblasts"]
+    required_cats = [
+        "Vascular smooth muscle", "Mesothelium", "Myofibroblasts",
+        "AT1", "AT2", "Hematopoietic stem cells", "Lymphatic EC",
+        'Mast cells', "Monocyte-derived Mph"
+    ]
+    if not isinstance(adata.obs["ann_level_4"].dtype, CategoricalDtype):
+        adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
+
     for cat in required_cats:
         if cat not in adata.obs["ann_level_4"].cat.categories:
             adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
@@ -31,16 +37,25 @@ def subset_data(input_file, COMPARTMENT=False):
     # Handle annotation issues
     vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+",
                     "SM activated stress response"}
+    lec_clusters = {"Lymphatic EC differentiating",
+                    "Lymphatic EC mature",
+                    "Lymphatic EC proliferating"}
     fixes = {
         "Vascular smooth muscle": vsm_clusters,
         "Mesothelium": {"Mesothelium"},
         "Myofibroblasts": {"Myofibroblasts"},
+        "AT1": {"AT1"}, "AT2": {"AT2"},
+        "Hematopoietic stem cells": {"Hematopoietic stem cells"},
+        "Lymphatic EC": lec_clusters,
+        "Mast cells": {"Mast cells"},
+        "Monocyte-derived Mph": {"Monocyte-derived Mph"},
     }
 
     for label, fine_clusters in fixes.items():
         cond = (
             adata.obs["ann_finest_level"].isin(fine_clusters)
-            & (adata.obs["ann_level_4"].isna() | (adata.obs["ann_level_4"] == "None"))
+            & (adata.obs["ann_level_4"].isna() |
+               (adata.obs["ann_level_4"].isin(["None", ""])))
         )
         adata.obs.loc[cond, "ann_level_4"] = label
 
@@ -69,14 +84,12 @@ def subset_data(input_file, COMPARTMENT=False):
     # Subset data
     if AIRSPACE:
         mask = adata.obs["subclusters"].isin(
-            ["Pericytes", 'EC general capillary', 'EC aerocyte capillary']
+            ["AT1", "AT2", "Pericytes", 'EC general capillary', 'EC aerocyte capillary']
         )
     else:
         mask = adata.obs["subclusters"].eq("Pericytes")
 
-    adata = adata[mask].copy()
-
-    return adata
+    return adata[mask].copy()
 
 
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
@@ -96,12 +109,9 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     # Preprocess data
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
-    sc.pp.highly_variable_genes(
-        adata, n_top_genes=2000, batch_key='study'
-    )
+    sc.pp.highly_variable_genes(adata, n_top_genes=2000, batch_key='study')
     sc.tl.pca(
-        adata, n_comps=50, mask_var="highly_variable",
-        svd_solver="arpack"
+        adata, n_comps=50, mask_var="highly_variable", svd_solver="arpack"
     )
 
     # Run harmony
@@ -148,7 +158,6 @@ def main():
         print(f"Saved: {out_file}")
 
     # Reproducibility info
-    import session_info
     session_info.show()
 
 
