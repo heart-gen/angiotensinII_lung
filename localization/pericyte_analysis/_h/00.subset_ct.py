@@ -8,7 +8,7 @@ from pyhere import here
 from pathlib import Path
 from pandas.api.types import CategoricalDtype
 
-def subset_data(input_file, COMPARTMENT=False):
+def subset_data(input_file, AIRSPACE=False):
     """Subset lung single-cell data, harmonizing annotations and filtering studies."""
     # Load AnnData
     adata = sc.read_h5ad(here(input_file))
