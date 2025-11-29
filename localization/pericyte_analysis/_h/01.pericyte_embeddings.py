@@ -59,8 +59,6 @@ def load_anndata(path: Path) -> AnnData:
         logging.warning("No feature_name column detected. Using var_names as symbols.")
         adata.var["feature_name"] = adata.var_names
     symbols = adata.var["feature_name"].astype(str)
-    if symbols.duplicated().any():
-        symbols = symbols.groupby(symbols).cumcount().astype(str).radd(symbols + "_")
     adata.var["ensembl_id"] = adata.var_names
     adata.var_names = symbols
     adata.var.index = symbols
@@ -154,18 +152,11 @@ def extract_dotplot_figure(dp):
         return dp.make_figure()
     if hasattr(dp, "fig"):
         return dp.fig
-
     if isinstance(dp, dict) and "fig" in dp: # dict output
         return dp["fig"]
-
     if isinstance(dp, tuple) and len(dp) == 2: # tuple output: (fig, ax)
         fig, _ = dp
         return fig
-
-    import matplotlib.figure
-    if isinstance(dp, matplotlib.figure.Figure): # already a figure
-        return dp
-
     raise RuntimeError(f"Cannot extract figure from object of type {type(dp)}")
 
 
@@ -173,14 +164,15 @@ def plot_marker_dotplot(adata: AnnData, panels: Dict[str, Dict[str, str]],
                         cluster_key: str, outdir: Path):
     for panel_name, symbols in panels.items():
         dp = sc.pl.dotplot(
-            adata,
-            var_names=symbols,
-            groupby=cluster_key,
-            standard_scale="var",
-            show=False,
-            return_fig=True,
+            adata, symbols, groupby=cluster_key,
+            show=False, return_fig=False, dendrogram=True,
         )
-
+        fig = next(iter(dp.values())).figure
+        ax = dp.get("gene_group_ax", list(dp.values())[-1])
+        for t in ax.get_xticklabels():
+            t.set_ha("center")
+            t.set_rotation(90)
+            t.set_rotation_mode("anchor")
         fig.suptitle(f"{panel_name} markers", y=1.02)
         save_figure(fig, outdir / f"dotplot_{panel_name}")
 
@@ -193,6 +185,8 @@ def main():
     outdir.mkdir(parents=True, exist_ok=True)
 
     adata = load_anndata(args.adata)
+    adata.raw = None
+    adata.var_names_make_unique()
 
     # Embedding
     compute_embeddings(
