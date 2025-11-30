@@ -1,11 +1,5 @@
 #!/usr/bin/env Rscript
 
-## Pseudobulk DE between AGTR1+ vs AGTR1- pericytes (donor-blocked)
-## 1) Build pseudobulk counts per donor × class
-## 2) Run edgeR filtering + limma-voom with duplicateCorrelation
-##    (~ class + sex + age + disease, block = donor)
-## 3) Storey q-values, π0 estimate, QC plots + summary
-
 suppressPackageStartupMessages({
   library(optparse)
   library(SingleCellExperiment)
@@ -48,7 +42,7 @@ load_sce_object <- function(path) {
     return(zellkonverter::readH5AD(path))
 }
 
-# TODO: auto detect raw counts (see cerebral project)
+## TODO: auto detect raw counts (see cerebral project)
 get_counts_matrix <- function(sce) {
     available <- SummarizedExperiment::assayNames(sce)
     if ("counts" %in% available) {
@@ -157,324 +151,184 @@ build_pseudobulk <- function(sce, opt, outdir) {
        donors_agtr1_neg = donors_agtr1_neg)
 }
 
-#### Main
-# Parse inputs
-opt <- parse_args(OptionParser(option_list = option_list))
-if (is.null(opt$sce)) { stop("Both --sce is required.") }
-
-# Create output directory
-outdir <- opt$outdir
-dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
-
-
 run_de_analysis <- function(pb_counts, pb_samples, opt, outdir) {
-  # edgeR DGEList
-  dge <- DGEList(counts = pb_counts)
+    dge <- DGEList(counts = pb_counts)
+    sample_meta <- pb_samples[
+        match(colnames(pb_counts), pb_samples$sample_id),
+        ]
+    
+    dge$samples <- cbind(dge$samples, sample_meta)
 
-  # Match sample metadata in same column order as pb_counts
-  sample_meta <- pb_samples[
-    match(colnames(pb_counts), pb_samples$sample_id),
-  ]
+                                        # Filter low-expressed genes
+    cpm_mat <- cpm(dge)
+    keep_genes <- rowSums(cpm_mat > 1) >= opt$min_cpm_samples
+    dge <- dge[keep_genes, , keep.lib.sizes = FALSE]
 
-  dge$samples <- cbind(dge$samples, sample_meta)
+    message("Genes kept after CPM filtering: ", nrow(dge))
 
-  # Filter low-expressed genes (CPM > 1 in >= min_cpm_samples)
-  cpm_mat <- cpm(dge)
-  keep_genes <- rowSums(cpm_mat > 1) >= opt$min_cpm_samples
-  dge <- dge[keep_genes, , keep.lib.sizes = FALSE]
+                                        # Recompute normalization
+    dge <- calcNormFactors(dge)
 
-  message("Genes kept after CPM filtering: ", nrow(dge))
+                                        # Design matrix
+    pb_samples$agtr1_class <- factor(
+        pb_samples$agtr1_class, levels = c("AGTR1_neg", "AGTR1_pos")
+    )
 
-  # Recompute normalization
-  dge <- calcNormFactors(dge)
+    design_data <- data.frame(
+        agtr1_class = pb_samples$agtr1_class, sex = pb_samples[["sex"]],
+        age = pb_samples[["age_or_mean_of_age_range"]],
+        disease = pb_samples[["disease"]]
+    )
 
-  # Design matrix: ~ agtr1_class + sex + age + disease
-  pb_samples$agtr1_class <- factor(
-    pb_samples$agtr1_class,
-    levels = c("AGTR1_neg", "AGTR1_pos")
-  )
+    design <- model.matrix(
+        ~ agtr1_class + sex + age + disease, data = design_data
+    )
 
-  design_data <- data.frame(
-    agtr1_class = pb_samples$agtr1_class,
-    sex = pb_samples[[opt$sex_col]],
-    age = pb_samples[[opt$age_col]],
-    disease = pb_samples[[opt$disease_col]]
-  )
+    colnames(design) <- make.names(colnames(design))
 
-  design <- model.matrix(
-    ~ agtr1_class + sex + age + disease,
-    data = design_data
-  )
+                                        # Initial voom for dup corr
+    v0 <- voom(dge, design = design, plot = FALSE)
+    corfit <- duplicateCorrelation(v0, design, block = pb_samples$donor)
+    message("Estimated intra-donor correlation: ",
+            round(corfit$consensus, 3))
 
-  colnames(design) <- make.names(colnames(design))
+                                        # Voom with correlation
+    v <- voom(
+        dge, design = design, plot = FALSE, block = pb_samples$donor,
+        correlation = corfit$consensus
+    )
 
-  # First voom (no correlation)
-  v0 <- voom(dge, design = design, plot = FALSE)
+    fit <- lmFit(
+        v, design, block = pb_samples$donor, correlation = corfit$consensus
+    )
+    fit <- eBayes(fit, robust = TRUE)
 
-  # DuplicateCorrelation to approximate random effect of donor
-  corfit <- duplicateCorrelation(v0, design, block = pb_samples$donor)
-  message("Estimated intra-donor correlation: ",
-          round(corfit$consensus, 3))
+                                        # Extract DE table
+    coef_name <- "agtr1_classAGTR1_pos"
+    if (!coef_name %in% colnames(coef(fit))) {
+        stop("Could not find coefficient ", coef_name, " in fit.")
+    }
 
-  # Voom with correlation
-  v <- voom(
-    dge,
-    design = design,
-    plot = FALSE,
-    block = pb_samples$donor,
-    correlation = corfit$consensus
-  )
+    res <- topTable(fit, coef = coef_name, number = Inf, sort.by = "P")
+    ## TODO: calculate SE
+    res$gene_id <- rownames(res)
 
-  fit <- lmFit(
-    v,
-    design,
-    block = pb_samples$donor,
-    correlation = corfit$consensus
-  )
-  fit <- eBayes(fit, robust = TRUE)
+                                        # Storey q-values + pi0
+    qobj <- qvalue(res$P.Value)
+    res$qvalue <- qobj$qvalues
+    pi0  <- qobj$pi0
 
-  # Extract DE table for AGTR1_pos vs AGTR1_neg
-  coef_name <- "agtr1_classAGTR1_pos"
-  if (!coef_name %in% colnames(coef(fit))) {
-    stop("Could not find coefficient ", coef_name, " in fit.")
-  }
+    write.table(
+        data.frame(pi0 = pi0), file = file.path(outdir, "de_qvalue_pi0.tsv"),
+        sep = "\t", quote = FALSE, row.names = FALSE
+    )
 
-  res <- topTable(
-    fit,
-    coef = coef_name,
-    number = Inf,
-    sort.by = "P"
-  )
-  res$gene_id <- rownames(res)
+    res_out <- res[, c("gene_id", "logFC", "AveExpr", "t", "P.Value",
+                       "adj.P.Val", "qvalue", "B")] ## Add SE
+    colnames(res_out)[colnames(res_out) == "adj.P.Val"] <- "FDR"
 
-  # Storey q-values + pi0
-  qobj <- qvalue(res$P.Value)
-  res$qvalue <- qobj$qvalues
-  pi0 <- qobj$pi0
+    fwrite(
+        as.data.table(res_out),
+        file = file.path(outdir, "de_agtr1_pos_vs_neg.tsv.gz"),
+        sep = "\t"
+    )
 
-  write.table(
-    data.frame(pi0 = pi0),
-    file = file.path(outdir, "de_qvalue_pi0.tsv"),
-    sep = "\t",
-    quote = FALSE,
-    row.names = FALSE
-  )
-
-  # Reorder columns
-  res_out <- res[
-    ,
-    c("gene_id", "logFC", "AveExpr", "t", "P.Value", "adj.P.Val", "qvalue", "B")
-  ]
-  colnames(res_out)[colnames(res_out) == "adj.P.Val"] <- "FDR"
-
-  fwrite(
-    as.data.table(res_out),
-    file = file.path(outdir, "de_agtr1_pos_vs_neg.tsv.gz"),
-    sep = "\t"
-  )
-
-  list(
-    fit = fit,
-    coef_name = coef_name,
-    res_out = res_out,
-    pi0 = pi0,
-    n_genes = nrow(dge)
-  )
+    list(fit = fit, coef_name = coef_name, res_out = res_out,
+         pi0 = pi0, n_genes = nrow(dge))
 }
 
 make_qc_plots <- function(fit, coef_name, res_out, outdir) {
-  ## MA plot
-  pdf(
-    file.path(outdir, "MA_plot_agtr1_pos_vs_neg.pdf"),
-    width = 6,
-    height = 5
-  )
-  plotMA(
-    fit,
-    coef = coef_name,
-    main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)"
-  )
-  abline(h = 0, col = "grey50")
-  dev.off()
+    ## MA plot
+    pdf(file.path(outdir, "MA_plot_agtr1_pos_vs_neg.pdf"), width = 6, height = 5)
+    plotMA(fit, coef = coef_name, main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)")
+    abline(h = 0, col = "grey50")
+    dev.off()
 
-  png(
-    file.path(outdir, "MA_plot_agtr1_pos_vs_neg.png"),
-    width = 6,
-    height = 5,
-    units = "in",
-    res = 300
-  )
-  plotMA(
-    fit,
-    coef = coef_name,
-    main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)"
-  )
-  abline(h = 0, col = "grey50")
-  dev.off()
+    png(file.path(outdir, "MA_plot_agtr1_pos_vs_neg.png"),
+        width = 6, height = 5, units = "in", res = 300)
+    plotMA(fit, coef = coef_name, main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)")
+    abline(h = 0, col = "grey50")
+    dev.off()
 
-  ## Volcano plot
-  vol <- res_out
-  vol$neg_log10_p <- -log10(vol$P.Value + 1e-300)
+    ## Volcano plot
+    vol <- res_out
+    vol$neg_log10_p <- -log10(vol$P.Value + 1e-300)
 
-  pdf(
-    file.path(outdir, "volcano_agtr1_pos_vs_neg.pdf"),
-    width = 6,
-    height = 5
-  )
-  ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
-    geom_point(alpha = 0.5, size = 0.8) +
-    geom_vline(
-      xintercept = 0,
-      linetype = "dashed",
-      color = "grey50"
-    ) +
-    labs(
-      title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
-      x = "log2 fold-change (AGTR1+ vs AGTR1-)",
-      y = "-log10(p-value)"
-    ) +
-    theme_bw()
-  dev.off()
+    pdf(file.path(outdir, "volcano_agtr1_pos_vs_neg.pdf"), width = 6, height = 5)
+    ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
+        geom_point(alpha = 0.5, size = 0.8) +
+        geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+        labs(title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
+             x = "log2 fold-change (AGTR1+ vs AGTR1-)", y = "-log10(p-value)") +
+        theme_bw()
+    dev.off()
 
-  png(
-    file.path(outdir, "volcano_agtr1_pos_vs_neg.png"),
-    width = 6,
-    height = 5,
-    units = "in",
-    res = 300
-  )
-  ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
-    geom_point(alpha = 0.5, size = 0.8) +
-    geom_vline(
-      xintercept = 0,
-      linetype = "dashed",
-      color = "grey50"
-    ) +
-    labs(
-      title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
-      x = "log2 fold-change (AGTR1+ vs AGTR1-)",
-      y = "-log10(p-value)"
-    ) +
-    theme_bw()
-  dev.off()
+    png(file.path(outdir, "volcano_agtr1_pos_vs_neg.png"), width = 6,
+        height = 5, units = "in", res = 300)
+    ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
+        geom_point(alpha = 0.5, size = 0.8) +
+        geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+        labs(title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
+             x = "log2 fold-change (AGTR1+ vs AGTR1-)", y = "-log10(p-value)") +
+        theme_bw()
+    dev.off()
 }
 
-write_summary_report <- function(opt,
-                                 outdir,
-                                 kept_donors,
-                                 donors_agtr1_neg,
-                                 donors_agtr1_pos,
-                                 n_genes,
-                                 pi0) {
-  report_lines <- c(
-    "# Pericyte AGTR1 pseudobulk DE summary",
-    "",
-    paste0("- Input SCE/H5AD: `", opt$sce, "`"),
-    paste0("- Output dir: `", outdir, "`"),
-    "",
-    "## Pseudobulk construction",
-    paste0(
-      "- Pericyte label: `",
-      opt$pericyte_label,
-      "` in `",
-      opt$celltype_col,
-      "`"
-    ),
-    paste0(
-      "- AGTR1 column: `",
-      opt$agtr1_col,
-      "` → classes: AGTR1_neg / AGTR1_pos"
-    ),
-    paste0(
-      "- Assay used as counts: `",
-      opt$assay,
-      "` (or fallback if unavailable)"
-    ),
-    paste0(
-      "- Minimum cells per donor × class: ",
-      opt$min_cells_per_class
-    ),
-    "",
-    paste0("- Donors included: ", length(kept_donors)),
-    paste0(
-      "- Donors with AGTR1_neg pseudobulk: ",
-      length(donors_agtr1_neg)
-    ),
-    paste0(
-      "- Donors with AGTR1_pos pseudobulk: ",
-      length(donors_agtr1_pos)
-    ),
-    "",
-    "## DE analysis",
-    paste0(
-      "- Genes tested (post-CPM filtering): ",
-      n_genes
-    ),
-    paste0(
-      "- Design: ~ agtr1_class + ",
-      opt$sex_col,
-      " + ",
-      opt$age_col,
-      " + ",
-      opt$disease_col
-    ),
-    "- Random effect approximation: limma duplicateCorrelation (block = donor)",
-    paste0("- π0 estimate (Storey): ", round(pi0, 3)),
-    "",
-    "Outputs:",
-    "- `pseudobulk_counts.tsv.gz` (genes × samples)",
-    "- `pseudobulk_sample_table.tsv` (sample metadata)",
-    "- `pseudobulk_donor_summary.tsv` (cell counts & inclusion flag)",
-    "- `de_agtr1_pos_vs_neg.tsv.gz` (logFC, SE, p, FDR, qvalue)",
-    "- `de_qvalue_pi0.tsv` (global π0 estimate)",
-    "- `MA_plot_agtr1_pos_vs_neg.(pdf|png)`",
-    "- `volcano_agtr1_pos_vs_neg.(pdf|png)`"
-  )
+write_summary_report <- function(opt, outdir, kept_donors, donors_agtr1_neg,
+                                 donors_agtr1_pos, n_genes, pi0) {
+    report_lines <- c(
+        "# Pericyte AGTR1 pseudobulk DE summary", "",
+        paste0("- Input SCE/H5AD: `", opt$sce, "`"),
+        paste0("- Output dir: `", outdir, "`"), "",
+        "## Pseudobulk construction",
+        paste0("- Pericyte label: `", opt$pericyte_label, "` in `",
+               opt$celltype_col, "`"),
+        paste0("- AGTR1 column: `", opt$agtr1_col,
+               "` → classes: AGTR1_neg / AGTR1_pos"),
+        paste0("- Minimum cells per donor × class: ", opt$min_cells_per_class),
+        "", paste0("- Donors included: ", length(kept_donors)),
+        paste0("- Donors with AGTR1_neg pseudobulk: ", length(donors_agtr1_neg)),
+        paste0("- Donors with AGTR1_pos pseudobulk: ", length(donors_agtr1_pos)),
+        "", "## DE analysis", paste0("- Genes tested (post-CPM filtering): ", n_genes),
+        paste0("- Design: ~ agtr1_class + sex + age + disease"),
+        "- Random effect approximation: limma duplicateCorrelation (block = donor)",
+        paste0("- π0 estimate (Storey): ", round(pi0, 3)), "")
 
-  writeLines(
-    report_lines,
-    con = file.path(outdir, "pseudobulk_DE_summary.md")
-  )
+    writeLines(report_lines, con = file.path(outdir, "pseudobulk_DE_summary.md"))
 }
 
-`%||%` <- function(x, y) {
-  if (is.null(x)) y else x
-}
+#### Main
+                                        # Parse inputs
+opt <- parse_args(OptionParser(option_list = option_list))
+if (is.null(opt$sce)) { stop("Both --sce is required.") }
 
-main <- function(opt, outdir) {
-  sce <- load_sce_object(opt$sce)
+                                        # Create output directory
+outdir <- opt$outdir
+dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
-  pb <- build_pseudobulk(
-    sce = sce,
-    opt = opt,
-    outdir = outdir
-  )
+                                        # Load data
+sce <- load_sce_object(opt$sce)
 
-  de <- run_de_analysis(
-    pb_counts = pb$pb_counts,
-    pb_samples = pb$pb_samples,
-    opt = opt,
-    outdir = outdir
-  )
+                                        # Build pseudobulk
+pb <- build_pseudobulk(sce = sce, opt = opt, outdir = outdir)
 
-  make_qc_plots(
-    fit = de$fit,
-    coef_name = de$coef_name,
-    res_out = de$res_out,
-    outdir = outdir
-  )
+                                        # Run DE analysis
+de <- run_de_analysis(pb_counts = pb$pb_counts, pb_samples = pb$pb_samples,
+                      opt = opt, outdir = outdir)
 
-  write_summary_report(
-    opt = opt,
-    outdir = outdir,
-    kept_donors = pb$kept_donors,
-    donors_agtr1_neg = pb$donors_agtr1_neg,
-    donors_agtr1_pos = pb$donors_agtr1_pos,
-    n_genes = de$n_genes,
-    pi0 = de$pi0
-  )
+                                        # Generate QC plot
+make_qc_plots(fit = de$fit, coef_name = de$coef_name, res_out = de$res_out,
+              outdir = outdir)
 
-  message("Done.")
-}
+                                        # Write report
+write_summary_report(opt = opt, outdir = outdir, kept_donors = pb$kept_donors,
+                     donors_agtr1_neg = pb$donors_agtr1_neg,
+                     donors_agtr1_pos = pb$donors_agtr1_pos,
+                     n_genes = de$n_genes, pi0 = de$pi0)
 
-main(opt, outdir)
+#### Reproducibility information ####
+print("Reproducibility information:")
+Sys.time()
+proc.time()
+options(width = 120)
+sessioninfo::session_info()
