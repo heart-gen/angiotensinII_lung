@@ -110,13 +110,13 @@ def compute_airspace_scores(adata: AnnData, rep: str, centroids: dict,
 def fit_lmm(adata: AnnData, outdir: Path):
     """LMM: airspace_score ~ AGTR1_detect + age + sex + disease + (1|donor_id)."""
     df = adata.obs.dropna(subset=["airspace_score", "AGTR1_detect", "donor_id", 
-                                  "sex", "age", "disease"]).copy()
+                                  "sex", "age_or_mean_of_age_range", "disease"]).copy()
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
     df["sex"] = df["sex"].astype("category")
     df["disease"] = df["disease"].astype("category")
 
     # Mixed model: donor_id as random effect
-    model = smf.mixedlm("airspace_score ~ AGTR1_detect + age + sex + disease",
+    model = smf.mixedlm("airspace_score ~ AGTR1_detect + age_or_mean_of_age_range + sex + disease",
                         data=df, groups=df["donor_id"])
     result = model.fit(reml=True)
     res_df = pd.DataFrame({
