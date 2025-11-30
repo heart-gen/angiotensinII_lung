@@ -179,12 +179,15 @@ def main():
     )
 
     # LMM
-    result = fit_lmm(adata, outdir)
+    airspace_dir = outdir / "airspace"
+    airspace_dir.mkdir(exist_ok=True)
+    
+    result = fit_lmm(adata, airspace_dir)
     print(result.summary())
 
     # Plots
-    plot_violin(adata, outdir)
-    plot_ridge(adata, outdir)
+    plot_violin(adata, airspace_dir)
+    plot_ridge(adata, airspace_dir)
 
     # Save AnnData with airspace scores
     if adata.var.index.name in adata.var.columns:
@@ -194,6 +197,7 @@ def main():
                 adata.var[col].to_numpy()
         ):
             adata.var.index.name = None
+
     adata.write(outdir / "pericytes_with_airspace_score.h5ad")
 
     # Session information
