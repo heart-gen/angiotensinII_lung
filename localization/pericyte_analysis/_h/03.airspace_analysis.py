@@ -15,11 +15,12 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 import session_info
-from anndata import AnnData
-from sklearn.metrics.pairwise import cosine_similarity
-import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import sparse
+from anndata import AnnData
+import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
+from sklearn.metrics.pairwise import cosine_similarity
 
 def configure_logging():
     logging.basicConfig(
