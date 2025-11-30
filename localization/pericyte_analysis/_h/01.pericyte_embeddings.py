@@ -229,6 +229,14 @@ def main():
     plot_marker_dotplot(adata, panels, args.cluster_key, marker_dir)
 
     # Save updated AnnData
+    if adata.var.index.name in adata.var.columns:
+        col = adata.var.index.name
+        if not np.array_equal(
+                adata.var.index.to_numpy(),
+                adata.var[col].to_numpy()
+        ):
+            adata.var.index.name = None
+
     adata.write(outdir / "pericyte_with_embeddings.h5ad")
 
     session_info.show()
