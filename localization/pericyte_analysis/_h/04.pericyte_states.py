@@ -27,11 +27,14 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 import session_info
+import seaborn as sns
 from anndata import AnnData
+import matplotlib.pyplot as plt
 from scipy.sparse import issparse
 from scipy.sparse.csgraph import shortest_path
-import seaborn as sns
-import matplotlib.pyplot as plt
+
+sns.set_context("talk")
+sns.set_style("whitegrid")
 
 def configure_logging() -> None:
     logging.basicConfig(
@@ -72,15 +75,10 @@ def parse_args() -> argparse.Namespace:
         help="n_neighbors for graph construction if neighbors not present"
     )
     parser.add_argument(
-        "--seed", type=int, default=13,
-        help="Random seed for neighbors"
+        "--seed", type=int, default=13, help="Random seed for neighbors"
     )
     return parser.parse_args()
 
-
-# ---------------------------------------------------------------------
-# Core helpers
-# ---------------------------------------------------------------------
 
 def load_anndata(path: Path) -> AnnData:
     logging.info("Loading AnnData from %s", path)
@@ -99,19 +97,13 @@ def ensure_neighbors(adata: AnnData, use_rep: str, n_neighbors: int, seed: int) 
         use_rep, n_neighbors, seed
     )
     sc.pp.neighbors(
-        adata,
-        use_rep=use_rep,
-        n_neighbors=n_neighbors,
-        metric="euclidean",
-        random_state=seed,
+        adata, use_rep=use_rep, n_neighbors=n_neighbors,
+        metric="euclidean", random_state=seed,
     )
 
 
 def compute_graph_distance_to_ec(
-    adata: AnnData,
-    cluster_key: str,
-    pericyte_label: str,
-    ec_labels: Sequence[str],
+    adata: AnnData, cluster_key: str, pericyte_label: str, ec_labels: Sequence[str],
 ) -> np.ndarray:
     """
     Compute shortest-path distance from each pericyte to the nearest EC
@@ -143,15 +135,12 @@ def compute_graph_distance_to_ec(
     )
     # shortest_path returns dense np.ndarray
     all_sp = shortest_path(
-        dist_graph,
-        directed=False,
-        unweighted=False,
-        overwrite=False,
+        dist_graph, directed=False, unweighted=False, overwrite=False,
     )
 
     # For each pericyte, distance to closest EC
     pericyte_to_ec = np.full(n_cells, np.nan, dtype=float)
-    ec_dists = all_sp[:, ec_idx]  # shape (n_cells, n_ec)
+    ec_dists = all_sp[:, ec_idx]
     # Min distance for each cell; we only keep pericytes
     min_to_ec = np.min(ec_dists, axis=1)
 
@@ -160,9 +149,8 @@ def compute_graph_distance_to_ec(
 
 
 def score_signatures(
-    adata: AnnData,
-    capillary_genes: Sequence[str] = ("KCNJ8", "ABCC9"),
-    arteriolar_genes: Sequence[str] = ("NOTCH3", "THY1"),
+    adata: AnnData, capillary_genes: Sequence[str] = ("KCNJ8", "ABCC9"),
+    arteriolar_genes: Sequence[str] = ("NOTCH3", "RGS5", "ACTA2"),
     layer: str | None = "logcounts",
 ) -> None:
     """
@@ -182,18 +170,12 @@ def score_signatures(
         logging.warning("No arteriolar genes found in var_names!")
 
     sc.tl.score_genes(
-        adata,
-        gene_list=cap_genes_present,
-        score_name="capillary_sig",
-        layer=layer,
-        use_raw=False,
+        adata, gene_list=cap_genes_present, score_name="capillary_sig",
+        layer=layer, use_raw=False,
     )
     sc.tl.score_genes(
-        adata,
-        gene_list=art_genes_present,
-        score_name="arteriolar_sig",
-        layer=layer,
-        use_raw=False,
+        adata, gene_list=art_genes_present, score_name="arteriolar_sig",
+        layer=layer, use_raw=False,
     )
 
 
@@ -207,11 +189,8 @@ def zscore_series(x: pd.Series) -> pd.Series:
 
 
 def assign_pericyte_states(
-    adata: AnnData,
-    cluster_key: str,
-    pericyte_label: str,
-    min_donors_per_state: int = 5,
-    donor_key: str = "donor_id",
+    adata: AnnData, cluster_key: str, pericyte_label: str,
+    min_donors_per_state: int = 5, donor_key: str = "donor_id",
 ) -> Dict[str, int]:
     """
     Combine z-scored distance + signature scores into a pericyte_state:
@@ -245,8 +224,7 @@ def assign_pericyte_states(
     state = pd.Series(np.nan, index=obs.index, dtype=object)
     state.loc[pericyte_mask & combined.notna()] = np.where(
         combined.loc[pericyte_mask & combined.notna()] >= 0,
-        "capillary_like",
-        "arteriolar_like",
+        "capillary_like", "arteriolar_like",
     )
     obs["pericyte_state"] = state
 
@@ -271,35 +249,21 @@ def assign_pericyte_states(
     return state_donor_counts
 
 
-# ---------------------------------------------------------------------
-# QC / plotting
-# ---------------------------------------------------------------------
-
 def plot_violin_by_state(
-    adata: AnnData,
-    cluster_key: str,
-    pericyte_label: str,
-    outdir: Path,
+    adata: AnnData, cluster_key: str, pericyte_label: str, outdir: Path,
 ) -> None:
     per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
 
     def _violin(col: str, fname: str, ylabel: str):
         plt.figure(figsize=(5, 5))
         sns.violinplot(
-            data=per,
-            x="pericyte_state",
-            y=col,
-            order=["capillary_like", "arteriolar_like"],
-            cut=0,
+            data=per, x="pericyte_state", y=col,
+            order=["capillary_like", "arteriolar_like"], cut=0,
         )
         sns.stripplot(
-            data=per,
-            x="pericyte_state",
-            y=col,
+            data=per, x="pericyte_state", y=col,
             order=["capillary_like", "arteriolar_like"],
-            color="black",
-            size=2,
-            alpha=0.4,
+            color="black", size=2, alpha=0.4,
         )
         plt.ylabel(ylabel)
         plt.xlabel("Pericyte state")
@@ -313,12 +277,9 @@ def plot_violin_by_state(
 
 
 def plot_batch_composition(
-    adata: AnnData,
-    outdir: Path,
-    state_key: str = "pericyte_state",
-    batch_keys: Sequence[str] = ("batch", "dataset"),
-    cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes",
+    adata: AnnData, outdir: Path, state_key: str = "pericyte_state",
+    batch_keys: Sequence[str] = ("donor_id", "data", "assay", "tissue_sampling_method"),
+    cluster_key: str = "subclusters", pericyte_label: str = "Pericytes",
 ) -> Dict[str, pd.DataFrame]:
     """Stacked bar plots of pericyte_state composition across batch/dataset."""
     per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
@@ -344,12 +305,8 @@ def plot_batch_composition(
 
 
 def write_qc_report(
-    outdir: Path,
-    adata: AnnData,
-    cluster_key: str,
-    pericyte_label: str,
-    donor_counts: Dict[str, int],
-    batch_tables: Dict[str, pd.DataFrame],
+    outdir: Path, adata: AnnData, cluster_key: str, pericyte_label: str,
+    donor_counts: Dict[str, int], batch_tables: Dict[str, pd.DataFrame],
 ) -> None:
     per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
     n_per = per.shape[0]
@@ -393,76 +350,67 @@ def write_qc_report(
     (outdir / "pericyte_state_qc.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-# ---------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------
-
 def main() -> None:
     args = parse_args()
     configure_logging()
-    sns.set_context("talk")
-    sns.set_style("whitegrid")
 
     outdir = args.outdir
     outdir.mkdir(parents=True, exist_ok=True)
 
     adata = load_anndata(args.adata)
 
-    # 1. Neighbor graph
+    # Neighbor graph
     ensure_neighbors(adata, use_rep=args.use_rep,
                      n_neighbors=args.neighbors, seed=args.seed)
 
-    # 2. Graph distance to EC
+    # Graph distance to EC
     dist_to_ec = compute_graph_distance_to_ec(
-        adata,
-        cluster_key=args.cluster_key,
+        adata, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label,
         ec_labels=args.ec_labels,
     )
     adata.obs["airspace_dist"] = dist_to_ec
 
-    # 3. Signature scores
+    # Signature scores
     layer = "logcounts" if "logcounts" in adata.layers else None
     score_signatures(adata, layer=layer)
 
-    # 4. Assign states
+    # Assign states
     donor_counts = assign_pericyte_states(
-        adata,
-        cluster_key=args.cluster_key,
+        adata, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label,
-        min_donors_per_state=5,
-        donor_key="donor_id",
+        min_donors_per_state=5, donor_key="donor_id",
     )
 
-    # 5. QC plots
+    # QC plots
+    qc_dir = outdir / "qc_stats"
     plot_violin_by_state(
-        adata,
-        cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label,
-        outdir=outdir,
+        adata, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, outdir=qc_dir,
     )
+    batch_vars = ("donor_id", "data", "assay", "tissue_sampling_method",
+                  "sequencing_platform", "development_stage", "tissue",
+                  "subject_type", "study", "lung_condition", "sex",
+                  "self_reported_ethnicity", "age_or_mean_of_age_range")
     batch_tables = plot_batch_composition(
-        adata,
-        outdir=outdir,
-        state_key="pericyte_state",
-        batch_keys=("batch", "dataset"),
-        cluster_key=args.cluster_key,
+        adata, outdir=qc_dir, state_key="pericyte_state",
+        batch_keys=batch_vars, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label,
     )
 
-    # 6. QC one-pager
+    # QC report
     write_qc_report(
-        outdir=outdir,
-        adata=adata,
-        cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label,
-        donor_counts=donor_counts,
+        outdir=qc_dir, adata=adata, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, donor_counts=donor_counts,
         batch_tables=batch_tables,
     )
 
-    # 7. Save AnnData with pericyte_state annotations
+    # Save AnnData with pericyte_state annotations
     adata.write(outdir / "airspace_pericyte_states.h5ad")
     logging.info("Pericyte state analysis complete.")
+
+    # Session information
+    session_info.show()
 
 
 if __name__ == "__main__":
