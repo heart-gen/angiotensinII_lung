@@ -31,7 +31,6 @@ def parse_args():
     parser.add_argument("--outdir", required=True, type=Path)
     parser.add_argument("--donor-key", default="donor_id")
     parser.add_argument("--use-rep", default="X_pca_harmony")
-    parser.add_argument("--seed", type=int, default=13)
     return parser.parse_args()
 
 
@@ -116,8 +115,7 @@ def main():
 
     # Write JSON
     write_json(outdir / "pericyte_embedding.json",
-               adata, score, args.donor_key,
-               args.use_rep, args.neighbors, args.seed)
+               adata, score, args.donor_key, args.use_rep)
 
     # Session information
     session_info.show()
