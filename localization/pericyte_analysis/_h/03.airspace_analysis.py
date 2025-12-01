@@ -111,68 +111,76 @@ def compute_airspace_scores(adata: AnnData, rep: str, centroids: dict,
 
 def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subclusters"):
     """
-    LMM: airspace_score ~ AGTR1_detect + age + sex + disease + (1|donor_id).
-    Restrict to donors with both AGTR1+ and AGTR1- pericytes.
+    Donor-level analysis for airspace score analysis in pericytes.
     """
+    # Filter to pericytes
     df = adata.obs.copy()
     df = df[df[key] == pericyte_label].copy()
 
-    # Drop missing values
-    df = df.dropna(subset=["airspace_score", "AGTR1_detect", "donor_id", 
-                           "sex", "age_or_mean_of_age_range", "disease"]).copy()
+    # Drop incomplete rows
+    df = df.dropna(subset=[
+        "airspace_score", "AGTR1_detect", "donor_id", 
+        "sex", "age_or_mean_of_age_range", "disease"
+    ]).copy()
+
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
     df["sex"] = df["sex"].astype("category")
     df["disease"] = df["disease"].astype("category")
     df["age"] = df["age_or_mean_of_age_range"].astype(int)
 
-    # Keep donors with both AGTR1+ AND AGTR1- pericytes
-    n_levels = df.groupby("donor_id", observed=False)["AGTR1_detect"].nunique()
-    keep_donors = n_levels[n_levels >= 2].index
+    # Keep donors with both AGTR1+ AND AGTR1-
+    donor_levels = df.groupby("donor_id", observed=False)["AGTR1_detect"].nunique()
+    keep_donors = donor_levels[donor_levels >= 2].index
     df = df[df["donor_id"].isin(keep_donors)].copy()
-    n_donors = df["donor_id"].nunique()
 
-    # Save summary table
-    donor_summary = (
-        df.groupby(["donor_id", "AGTR1_detect"], observed=False)
-          .size()
-          .unstack(fill_value=0)
-          .rename(columns={0: "AGTR1_neg_cells", 1: "AGTR1_pos_cells"})
-    )
-    donor_summary.to_csv(outdir / "airspace_lmm_donor_summary.csv")
+    # Aggregate to donor level
+    donor_df = df.groupby(["donor_id"], observed=False)\
+                 .agg(
+                     mean_airspace_score=("airspace_score", "mean"),
+                     frac_AGTR1_pos=("AGTR1_detect", "mean"),
+                     n_cells=("AGTR1_detect", "size"),
+                     age=("age", "first"),
+                     sex=("sex", "first"),
+                     disease=("disease", "first")
+                 ).reset_index()
+    donor_df.to_csv(outdir / "airspace_donor_summary.csv", index=False)
 
-    results = {}
-    # Donor fixed-effect model
-    formula = "airspace_score ~ AGTR1_detect + age + C(sex) + C(disease) + C(donor_id)"
+    # Fit OLS at donor level
+    formula = "mean_airspace_score ~ frac_AGTR1_pos + age + C(sex) + C(disease)"
     ols_res = smf.ols(formula, data=df).fit()
-    results["model_type"] = "ols_donor_fixed_effects"
-    results["summary"] = ols_res.summary().as_text()
-        
-    coef = ols_res.params.get("AGTR1_detect", np.nan)
-    se = ols_res.bse.get("AGTR1_detect", np.nan)
-    pval = ols_res.pvalues.get("AGTR1_detect", np.nan)
 
-    est_df = pd.DataFrame(
-        {"term": ["AGTR1_detect"], "estimate": [coef], "se": [se], "pval": [pval]}
+    # Save coefficient table
+    effect_row = {
+        "term": "frac_AGTR1_pos",
+        "estimate": ols_res.params.get("frac_AGTR1_pos", float("nan")),
+        "se": ols_res.bse.get("frac_AGTR1_pos", float("nan")),
+        "pval": ols_res.pvalues.get("frac_AGTR1_pos", float("nan")),
+    }
+    pd.DataFrame([effect_row]).to_csv(
+        outdir / "airspace_effect_AGTR1.csv", index=False
     )
-    est_df.to_csv(outdir / "airspace_ols_effect_AGTR1.csv", index=False)
 
-    # Quick diagnostic plot
+    # Diagnostic plot
     plt.figure(figsize=(5, 4))
-    sns.violinplot(
-        data=df, x="AGTR1_detect", y="airspace_score", inner="quartile", cut=0,
+    sns.scatterplot(
+        data=donor_df, x="frac_AGTR1_pos", y="mean_airspace_score",
     )
-    plt.xticks([0, 1], ["AGTR1−", "AGTR1+"])
-    plt.ylabel("Airspace score")
+    sns.regplot(
+        data=donor_df, x="frac_AGTR1_pos", y="mean_airspace_score",
+        scatter=False
+    )
+    plt.xlabel("Fraction AGTR1+ Pericytes\n(per donor)")
+    plt.ylabel("Mean Airspace Proximity Score\n(per donor)")
     plt.tight_layout()
-    plt.savefig(outdir / "airspace_score_by_AGTR1_detect.png", dpi=300)
-    plt.savefig(outdir / "airspace_score_by_AGTR1_detect.pdf")
+    plt.savefig(outdir / "airspace_score_scatter.png", dpi=300)
+    plt.savefig(outdir / "airspace_score_scatter.pdf")
     plt.close()
 
     # Save text summary
     with open(outdir / "airspace_model_summary.txt", "w") as fh:
-        fh.write(f"Model type: {results['model_type']}\n\n")
-        fh.write(results["summary"])
-    return result
+        fh.write(ols_res.summary().as_text())
+
+    return ols_res
 
 
 def plot_violin(adata: AnnData, outdir: Path):
@@ -182,6 +190,7 @@ def plot_violin(adata: AnnData, outdir: Path):
     sns.stripplot(data=df, x="AGTR1_detect", y="airspace_score",
                   color="black", size=2, alpha=0.5)
     plt.xticks([0, 1], ["AGTR1−", "AGTR1+"])
+    plt.ylabel("Airspace Proximity Score")
     plt.tight_layout()
     plt.savefig(outdir / "airspace_violin.png", dpi=300)
     plt.savefig(outdir / "airspace_violin.pdf")
@@ -197,7 +206,7 @@ def plot_ridge(adata: AnnData, outdir: Path):
         data=df, x="airspace_score", hue="AGTR1_detect",
         fill=True, common_norm=False, alpha=0.5
     )
-    plt.xlabel("Airspace proximity score")
+    plt.xlabel("Airspace Proximity Score")
     plt.tight_layout()
     plt.savefig(outdir / "airspace_ridge.png", dpi=300)
     plt.savefig(outdir / "airspace_ridge.pdf")
