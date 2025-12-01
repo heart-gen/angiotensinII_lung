@@ -74,7 +74,8 @@ def load_adata(path: Path) -> AnnData:
 
 
 def compute_centroids(adata: AnnData, rep: str, key: str,
-                      classes=("AT1", "AT2", "EC aerocyte capillary", "EC general capillary")):
+                      classes=("AT1", "AT2", "EC aerocyte capillary",
+                               "EC general capillary")):
     """Compute mean latent vector per class."""
     X = adata.obsm[rep]
     centroids = {}
@@ -108,24 +109,69 @@ def compute_airspace_scores(adata: AnnData, rep: str, centroids: dict,
     return adata
 
 
-def fit_lmm(adata: AnnData, outdir: Path):
-    """LMM: airspace_score ~ AGTR1_detect + age + sex + disease + (1|donor_id)."""
-    df = adata.obs.dropna(subset=["airspace_score", "AGTR1_detect", "donor_id", 
-                                  "sex", "age_or_mean_of_age_range", "disease"]).copy()
+def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subclusters"):
+    """
+    LMM: airspace_score ~ AGTR1_detect + age + sex + disease + (1|donor_id).
+    Restrict to donors with both AGTR1+ and AGTR1- pericytes.
+    """
+    df = adata.obs.copy()
+    df = df[df[key] == pericyte_label].copy()
+
+    # Drop missing values
+    df = df.dropna(subset=["airspace_score", "AGTR1_detect", "donor_id", 
+                           "sex", "age_or_mean_of_age_range", "disease"]).copy()
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
     df["sex"] = df["sex"].astype("category")
     df["disease"] = df["disease"].astype("category")
+    df["age"] = df["age_or_mean_of_age_range"].astype(int)
 
-    # Mixed model: donor_id as random effect
-    model = smf.mixedlm("airspace_score ~ AGTR1_detect + age_or_mean_of_age_range + sex + disease",
-                        data=df, groups=df["donor_id"])
-    result = model.fit(reml=True)
-    res_df = pd.DataFrame({
-        "param": result.params.index,
-        "coef": result.params.values,
-        "pval": result.pvalues.values
-    })
-    res_df.to_csv(outdir / "airspace_lmm_results.csv", index=False)
+    # Keep donors with both AGTR1+ AND AGTR1- pericytes
+    n_levels = df.groupby("donor_id", observed=False)["AGTR1_detect"].nunique()
+    keep_donors = n_levels[n_levels >= 2].index
+    df = df[df["donor_id"].isin(keep_donors)].copy()
+    n_donors = df["donor_id"].nunique()
+
+    # Save summary table
+    donor_summary = (
+        df.groupby(["donor_id", "AGTR1_detect"], observed=False)
+          .size()
+          .unstack(fill_value=0)
+          .rename(columns={0: "AGTR1_neg_cells", 1: "AGTR1_pos_cells"})
+    )
+    donor_summary.to_csv(outdir / "airspace_lmm_donor_summary.csv")
+
+    results = {}
+    # Donor fixed-effect model
+    formula = "airspace_score ~ AGTR1_detect + age + C(sex) + C(disease) + C(donor_id)"
+    ols_res = smf.ols(formula, data=df).fit()
+    results["model_type"] = "ols_donor_fixed_effects"
+    results["summary"] = ols_res.summary().as_text()
+        
+    coef = ols_res.params.get("AGTR1_detect", np.nan)
+    se = ols_res.bse.get("AGTR1_detect", np.nan)
+    pval = ols_res.pvalues.get("AGTR1_detect", np.nan)
+
+    est_df = pd.DataFrame(
+        {"term": ["AGTR1_detect"], "estimate": [coef], "se": [se], "pval": [pval]}
+    )
+    est_df.to_csv(outdir / "airspace_ols_effect_AGTR1.csv", index=False)
+
+    # Quick diagnostic plot
+    plt.figure(figsize=(5, 4))
+    sns.violinplot(
+        data=df, x="AGTR1_detect", y="airspace_score", inner="quartile", cut=0,
+    )
+    plt.xticks([0, 1], ["AGTR1−", "AGTR1+"])
+    plt.ylabel("Airspace score")
+    plt.tight_layout()
+    plt.savefig(outdir / "airspace_score_by_AGTR1_detect.png", dpi=300)
+    plt.savefig(outdir / "airspace_score_by_AGTR1_detect.pdf")
+    plt.close()
+
+    # Save text summary
+    with open(outdir / "airspace_model_summary.txt", "w") as fh:
+        fh.write(f"Model type: {results['model_type']}\n\n")
+        fh.write(results["summary"])
     return result
 
 
