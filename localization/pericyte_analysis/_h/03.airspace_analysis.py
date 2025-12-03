@@ -7,7 +7,7 @@ Outputs:
   adata.obs['airspace_score']
   lmm_results.csv
 """
-
+import warnings
 import logging, argparse
 from pathlib import Path
 
@@ -18,9 +18,12 @@ import session_info
 import seaborn as sns
 from scipy import sparse
 from anndata import AnnData
+import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
+from pandas.api.types import CategoricalDtype
 from sklearn.metrics.pairwise import cosine_similarity
+from statsmodels.regression.mixed_linear_model import MixedLMResults
 
 def configure_logging():
     logging.basicConfig(
@@ -45,10 +48,8 @@ def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
     if gene not in adata.var_names:
         logging.warning(f"{gene} not in var_names")
         return
-
     expr = adata[:, gene].layers["logcounts"]
     expr = expr.toarray().ravel() if sparse.issparse(expr) else np.asarray(expr).ravel()
-
     adata.obs[f"{gene}_expr"] = expr
     adata.obs[f"{gene}_detect"] = (expr > 0).astype(int)
 
@@ -70,6 +71,7 @@ def load_adata(path: Path) -> AnnData:
 
     if "AGTR1_detect" not in adata.obs:
         add_agtr1_expression(adata, gene="AGTR1")
+
     return adata
 
 
@@ -96,14 +98,12 @@ def compute_airspace_scores(adata: AnnData, rep: str, centroids: dict,
 
     scores = np.zeros(X.shape[0]) * np.nan
     cx = np.stack(list(centroids.values()))
-    # normalize centroid matrix for speed
-    cx_norm = cx / np.linalg.norm(cx, axis=1, keepdims=True)
+    cx /= np.linalg.norm(cx, axis=1, keepdims=True)
 
     for idx in np.where(pericyte_mask)[0]:
         v = X[idx]
-        v_norm = v / np.linalg.norm(v)
-        sims = cx_norm @ v_norm
-        scores[idx] = sims.mean()
+        v = v / np.linalg.norm(v)
+        scores[idx] = (cx @ v).mean()
 
     adata.obs["airspace_score"] = scores
     return adata
@@ -120,12 +120,11 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     # Drop incomplete rows
     df = df.dropna(subset=[
         "airspace_score", "AGTR1_detect", "donor_id", 
-        "sex", "age_or_mean_of_age_range", #"disease"
+        "sex", "age_or_mean_of_age_range",
     ]).copy()
 
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
     df["sex"] = df["sex"].astype("category")
-    #df["disease"] = df["disease"].astype("category")
     df["age"] = df["age_or_mean_of_age_range"].astype(int)
 
     # Keep donors with both AGTR1+ AND AGTR1-
@@ -161,9 +160,7 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
 
     # Diagnostic plot
     plt.figure(figsize=(5, 4))
-    sns.scatterplot(
-        data=donor_df, x="frac_AGTR1_pos", y="mean_airspace_score",
-    )
+    sns.scatterplot(data=donor_df, x="frac_AGTR1_pos", y="mean_airspace_score")
     sns.regplot(
         data=donor_df, x="frac_AGTR1_pos", y="mean_airspace_score",
         scatter=False
@@ -182,18 +179,120 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     return ols_res
 
 
-def plot_violin(adata: AnnData, outdir: Path):
-    df = adata.obs.loc[adata.obs["subclusters"] == "Pericytes"].copy()
-    plt.figure(figsize=(5, 5))
-    sns.violinplot(data=df, x="AGTR1_detect", y="airspace_score")
-    sns.stripplot(data=df, x="AGTR1_detect", y="airspace_score",
-                  color="black", size=2, alpha=0.5)
-    plt.xticks([0, 1], ["AGTR1−", "AGTR1+"])
-    plt.ylabel("Airspace Proximity Score")
-    plt.tight_layout()
-    plt.savefig(outdir / "airspace_violin.png", dpi=300)
-    plt.savefig(outdir / "airspace_violin.pdf")
-    plt.close()
+def fit_lmm_per_cell(
+    adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subclusters",
+    include_dataset_vc=True, min_cells_per_class_per_donor=1, extra_covariates=None,
+):
+    outdir.mkdir(exist_ok=True, parents=True)
+
+    df = adata.obs.copy()
+    df = df[df[key] == pericyte_label].copy()
+
+    # standardize
+    if "age_or_mean_of_age_range" in df.columns and "age" not in df.columns:
+        df["age"] = df["age_or_mean_of_age_range"]
+
+    required = ["airspace_score", "AGTR1_detect", "donor_id", "sex", "age"]
+    df = df.dropna(subset=required).copy()
+    df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
+    df["sex"] = df["sex"].astype("category")
+    df["age"] = df["age"].astype(float)
+
+    if "dataset" in df.columns:
+        df["dataset"] = df["dataset"].astype("category")
+
+    # QC covariates (optional)
+    qc_covs = [c for c in ["n_counts", "n_genes", "pct_mito"] if c in df.columns]
+    if "pct_mito" in qc_covs and df["pct_mito"].max() > 1:
+        df["pct_mito"] /= 100.0
+
+    # filter donors
+    if min_cells_per_class_per_donor > 0:
+        counts = (
+            df.groupby(["donor_id", "AGTR1_detect"]).size().unstack(fill_value=0)
+        )
+        keep = counts[
+            (counts.get(0, 0) >= min_cells_per_class_per_donor) &
+            (counts.get(1, 0) >= min_cells_per_class_per_donor)
+        ].index
+        df = df[df["donor_id"].isin(keep)].copy()
+
+    df.groupby(["donor_id", "AGTR1_detect"]).size().rename("n_cells").reset_index() \
+      .to_csv(outdir / "per_cell_donor_counts.csv", index=False)
+
+    # extra covariates
+    extra_covariates = extra_covariates or []
+    extra_covs = []
+    for c in extra_covariates:
+        if c in df.columns:
+            if df[c].dtype.name in ("object", "string"):
+                df[c] = df[c].astype("category")
+            extra_covs.append(c)
+
+    # formula
+    terms = ["AGTR1_detect", "age", "C(sex)"]
+    terms.extend(qc_covs)
+    for c in extra_covs:
+        if isinstance(df[c].dtype, CategoricalDtype):
+            terms.append(f"C({c})")
+        else:
+            terms.append(c)
+    formula = "airspace_score ~ " + " + ".join(terms)
+
+    # MixedLM
+    groups = df["donor_id"].astype("category")
+    vc_formula = None
+    if include_dataset_vc and "dataset" in df.columns and df["dataset"].nunique() > 1:
+        vc_formula = {"dataset_vc": "0 + C(dataset)"}
+
+    try:
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore")
+            md = sm.MixedLM.from_formula(
+                formula=formula, data=df, groups=groups,
+                re_formula="1", vc_formula=vc_formula,
+            )
+            model = md.fit(method="lbfgs", maxiter=500, disp=False)
+            fallback = False
+    except Exception:
+        model = sm.OLS.from_formula(formula, data=df).fit(
+            cov_type="cluster", cov_kwds={"groups": df["donor_id"]}
+        )
+        fallback = True
+
+    # Save results
+    params = model.params
+    bse = model.bse
+    pvals = model.pvalues
+
+    try:
+        ci = model.conf_int().rename(columns={0: "ci_lower", 1: "ci_upper"})
+        ci_agtr1 = ci.loc["AGTR1_detect"].to_dict()
+    except Exception:
+        ci_agtr1 = {"ci_lower": np.nan, "ci_upper": np.nan}
+
+    effect = {
+        "term": "AGTR1_detect",
+        "estimate": params.get("AGTR1_detect", np.nan),
+        "se": bse.get("AGTR1_detect", np.nan),
+        "pval": pvals.get("AGTR1_detect", np.nan),
+        **ci_agtr1,
+        "n_cells": df.shape[0],
+        "n_donors": df["donor_id"].nunique(),
+        "fallback": fallback,
+        "formula": formula,
+    }
+
+    pd.DataFrame([effect]).to_csv(outdir / "airspace_effect_AGTR1_per_cell.csv", index=False)
+
+    if hasattr(model, "random_effects"):
+        pd.DataFrame.from_dict(model.random_effects, orient="index") \
+            .to_csv(outdir / "airspace_lmm_per_cell_random_effects.csv")
+
+    with open(outdir / "airspace_lmm_per_cell_summary.txt", "w") as fh:
+        fh.write(model.summary().as_text())
+
+    return model
 
 
 def plot_ridge(adata: AnnData, outdir: Path):
@@ -233,15 +332,23 @@ def main():
         key=args.cluster_key,
     )
 
-    # LMM
+    # LMM analysis
     airspace_dir = outdir / "airspace"
     airspace_dir.mkdir(exist_ok=True)
-    
+
+    # Donor-level
     result = fit_lmm(adata, airspace_dir)
     print(result.summary())
 
+    # Per-cell
+    cell_res = fit_lmm_per_cell(
+        adata, outdir=airspace_dir, pericyte_label="Pericytes",
+        key=args.cluster_key, extra_covariates=["pericyte_state"],
+        include_dataset_vc=True,
+    )
+    print(cell_res.summary())
+
     # Plots
-    plot_violin(adata, airspace_dir)
     plot_ridge(adata, airspace_dir)
 
     # Save AnnData with airspace scores
