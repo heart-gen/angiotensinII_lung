@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=EM
-#SBATCH --job-name=full_subset
+#SBATCH --job-name=core_subset
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=24
 #SBATCH --time=03:00:00
-#SBATCH --output=logs/full_subsetting.log
+#SBATCH --output=logs/core_subsetting.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -32,7 +32,7 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subsetting ****"
-MODEL="full"
+MODEL="core"
 
 python ../_h/00.subset_ct.py --model "$MODEL" --m_iter 50
 
