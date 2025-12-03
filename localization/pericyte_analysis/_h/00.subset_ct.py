@@ -84,11 +84,13 @@ def subset_data(input_file, AIRSPACE=False):
 
     # Subset data
     if AIRSPACE:
-        mask = adata.obs["subclusters"].isin(
-            ["AT1", "AT2", "Pericytes", 'EC general capillary', 'EC aerocyte capillary']
+        mask = adata.obs["cell_type"].isin(
+            ["AT1", "AT2", "Pericytes", 'EC capillary',
+             "Lymphatic EC", "EC arterial", "EC venous",
+             "Vascular smooth muscle"]
         )
     else:
-        mask = adata.obs["subclusters"].eq("Pericytes")
+        mask = adata.obs["cell_type"].eq("Pericytes")
 
     return adata[mask].copy()
 
