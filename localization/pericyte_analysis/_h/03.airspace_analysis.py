@@ -36,12 +36,11 @@ def parse_args():
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument("--adata", type=Path, required=True,
                         help="HLCA pericyte/airspace subset AnnData")
+    parser.add_argument("--outdir", type=Path, required=True)
     parser.add_argument("--use-rep", default="X_pca_harmony",
                         help="Latent representation for centroids")
     parser.add_argument("--cluster-key", default="subclusters")
-    parser.add_argument("--outdir", type=Path, required=True)
     return parser.parse_args()
-
 
 
 def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
@@ -180,10 +179,26 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
 
 
 def fit_lmm_per_cell(
-    adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subclusters",
-    include_dataset_vc=True, min_cells_per_class_per_donor=1, extra_covariates=None,
+    adata: AnnData, outdir: Path, pericyte_label="Pericytes",
+    key="subclusters",
 ):
-    outdir.mkdir(exist_ok=True, parents=True)
+    # Generate QC covs if not present
+    if "n_counts" not in adata.obs:
+        adata.obs["n_counts"] = adata.X.sum(axis=1).A1 if sparse.issparse(adata.X) else adata.X.sum(axis=1)
+    if "n_genes" not in adata.obs:
+        adata.obs["n_genes"]  = (adata.X > 0).sum(axis=1).A1 if sparse.issparse(adata.X) else (adata.X > 0).sum(axis=1)
+    if "pct_mito" not in adata.obs:
+        mt_genes = adata.var_names.str.startswith("MT-")
+        if sparse.issparse(adata.X):
+            mito_counts = adata[:, mt_genes].X.sum(axis=1).A1
+            total_counts = adata.X.sum(axis=1).A1
+        else:
+            mito_counts = adata[:, mt_genes].X.sum(axis=1)
+            total_counts = adata.X.sum(axis=1)
+        adata.obs["pct_mito"] = mito_counts / total_counts
+
+    if adata.obs["pct_mito"].max() > 1:
+        adata.obs["pct_mito"] /= 100.0
 
     df = adata.obs.copy()
     df = df[df[key] == pericyte_label].copy()
@@ -201,48 +216,29 @@ def fit_lmm_per_cell(
     if "dataset" in df.columns:
         df["dataset"] = df["dataset"].astype("category")
 
-    # QC covariates (optional)
-    qc_covs = [c for c in ["n_counts", "n_genes", "pct_mito"] if c in df.columns]
-    if "pct_mito" in qc_covs and df["pct_mito"].max() > 1:
-        df["pct_mito"] /= 100.0
-
     # filter donors
-    if min_cells_per_class_per_donor > 0:
-        counts = (
-            df.groupby(["donor_id", "AGTR1_detect"]).size().unstack(fill_value=0)
-        )
-        keep = counts[
-            (counts.get(0, 0) >= min_cells_per_class_per_donor) &
-            (counts.get(1, 0) >= min_cells_per_class_per_donor)
-        ].index
-        df = df[df["donor_id"].isin(keep)].copy()
-
-    df.groupby(["donor_id", "AGTR1_detect"]).size().rename("n_cells").reset_index() \
+    counts = (
+        df.groupby(["donor_id", "AGTR1_detect"], observed=False)
+        .size().unstack(fill_value=0)
+    )
+    keep = counts[
+        (counts.get(0, 0) >= min_cells_per_class_per_donor) &
+        (counts.get(1, 0) >= min_cells_per_class_per_donor)
+    ].index
+    df = df[df["donor_id"].isin(keep)].copy()
+    df.groupby(["donor_id", "AGTR1_detect"], observed=False) \
+      .size().rename("n_cells").reset_index() \
       .to_csv(outdir / "per_cell_donor_counts.csv", index=False)
-
-    # extra covariates
-    extra_covariates = extra_covariates or []
-    extra_covs = []
-    for c in extra_covariates:
-        if c in df.columns:
-            if df[c].dtype.name in ("object", "string"):
-                df[c] = df[c].astype("category")
-            extra_covs.append(c)
 
     # formula
     terms = ["AGTR1_detect", "age", "C(sex)"]
-    terms.extend(qc_covs)
-    for c in extra_covs:
-        if isinstance(df[c].dtype, CategoricalDtype):
-            terms.append(f"C({c})")
-        else:
-            terms.append(c)
+    terms.extend(["n_counts", "n_genes", "pct_mito"])
     formula = "airspace_score ~ " + " + ".join(terms)
 
     # MixedLM
     groups = df["donor_id"].astype("category")
     vc_formula = None
-    if include_dataset_vc and "dataset" in df.columns and df["dataset"].nunique() > 1:
+    if "dataset" in df.columns and df["dataset"].nunique() > 1:
         vc_formula = {"dataset_vc": "0 + C(dataset)"}
 
     try:
@@ -252,7 +248,8 @@ def fit_lmm_per_cell(
                 formula=formula, data=df, groups=groups,
                 re_formula="1", vc_formula=vc_formula,
             )
-            model = md.fit(method="lbfgs", maxiter=500, disp=False)
+            model = md.fit(method="lbfgs", reml=True, maxiter=3000,
+                           disp=False)
             fallback = False
     except Exception:
         model = sm.OLS.from_formula(formula, data=df).fit(
@@ -262,8 +259,8 @@ def fit_lmm_per_cell(
 
     # Save results
     params = model.params
-    bse = model.bse
-    pvals = model.pvalues
+    bse    = model.bse
+    pvals  = model.pvalues
 
     try:
         ci = model.conf_int().rename(columns={0: "ci_lower", 1: "ci_upper"})
@@ -276,14 +273,13 @@ def fit_lmm_per_cell(
         "estimate": params.get("AGTR1_detect", np.nan),
         "se": bse.get("AGTR1_detect", np.nan),
         "pval": pvals.get("AGTR1_detect", np.nan),
-        **ci_agtr1,
-        "n_cells": df.shape[0],
+        **ci_agtr1, "n_cells": df.shape[0],
         "n_donors": df["donor_id"].nunique(),
-        "fallback": fallback,
-        "formula": formula,
+        "fallback": fallback, "formula": formula,
     }
 
-    pd.DataFrame([effect]).to_csv(outdir / "airspace_effect_AGTR1_per_cell.csv", index=False)
+    fp = outdir / "airspace_effect_AGTR1_per_cell.csv"
+    pd.DataFrame([effect]).to_csv(fp, index=False)
 
     if hasattr(model, "random_effects"):
         pd.DataFrame.from_dict(model.random_effects, orient="index") \
@@ -341,10 +337,7 @@ def main():
     print(result.summary())
 
     # Per-cell
-    cell_res = fit_lmm_per_cell(
-        adata, outdir=airspace_dir, pericyte_label="Pericytes",
-        key=args.cluster_key, include_dataset_vc=True,
-    )
+    cell_res = fit_lmm_per_cell(adata, outdir=airspace_dir)
     print(cell_res.summary())
 
     # Plots

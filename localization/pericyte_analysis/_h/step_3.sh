@@ -35,7 +35,7 @@ log_message "**** Run analysis ****"
 OUTDIR="results"
 
 python ../_h/03.airspace_analysis.py \
-       --adata "airspace.hlca_full.dataset.h5ad" --outdir "${OUTDIR}"
+       --adata "airspace.hlca_core.dataset.h5ad" --outdir "${OUTDIR}"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
