@@ -120,12 +120,12 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     # Drop incomplete rows
     df = df.dropna(subset=[
         "airspace_score", "AGTR1_detect", "donor_id", 
-        "sex", "age_or_mean_of_age_range", "disease"
+        "sex", "age_or_mean_of_age_range", #"disease"
     ]).copy()
 
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(int)
     df["sex"] = df["sex"].astype("category")
-    df["disease"] = df["disease"].astype("category")
+    #df["disease"] = df["disease"].astype("category")
     df["age"] = df["age_or_mean_of_age_range"].astype(int)
 
     # Keep donors with both AGTR1+ AND AGTR1-
@@ -141,12 +141,11 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
                      n_cells=("AGTR1_detect", "size"),
                      age=("age", "first"),
                      sex=("sex", "first"),
-                     disease=("disease", "first")
                  ).reset_index()
     donor_df.to_csv(outdir / "airspace_donor_summary.csv", index=False)
 
     # Fit OLS at donor level
-    formula = "mean_airspace_score ~ frac_AGTR1_pos + age + C(sex) + C(disease)"
+    formula = "mean_airspace_score ~ frac_AGTR1_pos + age + C(sex)"
     ols_res = smf.ols(formula, data=donor_df).fit()
 
     # Save coefficient table
