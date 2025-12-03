@@ -44,6 +44,86 @@ def load_adata(path: Path) -> AnnData:
     return sc.read_h5ad(path)
 
 
+def poisson_binom_pmf_fft(p: np.ndarray) -> np.ndarray:
+    """Exact Poisson-binomial PMF via FFT."""
+    p = np.asarray(p, dtype=float)
+    n = p.size
+    m = n + 1
+    theta = 2 * np.pi * np.arange(m) / m
+    exp_i_theta = np.exp(1j * theta)
+    G = ((1 - p)[:, None] + p[:, None] * exp_i_theta[None, :]).prod(axis=0)
+    pmf = np.real(np.fft.fft(G)) / m
+    pmf = np.clip(pmf, 0, None)
+    pmf /= pmf.sum()
+    return pmf
+
+
+def poisson_binom_pvalue(p: np.ndarray, k_obs: int, side="greater"):
+    """Tail p-value under H0: K ~ Poisson-binomial(p)."""
+    p = np.asarray(p, dtype=float)
+    pmf = poisson_binom_pmf_fft(p)
+    n = pmf.size - 1
+    k_obs = int(np.clip(k_obs, 0, n))
+    cdf = pmf.cumsum()
+    if side == "greater":
+        pval = pmf[k_obs:].sum()
+    elif side == "less":
+        pval = cdf[k_obs]
+    else:
+        p_less = cdf[k_obs]
+        p_greater = pmf[k_obs:].sum()
+        pval = min(1.0, 2.0 * min(p_less, p_greater))
+    return {"pval": float(pval), "n": int(n)}
+
+
+def matched_gene_zero_probs(X, gene_index: int, mean_tol=0.25,
+                            cv_tol=0.25, top_n=150):
+    # Per-gene mean & CV in pericytes
+    gx = X.toarray() if hasattr(X, "toarray") else np.asarray(X)
+    mu = gx.mean(0) + 1e-12
+    sd = gx.std(0)
+    cv = sd / mu
+    mu_g, cv_g = float(mu[gene_index]), float(cv[gene_index])
+
+    # Candidate matched genes
+    keep = (np.abs(np.log1p(mu) - np.log1p(mu_g)) <= mean_tol) & (np.abs(cv - cv_g) <= cv_tol)
+    keep[gene_index] = False
+    matched = np.where(keep)[0]
+
+    # per-cell expected zero probability
+    p_i = (gx[:, matched] == 0).mean(1)
+    return p_i, matched
+
+
+def dropout_expectation_pvalue_matched(
+        adata: AnnData, outdir: Path, gene="AGTR1", side="greater"
+):
+    Xp  = adata.X
+    genes = adata.var_names
+    gix = np.where(genes == gene)[0][0]
+
+    # observed zero count
+    GX = Xp.toarray() if hasattr(Xp, "toarray") else np.asarray(Xp)
+    k_obs = int((GX[:, gix] == 0).sum())
+
+    # expected per-cell dropout probabilities
+    p_i, matched = matched_gene_zero_probs(Xp, gix)
+
+    # p-value
+    pval = poisson_binom_pvalue(p_i, k_obs, side=side)["pval"]
+
+    # Save data
+    fp = outdir / "dropout_expectation_results.tsv"
+    rec = dict({
+        "gene": gene, "n_cells": int(GX.shape[0]),
+        "obs_zeros": k_obs, "exp_zeros": float(p_i.sum()),
+        "ratio_obs_to_exp": float(k_obs / (p_i.sum() + 1e-9)),
+        "pval": float(pval), "side": side, "method": "FFT",
+        "n_matched": int(len(matched)),
+    })
+    pd.DataFrame([rec]).to_csv(fp, sep="\t", index=False)
+
+
 def make_df(adata: AnnData, emb_key: str, donor_key: str):
     coords = adata.obsm[emb_key]
     df = pd.DataFrame(coords, columns=["dim1", "dim2"], index=adata.obs_names)
@@ -98,14 +178,18 @@ def main():
 
     adata = load_adata(args.adata)
 
+    # Check dropout
+    dropout_expectation_pvalue_matched(
+        adata, outdir, gene="AGTR1", side="greater"
+    )
+
     # Make mixing plots
     mix_dir = outdir / "donor_mixing"
     mix_dir.mkdir(exist_ok=True)
 
     for emb in ["X_umap", "X_tsne"]:
         df = make_df(adata, emb, args.donor_key)
-        plot_donor_embedding(df, args.donor_key,
-                             f"{emb}: donor mixing",
+        plot_donor_embedding(df, args.donor_key, f"{emb}: donor mixing",
                              mix_dir / f"{emb}_donor")
 
     # Compute iLISI

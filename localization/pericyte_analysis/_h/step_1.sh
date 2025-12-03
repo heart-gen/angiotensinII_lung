@@ -34,8 +34,8 @@ log_message "**** Run subclustering ****"
 
 python ../_h/01.pericyte_embeddings.py \
        --adata pericyte.hlca_core.dataset.h5ad \
-       --outdir "results" --leiden-resolution 0.5 \
-       --markers-yaml ../_h/pericyte_markers.yml --neighbors 25
+       --outdir "results" --leiden-resolution 0.3 \
+       --markers-yaml ../_h/pericyte_markers.yml --neighbors 75
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

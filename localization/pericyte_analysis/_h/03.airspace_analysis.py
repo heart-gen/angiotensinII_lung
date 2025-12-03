@@ -343,8 +343,7 @@ def main():
     # Per-cell
     cell_res = fit_lmm_per_cell(
         adata, outdir=airspace_dir, pericyte_label="Pericytes",
-        key=args.cluster_key, extra_covariates=["pericyte_state"],
-        include_dataset_vc=True,
+        key=args.cluster_key, include_dataset_vc=True,
     )
     print(cell_res.summary())
 
