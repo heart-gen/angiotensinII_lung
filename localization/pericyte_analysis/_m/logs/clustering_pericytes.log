@@ -1,10 +1,10 @@
-2025-11-29 18:09:12 - **** Job starts ****
-2025-11-29 18:09:12 - **** Bridges-2 info ****
+2025-12-03 08:25:54 - **** Job starts ****
+2025-12-03 08:25:54 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36319175
+Job id: 36384730
 Job name: peri_clustering
 Node name: 
-Hostname: r372
+Hostname: r180
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,14 +12,20 @@ Currently Loaded Modules:
 
  
 
-2025-11-29 18:09:13 - **** Loading mamba environment ****
-2025-11-29 18:09:13 - **** Run subclustering ****
-2025-11-29 18:12:13,123 [INFO] Running Leiden clustering (resolution=0.5)...
+2025-12-03 08:25:55 - **** Loading mamba environment ****
+2025-12-03 08:25:55 - **** Run subclustering ****
+2025-12-03 08:28:57,573 [INFO] Running Leiden clustering (resolution=0.3)...
 /ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/01.pericyte_embeddings.py:79: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
 
  To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
   sc.tl.leiden(
-WARNING: dendrogram data not found (using key=dendrogram_leiden). Running `sc.tl.dendrogram` with default parameters. For fine tuning it is recommended to run `sc.tl.dendrogram` independently.
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
+WARNING: Dendrogram not added. Dendrogram is added only when the number of categories to plot > 2
 -----
 anndata             0.11.4
 matplotlib          3.10.5
@@ -34,5 +40,5 @@ yaml                6.0.2
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-11-29 18:13
-2025-11-29 18:13:31 - **** Job ends ****
+Session information updated at 2025-12-03 08:29
+2025-12-03 08:29:47 - **** Job ends ****

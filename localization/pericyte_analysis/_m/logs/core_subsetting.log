@@ -1,0 +1,106 @@
+2025-12-02 20:01:49 - **** Job starts ****
+2025-12-02 20:01:49 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36370315
+Job name: core_subset
+Node name: 
+Hostname: e002
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-02 20:01:50 - **** Loading mamba environment ****
+2025-12-02 20:01:50 - **** Run subsetting ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:309: RuntimeWarning: invalid value encountered in log
+  dispersion = np.log(dispersion)
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-12-02 20:09:07,023 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-02 20:09:09,710 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-02 20:09:09,832 - harmonypy - INFO - Iteration 1 of 50
+2025-12-02 20:09:10,789 - harmonypy - INFO - Iteration 2 of 50
+2025-12-02 20:09:11,867 - harmonypy - INFO - Iteration 3 of 50
+2025-12-02 20:09:12,885 - harmonypy - INFO - Iteration 4 of 50
+2025-12-02 20:09:13,901 - harmonypy - INFO - Iteration 5 of 50
+2025-12-02 20:09:14,916 - harmonypy - INFO - Iteration 6 of 50
+2025-12-02 20:09:15,930 - harmonypy - INFO - Iteration 7 of 50
+2025-12-02 20:09:16,851 - harmonypy - INFO - Iteration 8 of 50
+2025-12-02 20:09:17,747 - harmonypy - INFO - Iteration 9 of 50
+2025-12-02 20:09:18,520 - harmonypy - INFO - Iteration 10 of 50
+2025-12-02 20:09:19,169 - harmonypy - INFO - Iteration 11 of 50
+2025-12-02 20:09:19,903 - harmonypy - INFO - Iteration 12 of 50
+2025-12-02 20:09:20,552 - harmonypy - INFO - Iteration 13 of 50
+2025-12-02 20:09:21,168 - harmonypy - INFO - Iteration 14 of 50
+2025-12-02 20:09:21,788 - harmonypy - INFO - Iteration 15 of 50
+2025-12-02 20:09:22,469 - harmonypy - INFO - Iteration 16 of 50
+2025-12-02 20:09:23,059 - harmonypy - INFO - Iteration 17 of 50
+2025-12-02 20:09:23,677 - harmonypy - INFO - Iteration 18 of 50
+2025-12-02 20:09:24,291 - harmonypy - INFO - Iteration 19 of 50
+2025-12-02 20:09:24,937 - harmonypy - INFO - Iteration 20 of 50
+2025-12-02 20:09:25,651 - harmonypy - INFO - Iteration 21 of 50
+2025-12-02 20:09:26,442 - harmonypy - INFO - Iteration 22 of 50
+2025-12-02 20:09:27,096 - harmonypy - INFO - Iteration 23 of 50
+2025-12-02 20:09:27,685 - harmonypy - INFO - Iteration 24 of 50
+2025-12-02 20:09:28,336 - harmonypy - INFO - Iteration 25 of 50
+2025-12-02 20:09:28,925 - harmonypy - INFO - Iteration 26 of 50
+2025-12-02 20:09:29,601 - harmonypy - INFO - Iteration 27 of 50
+2025-12-02 20:09:30,193 - harmonypy - INFO - Iteration 28 of 50
+2025-12-02 20:09:30,811 - harmonypy - INFO - Iteration 29 of 50
+2025-12-02 20:09:31,431 - harmonypy - INFO - Iteration 30 of 50
+2025-12-02 20:09:32,022 - harmonypy - INFO - Iteration 31 of 50
+2025-12-02 20:09:32,644 - harmonypy - INFO - Iteration 32 of 50
+2025-12-02 20:09:33,203 - harmonypy - INFO - Iteration 33 of 50
+2025-12-02 20:09:33,793 - harmonypy - INFO - Iteration 34 of 50
+2025-12-02 20:09:34,347 - harmonypy - INFO - Iteration 35 of 50
+2025-12-02 20:09:34,907 - harmonypy - INFO - Iteration 36 of 50
+2025-12-02 20:09:35,523 - harmonypy - INFO - Iteration 37 of 50
+2025-12-02 20:09:36,175 - harmonypy - INFO - Iteration 38 of 50
+2025-12-02 20:09:36,729 - harmonypy - INFO - Iteration 39 of 50
+2025-12-02 20:09:37,290 - harmonypy - INFO - Iteration 40 of 50
+2025-12-02 20:09:37,843 - harmonypy - INFO - Iteration 41 of 50
+2025-12-02 20:09:38,461 - harmonypy - INFO - Iteration 42 of 50
+2025-12-02 20:09:39,014 - harmonypy - INFO - Iteration 43 of 50
+2025-12-02 20:09:39,573 - harmonypy - INFO - Iteration 44 of 50
+2025-12-02 20:09:40,126 - harmonypy - INFO - Iteration 45 of 50
+2025-12-02 20:09:40,686 - harmonypy - INFO - Iteration 46 of 50
+2025-12-02 20:09:41,278 - harmonypy - INFO - Iteration 47 of 50
+2025-12-02 20:09:41,864 - harmonypy - INFO - Iteration 48 of 50
+2025-12-02 20:09:42,470 - harmonypy - INFO - Iteration 49 of 50
+2025-12-02 20:09:43,027 - harmonypy - INFO - Iteration 50 of 50
+2025-12-02 20:09:43,588 - harmonypy - INFO - Stopped before convergence
+2025-12-02 20:12:33,206 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-02 20:12:55,765 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-02 20:12:56,517 - harmonypy - INFO - Iteration 1 of 50
+2025-12-02 20:14:36,524 - harmonypy - INFO - Iteration 2 of 50
+2025-12-02 20:16:16,556 - harmonypy - INFO - Iteration 3 of 50
+2025-12-02 20:17:56,586 - harmonypy - INFO - Iteration 4 of 50
+2025-12-02 20:19:17,557 - harmonypy - INFO - Iteration 5 of 50
+2025-12-02 20:20:57,691 - harmonypy - INFO - Iteration 6 of 50
+2025-12-02 20:22:38,398 - harmonypy - INFO - Iteration 7 of 50
+2025-12-02 20:23:31,032 - harmonypy - INFO - Iteration 8 of 50
+2025-12-02 20:24:52,441 - harmonypy - INFO - Iteration 9 of 50
+2025-12-02 20:26:10,444 - harmonypy - INFO - Iteration 10 of 50
+2025-12-02 20:27:02,983 - harmonypy - INFO - Iteration 11 of 50
+2025-12-02 20:28:18,005 - harmonypy - INFO - Converged after 11 iterations
+Model selected: core
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_core.dataset.h5ad
+Warning: Missing batch variables: data
+Saved: airspace.hlca_core.dataset.h5ad
+-----
+harmonypy           0.0.10
+pandas              2.3.2
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-02 20:28
+2025-12-02 20:28:41 - **** Job ends ****
