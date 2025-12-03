@@ -28,10 +28,14 @@ import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
+from scipy import sparse
 from anndata import AnnData
 import matplotlib.pyplot as plt
 from scipy.sparse import issparse
+from scipy.stats import chi2_contingency
+from scipy.stats import f_oneway, kruskal
 from scipy.sparse.csgraph import shortest_path
+from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
 sns.set_context("talk")
 sns.set_style("whitegrid")
@@ -107,21 +111,22 @@ def compute_graph_distance_to_ec(
 ) -> np.ndarray:
     """
     Compute shortest-path distance from each pericyte to the nearest EC
-    (from specified ec_labels) using the distances graph.
-    Returns an array of per-cell distances (NaN for non-pericytes).
+    (from specified ec_labels) using the neighbors graph.
     """
     if "distances" not in adata.obsp:
         raise ValueError("adata.obsp['distances'] missing; run sc.pp.neighbors first.")
 
     dist_graph = adata.obsp["distances"]
     if not issparse(dist_graph):
-        raise ValueError("Expected sparse distances matrix in adata.obsp['distances'].")
+        dist_graph = sparse.csr_matrix(dist_graph)
+
+    dist_graph = dist_graph.maximum(dist_graph.T)
 
     n_cells = adata.n_obs
-    sub = adata.obs[cluster_key].astype(str)
+    cluster = adata.obs[cluster_key].astype(str)
 
-    pericyte_mask = sub == pericyte_label
-    ec_mask = sub.isin(ec_labels)
+    pericyte_mask = cluster == pericyte_label
+    ec_mask = cluster.isin(ec_labels)
 
     if ec_mask.sum() == 0:
         raise ValueError(f"No EC cells found for labels={ec_labels}")
@@ -130,20 +135,19 @@ def compute_graph_distance_to_ec(
     ec_idx = np.where(ec_mask)[0]
 
     logging.info(
-        "Computing all-pairs shortest paths on %d cells; this may take a while for large datasets.",
-        n_cells
-    )
-    # shortest_path returns dense np.ndarray
-    all_sp = shortest_path(
-        dist_graph, directed=False, unweighted=False, overwrite=False,
+        "Computing shortest paths from %d EC cells to all %d cells.",
+        ec_idx.size, n_cells,
     )
 
-    # For each pericyte, distance to closest EC
+    # distances from each EC cell to all cells
+    dist_from_ec = shortest_path(
+        dist_graph, directed=False, unweighted=False,
+        indices=ec_idx, overwrite=False,
+    )
+
+    # min distance from any EC to each cell
+    min_to_ec = np.min(dist_from_ec, axis=0)
     pericyte_to_ec = np.full(n_cells, np.nan, dtype=float)
-    ec_dists = all_sp[:, ec_idx]
-    # Min distance for each cell; we only keep pericytes
-    min_to_ec = np.min(ec_dists, axis=1)
-
     pericyte_to_ec[pericyte_idx] = min_to_ec[pericyte_idx]
     return pericyte_to_ec
 
@@ -247,6 +251,172 @@ def assign_pericyte_states(
         logging.warning("No donor_key '%s' in obs; cannot assess donor balance.", donor_key)
 
     return state_donor_counts
+
+
+def run_leiden_on_pericytes(
+    adata: AnnData, use_rep: str, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", resolution: float = 0.5,
+    neighbors_key: str | None = None, leiden_key: str = "leiden_pericytes",
+) -> AnnData:
+    """
+    Run Leiden clustering on pericytes only, using given representation.
+    """
+    per = adata[adata.obs[cluster_key] == pericyte_label].copy()
+    sc.pp.neighbors(
+        per, use_rep=use_rep, n_neighbors=75, random_state=13,
+    )
+    sc.tl.leiden(per, key_added=leiden_key, resolution=resolution)
+
+    # Map cluster labels back to full AnnData
+    adata.obs[leiden_key] = np.nan
+    adata.obs.loc[per.obs_names, leiden_key] = per.obs[leiden_key].astype(str).values
+
+    return adata
+
+
+def analyze_leiden_vs_pericyte_state(
+    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", state_key: str = "pericyte_state",
+    leiden_key: str = "leiden_pericytes",
+) -> None:
+    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+
+    # Drop cells without state or cluster
+    mask = per[state_key].notna() & per[leiden_key].notna()
+    per = per.loc[mask].copy()
+
+    # Contingency table
+    tab = pd.crosstab(per[leiden_key], per[state_key], normalize="index")
+    tab.to_csv(outdir / "leiden_vs_pericyte_state.csv")
+
+    # Metrics of alignment
+    ari = adjusted_rand_score(per[state_key], per[leiden_key])
+    nmi = normalized_mutual_info_score(per[state_key], per[leiden_key])
+
+    with open(outdir / "leiden_vs_pericyte_state_summary.txt", "w") as fh:
+        fh.write(f"Adjusted Rand Index (ARI): {ari:.3f}\n")
+        fh.write(f"Normalized Mutual Information (NMI): {nmi:.3f}\n\n")
+        fh.write("Row-normalized contingency table (leiden x pericyte_state):\n")
+        fh.write(tab.to_string())
+        fh.write("\n")
+
+    # Quick plot
+    plt.figure(figsize=(max(6, 1.2 * tab.shape[0]), 4))
+    tab.plot(kind="bar", stacked=True, ax=plt.gca())
+    plt.ylabel("Proportion within Leiden cluster")
+    plt.xlabel("Leiden cluster")
+    plt.legend(title="Pericyte state", bbox_to_anchor=(1.02, 1), loc="upper left")
+    plt.tight_layout()
+    plt.savefig(outdir / "leiden_vs_pericyte_state.png", dpi=300)
+    plt.savefig(outdir / "leiden_vs_pericyte_state.pdf")
+    plt.close()
+
+
+def analyze_leiden_vs_airspace(
+    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
+    score_key: str = "airspace_dist_z",
+) -> None:
+    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    per = per[per[leiden_key].notna() & per[score_key].notna()].copy()
+
+    # Cluster-level stats
+    stats = (
+        per.groupby(leiden_key)[score_key]
+        .agg(["mean", "std", "count"])
+        .rename(columns={"count": "n_cells"})
+        .reset_index()
+    )
+    stats.to_csv(outdir / f"{score_key}_by_leiden.csv", index=False)
+
+    # Violin plot
+    plt.figure(figsize=(max(6, 1.2 * stats.shape[0]), 4))
+    sns.violinplot(data=per, x=leiden_key, y=score_key, cut=0)
+    plt.ylabel(score_key)
+    plt.xlabel("Leiden cluster")
+    plt.tight_layout()
+    plt.savefig(outdir / f"{score_key}_by_leiden_violin.png", dpi=300)
+    plt.savefig(outdir / f"{score_key}_by_leiden_violin.pdf")
+    plt.close()
+
+
+def statistical_tests_continuous_vs_leiden(
+    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
+    score_key: str = "airspace_dist_z",
+):
+    """
+    Test whether the continuous score differs among Leiden clusters.
+    """
+    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    per = per[per[leiden_key].notna() & per[score_key].notna()].copy()
+
+    groups = {
+        cl: vals[score_key].dropna().values
+        for cl, vals in per.groupby(leiden_key)
+        if len(vals[score_key].dropna()) > 1
+    }
+
+    # Only compute tests if >= 2 groups with >1 cell
+    if len(groups) < 2:
+        print("Not enough valid Leiden clusters for statistical tests.")
+        return
+
+    # ANOVA
+    try:
+        anova_F, anova_p = f_oneway(*groups.values())
+    except Exception:
+        anova_F, anova_p = np.nan, np.nan
+
+    # Kruskal-Wallis
+    try:
+        kw_H, kw_p = kruskal(*groups.values())
+    except Exception:
+        kw_H, kw_p = np.nan, np.nan
+
+    # Save results
+    out = outdir / f"{score_key}_leiden_stats.txt"
+    with open(out, "w") as fh:
+        fh.write(f"Statistical tests for {score_key} vs Leiden clusters\n")
+        fh.write("------------------------------------------------------\n\n")
+        fh.write("Groups included:\n")
+        for cl, arr in groups.items():
+            fh.write(f"  - Leiden {cl}: N={len(arr)}\n")
+        fh.write("\n")
+
+        fh.write(f"ANOVA F = {anova_F:.4f}, p = {anova_p:.4e}\n")
+        fh.write(f"Kruskal-Wallis H = {kw_H:.4f}, p = {kw_p:.4e}\n")
+
+    print(f"Saved statistical test results to: {out}")
+
+
+def statistical_tests_state_vs_leiden(
+    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", state_key: str = "pericyte_state",
+    leiden_key: str = "leiden_pericytes",
+):
+    """Chi-square test and Cramer's V"""
+    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    per = per[per[state_key].notna() & per[leiden_key].notna()].copy()
+
+    tab = pd.crosstab(per[state_key], per[leiden_key])
+    chi2, p, dof, expected = chi2_contingency(tab)
+
+    # Cramer's V
+    n = tab.sum().sum()
+    r, k = tab.shape
+    cramers_v = np.sqrt(chi2 / (n * (min(r, k) - 1)))
+
+    out = outdir / "pericyte_state_vs_leiden_stats.txt"
+    with open(out, "w") as fh:
+        fh.write("Chi-square association test: pericyte_state ~ leiden\n")
+        fh.write("------------------------------------------------------\n")
+        fh.write(tab.to_string())
+        fh.write("\n\n")
+        fh.write(f"Chi^2 = {chi2:.4f}, df = {dof}, p = {p:.4e}\n")
+        fh.write(f"Cramer's V = {cramers_v:.4f}\n")
+
+    print(f"Saved categorical association results to: {out}")
 
 
 def plot_violin_by_state(
@@ -382,8 +552,10 @@ def main() -> None:
         min_donors_per_state=5, donor_key="donor_id",
     )
 
-    # QC plots
+    # QC plots and report
     qc_dir = outdir / "qc_stats"
+    qc_dir.mkdir(exist_ok=True, parents=True)
+
     plot_violin_by_state(
         adata, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label, outdir=qc_dir,
@@ -398,11 +570,32 @@ def main() -> None:
         pericyte_label=args.pericyte_label,
     )
 
-    # QC report
     write_qc_report(
         outdir=qc_dir, adata=adata, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label, donor_counts=donor_counts,
         batch_tables=batch_tables,
+    )
+
+    # De novo clustering on pericytes
+    adata = run_leiden_on_pericytes(
+        adata, use_rep=args.use_rep,
+        cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label,
+        resolution=1.0, leiden_key="leiden_pericytes",
+    )
+
+    # Compare pericyte_state vs Leiden
+    analyze_leiden_vs_pericyte_state(
+        adata, outdir=qc_dir, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, state_key="pericyte_state",
+        leiden_key="leiden_pericytes",
+    )
+
+    # Compare airspace distance / score vs Leiden
+    analyze_leiden_vs_airspace(
+        adata, outdir=qc_dir, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, leiden_key="leiden_pericytes",
+        score_key="airspace_dist_z",
     )
 
     # Save AnnData with pericyte_state annotations

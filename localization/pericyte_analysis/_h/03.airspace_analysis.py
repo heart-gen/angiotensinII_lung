@@ -180,7 +180,7 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
 
 def fit_lmm_per_cell(
     adata: AnnData, outdir: Path, pericyte_label="Pericytes",
-    key="subclusters",
+    key="subclusters", min_cells_per_class_per_donor=1,
 ):
     # Generate QC covs if not present
     if "n_counts" not in adata.obs:
