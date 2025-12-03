@@ -1,0 +1,52 @@
+2025-12-03 10:56:42 - **** Job starts ****
+2025-12-03 10:56:42 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36385762
+Job name: airspace_analysis
+Node name: 
+Hostname: r029
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-12-03 10:56:43 - **** Loading mamba environment ****
+2025-12-03 10:56:43 - **** Run analysis ****
+                             OLS Regression Results                            
+===============================================================================
+Dep. Variable:     mean_airspace_score   R-squared:                       0.051
+Model:                             OLS   Adj. R-squared:                 -0.127
+Method:                  Least Squares   F-statistic:                    0.2850
+Date:                 Wed, 03 Dec 2025   Prob (F-statistic):              0.836
+Time:                         10:59:22   Log-Likelihood:                 73.244
+No. Observations:                   20   AIC:                            -138.5
+Df Residuals:                       16   BIC:                            -134.5
+Df Model:                            3                                         
+Covariance Type:             nonrobust                                         
+==================================================================================
+                     coef    std err          t      P>|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          0.0866      0.006     14.056      0.000       0.074       0.100
+C(sex)[T.male]     0.0030      0.003      0.882      0.391      -0.004       0.010
+frac_AGTR1_pos     0.0020      0.009      0.228      0.823      -0.017       0.021
+age             7.701e-07      0.000      0.008      0.994      -0.000       0.000
+==============================================================================
+Omnibus:                       12.561   Durbin-Watson:                   2.749
+Prob(Omnibus):                  0.002   Jarque-Bera (JB):               14.240
+Skew:                           1.027   Prob(JB):                     0.000809
+Kurtosis:                       6.588   Cond. No.                         310.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+Traceback (most recent call last):
+  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 362, in <module>
+    main()
+  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 340, in main
+    cell_res = fit_lmm_per_cell(adata, outdir=airspace_dir)
+  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 225, in fit_lmm_per_cell
+    (counts.get(0, 0) >= min_cells_per_class_per_donor) &
+NameError: name 'min_cells_per_class_per_donor' is not defined
+2025-12-03 10:59:40 - Error: Python execution failed
