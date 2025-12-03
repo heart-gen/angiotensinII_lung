@@ -14,3 +14,18 @@ Currently Loaded Modules:
 
 2025-12-03 09:12:59 - **** Loading mamba environment ****
 2025-12-03 09:13:00 - **** Run subclustering ****
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scib                1.1.7
+seaborn             0.13.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-03 09:15
+2025-12-03 09:16:02 - **** Job ends ****

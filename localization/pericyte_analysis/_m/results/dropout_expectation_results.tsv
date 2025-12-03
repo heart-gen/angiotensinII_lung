@@ -1,0 +1,2 @@
+gene	n_cells	obs_zeros	exp_zeros	ratio_obs_to_exp	pval	side	method	n_matched
+AGTR1	3032	1572	1602.1509433962265	0.9811809595584708	0.8781734132470967	greater	FFT	371
