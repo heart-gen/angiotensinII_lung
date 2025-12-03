@@ -147,7 +147,7 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
 
     # Fit OLS at donor level
     formula = "mean_airspace_score ~ frac_AGTR1_pos + age + C(sex) + C(disease)"
-    ols_res = smf.ols(formula, data=df).fit()
+    ols_res = smf.ols(formula, data=donor_df).fit()
 
     # Save coefficient table
     effect_row = {

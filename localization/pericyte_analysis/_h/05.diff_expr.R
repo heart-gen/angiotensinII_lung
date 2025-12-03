@@ -1,154 +1,112 @@
 #!/usr/bin/env Rscript
-
 suppressPackageStartupMessages({
-  library(optparse)
-  library(SingleCellExperiment)
-  library(edgeR)
-  library(limma)
-  library(qvalue)
-  library(data.table)
-  library(ggplot2)
+    library(edgeR)
+    library(limma)
+    library(qvalue)
+    library(ggplot2)
+    library(data.table)
+    library(SingleCellExperiment)
 })
 
-option_list <- list(
-    make_option(c("--sce"), type = "character", help = "Input AnnData .h5ad"),
-    make_option(c("--outdir"), type = "character", default = "results", help = "Output directory"),
-    make_option(c("--celltype_col"), type = "character", default = "subclusters",
-                help = "colData column with cell type labels [default %default]"),
-    make_option(c("--pericyte_label"), type = "character", default = "Pericytes",
-                help = "Label used for pericytes in celltype_col [default %default]"),
-    make_option(c("--agtr1_col"), type = "character", default = "AGTR1_detect",
-                help = "colData column indicating AGTR1 detection (0/1) [default %default]"),
-    make_option(c("--donor_col"), type = "character", default = "donor_id",
-                help = "colData column for donor ID [default %default]"),
-    make_option(c("--min_cells_per_class"), type = "integer", default = 30,
-                help = "Minimum cells per donor × class to keep [default %default]"),
-    make_option(c("--min_donors_per_class"), type = "integer", default = 5,
-                help = "Minimum donors per class required [default %default]"),
-    make_option(c("--min_cpm_samples"), type = "integer", default = 5,
-                help = "Genes must have CPM > 1 in at least this many samples [default %default]")
-)
-
 ## Functions
-load_sce_object <- function(path) {
-    ext <- tolower(tools::file_ext(path))
-    message("Loading input from: ", path)
-    if (!requireNamespace("zellkonverter", quietly = TRUE)) {
-        stop(
-            "To read .h5ad files you must install the 'zellkonverter' package ",
-            "(and its dependencies such as 'basilisk')."
-        )
-    }
-    return(zellkonverter::readH5AD(path))
+source("../_h/registration_pseudobulk.R")
+
+save_qc_plots <- function(fit, coef_name, res_out, outdir) {
+    ## MA plot
+    pdf(file.path(outdir, "MAplot_agtr1_detect.pdf"), width = 6, height = 5)
+    plotMA(fit, coef = coef_name, main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)")
+    abline(h = 0, col = "grey50")
+    dev.off()
+
+    ## Volcano plot
+    vol <- res_out; vol$neg_log10_p <- -log10(vol$P.Value + 1e-300)
+
+    pdf(file.path(outdir, "volcanoPlot_agtr1_detect.pdf"), width = 6, height = 5)
+    ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
+        geom_point(alpha = 0.5, size = 0.8) +
+        geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+        labs(title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
+             x = "log2 fold-change (AGTR1+ vs AGTR1-)", y = "-log10(p-value)") +
+        theme_bw()
+    dev.off()
 }
 
-## TODO: auto detect raw counts (see cerebral project)
-get_counts_matrix <- function(sce) {
-    available <- SummarizedExperiment::assayNames(sce)
-    if ("counts" %in% available) {
-        return(as.matrix(SummarizedExperiment::assay(sce, "counts")))
-    }
-    if ("X" %in% available) {
-        return(as.matrix(SummarizedExperiment::assay(sce, "X")))
-    }
+add_agtr1_expression <- function(sce, gene = "AGTR1") {
+    rowData(sce)$gene_id <- rownames(sce)
+    rownames(sce) <- rowData(sce)$feature_name
+    x <- assay(sce, "X")[gene, , drop = TRUE]
+    x <- as.numeric(x)
+    sce[[paste0(gene, "_expr")]] <- x
+    sce[[paste0(gene, "_detect")]] <- as.integer(x > 0)
+    return(sce)
 }
 
 build_pseudobulk <- function(sce, opt, outdir) {
-    cd <- as.data.frame(SummarizedExperiment::colData(sce))
-    required_cols <- c(opt$celltype_col, opt$agtr1_col, opt$donor_col,
-                       "sex", "age_or_mean_of_age_range", "disease")
-    missing_cols <- setdiff(required_cols, colnames(cd))
-    if (length(missing_cols) > 0) {
-        stop("Missing required metadata columns: ", 
-             paste(missing_cols, collapse = ", "))
-    }
-    keep_cells <- cd[[opt$celltype_col]] == opt$pericyte_label &
-    !is.na(cd[[opt$agtr1_col]]) & !is.na(cd[[opt$donor_col]])
+    pheno_data <- as.data.frame(colData(sce))
+    keep_cells <- pheno_data[[opt$celltype_col]] == opt$pericyte_label &
+    !is.na(pheno_data[[opt$agtr1_col]]) & !is.na(pheno_data[[opt$donor_col]])
     
-    sce_sub <- sce[, keep_cells]
-    cd_sub <- as.data.frame(SummarizedExperiment::colData(sce_sub))
-    
-    if (ncol(sce_sub) == 0) {
-        stop("No pericyte cells found after filtering.")
-    }
-    cd_sub$agtr1_class <- ifelse(cd_sub[[opt$agtr1_col]] == 1,
-                                 "AGTR1_pos", "AGTR1_neg")
+    sce_sub   <- sce[, keep_cells]
+    pheno_sub <- as.data.frame(colData(sce_sub))    
+    pheno_sub$agtr1_class <- ifelse(pheno_sub[[opt$agtr1_col]] == 1,
+                                    "AGTR1_pos", "AGTR1_neg")
 
-    # Count cells per donor × class
-    dt_cells <- as.data.table(cd_sub)
+                                        # Count cells per donor × class
+    dt_cells  <- as.data.table(pheno_sub)
     dt_counts <- dt_cells[, .N, by = .(donor = get(opt$donor_col), agtr1_class)]
 
-    # Keep donors with >= min_cells_per_class in BOTH classes
+                                        # Keep donors with >= min_cells_per_class
     wide_counts <- dcast(dt_counts, donor ~ agtr1_class, value.var = "N", fill = 0)
-
-    if (!all(c("AGTR1_pos", "AGTR1_neg") %in% colnames(wide_counts))) {
-        wide_counts$AGTR1_pos <- wide_counts[["AGTR1_pos"]] %||% 0L
-        wide_counts$AGTR1_neg <- wide_counts[["AGTR1_neg"]] %||% 0L
-    }
-
     wide_counts[, keep_donor := (AGTR1_pos >= opt$min_cells_per_class &
                                  AGTR1_neg >= opt$min_cells_per_class)]
-
     kept_donors <- wide_counts[keep_donor == TRUE, donor]
-
     message("Donors kept (>= ", opt$min_cells_per_class, " cells per class): ",
             length(kept_donors))
     
-    # Summary report of included/excluded donors
+                                        # Summary report of included/excluded donors
     summary_dt <- copy(wide_counts)
     summary_dt[, status := ifelse(keep_donor, "included", "excluded")]
     fwrite(summary_dt, file = file.path(outdir, "pseudobulk_donor_summary.tsv"),
            sep = "\t")
 
-    if (length(kept_donors) < opt$min_donors_per_class) {
-        warning(
-            "Fewer than ", opt$min_donors_per_class,
-            " donors retained with >= ", opt$min_cells_per_class, " cells per class.")
-    }
+                                        # Restrict to kept donors
+    keep_cells_pb <- pheno_sub[[opt$donor_col]] %in% kept_donors
+    sce_pb        <- sce_sub[, keep_cells_pb]
+    pheno_pb      <- as.data.frame(colData(sce_pb))
+    pheno_pb$agtr1_class <- ifelse(pheno_pb[[opt$agtr1_col]] == 1,
+                                   "AGTR1_pos", "AGTR1_neg")
 
-    # Restrict to kept donors
-    keep_cells_pb <- cd_sub[[opt$donor_col]] %in% kept_donors
-    sce_pb <- sce_sub[, keep_cells_pb]
-    cd_pb <- as.data.frame(SummarizedExperiment::colData(sce_pb))
-    cd_pb$agtr1_class <- ifelse(cd_pb[[opt$agtr1_col]] == 1,
-                                "AGTR1_pos", "AGTR1_neg")
+                                        # Create sample_id = donor_agtr1class
+    pheno_pb$sample_id <- paste(pheno_pb[[opt$donor_col]], pheno_pb$agtr1_class, sep = "_")
+    dt_pb_meta <- as.data.table(pheno_pb)
+    pb_samples <- dt_pb_meta[, .(donor = get(opt$donor_col), agtr1_class, sex = sex,
+                                 age = age_or_mean_of_age_range, disease = disease, 
+                                 n_cells = .N), by = sample_id] |> dplyr::distinct()
 
-    # Create sample_id = donor_agtr1class
-    cd_pb$sample_id <- paste(cd_pb[[opt$donor_col]], cd_pb$agtr1_class, sep = "_")
-
-    # Sample table (one row per pseudobulk sample)
-    dt_pb_meta <- as.data.table(cd_pb)
-    pb_samples <- dt_pb_meta[, .(donor = get(opt$donor_col), agtr1_class, sex = "sex",
-                                 age = "age_or_mean_of_age_range", disease = "disease", 
-                                 n_cells = .N), by = sample_id]
-
-    # Aggregate counts: genes x sample_id
-    counts_mat <- get_counts_matrix(sce_pb, opt$assay)
-    if (nrow(counts_mat) == 0L || ncol(counts_mat) == 0L) {
-        stop("Counts matrix is empty after filtering.")
-    }
-
-    pb_counts <- t(rowsum(t(counts_mat), group = cd_pb$sample_id))
-    pb_counts <- pb_counts[, pb_samples$sample_id, drop = FALSE] # ensure order
+                                        # Aggregate counts: genes x sample_id
+    counts_mat <- get_counts_matrix(sce_pb)
+    pb_counts  <- t(rowsum(t(counts_mat), group = pheno_pb$sample_id))
+    pb_counts  <- pb_counts[, pb_samples$sample_id, drop = FALSE]
     pb_samples$lib_size <- colSums(pb_counts) # Library sizes
+
+                                        # Filter low expression
+    bad <- which(colSums(pb_counts) == 0)
+    pb_samples[bad, ]
+
     
-    # Save pseudobulk counts + sample table
+                                        # Save pseudobulk counts + sample table
     fwrite(as.data.table(pb_counts, keep.rownames = "gene_id"),
            file = file.path(outdir, "pseudobulk_counts.tsv.gz"), sep = "\t")
-
     fwrite(pb_samples, file = file.path(outdir, "pseudobulk_sample_table.tsv"),
            sep = "\t")
 
-  ## Donor counts per class
-  donors_agtr1_pos <- unique(pb_samples[agtr1_class == "AGTR1_pos"]$donor)
-  donors_agtr1_neg <- unique(pb_samples[agtr1_class == "AGTR1_neg"]$donor)
+                                        # Donor counts per class
+    donors_agtr1_pos <- unique(pb_samples[agtr1_class == "AGTR1_pos"]$donor)
+    donors_agtr1_neg <- unique(pb_samples[agtr1_class == "AGTR1_neg"]$donor)
 
-  message("Donors with AGTR1_pos pseudobulk: ", length(donors_agtr1_pos))
-  message("Donors with AGTR1_neg pseudobulk: ", length(donors_agtr1_neg))
-
-  list(pb_counts = pb_counts, pb_samples = pb_samples,
-       kept_donors = kept_donors, donors_agtr1_pos = donors_agtr1_pos,
-       donors_agtr1_neg = donors_agtr1_neg)
+    list(pb_counts = pb_counts, pb_samples = pb_samples,
+         kept_donors = kept_donors, donors_agtr1_pos = donors_agtr1_pos,
+         donors_agtr1_neg = donors_agtr1_neg)
 }
 
 run_de_analysis <- function(pb_counts, pb_samples, opt, outdir) {
@@ -160,7 +118,7 @@ run_de_analysis <- function(pb_counts, pb_samples, opt, outdir) {
     dge$samples <- cbind(dge$samples, sample_meta)
 
                                         # Filter low-expressed genes
-    cpm_mat <- cpm(dge)
+    cpm_mat <- edgeR::cpm(dge)
     keep_genes <- rowSums(cpm_mat > 1) >= opt$min_cpm_samples
     dge <- dge[keep_genes, , keep.lib.sizes = FALSE]
 
@@ -237,43 +195,6 @@ run_de_analysis <- function(pb_counts, pb_samples, opt, outdir) {
          pi0 = pi0, n_genes = nrow(dge))
 }
 
-make_qc_plots <- function(fit, coef_name, res_out, outdir) {
-    ## MA plot
-    pdf(file.path(outdir, "MA_plot_agtr1_pos_vs_neg.pdf"), width = 6, height = 5)
-    plotMA(fit, coef = coef_name, main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)")
-    abline(h = 0, col = "grey50")
-    dev.off()
-
-    png(file.path(outdir, "MA_plot_agtr1_pos_vs_neg.png"),
-        width = 6, height = 5, units = "in", res = 300)
-    plotMA(fit, coef = coef_name, main = "AGTR1+ vs AGTR1- (pericyte pseudobulk)")
-    abline(h = 0, col = "grey50")
-    dev.off()
-
-    ## Volcano plot
-    vol <- res_out
-    vol$neg_log10_p <- -log10(vol$P.Value + 1e-300)
-
-    pdf(file.path(outdir, "volcano_agtr1_pos_vs_neg.pdf"), width = 6, height = 5)
-    ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
-        geom_point(alpha = 0.5, size = 0.8) +
-        geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
-        labs(title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
-             x = "log2 fold-change (AGTR1+ vs AGTR1-)", y = "-log10(p-value)") +
-        theme_bw()
-    dev.off()
-
-    png(file.path(outdir, "volcano_agtr1_pos_vs_neg.png"), width = 6,
-        height = 5, units = "in", res = 300)
-    ggplot(vol, aes(x = logFC, y = neg_log10_p)) +
-        geom_point(alpha = 0.5, size = 0.8) +
-        geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
-        labs(title = "AGTR1+ vs AGTR1- (pericyte pseudobulk)",
-             x = "log2 fold-change (AGTR1+ vs AGTR1-)", y = "-log10(p-value)") +
-        theme_bw()
-    dev.off()
-}
-
 write_summary_report <- function(opt, outdir, kept_donors, donors_agtr1_neg,
                                  donors_agtr1_pos, n_genes, pi0) {
     report_lines <- c(
@@ -298,16 +219,30 @@ write_summary_report <- function(opt, outdir, kept_donors, donors_agtr1_neg,
 }
 
 #### Main
-                                        # Parse inputs
-opt <- parse_args(OptionParser(option_list = option_list))
-if (is.null(opt$sce)) { stop("Both --sce is required.") }
-
                                         # Create output directory
-outdir <- opt$outdir
+outdir <- "diff_expr"
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
                                         # Load data
-sce <- load_sce_object(opt$sce)
+fn    <- "../../celltype_subset/_m/pericyte.hlca_core.dataset.h5ad"
+adata <- zellkonverter::readH5AD(fn)
+sce   <- as(adata, "SingleCellExperiment")
+
+                                        # Prepare data
+sce <- add_agtr1_expression(sce, gene = "AGTR1")
+pheno_data <- as.data.frame(colData(sce)) |>
+    dplyr::mutate(agtr1_class = ifelse(AGTR1_detect == 1, "AGTR1_pos", "AGTR1_neg"))
+sce$agtr1_class <- pheno_data$agtr1_class
+sce$age    <- sce$age_or_mean_of_age_range
+
+                                        # Count cells in each class
+class_counts <- table(pheno_data$agtr1_class)
+print(class_counts)
+
+                                        # Generate pseudobulk
+sce_pseudo <- registration_pseudobulk(
+    sce, "subclusters", "donor_id", c("sex", "age"), min_ncells = 10
+)
 
                                         # Build pseudobulk
 pb <- build_pseudobulk(sce = sce, opt = opt, outdir = outdir)
@@ -317,7 +252,7 @@ de <- run_de_analysis(pb_counts = pb$pb_counts, pb_samples = pb$pb_samples,
                       opt = opt, outdir = outdir)
 
                                         # Generate QC plot
-make_qc_plots(fit = de$fit, coef_name = de$coef_name, res_out = de$res_out,
+save_qc_plots(fit = de$fit, coef_name = de$coef_name, res_out = de$res_out,
               outdir = outdir)
 
                                         # Write report
