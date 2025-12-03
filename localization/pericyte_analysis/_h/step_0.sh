@@ -32,7 +32,7 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subsetting ****"
-MODEL="core"
+MODEL="full"
 
 python ../_h/00.subset_ct.py --model "$MODEL" --m_iter 50
 
