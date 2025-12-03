@@ -69,7 +69,7 @@ def compute_embeddings(adata: AnnData, use_rep: str,
                        neighbors=30, min_dist=0.5, spread=1.2,
                        perplexity=30, seed=13):
     sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=neighbors,
-                    metric="cosine", random_state=seed)
+                    random_state=seed) # metric="cosine"
     sc.tl.umap(adata, min_dist=min_dist, spread=spread, random_state=seed)
     sc.tl.tsne(adata, use_rep=use_rep, perplexity=perplexity, random_state=seed)
 
