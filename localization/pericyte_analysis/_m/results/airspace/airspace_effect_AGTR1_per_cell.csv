@@ -1,0 +1,2 @@
+term,estimate,se,pval,ci_lower,ci_upper,n_cells,n_donors,fallback,formula
+AGTR1_detect,-0.00020698240453862127,0.0007624250161207191,0.7860226252303862,-0.0017013079770476008,0.0012873431679703584,3008,20,False,airspace_score ~ AGTR1_detect + age + C(sex) + n_counts + n_genes + pct_mito

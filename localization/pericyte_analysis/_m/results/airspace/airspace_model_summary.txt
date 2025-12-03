@@ -4,7 +4,7 @@ Dep. Variable:     mean_airspace_score   R-squared:                       0.051
 Model:                             OLS   Adj. R-squared:                 -0.127
 Method:                  Least Squares   F-statistic:                    0.2850
 Date:                 Wed, 03 Dec 2025   Prob (F-statistic):              0.836
-Time:                         10:59:22   Log-Likelihood:                 73.244
+Time:                         13:01:54   Log-Likelihood:                 73.244
 No. Observations:                   20   AIC:                            -138.5
 Df Residuals:                       16   BIC:                            -134.5
 Df Model:                            3                                         

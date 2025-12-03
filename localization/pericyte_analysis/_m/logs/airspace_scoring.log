@@ -1,10 +1,10 @@
-2025-12-03 10:56:42 - **** Job starts ****
-2025-12-03 10:56:42 - **** Bridges-2 info ****
+2025-12-03 13:00:14 - **** Job starts ****
+2025-12-03 13:00:14 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36385762
+Job id: 36389170
 Job name: airspace_analysis
 Node name: 
-Hostname: r029
+Hostname: r022
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,15 +12,15 @@ Currently Loaded Modules:
 
  
 
-2025-12-03 10:56:43 - **** Loading mamba environment ****
-2025-12-03 10:56:43 - **** Run analysis ****
+2025-12-03 13:00:15 - **** Loading mamba environment ****
+2025-12-03 13:00:15 - **** Run analysis ****
                              OLS Regression Results                            
 ===============================================================================
 Dep. Variable:     mean_airspace_score   R-squared:                       0.051
 Model:                             OLS   Adj. R-squared:                 -0.127
 Method:                  Least Squares   F-statistic:                    0.2850
 Date:                 Wed, 03 Dec 2025   Prob (F-statistic):              0.836
-Time:                         10:59:22   Log-Likelihood:                 73.244
+Time:                         13:01:54   Log-Likelihood:                 73.244
 No. Observations:                   20   AIC:                            -138.5
 Df Residuals:                       16   BIC:                            -134.5
 Df Model:                            3                                         
@@ -41,12 +41,42 @@ Kurtosis:                       6.588   Cond. No.                         310.
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-Traceback (most recent call last):
-  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 362, in <module>
-    main()
-  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 340, in main
-    cell_res = fit_lmm_per_cell(adata, outdir=airspace_dir)
-  File "/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.airspace_analysis.py", line 225, in fit_lmm_per_cell
-    (counts.get(0, 0) >= min_cells_per_class_per_donor) &
-NameError: name 'min_cells_per_class_per_donor' is not defined
-2025-12-03 10:59:40 - Error: Python execution failed
+           Mixed Linear Model Regression Results
+============================================================
+Model:            MixedLM Dependent Variable: airspace_score
+No. Observations: 3008    Method:             REML          
+No. Groups:       20      Scale:              0.0004        
+Min. group size:  3       Log-Likelihood:     7478.5104     
+Max. group size:  1129    Converged:          No            
+Mean group size:  150.4                                     
+------------------------------------------------------------
+                  Coef.  Std.Err.   z    P>|z| [0.025 0.975]
+------------------------------------------------------------
+Intercept          0.165    0.009 18.147 0.000  0.148  0.183
+C(sex)[T.male]     0.003    0.002  1.291 0.197 -0.002  0.008
+AGTR1_detect      -0.000    0.001 -0.271 0.786 -0.002  0.001
+age               -0.000    0.000 -0.681 0.496 -0.000  0.000
+n_counts          -0.000    0.000 -6.723 0.000 -0.000 -0.000
+n_genes            0.000    0.000  4.207 0.000  0.000  0.000
+pct_mito          -1.352    0.162 -8.334 0.000 -1.670 -1.034
+Group Var          0.000 3847.075                           
+dataset_vc Var     0.000 3847.075                           
+============================================================
+
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+sklearn             1.7.2
+statsmodels         0.14.5
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-03 13:02
+2025-12-03 13:02:20 - **** Job ends ****
