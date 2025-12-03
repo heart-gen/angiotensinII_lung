@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=airspace_analysis
+#SBATCH --job-name=peri_clustering
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
 #SBATCH --time=03:00:00
-#SBATCH --output=logs/airspace_scoring.log
+#SBATCH --output=logs/clustering_pericytes.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -25,17 +25,17 @@ echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 module purge
 module load anaconda3/2024.10-1
-module load gcc/13.3.1-p20240614
 module list
 
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
-log_message "**** Run analysis ****"
-OUTDIR="results"
+log_message "**** Run subclustering ****"
 
-python ../_h/03.airspace_analysis.py \
-       --adata "airspace.hlca_core.dataset.h5ad" --outdir "${OUTDIR}"
+python ../_h/01.pericyte_embeddings.py \
+       --adata pericyte.hlca_core.dataset.h5ad \
+       --outdir "results" --leiden-resolution 0.3 \
+       --markers-yaml ../_h/pericyte_markers.yml --neighbors 75
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
