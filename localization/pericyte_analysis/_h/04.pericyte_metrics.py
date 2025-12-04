@@ -179,8 +179,11 @@ def main():
     adata = load_adata(args.adata)
 
     # Check dropout
+    qc_dir = outdir / "qc_results"
+    qc_dir.mkdir(parents=True, exist_ok=True)
+
     dropout_expectation_pvalue_matched(
-        adata, outdir, gene="AGTR1", side="greater"
+        adata, qc_dir, gene="AGTR1", side="greater"
     )
 
     # Make mixing plots
