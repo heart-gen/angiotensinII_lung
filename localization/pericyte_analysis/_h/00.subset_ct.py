@@ -26,7 +26,7 @@ def subset_data(input_file, AIRSPACE=False):
     required_cats = [
         "Vascular smooth muscle", "Mesothelium", "Myofibroblasts",
         "AT1", "AT2", "Hematopoietic stem cells", "Lymphatic EC",
-        'Mast cells', "Monocyte-derived Mph"
+        'Mast cells', "Monocyte-derived Mph",
     ]
     if not isinstance(adata.obs["ann_level_4"].dtype, CategoricalDtype):
         adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
@@ -84,13 +84,14 @@ def subset_data(input_file, AIRSPACE=False):
 
     # Subset data
     if AIRSPACE:
-        mask = adata.obs["cell_type"].isin(
-            ["AT1", "AT2", "Pericytes", 'EC capillary',
-             "Lymphatic EC", "EC arterial", "EC venous",
-             "Vascular smooth muscle"]
+        mask = adata.obs["subclusters"].isin(
+            ["AT1", "AT2", "Pericytes", 'EC capillary', "EC arterial", "EC venous",
+             "Lymphatic EC differentiating", "Lymphatic EC mature",
+             "Lymphatic EC proliferating", "Smooth muscle", "Smooth muscle FAM83D+",
+             "SM activated stress response"]
         )
     else:
-        mask = adata.obs["cell_type"].eq("Pericytes")
+        mask = adata.obs["subclusters"].eq("Pericytes")
 
     return adata[mask].copy()
 

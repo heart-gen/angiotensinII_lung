@@ -34,8 +34,8 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run analysis ****"
 OUTDIR="results"
 
-python ../_h/03.airspace_analysis.py \
-       --adata "airspace.hlca_core.dataset.h5ad" --outdir "${OUTDIR}"
+python ../_h/01.airspace_analysis.py \
+       --adata "airspace.hlca_full.dataset.h5ad" --outdir "${OUTDIR}"
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

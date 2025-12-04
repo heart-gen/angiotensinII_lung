@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=EM
-#SBATCH --job-name=core_subset
+#SBATCH --job-name=full_subset
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=24
 #SBATCH --time=03:00:00
-#SBATCH --output=logs/core_subsetting.log
+#SBATCH --output=logs/full_subsetting.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
