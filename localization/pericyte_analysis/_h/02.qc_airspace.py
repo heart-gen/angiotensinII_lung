@@ -38,6 +38,8 @@ def save_figure(fig, base_path: Path):
 
 
 def define_masks(adata: AnnData):
+    logging.info("Define masks")
+
     pericyte_mask = adata.obs["subclusters"].eq("Pericytes")
     ec_types = [
         "EC general capillary", "EC aerocyte capillary",
@@ -58,8 +60,10 @@ def define_masks(adata: AnnData):
 
 
 def denoise_agtr1_scvi(adata, batch_key="study", layer_raw=None, gene="AGTR1"):
-    # Use raw counts if available
-    if layer_raw is not None and layer_raw in adata.layers:
+    logging.info("Training scVI model on perivascular cells")
+
+    use_layer = layer_raw if layer_raw in adata.layers else None
+    if use_layer is not None:
         X_bak = adata.X
         adata.X = adata.layers[layer_raw]
 
@@ -71,22 +75,24 @@ def denoise_agtr1_scvi(adata, batch_key="study", layer_raw=None, gene="AGTR1"):
     adata.layers["scvi_denoised"] = den.values
     adata.obs[f"{gene}_scvi"] = den[gene].values
 
-    if layer_raw is not None and layer_raw in adata.layers:
-        adata.X = X_bak  # restore
+    if use_layer is not None:
+        adata.X = X_bak
 
     return adata
 
 
-def subset_anndata(adata: AnnData, mask=None, label="perivascular"):
+def subset_anndata(adata: AnnData, mask=None, label="perivascular", gene="AGTR1"):
+    logging.info("Subset data for training")
+
     adata_sub = adata[mask].copy()
     sc.pp.highly_variable_genes(adata_sub, n_top_genes=4000, batch_key="study")
-    if "AGTR1" in adata_sub.var_names:
-        adata_sub.var.loc["AGTR1", "highly_variable"] = True
+    if gene in adata_sub.var_names:
+        adata_sub.var.loc[gene, "highly_variable"] = True
 
     adata_sub = denoise_agtr1_scvi(
-        adata_sub, batch_key="study", layer_raw="counts", gene="AGTR1"
+        adata_sub, batch_key="study", layer_raw="counts", gene=gene
     )
-    adata.obs.loc[mask, f"AGTR1_scvi_{label}"] = adata_sub.obs["AGTR1_scvi"]
+    adata.obs.loc[mask, f"{gene}_scvi_{label}"] = adata_sub.obs[f"{gene}_scvi"]
     return adata
 
 
@@ -95,6 +101,8 @@ def write_summary_results(
     header: str = "AGTR1 scVI Model Evaluation Summary"
 ):
     """Write correlation and prediction comparison results to a summary text file."""
+    logging.info("Writing summary of results to file")
+
     lines = [
         f"{header}\n",
         "Pericyte AGTR1_scvi correlation (perivascular vs pericyte-only): "
@@ -115,6 +123,8 @@ def write_summary_results(
 
 
 def compare_predicted_agtr1(adata, method_col="AGTR1_scvi", pericyte_mask=None):
+    logging.info("Compare airspace scores after denoising")
+
     if pericyte_mask is None:
         pericyte_mask = adata.obs["subclusters"].eq("Pericytes")
 
@@ -141,6 +151,8 @@ def compare_predicted_agtr1(adata, method_col="AGTR1_scvi", pericyte_mask=None):
 
 
 def plot_corr(adata: AnnData, pericyte_mask=None, base: Path):
+    logging.info("Plot scatter of correlation")
+
     if pericyte_mask is None:
         pericyte_mask = adata.obs["subclusters"] == "Pericytes"
 
@@ -169,8 +181,6 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path):
     corrs.columns = ["r", "pval"]
    
     # Plot
-    plt.figure(figsize=(8, 6))
-
     g = sns.lmplot(
         data=df_melted, x="AGTR1_scvi", y="airspace_score", hue="Model",
         height=6, aspect=1.2, markers=["o", "s"], palette="Set1",
@@ -182,8 +192,8 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path):
     for model, row in corrs.iterrows():
         r_txt = f"{model}:\n$r = {row['r']:.2f}$, $p = {row['pval']:.1e}$"
         x_pos = 0.05 if "Perivascular" in model else 0.6
-        ax.ax.text(x_pos, 0.95, r_txt, transform=ax.ax.transAxes,
-                   verticalalignment='top', fontsize=12)
+        ax.text(x_pos, 0.95, r_txt, transform=ax.transAxes,
+                verticalalignment='top', fontsize=12)
 
     plt.xlabel("AGTR1 (scVI-denoised)")
     plt.ylabel("Airspace Score")
