@@ -1,0 +1,38 @@
+2025-12-04 18:00:10 - **** Job starts ****
+2025-12-04 18:00:10 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36419137
+Job name: peri_clustering
+Node name: 
+Hostname: r328
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-04 18:00:11 - **** Loading mamba environment ****
+2025-12-04 18:00:11 - **** Run subclustering ****
+2025-12-04 18:03:52,699 [INFO] Running Leiden clustering (resolution=0.5)...
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/03.pericyte_embeddings.py:79: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(
+WARNING: dendrogram data not found (using key=dendrogram_leiden). Running `sc.tl.dendrogram` with default parameters. For fine tuning it is recommended to run `sc.tl.dendrogram` independently.
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+yaml                6.0.2
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-04 18:04
+2025-12-04 18:05:10 - **** Job ends ****
