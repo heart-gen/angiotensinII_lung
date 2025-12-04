@@ -150,7 +150,7 @@ def write_summary_results(
     print(f"Summary results saved to: {filepath}")
 
 
-def plot_corr(adata: AnnData, pericyte_mask=None, base: Path):
+def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
     logging.info("Plot scatter of correlation")
 
     if pericyte_mask is None:
