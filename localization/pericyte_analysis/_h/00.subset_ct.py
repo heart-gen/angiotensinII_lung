@@ -86,9 +86,9 @@ def subset_data(input_file, AIRSPACE=False):
     if AIRSPACE:
         mask = adata.obs["subclusters"].isin(
             ["AT1", "AT2", "Pericytes", 'EC capillary', "EC arterial", "EC venous",
-             "Lymphatic EC differentiating", "Lymphatic EC mature",
-             "Lymphatic EC proliferating", "Smooth muscle", "Smooth muscle FAM83D+",
-             "SM activated stress response"]
+             "EC aerocyte capillary", "EC general capillary", "Lymphatic EC mature",
+             "Lymphatic EC differentiating",  "Lymphatic EC proliferating",
+             "Smooth muscle", "Smooth muscle FAM83D+", "SM activated stress response"]
         )
     else:
         mask = adata.obs["subclusters"].eq("Pericytes")
