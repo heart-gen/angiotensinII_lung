@@ -1,0 +1,84 @@
+2025-12-04 11:59:26 - **** Job starts ****
+2025-12-04 11:59:26 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36412339
+Job name: airspace_analysis
+Node name: 
+Hostname: r189
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-12-04 11:59:27 - **** Loading mamba environment ****
+2025-12-04 11:59:28 - **** Run analysis ****
+                             OLS Regression Results                            
+===============================================================================
+Dep. Variable:     mean_airspace_score   R-squared:                       0.039
+Model:                             OLS   Adj. R-squared:                 -0.036
+Method:                  Least Squares   F-statistic:                    0.5192
+Date:                 Thu, 04 Dec 2025   Prob (F-statistic):              0.722
+Time:                         12:01:20   Log-Likelihood:                 176.33
+No. Observations:                   56   AIC:                            -342.7
+Df Residuals:                       51   BIC:                            -332.5
+Df Model:                            4                                         
+Covariance Type:             nonrobust                                         
+=====================================================================================
+                        coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------
+Intercept             0.0543      0.004     12.565      0.000       0.046       0.063
+C(sex)[T.male]       -0.0011      0.003     -0.349      0.729      -0.007       0.005
+C(sex)[T.unknown]    -0.0077      0.011     -0.684      0.497      -0.030       0.015
+frac_AGTR1_pos       -0.0020      0.008     -0.264      0.793      -0.018       0.013
+age               -7.781e-05   7.21e-05     -1.080      0.285      -0.000    6.69e-05
+==============================================================================
+Omnibus:                       14.286   Durbin-Watson:                   1.316
+Prob(Omnibus):                  0.001   Jarque-Bera (JB):               16.027
+Skew:                          -1.079   Prob(JB):                     0.000331
+Kurtosis:                       4.486   Cond. No.                         366.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+            Mixed Linear Model Regression Results
+==============================================================
+Model:              MixedLM Dependent Variable: airspace_score
+No. Observations:   7157    Method:             REML          
+No. Groups:         56      Scale:              0.0009        
+Min. group size:    3       Log-Likelihood:     14696.5039    
+Max. group size:    1129    Converged:          Yes           
+Mean group size:    127.8                                     
+--------------------------------------------------------------
+                  Coef.   Std.Err.    z    P>|z| [0.025 0.975]
+--------------------------------------------------------------
+Intercept          0.088     0.005  17.088 0.000  0.078  0.098
+C(sex)[T.male]    -0.002     0.003  -0.808 0.419 -0.007  0.003
+C(sex)[T.unknown] -0.006     0.017  -0.374 0.708 -0.040  0.027
+AGTR1_detect      -0.004     0.001  -4.397 0.000 -0.005 -0.002
+age               -0.000     0.000  -1.986 0.047 -0.000 -0.000
+n_counts          -0.000     0.000 -10.169 0.000 -0.000 -0.000
+n_genes            0.000     0.000  10.954 0.000  0.000  0.000
+pct_mito          -0.127     0.092  -1.380 0.168 -0.308  0.054
+Group Var          0.000 64253.900                            
+dataset_vc Var     0.000 64253.900                            
+==============================================================
+
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+sklearn             1.7.2
+statsmodels         0.14.5
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-04 12:01
+2025-12-04 12:01:46 - **** Job ends ****
