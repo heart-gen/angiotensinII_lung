@@ -82,7 +82,7 @@ def denoise_agtr1_scvi(adata, batch_key="study", layer_raw=None, gene="AGTR1"):
 
 
 def subset_anndata(adata: AnnData, mask=None, label="perivascular", gene="AGTR1"):
-    logging.info("Subset data for training")
+    logging.info("Subset data for training: %s", label)
 
     adata_sub = adata[mask].copy()
     sc.pp.highly_variable_genes(adata_sub, n_top_genes=4000, batch_key="study")
@@ -94,32 +94,6 @@ def subset_anndata(adata: AnnData, mask=None, label="perivascular", gene="AGTR1"
     )
     adata.obs.loc[mask, f"{gene}_scvi_{label}"] = adata_sub.obs[f"{gene}_scvi"]
     return adata
-
-
-def write_summary_results(
-    filepath: Path, correlation_r: float, comparison_results: dict,
-    header: str = "AGTR1 scVI Model Evaluation Summary"
-):
-    """Write correlation and prediction comparison results to a summary text file."""
-    logging.info("Writing summary of results to file")
-
-    lines = [
-        f"{header}\n",
-        "Pericyte AGTR1_scvi correlation (perivascular vs pericyte-only): "
-        f"{correlation_r:.4f}\n",
-        "\nComparison Results (Perivascular model on Pericytes):",
-        f"  Threshold: {comparison_results['threshold']:.4f}",
-        f"  Coefficient: {comparison_results['coef']:.4f}",
-        f"  p-value: {comparison_results['pval']:.4g}",
-        f"  N pericytes: {comparison_results['n']}",
-        ""
-    ]
-
-    filepath = filepath.with_suffix(".txt")
-    with open(filepath, "w") as f:
-        f.write("\n".join(lines))
-
-    print(f"Summary results saved to: {filepath}")
 
 
 def compare_predicted_agtr1(adata, method_col="AGTR1_scvi", pericyte_mask=None):
@@ -148,6 +122,32 @@ def compare_predicted_agtr1(adata, method_col="AGTR1_scvi", pericyte_mask=None):
         "pval": float(res.pvalues["AGTR1_predpos"]),
         "n": int(df.shape[0])
     }
+
+
+def write_summary_results(
+    filepath: Path, correlation_r: float, comparison_results: dict,
+    header: str = "AGTR1 scVI Model Evaluation Summary"
+):
+    """Write correlation and prediction comparison results to a summary text file."""
+    logging.info("Writing summary of results to file")
+
+    lines = [
+        f"{header}\n",
+        "Pericyte AGTR1_scvi correlation (perivascular vs pericyte-only): "
+        f"{correlation_r:.4f}\n",
+        "\nComparison Results (Perivascular model on Pericytes):",
+        f"  Threshold: {comparison_results['threshold']:.4f}",
+        f"  Coefficient: {comparison_results['coef']:.4f}",
+        f"  p-value: {comparison_results['pval']:.4g}",
+        f"  N pericytes: {comparison_results['n']}",
+        ""
+    ]
+
+    filepath = filepath.with_suffix(".txt")
+    with open(filepath, "w") as f:
+        f.write("\n".join(lines))
+
+    print(f"Summary results saved to: {filepath}")
 
 
 def plot_corr(adata: AnnData, pericyte_mask=None, base: Path):

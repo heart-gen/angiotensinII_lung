@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=states_peri
+#SBATCH --job-name=airspace_denoising
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-node=32
 #SBATCH --time=03:00:00
-#SBATCH --output=logs/pericyte_states.log
+#SBATCH --output=logs/airspace_denoising.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -34,9 +34,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 log_message "**** Run analysis ****"
 OUTDIR="results"
 
-python ../_h/04.pericyte_states.py \
-       --adata "${OUTDIR}/pericytes_with_airspace_score.h5ad" \
-       --outdir "${OUTDIR}"
+python ../_h/02.qc_airspace.py
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
