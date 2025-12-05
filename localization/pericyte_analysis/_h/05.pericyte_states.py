@@ -9,20 +9,12 @@ Description:
     * arteriolar-like: NOTCH3, THY1
 - Combine distances + signatures into a single score to define:
     adata.obs['pericyte_state'] ∈ {'capillary_like', 'arteriolar_like'}
-
-Outputs:
-- adata.obs['pericyte_state']
-- adata.obs['airspace_dist_z'] (z-scored graph distance for pericytes)
-- adata.obs['capillary_sig_z'], adata.obs['arteriolar_sig_z'],
-  adata.obs['sig_diff_z'] (z-scored signature scores & difference)
-- QC markdown: pericyte_state_qc.md
 """
-
-import argparse
-import logging
+import logging, argparse
 from pathlib import Path
 from typing import Sequence, Dict, List
 
+import yaml
 import numpy as np
 import pandas as pd
 import scanpy as sc
@@ -49,38 +41,24 @@ def configure_logging() -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(__doc__)
-    parser.add_argument(
-        "--adata", type=Path, required=True,
-        help="Input AnnData (e.g., airspace.hlca_full.dataset.h5ad)"
-    )
-    parser.add_argument(
-        "--outdir", type=Path, required=True,
-        help="Output directory for QC and updated AnnData"
-    )
-    parser.add_argument(
-        "--use-rep", type=str, default="X_pca_harmony",
-        help="obsm key for latent representation (default: X_pca_harmony)"
-    )
-    parser.add_argument(
-        "--cluster-key", type=str, default="subclusters",
-        help="obs column with fine cell types (default: subclusters)"
-    )
-    parser.add_argument(
-        "--pericyte-label", type=str, default="Pericytes",
-        help="Value in cluster-key used for pericytes"
-    )
-    parser.add_argument(
-        "--ec-labels", nargs="+",
-        default=["EC aerocyte capillary", "EC general capillary"],
-        help="Labels treated as alveolar capillary EC"
-    )
-    parser.add_argument(
-        "--neighbors", type=int, default=30,
-        help="n_neighbors for graph construction if neighbors not present"
-    )
-    parser.add_argument(
-        "--seed", type=int, default=13, help="Random seed for neighbors"
-    )
+    parser.add_argument("--adata", type=Path, required=True,
+                        help="Input AnnData with airspace score")
+    parser.add_argument("--outdir", type=Path, required=True,
+                        help="Output directory for QC and updated AnnData")
+    parser.add_argument("--state-yaml", required=True, type=Path,
+                        help="YAML with pericyte states genes")
+    parser.add_argument("--use-rep", type=str, default="X_pca_harmony",
+                        help="obsm key for latent representation (default: X_pca_harmony)")
+    parser.add_argument("--cluster-key", type=str, default="subclusters",
+                        help="obs column with fine cell types (default: subclusters)")
+    parser.add_argument("--pericyte-label", type=str, default="Pericytes",
+                        help="Value in cluster-key used for pericytes")
+    parser.add_argument("--ec-labels", nargs="+",
+                        default=["EC aerocyte capillary", "EC general capillary"],
+                        help="Labels treated as alveolar capillary EC")
+    parser.add_argument("--neighbors", type=int, default=50,
+                        help="n_neighbors for graph construction if neighbors not present")
+    parser.add_argument("--seed", type=int, default=13, help="Random seed for neighbors")
     return parser.parse_args()
 
 
@@ -102,7 +80,7 @@ def ensure_neighbors(adata: AnnData, use_rep: str, n_neighbors: int, seed: int) 
     )
     sc.pp.neighbors(
         adata, use_rep=use_rep, n_neighbors=n_neighbors,
-        metric="euclidean", random_state=seed,
+        metric="cosine", random_state=seed,
     )
 
 
@@ -152,35 +130,65 @@ def compute_graph_distance_to_ec(
     return pericyte_to_ec
 
 
+def per_donor_z(adata, cols, donor_key="donor_id"):
+    """Z-score columns within donor to remove donor effects."""
+    df = adata.obs
+    for col in cols:
+        x = df[col]
+        df[col + "_z"] = (
+            x.groupby(df[donor_key], observed=False)
+             .transform(lambda v: (v - v.mean()) / (v.std(ddof=0) + 1e-8))
+        )
+    return adata
+
+
+def rank_module_score(adata, genes, score_name, layer="logcounts"):
+    """
+    AUCell-ish: per cell, rank genes; score = mean percentile of target genes.
+    Works when AUCell/decoupler aren't installed.
+    """
+    X = adata.layers[layer] if (layer and layer in adata.layers) else adata.X
+    X = X.toarray() if hasattr(X, "toarray") else np.asarray(X)
+    # ranks: higher expr -> higher rank
+    ranks = np.argsort(np.argsort(X, axis=1), axis=1)
+    percentiles = ranks / (X.shape[1] - 1 + 1e-9)
+    idx = [i for i, g in enumerate(adata.var_names) if g in genes]
+    if len(idx) == 0:
+        adata.obs[score_name] = np.nan
+    else:
+        adata.obs[score_name] = percentiles[:, idx].mean(axis=1)
+    return adata
+
+
+def load_state_genes(path: Path) -> Dict[str, List[str]]:
+    """Load pericyte-state marker panels from YAML."""
+    data = yaml.safe_load(path.read_text())
+    if "pericyte_state" not in data:
+        raise ValueError("YAML must contain top-level key 'pericyte_state'")
+    return data["pericyte_state"]
+
+
 def score_signatures(
-    adata: AnnData, capillary_genes: Sequence[str] = ("KCNJ8", "ABCC9"),
-    arteriolar_genes: Sequence[str] = ("NOTCH3", "RGS5", "ACTA2"),
-    layer: str | None = "logcounts",
-) -> None:
+    adata: AnnData, states: Dict[str, Dict[str, str]],
+    layer: str | None = "logcounts", method="rank"):
     """
     Compute simple module scores for capillary vs arteriolar signatures.
-    Uses scanpy.tl.score_genes.
     """
-    # Filter gene lists to those present
-    cap_genes_present = [g for g in capillary_genes if g in adata.var_names]
-    art_genes_present = [g for g in arteriolar_genes if g in adata.var_names]
+    cap = [g for g in states["capillary"] if g in adata.var_names]
+    art = [g for g in states["arteriolar"] if g in adata.var_names]
 
-    logging.info("Capillary signature genes present: %s", cap_genes_present)
-    logging.info("Arteriolar signature genes present: %s", art_genes_present)
+    logging.info("Capillary signature genes present: %s", cap)
+    logging.info("Arteriolar signature genes present: %s", art)
 
-    if not cap_genes_present:
-        logging.warning("No capillary genes found in var_names!")
-    if not art_genes_present:
-        logging.warning("No arteriolar genes found in var_names!")
-
-    sc.tl.score_genes(
-        adata, gene_list=cap_genes_present, score_name="capillary_sig",
-        layer=layer, use_raw=False,
-    )
-    sc.tl.score_genes(
-        adata, gene_list=art_genes_present, score_name="arteriolar_sig",
-        layer=layer, use_raw=False,
-    )
+    if method == "rank":
+        rank_module_score(adata, cap, "capillary_sig", layer=layer)
+        rank_module_score(adata, art, "arteriolar_sig", layer=layer)
+    else:
+        sc.tl.score_genes(adata, gene_list=cap, score_name="capillary_sig",
+                          layer=layer, use_raw=False)
+        sc.tl.score_genes(adata, gene_list=art, score_name="arteriolar_sig",
+                          layer=layer, use_raw=False)
+    return adata
 
 
 def zscore_series(x: pd.Series) -> pd.Series:
@@ -194,77 +202,56 @@ def zscore_series(x: pd.Series) -> pd.Series:
 
 def assign_pericyte_states(
     adata: AnnData, cluster_key: str, pericyte_label: str,
-    min_donors_per_state: int = 5, donor_key: str = "donor_id",
+    donor_key: str = "donor_id", margin=0.4,
 ) -> Dict[str, int]:
     """
-    Combine z-scored distance + signature scores into a pericyte_state:
-        state = 'capillary_like' if combined_score >= 0 else 'arteriolar_like'
-    combined_score = -airspace_dist_z + sig_diff_z
-
-    Returns a dict with donor counts per state.
+    Combine z-scored distance + signature scores into a pericyte_state.
     """
-    obs = adata.obs
-    pericyte_mask = obs[cluster_key].astype(str) == pericyte_label
+    pericyte_mask = adata.obs[cluster_key].astype(str) == pericyte_label
 
-    # Z-score distance & signatures within pericytes only
-    dist_z = pd.Series(np.nan, index=obs.index)
-    sig_cap_z = pd.Series(np.nan, index=obs.index)
-    sig_art_z = pd.Series(np.nan, index=obs.index)
+    for col in ["capillary_sig", "arteriolar_sig", "airspace_dist"]:
+        if col in adata.obs.columns:
+            per_donor_z(adata, [col], donor_key=donor_key)
 
-    dist_z.loc[pericyte_mask] = zscore_series(obs.loc[pericyte_mask, "airspace_dist"])
-    sig_cap_z.loc[pericyte_mask] = zscore_series(obs.loc[pericyte_mask, "capillary_sig"])
-    sig_art_z.loc[pericyte_mask] = zscore_series(obs.loc[pericyte_mask, "arteriolar_sig"])
+    ad = adata.obs
+    ad["sig_diff_z"] = ad["capillary_sig_z"] - ad["arteriolar_sig_z"]
+    # proximity feature: smaller distance -> more capillary-like
+    prox = -ad["airspace_dist_z"]
+    prox = prox.fillna(prox.median())
+    sigd = ad["sig_diff_z"].fillna(0)
 
-    obs["airspace_dist_z"] = dist_z
-    obs["capillary_sig_z"] = sig_cap_z
-    obs["arteriolar_sig_z"] = sig_art_z
-    obs["sig_diff_z"] = sig_cap_z - sig_art_z
-
-    # Combined score: higher → more capillary-like
-    combined = -dist_z + obs["sig_diff_z"]
-    obs["pericyte_combined_score"] = combined
+    # Simple weight
+    w_sigd, w_prox = 1.0, 1.0
+    combined = (w_sigd * sigd) + (w_prox * prox)
+    ad["pericyte_combined_score"] = combined
 
     # Assign states only within pericytes
-    state = pd.Series(np.nan, index=obs.index, dtype=object)
-    state.loc[pericyte_mask & combined.notna()] = np.where(
-        combined.loc[pericyte_mask & combined.notna()] >= 0,
-        "capillary_like", "arteriolar_like",
-    )
-    obs["pericyte_state"] = state
+    state = pd.Series(index=ad.index, dtype=object)
+    state[:] = np.nan
+    state[(per_mask) & (combined >=  margin)] = "capillary_like"
+    state[(per_mask) & (combined <= -margin)] = "arteriolar_like"
+    state[(per_mask) & state.isna()] = "ambiguous"
+    adata.obs["pericyte_state"] = state
 
-    # Donor balance
-    state_donor_counts: Dict[str, int] = {}
-    if donor_key in obs.columns:
-        for st in ["capillary_like", "arteriolar_like"]:
-            mask = (obs["pericyte_state"] == st)
-            donors = obs.loc[mask & pericyte_mask, donor_key].dropna().unique()
-            state_donor_counts[st] = len(donors)
-            logging.info("State %s has %d donors", st, len(donors))
-
-        for st, nd in state_donor_counts.items():
-            if nd < min_donors_per_state:
-                logging.warning(
-                    "State %s has only %d donors (< %d); donor balance criterion FAILED.",
-                    st, nd, min_donors_per_state
-                )
-    else:
-        logging.warning("No donor_key '%s' in obs; cannot assess donor balance.", donor_key)
-
-    return state_donor_counts
+    return {
+        s: ad.loc[(state == s) & per_mask, donor_key].dropna().nunique()
+        for s in ["capillary_like", "arteriolar_like", "ambiguous"]
+    }
 
 
 def run_leiden_on_pericytes(
     adata: AnnData, use_rep: str, cluster_key: str = "subclusters",
     pericyte_label: str = "Pericytes", resolution: float = 0.5,
-    neighbors_key: str | None = None, leiden_key: str = "leiden_pericytes",
+    n_neighbors: int = 50, leiden_key: str = "leiden_pericytes",
+    seed: int = 13
 ) -> AnnData:
     """
     Run Leiden clustering on pericytes only, using given representation.
     """
     per = adata[adata.obs[cluster_key] == pericyte_label].copy()
-    sc.pp.neighbors(
-        per, use_rep=use_rep, n_neighbors=75, random_state=13,
-    )
+    sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=n_neighbors,
+                    metric="cosine", random_state=seed)
+    sc.tl.umap(adata, min_dist=0.9, spread=1.5, random_state=seed)
     sc.tl.leiden(per, key_added=leiden_key, resolution=resolution)
 
     # Map cluster labels back to full AnnData
@@ -543,13 +530,13 @@ def main() -> None:
 
     # Signature scores
     layer = "logcounts" if "logcounts" in adata.layers else None
-    score_signatures(adata, layer=layer)
+    states = load_state_genes(args.state_yaml)
+    score_signatures(adata, states, layer=layer)
 
     # Assign states
     donor_counts = assign_pericyte_states(
-        adata, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label,
-        min_donors_per_state=5, donor_key="donor_id",
+        adata, cluster_key=args.cluster_key, pericyte_label=args.pericyte_label,
+        donor_key="donor_id", margin=0.4
     )
 
     # QC plots and report
@@ -578,10 +565,9 @@ def main() -> None:
 
     # De novo clustering on pericytes
     adata = run_leiden_on_pericytes(
-        adata, use_rep=args.use_rep,
-        cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label,
-        resolution=1.0, leiden_key="leiden_pericytes",
+        adata, use_rep=args.use_rep, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, resolution=0.5,
+        leiden_key="leiden_pericytes", n_neighbors=args.neighbors, seed=args.seed
     )
 
     # Compare pericyte_state vs Leiden
