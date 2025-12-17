@@ -87,63 +87,34 @@ def pericyte_to_nearest_ec_latent(
     pericyte_label: str="Pericytes", n_neighbors: int=1, metric: str="euclidean",
     ec_labels: Sequence[str]=("EC aerocyte capillary", "EC general capillary"),
 ) -> np.ndarray:
+    if use_rep not in adata.obsm_keys():
+        raise KeyError(f"{use_rep!r} not found in adata.obsm")
+
     Z = adata.obsm[use_rep]
     labs = adata.obs[cluster_key].astype(str)
     mask_peri = labs.eq(pericyte_label).values
     mask_ec   = labs.isin(ec_labels).values
-    if not mask_ec.any():
-        raise ValueError("No EC cells found for ec_labels")
 
+    n_cells = adata.n_obs
+    n_per   = int(mask_peri.sum())
+    n_ec    = int(mask_ec.sum())
+
+    if n_ec == 0:
+        raise ValueError(f"No EC cells found for labels={ec_labels}")
+
+    logging.info(
+        "[NN-latent] use_rep=%s | metric=%s | n_cells=%d | pericytes=%d | EC=%d | k=%d",
+        use_rep, metric, n_cells, n_per, n_ec, n_neighbors
+    )
+    
     nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric=metric).fit(Z[mask_ec])
-    dist, _ = nbrs.kneighbors(Z[mask_peri], n_neighbors=n_neighbors, return_distance=True)
-    dmin = dist[:, 0]
+    dist, _ = nbrs.kneighbors(Z[mask_peri], n_neighbors=n_neighbors,
+                              return_distance=True)
+    dmin = dist[:, 0].astype(np.float32)
     pericyte_to_ec = np.full(adata.n_obs, np.nan, dtype=np.float32)
-    pericyte_to_ec[mask_peri] = dmin.astype(np.float32)
+    pericyte_to_ec[mask_peri] = dmin
     return pericyte_to_ec
 
-
-def pericyte_to_ec_hops(
-    adata: AnnData, cluster_key: str="subclusters", pericyte_label: str="Pericytes",
-    ec_labels: Sequence[str]=("EC aerocyte capillary","EC general capillary"),
-    neighbors_key=None, max_depth: int=8,
-) -> np.ndarray:
-    A = adata.obsp.get("connectivities", None)
-    if A is None:
-        A = adata.obsp.get("distances", None)
-        if A is None:
-            raise ValueError("No graph in adata.obsp (connectivities/distances)")
-        A = A.copy()
-        A.data[:] = 1.0  # binarize
-
-    A = A.tocsr().astype(np.float32)
-    A.setdiag(0); A.eliminate_zeros()
-
-    labs = adata.obs[cluster_key].astype(str)
-    src = labs.isin(ec_labels).values       # EC sources
-    tgt = labs.eq(pericyte_label).values    # pericyte targets
-
-    n = A.shape[0]
-    frontier = src.astype(bool).copy()
-    seen = frontier.copy()
-    dist = np.full(n, np.inf, dtype=np.float32)
-    dist[frontier] = 0.0
-
-    depth = 0
-    remaining_targets = tgt.sum()
-    while depth < max_depth and remaining_targets > 0 and frontier.any():
-        depth += 1
-        # next frontier = neighbors of current frontier not yet seen
-        nxt = (A[frontier].sum(axis=0).A1 > 0)  # any neighbor reached
-        nxt = np.logical_and(nxt, ~seen)
-        dist[nxt] = depth
-        seen |= nxt
-        remaining_targets = np.count_nonzero(np.logical_and(tgt, ~seen))
-        frontier = nxt
-
-    pericyte_to_ec = np.full(n, np.nan, dtype=np.float32)
-    mask = np.logical_and(tgt, np.isfinite(dist))
-    pericyte_to_ec[mask] = dist[mask]
-    return pericyte_to_ec
 
 # def compute_graph_distance_to_ec(
 #     adata: AnnData, cluster_key: str, pericyte_label: str, ec_labels: Sequence[str],
@@ -192,16 +163,12 @@ def pericyte_to_ec_hops(
 #     return pericyte_to_ec
 
 
-def per_donor_z(adata, cols, donor_key="donor_id"):
-    """Z-score columns within donor to remove donor effects."""
-    df = adata.obs
-    for col in cols:
-        x = df[col]
-        df[col + "_z"] = (
-            x.groupby(df[donor_key], observed=False)
-             .transform(lambda v: (v - v.mean()) / (v.std(ddof=0) + 1e-8))
-        )
-    return adata
+def load_state_genes(path: Path) -> Dict[str, List[str]]:
+    """Load pericyte-state marker panels from YAML."""
+    data = yaml.safe_load(path.read_text())
+    if "pericyte_state" not in data:
+        raise ValueError("YAML must contain top-level key 'pericyte_state'")
+    return data["pericyte_state"]
 
 
 def rank_module_score(adata, genes, score_name, layer="logcounts"):
@@ -222,12 +189,39 @@ def rank_module_score(adata, genes, score_name, layer="logcounts"):
     return adata
 
 
-def load_state_genes(path: Path) -> Dict[str, List[str]]:
-    """Load pericyte-state marker panels from YAML."""
-    data = yaml.safe_load(path.read_text())
-    if "pericyte_state" not in data:
-        raise ValueError("YAML must contain top-level key 'pericyte_state'")
-    return data["pericyte_state"]
+def rank_module_score_chunked(
+    adata: AnnData, genes: Sequence[str], score_name: str,
+    layer: str = "logcounts", chunk_size: int = 1000,
+):
+    """
+    Memory-efficient gene module scoring using ranks and chunked processing.
+    """
+    X = adata.layers[layer] if layer and layer in adata.layers else adata.X
+    var_names = adata.var_names
+
+    gene_set  = set(genes)
+    gene_mask = np.array([g in gene_set for g in var_names])
+    idx = np.where(gene_mask)[0]
+
+    if len(idx) == 0:
+        adata.obs[score_name] = np.nan
+        return adata
+
+    n_cells = X.shape[0]
+    scores = np.empty(n_cells, dtype=np.float32)
+
+    for start in range(0, n_cells, chunk_size):
+        end = min(start + chunk_size, n_cells)
+        X_chunk = X[start:end, idx]
+        if issparse(X_chunk):
+            X_chunk = X_chunk.toarray()
+
+        ranks = np.argsort(np.argsort(X_chunk, axis=1), axis=1)
+        percentiles = ranks / (X_chunk.shape[1] - 1 + 1e-9)
+        scores[start:end] = percentiles.mean(axis=1)
+
+    adata.obs[score_name] = scores
+    return adata
 
 
 def score_signatures(
@@ -253,13 +247,16 @@ def score_signatures(
     return adata
 
 
-def zscore_series(x: pd.Series) -> pd.Series:
-    """Simple z-score with NaN handling."""
-    m = x.mean(skipna=True)
-    s = x.std(skipna=True)
-    if s == 0 or np.isnan(s):
-        return pd.Series(np.zeros_like(x), index=x.index)
-    return (x - m) / s
+def per_donor_z(adata, cols, donor_key="donor_id"):
+    """Z-score columns within donor to remove donor effects."""
+    df = adata.obs
+    for col in cols:
+        x = df[col]
+        df[col + "_z"] = (
+            x.groupby(df[donor_key], observed=False)
+             .transform(lambda v: (v - v.mean()) / (v.std(ddof=0) + 1e-8))
+        )
+    return adata
 
 
 def assign_pericyte_states(
@@ -310,15 +307,15 @@ def run_leiden_on_pericytes(
     """
     Run Leiden clustering on pericytes only, using given representation.
     """
-    per = adata[adata.obs[cluster_key] == pericyte_label].copy()
-    sc.pp.neighbors(per, use_rep=use_rep, n_neighbors=n_neighbors,
+    peri = adata[adata.obs[cluster_key] == pericyte_label].copy()
+    sc.pp.neighbors(peri, use_rep=use_rep, n_neighbors=n_neighbors,
                     metric="cosine", random_state=seed)
-    sc.tl.umap(per, min_dist=0.9, spread=1.5, random_state=seed)
-    sc.tl.leiden(per, key_added=leiden_key, resolution=resolution)
+    sc.tl.umap(peri, min_dist=0.9, spread=1.5, random_state=seed)
+    sc.tl.leiden(peri, key_added=leiden_key, resolution=resolution)
 
     # Map cluster labels back to full AnnData
     adata.obs[leiden_key] = np.nan
-    adata.obs.loc[per.obs_names, leiden_key] = per.obs[leiden_key].astype(str).values
+    adata.obs.loc[peri.obs_names, leiden_key] = peri.obs[leiden_key].astype(str).values
 
     return adata
 
@@ -328,19 +325,19 @@ def analyze_leiden_vs_pericyte_state(
     pericyte_label: str = "Pericytes", state_key: str = "pericyte_state",
     leiden_key: str = "leiden_pericytes",
 ) -> None:
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
 
     # Drop cells without state or cluster
-    mask = per[state_key].notna() & per[leiden_key].notna()
-    per = per.loc[mask].copy()
+    mask = peri[state_key].notna() & peri[leiden_key].notna()
+    peri = peri.loc[mask].copy()
 
     # Contingency table
-    tab = pd.crosstab(per[leiden_key], per[state_key], normalize="index")
+    tab = pd.crosstab(peri[leiden_key], peri[state_key], normalize="index")
     tab.to_csv(outdir / "leiden_vs_pericyte_state.csv")
 
     # Metrics of alignment
-    ari = adjusted_rand_score(per[state_key], per[leiden_key])
-    nmi = normalized_mutual_info_score(per[state_key], per[leiden_key])
+    ari = adjusted_rand_score(peri[state_key], peri[leiden_key])
+    nmi = normalized_mutual_info_score(peri[state_key], peri[leiden_key])
 
     with open(outdir / "leiden_vs_pericyte_state_summary.txt", "w") as fh:
         fh.write(f"Adjusted Rand Index (ARI): {ari:.3f}\n")
@@ -366,12 +363,12 @@ def analyze_leiden_vs_airspace(
     pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
     score_key: str = "airspace_dist_z",
 ) -> None:
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    per = per[per[leiden_key].notna() & per[score_key].notna()].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = peri[peri[leiden_key].notna() & peri[score_key].notna()].copy()
 
     # Cluster-level stats
     stats = (
-        per.groupby(leiden_key)[score_key]
+        peri.groupby(leiden_key)[score_key]
         .agg(["mean", "std", "count"])
         .rename(columns={"count": "n_cells"})
         .reset_index()
@@ -380,7 +377,7 @@ def analyze_leiden_vs_airspace(
 
     # Violin plot
     plt.figure(figsize=(max(6, 1.2 * stats.shape[0]), 4))
-    sns.violinplot(data=per, x=leiden_key, y=score_key, cut=0)
+    sns.violinplot(data=peri, x=leiden_key, y=score_key, cut=0)
     plt.ylabel(score_key)
     plt.xlabel("Leiden cluster")
     plt.tight_layout()
@@ -397,12 +394,12 @@ def statistical_tests_continuous_vs_leiden(
     """
     Test whether the continuous score differs among Leiden clusters.
     """
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    per = per[per[leiden_key].notna() & per[score_key].notna()].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = peri[peri[leiden_key].notna() & peri[score_key].notna()].copy()
 
     groups = {
         cl: vals[score_key].dropna().values
-        for cl, vals in per.groupby(leiden_key)
+        for cl, vals in peri.groupby(leiden_key)
         if len(vals[score_key].dropna()) > 1
     }
 
@@ -445,10 +442,10 @@ def statistical_tests_state_vs_leiden(
     leiden_key: str = "leiden_pericytes",
 ):
     """Chi-square test and Cramer's V"""
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    per = per[per[state_key].notna() & per[leiden_key].notna()].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = peri[peri[state_key].notna() & peri[leiden_key].notna()].copy()
 
-    tab = pd.crosstab(per[state_key], per[leiden_key])
+    tab = pd.crosstab(peri[state_key], peri[leiden_key])
     chi2, p, dof, expected = chi2_contingency(tab)
 
     # Cramer's V
@@ -471,16 +468,16 @@ def statistical_tests_state_vs_leiden(
 def plot_violin_by_state(
     adata: AnnData, cluster_key: str, pericyte_label: str, outdir: Path,
 ) -> None:
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
 
     def _violin(col: str, fname: str, ylabel: str):
         plt.figure(figsize=(5, 5))
         sns.violinplot(
-            data=per, x="pericyte_state", y=col,
+            data=peri, x="pericyte_state", y=col,
             order=["capillary_like", "arteriolar_like"], cut=0,
         )
         sns.stripplot(
-            data=per, x="pericyte_state", y=col,
+            data=peri, x="pericyte_state", y=col,
             order=["capillary_like", "arteriolar_like"],
             color="black", size=2, alpha=0.4,
         )
@@ -501,13 +498,13 @@ def plot_batch_composition(
     cluster_key: str = "subclusters", pericyte_label: str = "Pericytes",
 ) -> Dict[str, pd.DataFrame]:
     """Stacked bar plots of pericyte_state composition across batch/dataset."""
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
     results: Dict[str, pd.DataFrame] = {}
 
     for key in batch_keys:
-        if key not in per.columns:
+        if key not in peri.columns:
             continue
-        tab = pd.crosstab(per[key], per[state_key], normalize="index")
+        tab = pd.crosstab(peri[key], peri[state_key], normalize="index")
         results[key] = tab
 
         plt.figure(figsize=(max(5, 1.2 * tab.shape[0]), 4))
@@ -527,14 +524,14 @@ def write_qc_report(
     outdir: Path, adata: AnnData, cluster_key: str, pericyte_label: str,
     donor_counts: Dict[str, int], batch_tables: Dict[str, pd.DataFrame],
 ) -> None:
-    per = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    n_per = per.shape[0]
-    state_counts = per["pericyte_state"].value_counts(dropna=False)
+    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
+    n_peri = peri.shape[0]
+    state_counts = peri["pericyte_state"].value_counts(dropna=False)
 
     lines: List[str] = []
     lines.append("# Pericyte state QC")
     lines.append("")
-    lines.append(f"- Total pericytes: **{n_per}**")
+    lines.append(f"- Total pericytes: **{n_peri}**")
     lines.append("- Pericyte states (cell counts):")
     for st, cnt in state_counts.items():
         lines.append(f"  - `{st}`: {cnt}")
@@ -588,15 +585,12 @@ def main() -> None:
     #     pericyte_label=args.pericyte_label,
     #     ec_labels=args.ec_labels,
     # )
-    adata.obs["airspace_dist"] = pericyte_to_nearest_ec_latent(
+    nn_dist = pericyte_to_nearest_ec_latent(
         adata, use_rep=args.use_rep, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label, ec_labels=tuple(args.ec_labels),
-        n_neighbors=1, metric="euclidean"  # or "cosine"
+        pericyte_label=args.pericyte_label, n_neighbors=1,
+        ec_labels=tuple(args.ec_labels)
     )
-    adata.obs["airspace_dist_hops"] = pericyte_to_ec_hops(
-        adata, cluster_key=args.cluster_key, pericyte_label=args.pericyte_label,
-        ec_labels=tuple(args.ec_labels), max_depth=8
-    )
+    adata.obs["airspace_dist"] = nn_dist
 
     # Signature scores
     layer = "logcounts" if "logcounts" in adata.layers else None
