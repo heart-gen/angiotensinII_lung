@@ -10,23 +10,21 @@ Description:
 - Combine distances + signatures into a single score to define:
     adata.obs['pericyte_state'] ∈ {'capillary_like', 'arteriolar_like'}
 """
-import logging, argparse
-from pathlib import Path
-from typing import Sequence, Dict, List
-
-import yaml
 import numpy as np
 import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
+from pathlib import Path
 from scipy import sparse
 from anndata import AnnData
+import logging, argparse, yaml
 import matplotlib.pyplot as plt
-from scipy.sparse import issparse
+from typing import Sequence, Dict, List
 from scipy.stats import chi2_contingency
 from scipy.stats import f_oneway, kruskal
-from scipy.sparse.csgraph import shortest_path
+from scipy.sparse import issparse, csr_matrix
+from sklearn.neighbors import NearestNeighbors
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
 sns.set_context("talk")
@@ -84,50 +82,114 @@ def ensure_neighbors(adata: AnnData, use_rep: str, n_neighbors: int, seed: int) 
     )
 
 
-def compute_graph_distance_to_ec(
-    adata: AnnData, cluster_key: str, pericyte_label: str, ec_labels: Sequence[str],
+def pericyte_to_nearest_ec_latent(
+    adata: AnnData, use_rep: str="X_pca_harmony", cluster_key: str="subclusters",
+    pericyte_label: str="Pericytes", n_neighbors: int=1, metric: str="euclidean",
+    ec_labels: Sequence[str]=("EC aerocyte capillary", "EC general capillary"),
 ) -> np.ndarray:
-    """
-    Compute shortest-path distance from each pericyte to the nearest EC
-    (from specified ec_labels) using the neighbors graph.
-    """
-    if "distances" not in adata.obsp:
-        raise ValueError("adata.obsp['distances'] missing; run sc.pp.neighbors first.")
+    Z = adata.obsm[use_rep]
+    labs = adata.obs[cluster_key].astype(str)
+    mask_peri = labs.eq(pericyte_label).values
+    mask_ec   = labs.isin(ec_labels).values
+    if not mask_ec.any():
+        raise ValueError("No EC cells found for ec_labels")
 
-    dist_graph = adata.obsp["distances"]
-    if not issparse(dist_graph):
-        dist_graph = sparse.csr_matrix(dist_graph)
-
-    dist_graph = dist_graph.maximum(dist_graph.T)
-
-    n_cells = adata.n_obs
-    cluster = adata.obs[cluster_key].astype(str)
-
-    pericyte_mask = cluster == pericyte_label
-    ec_mask = cluster.isin(ec_labels)
-
-    if ec_mask.sum() == 0:
-        raise ValueError(f"No EC cells found for labels={ec_labels}")
-
-    pericyte_idx = np.where(pericyte_mask)[0]
-    ec_idx = np.where(ec_mask)[0]
-
-    logging.info(
-        "Computing shortest paths from %d EC cells to all %d cells.",
-        ec_idx.size, n_cells,
-    )
-
-    # distances from each EC cell to all cells
-    dist_from_ec = shortest_path(
-        dist_graph, directed=False, unweighted=False,
-        indices=ec_idx, overwrite=False,
-    )
-
-    # min distance from any EC to each cell
-    min_to_ec = np.min(dist_from_ec, axis=0)
-    pericyte_to_ec = np.full(n_cells, np.nan, dtype=float)
-    pericyte_to_ec[pericyte_idx] = min_to_ec[pericyte_idx]
+    nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric=metric).fit(Z[mask_ec])
+    dist, _ = nbrs.kneighbors(Z[mask_peri], n_neighbors=n_neighbors, return_distance=True)
+    dmin = dist[:, 0]
+    pericyte_to_ec = np.full(adata.n_obs, np.nan, dtype=np.float32)
+    pericyte_to_ec[mask_peri] = dmin.astype(np.float32)
     return pericyte_to_ec
+
+
+def pericyte_to_ec_hops(
+    adata: AnnData, cluster_key: str="subclusters", pericyte_label: str="Pericytes",
+    ec_labels: Sequence[str]=("EC aerocyte capillary","EC general capillary"),
+    neighbors_key=None, max_depth: int=8,
+) -> np.ndarray:
+    A = adata.obsp.get("connectivities", None)
+    if A is None:
+        A = adata.obsp.get("distances", None)
+        if A is None:
+            raise ValueError("No graph in adata.obsp (connectivities/distances)")
+        A = A.copy()
+        A.data[:] = 1.0  # binarize
+
+    A = A.tocsr().astype(np.float32)
+    A.setdiag(0); A.eliminate_zeros()
+
+    labs = adata.obs[cluster_key].astype(str)
+    src = labs.isin(ec_labels).values       # EC sources
+    tgt = labs.eq(pericyte_label).values    # pericyte targets
+
+    n = A.shape[0]
+    frontier = src.astype(bool).copy()
+    seen = frontier.copy()
+    dist = np.full(n, np.inf, dtype=np.float32)
+    dist[frontier] = 0.0
+
+    depth = 0
+    remaining_targets = tgt.sum()
+    while depth < max_depth and remaining_targets > 0 and frontier.any():
+        depth += 1
+        # next frontier = neighbors of current frontier not yet seen
+        nxt = (A[frontier].sum(axis=0).A1 > 0)  # any neighbor reached
+        nxt = np.logical_and(nxt, ~seen)
+        dist[nxt] = depth
+        seen |= nxt
+        remaining_targets = np.count_nonzero(np.logical_and(tgt, ~seen))
+        frontier = nxt
+
+    pericyte_to_ec = np.full(n, np.nan, dtype=np.float32)
+    mask = np.logical_and(tgt, np.isfinite(dist))
+    pericyte_to_ec[mask] = dist[mask]
+    return pericyte_to_ec
+
+# def compute_graph_distance_to_ec(
+#     adata: AnnData, cluster_key: str, pericyte_label: str, ec_labels: Sequence[str],
+# ) -> np.ndarray:
+#     """
+#     Compute shortest-path distance from each pericyte to the nearest EC
+#     (from specified ec_labels) using the neighbors graph.
+#     """
+#     from scipy.sparse.csgraph import shortest_path
+#     if "distances" not in adata.obsp:
+#         raise ValueError("adata.obsp['distances'] missing; run sc.pp.neighbors first.")
+
+#     dist_graph = adata.obsp["distances"]
+#     if not issparse(dist_graph):
+#         dist_graph = sparse.csr_matrix(dist_graph)
+
+#     dist_graph = dist_graph.maximum(dist_graph.T)
+
+#     n_cells = adata.n_obs
+#     cluster = adata.obs[cluster_key].astype(str)
+
+#     pericyte_mask = cluster == pericyte_label
+#     ec_mask = cluster.isin(ec_labels)
+
+#     if ec_mask.sum() == 0:
+#         raise ValueError(f"No EC cells found for labels={ec_labels}")
+
+#     pericyte_idx = np.where(pericyte_mask)[0]
+#     ec_idx = np.where(ec_mask)[0]
+
+#     logging.info(
+#         "Computing shortest paths from %d EC cells to all %d cells.",
+#         ec_idx.size, n_cells,
+#     )
+
+#     # distances from each EC cell to all cells
+#     dist_from_ec = shortest_path(
+#         dist_graph, directed=False, unweighted=False,
+#         indices=ec_idx, overwrite=False,
+#     )
+
+#     # min distance from any EC to each cell
+#     min_to_ec = np.min(dist_from_ec, axis=0)
+#     pericyte_to_ec = np.full(n_cells, np.nan, dtype=float)
+#     pericyte_to_ec[pericyte_idx] = min_to_ec[pericyte_idx]
+#     return pericyte_to_ec
 
 
 def per_donor_z(adata, cols, donor_key="donor_id"):
@@ -207,7 +269,7 @@ def assign_pericyte_states(
     """
     Combine z-scored distance + signature scores into a pericyte_state.
     """
-    pericyte_mask = adata.obs[cluster_key].astype(str) == pericyte_label
+    peri_mask = adata.obs[cluster_key].astype(str) == pericyte_label
 
     for col in ["capillary_sig", "arteriolar_sig", "airspace_dist"]:
         if col in adata.obs.columns:
@@ -228,13 +290,13 @@ def assign_pericyte_states(
     # Assign states only within pericytes
     state = pd.Series(index=ad.index, dtype=object)
     state[:] = np.nan
-    state[(per_mask) & (combined >=  margin)] = "capillary_like"
-    state[(per_mask) & (combined <= -margin)] = "arteriolar_like"
-    state[(per_mask) & state.isna()] = "ambiguous"
+    state[(peri_mask) & (combined >=  margin)] = "capillary_like"
+    state[(peri_mask) & (combined <= -margin)] = "arteriolar_like"
+    state[(peri_mask) & state.isna()] = "ambiguous"
     adata.obs["pericyte_state"] = state
 
     return {
-        s: ad.loc[(state == s) & per_mask, donor_key].dropna().nunique()
+        s: ad.loc[(state == s) & peri_mask, donor_key].dropna().nunique()
         for s in ["capillary_like", "arteriolar_like", "ambiguous"]
     }
 
@@ -249,9 +311,9 @@ def run_leiden_on_pericytes(
     Run Leiden clustering on pericytes only, using given representation.
     """
     per = adata[adata.obs[cluster_key] == pericyte_label].copy()
-    sc.pp.neighbors(adata, use_rep=use_rep, n_neighbors=n_neighbors,
+    sc.pp.neighbors(per, use_rep=use_rep, n_neighbors=n_neighbors,
                     metric="cosine", random_state=seed)
-    sc.tl.umap(adata, min_dist=0.9, spread=1.5, random_state=seed)
+    sc.tl.umap(per, min_dist=0.9, spread=1.5, random_state=seed)
     sc.tl.leiden(per, key_added=leiden_key, resolution=resolution)
 
     # Map cluster labels back to full AnnData
@@ -521,12 +583,20 @@ def main() -> None:
                      n_neighbors=args.neighbors, seed=args.seed)
 
     # Graph distance to EC
-    dist_to_ec = compute_graph_distance_to_ec(
-        adata, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label,
-        ec_labels=args.ec_labels,
+    # dist_to_ec = compute_graph_distance_to_ec(
+    #     adata, cluster_key=args.cluster_key,
+    #     pericyte_label=args.pericyte_label,
+    #     ec_labels=args.ec_labels,
+    # )
+    adata.obs["airspace_dist"] = pericyte_to_nearest_ec_latent(
+        adata, use_rep=args.use_rep, cluster_key=args.cluster_key,
+        pericyte_label=args.pericyte_label, ec_labels=tuple(args.ec_labels),
+        n_neighbors=1, metric="euclidean"  # or "cosine"
     )
-    adata.obs["airspace_dist"] = dist_to_ec
+    adata.obs["airspace_dist_hops"] = pericyte_to_ec_hops(
+        adata, cluster_key=args.cluster_key, pericyte_label=args.pericyte_label,
+        ec_labels=tuple(args.ec_labels), max_depth=8
+    )
 
     # Signature scores
     layer = "logcounts" if "logcounts" in adata.layers else None
