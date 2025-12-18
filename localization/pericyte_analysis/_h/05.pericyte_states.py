@@ -10,6 +10,7 @@ from pathlib import Path
 from anndata import AnnData
 import logging, argparse, yaml
 import matplotlib.pyplot as plt
+from statsmodels.api import anova_lm
 import statsmodels.formula.api as smf
 from typing import Sequence, Dict, List
 from scipy.sparse import issparse, csr_matrix
@@ -149,7 +150,7 @@ def rank_module_score_chunked(
 
 def score_signatures(
     adata: AnnData, states: Dict[str, Dict[str, str]],
-    layer: str | None = "logcounts", method="rank"):
+    layer: str | None = "logcounts"):
     """
     Compute simple module scores for capillary vs arteriolar signatures.
     """
@@ -159,14 +160,8 @@ def score_signatures(
     logging.info("Capillary signature genes present: %s", cap)
     logging.info("Arteriolar signature genes present: %s", art)
 
-    if method == "rank":
-        rank_module_score_chunked(adata, cap, "capillary_sig", layer=layer)
-        rank_module_score_chunked(adata, art, "arteriolar_sig", layer=layer)
-    else:
-        sc.tl.score_genes(adata, gene_list=cap, score_name="capillary_sig",
-                          layer=layer, use_raw=False)
-        sc.tl.score_genes(adata, gene_list=art, score_name="arteriolar_sig",
-                          layer=layer, use_raw=False)
+    rank_module_score_chunked(adata, cap, "capillary_sig", layer=layer)
+    rank_module_score_chunked(adata, art, "arteriolar_sig", layer=layer)
     return adata
 
 
@@ -301,17 +296,18 @@ def run_leiden_on_pericytes(
 def analyze_pericytes_subclusters(
     adata: AnnData, outdir: Path, *, cluster_key: str = "subclusters",
     pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
-    state_key: str = "pericyte_state", score_key: str = "airspace_dist",
+    state_key: str = "pericyte_state", score_key: str = "airspace_dist_z",
     donor_key: str = "donor_id", min_cells_per_donor: int = 20,
 ) -> Dict[str, Optional[float]]:
     pc_dir = outdir / "per_cell"; pc_dir.mkdir(parents=True, exist_ok=True)
     pd_dir = outdir / "per_donor"; pd_dir.mkdir(parents=True, exist_ok=True)
 
-    obs = adata.obs.copy()
+    cols_needed = [cluster_key, leiden_key, state_key, score_key, donor_key,
+                   "sex", "disease", "self_reported_ethnicity", "age_or_mean_of_age_range"]
+    cols_existing = [col for col in cols_needed if col in adata.obs.columns]
+    obs = adata.obs[cols_existing].copy()
     peri = obs[obs[cluster_key].astype(str) == pericyte_label].copy()
-    results = {"per_cell_ari": None, "per_cell_nmi": None,
-               "donor_ols_F": None, "donor_ols_p": None}
-if state_key in peri.columns and leiden_key in peri.columns:
+    if state_key in peri.columns and leiden_key in peri.columns:
         df = peri.loc[peri[state_key].notna() & peri[leiden_key].notna(), [state_key, leiden_key]].copy()
         if not df.empty and df[leiden_key].nunique() > 1 and df[state_key].nunique() > 1:
             # Contingency (row-normalized by Leiden)
@@ -321,9 +317,6 @@ if state_key in peri.columns and leiden_key in peri.columns:
             # ARI/NMI
             ari = adjusted_rand_score(df[state_key], df[leiden_key])
             nmi = normalized_mutual_info_score(df[state_key], df[leiden_key])
-            results["per_cell_ari"] = float(ari)
-            results["per_cell_nmi"] = float(nmi)
-
             with open(pc_dir / "leiden_vs_state_summary.txt", "w") as fh:
                 fh.write(f"Adjusted Rand Index (ARI): {ari:.3f}\n")
                 fh.write(f"Normalized Mutual Information (NMI): {nmi:.3f}\n\n")
@@ -377,23 +370,17 @@ if state_key in peri.columns and leiden_key in peri.columns:
 
             # ANOVA + Kruskal
             groups = [vals[score_key].dropna().values for _, vals in df.groupby(leiden_key) if len(vals) > 1]
-            if len(groups) >= 2:
-                try: anova_F, anova_p = f_oneway(*groups)
-                except Exception: anova_F, anova_p = np.nan, np.nan
-                try: kw_H, kw_p = kruskal(*groups)
-                except Exception: kw_H, kw_p = np.nan, np.nan
-            else:
-                anova_F = anova_p = kw_H = kw_p = np.nan
-
+            anova_F, anova_p = f_oneway(*groups)
+            kw_H, kw_p = kruskal(*groups)
+            
             with open(pc_dir / f"{score_key}_leiden_stats.txt", "w") as fh:
                 fh.write(f"ANOVA F = {anova_F:.4f}, p = {anova_p:.4e}\n")
                 fh.write(f"Kruskal-Wallis H = {kw_H:.4f}, p = {kw_p:.4e}\n")
 
     # Per donor summaries
-    have_donor = donor_key in peri.columns
-    if have_donor:
+    if donor_key in peri.columns:
         # Filter tiny donors
-        per_donor_counts = peri.groupby(donor_key).size()
+        per_donor_counts = peri.groupby(donor_key, observed=False).size()
         keep_donors = per_donor_counts[per_donor_counts >= min_cells_per_donor].index
         dperi = peri.loc[peri[donor_key].isin(keep_donors)].copy()
 
@@ -403,20 +390,11 @@ if state_key in peri.columns and leiden_key in peri.columns:
             if not df.empty and df[state_key].nunique() > 1:
                 tab = pd.crosstab(df[donor_key], df[state_key], normalize="index")
                 tab.to_csv(pd_dir / "state_by_donor.csv")
-                # Stacked bars
-                plt.figure(figsize=(max(6, 0.35 * tab.shape[0] + 2), 0.4 * tab.shape[0] + 2))
-                tab.plot(kind="bar", stacked=True, ax=plt.gca(), colormap="tab20")
-                plt.ylabel("Proportion"); plt.xlabel("Donor")
-                plt.legend(title="Pericyte state", bbox_to_anchor=(1.02, 1), loc="upper left")
-                plt.tight_layout()
-                plt.savefig(pd_dir / "state_by_donor.png", dpi=300)
-                plt.savefig(pd_dir / "state_by_donor.pdf")
-                plt.close()
 
         # (b) ARI/NMI per donor (state vs leiden)
         if all(k in dperi.columns for k in (state_key, leiden_key)):
             rows = []
-            for donor, sub in dperi.groupby(donor_key):
+            for donor, sub in dperi.groupby(donor_key, observed=False):
                 sub = sub.dropna(subset=[state_key, leiden_key])
                 if sub[state_key].nunique() > 1 and sub[leiden_key].nunique() > 1:
                     rows.append({
@@ -435,26 +413,31 @@ if state_key in peri.columns and leiden_key in peri.columns:
             df = dperi.dropna(subset=[score_key, leiden_key]).copy()
             if not df.empty and df[leiden_key].nunique() > 1:
                 grp = (
-                    df.groupby([donor_key, leiden_key])[score_key]
+                    df.groupby([donor_key, leiden_key], observed=False)[score_key]
                       .agg(["mean", "std", "count"])
                       .rename(columns={"count": "n_cells"})
                       .reset_index()
                 )
                 grp.to_csv(pd_dir / f"{score_key}_by_donor_leiden.csv", index=False)
 
-                valid = df.groupby(donor_key)[leiden_key].nunique() >= 2
+                valid = df.groupby(donor_key, observed=False)[leiden_key].nunique() >= 2
                 df2 = df[df[donor_key].isin(valid[valid].index)].copy()
                 if not df2.empty and df2[leiden_key].nunique() > 1 and df2[donor_key].nunique() > 1:
-                    fit = smf.ols(f"{score_key} ~ C({leiden_key}) + C({donor_key})", data=df2).fit()
+                    formula = f"{score_key} ~ C({leiden_key}) + C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range"
+                    fit = smf.ols(formula, data=df2).fit(cov_type="HC3") # unequal variances
                     anova = fit.compare_f_test(
-                        smf.ols(f"{score_key} ~ C({donor_key})", data=df2).fit()
+                        smf.ols(f"{score_key} ~ C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range", data=df2).fit()
                     )
-                    results["donor_ols_F"] = float(anova[0])
-                    results["donor_ols_p"] = float(anova[1])
+                    anova_table = anova_lm(fit, typ=2)
+                    anova_table.to_csv(pd_dir / f"anova_{score_key}_ols.csv")
                     with open(pd_dir / f"donor_aware_ols_{score_key}.txt", "w") as fh:
                         fh.write(fit.summary().as_text())
                         fh.write("\n\nDonor-adjusted effect of Leiden:\n")
                         fh.write(f"F = {anova[0]:.4f}, p = {anova[1]:.4e}, df_diff = {anova[2]}\n")
+                        
+                    pairwise = fit.t_test_pairwise(f"C({leiden_key})")
+                    summary = pairwise.result_frame
+                    summary.to_csv(pd_dir / f"pairwise_leiden_{score_key}_ols.csv", index=False)
 
 
 def main():
@@ -489,7 +472,7 @@ def main():
         donor_key="donor_id", margin=0.4
     )
 
-    # QC plots and report
+    # QC plots
     qc_dir = outdir / "qc_stats"
     qc_dir.mkdir(exist_ok=True, parents=True)
 
@@ -516,14 +499,21 @@ def main():
 
     # Per cell and per donor analysis
     summary = analyze_pericytes_vs_leiden(
-        adata, outdir= outdir / "pericyte_leiden_analysis",
+        adata, outdir=outdir / "pericyte_leiden_analysis",
         cluster_key="subclusters", pericyte_label="Pericytes",
         leiden_key="leiden_pericytes", state_key="pericyte_state",
-        score_key="airspace_dist", donor_key="donor_id",
+        score_key="airspace_dist_z", donor_key="donor_id",
         min_cells_per_donor=20,
     )
     print(summary)
 
+    # Imputed denoising per donor
+    ## TODO (generate similar function to analyze pericytes, donor level only)
+    imputed_path = outdir / "airspace" / "pericytes_airspace_denoising.tsv"
+    imputed_df = pd.read_csv(imputed_path, sep="\t", index_col=0)
+    obs = adata.obs.copy()
+    df = obs.merge(imputed_df, left_index=True, right_index=True)
+    
     # Save AnnData with pericyte_state annotations
     adata.write(outdir / "airspace_pericyte_states.h5ad")
     logging.info("Pericyte state analysis complete.")
