@@ -294,18 +294,20 @@ def run_leiden_on_pericytes(
 
 
 def analyze_pericytes_subclusters(
-    adata: AnnData, outdir: Path, *, cluster_key: str = "subclusters",
+    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
     pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
     state_key: str = "pericyte_state", score_key: str = "airspace_dist_z",
     donor_key: str = "donor_id", min_cells_per_donor: int = 20,
 ) -> None:
+    df = adata.obs.copy()
+    
     pc_dir = outdir / "per_cell"; pc_dir.mkdir(parents=True, exist_ok=True)
     pd_dir = outdir / "per_donor"; pd_dir.mkdir(parents=True, exist_ok=True)
 
     cols_needed = [cluster_key, leiden_key, state_key, score_key, donor_key,
                    "sex", "disease", "self_reported_ethnicity", "age_or_mean_of_age_range"]
-    cols_existing = [col for col in cols_needed if col in adata.obs.columns]
-    obs = adata.obs[cols_existing].copy()
+    cols_existing = [col for col in cols_needed if col in df.columns]
+    obs = df[cols_existing].copy()
     peri = obs[obs[cluster_key].astype(str) == pericyte_label].copy()
     if state_key in peri.columns and leiden_key in peri.columns:
         df = peri.loc[peri[state_key].notna() & peri[leiden_key].notna(), [state_key, leiden_key]].copy()
