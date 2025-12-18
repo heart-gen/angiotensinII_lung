@@ -537,7 +537,7 @@ def main():
     )
 
     # Per cell and per donor analysis
-    summary = analyze_pericytes_vs_leiden(
+    summary = analyze_pericytes_subclusters(
         adata, outdir=outdir / "pericyte_leiden_analysis",
     )
     print(summary)
