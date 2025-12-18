@@ -3,7 +3,7 @@
 #SBATCH --job-name=airspace_denoising
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks-per-node=64
 #SBATCH --time=12:00:00
 #SBATCH --output=logs/airspace_denoising.log
 

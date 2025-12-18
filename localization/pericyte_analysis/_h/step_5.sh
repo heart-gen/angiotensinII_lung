@@ -4,7 +4,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
-#SBATCH --time=03:00:00
+#SBATCH --time=18:00:00
 #SBATCH --output=logs/state_pericytes.log
 
 log_message() {

@@ -1,14 +1,5 @@
 """
 Pericyte state classification using airspace proximity and marker signatures.
-
-Description:
-- Compute graph distance from each pericyte to alveolar capillary EC clusters
-  ("EC aerocyte capillary", "EC general capillary") in latent space.
-- Compute signature scores for:
-    * capillary-like: KCNJ8, ABCC9
-    * arteriolar-like: NOTCH3, THY1
-- Combine distances + signatures into a single score to define:
-    adata.obs['pericyte_state'] ∈ {'capillary_like', 'arteriolar_like'}
 """
 import numpy as np
 import pandas as pd
@@ -16,15 +7,14 @@ import scanpy as sc
 import session_info
 import seaborn as sns
 from pathlib import Path
-from scipy import sparse
 from anndata import AnnData
 import logging, argparse, yaml
 import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
 from typing import Sequence, Dict, List
-from scipy.stats import chi2_contingency
-from scipy.stats import f_oneway, kruskal
 from scipy.sparse import issparse, csr_matrix
 from sklearn.neighbors import NearestNeighbors
+from scipy.stats import f_oneway, kruskal, rankdata, chi2_contingency
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
 sns.set_context("talk")
@@ -116,53 +106,6 @@ def pericyte_to_nearest_ec_latent(
     return pericyte_to_ec
 
 
-# def compute_graph_distance_to_ec(
-#     adata: AnnData, cluster_key: str, pericyte_label: str, ec_labels: Sequence[str],
-# ) -> np.ndarray:
-#     """
-#     Compute shortest-path distance from each pericyte to the nearest EC
-#     (from specified ec_labels) using the neighbors graph.
-#     """
-#     from scipy.sparse.csgraph import shortest_path
-#     if "distances" not in adata.obsp:
-#         raise ValueError("adata.obsp['distances'] missing; run sc.pp.neighbors first.")
-
-#     dist_graph = adata.obsp["distances"]
-#     if not issparse(dist_graph):
-#         dist_graph = sparse.csr_matrix(dist_graph)
-
-#     dist_graph = dist_graph.maximum(dist_graph.T)
-
-#     n_cells = adata.n_obs
-#     cluster = adata.obs[cluster_key].astype(str)
-
-#     pericyte_mask = cluster == pericyte_label
-#     ec_mask = cluster.isin(ec_labels)
-
-#     if ec_mask.sum() == 0:
-#         raise ValueError(f"No EC cells found for labels={ec_labels}")
-
-#     pericyte_idx = np.where(pericyte_mask)[0]
-#     ec_idx = np.where(ec_mask)[0]
-
-#     logging.info(
-#         "Computing shortest paths from %d EC cells to all %d cells.",
-#         ec_idx.size, n_cells,
-#     )
-
-#     # distances from each EC cell to all cells
-#     dist_from_ec = shortest_path(
-#         dist_graph, directed=False, unweighted=False,
-#         indices=ec_idx, overwrite=False,
-#     )
-
-#     # min distance from any EC to each cell
-#     min_to_ec = np.min(dist_from_ec, axis=0)
-#     pericyte_to_ec = np.full(n_cells, np.nan, dtype=float)
-#     pericyte_to_ec[pericyte_idx] = min_to_ec[pericyte_idx]
-#     return pericyte_to_ec
-
-
 def load_state_genes(path: Path) -> Dict[str, List[str]]:
     """Load pericyte-state marker panels from YAML."""
     data = yaml.safe_load(path.read_text())
@@ -171,54 +114,34 @@ def load_state_genes(path: Path) -> Dict[str, List[str]]:
     return data["pericyte_state"]
 
 
-def rank_module_score(adata, genes, score_name, layer="logcounts"):
-    """
-    AUCell-ish: per cell, rank genes; score = mean percentile of target genes.
-    Works when AUCell/decoupler aren't installed.
-    """
-    X = adata.layers[layer] if (layer and layer in adata.layers) else adata.X
-    X = X.toarray() if hasattr(X, "toarray") else np.asarray(X)
-    # ranks: higher expr -> higher rank
-    ranks = np.argsort(np.argsort(X, axis=1), axis=1)
-    percentiles = ranks / (X.shape[1] - 1 + 1e-9)
-    idx = [i for i, g in enumerate(adata.var_names) if g in genes]
-    if len(idx) == 0:
-        adata.obs[score_name] = np.nan
-    else:
-        adata.obs[score_name] = percentiles[:, idx].mean(axis=1)
-    return adata
-
-
 def rank_module_score_chunked(
     adata: AnnData, genes: Sequence[str], score_name: str,
     layer: str = "logcounts", chunk_size: int = 1000,
 ):
     """
+    AUCell-ish: per cell, rank genes; score = mean percentile of target genes.
     Memory-efficient gene module scoring using ranks and chunked processing.
     """
     X = adata.layers[layer] if layer and layer in adata.layers else adata.X
-    var_names = adata.var_names
+    var_names = np.asarray(adata.var_names)
 
-    gene_set  = set(genes)
-    gene_mask = np.array([g in gene_set for g in var_names])
-    idx = np.where(gene_mask)[0]
-
+    idx = np.where(np.isin(var_names, genes))[0]
     if len(idx) == 0:
         adata.obs[score_name] = np.nan
         return adata
 
-    n_cells = X.shape[0]
-    scores = np.empty(n_cells, dtype=np.float32)
+    n_cells, n_genes = X.shape
+    scores = np.full(n_cells, np.nan, dtype=np.float32)
 
     for start in range(0, n_cells, chunk_size):
         end = min(start + chunk_size, n_cells)
-        X_chunk = X[start:end, idx]
-        if issparse(X_chunk):
-            X_chunk = X_chunk.toarray()
+        X_chunk = X[start:end]
+        X_chunk = X_chunk.toarray() if issparse(X_chunk) else np.asarray(X_chunk)
 
-        ranks = np.argsort(np.argsort(X_chunk, axis=1), axis=1)
-        percentiles = ranks / (X_chunk.shape[1] - 1 + 1e-9)
-        scores[start:end] = percentiles.mean(axis=1)
+        r1    = np.argsort(X_chunk, axis=1).astype(np.int32)
+        ranks = np.argsort(r1, axis=1).astype(np.float32)
+        percentiles = ranks / (n_genes - 1 + 1e-9)
+        scores[start:end] = percentiles[:, idx].mean(axis=1)
 
     adata.obs[score_name] = scores
     return adata
@@ -237,8 +160,8 @@ def score_signatures(
     logging.info("Arteriolar signature genes present: %s", art)
 
     if method == "rank":
-        rank_module_score(adata, cap, "capillary_sig", layer=layer)
-        rank_module_score(adata, art, "arteriolar_sig", layer=layer)
+        rank_module_score_chunked(adata, cap, "capillary_sig", layer=layer)
+        rank_module_score_chunked(adata, art, "arteriolar_sig", layer=layer)
     else:
         sc.tl.score_genes(adata, gene_list=cap, score_name="capillary_sig",
                           layer=layer, use_raw=False)
@@ -298,173 +221,6 @@ def assign_pericyte_states(
     }
 
 
-def run_leiden_on_pericytes(
-    adata: AnnData, use_rep: str, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", resolution: float = 0.5,
-    n_neighbors: int = 50, leiden_key: str = "leiden_pericytes",
-    seed: int = 13
-) -> AnnData:
-    """
-    Run Leiden clustering on pericytes only, using given representation.
-    """
-    peri = adata[adata.obs[cluster_key] == pericyte_label].copy()
-    sc.pp.neighbors(peri, use_rep=use_rep, n_neighbors=n_neighbors,
-                    metric="cosine", random_state=seed)
-    sc.tl.umap(peri, min_dist=0.9, spread=1.5, random_state=seed)
-    sc.tl.leiden(peri, key_added=leiden_key, resolution=resolution)
-
-    # Map cluster labels back to full AnnData
-    adata.obs[leiden_key] = np.nan
-    adata.obs.loc[peri.obs_names, leiden_key] = peri.obs[leiden_key].astype(str).values
-
-    return adata
-
-
-def analyze_leiden_vs_pericyte_state(
-    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", state_key: str = "pericyte_state",
-    leiden_key: str = "leiden_pericytes",
-) -> None:
-    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-
-    # Drop cells without state or cluster
-    mask = peri[state_key].notna() & peri[leiden_key].notna()
-    peri = peri.loc[mask].copy()
-
-    # Contingency table
-    tab = pd.crosstab(peri[leiden_key], peri[state_key], normalize="index")
-    tab.to_csv(outdir / "leiden_vs_pericyte_state.csv")
-
-    # Metrics of alignment
-    ari = adjusted_rand_score(peri[state_key], peri[leiden_key])
-    nmi = normalized_mutual_info_score(peri[state_key], peri[leiden_key])
-
-    with open(outdir / "leiden_vs_pericyte_state_summary.txt", "w") as fh:
-        fh.write(f"Adjusted Rand Index (ARI): {ari:.3f}\n")
-        fh.write(f"Normalized Mutual Information (NMI): {nmi:.3f}\n\n")
-        fh.write("Row-normalized contingency table (leiden x pericyte_state):\n")
-        fh.write(tab.to_string())
-        fh.write("\n")
-
-    # Quick plot
-    plt.figure(figsize=(max(6, 1.2 * tab.shape[0]), 4))
-    tab.plot(kind="bar", stacked=True, ax=plt.gca())
-    plt.ylabel("Proportion within Leiden cluster")
-    plt.xlabel("Leiden cluster")
-    plt.legend(title="Pericyte state", bbox_to_anchor=(1.02, 1), loc="upper left")
-    plt.tight_layout()
-    plt.savefig(outdir / "leiden_vs_pericyte_state.png", dpi=300)
-    plt.savefig(outdir / "leiden_vs_pericyte_state.pdf")
-    plt.close()
-
-
-def analyze_leiden_vs_airspace(
-    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
-    score_key: str = "airspace_dist_z",
-) -> None:
-    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    peri = peri[peri[leiden_key].notna() & peri[score_key].notna()].copy()
-
-    # Cluster-level stats
-    stats = (
-        peri.groupby(leiden_key)[score_key]
-        .agg(["mean", "std", "count"])
-        .rename(columns={"count": "n_cells"})
-        .reset_index()
-    )
-    stats.to_csv(outdir / f"{score_key}_by_leiden.csv", index=False)
-
-    # Violin plot
-    plt.figure(figsize=(max(6, 1.2 * stats.shape[0]), 4))
-    sns.violinplot(data=peri, x=leiden_key, y=score_key, cut=0)
-    plt.ylabel(score_key)
-    plt.xlabel("Leiden cluster")
-    plt.tight_layout()
-    plt.savefig(outdir / f"{score_key}_by_leiden_violin.png", dpi=300)
-    plt.savefig(outdir / f"{score_key}_by_leiden_violin.pdf")
-    plt.close()
-
-
-def statistical_tests_continuous_vs_leiden(
-    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
-    score_key: str = "airspace_dist_z",
-):
-    """
-    Test whether the continuous score differs among Leiden clusters.
-    """
-    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    peri = peri[peri[leiden_key].notna() & peri[score_key].notna()].copy()
-
-    groups = {
-        cl: vals[score_key].dropna().values
-        for cl, vals in peri.groupby(leiden_key)
-        if len(vals[score_key].dropna()) > 1
-    }
-
-    # Only compute tests if >= 2 groups with >1 cell
-    if len(groups) < 2:
-        print("Not enough valid Leiden clusters for statistical tests.")
-        return
-
-    # ANOVA
-    try:
-        anova_F, anova_p = f_oneway(*groups.values())
-    except Exception:
-        anova_F, anova_p = np.nan, np.nan
-
-    # Kruskal-Wallis
-    try:
-        kw_H, kw_p = kruskal(*groups.values())
-    except Exception:
-        kw_H, kw_p = np.nan, np.nan
-
-    # Save results
-    out = outdir / f"{score_key}_leiden_stats.txt"
-    with open(out, "w") as fh:
-        fh.write(f"Statistical tests for {score_key} vs Leiden clusters\n")
-        fh.write("------------------------------------------------------\n\n")
-        fh.write("Groups included:\n")
-        for cl, arr in groups.items():
-            fh.write(f"  - Leiden {cl}: N={len(arr)}\n")
-        fh.write("\n")
-
-        fh.write(f"ANOVA F = {anova_F:.4f}, p = {anova_p:.4e}\n")
-        fh.write(f"Kruskal-Wallis H = {kw_H:.4f}, p = {kw_p:.4e}\n")
-
-    print(f"Saved statistical test results to: {out}")
-
-
-def statistical_tests_state_vs_leiden(
-    adata: AnnData, outdir: Path, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", state_key: str = "pericyte_state",
-    leiden_key: str = "leiden_pericytes",
-):
-    """Chi-square test and Cramer's V"""
-    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    peri = peri[peri[state_key].notna() & peri[leiden_key].notna()].copy()
-
-    tab = pd.crosstab(peri[state_key], peri[leiden_key])
-    chi2, p, dof, expected = chi2_contingency(tab)
-
-    # Cramer's V
-    n = tab.sum().sum()
-    r, k = tab.shape
-    cramers_v = np.sqrt(chi2 / (n * (min(r, k) - 1)))
-
-    out = outdir / "pericyte_state_vs_leiden_stats.txt"
-    with open(out, "w") as fh:
-        fh.write("Chi-square association test: pericyte_state ~ leiden\n")
-        fh.write("------------------------------------------------------\n")
-        fh.write(tab.to_string())
-        fh.write("\n\n")
-        fh.write(f"Chi^2 = {chi2:.4f}, df = {dof}, p = {p:.4e}\n")
-        fh.write(f"Cramer's V = {cramers_v:.4f}\n")
-
-    print(f"Saved categorical association results to: {out}")
-
-
 def plot_violin_by_state(
     adata: AnnData, cluster_key: str, pericyte_label: str, outdir: Path,
 ) -> None:
@@ -520,53 +276,188 @@ def plot_batch_composition(
     return results
 
 
-def write_qc_report(
-    outdir: Path, adata: AnnData, cluster_key: str, pericyte_label: str,
-    donor_counts: Dict[str, int], batch_tables: Dict[str, pd.DataFrame],
-) -> None:
-    peri = adata.obs[adata.obs[cluster_key] == pericyte_label].copy()
-    n_peri = peri.shape[0]
-    state_counts = peri["pericyte_state"].value_counts(dropna=False)
+def run_leiden_on_pericytes(
+    adata: AnnData, use_rep: str, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", resolution: float = 0.5,
+    n_neighbors: int = 50, leiden_key: str = "leiden_pericytes",
+    seed: int = 13
+) -> AnnData:
+    """
+    Run Leiden clustering on pericytes only, using given representation.
+    """
+    peri = adata[adata.obs[cluster_key] == pericyte_label].copy()
+    sc.pp.neighbors(peri, use_rep=use_rep, n_neighbors=n_neighbors,
+                    metric="cosine", random_state=seed)
+    sc.tl.umap(peri, min_dist=0.9, spread=1.5, random_state=seed)
+    sc.tl.leiden(peri, key_added=leiden_key, resolution=resolution)
 
-    lines: List[str] = []
-    lines.append("# Pericyte state QC")
-    lines.append("")
-    lines.append(f"- Total pericytes: **{n_peri}**")
-    lines.append("- Pericyte states (cell counts):")
-    for st, cnt in state_counts.items():
-        lines.append(f"  - `{st}`: {cnt}")
-    lines.append("")
-    lines.append("## Donor balance")
-    if donor_counts:
-        for st, nd in donor_counts.items():
-            status = "OK" if nd >= 5 else "FAIL"
-            lines.append(f"- State `{st}`: {nd} donors (**{status}**)")
-    else:
-        lines.append("- Donor information not available; donor balance not assessed.")
+    # Map cluster labels back to full AnnData
+    adata.obs[leiden_key] = np.nan
+    adata.obs.loc[peri.obs_names, leiden_key] = peri.obs[leiden_key].astype(str).values
 
-    lines.append("")
-    lines.append("## Batch / dataset composition")
-    if not batch_tables:
-        lines.append("No batch or dataset covariates were available for QC.")
-    else:
-        for key, tab in batch_tables.items():
-            lines.append(f"### {key}")
-            lines.append("")
-            lines.append("State composition by " + key + " (rows sum to 1):")
-            lines.append("")
-            lines.append(tab.to_markdown())
-            lines.append("")
-
-    lines.append("")
-    lines.append("## Notes")
-    lines.append("- Airspace distance (`airspace_dist_z`) is z-scored among pericytes.")
-    lines.append("- Signature difference (`sig_diff_z`) = capillary_sig_z - arteriolar_sig_z.")
-    lines.append("- Combined score = -airspace_dist_z + sig_diff_z, thresholded at 0 for state assignment.")
-
-    (outdir / "pericyte_state_qc.md").write_text("\n".join(lines), encoding="utf-8")
+    return adata
 
 
-def main() -> None:
+def analyze_pericytes_subclusters(
+    adata: AnnData, outdir: Path, *, cluster_key: str = "subclusters",
+    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
+    state_key: str = "pericyte_state", score_key: str = "airspace_dist",
+    donor_key: str = "donor_id", min_cells_per_donor: int = 20,
+) -> Dict[str, Optional[float]]:
+    pc_dir = outdir / "per_cell"; pc_dir.mkdir(parents=True, exist_ok=True)
+    pd_dir = outdir / "per_donor"; pd_dir.mkdir(parents=True, exist_ok=True)
+
+    obs = adata.obs.copy()
+    peri = obs[obs[cluster_key].astype(str) == pericyte_label].copy()
+    results = {"per_cell_ari": None, "per_cell_nmi": None,
+               "donor_ols_F": None, "donor_ols_p": None}
+if state_key in peri.columns and leiden_key in peri.columns:
+        df = peri.loc[peri[state_key].notna() & peri[leiden_key].notna(), [state_key, leiden_key]].copy()
+        if not df.empty and df[leiden_key].nunique() > 1 and df[state_key].nunique() > 1:
+            # Contingency (row-normalized by Leiden)
+            tab = pd.crosstab(df[leiden_key], df[state_key], normalize="index")
+            tab.to_csv(pc_dir / "leiden_vs_state.csv")
+
+            # ARI/NMI
+            ari = adjusted_rand_score(df[state_key], df[leiden_key])
+            nmi = normalized_mutual_info_score(df[state_key], df[leiden_key])
+            results["per_cell_ari"] = float(ari)
+            results["per_cell_nmi"] = float(nmi)
+
+            with open(pc_dir / "leiden_vs_state_summary.txt", "w") as fh:
+                fh.write(f"Adjusted Rand Index (ARI): {ari:.3f}\n")
+                fh.write(f"Normalized Mutual Information (NMI): {nmi:.3f}\n\n")
+                fh.write("Row-normalized contingency table (leiden x pericyte_state):\n")
+                fh.write(tab.to_string())
+                fh.write("\n")
+
+            # Plot
+            plt.figure(figsize=(max(6, 1.2 * tab.shape[0]), 4))
+            tab.plot(kind="bar", stacked=True, ax=plt.gca())
+            plt.ylabel("Proportion within Leiden cluster")
+            plt.xlabel("Leiden cluster")
+            plt.legend(title="Pericyte state", bbox_to_anchor=(1.02, 1), loc="upper left")
+            plt.tight_layout()
+            plt.savefig(pc_dir / "leiden_vs_state.png", dpi=300)
+            plt.savefig(pc_dir / "leiden_vs_state.pdf")
+            plt.close()
+
+            # Chi-square + Cramer's V
+            raw_tab = pd.crosstab(df[state_key], df[leiden_key])
+            chi2, p, dof, _ = chi2_contingency(raw_tab)
+            n = raw_tab.to_numpy().sum()
+            r, k = raw_tab.shape
+            cramer_v = np.sqrt(chi2 / (n * (min(r, k) - 1)))
+            with open(pc_dir / "leiden_vs_state_chisq.txt", "w") as fh:
+                fh.write(raw_tab.to_string() + "\n\n")
+                fh.write(f"Chi^2 = {chi2:.4f}, df = {dof}, p = {p:.4e}\n")
+                fh.write(f"Cramer's V = {cramer_v:.4f}\n")
+
+    # Per cell: score ~ leiden
+    if score_key in peri.columns and leiden_key in peri.columns:
+        df = peri.loc[peri[score_key].notna() & peri[leiden_key].notna(), [score_key, leiden_key]].copy()
+        if not df.empty and df[leiden_key].nunique() > 1:
+            # Summary by Leiden
+            stats = (
+                df.groupby(leiden_key)[score_key]
+                  .agg(["mean", "std", "count"])
+                  .rename(columns={"count": "n_cells"})
+                  .reset_index()
+            )
+            stats.to_csv(pc_dir / f"{score_key}_by_leiden.csv", index=False)
+
+            # Violin
+            plt.figure(figsize=(max(6, 1.2 * stats.shape[0]), 4))
+            sns.violinplot(data=df, x=leiden_key, y=score_key, cut=0)
+            plt.ylabel(score_key); plt.xlabel("Leiden cluster")
+            plt.tight_layout()
+            plt.savefig(pc_dir / f"{score_key}_by_leiden_violin.png", dpi=300)
+            plt.savefig(pc_dir / f"{score_key}_by_leiden_violin.pdf")
+            plt.close()
+
+            # ANOVA + Kruskal
+            groups = [vals[score_key].dropna().values for _, vals in df.groupby(leiden_key) if len(vals) > 1]
+            if len(groups) >= 2:
+                try: anova_F, anova_p = f_oneway(*groups)
+                except Exception: anova_F, anova_p = np.nan, np.nan
+                try: kw_H, kw_p = kruskal(*groups)
+                except Exception: kw_H, kw_p = np.nan, np.nan
+            else:
+                anova_F = anova_p = kw_H = kw_p = np.nan
+
+            with open(pc_dir / f"{score_key}_leiden_stats.txt", "w") as fh:
+                fh.write(f"ANOVA F = {anova_F:.4f}, p = {anova_p:.4e}\n")
+                fh.write(f"Kruskal-Wallis H = {kw_H:.4f}, p = {kw_p:.4e}\n")
+
+    # Per donor summaries
+    have_donor = donor_key in peri.columns
+    if have_donor:
+        # Filter tiny donors
+        per_donor_counts = peri.groupby(donor_key).size()
+        keep_donors = per_donor_counts[per_donor_counts >= min_cells_per_donor].index
+        dperi = peri.loc[peri[donor_key].isin(keep_donors)].copy()
+
+        # (a) Donor-level state composition
+        if state_key in dperi.columns:
+            df = dperi.loc[dperi[state_key].notna(), [donor_key, state_key]]
+            if not df.empty and df[state_key].nunique() > 1:
+                tab = pd.crosstab(df[donor_key], df[state_key], normalize="index")
+                tab.to_csv(pd_dir / "state_by_donor.csv")
+                # Stacked bars
+                plt.figure(figsize=(max(6, 0.35 * tab.shape[0] + 2), 0.4 * tab.shape[0] + 2))
+                tab.plot(kind="bar", stacked=True, ax=plt.gca(), colormap="tab20")
+                plt.ylabel("Proportion"); plt.xlabel("Donor")
+                plt.legend(title="Pericyte state", bbox_to_anchor=(1.02, 1), loc="upper left")
+                plt.tight_layout()
+                plt.savefig(pd_dir / "state_by_donor.png", dpi=300)
+                plt.savefig(pd_dir / "state_by_donor.pdf")
+                plt.close()
+
+        # (b) ARI/NMI per donor (state vs leiden)
+        if all(k in dperi.columns for k in (state_key, leiden_key)):
+            rows = []
+            for donor, sub in dperi.groupby(donor_key):
+                sub = sub.dropna(subset=[state_key, leiden_key])
+                if sub[state_key].nunique() > 1 and sub[leiden_key].nunique() > 1:
+                    rows.append({
+                        donor_key: donor,
+                        "n_cells": int(sub.shape[0]),
+                        "ARI": adjusted_rand_score(sub[state_key], sub[leiden_key]),
+                        "NMI": normalized_mutual_info_score(sub[state_key], sub[leiden_key]),
+                    })
+            if rows:
+                pd.DataFrame(rows).sort_values(donor_key).to_csv(
+                    pd_dir / "leiden_state_metrics_by_donor.csv", index=False
+                )
+
+        # (c) Continuous score by donor X leiden + donor-aware OLS
+        if score_key in dperi.columns and leiden_key in dperi.columns:
+            df = dperi.dropna(subset=[score_key, leiden_key]).copy()
+            if not df.empty and df[leiden_key].nunique() > 1:
+                grp = (
+                    df.groupby([donor_key, leiden_key])[score_key]
+                      .agg(["mean", "std", "count"])
+                      .rename(columns={"count": "n_cells"})
+                      .reset_index()
+                )
+                grp.to_csv(pd_dir / f"{score_key}_by_donor_leiden.csv", index=False)
+
+                valid = df.groupby(donor_key)[leiden_key].nunique() >= 2
+                df2 = df[df[donor_key].isin(valid[valid].index)].copy()
+                if not df2.empty and df2[leiden_key].nunique() > 1 and df2[donor_key].nunique() > 1:
+                    fit = smf.ols(f"{score_key} ~ C({leiden_key}) + C({donor_key})", data=df2).fit()
+                    anova = fit.compare_f_test(
+                        smf.ols(f"{score_key} ~ C({donor_key})", data=df2).fit()
+                    )
+                    results["donor_ols_F"] = float(anova[0])
+                    results["donor_ols_p"] = float(anova[1])
+                    with open(pd_dir / f"donor_aware_ols_{score_key}.txt", "w") as fh:
+                        fh.write(fit.summary().as_text())
+                        fh.write("\n\nDonor-adjusted effect of Leiden:\n")
+                        fh.write(f"F = {anova[0]:.4f}, p = {anova[1]:.4e}, df_diff = {anova[2]}\n")
+
+
+def main():
     args = parse_args()
     configure_logging()
 
@@ -580,11 +471,6 @@ def main() -> None:
                      n_neighbors=args.neighbors, seed=args.seed)
 
     # Graph distance to EC
-    # dist_to_ec = compute_graph_distance_to_ec(
-    #     adata, cluster_key=args.cluster_key,
-    #     pericyte_label=args.pericyte_label,
-    #     ec_labels=args.ec_labels,
-    # )
     nn_dist = pericyte_to_nearest_ec_latent(
         adata, use_rep=args.use_rep, cluster_key=args.cluster_key,
         pericyte_label=args.pericyte_label, n_neighbors=1,
@@ -621,12 +507,6 @@ def main() -> None:
         pericyte_label=args.pericyte_label,
     )
 
-    write_qc_report(
-        outdir=qc_dir, adata=adata, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label, donor_counts=donor_counts,
-        batch_tables=batch_tables,
-    )
-
     # De novo clustering on pericytes
     adata = run_leiden_on_pericytes(
         adata, use_rep=args.use_rep, cluster_key=args.cluster_key,
@@ -634,19 +514,15 @@ def main() -> None:
         leiden_key="leiden_pericytes", n_neighbors=args.neighbors, seed=args.seed
     )
 
-    # Compare pericyte_state vs Leiden
-    analyze_leiden_vs_pericyte_state(
-        adata, outdir=qc_dir, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label, state_key="pericyte_state",
-        leiden_key="leiden_pericytes",
+    # Per cell and per donor analysis
+    summary = analyze_pericytes_vs_leiden(
+        adata, outdir= outdir / "pericyte_leiden_analysis",
+        cluster_key="subclusters", pericyte_label="Pericytes",
+        leiden_key="leiden_pericytes", state_key="pericyte_state",
+        score_key="airspace_dist", donor_key="donor_id",
+        min_cells_per_donor=20,
     )
-
-    # Compare airspace distance / score vs Leiden
-    analyze_leiden_vs_airspace(
-        adata, outdir=qc_dir, cluster_key=args.cluster_key,
-        pericyte_label=args.pericyte_label, leiden_key="leiden_pericytes",
-        score_key="airspace_dist_z",
-    )
+    print(summary)
 
     # Save AnnData with pericyte_state annotations
     adata.write(outdir / "airspace_pericyte_states.h5ad")
