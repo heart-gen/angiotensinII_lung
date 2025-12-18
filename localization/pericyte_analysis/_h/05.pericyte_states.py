@@ -442,7 +442,7 @@ def analyze_pericytes_subclusters(
                     summary.to_csv(pd_dir / f"pairwise_leiden_{score_key}_ols.csv", index=False)
 
 
-def analyze_pericytes_subclusters(
+def analyze_pericytes_airspace(
     df: pd.DataFrame, outdir: Path, cluster_key: str = "subclusters",
     pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
     score_key: str = "airspace_score", imputed_key: str = "AGTR1_scvi",
@@ -460,7 +460,7 @@ def analyze_pericytes_subclusters(
     dperi = peri.loc[peri[donor_key].isin(keep_donors)].copy()
     # Airspace vs imputed AGTR1
     df = dperi.dropna(subset=[score_key, leiden_key, imputed_key]).copy()
-    formula = f"{score_key} ~ C({imputed_key}) + C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range"
+    formula = f"{score_key} ~ {imputed_key} + C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range"
     fit = smf.ols(formula, data=df).fit(cov_type="HC3") # unequal variances
     anova_table = anova_lm(fit, typ=2)
     anova_table.to_csv(outdir / f"anova_ols.{score_key}.{imputed_key}.tsv", sep="\t")
@@ -550,7 +550,7 @@ def main():
     imputed_df = pd.read_csv(imputed_path, sep="\t", index_col=0)
     obs = adata.obs.copy()
     df  = obs.merge(imputed_df, left_index=True, right_index=True)
-    analyze_pericytes_subclusters(df, impute_dir)
+    analyze_pericytes_airspace(df, impute_dir)
     
     # Save AnnData with pericyte_state annotations
     adata.write(outdir / "airspace_pericyte_states.h5ad")
