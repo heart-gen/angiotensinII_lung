@@ -10,9 +10,9 @@ from pathlib import Path
 from anndata import AnnData
 import logging, argparse, yaml
 import matplotlib.pyplot as plt
-from statsmodels.api import anova_lm
 import statsmodels.formula.api as smf
 from typing import Sequence, Dict, List
+from statsmodels.stats.anova import anova_lm
 from scipy.sparse import issparse, csr_matrix
 from sklearn.neighbors import NearestNeighbors
 from scipy.stats import f_oneway, kruskal, rankdata, chi2_contingency
