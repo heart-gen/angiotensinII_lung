@@ -442,45 +442,6 @@ def analyze_pericytes_subclusters(
                     summary.to_csv(pd_dir / f"pairwise_leiden_{score_key}_ols.csv", index=False)
 
 
-def analyze_pericytes_airspace(
-    df: pd.DataFrame, outdir: Path, cluster_key: str = "subclusters",
-    pericyte_label: str = "Pericytes", leiden_key: str = "leiden_pericytes",
-    score_key: str = "airspace_score", imputed_key: str = "AGTR1_scvi",
-    donor_key: str = "donor_id", min_cells_per_donor: int = 20,
-) -> None:
-
-    cols_needed = [cluster_key, leiden_key, score_key, imputed_key,
-                   donor_key, "sex", "disease", "self_reported_ethnicity",
-                   "age_or_mean_of_age_range"]
-    cols_existing = [col for col in cols_needed if col in df.columns]
-    peri = df[df[cluster_key].astype(str) == pericyte_label].copy()
-    # Per donor summaries
-    per_donor_counts = peri.groupby(donor_key, observed=False).size()
-    keep_donors = per_donor_counts[per_donor_counts >= min_cells_per_donor].index
-    dperi = peri.loc[peri[donor_key].isin(keep_donors)].copy()
-    # Airspace vs imputed AGTR1
-    df = dperi.dropna(subset=[score_key, leiden_key, imputed_key]).copy()
-    formula = f"{score_key} ~ {imputed_key} + C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range"
-    fit = smf.ols(formula, data=df).fit(cov_type="HC3") # unequal variances
-    anova_table = anova_lm(fit, typ=2)
-    anova_table.to_csv(outdir / f"anova_ols.{score_key}.{imputed_key}.tsv", sep="\t")
-        
-    # Airspace vs leident clusters
-    valid = df.groupby(donor_key, observed=False)[leiden_key].nunique() >= 2
-    df2 = df[df[donor_key].isin(valid[valid].index)].copy()
-    if not df2.empty and df2[leiden_key].nunique() > 1 and df2[donor_key].nunique() > 1:
-        formula = f"{score_key} ~ C({leiden_key}) + C({donor_key}) + C(sex) + C(disease) + C(self_reported_ethnicity) + age_or_mean_of_age_range"
-        fit = smf.ols(formula, data=df2).fit(cov_type="HC3") # unequal variances
-        anova_table = anova_lm(fit, typ=2)
-        anova_table.to_csv(outdir / f"anova_{score_key}_ols.tsv", sep="\t")
-        with open(outdir / f"donor_aware_ols_{score_key}.txt", "w") as fh:
-            fh.write(fit.summary().as_text())
-            fh.write("\n\nDonor-adjusted effect of Leiden:\n")
-        pairwise = fit.t_test_pairwise(f"C({leiden_key})")
-        summary  = pairwise.result_frame
-        summary.to_csv(outdir / f"pairwise_leiden_{score_key}_ols.csv", index=False)
-
-
 def main():
     args = parse_args()
     configure_logging()
@@ -544,14 +505,6 @@ def main():
     )
     print(summary)
 
-    # Imputed denoising per donor
-    impute_dir = outdir / "airspace"
-    imputed_path = impute_dir / "pericytes_airspace_denoising.tsv"
-    imputed_df = pd.read_csv(imputed_path, sep="\t", index_col=0)
-    obs = adata.obs.copy()
-    df  = obs.merge(imputed_df, left_index=True, right_index=True)
-    analyze_pericytes_airspace(df, impute_dir)
-    
     # Save AnnData with pericyte_state annotations
     adata.write(outdir / "airspace_pericyte_states.h5ad")
     logging.info("Pericyte state analysis complete.")
