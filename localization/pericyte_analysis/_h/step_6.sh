@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=peri_state
+#SBATCH --job-name=peri_denoising
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
-#SBATCH --time=04:00:00
-#SBATCH --output=logs/state_pericytes.log
+#SBATCH --time=02:00:00
+#SBATCH --output=logs/denoise_analysis.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -31,10 +31,9 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
+
 OUTDIR="results"
-python ../_h/05.pericyte_states.py \
-       --adata "${OUTDIR}/pericytes_with_airspace_score.h5ad" \
-       --outdir "${OUTDIR}" --state-yaml ../_h/states_pericytes.yml
+python ../_h/06.pericyte_denoising_stats.py
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
