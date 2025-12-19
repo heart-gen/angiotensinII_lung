@@ -1,10 +1,10 @@
-2025-12-04 19:40:37 - **** Job starts ****
-2025-12-04 19:40:37 - **** Bridges-2 info ****
+2025-12-19 07:34:25 - **** Job starts ****
+2025-12-19 07:34:25 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36419795
+Job id: 36619525
 Job name: peri_state
 Node name: 
-Hostname: r010
+Hostname: r021
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,11 +12,64 @@ Currently Loaded Modules:
 
  
 
-2025-12-04 19:40:38 - **** Loading mamba environment ****
-2025-12-04 19:40:39 - **** Run analysis ****
-2025-12-04 19:42:54,350 [INFO] Loading AnnData from results/pericytes_with_airspace_score.h5ad
-2025-12-04 19:43:10,196 [INFO] Computing neighbors for X_pca_harmony (n_neighbors=50, random_state=13)
-2025-12-04 19:47:14,271 [INFO] Computing shortest paths from 64583 EC cells to all 310723 cells.
-/var/spool/slurm/d/job36419795/slurm_script: line 37: 55261 Killed                  python ../_h/05.pericyte_states.py --adata "${OUTDIR}/pericytes_with_airspace_score.h5ad" --outdir "${OUTDIR}" --state-yaml ../_h/states_pericytes.yml
-2025-12-04 20:16:38 - Error: Python execution failed
-slurmstepd: error: Detected 1 oom-kill event(s) in StepId=36419795.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
+2025-12-19 07:34:26 - **** Loading mamba environment ****
+2025-12-19 07:34:26 - **** Run analysis ****
+2025-12-19 07:37:46,437 [INFO] Loading AnnData from results/pericytes_with_airspace_score.h5ad
+2025-12-19 07:38:04,571 [INFO] Computing neighbors for X_pca_harmony (n_neighbors=50, random_state=13)
+2025-12-19 07:41:22,143 [INFO] [NN-latent] use_rep=X_pca_harmony | metric=euclidean | n_cells=310723 | pericytes=11680 | EC=64583 | k=1
+2025-12-19 07:41:22,599 [INFO] Capillary signature genes present: ['KCNJ8', 'ABCC9', 'PDE5A', 'MCAM', 'KCNK3']
+2025-12-19 07:41:22,600 [INFO] Arteriolar signature genes present: ['NOTCH3', 'TAGLN', 'ACTA2', 'THY1', 'MYH11', 'CNN1', 'EDNRA']
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:266: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  plt.tight_layout()
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:287: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(peri, key_added=leiden_key, resolution=resolution)
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/localization/pericyte_analysis/_m/../_h/05.pericyte_states.py:291: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '['0' '1' '0' ... '1' '1' '0']' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  adata.obs.loc[peri.obs_names, leiden_key] = peri.obs[leiden_key].astype(str).values
+2025-12-19 08:12:08,444 [INFO] Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-12-19 08:12:08,458 [INFO] Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/regression/linear_model.py:2274: InvalidTestWarning: F test for comparison is likely invalid with robust covariance, proceeding anyway
+  warnings.warn('F test for comparison is likely invalid with ' +
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/base/model.py:1894: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 372, but rank is 36
+  warnings.warn('covariance of constraints does not have full '
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/base/model.py:1894: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 2, but rank is 1
+  warnings.warn('covariance of constraints does not have full '
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/base/model.py:1894: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 15, but rank is 4
+  warnings.warn('covariance of constraints does not have full '
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/base/model.py:1894: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 4, but rank is 2
+  warnings.warn('covariance of constraints does not have full '
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/statsmodels/base/model.py:1894: ValueWarning: covariance of constraints does not have full rank. The number of constraints is 398, but rank is 40
+  warnings.warn('covariance of constraints does not have full '
+... storing 'pericyte_state' as categorical
+... storing 'leiden_pericytes' as categorical
+2025-12-19 08:12:24,360 [INFO] Pericyte state analysis complete.
+None
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+sklearn             1.7.2
+statsmodels         0.14.5
+yaml                6.0.2
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-19 08:12
+2025-12-19 08:12:42 - **** Job ends ****

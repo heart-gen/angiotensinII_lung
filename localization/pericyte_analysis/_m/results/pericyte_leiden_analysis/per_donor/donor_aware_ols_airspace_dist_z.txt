@@ -1,0 +1,427 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:        airspace_dist_z   R-squared:                       0.152
+Model:                            OLS   Adj. R-squared:                  0.147
+Method:                 Least Squares   F-statistic:                     33.20
+Date:                Fri, 19 Dec 2025   Prob (F-statistic):          2.03e-229
+Time:                        08:12:14   Log-Likelihood:                -9320.0
+No. Observations:                6974   AIC:                         1.872e+04
+Df Residuals:                    6934   BIC:                         1.899e+04
+Df Model:                          39                                         
+Covariance Type:                  HC3                                         
+===============================================================================================================================================================================
+                                                                                                                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Intercept                                                                                                      -0.2876      0.037     -7.676      0.000      -0.361      -0.214
+C(leiden_pericytes)[T.1]                                                                                        0.9061      0.031     29.244      0.000       0.845       0.967
+C(leiden_pericytes)[T.2]                                                                                        0.8666      0.034     25.701      0.000       0.801       0.933
+C(leiden_pericytes)[T.3]                                                                                        0.2793      0.042      6.591      0.000       0.196       0.362
+C(leiden_pericytes)[T.4]                                                                                        0.3640      0.133      2.733      0.006       0.103       0.625
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747002C]                    -2.194e-15   1.71e-15     -1.285      0.199   -5.54e-15    1.15e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747003C]                    -3.797e-16   5.31e-16     -0.716      0.474   -1.42e-15     6.6e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747010I]                     8.727e-16   9.28e-16      0.940      0.347   -9.46e-16    2.69e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747021I]                    -6.122e-15   3.91e-15     -1.565      0.118   -1.38e-14    1.55e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747022I]                     8.902e-16   1.17e-15      0.762      0.446    -1.4e-15    3.18e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747025I]                    -3.157e-15   3.43e-15     -0.919      0.358   -9.89e-15    3.58e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747034C]                     1.056e-16    4.1e-16      0.257      0.797   -6.99e-16     9.1e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747034I]                     5.913e-15   2.71e-15      2.179      0.029    5.94e-16    1.12e-14
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747040I]                    -1.187e-16   3.45e-16     -0.344      0.731   -7.96e-16    5.58e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747041I]                    -9.018e-17   8.21e-16     -0.110      0.913    -1.7e-15    1.52e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747051I]                     -1.02e-15    7.4e-16     -1.379      0.168   -2.47e-15     4.3e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747052CO]                     -1.1e-16   1.75e-16     -0.627      0.531   -4.54e-16    2.34e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747053I]                     -6.12e-16   9.58e-16     -0.639      0.523   -2.49e-15    1.26e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747056CO]                     6.73e-17   1.18e-16      0.569      0.569   -1.65e-16    2.99e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747063I]                     4.268e-16   3.98e-16      1.071      0.284   -3.54e-16    1.21e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747065C]                    -5.062e-16   5.55e-16     -0.912      0.362   -1.59e-15    5.82e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747081C]                     3.078e-16    2.3e-16      1.339      0.181   -1.43e-16    7.58e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747084C]                    -1.422e-16   1.67e-16     -0.853      0.394   -4.69e-16    1.85e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747092C]                    -3.793e-17   1.36e-16     -0.278      0.781   -3.05e-16    2.29e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747098C]                     7.618e-17   2.34e-16      0.326      0.744   -3.82e-16    5.34e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747101CV0ng]                -1.474e-15   7.14e-16     -2.064      0.039   -2.87e-15   -7.44e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747123I]                     4.103e-16   5.98e-16      0.685      0.493   -7.63e-16    1.58e-15
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747133C]                    -2.124e-16    2.5e-16     -0.849      0.396   -7.03e-16    2.78e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747135I]                    -6.901e-17   5.34e-17     -1.291      0.197   -1.74e-16    3.57e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_4837471372C]                   -3.119e-16   2.77e-16     -1.126      0.260   -8.55e-16    2.31e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747137C]                     7.491e-17   2.09e-16      0.358      0.720   -3.35e-16    4.85e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747137CO]                    5.492e-18   3.86e-17      0.142      0.887   -7.02e-17    8.12e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747138I]                     1.916e-16   1.93e-16      0.992      0.321   -1.87e-16     5.7e-16
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747145I]                    -2.962e-18   2.73e-17     -0.108      0.914   -5.65e-17    5.05e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747152CO]                    3.161e-17   3.22e-17      0.982      0.326   -3.15e-17    9.47e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747153CO]                    6.652e-18   1.04e-17      0.642      0.521   -1.37e-17     2.7e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747157I]                     2.527e-17   2.34e-17      1.081      0.280   -2.05e-17    7.11e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747158I]                     9.479e-18   1.86e-17      0.509      0.611    -2.7e-17     4.6e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747160C]                    -1.188e-19   1.76e-18     -0.067      0.946   -3.57e-18    3.33e-18
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747166I]                     9.514e-18   8.14e-18      1.169      0.242   -6.43e-18    2.55e-17
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374716E0F2ng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747174I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747177I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747178CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747179I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747184CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747186CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747192C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747192CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747193CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747194CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_4837471A1DFBng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747207CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747208C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747209I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747210I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747212I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747214I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747217CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747218C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747221I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747222C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747222I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747225I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747226C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747228I]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747235CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747237CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747238CO]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374723CO]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747244C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747253C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747284C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747290B]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747292B]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747296C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747298C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374729I]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747302C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747356C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747368C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747388C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747390C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747396C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747439C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747454C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747465C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374747I]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747483C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747484C]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374749I]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_48374759I]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_4837478CO]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_4837479JQK55ng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A26]                        -0.1178      0.051     -2.309      0.021      -0.218      -0.018
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A32]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A37]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A40]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A43]                         0.0239      0.043      0.556      0.578      -0.060       0.108
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A44]                         0.0195      0.070      0.278      0.781      -0.118       0.157
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A47]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747A9LCTZng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL002]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL010]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL011]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL016]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL019]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL020]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL022]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL023]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL029]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL031]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL033]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BAL040]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_12]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_20]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_22]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_27]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_31]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_33]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_34]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747BG9_7]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Case_1]                     -0.1208      0.030     -3.986      0.000      -0.180      -0.061
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Cryobiopsy_01]                    0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D032]                       -0.0385      0.110     -0.350      0.726      -0.254       0.177
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D046]                       -0.0317      0.097     -0.325      0.745      -0.223       0.159
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D062]                        0.0127      0.088      0.144      0.886      -0.160       0.185
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D088]                        0.0256      0.065      0.392      0.695      -0.102       0.154
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D1]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D10]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D11]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D12]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D122]                       -0.0181      0.169     -0.108      0.914      -0.348       0.312
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D13]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D139]                        0.0211      0.132      0.160      0.873      -0.238       0.281
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D14]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D15]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D150]                       -0.1388      0.097     -1.436      0.151      -0.328       0.051
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D16]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D17]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D175]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D2]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D231]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D239]                       -0.1155      0.041     -2.785      0.005      -0.197      -0.034
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D3]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D322]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D326]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D339]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D344]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D353]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D354]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D363]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D367]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D372]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D4]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D5]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D6]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D7]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747D8]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747DD046Q]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747DD047Q]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747DD073R]                      0.0750      0.115      0.652      0.515      -0.151       0.301
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_01]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_02]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_03]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_04]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_05]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_06]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_07]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Donor_08]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-01]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-02]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-03]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-04]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-06]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-07]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-08]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-09]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-10]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747GRO-11]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747HP_01]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF1]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF2]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF3]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF_01]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF_02]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF_03]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747IPF_04]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747JVV9L8ng]                   -0.0708      0.240     -0.294      0.769      -0.542       0.401
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747KJYDM1ng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747KKCFFT32N]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747KKD022N]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747KKD023N]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747LuT_437]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747LuT_553]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747LuT_580]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Myositis-ILD_01]                  0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747ND15656]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747ND17494]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NML1]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NML2]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NML3]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP13]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP15]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP16]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP18]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP19]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP20]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP26]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP27]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP30]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP31]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP32]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP36]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP38]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP43]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP44]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NP47]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NU_CZI01]                    0.1780      0.043      4.119      0.000       0.093       0.263
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747NU_CZI02]                   -0.0894      0.100     -0.898      0.369      -0.285       0.106
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747ODGS1Mng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747PMB_1]                       0.0611      0.055      1.105      0.269      -0.047       0.169
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747PMB_2]                       0.0729      0.078      0.939      0.348      -0.079       0.225
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_1]                   0.0139      0.115      0.120      0.904      -0.212       0.240
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_2]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_3]                  -0.0615      0.123     -0.498      0.618      -0.303       0.180
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_4]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_5]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_6]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Patient_7]                        0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747QZY9VQng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU653]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU661]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU675]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU676]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU679]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU680]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU682]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU684]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747RU685]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747S1]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747S2]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747S4]                               0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747S4ECX8ng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SAMN12574693]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SAMN12574699]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SCD1]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SCD2]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SHMI57ng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc-ILD_01]                       0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc-ILD_02]                       0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc_1]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc_2]                      -0.1940      0.077     -2.534      0.011      -0.344      -0.044
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc_3]                      -0.0950      0.110     -0.864      0.387      -0.311       0.120
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747SSc_4]                       0.1970      0.076      2.575      0.010       0.047       0.347
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_298]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_299]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_305]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_310]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_312]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_316]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_317]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_318]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_320]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_321]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Shalek2018_subject_361]           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T120]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T121]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T153]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T164]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T167]                             0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T85]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T89]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747T90]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0001]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0005]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0006]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0007]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0008]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0009]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0010]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0012]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0014]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0015]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0017]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0019]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747THD0020]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD001]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD006]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD010]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD015]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD019]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD028]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747TILD030]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD071]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD072]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD073]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD076]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD077]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD078]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD080]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD101]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD103]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD104]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD105]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD106]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD107]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD66]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD67]                     -0.0538      0.145     -0.370      0.711      -0.339       0.231
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD68]                      0.0751      0.087      0.860      0.390      -0.096       0.246
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD69]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD70]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD84]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD85]                      0.0392      0.202      0.195      0.846      -0.356       0.434
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD87]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD92]                      0.0575      0.112      0.515      0.607      -0.161       0.276
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD94]                      0.0541      0.121      0.447      0.655      -0.183       0.291
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD95]                      0.0044      0.084      0.052      0.958      -0.161       0.169
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUHD98]                           0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD48]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD53]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD54]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD55]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD57]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD58]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD59]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD60]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD61]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD62]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD63]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD64]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747VUILD65]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_1]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_2]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_3]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_4]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_5]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_7]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_8]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_9]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_A]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747Wunderink2021_subject_B]          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747ZM3KACng]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747cc01p]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747cc02p]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747cc05p]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747dd49p]                            0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747donor 1]                     0.0205      0.100      0.204      0.838      -0.176       0.217
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747donor 2]                     0.0526      0.038      1.371      0.170      -0.023       0.128
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747donor 3]                     0.0270      0.056      0.486      0.627      -0.082       0.136
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747h18]                              0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_1]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_2]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_3]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_4]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_5]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lafy_donor_6]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_1]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_2]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_3]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_4]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_5]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_6]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_7]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747lambrechts_8]                     0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc10380]                    0.0127      0.136      0.094      0.925      -0.253       0.278
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc10381]                         0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc3843]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc4658]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc5103]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc5105]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc5212]                    -0.0994      0.201     -0.495      0.620      -0.493       0.294
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc5213]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc8257]                    -0.0641      0.040     -1.584      0.113      -0.143       0.015
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc9826]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc9832]                          0          0        nan        nan           0           0
+C(donor_id)[T.homosapiens_None_2023_None_sikkemalisa_002_d10_1101_2022_03_10_483747muc9833]                    -0.0221      0.161     -0.137      0.891      -0.339       0.294
+C(sex)[T.male]                                                                                                 -0.0124      0.037     -0.331      0.740      -0.086       0.061
+C(sex)[T.unknown]                                                                                                    0          0        nan        nan           0           0
+C(disease)[T.pulmonary fibrosis]                                                                               -0.0641      0.040     -1.584      0.113      -0.143       0.015
+C(disease)[T.lung large cell carcinoma]                                                                              0          0        nan        nan           0           0
+C(disease)[T.pleomorphic carcinoma]                                                                                  0          0        nan        nan           0           0
+C(disease)[T.chronic rhinitis]                                                                                       0          0        nan        nan           0           0
+C(disease)[T.chronic obstructive pulmonary disease]                                                                  0          0        nan        nan           0           0
+C(disease)[T.lung adenocarcinoma]                                                                                    0          0        nan        nan           0           0
+C(disease)[T.squamous cell lung carcinoma]                                                                           0          0        nan        nan           0           0
+C(disease)[T.pneumonia]                                                                                              0          0        nan        nan           0           0
+C(disease)[T.cystic fibrosis]                                                                                        0          0        nan        nan           0           0
+C(disease)[T.lymphangioleiomyomatosis]                                                                               0          0        nan        nan           0           0
+C(disease)[T.interstitial lung disease]                                                                        -0.0921      0.043     -2.132      0.033      -0.177      -0.007
+C(disease)[T.hypersensitivity pneumonitis]                                                                           0          0        nan        nan           0           0
+C(disease)[T.non-specific interstitial pneumonia]                                                                    0          0        nan        nan           0           0
+C(disease)[T.COVID-19]                                                                                          0.0132      0.033      0.395      0.692      -0.052       0.078
+C(disease)[T.normal]                                                                                           -0.1446      0.027     -5.347      0.000      -0.198      -0.092
+C(self_reported_ethnicity)[T.American]                                                                         -0.1208      0.030     -3.986      0.000      -0.180      -0.061
+C(self_reported_ethnicity)[T.Pacific Islander]                                                                       0          0        nan        nan           0           0
+C(self_reported_ethnicity)[T.Asian]                                                                                  0          0        nan        nan           0           0
+C(self_reported_ethnicity)[T.unknown]                                                                          -0.0924      0.029     -3.241      0.001      -0.148      -0.037
+age_or_mean_of_age_range                                                                                       -0.0006      0.001     -0.725      0.469      -0.002       0.001
+==============================================================================
+Omnibus:                      297.340   Durbin-Watson:                   1.970
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              379.381
+Skew:                           0.450   Prob(JB):                     4.15e-83
+Kurtosis:                       3.703   Cond. No.                     9.87e+16
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC3)
+[2] The smallest eigenvalue is 1.51e-27. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+Donor-adjusted effect of Leiden:
+F = 311.1809, p = 1.3596e-246, df_diff = 4.0
