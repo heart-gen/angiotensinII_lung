@@ -25,9 +25,9 @@ def configure_logging():
 def parse_args():
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument("--adata", type=Path,
-                        default=Path("./results/pericytes_with_airspace_score.h5ad"),
+                        default=Path("./pericytes_with_airspace_score.h5ad"),
                         help="HLCA airspace scored AnnData")
-    parser.add_argument("--outdir", type=Path, default=Path("results"))
+    parser.add_argument("--outdir", type=Path, default=Path("./"))
     return parser.parse_args()
 
 
@@ -151,21 +151,20 @@ def write_summary_results(
 
 
 def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
-    logging.info("Plot scatter of correlation")
+    logging.info("Plot scatter of correlation faceted by model")
 
     if pericyte_mask is None:
         pericyte_mask = adata.obs["subclusters"] == "Pericytes"
 
     df = adata.obs.loc[pericyte_mask, [
-        "airspace_score", "AGTR1_scvi_perivascular", "AGTR1_scvi_pericytes"
+        "donor_id", "airspace_score", "AGTR1_scvi_perivascular", "AGTR1_scvi_pericytes"
     ]].dropna()
 
     # Melt for seaborn
     df_melted = df.reset_index().melt(
-        id_vars=["index", "airspace_score"],
+        id_vars=["index", "donor_id", "airspace_score"],
         value_vars=["AGTR1_scvi_perivascular", "AGTR1_scvi_pericytes"],
-        var_name="Model",
-        value_name="AGTR1_scvi"
+        var_name="Model", value_name="AGTR1_scvi"
     )
     df_melted["Model"] = df_melted["Model"].map({
         "AGTR1_scvi_perivascular": "Perivascular-trained",
@@ -175,28 +174,34 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
     print(f"Saved melted correlation data to: {base.with_suffix('.tsv')}")
 
     # Compute correlation for annotations
-    corrs = df_melted.groupby("Model").apply(
-        lambda g: pearsonr(g["AGTR1_scvi"], g["airspace_score"])
-    ).apply(pd.Series)
-    corrs.columns = ["r", "pval"]
-   
+    donor_corrs = df_melted.groupby(["Model", "donor_id"]).apply(
+        lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
+                            index=["r", "pval"])
+    ).reset_index()
+
+    # Compute overall correlation per model for annotations
+    overall_corrs = (
+        df_melted.groupby("Model")
+        .apply(lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
+                                   index=["r", "pval"]))
+        .reset_index()
+    )
+    
     # Plot
     g = sns.lmplot(
-        data=df_melted, x="AGTR1_scvi", y="airspace_score", hue="Model",
-        height=6, aspect=1.2, markers=["o", "s"], palette="Set1",
-        ci=None, scatter_kws={"s": 30, "alpha": 0.7},
-        line_kws={"linewidth": 2}
+        data=df_melted, x="AGTR1_scvi", y="airspace_score", col="Model",
+        col_wrap=2, height=5, aspect=1,  ci=None,
+        scatter_kws={"s": 30, "alpha": 0.7},
+        line_kws={"linewidth": 1.5}, legend_out=True
     )
+
     # Annotate correlations
-    ax = g.axes[0, 0]
-    for model, row in corrs.iterrows():
-        r_txt = f"{model}:\n$r = {row['r']:.2f}$, $p = {row['pval']:.1e}$"
-        x_pos = 0.05 if "Perivascular" in model else 0.6
-        ax.text(x_pos, 0.95, r_txt, transform=ax.transAxes,
+    for ax, (_, row) in zip(g.axes.flat, overall_corrs.iterrows()):
+        r_txt = f"$r = {row['r']:.2f}$\n$p = {row['pval']:.1e}$"
+        ax.text(0.05, 0.95, r_txt, transform=ax.transAxes,
                 verticalalignment='top', fontsize=12)
 
-    plt.xlabel("AGTR1 (scVI-denoised)")
-    plt.ylabel("Airspace Score")
+    g.set_axis_labels("AGTR1 (scVI-denoised)", "Airspace Score")
     plt.tight_layout()
     save_figure(g.fig, base)
 
