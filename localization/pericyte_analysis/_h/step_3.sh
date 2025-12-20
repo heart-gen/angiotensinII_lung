@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=RM-shared
-#SBATCH --job-name=peri_clustering
+#SBATCH --job-name=peri_state
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
-#SBATCH --time=03:00:00
-#SBATCH --output=logs/clustering_pericytes.log
+#SBATCH --time=04:00:00
+#SBATCH --output=logs/state_pericytes.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -30,12 +30,11 @@ module list
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
-log_message "**** Run subclustering ****"
-
-python ../_h/03.pericyte_embeddings.py \
-       --adata pericyte.hlca_full.dataset.h5ad \
-       --outdir "results" --leiden-resolution 0.5 \
-       --markers-yaml ../_h/pericyte_markers.yml
+log_message "**** Run analysis ****"
+OUTDIR="results"
+python ../_h/05.pericyte_states.py \
+       --adata "${OUTDIR}/pericytes_with_airspace_score.h5ad" \
+       --outdir "${OUTDIR}" --state-yaml ../_h/states_pericytes.yml
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"
