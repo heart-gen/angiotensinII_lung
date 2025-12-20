@@ -32,9 +32,9 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
-OUTDIR="results"
+OUTDIR="./"
 
-python ../_h/04.pericyte_metrics.py \
+python ../_h/02.pericyte_metrics.py \
        --adata "${OUTDIR}/pericyte_with_embeddings.h5ad" --outdir "${OUTDIR}"
 
 if [ $? -ne 0 ]; then

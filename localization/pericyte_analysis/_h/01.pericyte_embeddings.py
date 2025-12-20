@@ -162,7 +162,7 @@ def plot_ranked_marker_dotplot(
 ):
     """Generate a dotplot from marker genes of pericytes subclusters"""
     results = adata.uns["rank_genes_groups"]
-    groups = results["names"].dtype.anmes
+    groups = results["names"].dtype.names
     top_genes = set()
 
     for group in groups:
@@ -223,7 +223,7 @@ def main():
                                genes_dir / f"umap_{gene.lower()}_detect", categorical=True)
 
     plot_seaborn_embedding(df, args.cluster_key, f"Pericytes Subclusters",
-                           outdir / f"umap_leiden", categorical=True)
+                           genes_dir / f"umap_leiden", categorical=True)
 
     # Marker genes
     marker_dir = outdir / "markers"
