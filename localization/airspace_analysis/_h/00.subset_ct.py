@@ -148,7 +148,7 @@ def main():
     model = args.model
     print("Model selected:", model)
 
-    for AIRSPACE in [False, True]:
+    for AIRSPACE in [True]:
         label = "airspace" if AIRSPACE else "pericyte"
         out_file = f"{label}.hlca_{model}.dataset.h5ad"
         in_file = Path("inputs/hlca/_m") / f"hlca_{model}.h5ad"
