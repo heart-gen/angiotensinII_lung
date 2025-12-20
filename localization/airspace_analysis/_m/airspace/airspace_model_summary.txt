@@ -1,0 +1,28 @@
+                             OLS Regression Results                            
+===============================================================================
+Dep. Variable:     mean_airspace_score   R-squared:                       0.039
+Model:                             OLS   Adj. R-squared:                 -0.036
+Method:                  Least Squares   F-statistic:                    0.5201
+Date:                 Sat, 20 Dec 2025   Prob (F-statistic):              0.721
+Time:                         11:31:25   Log-Likelihood:                 176.35
+No. Observations:                   56   AIC:                            -342.7
+Df Residuals:                       51   BIC:                            -332.6
+Df Model:                            4                                         
+Covariance Type:             nonrobust                                         
+=====================================================================================
+                        coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------
+Intercept             0.0543      0.004     12.571      0.000       0.046       0.063
+C(sex)[T.male]       -0.0011      0.003     -0.349      0.728      -0.007       0.005
+C(sex)[T.unknown]    -0.0077      0.011     -0.684      0.497      -0.030       0.015
+frac_AGTR1_pos       -0.0020      0.008     -0.263      0.794      -0.018       0.013
+age               -7.791e-05    7.2e-05     -1.082      0.285      -0.000    6.67e-05
+==============================================================================
+Omnibus:                       14.325   Durbin-Watson:                   1.316
+Prob(Omnibus):                  0.001   Jarque-Bera (JB):               16.088
+Skew:                          -1.082   Prob(JB):                     0.000321
+Kurtosis:                       4.488   Cond. No.                         366.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
