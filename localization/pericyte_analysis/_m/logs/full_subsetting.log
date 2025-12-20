@@ -1,0 +1,55 @@
+2025-12-20 07:07:30 - **** Job starts ****
+2025-12-20 07:07:30 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36638567
+Job name: full_subset
+Node name: 
+Hostname: e003
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-20 07:07:31 - **** Loading mamba environment ****
+2025-12-20 07:07:32 - **** Run subsetting ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-12-20 07:20:07,842 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-20 07:20:12,419 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-20 07:20:12,598 - harmonypy - INFO - Iteration 1 of 50
+2025-12-20 07:20:22,839 - harmonypy - INFO - Iteration 2 of 50
+2025-12-20 07:20:33,134 - harmonypy - INFO - Iteration 3 of 50
+2025-12-20 07:20:43,323 - harmonypy - INFO - Iteration 4 of 50
+2025-12-20 07:20:53,599 - harmonypy - INFO - Iteration 5 of 50
+2025-12-20 07:21:03,808 - harmonypy - INFO - Iteration 6 of 50
+2025-12-20 07:21:12,836 - harmonypy - INFO - Iteration 7 of 50
+2025-12-20 07:21:22,214 - harmonypy - INFO - Iteration 8 of 50
+2025-12-20 07:21:30,436 - harmonypy - INFO - Iteration 9 of 50
+2025-12-20 07:21:37,777 - harmonypy - INFO - Iteration 10 of 50
+2025-12-20 07:21:44,917 - harmonypy - INFO - Iteration 11 of 50
+2025-12-20 07:21:52,038 - harmonypy - INFO - Iteration 12 of 50
+2025-12-20 07:21:59,173 - harmonypy - INFO - Iteration 13 of 50
+2025-12-20 07:22:06,307 - harmonypy - INFO - Iteration 14 of 50
+2025-12-20 07:22:13,454 - harmonypy - INFO - Iteration 15 of 50
+2025-12-20 07:22:20,587 - harmonypy - INFO - Iteration 16 of 50
+2025-12-20 07:22:27,741 - harmonypy - INFO - Iteration 17 of 50
+2025-12-20 07:22:34,878 - harmonypy - INFO - Converged after 17 iterations
+Model selected: full
+Warning: Missing batch variables: data
+Saved: pericyte.hlca_full.dataset.h5ad
+-----
+harmonypy           0.0.10
+pandas              2.3.2
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-20 07:22
+2025-12-20 07:22:57 - **** Job ends ****
