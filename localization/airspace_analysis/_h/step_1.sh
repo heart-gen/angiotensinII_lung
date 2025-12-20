@@ -32,7 +32,7 @@ log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
-OUTDIR="results"
+OUTDIR="./"
 
 python ../_h/01.airspace_analysis.py \
        --adata "airspace.hlca_full.dataset.h5ad" --outdir "${OUTDIR}"

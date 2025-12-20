@@ -3,27 +3,21 @@ Airspace proximity scoring for pericytes:
 - Compute class centroids in latent space
 - Airspace score = mean cosine similarity to {AT1, AT2, EC aerocyte, EC general capillary}
 - Compare AGTR1+ vs AGTR1- with donor random intercept (LMM)
-Outputs:
-  adata.obs['airspace_score']
-  lmm_results.csv
 """
 import warnings
-import logging, argparse
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
+import logging, argparse
+from pathlib import Path
 from scipy import sparse
 from anndata import AnnData
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
 from pandas.api.types import CategoricalDtype
-from sklearn.metrics.pairwise import cosine_similarity
-from statsmodels.regression.mixed_linear_model import MixedLMResults
 
 def configure_logging():
     logging.basicConfig(
@@ -130,6 +124,7 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     donor_levels = df.groupby("donor_id", observed=False)["AGTR1_detect"].nunique()
     keep_donors = donor_levels[donor_levels >= 2].index
     df = df[df["donor_id"].isin(keep_donors)].copy()
+    df.to_csv(outdir / "airspace_donor_data.tsv", sep="\t")
 
     # Aggregate to donor level
     donor_df = df.groupby(["donor_id"], observed=False)\
@@ -137,8 +132,7 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
                      mean_airspace_score=("airspace_score", "mean"),
                      frac_AGTR1_pos=("AGTR1_detect", "mean"),
                      n_cells=("AGTR1_detect", "size"),
-                     age=("age", "first"),
-                     sex=("sex", "first"),
+                     age=("age", "first"), sex=("sex", "first"),
                  ).reset_index()
     donor_df.to_csv(outdir / "airspace_donor_summary.csv", index=False)
 
@@ -295,7 +289,7 @@ def plot_ridge(adata: AnnData, outdir: Path):
     df = adata.obs.loc[adata.obs["subclusters"] == "Pericytes"].copy()
     df["AGTR1_detect"] = df["AGTR1_detect"].astype(str)
 
-    plt.figure(figsize=(6, 5))
+    plt.figure(figsize=(5, 4))
     sns.kdeplot(
         data=df, x="airspace_score", hue="AGTR1_detect",
         fill=True, common_norm=False, alpha=0.5
@@ -324,8 +318,7 @@ def main():
     # Airspace score
     adata = compute_airspace_scores(
         adata, rep=args.use_rep, centroids=centroids,
-        pericyte_label="Pericytes",
-        key=args.cluster_key,
+        pericyte_label="Pericytes", key=args.cluster_key,
     )
 
     # LMM analysis
