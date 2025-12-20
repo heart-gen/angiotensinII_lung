@@ -1,8 +1,0 @@
-leiden_pericytes     0     1     2    3   4
-pericyte_state                             
-ambiguous          666   638   450  257  18
-arteriolar_like    958  1388  1465  665  63
-capillary_like    2005  1495   881  642  89
-
-Chi^2 = 505.9141, df = 8, p = 3.7870e-104
-Cramer's V = 0.1472

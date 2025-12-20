@@ -1,9 +1,0 @@
-{
-  "embedding": {
-    "use_rep": "X_pca_harmony",
-    "donor_key": "donor_id",
-    "n_cells": 11680,
-    "n_donors": 194,
-    "iLISI_donor": 0.032610394566516154
-  }
-}
