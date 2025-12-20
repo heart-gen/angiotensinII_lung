@@ -8,10 +8,10 @@ from pyhere import here
 from pathlib import Path
 from pandas.api.types import CategoricalDtype
 
-def subset_data(input_file, AIRSPACE=False):
+def subset_data(input_path: Path, AIRSPACE: bool = False):
     """Subset lung single-cell data, harmonizing annotations and filtering studies."""
     # Load AnnData
-    adata = sc.read_h5ad(here(input_file))
+    adata = sc.read_h5ad(here(input_path))
 
     # Ensure count layer
     if "counts" not in adata.layers:
@@ -151,10 +151,10 @@ def main():
     for AIRSPACE in [False]:
         label = "airspace" if AIRSPACE else "pericyte"
         out_file = f"{label}.hlca_{model}.dataset.h5ad"
-        in_file = Path("inputs/hlca/_m") / f"hlca_{model}.h5ad"
+        input_path = Path("inputs/hlca/_m") / f"hlca_{model}.h5ad"
 
         # Run processing
-        adata = subset_data(in_file, AIRSPACE)
+        adata = subset_data(input_path, AIRSPACE)
         adata = preprocess_data(adata, max_iter=args.m_iter)
 
         # Save

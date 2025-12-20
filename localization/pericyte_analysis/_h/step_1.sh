@@ -32,10 +32,9 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 
-python ../_h/03.pericyte_embeddings.py \
+python ../_h/01.pericyte_embeddings.py \
        --adata pericyte.hlca_full.dataset.h5ad \
-       --outdir "results" --leiden-resolution 0.5 \
-       --markers-yaml ../_h/pericyte_markers.yml
+       --outdir "./" --leiden-resolution 0.5
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

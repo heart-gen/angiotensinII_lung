@@ -1,19 +1,18 @@
 """
 Compute embeddings + marker overlays for pericytes.
 """
-import logging, argparse
-from pathlib import Path
-from typing import Dict, List, Optional
-
 import yaml
 import numpy as np
 import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
+import logging, argparse
+from pathlib import Path
 from scipy import sparse
 from anndata import AnnData
 import matplotlib.pyplot as plt
+from typing import Dict, List, Optional
 
 sns.set_context("talk")
 sns.set_style("whitegrid")
@@ -30,8 +29,7 @@ def parse_args():
     parser.add_argument("--adata", required=True, type=Path,
                         help="Subsetted pericyte AnnData")
     parser.add_argument("--outdir", required=True, type=Path)
-    parser.add_argument("--markers-yaml", required=True, type=Path)
-    parser.add_argument("--cluster-key", default="leiden")
+    parser.add_argument("--cluster-key", default="leiden_pericytes")
     parser.add_argument("--use-rep", default="X_pca_harmony")
     parser.add_argument("--neighbors", type=int, default=50)
     parser.add_argument("--umap-min-dist", type=float, default=0.9)
@@ -77,11 +75,11 @@ def compute_embeddings(adata: AnnData, use_rep: str,
 def run_leiden(adata: AnnData, resolution: float = 0.5, seed: int = 13):
     logging.info(f"Running Leiden clustering (resolution={resolution})...")
     sc.tl.leiden(
-        adata, resolution=resolution, key_added="leiden", random_state=seed,
+        adata, resolution=resolution, key_added="leiden_pericytes", random_state=seed,
     )
 
 
-def add_agtr1_expression(adata: AnnData, gene="AGTR1"):
+def add_gene_expression(adata: AnnData, gene="AGTR1"):
     if gene not in adata.var_names:
         logging.warning(f"{gene} not in var_names")
         return
@@ -126,22 +124,21 @@ def plot_seaborn_embedding(df: pd.DataFrame, hue: str,
     save_figure(fig, base)
 
 
-def load_marker_panels(path: Path) -> Dict[str, List[str]]:
-    data = yaml.safe_load(path.read_text())
-    if "pericyte" not in data:
-        raise ValueError("YAML must contain top-level key 'pericyte'")
-    return data["pericyte"]
+def analyze_marker_genes(adata, groupby: str = 'leiden_pericytes',
+                         method: str = 'wilcoxon', outdir: Path = Path("./")):
+    sc.tl.rank_genes_groups(adata, groupby=groupby, method=method,
+                            layer="logcounts", use_raw=False)
+    # Reformat results
+    result = adata.uns['rank_genes_groups']
+    groups = result['names'].dtype.names
 
-
-def plot_marker_panels_umap(adata: AnnData, panels: Dict[str, List[str]],
-                            outdir: Path):
-    """UMAP feature plots with gene names."""
-    for label, mapping in panels.items():
-        symbols = panels[label]
-        fig = sc.pl.umap(adata, color=symbols, layer="logcounts",
-                         show=False, return_fig=True)
-
-        save_figure(fig, outdir / f"umap_markers_{label}")
+    rank_df = pd.DataFrame({
+        group + '_' + key: result[key][group]
+        for group in groups
+        for key in ['names', 'pvals', 'logfoldchanges']
+    })
+    rank_df.to_csv(outdir / "rank_genes_groups_results.txt.gz", sep='\t')
+    return adata
 
 
 def extract_dotplot_figure(dp):
@@ -160,21 +157,33 @@ def extract_dotplot_figure(dp):
     raise RuntimeError(f"Cannot extract figure from object of type {type(dp)}")
 
 
-def plot_marker_dotplot(adata: AnnData, panels: Dict[str, Dict[str, str]],
-                        cluster_key: str, outdir: Path):
-    for panel_name, symbols in panels.items():
-        dp = sc.pl.dotplot(
-            adata, symbols, groupby=cluster_key,
-            show=False, return_fig=False, dendrogram=True,
-        )
-        fig = next(iter(dp.values())).figure
-        ax = dp.get("gene_group_ax", list(dp.values())[-1])
-        for t in ax.get_xticklabels():
-            t.set_ha("center")
-            t.set_rotation(90)
-            t.set_rotation_mode("anchor")
-        fig.suptitle(f"{panel_name} markers", y=1.02)
-        save_figure(fig, outdir / f"dotplot_{panel_name}")
+def plot_ranked_marker_dotplot(
+        adata: AnnData, cluster_key: str, outdir: Path, n_genes: int = 10,
+):
+    """Generate a dotplot from marker genes of pericytes subclusters"""
+    results = adata.uns["rank_genes_groups"]
+    groups = results["names"].dtype.anmes
+    top_genes = set()
+
+    for group in groups:
+        names = results["names"][group][:n_genes]
+        top_genes.update(names)
+
+    top_genes = list(top_genes)
+    
+    dp = sc.pl.dotplot(
+        adata, top_genes, groupby=cluster_key,
+        show=False, return_fig=False, dendrogram=True,
+    )
+    fig = next(iter(dp.values())).figure
+    ax = dp.get("gene_group_ax", list(dp.values())[-1])
+    for t in ax.get_xticklabels():
+        t.set_ha("center")
+        t.set_rotation(90)
+        t.set_rotation_mode("anchor")
+        
+    fig.suptitle("To marker genes", y=1.02)
+    save_figure(fig, outdir / "dotplot_top_markers")
 
 
 def main():
@@ -201,34 +210,34 @@ def main():
     # Leiden clustering
     run_leiden(adata, resolution=args.leiden_resolution, seed=args.seed)
 
-    # AGTR1
-    add_agtr1_expression(adata, gene="AGTR1")
+    # Gene UMAP plots
+    genes_dir = outdir / "gene_plots"
+    genes_dir.mkdir(exist_ok=True)
 
-    # AGTR1 UMAP / t-SNE
-    agtr_dir = outdir / "agtr1"
-    agtr_dir.mkdir(exist_ok=True)
+    for gene in ["AGTR1", "ACTA2"]:
+        add_gene_expression(adata, gene=gene)
+        df = make_df(adata, "X_umap", [f"{gene}_expr", f"{gene}_detect", "leiden"])
+        plot_seaborn_embedding(df, f"{gene}_expr", f"{gene} expression",
+                               genes_dir / f"umap_{gene.lower()}_expr", categorical=False)
+        plot_seaborn_embedding(df, f"{gene}_detect", f"{gene} detection",
+                               genes_dir / f"umap_{gene.lower()}_detect", categorical=True)
 
-    for emb in ["X_umap", "X_tsne"]:
-        df = make_df(adata, emb, ["AGTR1_expr", "AGTR1_detect", "leiden"])
-        plot_seaborn_embedding(df, "AGTR1_expr", f"{emb}: AGTR1 expression",
-                               agtr_dir / f"{emb}_agtr1_expr", categorical=False)
-        plot_seaborn_embedding(df, "AGTR1_detect", f"{emb}: AGTR1 detection",
-                               agtr_dir / f"{emb}_agtr1_detect", categorical=True)
-        plot_seaborn_embedding(df, "leiden", f"{emb}: Leiden clusters",
-                               outdir / f"{emb}_leiden", categorical=True)
+    plot_seaborn_embedding(df, args.cluster_key, f"Pericytes Subclusters",
+                           outdir / f"umap_leiden", categorical=True)
 
-    # Marker panels
-    panels = load_marker_panels(args.markers_yaml)
-    for p, genes in panels.items():
-        panels[p] = [g for g in genes if g in adata.var_names]
-
+    # Marker genes
     marker_dir = outdir / "markers"
     marker_dir.mkdir(exist_ok=True)
 
-    plot_marker_panels_umap(adata, panels, marker_dir)
-    plot_marker_dotplot(adata, panels, args.cluster_key, marker_dir)
+    adata = analyze_marker_genes(
+        adata, args.cluster_key, 'wilcoxon', marker_dir
+    )
+    plot_ranked_marker_dotplot(adata, args.cluster_key, marker_dir, 2)
 
     # Save updated AnnData
+    df = adata.obs.copy()
+    df.to_csv(outdir / "pericytes_metadata.tsv.gz", sep="\t")
+    
     if adata.var.index.name in adata.var.columns:
         col = adata.var.index.name
         if not np.array_equal(
@@ -239,6 +248,7 @@ def main():
 
     adata.write(outdir / "pericyte_with_embeddings.h5ad")
 
+    # Session information
     session_info.show()
 
 
