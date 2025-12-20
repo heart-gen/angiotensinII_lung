@@ -1,0 +1,47 @@
+2025-12-20 07:04:12 - **** Job starts ****
+2025-12-20 07:04:12 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36638563
+Job name: full_subset
+Node name: 
+Hostname: e003
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-20 07:04:13 - **** Loading mamba environment ****
+2025-12-20 07:04:13 - **** Run subsetting ****
+2025-12-20 07:21:18,744 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-20 07:22:34,635 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-20 07:22:37,880 - harmonypy - INFO - Iteration 1 of 50
+2025-12-20 07:34:40,740 - harmonypy - INFO - Iteration 2 of 50
+2025-12-20 07:46:45,068 - harmonypy - INFO - Iteration 3 of 50
+2025-12-20 07:57:09,722 - harmonypy - INFO - Iteration 4 of 50
+2025-12-20 08:08:37,156 - harmonypy - INFO - Iteration 5 of 50
+2025-12-20 08:20:45,941 - harmonypy - INFO - Iteration 6 of 50
+2025-12-20 08:29:13,467 - harmonypy - INFO - Iteration 7 of 50
+2025-12-20 08:41:17,217 - harmonypy - INFO - Iteration 8 of 50
+2025-12-20 08:48:28,866 - harmonypy - INFO - Iteration 9 of 50
+2025-12-20 09:00:43,228 - harmonypy - INFO - Iteration 10 of 50
+2025-12-20 09:09:09,086 - harmonypy - INFO - Iteration 11 of 50
+2025-12-20 09:16:35,876 - harmonypy - INFO - Iteration 12 of 50
+2025-12-20 09:24:43,591 - harmonypy - INFO - Iteration 13 of 50
+2025-12-20 09:31:53,593 - harmonypy - INFO - Converged after 13 iterations
+Model selected: full
+Warning: Missing batch variables: data
+Saved: airspace.hlca_full.dataset.h5ad
+-----
+harmonypy           0.0.10
+pandas              2.3.2
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-20 09:32
+2025-12-20 09:33:13 - **** Job ends ****
