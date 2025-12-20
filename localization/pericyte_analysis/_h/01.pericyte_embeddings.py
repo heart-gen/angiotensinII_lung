@@ -216,7 +216,7 @@ def main():
 
     for gene in ["AGTR1", "ACTA2"]:
         add_gene_expression(adata, gene=gene)
-        df = make_df(adata, "X_umap", [f"{gene}_expr", f"{gene}_detect", "leiden"])
+        df = make_df(adata, "X_umap", [f"{gene}_expr", f"{gene}_detect", args.cluster_key])
         plot_seaborn_embedding(df, f"{gene}_expr", f"{gene} expression",
                                genes_dir / f"umap_{gene.lower()}_expr", categorical=False)
         plot_seaborn_embedding(df, f"{gene}_detect", f"{gene} detection",
