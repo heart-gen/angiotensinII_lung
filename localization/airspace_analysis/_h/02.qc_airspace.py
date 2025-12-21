@@ -174,33 +174,27 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
     print(f"Saved melted correlation data to: {base.with_suffix('.tsv')}")
 
     # Compute correlation for annotations (least 2 observations)
-    donor_corrs = (
+    donor_means (
         df_melted.groupby(["Model", "donor_id"], observed=False)
-        .filter(lambda g: len(g) >= 2)  # keep only valid groups
-        .groupby(["Model", "donor_id"])
-        .apply(lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
-                                   index=["r", "pval"]))
-        .reset_index()
+        [["AGTR1_scvi", "airspace_score"]].mean().reset_index()
     )
-
-    # Compute overall correlation per model for annotations
-    overall_corrs = (
-        df_melted.groupby("Model", observed=False)
+    
+    donor_corrs = (
+        donor_means.groupby("Model", observed=False)
         .apply(lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
-                                   index=["r", "pval"]))
-        .reset_index()
+                                   index=["r", "pval"])).reset_index()
     )
     
     # Plot
     g = sns.lmplot(
-        data=df_melted, x="AGTR1_scvi", y="airspace_score", col="Model",
+        data=donor_means, x="AGTR1_scvi", y="airspace_score", col="Model",
         col_wrap=2, height=5, aspect=1,  ci=None,
         scatter_kws={"s": 30, "alpha": 0.7},
         line_kws={"linewidth": 1.5}, legend_out=True
     )
 
     # Annotate correlations
-    for ax, (_, row) in zip(g.axes.flat, overall_corrs.iterrows()):
+    for ax, (_, row) in zip(g.axes.flat, donor_corrs.iterrows()):
         r_txt = f"$r = {row['r']:.2f}$\n$p = {row['pval']:.1e}$"
         ax.text(0.05, 0.95, r_txt, transform=ax.transAxes,
                 verticalalignment='top', fontsize=12)
