@@ -173,15 +173,19 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
     df_melted.to_csv(base.with_suffix(".tsv"), sep="\t", index=False)
     print(f"Saved melted correlation data to: {base.with_suffix('.tsv')}")
 
-    # Compute correlation for annotations
-    donor_corrs = df_melted.groupby(["Model", "donor_id"]).apply(
-        lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
-                            index=["r", "pval"])
-    ).reset_index()
+    # Compute correlation for annotations (least 2 observations)
+    donor_corrs = (
+        df_melted.groupby(["Model", "donor_id"], observed=False)
+        .filter(lambda g: len(g) >= 2)  # keep only valid groups
+        .groupby(["Model", "donor_id"])
+        .apply(lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
+                                   index=["r", "pval"]))
+        .reset_index()
+    )
 
     # Compute overall correlation per model for annotations
     overall_corrs = (
-        df_melted.groupby("Model")
+        df_melted.groupby("Model", observed=False)
         .apply(lambda g: pd.Series(pearsonr(g["AGTR1_scvi"], g["airspace_score"]),
                                    index=["r", "pval"]))
         .reset_index()
