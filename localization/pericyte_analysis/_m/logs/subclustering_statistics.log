@@ -1,10 +1,10 @@
-2025-12-21 12:39:15 - **** Job starts ****
-2025-12-21 12:39:15 - **** Bridges-2 info ****
+2025-12-21 16:18:41 - **** Job starts ****
+2025-12-21 16:18:41 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36661977
+Job id: 36667260
 Job name: viz_pericytes
 Node name: 
-Hostname: r028
+Hostname: r205
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,8 +12,8 @@ Currently Loaded Modules:
 
  
 
-2025-12-21 12:39:15 - **** Loading mamba environment ****
-2025-12-21 12:39:23 - **** Run subclustering ****
+2025-12-21 16:18:42 - **** Loading mamba environment ****
+2025-12-21 16:18:53 - **** Run subclustering ****
 [1] 91  8
 Note: model has aliased coefficients
       sums of squares computed by model comparison
@@ -47,9 +47,9 @@ Caused by warning in `cor.test.default()`:
 ! Cannot compute exact p-value with ties
 i Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings. 
 [1] "Reproducibility information:"
-[1] "2025-12-21 12:39:42 EST"
+[1] "2025-12-21 16:19:12 EST"
    user  system elapsed 
-  6.730   0.569  18.175 
+  5.142   0.406  19.030 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -122,4 +122,4 @@ i Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2025-12-21 12:39:45 - **** Job ends ****
+2025-12-21 16:19:15 - **** Job ends ****
