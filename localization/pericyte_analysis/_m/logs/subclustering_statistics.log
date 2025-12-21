@@ -1,0 +1,36 @@
+2025-12-21 12:16:48 - **** Job starts ****
+2025-12-21 12:16:48 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36661912
+Job name: viz_pericytes
+Node name: 
+Hostname: r265
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1   2) gcc/13.3.1-p20240614
+
+ 
+
+2025-12-21 12:16:48 - **** Loading mamba environment ****
+2025-12-21 12:17:17 - **** Run subclustering ****
+[1] 91  8
+Note: model has aliased coefficients
+      sums of squares computed by model comparison
+Warning messages:
+1: In meatHC(x, type = type, omega = omega) :
+  HC3 covariances are numerically unstable for hat values close to 1 (and undefined if exactly 1) as for observation(s) 14, 28
+2: not plotting observations with leverage one:
+  14, 28 
+Note: model has aliased coefficients
+      sums of squares computed by model comparison
+Warning messages:
+1: In meatHC(x, type = type, omega = omega) :
+  HC3 covariances are numerically unstable for hat values close to 1 (and undefined if exactly 1) as for observation(s) 14, 28
+2: not plotting observations with leverage one:
+  14, 28 
+Error in dimnames(X) <- list(dn[[1L]], unlist(collabs[nc > 0], use.names = FALSE)) : 
+  length of 'dimnames' [2] not equal to array extent
+Calls: save_tables -> write.table -> as.matrix -> as.matrix.data.frame
+Execution halted
+2025-12-21 12:17:28 - Error: Python execution failed
