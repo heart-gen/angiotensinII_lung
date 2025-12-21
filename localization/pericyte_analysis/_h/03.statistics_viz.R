@@ -26,7 +26,7 @@ load_data <- function(min_donors = 2){
             sex = factor(sex),
             disease = factor(disease),
             ethnicity = factor(ethnicity),
-            donor_id = factor(donor_id),
+            donor_id = factor(donor_id)
         ) |>
         group_by(leiden_pericytes) |>
         filter(n() >= min_donors) |>
@@ -73,30 +73,56 @@ run_ancova <- function(df, response, plot_dir) {
     )
 }
 
+write_tsv_safe <- function(x, file, row_names = FALSE) {
+    if (inherits(x, "emmGrid")) x <- as.data.frame(x)
+    if (inherits(x, "anova")) x <- as.data.frame(x)
+    if (inherits(x, "coeftest") || is.matrix(x)) x <- as.data.frame(x)
+
+    x <- as.data.frame(x, check.names = FALSE)
+
+                                        # Flatten any matrix/data.frame columns
+    is_matcol <- vapply(
+        x, \(col) is.matrix(col) || is.data.frame(col), logical(1)
+    )
+
+    if (any(is_matcol)) {
+        x <- cbind(
+            x[!is_matcol],
+            do.call(cbind,lapply(x[is_matcol], \(col) as.matrix(col)))
+        )
+        x <- as.data.frame(x, check.names = FALSE)
+    }
+
+    write.table(
+        x, file = file, sep = "\t", quote = FALSE,
+        row.names = row_names, col.names = TRUE
+    )
+}
+
 save_tables <- function(res, outdir, gene) {
     if(!dir.exists(outdir)) { dir.create(outdir) }
-    write.table(
+    write_tsv_safe(
         as.data.frame(res$anova),
         file = file.path(outdir, paste0(gene, "_anova.tsv")),
-        sep = "\t", quote = FALSE
+        row_names = TRUE
     )
 
-    write.table(
+    write_tsv_safe(
         as.data.frame(res$emmeans),
         file = file.path(outdir, paste0(gene, "_emmeans.tsv")),
-        sep = "\t", quote = FALSE, row.names = FALSE
+        row_names = FALSE
     )
 
-    write.table(
+    write_tsv_safe(
         as.data.frame(pairs(res$emmeans)),
         file = file.path(outdir, paste0(gene, "_posthoc.tsv")),
-        sep = "\t", quote = FALSE, row.names = FALSE
+        row_names = FALSE
     )
 
-    write.table(
+    write_tsv_safe(
         as.data.frame(res$robust_coefs),
         file = file.path(outdir, paste0(gene, "_robust_coefs.tsv")),
-        sep = "\t", quote = FALSE, row.names = TRUE
+        row_names = FALSE
     )
 }
 
@@ -126,7 +152,7 @@ boxplot_subcluster <- function(df, palette, label, gene_name, filename) {
 }
 
 ### Main script section
-df <- load_data()
+df <- load_data(min_donors = 3)
 print(dim(df))
 
                                         # Statistics
