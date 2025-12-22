@@ -6,8 +6,9 @@ import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
-import logging, argparse
+from pyhere import here
 from pathlib import Path
+import logging, argparse
 import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 from statsmodels.stats.multitest import fdrcorrection
@@ -24,7 +25,6 @@ def configure_logging():
 
 def parse_args():
     parser = argparse.ArgumentParser(__doc__)
-    parser.add_argument("--adata", required=True, type=Path, help="Input AnnData file")
     parser.add_argument("--outdir", default=Path("./"), type=Path,
                         help="Output directory for results")
     parser.add_argument("--gene", default="AGTR1", type=str, help="Gene to correlate with age")
@@ -62,7 +62,7 @@ def main():
     configure_logging()
 
     args.outdir.mkdir(parents=True, exist_ok=True)
-    adata = sc.read_h5ad(args.adata)
+    adata = sc.read_h5ad(here("inputs/hlca/_m/hlca_core.h5ad"))
 
     logging.info(f"Analyzing gene: {args.gene}")
 

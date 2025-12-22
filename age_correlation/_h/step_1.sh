@@ -1,32 +1,41 @@
 #!/bin/bash
-#SBATCH --partition=shared,bluejay
-#SBATCH --job-name=ontogeny_lungmap
+#SBATCH --partition=RM-shared
+#SBATCH --job-name=full_subset
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=jbenja13@jh.edu
-#SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=50gb
-#SBATCH --output=ontogeny_lungmap.log
+#SBATCH --mail-user=kj.benjamin90@gmail.com
+#SBATCH --ntasks-per-node=64
+#SBATCH --time=03:00:00
+#SBATCH --output=logs/age_correlation.log
 
-echo "**** Job starts ****"
-date
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
 
-echo "**** JHPCE info ****"
+log_message "**** Job starts ****"
+
+log_message "**** Bridges-2 info ****"
 echo "User: ${USER}"
 echo "Job id: ${SLURM_JOBID}"
 echo "Job name: ${SLURM_JOB_NAME}"
 echo "Node name: ${SLURM_NODENAME}"
 echo "Hostname: ${HOSTNAME}"
-echo "Task id: ${SLURM_ARRAY_TASK_ID}"
+echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 ## List current modules for reproducibility
 
-module load R
+module purge
+module load anaconda3/2024.10-1
 module list
 
-echo "**** Run single cell analysis: lungmap ****"
+log_message "**** Loading mamba environment ****"
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
-Rscript ../_h/01.ontogeny_analysis.R
+python ../_h/01.age_correlation.py --outdir "age_corr"
 
-echo "**** Job ends ****"
-date -Is
+if [ $? -ne 0 ]; then
+    log_message "Error: python execution failed"
+    exit 1
+fi
+
+conda deactivate
+log_message "**** Job ends ****"
