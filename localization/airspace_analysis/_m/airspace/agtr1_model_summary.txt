@@ -1,10 +1,10 @@
 AGTR1 scVI Model Evaluation Summary
 
-Pericyte AGTR1_scvi correlation (perivascular vs pericyte-only): 0.5703
+Pericyte AGTR1_scvi correlation (perivascular vs pericyte-only): 0.5727
 
 
 Comparison Results (Perivascular model on Pericytes):
-  Threshold: 0.1702
+  Threshold: 0.1127
   Coefficient: -0.0012
-  p-value: 0.1325
+  p-value: 0.109
   N pericytes: 11680
