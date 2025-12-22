@@ -202,9 +202,9 @@ sca <- ggscatter(df, x = "AGTR1_mean", y = "ACTA2_mean", add = "reg.line",
                  cor.coeff.args = list(method = "spearman", label.sep="\n",
                                        label.x=1.5, label.y=4),
                  xlab = "Normalized Expression (AGTR1)",
-                 ylab = "Normalized Expression (ACTA2)", ncol=4,
+                 ylab = "Normalized Expression (ACTA2)", ncol=2,
                  legend = "none", ggtheme = theme_pubr(base_size = 15))
-save_ggplots(file.path(outdir, "correlation_by_subcluster"), sca, 12, 4)
+save_ggplots(file.path(outdir, "correlation_by_subcluster"), sca, 6, 6)
 
 #### Reproducibility information ####
 print("Reproducibility information:")
