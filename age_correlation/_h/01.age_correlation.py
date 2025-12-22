@@ -11,6 +11,7 @@ from pathlib import Path
 import logging, argparse
 import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
+from pandas.api.types import CategoricalDtype
 from statsmodels.stats.multitest import fdrcorrection
 
 sns.set_context("talk")
@@ -37,10 +38,93 @@ def parse_args():
     return parser.parse_args()
 
 
+def load_adata():
+    adata = sc.read_h5ad(here("inputs/hlca/_m/hlca_core.h5ad"))
+    symbols = adata.var["feature_name"].astype(str)
+    adata.var["ensembl_id"] = adata.var_names
+    adata.var_names = symbols
+    adata.var.index = symbols
+
+    # Fix annotation
+    required_cats = [
+        "Vascular smooth muscle", "Mesothelium", "Myofibroblasts",
+        "AT1", "AT2", "Hematopoietic stem cells", "Lymphatic EC",
+        'Mast cells', "Monocyte-derived Mph",
+    ]
+
+    if not isinstance(adata.obs["ann_level_4"].dtype, CategoricalDtype):
+        adata.obs["ann_level_4"] = adata.obs["ann_level_4"].astype("category")
+
+    for cat in required_cats:
+        if cat not in adata.obs["ann_level_4"].cat.categories:
+            adata.obs["ann_level_4"] = adata.obs["ann_level_4"].cat.add_categories([cat])
+
+    # Handle annotation issues
+    vsm_clusters = {"Smooth muscle", "Smooth muscle FAM83D+",
+                    "SM activated stress response"}
+    lec_clusters = {"Lymphatic EC differentiating",
+                    "Lymphatic EC mature",
+                    "Lymphatic EC proliferating"}
+    fixes = {
+        "Vascular smooth muscle": vsm_clusters,
+        "Mesothelium": {"Mesothelium"},
+        "Myofibroblasts": {"Myofibroblasts"},
+        "AT1": {"AT1"}, "AT2": {"AT2"},
+        "Hematopoietic stem cells": {"Hematopoietic stem cells"},
+        "Lymphatic EC": lec_clusters,
+        "Mast cells": {"Mast cells"},
+        "Monocyte-derived Mph": {"Monocyte-derived Mph"},
+    }
+
+    for label, fine_clusters in fixes.items():
+        cond = (
+            adata.obs["ann_finest_level"].isin(fine_clusters)
+            & (adata.obs["ann_level_4"].isna() |
+               (adata.obs["ann_level_4"].isin(["None", ""])))
+        )
+        adata.obs.loc[cond, "ann_level_4"] = label
+
+    # Update annotation columns
+    obs_map = {
+        "subclusters": "ann_finest_level",
+        "cell_type": "ann_level_4",
+        "clusters": "ann_level_4",
+        "compartment": "ann_level_1",
+        "patient": "donor_id",
+    }
+    for new, old in obs_map.items():
+        if old in adata.obs:
+            adata.obs[new] = adata.obs[old]
+        else:
+            print(f"Warning: '{old}' not found in obs; skipping {new} mapping.")
+
+    # Filter studies (>= 20 cells)
+    study_counts = adata.obs["study"].value_counts()
+    valid_studies = study_counts[study_counts >= 20].index
+    adata = adata[adata.obs["study"].isin(valid_studies)].copy()
+    return adata
+
+
+def ensure_logcounts(adata, threshold=20):
+    """Check if adata.X is log-transformed. If not, apply log1p transformation."""
+    X = adata.X
+    X = X.toarray() if hasattr(X, "toarray") else X
+    max_val = np.percentile(X, 99)
+    logging.info(f"99th percentile of expression matrix: {max_val:.2f}")
+
+    if max_val >= threshold:
+        logging.warning("Expression values appear to be raw counts. Applying log1p transformation.")
+        adata.X = np.log1p(X)
+    else:
+        logging.info("Expression matrix appears to be log-transformed (logcounts).")
+    return adata
+
+
 def compute_donor_averages(adata, gene, age_key, donor_key):
     df = adata.obs.copy()
     df[gene] = adata[:, gene].X.toarray().flatten() if hasattr(adata[:, gene].X, "toarray") else adata[:, gene].X.flatten()
-    donor_df = df.groupby(donor_key).agg({gene: "mean", age_key: "first"}).dropna()
+    donor_df = df.groupby(donor_key, observed=False)\
+                 .agg({gene: "mean", age_key: "first"}).dropna()
     return donor_df
 
 
@@ -62,7 +146,8 @@ def main():
     configure_logging()
 
     args.outdir.mkdir(parents=True, exist_ok=True)
-    adata = sc.read_h5ad(here("inputs/hlca/_m/hlca_core.h5ad"))
+    adata = load_adata()
+    adata = ensure_logcounts(adata)
 
     logging.info(f"Analyzing gene: {args.gene}")
 

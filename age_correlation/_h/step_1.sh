@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
-#SBATCH --job-name=full_subset
+#SBATCH --partition=EM
+#SBATCH --job-name=age_corr
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-node=24
 #SBATCH --time=03:00:00
 #SBATCH --output=logs/age_correlation.log
 
