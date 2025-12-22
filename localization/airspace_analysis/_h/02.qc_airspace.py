@@ -174,7 +174,7 @@ def plot_corr(adata: AnnData, pericyte_mask=None, base: Path="./"):
     print(f"Saved melted correlation data to: {base.with_suffix('.tsv')}")
 
     # Compute correlation for annotations (least 2 observations)
-    donor_means (
+    donor_means = (
         df_melted.groupby(["Model", "donor_id"], observed=False)
         [["AGTR1_scvi", "airspace_score"]].mean().reset_index()
     )
