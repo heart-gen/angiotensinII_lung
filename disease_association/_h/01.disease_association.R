@@ -61,11 +61,11 @@ first_non_na <- function(x) {
     return(if(length(x) == 0) NA else x[[1]])
 }
 
-prepare_age_agtr1_donor_table <- function(
+prepare_agtr1_donor_table <- function(
     sce, cell_type_key = "cell_type", donor_key = "patient",
     age_key = "age_or_mean_of_age_range", sex_key = "sex",
     disease_key = "disease", ethnicity_key = "self_reported_ethnicity",
-    gene = "AGTR1", min_cells_per_donor_celltype = 20, 
+    gene = "AGTR1", min_cells_per_donor_celltype = 20,
     min_donors_per_celltype = 3
 ) {
     stopifnot(gene %in% rownames(sce))
@@ -85,7 +85,8 @@ prepare_age_agtr1_donor_table <- function(
       dplyr::rename(
           donor_id = all_of(donor_key),
           cell_type = all_of(cell_type_key),
-          age = all_of(age_key)
+          age = all_of(age_key),
+          disease = all_of(disease_key)
       ) |>
       filter(age > 20)
 
@@ -95,29 +96,28 @@ prepare_age_agtr1_donor_table <- function(
 
                                         # Per donor x cell_type summaries
     donor_celltype <- cd |>
-      group_by(donor_id, cell_type) |>
-      summarise(
-          n_cells = n(), AGTR1_mean = mean(AGTR1_logcounts, na.rm = TRUE),
-          frac_AGTR1_pos = mean(AGTR1_logcounts > 0, na.rm = TRUE),
-          age = mean(age, na.rm = TRUE),
-          sex = if ("sex" %in% colnames(cd)) first_non_na(sex) else NA,
-          disease = if ("disease" %in% colnames(cd)) first_non_na(disease) else NA,
-          ethnicity = if ("ethnicity" %in% colnames(cd)) first_non_na(ethnicity) else NA,
-        .groups = "drop"
-      ) |>
-      tidyr::drop_na(age, AGTR1_mean)
-
-                                        # Cell to donor QC
-    donor_celltype <- donor_celltype |>
-      filter(n_cells >= min_cells_per_donor_celltype)
-
-                                        # Require enough donors per cell type
-    donor_celltype <- donor_celltype |>
-      group_by(cell_type) |>
-      filter(n() >= min_donors_per_celltype) |>
-      ungroup()
+        group_by(donor_id, cell_type) |>
+        summarise(
+            n_cells = n(), AGTR1_mean = mean(AGTR1_logcounts, na.rm = TRUE),
+            frac_AGTR1_pos = mean(AGTR1_logcounts > 0, na.rm = TRUE),
+            age = mean(age, na.rm = TRUE), disease = first_non_na(disease),
+            sex = if ("sex" %in% colnames(cd)) first_non_na(sex) else NA,
+            ethnicity=if ("ethnicity" %in% colnames(cd)) first_non_na(ethnicity) else NA,
+            .groups = "drop"
+        ) |>
+        tidyr::drop_na(age, AGTR1_mean) |>
+        filter(n_cells >= min_cells_per_donor_celltype) |>
+        group_by(cell_type) |>
+        filter(n() >= min_donors_per_celltype) |>
+        ungroup()
 
     return(donor_celltype)
+}
+
+filter_non_cancer_diseases <- function(df) {
+    cancer_patterns <- c("carcinoma", "adenocarcinoma", "cancer")
+    return(filter(df, !grepl(paste(cancer_patterns, collapse="|"),
+                             disease, ignore.case = TRUE)))
 }
 
 get_agtr1_enriched_celltypes <- function(
@@ -135,60 +135,64 @@ get_agtr1_enriched_celltypes <- function(
     return(summ)
 }
 
-run_age_agtr1_by_celltype <- function(donor_celltype, keep_celltypes,
-                                      method = "spearman") {
-    res <- donor_celltype |>
-      filter(cell_type %in% keep_celltypes) |>
-      group_by(cell_type) |>
-      summarise(
-          n_donors = n(),
-          rho = suppressWarnings(cor(age, AGTR1_mean, method = method)),
-          pval = suppressWarnings(cor.test(age, AGTR1_mean,
-                                           method = method)$p.value),
-          .groups = "drop"
-      ) |>
-      mutate(fdr = p.adjust(pval, method = "fdr")) |>
-      arrange(fdr, pval)
-    return(res)
+run_disease_agtr1_by_celltype <- function(donor_celltype, keep_celltypes){
+    donor_celltype |>
+        filter(cell_type %in% keep_celltypes) |>
+        group_by(cell_type) |>
+        group_modify(~{
+            dat <- .x |> filter(!is.na(disease))
+            if (length(unique(dat$disease)) < 2) return(tibble())
+
+            kw <- kruskal.test(AGTR1_mean ~ disease, data = dat)
+
+      tibble(
+        n_donors = nrow(dat),
+        n_diseases = n_distinct(dat$disease),
+        kw_stat = unname(kw$statistic),
+        pval = kw$p.value
+      )
+    }) |>
+    ungroup() |>
+    mutate(fdr = p.adjust(pval, method = "fdr")) |>
+    arrange(fdr, pval)
 }
 
-plot_age_agtr1_facets <- function(
-    donor_celltype, keep_celltypes, outdir, filename = "age_vs_agtr1_by_celltype") {
+plot_disease_agtr1 <- function(
+    donor_celltype, keep_celltypes, outdir, filename = "disease_vs_agtr1_by_celltype") {
     dfp <- donor_celltype |>
       filter(cell_type %in% keep_celltypes) |>
       mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median))
 
-    sca <- ggscatter(dfp, x = "age", y = "AGTR1_mean", add = "loess",
-                     facet.by = "cell_type", scales = "free_y",
-                     conf.int = TRUE, cor.coef = TRUE, alpha = 0.6,
-                     size = 1.2, xlab = "Donor age (years)",
-                     ylab = "Normalized Expression (AGTR1)", legend = "none",
-                     ggtheme = theme_pubr(base_size = 15), ncol=5)
+    bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", add = "jitter",
+                     color = "disease", palette = "npg", facet.by = "cell_type",
+                     scales = "free_y", add.params = list(alpha=0.5, size=1),
+                     xlab = "", ylab = "Normalized Expression (AGTR1)",
+                     legend = "none", ggtheme = theme_pubr(base_size = 15), ncol=5) +
+        rotate_x_text(angle = 45, hjust = 1) +
+        geom_pwc(method = "dunn_test", p.adjust.method = "fdr", label = "p.format")
 
-    save_ggplots(file.path(outdir, filename), sca, w = 18, h = 4)
+    save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 4)
 }
 
-age_agtr1_analysis <- function(
-      sce, outdir = "all_cells", cell_type_key = "cell_type",
-      donor_key = "patient", age_key = "age_or_mean_of_age_range",
-      gene = "AGTR1", top_n_celltypes = 5, write_donor = FALSE,
-      enrichment_metric = c("mean_expr", "frac_expr"),
-      min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
+disease_agtr1_analysis <- function(
+    sce, outdir = "all_cells", cell_type_key = "cell_type",
+    donor_key = "patient", age_key = "age_or_mean_of_age_range",
+    gene = "AGTR1", top_n_celltypes = 5, write_donor = FALSE,
+    disease_key = "disease", enrichment_metric = "mean_expr",
+    min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
 ) {
-    enrichment_metric <- match.arg(enrichment_metric)
-
     sce <- add_rowdata(sce)
     sce <- add_qc(sce)
     sce <- filter_qc(sce)
     rownames(sce) <- rowData(sce)[, "feature_name"]
 
                                         # Build donor x cell_type table for AGTR1
-    donor_celltype <- prepare_age_agtr1_donor_table(
+    donor_celltype <- prepare_agtr1_donor_table(
         sce, cell_type_key = cell_type_key, donor_key = donor_key,
-        age_key = age_key, gene = gene,
+        age_key = age_key, gene = gene, disease_key = disease_key,
         min_cells_per_donor_celltype = min_cells_per_donor_celltype,
         min_donors_per_celltype = min_donors_per_celltype
-    )
+    ) |> filter_non_cancer_diseases()
 
                                         # Select enriched cell types descriptively
     enriched <- get_agtr1_enriched_celltypes(
@@ -197,7 +201,7 @@ age_agtr1_analysis <- function(
     keep_celltypes <- enriched$cell_type
 
                                         # Correlation results + FDR
-    stats <- run_age_agtr1_by_celltype(donor_celltype, keep_celltypes)
+    stats <- run_disease_agtr1_by_celltype(donor_celltype, keep_celltypes)
 
                                         # Save outputs
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
@@ -207,11 +211,11 @@ age_agtr1_analysis <- function(
     }
     data.table::fwrite(enriched, file.path(outdir, "agtr1_enriched_celltypes.tsv"),
                        sep = "\t")
-    data.table::fwrite(stats, file.path(outdir, "age_agtr1_spearman_by_celltype.tsv"),
+    data.table::fwrite(stats, file.path(outdir, "disease_agtr1_kruskal_by_celltype.tsv"),
                        sep = "\t")
 
                                         # Plot
-    plot_age_agtr1_facets(donor_celltype, keep_celltypes, outdir)
+    plot_disease_agtr1_facets(donor_celltype, keep_celltypes, outdir)
     return(list(donor_celltype = donor_celltype, enriched = enriched, stats = stats))
 }
 
@@ -219,10 +223,9 @@ age_agtr1_analysis <- function(
 sce <- load_data()
 
                                         # Top 10 cell types by mean AGTR1 expression
-res <- age_agtr1_analysis(
+res <- disease_agtr1_analysis(
     sce, outdir = "mean_expr", cell_type_key = "cell_type",
     enrichment_metric = "mean_expr", top_n_celltypes = 5,
-    min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3,
     write_donor = TRUE
 )
 
