@@ -18,7 +18,7 @@ def _sanitize_var_for_h5ad(adata):
 
 
 def load_reference():
-    input_path = Path(here("inputs/hlca/_m/hlca_core.h5ad"))
+    input_path = Path(here("inputs/hlca/_m/hlca_full.h5ad"))
     adata = sc.read_h5ad(input_path)
     # Ensure count layer
     if "counts" not in adata.layers:

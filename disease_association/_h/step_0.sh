@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
+#SBATCH --partition=EM
 #SBATCH --job-name=gen_ref
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=64
-#SBATCH --time=01:00:00
-#SBATCH --output=logs/generate_reference.log
+#SBATCH --ntasks-per-node=24
+#SBATCH --time=03:00:00
+#SBATCH --output=logs/preprocess_data.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -29,7 +29,7 @@ log_message "**** Loading conda environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
-python ../_h/01a.preprocess_reference.py
+python ../_h/00.preprocess_reference.py
 
 if [ $? -ne 0 ]; then
     echo "Python script failed. Check the error logs."
