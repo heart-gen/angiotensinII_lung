@@ -162,10 +162,10 @@ plot_age_agtr1_facets <- function(
                      facet.by = "cell_type", scales = "free_y",
                      conf.int = TRUE, cor.coef = TRUE, alpha = 0.6,
                      size = 1.2, xlab = "Donor age (years)",
-                     ylab = "Donor-mean AGTR1 (logcounts)", legend = "none",
+                     ylab = "Normalized Expression (AGTR1)", legend = "none",
                      ggtheme = theme_pubr(base_size = 15), ncol=5)
 
-    save_ggplots(file.path(outdir, filename), sca, w = 12, h = 8)
+    save_ggplots(file.path(outdir, filename), sca, w = 18, h = 4)
 }
 
 age_agtr1_analysis <- function(
@@ -224,12 +224,6 @@ res <- age_agtr1_analysis(
     enrichment_metric = "mean_expr", top_n_celltypes = 5,
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3,
     write_donor = TRUE
-)
-
-                                        # Top 10 cell types by fraction AGTR1-positive
-res <- age_agtr1_analysis(
-    sce, outdir = "frac_expr", cell_type_key = "cell_type",
-    enrichment_metric = "frac_expr", top_n_celltypes = 5
 )
 
 #### Reproducibility information ####
