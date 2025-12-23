@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --partition=EM
+#SBATCH --partition=RM-shared
 #SBATCH --job-name=age_spline
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=24
-#SBATCH --time=03:00:00
+#SBATCH --ntasks-per-node=4
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/age_spline.log
 
 log_message() {
