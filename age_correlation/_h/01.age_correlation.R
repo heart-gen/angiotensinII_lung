@@ -82,16 +82,16 @@ prepare_age_agtr1_donor_table <- function(
 
                                         # Rename to standard names for downstream code
     cd <- cd |>
-      rename(
+      dplyr::rename(
           donor_id = all_of(donor_key),
           cell_type = all_of(cell_type_key),
           age = all_of(age_key)
       ) |>
       filter(age > 20)
 
-    if (sex_key %in% cols_present)      cd <- cd |> rename(sex = all_of(sex_key))
-    if (disease_key %in% cols_present)  cd <- cd |> rename(disease = all_of(disease_key))
-    if (ethnicity_key %in% cols_present)cd <- cd |> rename(ethnicity = all_of(ethnicity_key))
+    if (sex_key %in% cols_present)      cd <- cd |> dplyr::rename(sex = all_of(sex_key))
+    if (disease_key %in% cols_present)  cd <- cd |> dplyr::rename(disease = all_of(disease_key))
+    if (ethnicity_key %in% cols_present)cd <- cd |> dplyr::rename(ethnicity = all_of(ethnicity_key))
 
                                         # Per donor x cell_type summaries
     donor_celltype <- cd |>
@@ -121,7 +121,7 @@ prepare_age_agtr1_donor_table <- function(
 }
 
 get_agtr1_enriched_celltypes <- function(
-    donor_celltype, metric = c("mean_expr", "frac_expr"), top_n = 10) {
+    donor_celltype, metric = c("mean_expr", "frac_expr"), top_n = 5) {
     metric <- match.arg(metric)
     summ <- donor_celltype |>
       group_by(cell_type) |>
@@ -135,15 +135,16 @@ get_agtr1_enriched_celltypes <- function(
     return(summ)
 }
 
-run_age_agtr1_by_celltype <- function(donor_celltype, keep_celltypes) {
+run_age_agtr1_by_celltype <- function(donor_celltype, keep_celltypes,
+                                      method = "spearman") {
     res <- donor_celltype |>
       filter(cell_type %in% keep_celltypes) |>
       group_by(cell_type) |>
       summarise(
           n_donors = n(),
-          rho = suppressWarnings(cor(age, AGTR1_mean, method = "spearman")),
+          rho = suppressWarnings(cor(age, AGTR1_mean, method = method)),
           pval = suppressWarnings(cor.test(age, AGTR1_mean,
-                                           method = "spearman")$p.value),
+                                           method = method)$p.value),
           .groups = "drop"
       ) |>
       mutate(fdr = p.adjust(pval, method = "fdr")) |>
@@ -162,7 +163,7 @@ plot_age_agtr1_facets <- function(
                      conf.int = TRUE, cor.coef = TRUE, alpha = 0.6,
                      size = 1.2, xlab = "Donor age (years)",
                      ylab = "Donor-mean AGTR1 (logcounts)", legend = "none",
-                     ggtheme = theme_pubr(base_size = 15))
+                     ggtheme = theme_pubr(base_size = 15), ncol=5)
 
     save_ggplots(file.path(outdir, filename), sca, w = 12, h = 8)
 }
@@ -170,7 +171,7 @@ plot_age_agtr1_facets <- function(
 age_agtr1_analysis <- function(
       sce, outdir = "all_cells", cell_type_key = "cell_type",
       donor_key = "patient", age_key = "age_or_mean_of_age_range",
-      gene = "AGTR1", top_n_celltypes = 10, write_donor = FALSE,
+      gene = "AGTR1", top_n_celltypes = 5, write_donor = FALSE,
       enrichment_metric = c("mean_expr", "frac_expr"),
       min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
 ) {
@@ -220,7 +221,7 @@ sce <- load_data()
                                         # Top 10 cell types by mean AGTR1 expression
 res <- age_agtr1_analysis(
     sce, outdir = "mean_expr", cell_type_key = "cell_type",
-    enrichment_metric = "mean_expr", top_n_celltypes = 10,
+    enrichment_metric = "mean_expr", top_n_celltypes = 5,
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3,
     write_donor = TRUE
 )
@@ -228,7 +229,7 @@ res <- age_agtr1_analysis(
                                         # Top 10 cell types by fraction AGTR1-positive
 res <- age_agtr1_analysis(
     sce, outdir = "frac_expr", cell_type_key = "cell_type",
-    enrichment_metric = "frac_expr", top_n_celltypes = 10
+    enrichment_metric = "frac_expr", top_n_celltypes = 5
 )
 
 #### Reproducibility information ####
