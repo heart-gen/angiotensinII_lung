@@ -86,7 +86,8 @@ prepare_age_agtr1_donor_table <- function(
           donor_id = all_of(donor_key),
           cell_type = all_of(cell_type_key),
           age = all_of(age_key)
-      )
+      ) |>
+      filter(age > 20)
 
     if (sex_key %in% cols_present)      cd <- cd |> rename(sex = all_of(sex_key))
     if (disease_key %in% cols_present)  cd <- cd |> rename(disease = all_of(disease_key))
