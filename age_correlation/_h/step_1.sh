@@ -28,12 +28,12 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
-python ../_h/01.age_correlation.py --outdir "age_corr"
+Rscript ../_h/01.age_correlation.R
 
 if [ $? -ne 0 ]; then
-    log_message "Error: python execution failed"
+    log_message "Error: Rscript execution failed"
     exit 1
 fi
 
