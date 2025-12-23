@@ -13,7 +13,7 @@ save_ggplots <- function(fn, p, w, h){
 
 load_data <- function(){
     fn  <- here::here("inputs/hlca/_m/hlca_core.rds")
-    sce <- as.SingleCellExperiment(readRDS(fn))
+    sce <- Seurat::as.SingleCellExperiment(readRDS(fn))
     colData(sce)$subclusters <- sce$ann_finest_level
     colData(sce)$clusters    <- sce$cell_type
     colData(sce)$cell_type   <- sce$ann_coarse_for_GWAS_and_modeling
