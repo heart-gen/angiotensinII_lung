@@ -215,9 +215,11 @@ age_agtr1_analysis <- function(
 }
 
 #### Main
+sce <- load_data()
+
                                         # Top 10 cell types by mean AGTR1 expression
 res <- age_agtr1_analysis(
-    outdir = "mean_expr", cell_type_key = "cell_type",
+    sce, outdir = "mean_expr", cell_type_key = "cell_type",
     enrichment_metric = "mean_expr", top_n_celltypes = 10,
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3,
     write_donor = TRUE
@@ -225,7 +227,7 @@ res <- age_agtr1_analysis(
 
                                         # Top 10 cell types by fraction AGTR1-positive
 res <- age_agtr1_analysis(
-    outdir = "frac_expr", cell_type_key = "cell_type",
+    sce, outdir = "frac_expr", cell_type_key = "cell_type",
     enrichment_metric = "frac_expr", top_n_celltypes = 10
 )
 
