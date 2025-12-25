@@ -12,29 +12,8 @@ save_ggplots <- function(fn, p, w, h){
 }
 
 load_data <- function(){
-    fn  <- here::here("inputs/hlca/_m/hlca_core.rds")
-    sce <- Seurat::as.SingleCellExperiment(readRDS(fn))
-    colData(sce)$subclusters <- sce$ann_finest_level
-    colData(sce)$clusters    <- sce$cell_type
-    colData(sce)$cell_type   <- sce$ann_coarse_for_GWAS_and_modeling
-    colData(sce)$compartment <- sce$ann_level_1
-    colData(sce)$patient     <- sce$donor_id
+    sce <- zellkonverter::readH5AD("ref_preprocessed.h5ad")
     colLabels(sce) <- sce$cell_type
-    return(sce)
-}
-
-get_rowData <- function(){
-    fn  <- here::here("inputs/hlca/_m/hlca_core.h5ad")
-    sce <- zellkonverter::readH5AD(fn)
-    dfx <- rowData(sce); rm(sce)
-    return(dfx)
-}
-
-add_rowdata <- function(sce){
-    dfx          <- get_rowData()
-    sgenes       <- intersect(rownames(dfx), rownames(sce))
-    sce          <- sce[sgenes, ]
-    rowData(sce) <- dfx[sgenes,]
     return(sce)
 }
 
@@ -177,11 +156,10 @@ plot_disease_agtr1 <- function(
 disease_agtr1_analysis <- function(
     sce, outdir = "all_cells", cell_type_key = "cell_type",
     donor_key = "patient", age_key = "age_or_mean_of_age_range",
-    gene = "AGTR1", top_n_celltypes = 5, write_donor = FALSE,
-    disease_key = "disease", enrichment_metric = "mean_expr",
+    gene = "AGTR1", top_n_celltypes = 5, disease_key = "disease",
+    enrichment_metric = "mean_expr",
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
 ) {
-    sce <- add_rowdata(sce)
     sce <- add_qc(sce)
     sce <- filter_qc(sce)
     rownames(sce) <- rowData(sce)[, "feature_name"]
@@ -205,10 +183,8 @@ disease_agtr1_analysis <- function(
 
                                         # Save outputs
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
-    if (write_donor) {
-        data.table::fwrite(donor_celltype,
-                           file.path(outdir, "donor_metadata.tsv"), sep = "\t")
-    }
+    data.table::fwrite(donor_celltype,
+                       file.path(outdir, "donor_metadata.tsv"), sep = "\t")
     data.table::fwrite(enriched, file.path(outdir, "agtr1_enriched_celltypes.tsv"),
                        sep = "\t")
     data.table::fwrite(stats, file.path(outdir, "disease_agtr1_kruskal_by_celltype.tsv"),
@@ -222,11 +198,9 @@ disease_agtr1_analysis <- function(
 #### Main
 sce <- load_data()
 
-                                        # Top 10 cell types by mean AGTR1 expression
 res <- disease_agtr1_analysis(
     sce, outdir = "mean_expr", cell_type_key = "cell_type",
-    enrichment_metric = "mean_expr", top_n_celltypes = 5,
-    write_donor = TRUE
+    enrichment_metric = "mean_expr", top_n_celltypes = 5
 )
 
 #### Reproducibility information ####

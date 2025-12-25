@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --partition=EM
-#SBATCH --job-name=age_corr
+#SBATCH --job-name=dx_association
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=24
 #SBATCH --time=03:00:00
-#SBATCH --output=logs/age_correlation.log
+#SBATCH --output=logs/disease_association.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -30,7 +30,7 @@ module list
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
-Rscript ../_h/01.age_correlation.R
+Rscript ../_h/01.disease_association.R
 
 if [ $? -ne 0 ]; then
     log_message "Error: Rscript execution failed"
