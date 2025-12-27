@@ -4,7 +4,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=24
-#SBATCH --time=03:00:00
+#SBATCH --time=12:00:00
 #SBATCH --output=logs/preprocess_data.log
 
 log_message() {
