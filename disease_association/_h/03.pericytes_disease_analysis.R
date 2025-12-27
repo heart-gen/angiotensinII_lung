@@ -1,0 +1,222 @@
+suppressPackageStartupMessages({
+    library(dplyr)
+    library(ggpubr)
+    library(ggplot2)
+    library(rstatix)
+    library(SingleCellExperiment)
+})
+
+save_ggplots <- function(fn, p, w, h){
+    for(ext in c('.pdf', '.png')){
+        ggsave(paste0(fn, ext), plot=p, width=w, height=h)
+    }
+}
+
+load_data <- function(){
+    fn  <- here::here("localization/pericyte_analysis/_m",
+                      "pericyte.hlca_full.dataset.h5ad")
+    sce <- zellkonverter::readH5AD(fn)
+    colLabels(sce) <- sce$leiden_pericytes ## check
+    return(sce)
+}
+
+first_non_na <- function(x) {
+    x <- x[!is.na(x)]
+    return(if(length(x) == 0) NA else x[[1]])
+}
+
+prepare_agtr1_donor_table <- function(
+    sce, cell_type_key = "cell_type", donor_key = "patient",
+    age_key = "age_or_mean_of_age_range", sex_key = "sex",
+    disease_key = "disease", ethnicity_key = "self_reported_ethnicity",
+    gene = "AGTR1", min_cells_per_donor_celltype = 20,
+    min_donors_per_celltype = 3
+) {
+    stopifnot(gene %in% rownames(sce))
+    cd <- as.data.frame(colData(sce))
+
+                                        # Extract AGTR1 logcounts for all cells
+    ag <- as.numeric(counts(sce)[gene, ]) # all assays are logcounts
+    cd$AGTR1_logcounts <- ag
+
+    cols_needed <- c(donor_key, cell_type_key, age_key, sex_key, 
+                     disease_key, ethnicity_key, "AGTR1_logcounts")
+    cols_present <- cols_needed[cols_needed %in% colnames(cd)]
+    cd <- cd[, cols_present, drop = FALSE]
+
+                                        # Rename to standard names for downstream code
+    cd <- cd |>
+      dplyr::rename(
+          donor_id = all_of(donor_key),
+          cell_type = all_of(cell_type_key),
+          age = all_of(age_key),
+          disease = all_of(disease_key)
+      ) |>
+      filter(age > 20)
+
+    if (sex_key %in% cols_present)      cd <- cd |> dplyr::rename(sex = all_of(sex_key))
+    if (disease_key %in% cols_present)  cd <- cd |> dplyr::rename(disease = all_of(disease_key))
+    if (ethnicity_key %in% cols_present)cd <- cd |> dplyr::rename(ethnicity = all_of(ethnicity_key))
+
+                                        # Per donor x cell_type summaries
+    donor_celltype <- cd |>
+        group_by(donor_id, cell_type) |>
+        summarise(
+            n_cells = n(), AGTR1_mean = mean(AGTR1_logcounts, na.rm = TRUE),
+            frac_AGTR1_pos = mean(AGTR1_logcounts > 0, na.rm = TRUE),
+            age = mean(age, na.rm = TRUE), disease = first_non_na(disease),
+            sex = if ("sex" %in% colnames(cd)) first_non_na(sex) else NA,
+            ethnicity=if ("ethnicity" %in% colnames(cd)) first_non_na(ethnicity) else NA,
+            .groups = "drop"
+        ) |>
+        tidyr::drop_na(age, AGTR1_mean) |>
+        filter(n_cells >= min_cells_per_donor_celltype) |>
+        group_by(cell_type) |>
+        filter(n() >= min_donors_per_celltype) |>
+        ungroup()
+
+    return(donor_celltype)
+}
+
+filter_non_cancer_diseases <- function(df) {
+    cancer_patterns <- c("carcinoma", "adenocarcinoma", "cancer")
+    return(filter(df, !grepl(paste(cancer_patterns, collapse="|"),
+                             disease, ignore.case = TRUE)))
+}
+
+is_agtr1_positive <- function(x, threshold = 0) {
+    x > threshold
+}
+
+quantify_pericytes_by_disease <- function(
+    donor_celltype, pericyte_types = "Pericytes", agtr1_threshold = 0
+) {
+    donor_celltype |>
+        filter(cell_type %in% pericyte_types, !is.na(disease)) |>
+        mutate(
+            agtr1_positive = is_agtr1_positive(
+                AGTR1_mean, threshold = agtr1_threshold
+            )) |>
+        group_by(disease) |>
+        summarise(
+            n_donors = n_distinct(donor_id), n_pericyte_donors = n(),
+            n_agtr1_pos = sum(agtr1_positive),
+            frac_agtr1_pos = n_agtr1_pos / n_pericyte_donors,
+            mean_agtr1 = mean(AGTR1_mean, na.rm = TRUE),
+            .groups = "drop") |>
+        arrange(desc(frac_agtr1_pos))
+}
+
+quantify_pericytes_by_donor <- function(
+    donor_celltype, pericyte_types = "Pericytes", agtr1_threshold = 0
+) {
+    donor_celltype |>
+        filter(cell_type %in% pericyte_types, !is.na(disease)) |>
+        mutate(
+            agtr1_positive = is_agtr1_positive(
+                AGTR1_mean, threshold = agtr1_threshold)) |>
+        group_by(disease, donor_id) |>
+        summarise(
+            n_pericyte_types = n(), n_agtr1_pos = sum(agtr1_positive),
+            frac_agtr1_pos = n_agtr1_pos / n_pericyte_types,
+            mean_agtr1 = mean(AGTR1_mean, na.rm = TRUE),
+            .groups = "drop"
+        )
+}
+
+run_disease_agtr1_by_celltype <- function(donor_celltype){
+    donor_celltype |>
+        group_by(cell_type) |>
+        group_modify(~{
+            dat <- .x |> filter(!is.na(disease))
+            n   <- nrow(dat)
+            k   <- n_distinct(dat$disease)
+            if (k < 2) return(tibble())
+            kw  <- kruskal.test(AGTR1_mean ~ disease, data = dat)
+            eta_sq_h <- (unname(kw$statistic) - k + 1) / (n - k)
+            kw_tbl <- tibble(
+                n_donors = n, n_diseases = k, kw_stat = unname(kw$statistic),
+                kw_pval = kw$p.value, kw_eta_sq = eta_sq_h
+            )
+            dunn_tbl <- dat |>
+                dunn_test(AGTR1_mean ~ disease, p.adjust.method = "fdr") |>
+                mutate(effsize_r = statistic / sqrt(n),
+                       effsize_mag = case_when(
+                           abs(effsize_r) < 0.1 ~ "negligible",
+                           abs(effsize_r) < 0.3 ~ "small",
+                           abs(effsize_r) < 0.5 ~ "medium",
+                           TRUE ~ "large"
+                       ), test = "dunn")
+            bind_cols(kw_tbl, dunn_tbl)
+        }) |>
+        ungroup() |>
+        mutate(fdr = p.adjust(kw_pval, method = "fdr")) |>
+        arrange(kw_pval, p.adj)
+}
+
+plot_disease_agtr1 <- function(
+    donor_celltype, outdir, filename = "disease_vs_agtr1_by_celltype") {
+    dfp <- donor_celltype |>
+        mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median))
+
+    bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", add = "jitter",
+                     facet.by = "cell_type",
+                     scales = "free", add.params = list(alpha=0.5, size=1),
+                     xlab = "", ylab = "Normalized Expression (AGTR1)",
+                     legend = "none", ncol=5,
+                     ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
+        rotate_x_text(angle = 45, hjust = 1)##  +
+        ## geom_pwc(method = "dunn_test", p.adjust.method = "fdr", label = "p.format")
+
+    save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
+}
+
+disease_agtr1_analysis <- function(
+    sce, outdir = "all_cells", cell_type_key = "cell_type",
+    donor_key = "patient", age_key = "age_or_mean_of_age_range",
+    gene = "AGTR1", top_n_celltypes = 5, disease_key = "disease",
+    enrichment_metric = "mean_expr",
+    min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
+) {
+    rownames(sce) <- rowData(sce)[, "feature_name"]
+
+                                        # Build donor x cell_type table for AGTR1
+    donor_celltype <- prepare_agtr1_donor_table(
+        sce, cell_type_key = cell_type_key, donor_key = donor_key,
+        age_key = age_key, gene = gene, disease_key = disease_key,
+        min_cells_per_donor_celltype = min_cells_per_donor_celltype,
+        min_donors_per_celltype = min_donors_per_celltype
+    ) |> filter_non_cancer_diseases()
+
+                                        # Correlation results + FDR
+    stats <- run_disease_agtr1_by_celltype(donor_celltype)
+
+                                        # Save outputs
+    dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+    data.table::fwrite(donor_celltype,
+                       file.path(outdir, "donor_metadata.tsv"), sep = "\t")
+    data.table::fwrite(enriched, file.path(outdir, "agtr1_enriched_celltypes.tsv"),
+                       sep = "\t")
+    data.table::fwrite(stats, file.path(outdir, "disease_agtr1_kruskal_by_celltype.tsv"),
+                       sep = "\t")
+
+                                        # Plot
+    plot_disease_agtr1(donor_celltype, outdir)
+    return(list(donor_celltype = donor_celltype, enriched = enriched, stats = stats))
+}
+
+#### Main
+sce <- load_data()
+
+res <- disease_agtr1_analysis(
+    sce, outdir = "mean_expr", cell_type_key = "leiden_pericytes",
+    enrichment_metric = "mean_expr", top_n_celltypes = 5,
+    min_cells_per_donor_celltype = 10
+)
+
+#### Reproducibility information ####
+print("Reproducibility information:")
+Sys.time()
+proc.time()
+options(width = 120)
+sessioninfo::session_info()
