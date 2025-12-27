@@ -2,6 +2,7 @@ suppressPackageStartupMessages({
     library(dplyr)
     library(ggpubr)
     library(ggplot2)
+    library(rstatix)
     library(SingleCellExperiment)
 })
 
@@ -14,24 +15,6 @@ save_ggplots <- function(fn, p, w, h){
 load_data <- function(){
     sce <- zellkonverter::readH5AD("stroma.hlca_full.dataset.h5ad")
     colLabels(sce) <- sce$cell_type
-    return(sce)
-}
-
-add_qc <- function(sce){
-    is_mito <- grep("MT-", rowData(sce)$feature_name)
-    sce     <- scuttle::addPerCellQCMetrics(sce,
-                                            subsets=list(mito=is_mito))
-    sce     <- scuttle::addPerFeatureQCMetrics(sce)
-    return(sce)
-}
-
-filter_qc <- function(sce){
-                                        # Mitochondria percentage
-    print(summary(sce$subsets_mito_percent))
-    qc_stats <- scuttle::perCellQCFilters(sce)
-    print(colSums(as.matrix(qc_stats)))
-                                        # Discard outliers
-    sce      <- sce[, !qc_stats$discard]
     return(sce)
 }
 
@@ -51,7 +34,7 @@ prepare_agtr1_donor_table <- function(
     cd <- as.data.frame(colData(sce))
 
                                         # Extract AGTR1 logcounts for all cells
-    ag <- as.numeric(logcounts(sce)[gene, ])
+    ag <- as.numeric(counts(sce)[gene, ]) # all assays are logcounts
     cd$AGTR1_logcounts <- ag
 
     cols_needed <- c(donor_key, cell_type_key, age_key, sex_key, 
@@ -110,6 +93,7 @@ get_agtr1_enriched_celltypes <- function(
           .groups = "drop"
       ) |>
       arrange(desc(.data[[metric]])) |>
+      filter(cell_type != "Unknown") |>
       slice_head(n = top_n)
     return(summ)
 }
@@ -120,37 +104,47 @@ run_disease_agtr1_by_celltype <- function(donor_celltype, keep_celltypes){
         group_by(cell_type) |>
         group_modify(~{
             dat <- .x |> filter(!is.na(disease))
-            if (length(unique(dat$disease)) < 2) return(tibble())
-
-            kw <- kruskal.test(AGTR1_mean ~ disease, data = dat)
-
-      tibble(
-        n_donors = nrow(dat),
-        n_diseases = n_distinct(dat$disease),
-        kw_stat = unname(kw$statistic),
-        pval = kw$p.value
-      )
-    }) |>
-    ungroup() |>
-    mutate(fdr = p.adjust(pval, method = "fdr")) |>
-    arrange(fdr, pval)
+            n   <- nrow(dat)
+            k   <- n_distinct(dat$disease)
+            if (k < 2) return(tibble())
+            kw  <- kruskal.test(AGTR1_mean ~ disease, data = dat)
+            eta_sq_h <- (unname(kw$statistic) - k + 1) / (n - k)
+            kw_tbl <- tibble(
+                n_donors = n, n_diseases = k, kw_stat = unname(kw$statistic),
+                kw_pval = kw$p.value, kw_eta_sq = eta_sq_h
+            )
+            dunn_tbl <- dat |>
+                dunn_test(AGTR1_mean ~ disease, p.adjust.method = "fdr") |>
+                mutate(effsize_r = statistic / sqrt(n),
+                       effsize_mag = case_when(
+                           abs(effsize_r) < 0.1 ~ "negligible",
+                           abs(effsize_r) < 0.3 ~ "small",
+                           abs(effsize_r) < 0.5 ~ "medium",
+                           TRUE ~ "large"
+                       ), test = "dunn")
+            bind_cols(kw_tbl, dunn_tbl)
+        }) |>
+        ungroup() |>
+        mutate(fdr = p.adjust(kw_pval, method = "fdr")) |>
+        arrange(kw_pval, p.adj)
 }
 
 plot_disease_agtr1 <- function(
     donor_celltype, keep_celltypes, outdir, filename = "disease_vs_agtr1_by_celltype") {
     dfp <- donor_celltype |>
-      filter(cell_type %in% keep_celltypes) |>
-      mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median))
+        filter(cell_type %in% keep_celltypes) |>
+        mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median))
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", add = "jitter",
-                     color = "disease", palette = "npg", facet.by = "cell_type",
-                     scales = "free_y", add.params = list(alpha=0.5, size=1),
+                     facet.by = "cell_type",
+                     scales = "free", add.params = list(alpha=0.5, size=1),
                      xlab = "", ylab = "Normalized Expression (AGTR1)",
-                     legend = "none", ggtheme = theme_pubr(base_size = 15), ncol=5) +
-        rotate_x_text(angle = 45, hjust = 1) +
-        geom_pwc(method = "dunn_test", p.adjust.method = "fdr", label = "p.format")
+                     legend = "none", ncol=5,
+                     ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
+        rotate_x_text(angle = 45, hjust = 1)##  +
+        ## geom_pwc(method = "dunn_test", p.adjust.method = "fdr", label = "p.format")
 
-    save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 4)
+    save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
 }
 
 disease_agtr1_analysis <- function(
@@ -160,8 +154,6 @@ disease_agtr1_analysis <- function(
     enrichment_metric = "mean_expr",
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
 ) {
-    sce <- add_qc(sce)
-    sce <- filter_qc(sce)
     rownames(sce) <- rowData(sce)[, "feature_name"]
 
                                         # Build donor x cell_type table for AGTR1
@@ -191,7 +183,7 @@ disease_agtr1_analysis <- function(
                        sep = "\t")
 
                                         # Plot
-    plot_disease_agtr1_facets(donor_celltype, keep_celltypes, outdir)
+    plot_disease_agtr1(donor_celltype, keep_celltypes, outdir)
     return(list(donor_celltype = donor_celltype, enriched = enriched, stats = stats))
 }
 
@@ -200,7 +192,8 @@ sce <- load_data()
 
 res <- disease_agtr1_analysis(
     sce, outdir = "mean_expr", cell_type_key = "cell_type",
-    enrichment_metric = "mean_expr", top_n_celltypes = 5
+    enrichment_metric = "mean_expr", top_n_celltypes = 5,
+    min_cells_per_donor_celltype = 10
 )
 
 #### Reproducibility information ####
