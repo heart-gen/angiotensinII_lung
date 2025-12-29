@@ -13,7 +13,7 @@ save_ggplots <- function(fn, p, w, h){
 }
 
 load_data <- function(){
-    sce <- zellkonverter::readH5AD("stroma.hlca_full.dataset.h5ad")
+    sce <- zellkonverter::readH5AD("hlca_full.dataset.h5ad")
     colLabels(sce) <- sce$cell_type
     return(sce)
 }
