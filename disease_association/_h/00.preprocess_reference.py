@@ -75,8 +75,7 @@ def subset_data():
         print("Warning: Variable 'study' not found in observation metadata; skipping study filter.")
 
     mask = adata.obs["compartment"].eq("Stroma")
-    adata = adata[mask].copy()
-    return adata
+    return adata, adata[mask].copy()
 
 
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
@@ -124,7 +123,10 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
 
 
 def main():
-    adata = subset_data()
+    fadata, adata = subset_data()
+    fadata.write("hlca_full.dataset.h5ad")
+    del fadata
+    
     adata = preprocess_data(adata, max_iter=75)
     adata.write("stroma.hlca_full.dataset.h5ad")
     session_info.show()
