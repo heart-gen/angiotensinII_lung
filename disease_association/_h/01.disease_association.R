@@ -34,7 +34,9 @@ prepare_agtr1_donor_table <- function(
     cd <- as.data.frame(colData(sce))
 
                                         # Extract AGTR1 logcounts for all cells
-    ag <- as.numeric(counts(sce)[gene, ]) # all assays are logcounts
+    assay_name <- ifelse("logcounts" %in% assayNames(sce),
+                         "logcounts", "counts")
+    ag <- as.numeric(assay(sce, assay_name)[gene, ])
     cd$AGTR1_logcounts <- ag
 
     cols_needed <- c(donor_key, cell_type_key, age_key, sex_key, 

@@ -124,9 +124,17 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
 
 def main():
     fadata, adata = subset_data()
+
+    # Process all data
+    sc.pp.normalize_total(fadata, target_sum=1e4)
+    sc.pp.log1p(fadata)
+    sc.pp.highly_variable_genes(
+        fadata, n_top_genes=2000, batch_key='study'
+    )
     fadata.write("hlca_full.dataset.h5ad")
     del fadata
-    
+
+    # Process stromal only
     adata = preprocess_data(adata, max_iter=75)
     adata.write("stroma.hlca_full.dataset.h5ad")
     session_info.show()
