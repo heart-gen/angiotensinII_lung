@@ -17,7 +17,6 @@ load_data <- function(){
     fn  <- here::here("localization/pericyte_analysis/_m",
                       "pericyte_with_embeddings.h5ad")
     sce <- zellkonverter::readH5AD(fn)
-    colLabels(sce) <- sce$leiden_pericytes ## check
     return(sce)
 }
 
@@ -155,13 +154,13 @@ plot_disease_agtr1 <- function(
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", add = "jitter",
                      facet.by = "subcluster",
-                     scales = "free", add.params = list(alpha=0.5, size=1),
+                     scales = "free_x", add.params = list(alpha=0.5, size=1),
                      xlab = "", ylab = "Normalized Expression (AGTR1)",
                      legend = "none", ncol=5,
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(method = "dunn_test", p.adjust.method = "fdr",
-                 label = "p.format")
+                 label = "p.format", tip.length = 0)
 
     save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
 }
@@ -213,7 +212,7 @@ sce <- load_data()
 res <- disease_agtr1_analysis(
     sce, outdir = "pericyte_subclusters",
     cell_type_key = "leiden_pericytes",
-    enrichment_metric = "mean_expr", top_n_celltypes = 5,
+    enrichment_metric = "mean_expr",
     min_cells_per_donor_celltype = 20
 )
 

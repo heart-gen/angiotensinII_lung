@@ -1,0 +1,79 @@
+2025-12-30 10:41:19 - **** Job starts ****
+2025-12-30 10:41:19 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36801099
+Job name: gen_ref
+Node name: 
+Hostname: e003
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-30 10:41:20 - **** Loading conda environment ****
+2025-12-30 10:41:21 - **** Run analysis ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:309: RuntimeWarning: invalid value encountered in log
+  dispersion = np.log(dispersion)
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_highly_variable_genes.py:693: UserWarning: `n_top_genes` > number of normalized dispersions, returning all genes with normalized dispersions.
+  df = _highly_variable_genes_batched(
+2025-12-30 11:24:46,569 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-30 11:25:29,606 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-30 11:25:31,596 - harmonypy - INFO - Iteration 1 of 75
+2025-12-30 11:31:51,169 - harmonypy - INFO - Iteration 2 of 75
+2025-12-30 11:37:57,690 - harmonypy - INFO - Iteration 3 of 75
+2025-12-30 11:44:07,010 - harmonypy - INFO - Iteration 4 of 75
+2025-12-30 11:50:12,586 - harmonypy - INFO - Iteration 5 of 75
+2025-12-30 11:56:23,408 - harmonypy - INFO - Iteration 6 of 75
+2025-12-30 12:02:43,275 - harmonypy - INFO - Iteration 7 of 75
+2025-12-30 12:08:47,619 - harmonypy - INFO - Iteration 8 of 75
+2025-12-30 12:14:06,924 - harmonypy - INFO - Iteration 9 of 75
+2025-12-30 12:18:58,118 - harmonypy - INFO - Iteration 10 of 75
+2025-12-30 12:22:47,519 - harmonypy - INFO - Iteration 11 of 75
+2025-12-30 12:26:27,814 - harmonypy - INFO - Iteration 12 of 75
+2025-12-30 12:30:13,592 - harmonypy - INFO - Iteration 13 of 75
+2025-12-30 12:33:53,581 - harmonypy - INFO - Iteration 14 of 75
+2025-12-30 12:37:34,444 - harmonypy - INFO - Iteration 15 of 75
+2025-12-30 12:41:35,808 - harmonypy - INFO - Iteration 16 of 75
+2025-12-30 12:45:57,069 - harmonypy - INFO - Iteration 17 of 75
+2025-12-30 12:50:38,776 - harmonypy - INFO - Iteration 18 of 75
+2025-12-30 12:56:45,034 - harmonypy - INFO - Iteration 19 of 75
+2025-12-30 13:01:17,681 - harmonypy - INFO - Iteration 20 of 75
+2025-12-30 13:05:14,134 - harmonypy - INFO - Iteration 21 of 75
+2025-12-30 13:09:03,756 - harmonypy - INFO - Iteration 22 of 75
+2025-12-30 13:12:41,161 - harmonypy - INFO - Iteration 23 of 75
+2025-12-30 13:16:21,997 - harmonypy - INFO - Iteration 24 of 75
+2025-12-30 13:20:04,540 - harmonypy - INFO - Iteration 25 of 75
+2025-12-30 13:23:48,149 - harmonypy - INFO - Iteration 26 of 75
+2025-12-30 13:27:28,152 - harmonypy - INFO - Iteration 27 of 75
+2025-12-30 13:31:12,505 - harmonypy - INFO - Iteration 28 of 75
+2025-12-30 13:35:08,357 - harmonypy - INFO - Iteration 29 of 75
+2025-12-30 13:38:50,039 - harmonypy - INFO - Iteration 30 of 75
+2025-12-30 13:42:30,552 - harmonypy - INFO - Iteration 31 of 75
+2025-12-30 13:46:10,521 - harmonypy - INFO - Iteration 32 of 75
+2025-12-30 13:49:49,453 - harmonypy - INFO - Iteration 33 of 75
+2025-12-30 13:53:31,038 - harmonypy - INFO - Iteration 34 of 75
+2025-12-30 13:57:21,711 - harmonypy - INFO - Iteration 35 of 75
+2025-12-30 14:01:05,892 - harmonypy - INFO - Iteration 36 of 75
+2025-12-30 14:04:50,758 - harmonypy - INFO - Iteration 37 of 75
+2025-12-30 14:08:28,766 - harmonypy - INFO - Iteration 38 of 75
+2025-12-30 14:12:08,142 - harmonypy - INFO - Iteration 39 of 75
+2025-12-30 14:15:49,010 - harmonypy - INFO - Iteration 40 of 75
+2025-12-30 14:19:27,241 - harmonypy - INFO - Iteration 41 of 75
+2025-12-30 14:23:07,930 - harmonypy - INFO - Converged after 41 iterations
+Warning: Missing batch variables: data
+-----
+harmonypy           0.0.10
+pandas              2.3.2
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-30 14:23
+2025-12-30 14:23:54 - Job finished at: Tue Dec 30 14:23:54 EST 2025

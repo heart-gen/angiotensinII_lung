@@ -1,0 +1,68 @@
+2025-12-29 20:05:20 - **** Job starts ****
+2025-12-29 20:05:20 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36797635
+Job name: peri_dx_association
+Node name: 
+Hostname: r001
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-29 20:05:21 - **** Loading mamba environment ****
+Registered S3 method overwritten by 'zellkonverter':
+  method                                             from      
+  py_to_r.pandas.core.arrays.categorical.Categorical reticulate
+Warning message:
+The names of these selected obs columns have been modified to match R
+conventions: '3'_or_5'' -> 'X3._or_5.' 
+Error in disease_agtr1_analysis(sce, outdir = "pericyte_subclusters",  : 
+  object 'prei_freq' not found
+In addition: Warning messages:
+1: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+2: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+3: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+4: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+5: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+6: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+Execution halted
+2025-12-29 20:05:40 - Error: Rscript execution failed

@@ -1,0 +1,5 @@
+disease	n_donors	n_pericyte_donors	n_agtr1_pos	frac_agtr1_pos	mean_agtr1
+interstitial lung disease	3	5	5	1	0.883015004108993
+COVID-19	3	10	10	1	0.526672055020399
+normal	20	44	44	1	0.946057538177424
+pulmonary fibrosis	1	2	1	0.5	0.0608174800872803

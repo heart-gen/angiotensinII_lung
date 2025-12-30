@@ -7,6 +7,17 @@ from pyhere import here
 from pathlib import Path
 from pandas.api.types import CategoricalDtype
 
+def _sanitize_var_for_h5ad(adata):
+    if isinstance(adata.var.index.dtype, CategoricalDtype):
+        adata.var.index = pd.Index(adata.var.index.astype(str))
+    else:
+        adata.var.index = pd.Index(adata.var.index.astype(str))
+
+    adata.var.index.name = None
+    adata.var_names_make_unique()
+    return adata
+
+
 def subset_data():
     input_path = Path(here("inputs/hlca/_m/hlca_full.h5ad"))
     adata = sc.read_h5ad(input_path)
@@ -131,7 +142,8 @@ def main():
     sc.pp.highly_variable_genes(
         fadata, n_top_genes=2000, batch_key='study'
     )
-    fadata.write("hlca_full.dataset.h5ad")
+    fadata = _sanitize_var_for_h5ad(fadata)
+    fadata.write_h5ad("hlca_full.dataset.h5ad", compression="gzip")
     del fadata
 
     # Process stromal only

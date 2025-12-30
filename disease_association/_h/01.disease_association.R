@@ -13,8 +13,23 @@ save_ggplots <- function(fn, p, w, h){
 }
 
 load_data <- function(){
-    sce <- zellkonverter::readH5AD("hlca_full.dataset.h5ad")
-    colLabels(sce) <- sce$cell_type
+    sce <- zellkonverter::readH5AD("stroma.hlca_full.dataset.h5ad",
+                                   reader = "R", use_hdf5 = TRUE)
+    return(sce)
+}
+
+drop_zero_count_cells <- function(sce) {
+    cnt  <- assay(sce, "counts")
+    keep <- Matrix::colSums(cnt) > 0
+    return(sce[, keep])
+}
+
+ensure_logcounts <- function(sce) {
+    if ("logcounts" %in% assayNames(sce)) { return(sce) }
+    if (!"counts" %in% assayNames(sce)) { stop("No counts assay") }
+
+    sce <- drop_zero_count_cells(sce)
+    sce <- scuttle::logNormCounts(sce)
     return(sce)
 }
 
@@ -34,9 +49,8 @@ prepare_agtr1_donor_table <- function(
     cd <- as.data.frame(colData(sce))
 
                                         # Extract AGTR1 logcounts for all cells
-    assay_name <- ifelse("logcounts" %in% assayNames(sce),
-                         "logcounts", "counts")
-    ag <- as.numeric(assay(sce, assay_name)[gene, ])
+    ##sce <- ensure_logcounts(sce)
+    ag  <- as.numeric(assay(sce, "X")[gene, ])
     cd$AGTR1_logcounts <- ag
 
     cols_needed <- c(donor_key, cell_type_key, age_key, sex_key, 
@@ -156,9 +170,13 @@ disease_agtr1_analysis <- function(
     enrichment_metric = "mean_expr",
     min_cells_per_donor_celltype = 20, min_donors_per_celltype = 3
 ) {
-    rownames(sce) <- rowData(sce)[, "feature_name"]
+    if (!gene %in% rownames(sce)) {
+        print("Set rownames")
+        rownames(sce) <- rowData(sce)[, "feature_name"]
+    }
 
                                         # Build donor x cell_type table for AGTR1
+    print("Building donor by cell type table")
     donor_celltype <- prepare_agtr1_donor_table(
         sce, cell_type_key = cell_type_key, donor_key = donor_key,
         age_key = age_key, gene = gene, disease_key = disease_key,
@@ -167,15 +185,18 @@ disease_agtr1_analysis <- function(
     ) |> filter_non_cancer_diseases()
 
                                         # Select enriched cell types descriptively
+    print("Calculating enriched cell types")
     enriched <- get_agtr1_enriched_celltypes(
         donor_celltype, metric = enrichment_metric, top_n = top_n_celltypes
     )
     keep_celltypes <- enriched$cell_type
 
                                         # Correlation results + FDR
+    print("Perform correlation")
     stats <- run_disease_agtr1_by_celltype(donor_celltype, keep_celltypes)
 
                                         # Save outputs
+    print("Write data")
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     data.table::fwrite(donor_celltype,
                        file.path(outdir, "donor_metadata.tsv"), sep = "\t")
@@ -190,6 +211,7 @@ disease_agtr1_analysis <- function(
 }
 
 #### Main
+print("Load data")
 sce <- load_data()
 
 res <- disease_agtr1_analysis(
