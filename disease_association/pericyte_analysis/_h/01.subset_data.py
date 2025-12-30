@@ -79,7 +79,7 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
 def process_query_data():
     # Preprocessing query data
     adata = subset_data()
-    adata = check_data(adata, outdir="qc_plots")
+    adata = check_data(adata, outdir=Path("qc_plots"))
     adata = preprocess_data(adata)
     return adata
 

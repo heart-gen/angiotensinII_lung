@@ -1,0 +1,48 @@
+2025-12-30 16:53:35 - **** Job starts ****
+2025-12-30 16:53:35 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36804117
+Job name: subset_data
+Node name: 
+Hostname: r001
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2025-12-30 16:53:36 - **** Loading conda environment ****
+2025-12-30 16:53:37 - **** Run analysis ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_pca/__init__.py:227: FutureWarning: Argument `use_highly_variable` is deprecated, consider using the mask argument. Use_highly_variable=True can be called through mask_var="highly_variable". Use_highly_variable=False can be called through mask_var=None
+  mask_var_param, mask_var = _handle_mask_var(
+2025-12-30 16:54:07,716 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-30 16:54:08,911 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-30 16:54:08,978 - harmonypy - INFO - Iteration 1 of 30
+2025-12-30 16:54:09,087 - harmonypy - INFO - Iteration 2 of 30
+2025-12-30 16:54:09,188 - harmonypy - INFO - Iteration 3 of 30
+2025-12-30 16:54:09,243 - harmonypy - INFO - Iteration 4 of 30
+2025-12-30 16:54:09,298 - harmonypy - INFO - Iteration 5 of 30
+2025-12-30 16:54:09,341 - harmonypy - INFO - Iteration 6 of 30
+2025-12-30 16:54:09,388 - harmonypy - INFO - Iteration 7 of 30
+2025-12-30 16:54:09,435 - harmonypy - INFO - Iteration 8 of 30
+2025-12-30 16:54:09,483 - harmonypy - INFO - Iteration 9 of 30
+2025-12-30 16:54:09,527 - harmonypy - INFO - Iteration 10 of 30
+2025-12-30 16:54:09,575 - harmonypy - INFO - Iteration 11 of 30
+2025-12-30 16:54:09,619 - harmonypy - INFO - Iteration 12 of 30
+2025-12-30 16:54:09,667 - harmonypy - INFO - Iteration 13 of 30
+2025-12-30 16:54:09,711 - harmonypy - INFO - Iteration 14 of 30
+2025-12-30 16:54:09,767 - harmonypy - INFO - Converged after 14 iterations
+-----
+harmonypy           0.0.10
+matplotlib          3.10.5
+numpy               1.26.4
+pyhere              1.0.3
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2025-12-30 16:54
+2025-12-30 16:54:17 - Job finished at: Tue Dec 30 16:54:17 EST 2025
