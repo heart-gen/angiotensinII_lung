@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
+#SBATCH --partition=RM-small
 #SBATCH --job-name=subset_data
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks-per-node=64
 #SBATCH --time=01:00:00
-#SBATCH --output=subset_data.log
+#SBATCH --output=logs/subset_data.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
