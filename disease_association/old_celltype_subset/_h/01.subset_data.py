@@ -1,6 +1,5 @@
 ## This is a converted script from our original R version.
 ## Issues with loading the full model with `zellkonverter`.
-import os
 import numpy as np
 import session_info
 import scanpy as sc
@@ -13,7 +12,8 @@ def subset_data(subset_key: str = "cell_type",
                 subset_value: str = "Pericyte"):
     """Subset lung single-cell data for label transfer."""
     # Load AnnData
-    input_path = Path('../../_m/ipf_dataset.h5ad')
+    input_path = Path(here('disease_association/ipf_analysis',
+                           '_m/ipf_dataset.h5ad'))
     adata = sc.read_h5ad(Path(input_path))
     
     # Ensure count layer
@@ -24,23 +24,21 @@ def subset_data(subset_key: str = "cell_type",
     return adata[mask].copy()
 
 
-def check_data(adata, outdir="qc_plots"):
+def check_data(adata, outdir: Path = Path("qc_plots")):
     # Preprocess and dimensionality reduction
     sc.pp.normalize_total(adata)
     sc.pp.log1p(adata)
-    sc.pp.highly_variable_genes(adata, n_top_genes=3000)
+    sc.pp.highly_variable_genes(adata, n_top_genes=2000)
     sc.pp.scale(adata, zero_center=False)
-    sc.tl.pca(adata)
-    sc.pp.neighbors(adata)
-    sc.tl.umap(adata)
+    sc.tl.pca(adata, n_comps=50, mask_var="highly_variable", svd_solver="arpack")
     
     # Plot & Save
-    os.makedirs(outdir, exist_ok=True)
-
-    # Define the filename base
-    umap_file = os.path.join(outdir, "umap_overview")
+    outdir.mkdir(parents=True, exist_ok=True)
 
     # Create and save the plot
+    umap_file = outdir / "umap_overview"
+    sc.pp.neighbors(adata)
+    sc.tl.umap(adata)    
     sc.pl.umap(adata, color=["Library_Identity", "patient", "disease"],
                wspace=0.4, ncols=1, save=None, show=False)
 
@@ -80,10 +78,10 @@ def process_query_data():
 
 
 def load_reference():
-    input_path = Path(here("localization/celltype_subset/_m",
-                           "pericyte.hlca_core.subclustered.analysis.h5ad"))
+    input_path = Path(here("localization/pericyte_analysis/_m",
+                           "pericyte_with_embeddings.h5ad"))
     adata = sc.read_h5ad(input_path)
-    adata.obs["celltype"] = adata.obs["leiden"]
+    adata.obs["celltype"] = adata.obs["leiden_pericytes"]
     mask = adata.var["feature_name"].notna() & (adata.var["feature_name"] != "")
     adata.var_names = np.where(mask, adata.var["feature_name"], adata.var_names)
     adata = adata[:, ~adata.var_names.duplicated()].copy()
@@ -123,5 +121,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    
