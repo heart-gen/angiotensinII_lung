@@ -1,10 +1,10 @@
-2025-12-30 16:53:35 - **** Job starts ****
-2025-12-30 16:53:35 - **** Bridges-2 info ****
+2025-12-30 20:26:37 - **** Job starts ****
+2025-12-30 20:26:37 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36804117
+Job id: 36805004
 Job name: subset_data
 Node name: 
-Hostname: r001
+Hostname: r002
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,27 +12,27 @@ Currently Loaded Modules:
 
  
 
-2025-12-30 16:53:36 - **** Loading conda environment ****
-2025-12-30 16:53:37 - **** Run analysis ****
+2025-12-30 20:26:38 - **** Loading conda environment ****
+2025-12-30 20:26:38 - **** Run analysis ****
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_pca/__init__.py:227: FutureWarning: Argument `use_highly_variable` is deprecated, consider using the mask argument. Use_highly_variable=True can be called through mask_var="highly_variable". Use_highly_variable=False can be called through mask_var=None
   mask_var_param, mask_var = _handle_mask_var(
-2025-12-30 16:54:07,716 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
-2025-12-30 16:54:08,911 - harmonypy - INFO - sklearn.KMeans initialization complete.
-2025-12-30 16:54:08,978 - harmonypy - INFO - Iteration 1 of 30
-2025-12-30 16:54:09,087 - harmonypy - INFO - Iteration 2 of 30
-2025-12-30 16:54:09,188 - harmonypy - INFO - Iteration 3 of 30
-2025-12-30 16:54:09,243 - harmonypy - INFO - Iteration 4 of 30
-2025-12-30 16:54:09,298 - harmonypy - INFO - Iteration 5 of 30
-2025-12-30 16:54:09,341 - harmonypy - INFO - Iteration 6 of 30
-2025-12-30 16:54:09,388 - harmonypy - INFO - Iteration 7 of 30
-2025-12-30 16:54:09,435 - harmonypy - INFO - Iteration 8 of 30
-2025-12-30 16:54:09,483 - harmonypy - INFO - Iteration 9 of 30
-2025-12-30 16:54:09,527 - harmonypy - INFO - Iteration 10 of 30
-2025-12-30 16:54:09,575 - harmonypy - INFO - Iteration 11 of 30
-2025-12-30 16:54:09,619 - harmonypy - INFO - Iteration 12 of 30
-2025-12-30 16:54:09,667 - harmonypy - INFO - Iteration 13 of 30
-2025-12-30 16:54:09,711 - harmonypy - INFO - Iteration 14 of 30
-2025-12-30 16:54:09,767 - harmonypy - INFO - Converged after 14 iterations
+2025-12-30 20:28:30,840 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2025-12-30 20:28:31,861 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2025-12-30 20:28:31,936 - harmonypy - INFO - Iteration 1 of 30
+2025-12-30 20:28:32,047 - harmonypy - INFO - Iteration 2 of 30
+2025-12-30 20:28:32,149 - harmonypy - INFO - Iteration 3 of 30
+2025-12-30 20:28:32,205 - harmonypy - INFO - Iteration 4 of 30
+2025-12-30 20:28:32,260 - harmonypy - INFO - Iteration 5 of 30
+2025-12-30 20:28:32,303 - harmonypy - INFO - Iteration 6 of 30
+2025-12-30 20:28:32,350 - harmonypy - INFO - Iteration 7 of 30
+2025-12-30 20:28:32,398 - harmonypy - INFO - Iteration 8 of 30
+2025-12-30 20:28:32,447 - harmonypy - INFO - Iteration 9 of 30
+2025-12-30 20:28:32,493 - harmonypy - INFO - Iteration 10 of 30
+2025-12-30 20:28:32,542 - harmonypy - INFO - Iteration 11 of 30
+2025-12-30 20:28:32,586 - harmonypy - INFO - Iteration 12 of 30
+2025-12-30 20:28:32,637 - harmonypy - INFO - Iteration 13 of 30
+2025-12-30 20:28:32,683 - harmonypy - INFO - Iteration 14 of 30
+2025-12-30 20:28:32,740 - harmonypy - INFO - Converged after 14 iterations
 -----
 harmonypy           0.0.10
 matplotlib          3.10.5
@@ -44,5 +44,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2025-12-30 16:54
-2025-12-30 16:54:17 - Job finished at: Tue Dec 30 16:54:17 EST 2025
+Session information updated at 2025-12-30 20:28
+2025-12-30 20:28:46 - Job finished at: Tue Dec 30 20:28:46 EST 2025
