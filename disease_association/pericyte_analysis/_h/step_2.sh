@@ -6,7 +6,7 @@
 #SBATCH --gpus=v100-32:1
 #SBATCH --ntasks-per-node=5
 #SBATCH --time=02:00:00
-#SBATCH --output=train_model.log
+#SBATCH --output=logs/train_model.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"

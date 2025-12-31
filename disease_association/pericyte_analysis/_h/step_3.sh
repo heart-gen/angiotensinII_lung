@@ -5,7 +5,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=32
 #SBATCH --time=02:00:00
-#SBATCH --output=transfer_labels.log
+#SBATCH --output=logs/transfer_labels.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"

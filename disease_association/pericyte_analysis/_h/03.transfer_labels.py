@@ -1,43 +1,62 @@
-"""
-Single-cell label transfer.
-"""
-import scvi, os
+"""Single-cell label transfer and QC."""
+import scvi
+import logging
 import numpy as np
 import session_info
 import pandas as pd
 import scanpy as sc
-import seaborn as sns
 import harmonypy as hm
 from pathlib import Path
+from anndata import AnnData
 import matplotlib.pyplot as plt
-from scipy.spatial import cKDTree
-from sklearn.calibration import calibration_curve
 
-def subset_data(subset_key: str = "cell_type",
+def configure_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+
+def set_seed(SEED):
+    np.random.seed(13)
+    sc.settings.seed = 13
+
+
+def load_anndata(path: Path, label: str):
+    logging.info("Loading %s AnnData from %s", label, path)
+    adata = sc.read_h5ad(path)
+    if adata.n_obs == 0 or adata.n_vars == 0:
+        raise ValueError(f"{label} AnnData is empty: {path}")
+    return adata
+
+
+def subset_data(input_path: Path, subset_key: str = "cell_type",
                 subset_value: str = "Pericyte"):
-    """Subset lung single-cell data for label transfer."""
-    # Load AnnData
-    input_path = Path('../../_m/ipf_dataset.h5ad')
-    adata = sc.read_h5ad(Path(input_path))
+    logging.info("Subsetting IPF data for %s", subset_value)
+    adata = sc.read_h5ad(input_path)
     
     # Ensure count layer
     if "counts" not in adata.layers:
         adata.layers["counts"] = adata.X.copy()
+
+    if subset_key not in adata.obs:
+        raise KeyError(f"{subset_key} not found in adata.obs")
     mask = adata.obs[subset_key].eq(subset_value)
 
     return adata[mask].copy()
 
 
 def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
-    """Preprocess and batch-correct data with Harmony."""    
+    logging.info("Preprocessing the IPF query data")
     # Preprocess and dimensionality reduction
-    sc.pp.normalize_total(adata)
+    sc.pp.normalize_total(adata, layer="counts")
     sc.pp.log1p(adata)
-    sc.pp.highly_variable_genes(adata, n_top_genes=3000)
+    sc.pp.highly_variable_genes(adata, n_top_genes=2000)
     sc.pp.scale(adata, zero_center=False)
-    sc.tl.pca(adata)
+    sc.tl.pca(adata, n_comps=50, use_highly_variable=True, svd_solver="arpack")
     sc.pp.neighbors(adata)
-    sc.tl.umap(adata)    
+    sc.tl.umap(adata)
 
     # Run harmony
     batch_vars = ["patient"]
@@ -56,196 +75,178 @@ def preprocess_data(adata, max_iter: int = 30, seed: int = 13):
     return adata
 
 
-def process_query_data():
-    # Preprocessing query data
-    adata = subset_data()
+def process_query_data(path: Path):
+    adata = subset_data(path)
     adata = preprocess_data(adata)
     return adata
 
 
-def transfer_labels(confidence_threshold=0.7, outdir="qc_plots"):
-    # Load data
-    ref_hvg = sc.read_h5ad("ref_hvg.h5ad")
-    query_adata = process_query_data()
-    query_adata.X = query_adata.layers["counts"]
-    query_hvg = sc.read_h5ad("query_hvg.h5ad")
-    query_hvg.obs["celltype"] = "unknown"
+def align_query_objects(query_hvg: AnnData, query_full: AnnData):
+    missing = query_hvg.obs_names.difference(query_full.obs_names)
+    if len(missing) > 0:
+        raise ValueError("Query HVG object contains cells absent from full query data")
+    aligned = query_full[query_hvg.obs_names].copy()
+    if not np.array_equal(aligned.obs_names.values, query_hvg.obs_names.values):
+        raise AssertionError("Failed to align query HVG and full objects")
+    return aligned
 
-    # Load model with reference data
-    scanvi_model = scvi.model.SCANVI.load("scanvi_model/", adata=ref_hvg)
 
-    # Add latent variables
-    ref_hvg.obsm["X_scANVI"] = scanvi_model.get_latent_representation(ref_hvg)
-    query_adata.obsm["X_scANVI"] = scanvi_model.get_latent_representation(query_hvg)
-    query_hvg.obsm["X_scANVI"] = scanvi_model.get_latent_representation(query_hvg)
+def load_model(model_dir: Path, ref_hvg: AnnData) -> scvi.model.SCANVI:
+    logging.info("Loading SCANVI reference model from %s", model_dir)
+    ref_hvg.obs["batch"] = ref_hvg.obs["dataset"]
+    model = scvi.model.SCANVI.load(model_dir, adata=ref_hvg)
+    return model
 
-    # Labels transfer
-    query_labels = scanvi_model.predict(query_hvg)
-    query_adata.obs["predicted_labels"] = query_labels
 
-    # Get prediction probs
-    prediction_probs = scanvi_model.predict(query_hvg, soft=True)
-    query_adata.obs["prediction_confidence"] = np.max(prediction_probs, axis=1)
-    query_adata.obs["high_confidence"] = \
-        query_adata.obs["prediction_confidence"] > confidence_threshold
+def add_latent_representations(
+    scanvi_ref: scvi.model.SCANVI,  ref_hvg: AnnData, query_hvg: AnnData,
+    query_full: AnnData,
+):
+    logging.info("Computing latent representations")
+    ref_latent   = scanvi_ref.get_latent_representation(ref_hvg)
+    query_latent = scanvi_ref.get_latent_representation(query_hvg)
+    ref_hvg.obsm["X_scANVI"]    = ref_latent
+    query_hvg.obsm["X_scANVI"]  = query_latent
+    query_full.obsm["X_scANVI"] = query_latent.copy()
 
-    # Filter based on confidence
-    high_confidence_mask = query_adata.obs["prediction_confidence"] >= confidence_threshold
-    filtered_adata = query_adata[high_confidence_mask, :].copy()
-    print(f"95th percentile: {np.percentile(query_adata.obs['prediction_confidence'], 95):.2f}")
-    print(f"Median confidence: {np.median(query_adata.obs['prediction_confidence']):.2f}")
 
+def predict_labels(scanvi_ref: scvi.model.SCANVI, query_hvg: AnnData, query_full: AnnData):
+    logging.info("Predicting soft labels for query data")
+    prob_df = scanvi_ref.predict(query_hvg, soft=True)
+    if not isinstance(prob_df, pd.DataFrame):
+        raise TypeError("Expected SCANVI.predict(soft=True) to return a DataFrame")
+
+    pred = prob_df.idxmax(axis=1).astype(str)
+    logging.info("Predicting soft probs and labels for query data")
+    query_full.obsm["pred_probs"] = prob_df
+    query_full.obs["predicted_labels"] = pred.astype("category")
+    query_hvg.obs["predicted_labels"]  = pred.astype("category")
+    return prob_df
+
+
+def compute_uncertainty_metrics(prob_df: pd.DataFrame):
+    probs = prob_df.to_numpy()
+    eps   = np.finfo(np.float64).eps
+    clipped      = np.clip(probs, eps, 1.0)
+    confidences  = clipped.max(axis=1)
+    sorted_probs = np.sort(clipped, axis=1)
+    margins   = sorted_probs[:, -1] - sorted_probs[:, -2] if clipped.shape[1] > 1 else np.zeros(clipped.shape[0])
+    entropies = -np.sum(clipped * np.log(clipped), axis=1)
     # Probability histogram
-    hist_file = os.path.join(outdir, "prediction_confidence_hist")
-    plt.hist(query_adata.obs["prediction_confidence"], bins=30)
+    plt.hist(confidences, bins=30)
     plt.xlabel("Prediction confidence")
     plt.ylabel("Cell count")
     plt.title("Prediction confidence distribution")
-    plt.savefig(f"{hist_file}.png", dpi=300, bbox_inches="tight")
-    plt.savefig(f"{hist_file}.pdf", bbox_inches="tight")
-    plt.close()
-
-    # Cell type composition summary
-    original_counts = query_adata.obs["predicted_labels"].value_counts()
-    filtered_counts = filtered_adata.obs["predicted_labels"].value_counts()
-    df = pd.DataFrame({"Original": original_counts,
-                       "Filtered": filtered_counts})\
-           .reset_index()
-    df.columns = ['Cell_Type', 'Original', 'Filtered']
-    df['Difference'] = df['Original'] - df['Filtered']
-    df['Percent Retained'] = (df['Filtered'] / df['Original'] * 100).round(2)
-    df.sort_values('Difference', ascending=False)\
-      .to_csv("annotated_clusters_filtering_summary.tsv", sep="\t",
-              index=False)
-
-    return filtered_adata, query_hvg, ref_hvg
+    plt.savefig("prediction_confidence_hist.png"); plt.close()
+    return pd.DataFrame({"prediction_confidence": confidences,
+                         "prediction_entropy": entropies,
+                         "margin": margins}, index=prob_df.index)
 
 
-def cluster_data(adata):
-    one_hot = pd.get_dummies(adata.obs["predicted_labels"])
-    weighted_one_hot = one_hot.multiply(adata.obs["prediction_confidence"], axis=0)
-    weighted_one_hot_norm = (weighted_one_hot - weighted_one_hot.mean()) / weighted_one_hot.std()
-    combined_rep = np.column_stack([adata.obsm["X_pca_harmony"],
-                                    weighted_one_hot_norm.values])
-    adata.obsm["X_combined"] = combined_rep
-    sc.pp.neighbors(adata, use_rep='X_combined', n_neighbors=15, n_pcs=30)
-    return adata
+def generate_filtering_summary(adata: AnnData, threshold: float, outdir: Path):
+    if "predicted_labels" not in adata.obs or "prediction_confidence" not in adata.obs:
+        logging.warning("Missing columns for filtering summary")
+        return
+
+    df = adata.obs[["predicted_labels", "prediction_confidence"]].copy()
+    df["retained"] = df["prediction_confidence"] >= threshold
+    summary = (
+        df.groupby("predicted_labels")
+        .agg(total_cells=("predicted_labels", "size"), retained_cells=("retained", "sum"))
+        .assign(percent_retained=lambda x: 100 * x["retained_cells"] / x["total_cells"].clip(lower=1))
+    )
+    path = outdir / "annotation_filtering_summary.tsv"
+    logging.info("Writing table to %s", path)
+    summary.to_csv(path, sep="\t")
 
 
-def visualize_clusters(adata, resolution, outdir):
-    sc.tl.leiden(adata, resolution=resolution)
+def build_graph_and_cluster(adata: AnnData, neighbors: int, resolution: float, seed: int):
+    logging.info("Constructing neighborhood graph (n_neighbors=%d)", neighbors)
+    sc.pp.neighbors(adata, n_neighbors=neighbors, use_rep="X_scANVI", random_state=seed)
+    logging.info("Computing UMAP embedding")
+    sc.tl.umap(adata, random_state=seed)
+    logging.info("Running Leiden clustering (resolution=%.3f)", resolution)
+    sc.tl.leiden(adata, resolution=resolution, key_added="leiden",
+                 random_state=seed)
+
+
+def visualize_clusters(adata: AnnData, outdir: Path):
     fig, axes = plt.subplots(1, 2, figsize=(16, 6))
     sc.pl.umap(adata, color='disease', ax=axes[1],show=False, title='Disease')
-    sc.pl.umap(adata, color='patient', ax=axes[0], show=False,
-               title='Donors')
+    sc.pl.umap(adata, color='patient', ax=axes[0], show=False, title='Donors')
     plt.tight_layout()
-    plt.savefig(f'{outdir}/harmony_batch_correction.clustering.png',
+    plt.savefig(outdir / 'harmony_batch_correction.clustering.png',
                 dpi=300, bbox_inches="tight")
-    plt.savefig(f'{outdir}/harmony_batch_correction.clustering.pdf',
+    plt.savefig(outdir / 'harmony_batch_correction.clustering.pdf',
                 bbox_inches="tight")
     plt.close(fig)
-    return adata
 
 
-def additional_viz(adata, outdir):
+def additional_viz(adata: AnnData, outdir: Path):
     # Clusters - UMAP
     sc.pl.umap(adata, color=['leiden', 'predicted_labels'],
                show=False, legend_loc="on data")
-    plt.savefig(f'{outdir}/umap.pred_celltypes.png', dpi=300, bbox_inches='tight')
-    plt.savefig(f'{outdir}/umap.pred_celltypes.pdf', bbox_inches='tight')
-
-    # Clusters t-SNE
-    sc.tl.tsne(adata)
-    sc.pl.tsne(adata, color=['leiden', 'predicted_labels'],
-               show=False, legend_loc="on data")
-    plt.savefig(f'{outdir}/tsne.pred_celltypes.png', dpi=300, bbox_inches='tight')
-    plt.savefig(f'{outdir}/tsne.pred_celltypes.pdf', bbox_inches='tight')
+    plt.savefig(outdir / 'umap.pred_celltypes.png', dpi=300, bbox_inches='tight')
+    plt.savefig(outdir / 'umap.pred_celltypes.pdf', bbox_inches='tight')
     plt.close()
 
 
-def neighborhood_purity(adata, label_key="predicted_labels", k=30, outdir="qc_plots"):
-    sc.pp.neighbors(adata, use_rep="X_scANVI", n_neighbors=k)
-    conn = adata.obsp["connectivities"].tocoo()
-
-    purity_scores = np.zeros(adata.n_obs)
-    for i in range(adata.n_obs):
-        neigh = conn.col[conn.row == i]
-        same = np.mean(adata.obs[label_key].iloc[neigh] == adata.obs[label_key].iloc[i])
-        purity_scores[i] = same
-
-    adata.obs[f"purity_k{k}"] = purity_scores
-    mean_purity = purity_scores.mean()
-    print(f"Neighborhood purity (k={k}): {mean_purity:.2f}")
-
-    # Visualization
-    purity_file = os.path.join(outdir, f"neighborhood_purity_k{k}")
-    plt.figure(figsize=(6, 4))
-    sns.histplot(purity_scores, bins=30, kde=True, color="steelblue")
-    plt.axvline(mean_purity, color="red", linestyle="--", label=f"Mean = {mean_purity:.2f}")
-    plt.xlabel("Neighborhood Purity")
-    plt.ylabel("Cell Count")
-    plt.title(f"Neighborhood Purity Distribution (k={k})")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(f"{purity_file}.png", dpi=300, bbox_inches="tight")
-    plt.savefig(f"{purity_file}.pdf", bbox_inches="tight")
-    plt.close()
+def _prepare_pred_probs_for_h5(adata: AnnData, key: str = "pred_probs") -> None:
+    """Make obsm[key] HDF5-safe by storing as matrix and saving columns in .uns."""
+    pp = adata.obsm.get(key)
+    if pp is None:
+        return
+    if isinstance(pp, pd.DataFrame):
+        # keep original column names safely in .uns
+        adata.uns[f"{key}_columns"] = [str(c) for c in pp.columns]
+        # store data as a dense float32 matrix for compactness/compatibility
+        adata.obsm[key] = pp.to_numpy(dtype=np.float32, copy=False)
 
 
-def mapping_distance(ref_adata, query_adata, k=10, outdir="qc_plots"):
-    ref_latent = ref_adata.obsm["X_scANVI"]
-    query_latent = query_adata.obsm["X_scANVI"]
-    tree = cKDTree(ref_latent)
-    dists, _ = tree.query(query_latent, k=k)
-    mean_dist = dists.mean()
-    query_adata.obs[f"mapping_dist_k{k}"] = dists.mean(axis=1)
-
-    print(f"Mean {k}-NN mapping distance (query -> reference): {mean_dist:.3f}")
-
-    # Visualization
-    dists_file = os.path.join(outdir, f"mapping_distance_k{k}")
-    plt.figure(figsize=(6, 4))
-    sns.histplot(query_adata.obs[f"mapping_dist_k{k}"], bins=30, kde=True, color="seagreen")
-    plt.axvline(mean_dist, color="red", linestyle="--", label=f"Mean = {mean_dist:.3f}")
-    plt.xlabel("Mean k-NN Distance to Reference")
-    plt.ylabel("Query Cells")
-    plt.title(f"Mapping Distance Distribution (k={k})")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(f"{dists_file}.png", dpi=300, bbox_inches="tight")
-    plt.savefig(f"{dists_file}.pdf", bbox_inches="tight")
-    plt.close()
-
-    if "X_umap" in query_adata.obsm:
-        umap_file = os.path.join(outdir, f"umap_diffuse_{k}")
-        sc.pl.umap(query_adata, color=f"mapping_dist_k{k}", cmap="viridis",
-                   title=f"Mapping Distance (k={k})", save=None, show=False)
-        # Save manually for full control
-        plt.tight_layout()
-        plt.savefig(f"{umap_file}.png", dpi=300, bbox_inches="tight")
-        plt.savefig(f"{umap_file}.pdf", bbox_inches="tight")
-        plt.close()
+def save_adata(adata: AnnData, path: Path) -> None:
+    logging.info("Saving AnnData to %s", path)
+    _prepare_pred_probs_for_h5(adata, "pred_probs")
+    adata.write(path, compression="gzip")
 
 
 def main():
-    # Make directory
-    outdir = "qc_plots"
-    os.makedirs(outdir, exist_ok=True)
+    # Configure environment
+    configure_logging()
+    set_seed(13)
 
-    # Transfer labels    
-    adata, query_hvg, ref_hvg = transfer_labels(0.75, outdir=outdir)
+    # Make directory
+    outdir = Path("results")
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    # Load data
+    input_path = Path(here('disease_association/ipf_analysis',
+                           '_m/ipf_dataset.h5ad'))
+    ref_hvg = load_anndata(Path("ref_hvg.h5ad"), "reference HVG")
+    query_hvg = load_anndata(Path("query_hvg.h5ad"), "query HVG")
+    query_full = process_query_data(input_path)
+    query_full.X = query_full.layers["counts"]
+    query_full = align_query_objects(query_hvg, query_full)
+
+    # Transfer model
+    scanvi_ref = load_model(Path("scanvi_model/"), ref_hvg)
+    add_latent_representations(scanvi_ref, ref_hvg, query_hvg, query_full)
+    prob_df = predict_labels(scanvi_ref, query_hvg, query_full)
+    uncertainty = compute_uncertainty_metrics(prob_df)
+    for column in uncertainty.columns:
+        query_full.obs[column] = uncertainty[column]
+        query_hvg.obs[column]  = uncertainty[column]
 
     # Cluster data and visualization
-    adata = cluster_data(adata)
-    adata = visualize_clusters(adata, 0.45, outdir)
-    additional_viz(adata, outdir)
+    build_graph_and_cluster(query_full, 50, 0.45, 13)
+    visualize_clusters(query_full, outdir)
+    additional_viz(query_full, outdir)
 
-    # Quality control analysis
-    neighborhood_purity(adata, outdir=outdir)
-    mapping_distance(ref_hvg, query_hvg, outdir=outdir)
-    
+    # Filter data summary
+    generate_filtering_summary(query_full, 0.75, outdir)
+
     # Save data
-    adata.write_h5ad("clustered_data.h5ad", compression="gzip")
+    clustered_path = outdir / "clustered_data.h5ad"
+    save_adata(query_full, clustered_path)
 
     # Session information
     session_info.show()
