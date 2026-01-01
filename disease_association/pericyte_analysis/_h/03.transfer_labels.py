@@ -6,6 +6,7 @@ import session_info
 import pandas as pd
 import scanpy as sc
 import harmonypy as hm
+from pyhere import here
 from pathlib import Path
 from anndata import AnnData
 import matplotlib.pyplot as plt
@@ -91,7 +92,17 @@ def align_query_objects(query_hvg: AnnData, query_full: AnnData):
     return aligned
 
 
-def load_model(model_dir: Path, ref_hvg: AnnData) -> scvi.model.SCANVI:
+def load_data(input_path):
+    ref_hvg = load_anndata(Path("ref_hvg.h5ad"), "reference HVG")
+    query_hvg = load_anndata(Path("query_hvg.h5ad"), "query HVG")
+    query_hvg.obs["subcluster"] = "unknown"
+    query_full = process_query_data(input_path)
+    query_full.X = query_full.layers["counts"]
+    query_full = align_query_objects(query_hvg, query_full)
+    return ref_hvg, query_hvg, query_full
+
+
+def load_model(model_dir: Path, ref_hvg: AnnData):
     logging.info("Loading SCANVI reference model from %s", model_dir)
     ref_hvg.obs["batch"] = ref_hvg.obs["dataset"]
     model = scvi.model.SCANVI.load(model_dir, adata=ref_hvg)
@@ -151,7 +162,7 @@ def generate_filtering_summary(adata: AnnData, threshold: float, outdir: Path):
     df = adata.obs[["predicted_labels", "prediction_confidence"]].copy()
     df["retained"] = df["prediction_confidence"] >= threshold
     summary = (
-        df.groupby("predicted_labels")
+        df.groupby("predicted_labels", observed=False)
         .agg(total_cells=("predicted_labels", "size"), retained_cells=("retained", "sum"))
         .assign(percent_retained=lambda x: 100 * x["retained_cells"] / x["total_cells"].clip(lower=1))
     )
@@ -183,7 +194,6 @@ def visualize_clusters(adata: AnnData, outdir: Path):
 
 
 def additional_viz(adata: AnnData, outdir: Path):
-    # Clusters - UMAP
     sc.pl.umap(adata, color=['leiden', 'predicted_labels'],
                show=False, legend_loc="on data")
     plt.savefig(outdir / 'umap.pred_celltypes.png', dpi=300, bbox_inches='tight')
@@ -221,11 +231,7 @@ def main():
     # Load data
     input_path = Path(here('disease_association/ipf_analysis',
                            '_m/ipf_dataset.h5ad'))
-    ref_hvg = load_anndata(Path("ref_hvg.h5ad"), "reference HVG")
-    query_hvg = load_anndata(Path("query_hvg.h5ad"), "query HVG")
-    query_full = process_query_data(input_path)
-    query_full.X = query_full.layers["counts"]
-    query_full = align_query_objects(query_hvg, query_full)
+    ref_hvg, query_hvg, query_full = load_data(input_path)
 
     # Transfer model
     scanvi_ref = load_model(Path("scanvi_model/"), ref_hvg)

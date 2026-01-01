@@ -88,7 +88,7 @@ def load_reference():
     input_path = Path(here("localization/pericyte_analysis/_m",
                            "pericyte_with_embeddings.h5ad"))
     adata = sc.read_h5ad(input_path)
-    adata.obs["celltype"] = adata.obs["leiden_pericytes"]
+    adata.obs["subcluster"] = adata.obs["leiden_pericytes"]
     mask = adata.var["feature_name"].notna() & (adata.var["feature_name"] != "")
 
     adata.var["new_names"] = adata.var_names
