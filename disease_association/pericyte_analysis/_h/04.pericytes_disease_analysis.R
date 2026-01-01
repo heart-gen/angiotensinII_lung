@@ -131,13 +131,14 @@ run_disease_agtr1_by_celltype <- function(donor_celltype){
 
 plot_disease_agtr1 <- function(
     donor_celltype, outdir, filename = "disease_vs_agtr1_by_celltype") {
-    dfp <- donor_celltype |>
-        mutate(subcluster = forcats::fct_reorder(subcluster, AGTR1_mean, .fun = median))
+    dfp <- donor_celltype |> 
+        mutate(disease = factor(disease, levels = c("Control", "IPF", "COPD")))
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", fill = "disease",
                      palette = "npg", add = "jitter", facet.by = "subcluster",
-                     scales = "free_x", add.params = list(alpha=0.5, size=1), xlab = "",
-                     ylab = "Normalized Expression (AGTR1)", legend = "none", ncol=5,
+                     scales = "free_x", add.params = list(alpha=0.8), xlab = "",
+                     ylab = "Normalized Expression (AGTR1)", legend="none",
+                     outlier.shape=NA, ncol=5, panel.labs.font=list(face='bold'),
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(method = "dunn_test", p.adjust.method = "fdr",

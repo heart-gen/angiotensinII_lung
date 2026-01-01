@@ -1,7 +1,7 @@
-2026-01-01 11:09:42 - **** Job starts ****
-2026-01-01 11:09:42 - **** Bridges-2 info ****
+2026-01-01 11:21:27 - **** Job starts ****
+2026-01-01 11:21:27 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36815090
+Job id: 36815176
 Job name: peri_dx_association
 Node name: 
 Hostname: r001
@@ -12,7 +12,7 @@ Currently Loaded Modules:
 
  
 
-2026-01-01 11:09:43 - **** Loading mamba environment ****
+2026-01-01 11:21:28 - **** Loading mamba environment ****
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
   py_to_r.pandas.core.arrays.categorical.Categorical reticulate
@@ -65,4 +65,4 @@ i In index: 1.
 Caused by error in `.f()`:
 ! all observations are in the same group 
 Execution halted
-2026-01-01 11:10:02 - Error: Rscript execution failed
+2026-01-01 11:21:47 - Error: Rscript execution failed

@@ -158,8 +158,7 @@ plot_disease_agtr1 <- function(
                      ncol=5, ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(p.adjust.method = "fdr", label = "p.format",
-                 method = "dunn_test", tip.length = 0,
-                 hide.ns = TRUE)
+                 method = "dunn_test", tip.length = 0)
 
     save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
 }
