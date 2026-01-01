@@ -152,14 +152,14 @@ plot_disease_agtr1 <- function(
     dfp <- donor_celltype |>
         mutate(subcluster = forcats::fct_reorder(subcluster, AGTR1_mean, .fun = median))
 
-    bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", color = "disease",
+    bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", fill = "disease",
                      palette = "jco", add = "jitter", facet.by = "subcluster",
                      scales = "free_x", add.params = list(alpha=0.5, size=1), xlab = "",
                      ylab = "Normalized Expression (AGTR1)", legend = "none", ncol=5,
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(method = "dunn_test", p.adjust.method = "fdr",
-                 label = "p.format", tip.length = 0)
+                 label = "p.format", tip.length = 0, hide.ns = TRUE)
 
     save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
 }

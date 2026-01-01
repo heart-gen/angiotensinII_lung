@@ -1,7 +1,7 @@
-2026-01-01 11:04:05 - **** Job starts ****
-2026-01-01 11:04:05 - **** Bridges-2 info ****
+2026-01-01 11:09:42 - **** Job starts ****
+2026-01-01 11:09:42 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36815073
+Job id: 36815089
 Job name: dx_association
 Node name: 
 Hostname: e003
@@ -12,7 +12,7 @@ Currently Loaded Modules:
 
  
 
-2026-01-01 11:04:06 - **** Loading mamba environment ****
+2026-01-01 11:09:43 - **** Loading mamba environment ****
 [1] "Load data"
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
@@ -22,10 +22,67 @@ Registered S3 method overwritten by 'zellkonverter':
 [1] "Calculating enriched cell types"
 [1] "Perform correlation"
 [1] "Write data"
+Warning messages:
+1: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+2: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+3: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+4: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+5: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+6: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+7: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
+8: Computation failed in `stat_pwc()`.
+Caused by error in `mutate()`:
+i In argument: `data = map(.data$data, .f, ...)`.
+Caused by error in `map()`:
+i In index: 1.
+Caused by error in `.f()`:
+! all observations are in the same group 
 [1] "Reproducibility information:"
-[1] "2026-01-01 11:05:50 EST"
+[1] "2026-01-01 11:10:29 EST"
    user  system elapsed 
- 40.885   6.365  71.710 
+ 41.321   4.924  44.388 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -120,4 +177,4 @@ Registered S3 method overwritten by 'zellkonverter':
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-01-01 11:05:54 - **** Job ends ****
+2026-01-01 11:10:31 - **** Job ends ****
