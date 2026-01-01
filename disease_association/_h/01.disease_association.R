@@ -153,14 +153,15 @@ plot_disease_agtr1 <- function(
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", fill = "disease",
                      palette = "jco", add = "jitter", facet.by = "cell_type",
-                     scales = "free", add.params = list(alpha=0.5, size=1), xlab = "",
+                     scales = "free", add.params = list(alpha=0.5, size=1),
+                     panel.labs.font=list(face='bold'), xlab = "",
                      ylab = "Normalized Expression (AGTR1)", legend = "none",
                      ncol=5, ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(p.adjust.method = "fdr", label = "p.format",
                  method = "dunn_test", tip.length = 0)
 
-    save_ggplots(file.path(outdir, filename), bxp, w = 16, h = 6)
+    save_ggplots(file.path(outdir, filename), bxp, w = 15, h = 5)
 }
 
 disease_agtr1_analysis <- function(
