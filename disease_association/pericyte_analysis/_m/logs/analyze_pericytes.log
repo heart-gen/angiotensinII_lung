@@ -1,0 +1,24 @@
+2026-01-01 08:29:20 - **** Job starts ****
+2026-01-01 08:29:20 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36814539
+Job name: peri_stats
+Node name: 
+Hostname: r001
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-01-01 08:29:21 - **** Loading conda environment ****
+2026-01-01 08:29:23 - **** Run analysis ****
+Registered S3 method overwritten by 'zellkonverter':
+  method                                             from      
+  py_to_r.pandas.core.arrays.categorical.Categorical reticulate
+i Using stored X_name value 'counts'
+Error in disease_agtr1_analysis(sce, outdir = "pericyte_subclusters",  : 
+  object 'prei_freq' not found
+Execution halted
+Python script failed. Check the error logs.

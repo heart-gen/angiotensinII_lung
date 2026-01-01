@@ -1,0 +1,92 @@
+2026-01-01 07:58:16 - **** Job starts ****
+2026-01-01 07:58:16 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 36814490
+Job name: transfer_labels
+Node name: 
+Hostname: r200
+Task id: N/A
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-01-01 07:58:16 - **** Loading conda environment ****
+2026-01-01 07:58:17 - **** Run analysis ****
+2026-01-01 08:00:51 [INFO] Loading reference HVG AnnData from ref_hvg.h5ad
+2026-01-01 08:00:57 [INFO] Loading query HVG AnnData from query_hvg.h5ad
+2026-01-01 08:00:57 [INFO] Subsetting IPF data for Pericyte
+2026-01-01 08:01:13 [INFO] Preprocessing the IPF query data
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scanpy/preprocessing/_pca/__init__.py:227: FutureWarning: Argument `use_highly_variable` is deprecated, consider using the mask argument. Use_highly_variable=True can be called through mask_var="highly_variable". Use_highly_variable=False can be called through mask_var=None
+  mask_var_param, mask_var = _handle_mask_var(
+2026-01-01 08:01:30,041 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
+2026-01-01 08:01:30 [INFO] Computing initial centroids with sklearn.KMeans...
+2026-01-01 08:01:31,330 - harmonypy - INFO - sklearn.KMeans initialization complete.
+2026-01-01 08:01:31 [INFO] sklearn.KMeans initialization complete.
+2026-01-01 08:01:31,405 - harmonypy - INFO - Iteration 1 of 30
+2026-01-01 08:01:31 [INFO] Iteration 1 of 30
+2026-01-01 08:01:31,571 - harmonypy - INFO - Iteration 2 of 30
+2026-01-01 08:01:31 [INFO] Iteration 2 of 30
+2026-01-01 08:01:31,668 - harmonypy - INFO - Iteration 3 of 30
+2026-01-01 08:01:31 [INFO] Iteration 3 of 30
+2026-01-01 08:01:31,719 - harmonypy - INFO - Iteration 4 of 30
+2026-01-01 08:01:31 [INFO] Iteration 4 of 30
+2026-01-01 08:01:31,769 - harmonypy - INFO - Iteration 5 of 30
+2026-01-01 08:01:31 [INFO] Iteration 5 of 30
+2026-01-01 08:01:31,808 - harmonypy - INFO - Iteration 6 of 30
+2026-01-01 08:01:31 [INFO] Iteration 6 of 30
+2026-01-01 08:01:31,853 - harmonypy - INFO - Iteration 7 of 30
+2026-01-01 08:01:31 [INFO] Iteration 7 of 30
+2026-01-01 08:01:31,896 - harmonypy - INFO - Iteration 8 of 30
+2026-01-01 08:01:31 [INFO] Iteration 8 of 30
+2026-01-01 08:01:31,938 - harmonypy - INFO - Iteration 9 of 30
+2026-01-01 08:01:31 [INFO] Iteration 9 of 30
+2026-01-01 08:01:31,978 - harmonypy - INFO - Iteration 10 of 30
+2026-01-01 08:01:31 [INFO] Iteration 10 of 30
+2026-01-01 08:01:32,023 - harmonypy - INFO - Iteration 11 of 30
+2026-01-01 08:01:32 [INFO] Iteration 11 of 30
+2026-01-01 08:01:32,064 - harmonypy - INFO - Iteration 12 of 30
+2026-01-01 08:01:32 [INFO] Iteration 12 of 30
+2026-01-01 08:01:32,109 - harmonypy - INFO - Iteration 13 of 30
+2026-01-01 08:01:32 [INFO] Iteration 13 of 30
+2026-01-01 08:01:32,151 - harmonypy - INFO - Iteration 14 of 30
+2026-01-01 08:01:32 [INFO] Iteration 14 of 30
+2026-01-01 08:01:32,201 - harmonypy - INFO - Converged after 14 iterations
+2026-01-01 08:01:32 [INFO] Converged after 14 iterations
+2026-01-01 08:01:32 [INFO] Loading SCANVI reference model from scanvi_model
+[34mINFO    [0m File scanvi_model/model.pt already downloaded                          
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scvi/data/fields/_base_field.py:63: UserWarning: adata.layers[counts] does not contain unnormalized count data. Are you sure this is what you want?
+  self.validate_field(adata)
+2026-01-01 08:01:33 [INFO] Computing latent representations
+[34mINFO    [0m Input AnnData not setup with scvi-tools. attempting to transfer AnnData
+         setup                                                                  
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/scvi/data/fields/_base_field.py:63: UserWarning: adata.layers[counts] does not contain unnormalized count data. Are you sure this is what you want?
+  self.validate_field(adata)
+2026-01-01 08:01:34 [INFO] Predicting soft labels for query data
+2026-01-01 08:01:34 [INFO] Predicting soft probs and labels for query data
+2026-01-01 08:01:34 [INFO] Constructing neighborhood graph (n_neighbors=50)
+2026-01-01 08:01:34 [INFO] Computing UMAP embedding
+2026-01-01 08:01:36 [INFO] Running Leiden clustering (resolution=0.450)
+/ocean/projects/bio250020p/kbenjamin/projects/angiotensinII_lung/disease_association/pericyte_analysis/_m/../_h/03.transfer_labels.py:180: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(adata, resolution=resolution, key_added="leiden",
+2026-01-01 08:01:42 [INFO] Writing table to results/annotation_filtering_summary.tsv
+2026-01-01 08:01:42 [INFO] Saving AnnData to results/clustered_data.h5ad
+-----
+anndata             0.11.4
+harmonypy           0.0.10
+matplotlib          3.10.5
+numpy               1.26.4
+pandas              2.3.2
+pyhere              1.0.3
+scanpy              1.11.4
+scvi                1.3.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-01-01 08:01
+2026-01-01 08:02:00 - Job finished at: Thu Jan  1 08:02:00 EST 2026
