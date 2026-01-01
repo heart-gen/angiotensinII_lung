@@ -1,7 +1,7 @@
-2025-12-30 15:46:09 - **** Job starts ****
-2025-12-30 15:46:09 - **** Bridges-2 info ****
+2026-01-01 11:04:05 - **** Job starts ****
+2026-01-01 11:04:05 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36803727
+Job id: 36815073
 Job name: dx_association
 Node name: 
 Hostname: e003
@@ -12,7 +12,7 @@ Currently Loaded Modules:
 
  
 
-2025-12-30 15:46:10 - **** Loading mamba environment ****
+2026-01-01 11:04:06 - **** Loading mamba environment ****
 [1] "Load data"
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
@@ -23,9 +23,9 @@ Registered S3 method overwritten by 'zellkonverter':
 [1] "Perform correlation"
 [1] "Write data"
 [1] "Reproducibility information:"
-[1] "2025-12-30 15:47:32 EST"
+[1] "2026-01-01 11:05:50 EST"
    user  system elapsed 
- 40.680   6.270  68.451 
+ 40.885   6.365  71.710 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -36,7 +36,7 @@ Registered S3 method overwritten by 'zellkonverter':
  collate  C
  ctype    C
  tz       America/New_York
- date     2025-12-30
+ date     2026-01-01
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -67,6 +67,7 @@ Registered S3 method overwritten by 'zellkonverter':
  GenomicRanges        * 1.58.0  2024-10-29 [1] Bioconductor 3.20 (R 4.4.3)
  ggplot2              * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
  ggpubr               * 0.6.2   2025-10-17 [1] CRAN (R 4.4.3)
+ ggsci                  4.1.0   2025-10-25 [1] CRAN (R 4.4.3)
  ggsignif               0.6.4   2022-10-13 [1] CRAN (R 4.4.3)
  glue                   1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
  gtable                 0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
@@ -119,4 +120,4 @@ Registered S3 method overwritten by 'zellkonverter':
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2025-12-30 15:47:38 - **** Job ends ****
+2026-01-01 11:05:54 - **** Job ends ****

@@ -153,7 +153,7 @@ plot_disease_agtr1 <- function(
         mutate(subcluster = forcats::fct_reorder(subcluster, AGTR1_mean, .fun = median))
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", color = "disease",
-                     palette = "npg", add = "jitter", facet.by = "subcluster",
+                     palette = "jco", add = "jitter", facet.by = "subcluster",
                      scales = "free_x", add.params = list(alpha=0.5, size=1), xlab = "",
                      ylab = "Normalized Expression (AGTR1)", legend = "none", ncol=5,
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
