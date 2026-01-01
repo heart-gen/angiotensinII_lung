@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --partition=RM-shared
+#SBATCH --partition=RM-small
 #SBATCH --job-name=peri_stats
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=8
 #SBATCH --time=01:00:00
-#SBATCH --output=analyze_pericytes.log
+#SBATCH --output=logs/analyze_pericytes.log
 
 log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -26,10 +26,10 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading conda environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
 log_message "**** Run analysis ****"
-python ../_h/04.analyze_pericyte_disease.py
+Rscript ../_h/04.pericytes_disease_analysis.R
 
 if [ $? -ne 0 ]; then
     echo "Python script failed. Check the error logs."
