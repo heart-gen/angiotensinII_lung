@@ -1,7 +1,7 @@
-2026-01-05 09:11:54 - **** Job starts ****
-2026-01-05 09:11:54 - **** Bridges-2 info ****
+2026-01-05 09:37:22 - **** Job starts ****
+2026-01-05 09:37:22 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36847168
+Job id: 36847215
 Job name: peri_stats
 Node name: 
 Hostname: r001
@@ -12,20 +12,13 @@ Currently Loaded Modules:
 
  
 
-2026-01-05 09:11:55 - **** Loading conda environment ****
-2026-01-05 09:11:56 - **** Run analysis ****
+2026-01-05 09:37:23 - **** Loading conda environment ****
+2026-01-05 09:37:25 - **** Run analysis ****
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
   py_to_r.pandas.core.arrays.categorical.Categorical reticulate
 i Using stored X_name value 'counts'
 Error in disease_agtr1_analysis(sce, outdir = "pericyte_subclusters",  : 
   object 'prei_freq' not found
-In addition: Warning messages:
-1: Computation failed in `stat_pwc()`.
-Caused by error in `.dunn_test()`:
-! all observations are in the same group 
-2: Computation failed in `stat_pwc()`.
-Caused by error in `.dunn_test()`:
-! all observations are in the same group 
 Execution halted
 Python script failed. Check the error logs.

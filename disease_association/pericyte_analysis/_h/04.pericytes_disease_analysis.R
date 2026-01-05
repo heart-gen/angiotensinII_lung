@@ -13,9 +13,8 @@ save_ggplots <- function(fn, p, w, h) {
     }
 }
 
-load_data <- function(fn = "results/clustered_data.h5ad", pred_threshold = 0.75) {
+load_data <- function(fn = "results/clustered_data.h5ad") {
     sce <- zellkonverter::readH5AD(fn)
-    sce <- sce[, colData(sce)$prediction_confidence > pred_threshold]    
     return(sce)
 }
 

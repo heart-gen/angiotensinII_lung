@@ -172,8 +172,8 @@ plot_disease_agtr1 <- function(
                      ylab = "Normalized Expression (AGTR1)", legend = "none",
                      ncol=5, ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
-        scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
-        geom_pwc(p.adjust.method = "fdr", label = "p.format",
+        ## scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+        geom_pwc(p.adjust.method = "fdr", label = "p.adj.format",
                  method = "dunn_test")
 
     save_ggplots(outfile, bxp, w = 13, h = 6)

@@ -1,7 +1,7 @@
-2026-01-05 09:28:54 - **** Job starts ****
-2026-01-05 09:28:54 - **** Bridges-2 info ****
+2026-01-05 09:37:46 - **** Job starts ****
+2026-01-05 09:37:46 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36847198
+Job id: 36847210
 Job name: dx_association
 Node name: 
 Hostname: e003
@@ -12,7 +12,7 @@ Currently Loaded Modules:
 
  
 
-2026-01-05 09:28:55 - **** Loading mamba environment ****
+2026-01-05 09:37:46 - **** Loading mamba environment ****
 [1] "Load data"
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
@@ -23,9 +23,9 @@ Registered S3 method overwritten by 'zellkonverter':
 [1] "Perform correlation"
 [1] "Write data"
 [1] "Reproducibility information:"
-[1] "2026-01-05 09:29:43 EST"
+[1] "2026-01-05 09:38:35 EST"
    user  system elapsed 
- 43.380   4.791  46.242 
+ 43.895   5.058  47.054 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -120,4 +120,4 @@ Registered S3 method overwritten by 'zellkonverter':
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-01-05 09:29:45 - **** Job ends ****
+2026-01-05 09:38:36 - **** Job ends ****
