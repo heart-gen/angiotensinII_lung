@@ -148,24 +148,23 @@ run_disease_agtr1_by_celltype <- function(donor_celltype){
 }
 
 plot_disease_agtr1 <- function(
-    donor_celltype, keep_celltypes, outdir, filename = "disease_vs_agtr1_by_celltype",
+    donor_celltype, outdir, filename = "disease_vs_agtr1_by_celltype",
     shared_diseases = FALSE
 ) {
-    dfp <- donor_celltype |> filter(cell_type %in% keep_celltypes)
+    dfp <- donor_celltype
 
     if (shared_diseases) {
+        n_subclusters <- dfp |> dplyr::distinct(subcluster) |> nrow()
         shared <- dfp |>
-            dplyr::distinct(cell_type, disease) |> dplyr::count(disease) |>
-            filter(n == length(keep_celltypes)) |> pull(disease)
+            dplyr::distinct(subcluster, disease) |> dplyr::count(disease) |>
+            filter(n == n_subclusters) |> pull(disease)
         dfp <- filter(dfp, disease %in% shared)
         outfile <- file.path(outdir, paste0(filename, ".shared_disorders"))
     } else {
         outfile <- file.path(outdir, filename)
     }
 
-    dfp <- dfp |>
-        mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median),
-               disease = forcats::fct_drop(disease))
+    dfp <- mutate(dfp, disease = forcats::fct_drop(disease))
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", fill = "disease",
                      palette = "jco", add = "jitter", facet.by = "subcluster",
@@ -220,7 +219,7 @@ disease_agtr1_analysis <- function(
     plot_disease_agtr1(donor_celltype, outdir)
     plot_disease_agtr1(donor_celltype, outdir, shared_diseases = TRUE)
     return(list(donor_celltype = donor_celltype, enriched = enriched,
-                stats = stats, peri_freq = prei_freq))
+                stats = stats, peri_freq = peri_freq))
 }
 
 #### Main
