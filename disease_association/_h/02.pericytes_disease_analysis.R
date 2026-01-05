@@ -148,21 +148,37 @@ run_disease_agtr1_by_celltype <- function(donor_celltype){
 }
 
 plot_disease_agtr1 <- function(
-    donor_celltype, outdir, filename = "disease_vs_agtr1_by_celltype") {
-    dfp <- donor_celltype |>
-        mutate(subcluster = forcats::fct_reorder(subcluster, AGTR1_mean, .fun = median))
+    donor_celltype, keep_celltypes, outdir, filename = "disease_vs_agtr1_by_celltype",
+    shared_diseases = FALSE
+) {
+    dfp <- donor_celltype |> filter(cell_type %in% keep_celltypes)
+
+    if (shared_diseases) {
+        shared <- dfp |>
+            dplyr::distinct(cell_type, disease) |> dplyr::count(disease) |>
+            filter(n == length(keep_celltypes)) |> pull(disease)
+        dfp <- filter(dfp, disease %in% shared)
+        outfile <- file.path(outdir, paste0(filename, ".shared_disorders"))
+    } else {
+        outfile <- file.path(outdir, filename)
+    }
+
+    dfp <- dfp |>
+        mutate(cell_type = forcats::fct_reorder(cell_type, AGTR1_mean, .fun = median),
+               disease = forcats::fct_drop(disease))
 
     bxp <- ggboxplot(dfp, x = "disease", y = "AGTR1_mean", fill = "disease",
                      palette = "jco", add = "jitter", facet.by = "subcluster",
-                     scales = "free_x", add.params = list(alpha=0.8),
+                     add.params = list(alpha=0.8),
                      panel.labs.font=list(face='bold'), ncol=5, xlab = "",
                      ylab = "Normalized Expression (AGTR1)", legend = "none",
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
         geom_pwc(method = "dunn_test", p.adjust.method = "fdr",
-                 label = "p.format", tip.length = 0)
+                 label = "p.format", tip.length = 0, hide.ns = TRUE)
 
-    save_ggplots(file.path(outdir, filename), bxp, w = 15, h = 5)
+    save_ggplots(outfile, bxp, w = 13, h = 6)
 }
 
 disease_agtr1_analysis <- function(
@@ -202,6 +218,7 @@ disease_agtr1_analysis <- function(
 
                                         # Plot
     plot_disease_agtr1(donor_celltype, outdir)
+    plot_disease_agtr1(donor_celltype, outdir, shared_diseases = TRUE)
     return(list(donor_celltype = donor_celltype, enriched = enriched,
                 stats = stats, peri_freq = prei_freq))
 }

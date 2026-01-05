@@ -13,8 +13,9 @@ save_ggplots <- function(fn, p, w, h) {
     }
 }
 
-load_data <- function(fn = "results/clustered_data.h5ad") {
+load_data <- function(fn = "results/clustered_data.h5ad", pred_threshold = 0.75) {
     sce <- zellkonverter::readH5AD(fn)
+    sce <- sce[, colData(sce)$prediction_confidence > pred_threshold]    
     return(sce)
 }
 
@@ -142,7 +143,7 @@ plot_disease_agtr1 <- function(
                      ggtheme = theme_pubr(base_size = 15, border=TRUE)) +
         rotate_x_text(angle = 45, hjust = 1) +
         geom_pwc(method = "dunn_test", p.adjust.method = "fdr",
-                 label = "p.format", tip.length = 0)
+                 label = "p.format")
 
     save_ggplots(file.path(outdir, filename), bxp, w = 12, h = 5)
 }

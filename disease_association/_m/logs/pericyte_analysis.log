@@ -1,7 +1,7 @@
-2026-01-01 11:39:09 - **** Job starts ****
-2026-01-01 11:39:09 - **** Bridges-2 info ****
+2026-01-05 09:28:54 - **** Job starts ****
+2026-01-05 09:28:54 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36815269
+Job id: 36847199
 Job name: peri_dx_association
 Node name: 
 Hostname: r001
@@ -12,57 +12,33 @@ Currently Loaded Modules:
 
  
 
-2026-01-01 11:39:09 - **** Loading mamba environment ****
+2026-01-05 09:28:55 - **** Loading mamba environment ****
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
   py_to_r.pandas.core.arrays.categorical.Categorical reticulate
 Warning message:
 The names of these selected obs columns have been modified to match R
 conventions: '3'_or_5'' -> 'X3._or_5.' 
-Error in disease_agtr1_analysis(sce, outdir = "pericyte_subclusters",  : 
-  object 'prei_freq' not found
-In addition: Warning messages:
-1: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
-2: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
-3: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
-4: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
-5: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
-6: Computation failed in `stat_pwc()`.
-Caused by error in `mutate()`:
-i In argument: `data = map(.data$data, .f, ...)`.
-Caused by error in `map()`:
-i In index: 1.
-Caused by error in `.f()`:
-! all observations are in the same group 
+Error in `filter()`:
+i In argument: `cell_type %in% keep_celltypes`.
+Caused by error in `h()`:
+! error in evaluating the argument 'x' in selecting a method for function '%in%': object 'cell_type' not found
+Backtrace:
+     x
+  1. +-global disease_agtr1_analysis(...)
+  2. | \-global plot_disease_agtr1(donor_celltype, outdir)
+  3. |   +-dplyr::filter(donor_celltype, cell_type %in% keep_celltypes)
+  4. |   \-dplyr:::filter.data.frame(donor_celltype, cell_type %in% keep_celltypes)
+  5. |     \-dplyr:::filter_rows(.data, dots, by)
+  6. |       \-dplyr:::filter_eval(...)
+  7. |         +-base::withCallingHandlers(...)
+  8. |         \-mask$eval_all_filter(dots, env_filter)
+  9. |           \-dplyr (local) eval()
+ 10. +-cell_type %in% keep_celltypes
+ 11. +-base::.handleSimpleError(...)
+ 12. | \-base (local) h(simpleError(msg, call))
+ 13. \-base::.handleSimpleError(...)
+ 14.   \-dplyr (local) h(simpleError(msg, call))
+ 15.     \-rlang::abort(message, class = error_class, parent = parent, call = error_call)
 Execution halted
-2026-01-01 11:39:29 - Error: Rscript execution failed
+2026-01-05 09:29:12 - Error: Rscript execution failed
