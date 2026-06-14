@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=bluejay,shared
 #SBATCH --job-name=analyze_agtr1
 #SBATCH --mail-type=FAIL

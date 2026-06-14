@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=RM-shared
 #SBATCH --job-name=age_spline
 #SBATCH --mail-type=FAIL
@@ -28,7 +29,7 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
+conda activate /ocean/projects/bio260021p/shared/opt/env/R_env
 
 Rscript ../_h/02.spline_analysis.R
 

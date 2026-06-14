@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=bluejay,shared
 #SBATCH --job-name=lung_copd
 #SBATCH --mail-type=FAIL

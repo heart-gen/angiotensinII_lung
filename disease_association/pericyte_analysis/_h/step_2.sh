@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=GPU-shared
 #SBATCH --job-name=cluster_train
 #SBATCH --mail-type=FAIL
@@ -28,7 +29,7 @@ module load cuda
 module list
 
 log_message "**** Loading conda environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio260021p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
 python ../_h/02.train_model.py

@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=bluejay,shared
 #SBATCH --job-name=age_correlation
 #SBATCH --mail-type=FAIL

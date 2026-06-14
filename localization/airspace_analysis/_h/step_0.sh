@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --account=bio260021p
 #SBATCH --partition=EM
 #SBATCH --job-name=full_subset
 #SBATCH --mail-type=FAIL
@@ -12,7 +13,7 @@ log_message() {
 }
 
 log_message "**** Job starts ****"
-export BASILISK_EXTERNAL_DIR=/ocean/projects/bio250020p/shared/opt/basilisk_cache
+export BASILISK_EXTERNAL_DIR=/ocean/projects/bio260021p/shared/opt/basilisk_cache
 
 log_message "**** Bridges-2 info ****"
 echo "User: ${USER}"
@@ -29,7 +30,7 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio260021p/shared/opt/env/scRNA_env
 
 log_message "**** Run subsetting ****"
 MODEL="full"
