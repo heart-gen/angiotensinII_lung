@@ -1,0 +1,4 @@
+disease_group	n_donors	n_with_smoking	smoking_levels
+Healthy	32	14	active,former,never
+Fibrotic_ILD	17	0	
+Other	20	0	
