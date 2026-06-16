@@ -1,46 +1,48 @@
 """
-This script generates GTEx v8 phenotype data.
+Build the GTEx phenotype table used by the lung age-correlation analysis.
+
+Inputs (copied into inputs/gtex/_m so this repo is independent of the source):
+  - GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt  (public v11 sample attrs:
+        SAMPID, SMTS, SMTSD, SMRIN, SMTSISCH)
+  - phs000424.v8.pht002742.v8.p2.c1.GTEx_Subject_Phenotypes.GRU.txt.gz  (protected
+        subject phenotypes with *continuous* AGE, SEX, RACE, DTHHRDY keyed by SUBJID;
+        SUBJID is stable across GTEx versions)
+
+SUBJID is derived from SAMPID (first two dash-delimited fields) to join the two tables.
 """
+import os
 import pandas as pd
-from functools import lru_cache
 
-@lru_cache()
-def get_samples():
-    samples_file = "/ceph/tmp/gtex/download/_m/phs000424.v8.pht002741.v8."+\
-        "p2.GTEx_Sample.MULTI.txt.gz"
-    return pd.read_csv(samples_file, sep='\t', comment="#")
+MDIR = os.path.join(os.path.dirname(__file__), "..", "_m")
 
+SAMPLE_ATTR = os.path.join(MDIR, "GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt")
+SUBJECT     = os.path.join(
+    MDIR, "phs000424.v8.pht002742.v8.p2.c1.GTEx_Subject_Phenotypes.GRU.txt.gz")
 
-@lru_cache()
-def get_subjects():
-    subject_file = "/ceph/tmp/gtex/download/_m/phs000424.v8.pht002742.v8."+\
-        "p2.c1.GTEx_Subject_Phenotypes.GRU.txt.gz"
-    return pd.read_csv(subject_file, sep='\t', comment="#")
+SAMPLE_COLS  = ["SAMPID", "SMTS", "SMTSD", "SMRIN", "SMTSISCH"]
+SUBJECT_COLS = ["SUBJID", "SEX", "AGE", "RACE", "DTHHRDY"]
 
 
-@lru_cache()
-def get_attr():
-    attr_file = "/ceph/tmp/gtex/download/_m/phs000424.v8.pht002743.v8."+\
-        "p2.c1.GTEx_Sample_Attributes.GRU.txt.gz"
-    return pd.read_csv(attr_file, sep='\t', comment="#", low_memory=False)
-
-
-@lru_cache()
-def generate_data():
-    return get_samples().merge(get_attr(), on=["dbGaP_Sample_ID","SAMPID"])\
-                        .merge(get_subjects(), on=["dbGaP_Subject_ID","SUBJID"])
-
-
-@lru_cache()
-def clean_data():
-    return pd.concat([generate_data().dropna(axis=1),
-                      generate_data().SMRIN], axis=1)
+def subjid_from_sampid(sampid):
+    return "-".join(str(sampid).split("-")[:2])
 
 
 def main():
-    clean_data().to_csv("gtex_v8_sample_data.tsv", sep='\t', index=False)
-    clean_data()[(clean_data()["SMTS"] == "Lung")]\
-        .to_csv("gtex_v8_lung_sample_data.tsv", sep='\t', index=False)
+    attr = pd.read_csv(SAMPLE_ATTR, sep="\t", low_memory=False)[SAMPLE_COLS]
+    attr["SUBJID"] = attr["SAMPID"].map(subjid_from_sampid)
+
+    # The protected subject file has leading comment (#) lines and a blank line
+    # before the header; comment + skip_blank_lines handle both.
+    subj = pd.read_csv(SUBJECT, sep="\t", comment="#",
+                       skip_blank_lines=True)[SUBJECT_COLS]
+
+    merged = attr.merge(subj, on="SUBJID", how="inner")
+    merged.to_csv(os.path.join(MDIR, "gtex_v11_sample_data.tsv"),
+                  sep="\t", index=False)
+    merged[merged["SMTS"] == "Lung"].to_csv(
+        os.path.join(MDIR, "gtex_v11_lung_sample_data.tsv"), sep="\t", index=False)
+    print("wrote gtex_v11_sample_data.tsv: %d samples (%d lung)"
+          % (len(merged), int((merged["SMTS"] == "Lung").sum())))
 
 
 if __name__ == "__main__":
