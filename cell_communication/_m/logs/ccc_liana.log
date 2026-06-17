@@ -1,0 +1,156 @@
+2026-06-16 09:40:09 - **** Job starts ****
+Job id: 41454330
+Hostname: r014
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 09:40:10 - **** Loading mamba environment ****
+2026-06-16 09:40:10 - **** Disease-stratified liana CCC ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+Niche: (423007, 55329)
+==== scheme=main (group_key=ccc_group) ====
+Saved expressed fractions -> expressed_fraction_main.tsv.gz: (19225, 22)
+Saved expressed fractions -> expressed_fraction_per_group.tsv.gz: (19225, 22)
+[main/COPD] running liana on 14494 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[main/Fibrotic_ILD] running liana on 94998 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[main/Healthy] running liana on 234327 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[main/Other] running liana on 79188 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[main] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericytes']
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericytes.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericytes.png
+==== scheme=state (group_key=ccc_group_state) ====
+Saved expressed fractions -> expressed_fraction_state.tsv.gz: (19454, 24)
+[state/COPD] running liana on 14494 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[state/Fibrotic_ILD] running liana on 94998 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[state/Healthy] running liana on 234327 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[state/Other] running liana on 79188 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[state] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_vascular_stabilizing', 'Pericyte_fibroblast_like', 'Pericyte_activated_migratory']
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_vascular_stabilizing.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_vascular_stabilizing.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_fibroblast_like.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_fibroblast_like.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_activated_migratory.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_activated_migratory.png
+==== scheme=receptor (group_key=ccc_group_receptor) ====
+Saved expressed fractions -> expressed_fraction_receptor.tsv.gz: (19243, 23)
+[receptor/COPD] running liana on 14494 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[receptor/Fibrotic_ILD] running liana on 94998 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[receptor/Healthy] running liana on 234327 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[receptor/Other] running liana on 79188 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[receptor] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_AGTR1undet', 'Pericyte_AGTR1det']
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_AGTR1undet.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_AGTR1undet.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_AGTR1det.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_AGTR1det.png
+-----
+liana               1.7.1
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-16 10:21
+2026-06-16 10:21:39 - **** Job ends ****

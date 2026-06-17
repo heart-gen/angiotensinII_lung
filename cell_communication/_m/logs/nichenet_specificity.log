@@ -1,0 +1,21 @@
+2026-06-16 19:59:25 - **** Job starts ****
+Job id: 41469274
+Hostname: r004
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 19:59:33 - **** NicheNet specificity: gene-set permutation null (Pericytes) ****
+Warning message:
+replacing previous import 'e1071::element' by 'ggplot2::element' when loading 'nichenetr' 
+receiver=Pericytes | background=3829 | geneset_oi=30 | potential_ligands=321 | n_perm=1000
+null over 25 top ligands (of 321) x 1000 perms
+  perm 100/1000
+  perm 200/1000
+  perm 300/1000
+  perm 400/1000
+  perm 500/1000
+  perm 600/1000
+  perm 700/1000

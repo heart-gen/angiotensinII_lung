@@ -1,0 +1,32 @@
+2026-06-16 09:29:40 - **** Job starts ****
+Job id: 41454329
+Hostname: e003
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 09:29:41 - **** Loading mamba environment ****
+2026-06-16 09:29:42 - **** Build CCC niche from full disease object ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-16 09:32:33,112 [INFO] Opening backed AnnData (obs-only subset first)...
+2026-06-16 09:33:26,471 [INFO] Niche cells: 976974 / 2282447
+2026-06-16 09:33:30,360 [INFO] After capping 300/group/donor: 423007 cells
+2026-06-16 09:39:03,966 [INFO] pericyte state_program matched 8347/11680 state cells onto niche barcodes
+... storing 'pericyte_program' as categorical
+2026-06-16 09:39:23,679 [INFO] Wrote niche: (423007, 55329)
+-----
+anndata             0.11.4
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-16 09:39
+2026-06-16 09:39:42 - **** Job ends ****

@@ -1,0 +1,99 @@
+2026-06-16 15:26:43 - **** Job starts ****
+Job id: 41462147
+Hostname: r046
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 15:26:44 - **** Loading mamba environment ****
+2026-06-16 15:26:44 - **** Add CoGAPS receiver scheme (nPatterns=5) ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-16 15:28:33,855 [INFO] CoGAPS patterns: 11680 cells x 5 patterns
+2026-06-16 15:28:33,991 [INFO] Pattern -> program: {'Pattern_1': 'inflammatory', 'Pattern_2': 'mixed', 'Pattern_3': 'fibroblast_like', 'Pattern_4': 'vascular_stabilizing', 'Pattern_5': 'synthetic_contractile'}
+2026-06-16 15:28:53,722 [INFO] CoGAPS label matched 8347/8347 niche pericytes (100.0%)
+... storing 'cogaps_dominant_pattern' as categorical
+2026-06-16 15:29:10,145 [INFO] Wrote ccc_group_cogaps into ccc_niche.h5ad; receivers: ['Pericyte_cg_fibroblast_like', 'Pericyte_cg_inflammatory', 'Pericyte_cg_mixed', 'Pericyte_cg_synthetic_contractile', 'Pericyte_cg_vascular_stabilizing']
+-----
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-16 15:29
+2026-06-16 15:29:20 - **** Disease-stratified liana into CoGAPS receivers ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+Niche: (423007, 55329)
+==== scheme=cogaps (group_key=ccc_group_cogaps) ====
+Saved expressed fractions -> expressed_fraction_cogaps.tsv.gz: (19523, 26)
+[cogaps/COPD] running liana on 14494 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[cogaps/Fibrotic_ILD] running liana on 94998 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[cogaps/Healthy] running liana on 234327 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[cogaps/Other] running liana on 79188 cells
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
+[cogaps] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_cg_inflammatory', 'Pericyte_cg_mixed', 'Pericyte_cg_vascular_stabilizing', 'Pericyte_cg_synthetic_contractile', 'Pericyte_cg_fibroblast_like']
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_inflammatory.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_inflammatory.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_mixed.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_mixed.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_vascular_stabilizing.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_vascular_stabilizing.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_fibroblast_like.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_fibroblast_like.png
+-----
+liana               1.7.1
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-16 15:44
+2026-06-16 15:44:02 - **** Job ends ****

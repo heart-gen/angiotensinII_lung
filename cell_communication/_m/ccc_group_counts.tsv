@@ -1,0 +1,23 @@
+ccc_group	COPD	Fibrotic_ILD	Healthy	Other
+AT1	375	1026	14822	4633
+AT2_AGTR2det	36	899	2233	174
+AT2_AGTR2undet	721	7104	26705	6209
+Adventitial fibroblasts	237	3271	7981	1387
+Alveolar fibroblasts	269	2250	9489	4307
+Alveolar macrophages	4500	15845	33556	11086
+Classical monocytes	2857	8658	21628	10139
+DC2	1542	9129	13061	5000
+EC aerocyte capillary	102	1167	6049	2220
+EC general capillary	283	2483	10970	5596
+EC venous pulmonary	45	1349	6426	981
+EC venous systemic	54	5677	7031	1775
+Interstitial macrophages	481	15688	24393	10690
+Lymphatic EC	281	1721	7544	1100
+Mast cells	667	2796	9200	3241
+Myofibroblasts	1	470	1257	198
+Non-classical monocytes	1721	3712	11815	3714
+Peribronchial fibroblasts	23	2012	2346	1871
+Pericytes	41	1924	4521	1861
+Subpleural fibroblasts	4	23	313	325
+Transitional Club-AT2	198	4449	7184	1026
+Vascular smooth muscle	56	3345	5803	1655
