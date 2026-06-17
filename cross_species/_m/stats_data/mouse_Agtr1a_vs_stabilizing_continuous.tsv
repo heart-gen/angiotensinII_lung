@@ -1,0 +1,2 @@
+test	n_cells	estimate	se	df	p_value
+continuous_Agtr1a_vs_stabilizing_score (lmer, +1|donor, dataset fixed)	1144	1.07669950314888	0.0151594095126197	1139.0000000073	0

@@ -1,0 +1,6 @@
+state	n_genes	n_present	present
+vascular_stabilizing	10	10	Rgs5;Pdgfrb;Notch3;Kcnj8;Abcc9;Higd1b;Cox4i2;Ndufa4l2;Gja4;Cspg4
+inflammatory	13	13	Il6;Ccl2;Ccl20;Cxcl1;Cxcl2;Cxcl3;Il1a;Il1b;Mif;Icam1;Vcam1;Sele;Nfkbia
+synthetic_contractile	7	7	Acta2;Myh11;Tagln;Cnn1;Myl9;Des;Vim
+activated_migratory	7	7	Adamts1;Thbs1;Timp1;Mmp2;Mmp3;Serpine1;Postn
+fibroblast_like	8	8	Col1a1;Col1a2;Col3a1;Col4a1;Fn1;Lum;Dcn;Pdgfa

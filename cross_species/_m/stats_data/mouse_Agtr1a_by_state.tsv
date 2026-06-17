@@ -1,0 +1,4 @@
+pericyte_state	n	Agtr1a_mean	Agtr1a_detect	injury
+fibroblast_like	7	0.507154688571429	1	TRUE
+inflammatory	100	0.303956488312	1	TRUE
+synthetic_contractile	1037	1.15872157870781	1	FALSE
