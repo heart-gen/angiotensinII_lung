@@ -1,0 +1,3 @@
+stability_components: mean_vascular_stabilizing_score, mean_airspace_score
+injury_components (PRIMARY): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac
+injury_components_sens_agtr1 (SUPPLEMENT only): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac, AGTR1_pos_frac
