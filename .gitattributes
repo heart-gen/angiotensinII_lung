@@ -2,3 +2,5 @@
 *gz filter=lfs diff=lfs merge=lfs -text
 mouse_lung.h5ad filter=lfs diff=lfs merge=lfs -text
 mouse_integrated.h5ad filter=lfs diff=lfs merge=lfs -text
+cogaps_input.mtx filter=lfs diff=lfs merge=lfs -text
+niche_pseudobulk_logmean.tsv.gz filter=lfs diff=lfs merge=lfs -text

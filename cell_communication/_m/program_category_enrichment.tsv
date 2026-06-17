@@ -1,0 +1,41 @@
+program	category	mean_detect	n_cells
+activated_migratory	Adhesion molecules	0.026981961497650444	2199
+fibroblast_like	Adhesion molecules	0.021466180639935196	2469
+inflammatory	Adhesion molecules	0.07925746569814365	2065
+synthetic_contractile	Adhesion molecules	0.0070493454179254775	2648
+vascular_stabilizing	Adhesion molecules	0.008554443961142525	2299
+activated_migratory	Chemokines	0.024783992723965437	2199
+fibroblast_like	Chemokines	0.018226002430133656	2469
+inflammatory	Chemokines	0.10641646489104116	2065
+synthetic_contractile	Chemokines	0.015672205438066467	2648
+vascular_stabilizing	Chemokines	0.014408438451500652	2299
+activated_migratory	Cytokines	0.09561164165529787	2199
+fibroblast_like	Cytokines	0.057209396516808425	2469
+inflammatory	Cytokines	0.18595641646489103	2065
+synthetic_contractile	Cytokines	0.06901435045317221	2648
+vascular_stabilizing	Cytokines	0.07285776424532406	2299
+activated_migratory	ECM structural	0.4324693042291951	2199
+fibroblast_like	ECM structural	0.5761846901579587	2469
+inflammatory	ECM structural	0.34973365617433416	2065
+synthetic_contractile	ECM structural	0.4187311178247734	2648
+vascular_stabilizing	ECM structural	0.3449325793823401	2299
+activated_migratory	Fibrotic mediators	0.5686221009549796	2199
+fibroblast_like	Fibrotic mediators	0.49793438639125154	2469
+inflammatory	Fibrotic mediators	0.46769975786924944	2065
+synthetic_contractile	Fibrotic mediators	0.6153323262839879	2648
+vascular_stabilizing	Fibrotic mediators	0.4869943453675511	2299
+activated_migratory	Matrix-remodeling	0.09489161740184932	2199
+fibroblast_like	Matrix-remodeling	0.04684757661671392	2469
+inflammatory	Matrix-remodeling	0.0324455205811138	2065
+synthetic_contractile	Matrix-remodeling	0.028952668680765355	2648
+vascular_stabilizing	Matrix-remodeling	0.025373350732202406	2299
+activated_migratory	Mural identity	0.5034106412005457	2199
+fibroblast_like	Mural identity	0.48116646415552855	2469
+inflammatory	Mural identity	0.46537530266343824	2065
+synthetic_contractile	Mural identity	0.3595166163141994	2648
+vascular_stabilizing	Mural identity	0.685080469769465	2299
+activated_migratory	Signaling ligands	0.06239199636198273	2199
+fibroblast_like	Signaling ligands	0.06577561765897125	2469
+inflammatory	Signaling ligands	0.0475544794188862	2065
+synthetic_contractile	Signaling ligands	0.0736404833836858	2648
+vascular_stabilizing	Signaling ligands	0.04114832535885168	2299

@@ -1,0 +1,205 @@
+gene	program	mean_detect	category	role
+TGFB1	activated_migratory	0.12914961346066395	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	activated_migratory	0.11141427921782629	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	activated_migratory	0.02955889040472942	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	activated_migratory	0.03910868576625739	Signaling ligands	Pericyte-EC crosstalk
+NODAL	activated_migratory	0.002728512960436562	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	activated_migratory	0.008640291041382447	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	activated_migratory	0.04547521600727603	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	activated_migratory	0.022282855843565257	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	activated_migratory	0.00045475216007276033	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	activated_migratory	0.0241018644838563	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	activated_migratory	0.010914051841746248	Chemokines	Neutrophil/monocyte recruitment
+CCL2	activated_migratory	0.07821737153251478	Chemokines	Neutrophil/monocyte recruitment
+CCL20	activated_migratory	0.008185538881309686	Chemokines	Neutrophil/monocyte recruitment
+IL1A	activated_migratory	0.0	Cytokines	Inflammatory amplification
+IL1B	activated_migratory	0.006366530241018645	Cytokines	Inflammatory amplification
+IL6	activated_migratory	0.10140973169622555	Cytokines	Inflammatory amplification
+MIF	activated_migratory	0.27467030468394726	Cytokines	Inflammatory amplification
+ICAM1	activated_migratory	0.06684856753069578	Adhesion molecules	Leukocyte trafficking
+VCAM1	activated_migratory	0.01318781264211005	Adhesion molecules	Leukocyte trafficking
+SELE	activated_migratory	0.0009095043201455207	Adhesion molecules	Leukocyte trafficking
+COL1A1	activated_migratory	0.15143246930422918	ECM structural	Basement membrane / vascular stability
+COL4A1	activated_migratory	0.8058208276489314	ECM structural	Basement membrane / vascular stability
+FN1	activated_migratory	0.2514779445202365	ECM structural	Basement membrane / vascular stability
+LAMA2	activated_migratory	0.33424283765347884	ECM structural	Basement membrane / vascular stability
+LAMB1	activated_migratory	0.6193724420190996	ECM structural	Basement membrane / vascular stability
+MMP2	activated_migratory	0.2787630741246021	Matrix-remodeling	ECM degradation / sprouting
+MMP3	activated_migratory	0.001364256480218281	Matrix-remodeling	ECM degradation / sprouting
+MMP9	activated_migratory	0.004547521600727604	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	activated_migratory	0.5234197362437472	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	activated_migratory	0.1341518872214643	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	activated_migratory	0.7935425193269668	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	activated_migratory	0.6530241018644839	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	activated_migratory	0.7389722601182356	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	activated_migratory	0.5034106412005457	Mural identity	Vascular support
+TGFB1	fibroblast_like	0.1223167274200081	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	fibroblast_like	0.12353179424868367	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	fibroblast_like	0.03442689347914135	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	fibroblast_like	0.04495747266099635	Signaling ligands	Pericyte-EC crosstalk
+NODAL	fibroblast_like	0.0036452004860267314	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	fibroblast_like	0.005670311867152693	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	fibroblast_like	0.036857027136492505	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	fibroblast_like	0.011340623734305387	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	fibroblast_like	0.0004050222762251924	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	fibroblast_like	0.010935601458080195	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	fibroblast_like	0.004050222762251924	Chemokines	Neutrophil/monocyte recruitment
+CCL2	fibroblast_like	0.07168894289185905	Chemokines	Neutrophil/monocyte recruitment
+CCL20	fibroblast_like	0.004860267314702308	Chemokines	Neutrophil/monocyte recruitment
+IL1A	fibroblast_like	0.0008100445524503848	Cytokines	Inflammatory amplification
+IL1B	fibroblast_like	0.005265289590927501	Cytokines	Inflammatory amplification
+IL6	fibroblast_like	0.05386796273795059	Cytokines	Inflammatory amplification
+MIF	fibroblast_like	0.16889428918590524	Cytokines	Inflammatory amplification
+ICAM1	fibroblast_like	0.04455245038477116	Adhesion molecules	Leukocyte trafficking
+VCAM1	fibroblast_like	0.018226002430133656	Adhesion molecules	Leukocyte trafficking
+SELE	fibroblast_like	0.0016200891049007696	Adhesion molecules	Leukocyte trafficking
+COL1A1	fibroblast_like	0.3928716079384366	ECM structural	Basement membrane / vascular stability
+COL4A1	fibroblast_like	0.9331713244228432	ECM structural	Basement membrane / vascular stability
+FN1	fibroblast_like	0.507492912110166	ECM structural	Basement membrane / vascular stability
+LAMA2	fibroblast_like	0.4131227217496962	ECM structural	Basement membrane / vascular stability
+LAMB1	fibroblast_like	0.6342648845686513	ECM structural	Basement membrane / vascular stability
+MMP2	fibroblast_like	0.1377075739165654	Matrix-remodeling	ECM degradation / sprouting
+MMP3	fibroblast_like	0.0008100445524503848	Matrix-remodeling	ECM degradation / sprouting
+MMP9	fibroblast_like	0.002025111381125962	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	fibroblast_like	0.46132037262049413	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	fibroblast_like	0.20413122721749696	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	fibroblast_like	0.8319157553665452	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	fibroblast_like	0.28959092750101256	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	fibroblast_like	0.7027136492507088	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	fibroblast_like	0.48116646415552855	Mural identity	Vascular support
+TGFB1	inflammatory	0.09200968523002422	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	inflammatory	0.08813559322033898	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	inflammatory	0.015980629539951573	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	inflammatory	0.04019370460048426	Signaling ligands	Pericyte-EC crosstalk
+NODAL	inflammatory	0.0014527845036319612	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	inflammatory	0.0910411622276029	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	inflammatory	0.20145278450363197	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	inflammatory	0.10411622276029056	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	inflammatory	0.00774818401937046	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	inflammatory	0.13559322033898305	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	inflammatory	0.04891041162227603	Chemokines	Neutrophil/monocyte recruitment
+CCL2	inflammatory	0.2019370460048426	Chemokines	Neutrophil/monocyte recruitment
+CCL20	inflammatory	0.06053268765133172	Chemokines	Neutrophil/monocyte recruitment
+IL1A	inflammatory	0.0043583535108958835	Cytokines	Inflammatory amplification
+IL1B	inflammatory	0.03099273607748184	Cytokines	Inflammatory amplification
+IL6	inflammatory	0.24067796610169492	Cytokines	Inflammatory amplification
+MIF	inflammatory	0.46779661016949153	Cytokines	Inflammatory amplification
+ICAM1	inflammatory	0.20871670702179176	Adhesion molecules	Leukocyte trafficking
+VCAM1	inflammatory	0.02324455205811138	Adhesion molecules	Leukocyte trafficking
+SELE	inflammatory	0.005811138014527845	Adhesion molecules	Leukocyte trafficking
+COL1A1	inflammatory	0.07167070217917676	ECM structural	Basement membrane / vascular stability
+COL4A1	inflammatory	0.6973365617433414	ECM structural	Basement membrane / vascular stability
+FN1	inflammatory	0.1811138014527845	ECM structural	Basement membrane / vascular stability
+LAMA2	inflammatory	0.2765133171912833	ECM structural	Basement membrane / vascular stability
+LAMB1	inflammatory	0.5220338983050847	ECM structural	Basement membrane / vascular stability
+MMP2	inflammatory	0.09636803874092009	Matrix-remodeling	ECM degradation / sprouting
+MMP3	inflammatory	0.0	Matrix-remodeling	ECM degradation / sprouting
+MMP9	inflammatory	0.0009685230024213075	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	inflammatory	0.47409200968523	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	inflammatory	0.1171912832929782	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	inflammatory	0.7302663438256659	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	inflammatory	0.2939467312348668	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	inflammatory	0.723002421307506	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	inflammatory	0.46537530266343824	Mural identity	Vascular support
+TGFB1	synthetic_contractile	0.09705438066465256	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	synthetic_contractile	0.1578549848942598	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	synthetic_contractile	0.03209969788519638	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	synthetic_contractile	0.08006042296072508	Signaling ligands	Pericyte-EC crosstalk
+NODAL	synthetic_contractile	0.0011329305135951663	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	synthetic_contractile	0.009818731117824773	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	synthetic_contractile	0.019637462235649546	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	synthetic_contractile	0.015483383685800604	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	synthetic_contractile	0.0	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	synthetic_contractile	0.0188821752265861	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	synthetic_contractile	0.005287009063444109	Chemokines	Neutrophil/monocyte recruitment
+CCL2	synthetic_contractile	0.03663141993957704	Chemokines	Neutrophil/monocyte recruitment
+CCL20	synthetic_contractile	0.019637462235649546	Chemokines	Neutrophil/monocyte recruitment
+IL1A	synthetic_contractile	0.0007552870090634441	Cytokines	Inflammatory amplification
+IL1B	synthetic_contractile	0.007930513595166163	Cytokines	Inflammatory amplification
+IL6	synthetic_contractile	0.03814199395770393	Cytokines	Inflammatory amplification
+MIF	synthetic_contractile	0.22922960725075528	Cytokines	Inflammatory amplification
+ICAM1	synthetic_contractile	0.01812688821752266	Adhesion molecules	Leukocyte trafficking
+VCAM1	synthetic_contractile	0.0022658610271903325	Adhesion molecules	Leukocyte trafficking
+SELE	synthetic_contractile	0.0007552870090634441	Adhesion molecules	Leukocyte trafficking
+COL1A1	synthetic_contractile	0.04833836858006042	ECM structural	Basement membrane / vascular stability
+COL4A1	synthetic_contractile	0.8074018126888217	ECM structural	Basement membrane / vascular stability
+FN1	synthetic_contractile	0.1782477341389728	ECM structural	Basement membrane / vascular stability
+LAMA2	synthetic_contractile	0.3961480362537764	ECM structural	Basement membrane / vascular stability
+LAMB1	synthetic_contractile	0.6635196374622356	ECM structural	Basement membrane / vascular stability
+MMP2	synthetic_contractile	0.08648036253776435	Matrix-remodeling	ECM degradation / sprouting
+MMP3	synthetic_contractile	0.0	Matrix-remodeling	ECM degradation / sprouting
+MMP9	synthetic_contractile	0.00037764350453172205	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	synthetic_contractile	0.8935045317220544	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	synthetic_contractile	0.13783987915407855	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	synthetic_contractile	0.9176737160120846	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	synthetic_contractile	0.29871601208459214	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	synthetic_contractile	0.8289274924471299	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	synthetic_contractile	0.3595166163141994	Mural identity	Vascular support
+TGFB1	vascular_stabilizing	0.06698564593301436	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	vascular_stabilizing	0.08699434536755112	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	vascular_stabilizing	0.010439321444106133	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	vascular_stabilizing	0.04088734232274902	Signaling ligands	Pericyte-EC crosstalk
+NODAL	vascular_stabilizing	0.00043497172683775554	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	vascular_stabilizing	0.007394519356241845	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	vascular_stabilizing	0.020878642888212267	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	vascular_stabilizing	0.012614180078294911	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	vascular_stabilizing	0.00043497172683775554	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	vascular_stabilizing	0.015224010439321443	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	vascular_stabilizing	0.0017398869073510222	Chemokines	Neutrophil/monocyte recruitment
+CCL2	vascular_stabilizing	0.04567203131796433	Chemokines	Neutrophil/monocyte recruitment
+CCL20	vascular_stabilizing	0.011309264897781644	Chemokines	Neutrophil/monocyte recruitment
+IL1A	vascular_stabilizing	0.0	Cytokines	Inflammatory amplification
+IL1B	vascular_stabilizing	0.004349717268377556	Cytokines	Inflammatory amplification
+IL6	vascular_stabilizing	0.04871683340582862	Cytokines	Inflammatory amplification
+MIF	vascular_stabilizing	0.23836450630709005	Cytokines	Inflammatory amplification
+ICAM1	vascular_stabilizing	0.019573727707699	Adhesion molecules	Leukocyte trafficking
+VCAM1	vascular_stabilizing	0.005219660722053067	Adhesion molecules	Leukocyte trafficking
+SELE	vascular_stabilizing	0.0008699434536755111	Adhesion molecules	Leukocyte trafficking
+COL1A1	vascular_stabilizing	0.06133101348412353	ECM structural	Basement membrane / vascular stability
+COL4A1	vascular_stabilizing	0.7042192257503262	ECM structural	Basement membrane / vascular stability
+FN1	vascular_stabilizing	0.15397999130056547	ECM structural	Basement membrane / vascular stability
+LAMA2	vascular_stabilizing	0.28316659417137885	ECM structural	Basement membrane / vascular stability
+LAMB1	vascular_stabilizing	0.5219660722053067	ECM structural	Basement membrane / vascular stability
+MMP2	vascular_stabilizing	0.07525010874293171	Matrix-remodeling	ECM degradation / sprouting
+MMP3	vascular_stabilizing	0.0	Matrix-remodeling	ECM degradation / sprouting
+MMP9	vascular_stabilizing	0.0008699434536755111	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	vascular_stabilizing	0.4658547194432362	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	vascular_stabilizing	0.08916920400173989	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	vascular_stabilizing	0.8908220965637234	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	vascular_stabilizing	0.24227925184862983	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	vascular_stabilizing	0.7468464549804262	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	vascular_stabilizing	0.685080469769465	Mural identity	Vascular support
+TGFB1	overall	0.10162671232876712	Signaling ligands	Pericyte-EC crosstalk
+TGFB2	overall	0.11558219178082192	Signaling ligands	Pericyte-EC crosstalk
+TGFB3	overall	0.025	Signaling ligands	Pericyte-EC crosstalk
+WNT5A	overall	0.05017123287671233	Signaling ligands	Pericyte-EC crosstalk
+NODAL	overall	0.0018835616438356165	Signaling ligands	Pericyte-EC crosstalk
+CXCL1	overall	0.022602739726027398	Chemokines	Neutrophil/monocyte recruitment
+CXCL2	overall	0.06053082191780822	Chemokines	Neutrophil/monocyte recruitment
+CXCL3	overall	0.030993150684931508	Chemokines	Neutrophil/monocyte recruitment
+CXCL6	overall	0.0016267123287671233	Chemokines	Neutrophil/monocyte recruitment
+CXCL8	overall	0.03809931506849315	Chemokines	Neutrophil/monocyte recruitment
+CXCL10	overall	0.01309931506849315	Chemokines	Neutrophil/monocyte recruitment
+CCL2	overall	0.08287671232876713	Chemokines	Neutrophil/monocyte recruitment
+CCL20	overall	0.019948630136986303	Chemokines	Neutrophil/monocyte recruitment
+IL1A	overall	0.001113013698630137	Cytokines	Inflammatory amplification
+IL1B	overall	0.010445205479452055	Cytokines	Inflammatory amplification
+IL6	overall	0.09126712328767124	Cytokines	Inflammatory amplification
+MIF	overall	0.2690068493150685	Cytokines	Inflammatory amplification
+ICAM1	overall	0.06686643835616439	Adhesion molecules	Leukocyte trafficking
+VCAM1	overall	0.011986301369863013	Adhesion molecules	Leukocyte trafficking
+SELE	overall	0.0018835616438356165	Adhesion molecules	Leukocyte trafficking
+COL1A1	overall	0.14726027397260275	ECM structural	Basement membrane / vascular stability
+COL4A1	overall	0.7939212328767123	ECM structural	Basement membrane / vascular stability
+FN1	overall	0.2573630136986301	ECM structural	Basement membrane / vascular stability
+LAMA2	overall	0.3446917808219178	ECM structural	Basement membrane / vascular stability
+LAMB1	overall	0.5961472602739726	ECM structural	Basement membrane / vascular stability
+MMP2	overall	0.13304794520547944	Matrix-remodeling	ECM degradation / sprouting
+MMP3	overall	0.0004280821917808219	Matrix-remodeling	ECM degradation / sprouting
+MMP9	overall	0.0017123287671232876	Matrix-remodeling	ECM degradation / sprouting
+ACTA2	overall	0.5741438356164383	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFA	overall	0.13792808219178082	Fibrotic mediators	Myofibroblast transition / fibrosis
+PDGFRB	overall	0.8377568493150684	Fibrotic mediators	Myofibroblast transition / fibrosis
+ADAMTS1	overall	0.35154109589041094	Fibrotic mediators	Myofibroblast transition / fibrosis
+VIM	overall	0.7504280821917808	Fibrotic mediators	Myofibroblast transition / fibrosis
+RGS5	overall	0.49511986301369865	Mural identity	Vascular support
