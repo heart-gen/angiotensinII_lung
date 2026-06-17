@@ -1,15 +1,15 @@
-2026-06-15 20:27:53 - **** Job starts ****
-Job id: 41445447
+2026-06-16 15:19:16 - **** Job starts ****
+Job id: 41462069
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-15 20:28:04 - **** Confounder sensitivity analyses ****
+2026-06-16 15:19:30 - **** Confounder sensitivity analyses ****
 
 Reproducibility information:
-[1] "2026-06-15 20:28:11 EDT"
+[1] "2026-06-16 15:19:39 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -20,7 +20,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-15
+ date     2026-06-16
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -58,4 +58,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-15 20:28:15 - **** Job ends ****
+2026-06-16 15:19:43 - **** Job ends ****
