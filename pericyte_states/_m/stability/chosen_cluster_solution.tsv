@@ -1,0 +1,2 @@
+n_neighbors	resolution	cluster_key	n_clusters	median_jaccard	mean_ari	mean_nmi	min_cluster_cells	min_cluster_donors	passes
+30	0.5	leiden_n30_r0.5	6	0.9657131661442007	0.9464346182811315	0.9322885249839413	113	47	True

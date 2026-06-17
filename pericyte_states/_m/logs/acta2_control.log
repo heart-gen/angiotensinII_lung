@@ -1,0 +1,188 @@
+2026-06-17 08:34:40 - **** Job starts ****
+Job id: 41474787
+Hostname: r008
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-17 08:34:41 - **** (1) leave-ACTA2-out contractile score (Python) ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-17 08:37:27,756 [INFO] leave-ACTA2-out contractile panel (7 genes): ['MYH11', 'TAGLN', 'CNN1', 'MYL9', 'DES', 'VIM', 'PDGFRB']
+2026-06-17 08:37:28,904 [INFO] wrote synth_contr_noACTA2.tsv.gz (11680 cells)
+-----
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-17 08:37
+2026-06-17 08:37:45 - **** (2) ACTA2 control stats + correlations (R) ****
+merged 11680 cells
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== ACTA2_expr by program (emmeans) ==
+         state_program    emmean         SE
+1  activated_migratory 0.7220754 0.09382481
+2      fibroblast_like 1.0434310 0.05763638
+3 vascular_stabilizing 1.3742567 0.05624711
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== ACTA2_detect by program (emmeans) ==
+         state_program    emmean         SE
+1  activated_migratory 0.2720066 0.03569633
+2      fibroblast_like 0.4000371 0.02095156
+3 vascular_stabilizing 0.5661634 0.02039151
+
+== ACTA2 top program per lens ==
+           lens          top_program top_emmean
+         <char>               <fctr>      <num>
+1:   ACTA2_expr vascular_stabilizing  1.3742567
+2: ACTA2_detect vascular_stabilizing  0.5661634
+
+pseudobulk: 154 donor x program units (>= 5 cells)
+
+== donor x program pseudobulk correlations ==
+            x                   y     n  pearson_r    pearson_p spearman_rho
+       <char>              <char> <int>      <num>        <num>        <num>
+1: AGTR1_expr          ACTA2_expr   154 0.28332147 3.701184e-04   0.26794255
+2: AGTR1_scvi          ACTA2_expr   154 0.03697716 6.488995e-01   0.04510751
+3: AGTR1_expr synth_contr_noACTA2   154 0.39087453 5.387892e-07   0.39277197
+4: AGTR1_scvi synth_contr_noACTA2   154 0.15552455 5.410180e-02   0.03654271
+5: AGTR1_scvi    synth_contr_full   154 0.13250550 1.013832e-01   0.03504440
+6: ACTA2_expr synth_contr_noACTA2   154 0.73200986 4.075999e-27   0.74960610
+     spearman_p pearson_p_BH spearman_p_BH
+          <num>        <num>         <num>
+1: 7.804523e-04 7.402367e-04  1.560905e-03
+2: 5.785584e-01 6.488995e-01  6.661202e-01
+3: 4.693419e-07 1.616368e-06  1.408026e-06
+4: 6.527546e-01 8.115270e-02  6.661202e-01
+5: 6.661202e-01 1.216598e-01  6.661202e-01
+6: 4.922266e-29 2.445600e-26  2.953359e-28
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== leave-ACTA2-out contractile score by program (emmeans) ==
+         state_program    emmean         SE
+1  activated_migratory 0.6422890 0.03425907
+2      fibroblast_like 0.7696881 0.02563454
+3 vascular_stabilizing 0.8491061 0.02528324
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+
+Reproducibility information:
+[1] "2026-06-17 08:38:22 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-06-17
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3      2023-08-29 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ mgcv           1.9-3      2025-04-04 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0      2025-09-02 [1] CRAN (R 4.4.3)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1      2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4      2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2      2024-10-28 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-06-17 08:38:25 - **** Job ends ****

@@ -1,0 +1,45 @@
+2026-06-15 23:06:16 - **** Job starts ****
+Job id: 41446263
+Hostname: r018
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-15 23:06:17 - **** Loading mamba environment ****
+2026-06-15 23:06:18 - **** Expression-only state continuum (DPT + PAGA) ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-15 23:08:43,879 [WARNING] No cells in root state vascular_stabilizing; using global PC1 min
+2026-06-15 23:08:43,907 [INFO] Root cell index=11135 (state=vascular_stabilizing)
+2026-06-15 23:10:01.064363: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+                    feature level  spearman_rho       p_value  partial_rho     partial_p     n
+ vascular_stabilizing_score  cell      0.452328  0.000000e+00     0.504811  0.000000e+00 11680
+         inflammatory_score  cell      0.475704  0.000000e+00     0.545761  0.000000e+00 11680
+synthetic_contractile_score  cell      0.436033  0.000000e+00     0.444393  0.000000e+00 11680
+  activated_migratory_score  cell      0.412794  0.000000e+00     0.401147  0.000000e+00 11680
+      fibroblast_like_score  cell      0.216563 5.281889e-124     0.207491 9.235889e-114 11680
+                 AGTR1_expr  cell      0.114014  4.248917e-35     0.062337  1.556492e-11 11680
+ vascular_stabilizing_score donor      0.520496  7.313671e-15     0.548380  1.516507e-16   194
+         inflammatory_score donor      0.476611  2.142719e-12     0.599797  3.054381e-20   194
+synthetic_contractile_score donor      0.459457  1.597913e-11     0.483351  1.080182e-12   194
+  activated_migratory_score donor      0.465911  7.601827e-12     0.456673  2.468971e-11   194
+      fibroblast_like_score donor      0.270440  1.368667e-04     0.190184  8.068757e-03   194
+                 AGTR1_expr donor      0.248671  4.717763e-04     0.141173  5.019211e-02   194
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-15 23:11
+2026-06-15 23:11:52 - **** Job ends ****

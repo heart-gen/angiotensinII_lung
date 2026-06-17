@@ -1,0 +1,4 @@
+disease_group	emmean	SE	df	lower.CL	upper.CL
+Healthy	1	1.62667940428572e-17	31	1	1
+Fibrotic_ILD	1	4.19283952302806e-17	31	1	1
+Other	1	4.76410602804451e-17	31	1	1

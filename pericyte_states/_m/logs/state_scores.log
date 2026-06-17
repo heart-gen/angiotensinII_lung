@@ -1,0 +1,34 @@
+2026-06-15 21:35:16 - **** Job starts ****
+2026-06-15 21:35:16 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 41445756
+Job name: peri_state_scores
+Node name: 
+Hostname: r184
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-15 21:35:17 - **** Loading mamba environment ****
+2026-06-15 21:35:17 - **** Score functional pericyte states ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-15 21:39:08,620 [INFO] Loaded 11680 pericytes x 55329 genes
+2026-06-15 21:39:10,623 [INFO] 61 cells in small datasets used global standardization
+-----
+anndata             0.11.4
+matplotlib          3.10.5
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+seaborn             0.13.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-15 21:39
+2026-06-15 21:39:46 - **** Job ends ****
