@@ -1,0 +1,11 @@
+figure	panel	source	exists
+A	liana edges -> pericytes	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cell_communication/_m/figures/dotplot_into_Pericytes.pdf	TRUE
+A	liana edges -> AGTR2-det AT2	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cell_communication/_m/figures/dotplot_into_AT2_AGTR2det.pdf	TRUE
+A	NicheNet ligand->target (pericyte)	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cell_communication/_m/nichenet/ligand_target_heatmap_Pericytes.pdf	TRUE
+A	alluvial cluster->category->role	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cell_communication/_m/figures/alluvial_state.pdf	TRUE
+B	state UMAP	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pericyte_states/_m/figures/umap_pericyte_state.pdf	TRUE
+B	DPT pseudotime UMAP	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pericyte_states/_m/figures/umap_pseudotime.pdf	TRUE
+B	PAGA states	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pericyte_states/_m/figures/paga_states.pdf	TRUE
+Supp	AT1R/AT2R balance by disease	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pathway_balance/_m/stats_data/balance_by_disease.pdf	TRUE
+Supp	smoking + cohort robustness	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_sensitivity.pdf	TRUE
+Supp	mouse Agtr1a by state	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cross_species/_m/stats_data/mouse_Agtr1a_by_state.pdf	TRUE
