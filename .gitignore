@@ -80,3 +80,4 @@ lungmap_dataset.h5ad
 .scratch/
 ccc_niche.h5ad
 __pycache__/
+submit_pipeline.sh
