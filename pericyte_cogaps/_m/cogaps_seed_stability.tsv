@@ -1,0 +1,16 @@
+ref_pattern	match_pattern	r	seed
+Pattern_1	Pattern_3	0.966343713061385	1
+Pattern_2	Pattern_1	0.999589990242551	1
+Pattern_3	Pattern_2	0.995816046426163	1
+Pattern_4	Pattern_4	0.981432840398429	1
+Pattern_5			1
+Pattern_1	Pattern_2	0.999162461901651	42
+Pattern_2	Pattern_4	0.981695090453965	42
+Pattern_3	Pattern_1	0.997933652716434	42
+Pattern_4	Pattern_3	0.998686764165285	42
+Pattern_5	Pattern_5	0.300621214737968	42
+Pattern_1	Pattern_4	0.990806326369465	2024
+Pattern_2	Pattern_2	0.99974862692716	2024
+Pattern_3	Pattern_1	0.995260376373994	2024
+Pattern_4	Pattern_3	0.9877934031633	2024
+Pattern_5			2024

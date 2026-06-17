@@ -1,0 +1,185 @@
+2026-06-16 10:29:10 - **** Job starts ****
+Job id: 41454978
+Hostname: r004
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 10:29:10 - **** Loading mamba environment ****
+2026-06-16 10:29:12 - **** Validate CoGAPS nPatterns=5 ****
+loaded 11680 cells x 5 patterns
+merged: 11680 cells (100.0% of patterns matched metadata)
+
+---- sessionInfo ----
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-06-16
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-06-16 10:29:15 - **** Validate CoGAPS nPatterns=7 ****
+loaded 11680 cells x 8 patterns
+merged: 11680 cells (100.0% of patterns matched metadata)
+
+---- sessionInfo ----
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-06-16
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-06-16 10:29:19 - **** Validate CoGAPS nPatterns=9 ****
+loaded 11680 cells x 9 patterns
+merged: 11680 cells (100.0% of patterns matched metadata)
+
+---- sessionInfo ----
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-06-16
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-06-16 10:29:23 - **** Job ends ****
