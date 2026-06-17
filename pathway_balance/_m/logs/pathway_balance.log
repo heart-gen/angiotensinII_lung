@@ -1,0 +1,25 @@
+2026-06-16 15:19:16 - **** Job starts ****
+Job id: 41462067
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-06-16 15:19:17 - **** AT1R/AT2R pathway-balance scoring ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-16 15:22:27,572 [WARNING] [AT1R_score] absent: ['CTGF', 'CYR61']
+2026-06-16 15:22:29,224 [INFO] Scored balance for 11680 cells
+-----
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+scipy               1.15.3
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-16 15:22
+2026-06-16 15:22:44 - **** Job ends ****
