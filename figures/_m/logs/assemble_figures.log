@@ -1,12 +1,82 @@
-2026-06-17 09:52:33 - **** Job starts ****
-Job id: 41475388
+2026-06-17 22:36:01 - **** Job starts ****
+Job id: 41486581
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-17 09:52:35 - **** Supplementary sensitivity/robustness figure ****
+2026-06-17 22:36:02 - **** Export pericyte UMAP coords (scRNA_env) ****
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution, DistributionNotFound
+2026-06-17 22:38:51,911 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+-----
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-06-17 22:38
+2026-06-17 22:39:24 - **** Integrated pericyte-layer figure (main + supplement) ****
+pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-06-17
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-06-17 22:40:08 - **** Supplementary sensitivity/robustness figure ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -67,7 +137,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-17 09:52:42 - **** Panel manifest ****
+2026-06-17 22:40:16 - **** Panel manifest ****
 Panels present: 10 / 10 
 # A tibble: 10 x 3
    figure panel                              exists
@@ -82,7 +152,7 @@ Panels present: 10 / 10
  8 Supp   AT1R/AT2R balance by disease       TRUE  
  9 Supp   smoking + cohort robustness        TRUE  
 10 Supp   mouse Agtr1a by state              TRUE  
-2026-06-17 09:52:44 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+2026-06-17 22:40:23 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -104,11 +174,13 @@ Wrote manuscript figures to /ocean/projects/bio260021p/kbenjamin/projects/angiot
  [3] "figureS_acta2_control.svg"          "figureS_alluvial.pdf"              
  [5] "figureS_alluvial.svg"               "figureS_balance_by_state.pdf"      
  [7] "figureS_balance_by_state.svg"       "figureS_crossspecies_mouse.pdf"    
- [9] "figureS_crossspecies_mouse.svg"     "figureS_program_category.pdf"      
-[11] "figureS_program_category.svg"       "figureS_sensitivity.pdf"           
-[13] "figureS_sensitivity.svg"            "figure_ccc_nichenet.pdf"           
-[15] "figure_ccc_nichenet.svg"            "figure_mechanism_main.pdf"         
-[17] "figure_mechanism_main.svg"         
+ [9] "figureS_crossspecies_mouse.svg"     "figureS_pericyte_layer.pdf"        
+[11] "figureS_pericyte_layer.svg"         "figureS_program_category.pdf"      
+[13] "figureS_program_category.svg"       "figureS_sensitivity.pdf"           
+[15] "figureS_sensitivity.svg"            "figure_ccc_nichenet.pdf"           
+[17] "figure_ccc_nichenet.svg"            "figure_mechanism_main.pdf"         
+[19] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
+[21] "figure_pericyte_layer.svg"         
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -180,4 +252,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-17 09:53:00 - **** Job ends ****
+2026-06-17 22:40:50 - **** Job ends ****
