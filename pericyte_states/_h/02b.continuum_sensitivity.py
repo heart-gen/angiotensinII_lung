@@ -40,7 +40,7 @@ sns.set_style("whitegrid")
 TREND_COLS = [
     "vascular_stabilizing_score", "inflammatory_score",
     "synthetic_contractile_score", "activated_migratory_score",
-    "fibroblast_like_score", "AGTR1_expr",
+    "fibroblast_like_score", "basement_membrane_score", "AGTR1_expr",
 ]
 
 

@@ -1,52 +1,51 @@
-2026-06-16 19:21:48 - **** Job starts ****
-Job id: 41468954
-Hostname: r032
+2026-07-23 08:40:00 - **** Job starts ****
+Job id: 42554465
+Hostname: r349
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 19:21:49 - **** DPT continuum root/resolution sensitivity ****
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import get_distribution, DistributionNotFound
-2026-06-16 19:25:54,362 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=1.0 seed=13
-2026-06-16 19:28:17.306911: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2026-07-23 08:40:03 - **** DPT continuum root/resolution sensitivity ****
+2026-07-23 08:42:12,576 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=1.0 seed=13
+2026-07-23 08:43:27.972233: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-06-16 19:30:24,832 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=13
-2026-06-16 19:30:27,935 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=7
-2026-06-16 19:30:30,646 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=1.0 seed=13
-2026-06-16 19:30:33,559 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=13
-2026-06-16 19:30:36,263 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=7
-2026-06-16 19:30:38,963 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=1.0 seed=13
-2026-06-16 19:30:43,046 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=13
-2026-06-16 19:30:46,549 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=7
-2026-06-16 19:30:50,098 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=1.0 seed=13
-2026-06-16 19:30:54,148 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=13
-2026-06-16 19:30:57,696 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=7
-2026-06-16 19:31:01,238 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=1.0 seed=13
-2026-06-16 19:31:07,609 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=13
-2026-06-16 19:31:12,935 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=7
-2026-06-16 19:31:18,235 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=1.0 seed=13
-2026-06-16 19:31:24,376 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=13
-2026-06-16 19:31:29,654 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=7
-2026-06-16 19:31:35,277 [INFO] [root] root=1 (default params)
-2026-06-16 19:31:39,539 [INFO] [root] root=0 (default params)
-2026-06-16 19:31:43,841 [INFO] [root] root=2 (default params)
-2026-06-16 19:31:48,170 [INFO] [root] root=3 (default params)
-2026-06-16 19:31:52,470 [INFO] [root] root=4 (default params)
-2026-06-16 19:31:56,791 [INFO] [root] root=5 (default params)
-2026-06-16 19:32:01,048 [INFO] [root] root=pc1min (default params)
-2026-06-16 19:32:05,301 [INFO] [root] root=pc1max (default params)
+2026-07-23 08:45:07,266 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=13
+2026-07-23 08:45:10,897 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=7
+2026-07-23 08:45:14,378 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=1.0 seed=13
+2026-07-23 08:45:18,002 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=13
+2026-07-23 08:45:21,483 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=7
+2026-07-23 08:45:24,874 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=1.0 seed=13
+2026-07-23 08:45:29,574 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=13
+2026-07-23 08:45:33,867 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=7
+2026-07-23 08:45:38,134 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=1.0 seed=13
+2026-07-23 08:45:42,929 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=13
+2026-07-23 08:45:47,335 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=7
+2026-07-23 08:45:51,595 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=1.0 seed=13
+2026-07-23 08:45:58,641 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=13
+2026-07-23 08:46:04,706 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=7
+2026-07-23 08:46:11,000 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=1.0 seed=13
+2026-07-23 08:46:18,139 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=13
+2026-07-23 08:46:24,230 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=7
+2026-07-23 08:46:30,507 [INFO] [root] root=1 (default params)
+2026-07-23 08:46:35,213 [INFO] [root] root=0 (default params)
+2026-07-23 08:46:39,937 [INFO] [root] root=2 (default params)
+2026-07-23 08:46:44,701 [INFO] [root] root=3 (default params)
+2026-07-23 08:46:49,428 [INFO] [root] root=4 (default params)
+2026-07-23 08:46:54,119 [INFO] [root] root=5 (default params)
+2026-07-23 08:46:58,844 [INFO] [root] root=pc1min (default params)
+2026-07-23 08:47:03,620 [INFO] [root] root=pc1max (default params)
 
 == Canonical-root parameter robustness (Spearman rho vs DPT) ==
-                    feature  n_settings  mean_rho   sd_rho  min_rho  max_rho  sign_consistency
-                 AGTR1_expr          18  0.117792 0.004254 0.109518 0.122972               1.0
-  activated_migratory_score          18  0.411009 0.006569 0.399366 0.419150               1.0
-      fibroblast_like_score          18  0.218874 0.004908 0.211883 0.227334               1.0
-         inflammatory_score          18  0.478343 0.003959 0.470997 0.484638               1.0
-synthetic_contractile_score          18  0.430228 0.004479 0.422540 0.436820               1.0
- vascular_stabilizing_score          18  0.450372 0.001084 0.448461 0.452328               1.0
+                    feature  n_settings  mean_rho   sd_rho   min_rho   max_rho  sign_consistency
+                 AGTR1_expr          18  0.117792 0.004254  0.109518  0.122972               1.0
+  activated_migratory_score          18  0.411009 0.006569  0.399366  0.419150               1.0
+    basement_membrane_score          18 -0.279001 0.003259 -0.283511 -0.274831               1.0
+      fibroblast_like_score          18  0.218874 0.004908  0.211883  0.227334               1.0
+         inflammatory_score          18  0.478343 0.003959  0.470997  0.484638               1.0
+synthetic_contractile_score          18  0.430228 0.004479  0.422540  0.436820               1.0
+ vascular_stabilizing_score          18  0.450372 0.001084  0.448461  0.452328               1.0
 -----
 matplotlib          3.10.5
 numpy               2.1.3
@@ -59,5 +58,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-06-16 19:32
-2026-06-16 19:32:49 - **** Job ends ****
+Session information updated at 2026-07-23 08:47
+2026-07-23 08:47:23 - **** Job ends ****
