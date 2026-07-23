@@ -19,7 +19,17 @@ suppressPackageStartupMessages({
 })
 emm_options(lmerTest.limit = 20000, pbkrtest.limit = 20000)
 
-INJURY_STATES <- c("inflammatory", "fibroblast_like", "activated_migratory")
+## Injury programs, as SCORES rather than as argmax labels. The label-based
+## grouping (`state_program %in% INJURY_STATES`) is no longer usable: after the
+## basement-membrane panel was added, `fibroblast_like` stops winning any cluster
+## and the label-based injury set collapses from 4,420 cells / 139 donors to 220
+## cells / 65 donors. Basement-membrane deposition is a matrix-stabilizing
+## vascular function -- near-orthogonal to fibrillar ECM and aligning pericytes
+## with endothelium rather than fibroblasts -- so it is deliberately NOT counted
+## as injury. The three program scores below are bit-identical before and after
+## the relabelling, so this selection is continuous with the previous analysis.
+INJURY_SCORES <- c("inflammatory_score", "fibroblast_like_score",
+                   "activated_migratory_score")
 
 map_disease_group <- function(lc) {
     lc <- as.character(lc)
@@ -73,8 +83,26 @@ save_ggplots(file.path(outdir, "balance_by_state"), p1, 6, 5)
 ## random intercept guards against disease-study confounding in the HLCA (the
 ## composition and niche analyses use leave-one-study-out for the same reason).
 has_ds <- "dataset" %in% names(df)
+## Continuous analogue of "injury-state cells": z-score each injury program
+## across cells, average them, and keep the upper half. Selection is on the
+## scores themselves, so it does not depend on which panel happens to win the
+## per-cluster argmax.
+inj_cols <- intersect(INJURY_SCORES, names(df))
+if (length(inj_cols) == 0)
+    stop("no injury program score columns found; re-run 00.pathway_balance.py ",
+         "to export inflammatory/fibroblast_like/activated_migratory scores")
+## `..inj_cols` (not `inj_cols`): df is a data.table, which resolves a bare symbol
+## in `j` as a column name rather than as a variable from the calling scope.
+inj_z <- scale(as.matrix(df[, ..inj_cols]))
+inj_z[is.na(inj_z)] <- 0
+df$injury_score <- rowMeans(inj_z)
+inj_cut <- stats::median(df$injury_score, na.rm = TRUE)
+cat(sprintf("\n(B) injury selection: %d of %d cells above the median composite ",
+            sum(df$injury_score > inj_cut, na.rm = TRUE), nrow(df)),
+    sprintf("injury score (cols: %s)\n", paste(inj_cols, collapse = ", ")))
+
 donor_inj <- df |>
-    filter(state_program %in% INJURY_STATES) |>
+    filter(injury_score > inj_cut) |>
     group_by(donor_id) |>
     summarise(balance = mean(AT1R_AT2R_balance, na.rm = TRUE),
               AT1R = mean(AT1R_score, na.rm = TRUE), AT2R = mean(AT2R_score, na.rm = TRUE),
@@ -119,7 +147,11 @@ if (file.exists(ni_file)) {
         out <- rbind(rows(f_un, "unadjusted"), rows(f_adj, "injury_adjusted"))
         out <- out[grepl("disease|injury", out$term), ]
         write_tsv_safe(out, file.path(outdir, "balance_disease_injury_adjusted.tsv"))
-        cat("  (disease effect collapses once injury-stromal score is included)\n")
+        ## Report what the adjustment actually did rather than asserting it: under the
+        ## continuous injury selection the disease term does NOT collapse, which is the
+        ## opposite of what the earlier label-based selection showed.
+        cat("  (compare the unadjusted vs injury_adjusted disease terms below;\n",
+            "   the covariate absorbs the disease effect only if they shrink)\n", sep = "")
         print(out[, c("model", "term", "Estimate", "Pr(>|t|)")])
         ## arm decomposition: which arm (AT1R up vs AT2R down) drives the shift?
         arm <- do.call(rbind, lapply(c("AT1R", "AT2R"), function(v) {

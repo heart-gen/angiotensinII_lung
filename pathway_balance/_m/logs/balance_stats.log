@@ -1,15 +1,49 @@
-2026-06-16 15:22:59 - **** Job starts ****
-Job id: 41462068
+2026-07-22 08:31:15 - **** Job starts ****
+Job id: 42529923
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 15:23:01 - **** AT1R/AT2R balance statistics ****
+2026-07-22 08:31:31 - **** AT1R/AT2R balance statistics ****
+
+(B) injury selection: 5840 of 11680 cells above the median composite  injury score (cols: inflammatory_score, fibroblast_like_score, activated_migratory_score)
+
+(B) disease-balance donors by group (note small diseased n):
+
+     Healthy Fibrotic_ILD        Other 
+          23            4            3 
+
+(C) injury-adjusted: 28 donors; cor(balance, injury_stromal)=0.421
+  (disease effect collapses once injury-stromal score is included)
+                                     model                      term
+disease_groupFibrotic_ILD       unadjusted disease_groupFibrotic_ILD
+disease_groupOther              unadjusted        disease_groupOther
+disease_groupFibrotic_ILD1 injury_adjusted disease_groupFibrotic_ILD
+disease_groupOther1        injury_adjusted        disease_groupOther
+injury_stromal_score       injury_adjusted      injury_stromal_score
+                              Estimate   Pr(>|t|)
+disease_groupFibrotic_ILD  0.092562962 0.11213472
+disease_groupOther         0.187517253 0.00795909
+disease_groupFibrotic_ILD1 0.088582946 0.17862144
+disease_groupOther1        0.180615132 0.03823574
+injury_stromal_score       0.007587623 0.88837500
+
+  arm decomposition (AT1R vs AT2R ~ disease):
+                           model                      term   Estimate
+disease_groupFibrotic_ILD   AT1R disease_groupFibrotic_ILD 0.14657846
+disease_groupOther          AT1R        disease_groupOther 0.22212518
+disease_groupFibrotic_ILD1  AT2R disease_groupFibrotic_ILD 0.05401550
+disease_groupOther1         AT2R        disease_groupOther 0.03460793
+                              Pr(>|t|)
+disease_groupFibrotic_ILD  0.030300315
+disease_groupOther         0.005845298
+disease_groupFibrotic_ILD1 0.164111380
+disease_groupOther1        0.432100729
 
 Reproducibility information:
-[1] "2026-06-16 15:23:18 EDT"
+[1] "2026-07-22 08:32:02 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -20,7 +54,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -92,4 +126,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-16 15:23:18 - **** Job ends ****
+2026-07-22 08:32:07 - **** Job ends ****

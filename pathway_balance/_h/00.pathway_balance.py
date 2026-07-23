@@ -94,7 +94,16 @@ def main():
         "self_reported_ethnicity", "age_or_mean_of_age_range", "leiden_pericytes",
         "dataset", "study", "pericyte_state", "state_program",
         "AT1R_score", "AT2R_score",
-        "AT1R_AT2R_balance", "AGTR1_expr", "AGTR2_expr"] if c in adata.obs.columns]
+        "AT1R_AT2R_balance", "AGTR1_expr", "AGTR2_expr",
+        # Injury-program scores are exported so 01.balance_stats.R can select
+        # injury-biased cells CONTINUOUSLY. It previously filtered on
+        # `state_program %in% INJURY_STATES`, which broke once the
+        # basement-membrane panel was added: `fibroblast_like` no longer wins any
+        # cluster, and basement-membrane deposition is a matrix-stabilizing
+        # function rather than an injury program, so it is not folded into the
+        # injury set. The scores themselves are unchanged by that relabelling.
+        "inflammatory_score", "fibroblast_like_score",
+        "activated_migratory_score"] if c in adata.obs.columns]
     adata.obs[keep].to_csv(args.outdir / "pathway_balance_metadata.tsv.gz", sep="\t")
     logging.info(f"Scored balance for {adata.n_obs} cells")
     session_info.show()
