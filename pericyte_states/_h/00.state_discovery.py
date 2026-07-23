@@ -14,8 +14,16 @@ Mirrors nvu-neuroimmune-reference/03_state_discovery/{01_cluster_stability,
   1. stability sweep: neighbors x resolutions x bootstraps -> per-cluster Jaccard
      + ARI/NMI; keep solutions passing median-Jaccard / min-cells / min-donors;
      choose the most stable.
-  2. annotate: score 5 curated programs (mean per cluster), Wilcoxon markers,
+  2. annotate: score 6 curated programs (mean per cluster), Wilcoxon markers,
      per-cluster dominant program -> state_program label.
+
+The basement_membrane panel was added after basement_membrane/_h/01.state_gate.py
+showed that clusters 1/3/5 (4,200 cells, 36% of pericytes) are dominantly enriched
+for basement-membrane deposition rather than fibrillar ECM. Under the previous
+5-panel set those clusters were labelled `fibroblast_like` by an argmax over
+programs that were ALL negatively enriched -- a least-negative default, not a
+positive identity. Clustering is unaffected (it runs on X_pca_harmony, which does
+not depend on the panels); only the annotation changes.
 
 Outputs:
   - pericyte_states.h5ad             (obs: pericyte_state [stable cluster], state_program)
@@ -63,6 +71,14 @@ STATE_PANELS = {
     "fibroblast_like": [
         "COL1A1", "COL1A2", "COL3A1", "COL4A1", "FN1", "LUM", "DCN",
         "PDGFA", "FBLN1",
+    ],
+    # Basement-membrane deposition. Kept SEPARATE from fibroblast_like because
+    # the two are biologically distinct matrices and, empirically, near-orthogonal
+    # in these cells (panel-score r = 0.05 once the shared COL4A1 is removed).
+    # Panel definition and provenance: basement_membrane/_h/bm_panels.py.
+    "basement_membrane": [
+        "COL4A1", "COL4A2", "COL18A1", "LAMA3", "LAMA4", "LAMA5",
+        "LAMB1", "LAMB2", "LAMC1", "NID1", "NID2", "HSPG2", "AGRN",
     ],
 }
 

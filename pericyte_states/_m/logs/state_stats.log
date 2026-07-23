@@ -1,14 +1,14 @@
-2026-06-16 09:15:04 - **** Job starts ****
-Job id: 41454295
-Hostname: r001
+2026-07-22 08:31:15 - **** Job starts ****
+Job id: 42529924
+Hostname: r004
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 09:15:05 - **** Loading mamba environment ****
-2026-06-16 09:15:06 - **** Donor-aware pericyte-state statistics ****
+2026-07-22 08:31:15 - **** Loading mamba environment ****
+2026-07-22 08:31:31 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -16,7 +16,7 @@ stable states:
 5864 3630 1396  457  220  113 
 programs:
 
- activated_migratory      fibroblast_like vascular_stabilizing 
+ activated_migratory    basement_membrane vascular_stabilizing 
                  220                 4200                 7260 
 
         COPD Fibrotic_ILD      Healthy        Other 
@@ -41,9 +41,9 @@ Warning messages:
 (`geom_point()`). 
 
 Reproducibility information:
-[1] "2026-06-16 09:15:32 EDT"
+[1] "2026-07-22 08:32:07 EDT"
    user  system elapsed 
-  7.839   0.375  26.193 
+  7.671   0.462  35.514 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -54,7 +54,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -126,4 +126,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-16 09:15:36 - **** Job ends ****
+2026-07-22 08:32:07 - **** Job ends ****
