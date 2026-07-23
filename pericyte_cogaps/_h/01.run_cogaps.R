@@ -1,18 +1,22 @@
 ## Data-driven pericyte expression programs via CoGAPS (Bayesian NMF).
 ##
 ## Runs CoGAPS on the HLCA pericyte genes x cells matrix from
-## 00.prepare_cogaps_input.py for a small sweep of nPatterns, so 02 can ask which
-## resolution best recovers / refines the curated 5-program NVU-pattern state
-## model. Uses single-cell distributed CoGAPS (cells partitioned across sets)
-## because there are many cells.
+## 00.prepare_cogaps_input.py over a sweep of nPatterns x random seeds, so
+## 02.select_rank.R can pick the rank *de novo* (cross-seed pattern
+## robustness + reconstruction error), rather than fixing nP a priori to the
+## curated program count. Uses single-cell distributed CoGAPS (cells partitioned
+## across sets) because there are many cells.
 ##
 ## CoGAPS lives in the project .Rlib (Bioconductor; not in shared R_env).
 ##
-## Outputs per nPatterns N:
-##   cogaps_result_npN.rds        (full CogapsResult)
-##   patterns_npN.tsv.gz          (cell x pattern weights; sampleFactors)
-##   feature_loadings_npN.tsv.gz  (gene x pattern; featureLoadings)
-##   pattern_markers_npN.tsv.gz   (PatternMarkers genes per pattern)
+## Outputs per (nPatterns N, seed tag TAG):
+##   cogaps_result_npN{TAG}.rds        (full CogapsResult)
+##   patterns_npN{TAG}.tsv.gz          (cell x pattern weights; sampleFactors)
+##   feature_loadings_npN{TAG}.tsv.gz  (gene x pattern; featureLoadings)
+##   pattern_markers_npN{TAG}.tsv.gz   (PatternMarkers genes per pattern)
+##   cogaps_meta_npN{TAG}.tsv          (one row: np, seed, meanChiSq -- for
+##                                      de-novo rank selection; per-run file so
+##                                      concurrent array tasks don't race)
 suppressPackageStartupMessages({
     .libPaths(c("/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib",
                 .libPaths()))
@@ -86,6 +90,15 @@ run_one <- function(np) {
         data.table::fwrite(
             long, fn("pattern_markers", np, "tsv.gz"), sep = "\t")
     }
+    ## one-row metadata for de-novo rank selection (read by 04, no rds reload).
+    data.table::fwrite(
+        data.frame(np = np,
+                   seed = SEED,
+                   tag = if (TAG == "") "seed13" else sub("^_", "", TAG),
+                   niter = NITER, nsets = NSETS,
+                   meanChiSq = res@metadata$meanChiSq,
+                   n_genes = nrow(mat), n_cells = ncol(mat)),
+        fn("cogaps_meta", np, "tsv"), sep = "\t")
     cat(sprintf("nP=%d done: meanChiSq=%.1f\n", np, res@metadata$meanChiSq))
 }
 

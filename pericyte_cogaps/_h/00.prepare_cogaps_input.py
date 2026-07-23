@@ -43,6 +43,12 @@ STATE_PANELS = {
                             "SERPINE1", "POSTN"],
     "fibroblast_like": ["COL1A1", "COL1A2", "COL3A1", "COL4A1", "FN1", "LUM",
                         "DCN", "PDGFA", "FBLN1"],
+    # Added 2026-07-22. Previously omitted, which left only 5 of these 13 genes in
+    # the feature space (the rest are not independently HVG) -- so the pattern that
+    # isolates the basement-membrane clusters was validated against a score built
+    # mostly from genes CoGAPS never saw. Panel provenance: basement_membrane/_h/bm_panels.py.
+    "basement_membrane": ["COL4A1", "COL4A2", "COL18A1", "LAMA3", "LAMA4", "LAMA5",
+                          "LAMB1", "LAMB2", "LAMC1", "NID1", "NID2", "HSPG2", "AGRN"],
 }
 EXTRA_GENES = ["AGTR1", "AGTR2"]
 

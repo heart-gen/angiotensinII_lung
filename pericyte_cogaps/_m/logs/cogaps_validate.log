@@ -1,5 +1,5 @@
-2026-06-16 10:29:10 - **** Job starts ****
-Job id: 41454978
+2026-07-22 09:09:40 - **** Job starts ****
+Job id: 42529934
 Hostname: r004
 
 Currently Loaded Modules:
@@ -7,8 +7,8 @@ Currently Loaded Modules:
 
  
 
-2026-06-16 10:29:10 - **** Loading mamba environment ****
-2026-06-16 10:29:12 - **** Validate CoGAPS nPatterns=5 ****
+2026-07-22 09:09:41 - **** Loading mamba environment ****
+2026-07-22 09:09:42 - **** Validate CoGAPS nPatterns=5 ****
 loaded 11680 cells x 5 patterns
 merged: 11680 cells (100.0% of patterns matched metadata)
 
@@ -23,7 +23,7 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -66,8 +66,8 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-16 10:29:15 - **** Validate CoGAPS nPatterns=7 ****
-loaded 11680 cells x 8 patterns
+2026-07-22 09:09:47 - **** Validate CoGAPS nPatterns=7 ****
+loaded 11680 cells x 7 patterns
 merged: 11680 cells (100.0% of patterns matched metadata)
 
 ---- sessionInfo ----
@@ -81,7 +81,7 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -124,7 +124,7 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-16 10:29:19 - **** Validate CoGAPS nPatterns=9 ****
+2026-07-22 09:09:52 - **** Validate CoGAPS nPatterns=9 ****
 loaded 11680 cells x 9 patterns
 merged: 11680 cells (100.0% of patterns matched metadata)
 
@@ -139,7 +139,7 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -182,4 +182,4 @@ merged: 11680 cells (100.0% of patterns matched metadata)
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-16 10:29:23 - **** Job ends ****
+2026-07-22 09:09:56 - **** Job ends ****

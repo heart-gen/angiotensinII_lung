@@ -1,131 +1,131 @@
-2026-06-16 09:59:58 - **** Job starts ****
-Job id: 41454977
-Hostname: r027
+2026-07-22 08:37:00 - **** Job starts ****
+Job id: 42529933
+Hostname: r013
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 09:59:59 - **** Loading mamba environment ****
-2026-06-16 10:00:06 - **** CoGAPS pattern sweep (nPatterns 5,7,9) ****
-matrix: 2030 genes x 11680 cells
+2026-07-22 08:37:01 - **** Loading mamba environment ****
+2026-07-22 08:37:09 - **** CoGAPS pattern sweep (nPatterns 5,7,9) ****
+matrix: 2038 genes x 11680 cells
 
 ==== CoGAPS nPatterns=5 (nIter=5000, nSets=8) ====
 setting distributed parameters - call this again if you change nPatterns
 
 This is CoGAPS version 3.33.1 
-Running single-cell CoGAPS on mat (2030 genes and 11680 samples)
-    worker 2 is starting!
+Running single-cell CoGAPS on mat (2038 genes and 11680 samples)
     worker 1 is starting!
+    worker 2 is starting!
+    worker 3 is starting!
+    worker 4 is starting!
+    worker 7 is starting!
+    worker 5 is starting!
+    worker 6 is starting!
+    worker 8 is starting!
+    worker 4 is finished! Time: 00:04:52
+    worker 8 is finished! Time: 00:04:55
+    worker 2 is finished! Time: 00:04:57
+    worker 3 is finished! Time: 00:04:58
+    worker 6 is finished! Time: 00:05:02
+    worker 5 is finished! Time: 00:05:03
+    worker 7 is finished! Time: 00:05:04
+    worker 1 is finished! Time: 00:05:05
+    worker 1 is starting!
+    worker 2 is starting!
     worker 3 is starting!
     worker 4 is starting!
     worker 6 is starting!
     worker 5 is starting!
     worker 7 is starting!
     worker 8 is starting!
-    worker 4 is finished! Time: 00:04:16
-    worker 3 is finished! Time: 00:04:17
-    worker 8 is finished! Time: 00:04:18
-    worker 2 is finished! Time: 00:04:20
-    worker 1 is finished! Time: 00:04:27
-    worker 6 is finished! Time: 00:04:29
-    worker 7 is finished! Time: 00:04:30
-    worker 5 is finished! Time: 00:04:35
-    worker 1 is starting!
-    worker 2 is starting!
-    worker 3 is starting!
-    worker 4 is starting!
-    worker 6 is starting!
-    worker 5 is starting!
-    worker 7 is starting!
-    worker 8 is starting!
-    worker 4 is finished! Time: 00:02:37
-    worker 2 is finished! Time: 00:02:40
-    worker 8 is finished! Time: 00:02:40
-    worker 3 is finished! Time: 00:02:42
-    worker 6 is finished! Time: 00:02:42
-    worker 1 is finished! Time: 00:02:44
-    worker 5 is finished! Time: 00:02:43
-    worker 7 is finished! Time: 00:02:45
+    worker 4 is finished! Time: 00:03:02
+    worker 2 is finished! Time: 00:03:05
+    worker 8 is finished! Time: 00:03:06
+    worker 3 is finished! Time: 00:03:07
+    worker 6 is finished! Time: 00:03:09
+    worker 7 is finished! Time: 00:03:10
+    worker 5 is finished! Time: 00:03:10
+    worker 1 is finished! Time: 00:03:10
 nP=5 done: meanChiSq=0.0
 
 ==== CoGAPS nPatterns=7 (nIter=5000, nSets=8) ====
 setting distributed parameters - call this again if you change nPatterns
 
 This is CoGAPS version 3.33.1 
-Running single-cell CoGAPS on mat (2030 genes and 11680 samples)
-    worker 1 is starting!
+Running single-cell CoGAPS on mat (2038 genes and 11680 samples)
     worker 2 is starting!
+    worker 1 is starting!
+    worker 3 is starting!
+    worker 4 is starting!
+    worker 6 is starting!
+    worker 5 is starting!
+    worker 7 is starting!
+    worker 8 is starting!
+    worker 4 is finished! Time: 00:05:47
+    worker 2 is finished! Time: 00:05:54
+    worker 8 is finished! Time: 00:05:56
+    worker 3 is finished! Time: 00:05:57
+    worker 5 is finished! Time: 00:06:01
+    worker 6 is finished! Time: 00:06:04
+    worker 1 is finished! Time: 00:06:04
+    worker 7 is finished! Time: 00:06:06
+    worker 2 is starting!
+    worker 1 is starting!
     worker 3 is starting!
     worker 4 is starting!
     worker 5 is starting!
     worker 6 is starting!
     worker 7 is starting!
     worker 8 is starting!
-    worker 4 is finished! Time: 00:05:00
-    worker 2 is finished! Time: 00:05:05
-    worker 8 is finished! Time: 00:05:08
-    worker 3 is finished! Time: 00:05:11
-    worker 6 is finished! Time: 00:05:12
-    worker 1 is finished! Time: 00:05:13
-    worker 5 is finished! Time: 00:05:14
-    worker 7 is finished! Time: 00:05:17
-    worker 1 is starting!
-    worker 2 is starting!
-    worker 3 is starting!
-    worker 4 is starting!
-    worker 5 is starting!
-    worker 6 is starting!
-    worker 7 is starting!
-    worker 8 is starting!
-    worker 4 is finished! Time: 00:03:43
-    worker 2 is finished! Time: 00:03:45
-    worker 8 is finished! Time: 00:03:46
-    worker 3 is finished! Time: 00:03:48
-    worker 5 is finished! Time: 00:03:50
-    worker 6 is finished! Time: 00:03:51
-    worker 1 is finished! Time: 00:03:53
-    worker 7 is finished! Time: 00:03:53
+    worker 4 is finished! Time: 00:04:04
+    worker 2 is finished! Time: 00:04:09
+    worker 8 is finished! Time: 00:04:09
+    worker 3 is finished! Time: 00:04:11
+    worker 6 is finished! Time: 00:04:12
+    worker 5 is finished! Time: 00:04:13
+    worker 7 is finished! Time: 00:04:15
+    worker 1 is finished! Time: 00:04:16
 nP=7 done: meanChiSq=0.0
 
 ==== CoGAPS nPatterns=9 (nIter=5000, nSets=8) ====
 setting distributed parameters - call this again if you change nPatterns
 
 This is CoGAPS version 3.33.1 
-Running single-cell CoGAPS on mat (2030 genes and 11680 samples)
+Running single-cell CoGAPS on mat (2038 genes and 11680 samples)
+    worker 2 is starting!
+    worker 7 is starting!
+    worker 5 is starting!
+    worker 4 is starting!
+    worker 3 is starting!
+    worker 6 is starting!
     worker 1 is starting!
+    worker 8 is starting!
+    worker 4 is finished! Time: 00:06:50
+    worker 2 is finished! Time: 00:06:53
+    worker 8 is finished! Time: 00:06:55
+    worker 3 is finished! Time: 00:06:59
+    worker 1 is finished! Time: 00:07:01
+    worker 5 is finished! Time: 00:07:07
+    worker 6 is finished! Time: 00:07:09
+    worker 7 is finished! Time: 00:07:12
+    worker 6 is starting!
     worker 2 is starting!
     worker 3 is starting!
-    worker 4 is starting!
-    worker 5 is starting!
-    worker 6 is starting!
-    worker 7 is starting!
-    worker 8 is starting!
-    worker 4 is finished! Time: 00:06:06
-    worker 3 is finished! Time: 00:06:14
-    worker 8 is finished! Time: 00:06:14
-    worker 2 is finished! Time: 00:06:15
-    worker 1 is finished! Time: 00:06:20
-    worker 6 is finished! Time: 00:06:25
-    worker 5 is finished! Time: 00:06:30
-    worker 7 is finished! Time: 00:06:30
     worker 1 is starting!
-    worker 2 is starting!
-    worker 3 is starting!
-    worker 4 is starting!
     worker 5 is starting!
-    worker 6 is starting!
+    worker 4 is starting!
     worker 7 is starting!
     worker 8 is starting!
-    worker 4 is finished! Time: 00:04:26
-    worker 8 is finished! Time: 00:04:29
-    worker 2 is finished! Time: 00:04:30
-    worker 3 is finished! Time: 00:04:31
-    worker 6 is finished! Time: 00:04:33
-    worker 5 is finished! Time: 00:04:37
-    worker 1 is finished! Time: 00:04:37
-    worker 7 is finished! Time: 00:04:38
+    worker 4 is finished! Time: 00:04:47
+    worker 2 is finished! Time: 00:04:49
+    worker 8 is finished! Time: 00:04:50
+    worker 3 is finished! Time: 00:04:53
+    worker 6 is finished! Time: 00:04:53
+    worker 5 is finished! Time: 00:04:57
+    worker 1 is finished! Time: 00:05:00
+    worker 7 is finished! Time: 00:05:01
 nP=9 done: meanChiSq=0.0
 Warning messages:
 1: In checkInputs(data, uncertainty, allParams) :
@@ -146,7 +146,7 @@ Warning messages:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-22
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -219,4 +219,4 @@ Warning messages:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-16 10:28:54 - **** Job ends ****
+2026-07-22 09:09:22 - **** Job ends ****

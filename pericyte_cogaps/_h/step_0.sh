@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=RM-shared
 #SBATCH --job-name=cogaps_prep
 #SBATCH --mail-type=FAIL

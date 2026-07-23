@@ -1,0 +1,42 @@
+2026-07-22 19:53:38 - **** Job starts ****
+Job id: 42547743 (array task 0)
+Hostname: r041
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-22 19:53:39 - **** Loading mamba environment ****
+2026-07-22 19:53:53 - **** CoGAPS sweep nPatterns=4,5,6,7,8,9,10, seed=13, tag='' ****
+matrix: 2038 genes x 11680 cells
+
+==== CoGAPS nPatterns=4 (nIter=5000, nSets=8) ====
+setting distributed parameters - call this again if you change nPatterns
+
+This is CoGAPS version 3.33.1 
+Running single-cell CoGAPS on mat (2038 genes and 11680 samples)
+    worker 4 is starting!
+    worker 3 is starting!
+    worker 1 is starting!
+    worker 2 is starting!
+    worker 5 is starting!
+    worker 6 is starting!
+    worker 7 is starting!
+    worker 8 is starting!
+    worker 4 is finished! Time: 00:03:46
+    worker 2 is finished! Time: 00:03:49
+    worker 3 is finished! Time: 00:03:52
+    worker 5 is finished! Time: 00:03:53
+    worker 6 is finished! Time: 00:03:53
+    worker 8 is finished! Time: 00:03:55
+    worker 1 is finished! Time: 00:03:58
+    worker 7 is finished! Time: 00:04:02
+    worker 1 is starting!
+    worker 2 is starting!
+    worker 3 is starting!
+    worker 4 is starting!
+    worker 5 is starting!
+    worker 6 is starting!
+    worker 7 is starting!
+    worker 8 is starting!
