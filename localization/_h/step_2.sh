@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=shared,bluejay
 #SBATCH --job-name=hlca_version2_filtered
 #SBATCH --mail-type=FAIL
