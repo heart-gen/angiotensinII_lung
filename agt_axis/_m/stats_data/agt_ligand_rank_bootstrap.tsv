@@ -1,0 +1,2 @@
+ligand	n_boot	rank_point	rank_median	rank_lo	rank_hi	aupr_point	aupr_lo	aupr_hi
+AGT	300	11	18	6	63.05	0.102744838353057	0.0296113321558628	0.118920465597543

@@ -1,0 +1,293 @@
+2026-07-21 17:13:21 - **** Job starts ****
+User: kbenjamin
+Job id: 42495940
+Hostname: r260
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-21 17:13:22 - **** Donor x cell-type pseudobulk for the local RAS panel ****
+2026-07-21 17:14:28,019 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
+2026-07-21 17:14:28,199 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
+2026-07-21 17:14:28,203 [INFO] Aggregating 18/18 genes
+2026-07-21 17:14:29,042 [INFO]   aggregated 20000/423007 cells
+2026-07-21 17:14:29,437 [INFO]   aggregated 40000/423007 cells
+2026-07-21 17:14:29,838 [INFO]   aggregated 60000/423007 cells
+2026-07-21 17:14:30,233 [INFO]   aggregated 80000/423007 cells
+2026-07-21 17:14:30,627 [INFO]   aggregated 100000/423007 cells
+2026-07-21 17:14:31,025 [INFO]   aggregated 120000/423007 cells
+2026-07-21 17:14:31,425 [INFO]   aggregated 140000/423007 cells
+2026-07-21 17:14:31,822 [INFO]   aggregated 160000/423007 cells
+2026-07-21 17:14:32,217 [INFO]   aggregated 180000/423007 cells
+2026-07-21 17:14:32,614 [INFO]   aggregated 200000/423007 cells
+2026-07-21 17:14:33,012 [INFO]   aggregated 220000/423007 cells
+2026-07-21 17:14:33,407 [INFO]   aggregated 240000/423007 cells
+2026-07-21 17:14:33,805 [INFO]   aggregated 260000/423007 cells
+2026-07-21 17:14:34,210 [INFO]   aggregated 280000/423007 cells
+2026-07-21 17:14:34,612 [INFO]   aggregated 300000/423007 cells
+2026-07-21 17:14:35,005 [INFO]   aggregated 320000/423007 cells
+2026-07-21 17:14:35,399 [INFO]   aggregated 340000/423007 cells
+2026-07-21 17:14:35,796 [INFO]   aggregated 360000/423007 cells
+2026-07-21 17:14:36,187 [INFO]   aggregated 380000/423007 cells
+2026-07-21 17:14:36,574 [INFO]   aggregated 400000/423007 cells
+2026-07-21 17:14:36,966 [INFO]   aggregated 420000/423007 cells
+2026-07-21 17:14:37,060 [INFO]   aggregated 423007/423007 cells
+2026-07-21 17:14:37,708 [INFO] Wrote ras_pseudobulk_celltype.tsv.gz: 5811 units x 43 cols
+2026-07-21 17:14:37,841 [INFO] Units per group (n_cells >= 5):
+ccc_group
+DC2                          353
+Interstitial macrophages     344
+Classical monocytes          339
+Alveolar macrophages         338
+Non-classical monocytes      264
+AT2_AGTR2undet               257
+Mast cells                   238
+Lymphatic EC                 203
+Transitional Club-AT2        203
+EC general capillary         199
+AT1                          196
+EC venous systemic           190
+Adventitial fibroblasts      184
+Alveolar fibroblasts         176
+Vascular smooth muscle       168
+EC venous pulmonary          158
+EC aerocyte capillary        137
+Peribronchial fibroblasts    133
+AT2_AGTR2det                 118
+Pericytes                    105
+Myofibroblasts                61
+Subpleural fibroblasts        12
+-----
+anndata             0.11.4
+numpy               2.1.3
+pandas              2.3.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-07-21 17:14
+2026-07-21 17:14:39 - **** RAS source / receiver landscape and circuit completeness ****
+Units: 4376; cell types: 22; donors: 417
+Modelling 18 RAS/comparator genes
+There were 11 warnings (use warnings() to see them)
+Warning message:
+Model failed to converge with 1 negative eigenvalue: -3.9e+02 
+Warning message:
+Model failed to converge with 1 negative eigenvalue: -1.6e+04 
+Local RAS landscape -- generated summary
+Units (>=5 cells): 4376; cell types: 22; donors: 417
+Detection threshold for 'step present': 0.05
+
+Cell types with an autonomous AGT->AngII->AT1R circuit: 0
+Maximum REN (renin) detection across all cell types: 0.0229
+
+Top 3 cell types per gene:
+      gene                 ccc_group       emmean       detect rank_in_gene
+    <char>                    <char>        <num>        <num>        <int>
+ 1:    ACE     EC aerocyte capillary  2.958625789 0.3513218905            1
+ 2:    ACE      EC general capillary  1.361865887 0.1441277232            2
+ 3:    ACE      Alveolar macrophages  0.727031692 0.1962545959            3
+ 4:   ACE2                 Pericytes  1.612451608 0.0301495177            1
+ 5:   ACE2              AT2_AGTR2det  0.775698857 0.0219937545            2
+ 6:   ACE2            AT2_AGTR2undet  0.587971504 0.0105319370            3
+ 7:    AGT    Vascular smooth muscle  2.626414835 0.0857823871            1
+ 8:    AGT   Adventitial fibroblasts  0.711620495 0.0358629683            2
+ 9:    AGT      Alveolar fibroblasts  0.365734710 0.0166316298            3
+10:  AGTR1                 Pericytes  3.810335726 0.3417617893            1
+11:  AGTR1      Alveolar fibroblasts  1.333288581 0.1007838401            2
+12:  AGTR1   Adventitial fibroblasts  1.033254839 0.1068614963            3
+13:  AGTR2              AT2_AGTR2det  5.112942917 1.0000000000            1
+14:  AGTR2 Peribronchial fibroblasts  0.001709014 0.0034689508            2
+15:  AGTR2   Adventitial fibroblasts -0.075343297 0.0015104041            3
+16:   CCN2            Myofibroblasts  1.782250179 0.6383848922            1
+17:   CCN2      Alveolar fibroblasts  1.736431799 0.5830725836            2
+18:   CCN2 Peribronchial fibroblasts  1.283822462 0.4803280636            3
+19:   CMA1                Mast cells  1.768977749 0.0250321021            1
+20:   CMA1            AT2_AGTR2undet -0.057502132 0.0003600370            2
+21:   CMA1    Vascular smooth muscle -0.066972321 0.0001860119            3
+22:   CTSD      Alveolar macrophages  0.997918121 0.6057259661            1
+23:   CTSD  Interstitial macrophages  0.919647356 0.6041899030            2
+24:   CTSD                Mast cells  0.624502415 0.4758130500            3
+25:   CTSG                Mast cells  2.494976613 0.1086125990            1
+26:   CTSG      Alveolar macrophages -0.062574261 0.0086254041            2
+27:   CTSG       Classical monocytes -0.077170600 0.0024572255            3
+28:  ENPEP      Alveolar fibroblasts  2.414028327 0.1648242110            1
+29:  ENPEP                 Pericytes  1.499103515 0.0940872105            2
+30:  ENPEP    Vascular smooth muscle  1.257681605 0.0750275171            3
+31:   LRP2              AT2_AGTR2det  2.665918674 0.3225349827            1
+32:   LRP2            AT2_AGTR2undet  2.402542071 0.1938776190            2
+33:   LRP2     Transitional Club-AT2  0.062473447 0.0311507345            3
+34:   MAS1              AT2_AGTR2det  0.181017236 0.0025843932            1
+35:   MAS1            AT2_AGTR2undet  0.143394232 0.0017090188            2
+36:   MAS1  Interstitial macrophages  0.100493954 0.0026780139            3
+37:    MME      Alveolar macrophages  2.148010365 0.4215318953            1
+38:    MME      Alveolar fibroblasts  1.411375733 0.1643649794            2
+39:    MME     Transitional Club-AT2  0.597563103 0.1251539200            3
+40:  PDGFB     EC aerocyte capillary  2.482679833 0.2172802656            1
+41:  PDGFB      EC general capillary  2.011534711 0.1589581563            2
+42:  PDGFB        EC venous systemic  0.772336174 0.1204479730            3
+43:    REN              AT2_AGTR2det  1.219044245 0.0229086378            1
+44:    REN            AT2_AGTR2undet  1.043495071 0.0149797768            2
+45:    REN      Alveolar fibroblasts  0.095983774 0.0058137364            3
+46:  TGFB1       Classical monocytes  0.897853232 0.2987569945            1
+47:  TGFB1                       DC2  0.716837030 0.4297263797            2
+48:  TGFB1  Interstitial macrophages  0.716136167 0.4492535917            3
+49:  TGFB2                       AT1  1.413170032 0.1697745601            1
+50:  TGFB2            Myofibroblasts  1.208921824 0.1418318244            2
+51:  TGFB2                 Pericytes  1.134572274 0.1213685610            3
+52:  TGFB3 Peribronchial fibroblasts  2.077586040 0.2060123126            1
+53:  TGFB3   Adventitial fibroblasts  1.279958478 0.1328849157            2
+54:  TGFB3    Vascular smooth muscle  1.123310635 0.0846411316            3
+      gene                 ccc_group       emmean       detect rank_in_gene
+
+Circuit completeness by cell type:
+                    ccc_group     ace_step chymase_step receptor_AT1
+                       <char>        <num>        <num>        <num>
+ 1:   Adventitial fibroblasts 0.0450035126 1.456381e-03 1.068615e-01
+ 2:      Alveolar fibroblasts 0.0031325750 1.224915e-03 1.007838e-01
+ 3:      Alveolar macrophages 0.1962545959 8.625404e-03 6.935295e-04
+ 4:     EC aerocyte capillary 0.3513218905 2.320095e-03 3.133926e-04
+ 5:      EC general capillary 0.1441277232 1.397083e-03 5.649170e-04
+ 6:        EC venous systemic 0.1073745749 2.073171e-03 1.640481e-03
+ 7:  Interstitial macrophages 0.1446788199 4.867400e-03 3.622099e-04
+ 8:                Mast cells 0.0109545523 1.086126e-01 3.368736e-03
+ 9:                 Pericytes 0.0074979233 1.574045e-03 3.417618e-01
+10:    Vascular smooth muscle 0.0096818447 1.447704e-03 4.734600e-02
+11:                       AT1 0.0052467330 5.768836e-04 5.505183e-04
+12:              AT2_AGTR2det 0.0112382633 2.115412e-03 3.110708e-04
+13:            AT2_AGTR2undet 0.0065971290 1.183740e-03 1.053728e-03
+14:       Classical monocytes 0.0040984704 2.457226e-03 4.228347e-04
+15:                       DC2 0.0178615863 1.982305e-03 3.652174e-04
+16:       EC venous pulmonary 0.0268010107 5.338844e-05 9.450082e-05
+17:              Lymphatic EC 0.0080148891 9.861547e-04 3.695791e-04
+18:            Myofibroblasts 0.0007355158 4.430660e-04 1.567441e-02
+19:   Non-classical monocytes 0.0347488173 2.896873e-04 3.771801e-04
+20: Peribronchial fibroblasts 0.0121024063 1.973879e-03 4.603838e-02
+21:    Subpleural fibroblasts 0.0261806425 0.000000e+00 3.862286e-02
+22:     Transitional Club-AT2 0.0229535972 1.257282e-03 7.207752e-04
+                    ccc_group     ace_step chymase_step receptor_AT1
+      renin_step    substrate n_steps_present has_substrate has_protease
+           <num>        <num>           <num>        <lgcl>       <lgcl>
+ 1: 0.0052503965 0.0358629683               1         FALSE        FALSE
+ 2: 0.0058137364 0.0166316298               1         FALSE        FALSE
+ 3: 0.0022366866 0.0025025678               1         FALSE         TRUE
+ 4: 0.0015735302 0.0003137914               1         FALSE         TRUE
+ 5: 0.0013021699 0.0001113371               1         FALSE         TRUE
+ 6: 0.0035643426 0.0002105263               1         FALSE         TRUE
+ 7: 0.0016458751 0.0007768516               1         FALSE         TRUE
+ 8: 0.0004815629 0.0001915926               1         FALSE         TRUE
+ 9: 0.0030646123 0.0154677196               1         FALSE        FALSE
+10: 0.0013379008 0.0857823871               1          TRUE        FALSE
+11: 0.0028051823 0.0004296456               0         FALSE        FALSE
+12: 0.0229086378 0.0077309274               0         FALSE        FALSE
+13: 0.0149797768 0.0055193034               0         FALSE        FALSE
+14: 0.0005432959 0.0005058451               0         FALSE        FALSE
+15: 0.0007747377 0.0003379640               0         FALSE        FALSE
+16: 0.0042815429 0.0001002110               0         FALSE        FALSE
+17: 0.0024094150 0.0011898089               0         FALSE        FALSE
+18: 0.0018271329 0.0104411672               0         FALSE        FALSE
+19: 0.0011380641 0.0001374314               0         FALSE        FALSE
+20: 0.0019135491 0.0263886846               0         FALSE        FALSE
+21: 0.0000000000 0.0156461186               0         FALSE        FALSE
+22: 0.0047275648 0.0047157771               0         FALSE        FALSE
+      renin_step    substrate n_steps_present has_substrate has_protease
+    has_receptor autonomous_circuit
+          <lgcl>             <lgcl>
+ 1:         TRUE              FALSE
+ 2:         TRUE              FALSE
+ 3:        FALSE              FALSE
+ 4:        FALSE              FALSE
+ 5:        FALSE              FALSE
+ 6:        FALSE              FALSE
+ 7:        FALSE              FALSE
+ 8:        FALSE              FALSE
+ 9:         TRUE              FALSE
+10:        FALSE              FALSE
+11:        FALSE              FALSE
+12:        FALSE              FALSE
+13:        FALSE              FALSE
+14:        FALSE              FALSE
+15:        FALSE              FALSE
+16:        FALSE              FALSE
+17:        FALSE              FALSE
+18:        FALSE              FALSE
+19:        FALSE              FALSE
+20:        FALSE              FALSE
+21:        FALSE              FALSE
+22:        FALSE              FALSE
+    has_receptor autonomous_circuit
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-21
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ backports      1.5.0      2024-05-23 [1] CRAN (R 4.4.3)
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ broom          1.0.10     2025-09-13 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ getopt         1.20.4     2023-10-01 [1] CRAN (R 4.4.3)
+ ggplot2        4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ optparse     * 1.7.5      2024-04-16 [1] CRAN (R 4.4.3)
+ pbkrtest       0.5.5      2025-07-18 [1] CRAN (R 4.4.3)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr          1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-21 17:17:21 - **** Job ends ****

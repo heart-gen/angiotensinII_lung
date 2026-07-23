@@ -1,0 +1,19 @@
+gene	panel	role
+AGT	ras_substrate	Angiotensinogen -- the ligand/substrate; cleaved by renin to Ang I
+REN	ras_protease	Renin -- canonical rate-limiting protease (AGT -> Ang I)
+ACE	ras_protease	Angiotensin-converting enzyme (Ang I -> Ang II)
+ACE2	ras_protease	ACE2 (Ang II -> Ang 1-7); counter-regulatory arm
+CMA1	ras_protease	Chymase -- renin-independent Ang II generation (mast cells)
+CTSG	ras_protease	Cathepsin G -- alternative Ang II route (mast/neutrophil)
+CTSD	ras_protease	Cathepsin D -- alternative AGT-cleaving activity
+ENPEP	ras_protease	Aminopeptidase A (Ang II -> Ang III)
+MME	ras_protease	Neprilysin (Ang degradation / Ang 1-7 generation)
+AGTR1	ras_receptor	AT1R -- the pericyte receptor of interest
+AGTR2	ras_receptor	AT2R -- counter-regulatory receptor
+LRP2	ras_receptor	Megalin -- AGT endocytic receptor
+MAS1	ras_receptor	MAS -- Ang 1-7 receptor
+TGFB1	comparator_ligand	Top-ranked pericyte ligand; the established niche signal
+TGFB2	comparator_ligand	Top-ranked pericyte ligand
+TGFB3	comparator_ligand	TGF-beta family comparator
+CCN2	comparator_ligand	CTGF -- rank 3 pericyte ligand
+PDGFB	comparator_ligand	Canonical endothelial->pericyte recruitment ligand
