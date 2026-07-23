@@ -14,9 +14,13 @@
 ##   patterns_npN{TAG}.tsv.gz          (cell x pattern weights; sampleFactors)
 ##   feature_loadings_npN{TAG}.tsv.gz  (gene x pattern; featureLoadings)
 ##   pattern_markers_npN{TAG}.tsv.gz   (PatternMarkers genes per pattern)
-##   cogaps_meta_npN{TAG}.tsv          (one row: np, seed, meanChiSq -- for
-##                                      de-novo rank selection; per-run file so
-##                                      concurrent array tasks don't race)
+##   cogaps_meta_npN{TAG}.tsv          (one row: np, seed, meanChiSq, dims --
+##                                      provenance; per-run file so concurrent
+##                                      array tasks don't race. NOTE: meanChiSq is
+##                                      0 under distributed mode -- it is computed
+##                                      per subset, not on the consensus -- so
+##                                      02.select_rank.R recomputes reconstruction
+##                                      error from the factors instead.)
 suppressPackageStartupMessages({
     .libPaths(c("/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib",
                 .libPaths()))

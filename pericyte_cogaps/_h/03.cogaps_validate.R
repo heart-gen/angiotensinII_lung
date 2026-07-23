@@ -1,7 +1,7 @@
 ## Validate / refine the curated pericyte-state model with CoGAPS patterns.
 ##
 ## For a chosen nPatterns, asks whether the unsupervised CoGAPS programs
-## corroborate the curated 5-program NVU-pattern model and where the data diverge:
+## corroborate the curated 6-program NVU-pattern model and where the data diverge:
 ##   (A) gene overlap: top pattern markers vs each curated panel (Jaccard + phyper)
 ##   (B) score concordance: cell-level Spearman of pattern weights vs curated scores
 ##   (C) state concordance: dominant CoGAPS pattern per cell vs stable Leiden state
@@ -28,8 +28,13 @@ TOPK      <- as.integer(parse_arg("--top-markers", "50"))
 OUTDIR    <- parse_arg("--outdir", "../_m/validation")
 dir.create(OUTDIR, showWarnings = FALSE, recursive = TRUE)
 
+## All six curated NVU-pattern panels. basement_membrane was added after the
+## original 5-program run; its genes ARE present in cogaps_hvg_info (panel column,
+## incl. the shared fibroblast_like;basement_membrane gene), so the top-marker
+## overlap test below now scores it too. grepl() substring-matches the ";"-joined
+## multi-panel labels, so a gene in a shared panel counts for each of its panels.
 PROGRAMS <- c("vascular_stabilizing", "inflammatory", "synthetic_contractile",
-              "activated_migratory", "fibroblast_like")
+              "activated_migratory", "fibroblast_like", "basement_membrane")
 INJURY   <- c("inflammatory", "fibroblast_like", "activated_migratory")
 
 save_gg <- function(fn, p, w, h)

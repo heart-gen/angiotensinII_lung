@@ -1,0 +1,229 @@
+pattern	program	cell_type	term	estimate	se	p	n
+Pattern_2	Pattern_2 (inflammatory)	AT1	disease_groupFibrotic_ILD	0.0524787678590393	0.155905289410356	0.736835999844551	171
+Pattern_2	Pattern_2 (inflammatory)	AT1	disease_groupHealthy	-0.325457363678647	0.135935995099614	0.017764864407357	171
+Pattern_2	Pattern_2 (inflammatory)	AT1	disease_groupOther	-0.512629585554627	0.156886864412793	0.0013170727621309	171
+Pattern_2	Pattern_2 (inflammatory)	AT2	disease_groupFibrotic_ILD	0.0982835974544612	0.141144954615542	0.486918642002133	236
+Pattern_2	Pattern_2 (inflammatory)	AT2	disease_groupHealthy	-0.00123252534824976	0.132476118095904	0.992584779889908	236
+Pattern_2	Pattern_2 (inflammatory)	AT2	disease_groupOther	-0.158383948303258	0.147563217150024	0.284238449339898	236
+Pattern_2	Pattern_2 (inflammatory)	Adventitial fibroblasts	disease_groupFibrotic_ILD	-0.577981145169719	0.267394638511549	0.0322958576417714	149
+Pattern_2	Pattern_2 (inflammatory)	Adventitial fibroblasts	disease_groupHealthy	-0.783397133578884	0.25703346211937	0.00273987643743043	149
+Pattern_2	Pattern_2 (inflammatory)	Adventitial fibroblasts	disease_groupOther	-1.30435630740034	0.28667038236353	1.12526412223625e-05	149
+Pattern_2	Pattern_2 (inflammatory)	Alveolar fibroblasts	disease_groupFibrotic_ILD	-0.36141471096761	0.283192462650286	0.203977380531777	145
+Pattern_2	Pattern_2 (inflammatory)	Alveolar fibroblasts	disease_groupHealthy	-0.851604855507979	0.261975105435613	0.00143986859972367	145
+Pattern_2	Pattern_2 (inflammatory)	Alveolar fibroblasts	disease_groupOther	-1.21643210282786	0.28817570359254	4.33188987444218e-05	145
+Pattern_2	Pattern_2 (inflammatory)	Alveolar macrophages	disease_groupFibrotic_ILD	-0.0991269710292407	0.099884351152328	0.321760515610102	317
+Pattern_2	Pattern_2 (inflammatory)	Alveolar macrophages	disease_groupHealthy	-0.348794905127783	0.0942071595692235	0.000252306218631017	317
+Pattern_2	Pattern_2 (inflammatory)	Alveolar macrophages	disease_groupOther	-0.38784849496917	0.100025683277585	0.000128638072437034	317
+Pattern_2	Pattern_2 (inflammatory)	Classical monocytes	disease_groupFibrotic_ILD	-0.177396020707806	0.0851135475162663	0.0379659404294419	311
+Pattern_2	Pattern_2 (inflammatory)	Classical monocytes	disease_groupHealthy	-0.41756338660681	0.0800746086656702	3.39097897017588e-07	311
+Pattern_2	Pattern_2 (inflammatory)	Classical monocytes	disease_groupOther	-0.612946274793037	0.0845133283431828	3.34815332942913e-12	311
+Pattern_2	Pattern_2 (inflammatory)	DC2	disease_groupFibrotic_ILD	-0.175775621972048	0.0655437284707315	0.00770369662952457	323
+Pattern_2	Pattern_2 (inflammatory)	DC2	disease_groupHealthy	-0.359332689595335	0.0619524136683034	1.59528990914172e-08	323
+Pattern_2	Pattern_2 (inflammatory)	DC2	disease_groupOther	-0.351514673084482	0.0666095500385019	2.42777036618758e-07	323
+Pattern_2	Pattern_2 (inflammatory)	EC aerocyte capillary	disease_groupFibrotic_ILD	-0.421023736770537	0.411540242594585	0.308780474400654	103
+Pattern_2	Pattern_2 (inflammatory)	EC aerocyte capillary	disease_groupHealthy	-0.602462402005898	0.394791011754254	0.130191234728209	103
+Pattern_2	Pattern_2 (inflammatory)	EC aerocyte capillary	disease_groupOther	-1.18944647639252	0.411540242594585	0.00473090928386854	103
+Pattern_2	Pattern_2 (inflammatory)	EC general capillary	disease_groupFibrotic_ILD	-0.720133905920326	0.351331900625199	0.0420657372702682	160
+Pattern_2	Pattern_2 (inflammatory)	EC general capillary	disease_groupHealthy	-1.25646802495192	0.323759948232659	0.000153233561931596	160
+Pattern_2	Pattern_2 (inflammatory)	EC general capillary	disease_groupOther	-1.89752614529466	0.35885234170179	4.11906696204313e-07	160
+Pattern_2	Pattern_2 (inflammatory)	EC venous pulmonary	disease_groupHealthy	-0.254686174760151	0.163420666039027	0.121918290782137	116
+Pattern_2	Pattern_2 (inflammatory)	EC venous pulmonary	disease_groupOther	-1.10940989941472	0.243408342444204	1.31609187449414e-05	116
+Pattern_2	Pattern_2 (inflammatory)	EC venous systemic	disease_groupFibrotic_ILD	-0.56896397522995	0.510531122006127	0.266966726833922	146
+Pattern_2	Pattern_2 (inflammatory)	EC venous systemic	disease_groupHealthy	-0.856770618228712	0.509829360681966	0.0950576646809915	146
+Pattern_2	Pattern_2 (inflammatory)	EC venous systemic	disease_groupOther	-1.17300620676597	0.515972104691492	0.0245028533670659	146
+Pattern_2	Pattern_2 (inflammatory)	Interstitial macrophages	disease_groupFibrotic_ILD	-0.178079165992765	0.0774427635270698	0.0221224982940381	323
+Pattern_2	Pattern_2 (inflammatory)	Interstitial macrophages	disease_groupHealthy	-0.393696633552611	0.0734602352161451	1.60445498536854e-07	323
+Pattern_2	Pattern_2 (inflammatory)	Interstitial macrophages	disease_groupOther	-0.443610560332949	0.0766374442749654	1.69921238840886e-08	323
+Pattern_2	Pattern_2 (inflammatory)	Lymphatic EC	disease_groupFibrotic_ILD	-0.442905083739248	0.177595999416976	0.0136449636931536	165
+Pattern_2	Pattern_2 (inflammatory)	Lymphatic EC	disease_groupHealthy	-0.550676473881249	0.167965396585148	0.00127874418134287	165
+Pattern_2	Pattern_2 (inflammatory)	Lymphatic EC	disease_groupOther	-1.040718122608	0.190473534434806	1.73962269288617e-07	165
+Pattern_2	Pattern_2 (inflammatory)	Mast cells	disease_groupFibrotic_ILD	0.0341651689081749	0.0958431160424974	0.721890703009752	191
+Pattern_2	Pattern_2 (inflammatory)	Mast cells	disease_groupHealthy	-0.138864816589159	0.0900576544524189	0.124775134927947	191
+Pattern_2	Pattern_2 (inflammatory)	Mast cells	disease_groupOther	-0.237146762802045	0.0974510344656725	0.0158941628905544	191
+Pattern_2	Pattern_2 (inflammatory)	Myofibroblasts	disease_groupHealthy	-0.376661073696406	0.259122922502992	0.155502016569906	36
+Pattern_2	Pattern_2 (inflammatory)	Myofibroblasts	disease_groupOther	-1.45186221446458	0.369398613480857	0.000409841397268672	36
+Pattern_2	Pattern_2 (inflammatory)	Non-classical monocytes	disease_groupFibrotic_ILD	-0.0614443208681053	0.090660059951565	0.498633397648684	228
+Pattern_2	Pattern_2 (inflammatory)	Non-classical monocytes	disease_groupHealthy	-0.22926948152295	0.0856732688512709	0.00799902824498017	228
+Pattern_2	Pattern_2 (inflammatory)	Non-classical monocytes	disease_groupOther	-0.286969946033555	0.0970123779639391	0.00342771401136685	228
+Pattern_2	Pattern_2 (inflammatory)	Peribronchial fibroblasts	disease_groupHealthy	-0.15282589096066	0.106340136075145	0.153799209786202	103
+Pattern_2	Pattern_2 (inflammatory)	Peribronchial fibroblasts	disease_groupOther	-0.458574576670578	0.119608178760717	0.000220616685975406	103
+Pattern_2	Pattern_2 (inflammatory)	Pericytes	disease_groupFibrotic_ILD	-0.391284940837682	0.673187832206446	0.562615615772647	89
+Pattern_2	Pattern_2 (inflammatory)	Pericytes	disease_groupHealthy	-1.18497330983927	0.667392707174077	0.0793902388792014	89
+Pattern_2	Pattern_2 (inflammatory)	Pericytes	disease_groupOther	-1.39731142694907	0.674410699394542	0.0413057761833808	89
+Pattern_2	Pattern_2 (inflammatory)	Transitional Club-AT2	disease_groupFibrotic_ILD	0.160216857451612	0.154711444239394	0.302008725029132	159
+Pattern_2	Pattern_2 (inflammatory)	Transitional Club-AT2	disease_groupHealthy	0.011839482948918	0.151831351651037	0.937946241481697	159
+Pattern_2	Pattern_2 (inflammatory)	Transitional Club-AT2	disease_groupOther	0.0171572774637385	0.185822739706783	0.926553953249186	159
+Pattern_2	Pattern_2 (inflammatory)	Vascular smooth muscle	disease_groupFibrotic_ILD	-1.20508747609607	0.733001095302257	0.102720348001025	127
+Pattern_2	Pattern_2 (inflammatory)	Vascular smooth muscle	disease_groupHealthy	-1.90671095199028	0.728287212997322	0.00995343307725806	127
+Pattern_2	Pattern_2 (inflammatory)	Vascular smooth muscle	disease_groupOther	-2.47068435367618	0.736516708254799	0.00105738031455778	127
+Pattern_3	Pattern_3 (inflammatory)	AT1	disease_groupFibrotic_ILD	0.0694748950004575	0.224122616431738	0.756958015565762	171
+Pattern_3	Pattern_3 (inflammatory)	AT1	disease_groupHealthy	-0.151082673004383	0.19541563345415	0.44053540008345	171
+Pattern_3	Pattern_3 (inflammatory)	AT1	disease_groupOther	-0.619375368180348	0.225533685668722	0.00668891966181699	171
+Pattern_3	Pattern_3 (inflammatory)	AT2	disease_groupFibrotic_ILD	0.0513104483176388	0.242410605350429	0.832552266983842	236
+Pattern_3	Pattern_3 (inflammatory)	AT2	disease_groupHealthy	0.0133798385736206	0.227522238181137	0.953156669974537	236
+Pattern_3	Pattern_3 (inflammatory)	AT2	disease_groupOther	-0.689876223712632	0.253433705046198	0.00697891881926229	236
+Pattern_3	Pattern_3 (inflammatory)	Adventitial fibroblasts	disease_groupFibrotic_ILD	-0.234450051938795	0.261394792915399	0.371248681259168	149
+Pattern_3	Pattern_3 (inflammatory)	Adventitial fibroblasts	disease_groupHealthy	-0.355165727272483	0.251266102331064	0.159650723430993	149
+Pattern_3	Pattern_3 (inflammatory)	Adventitial fibroblasts	disease_groupOther	-1.17024566643485	0.280238024404729	5.10004326000631e-05	149
+Pattern_3	Pattern_3 (inflammatory)	Alveolar fibroblasts	disease_groupFibrotic_ILD	-0.00816025646067559	0.353751496355049	0.981628831663398	145
+Pattern_3	Pattern_3 (inflammatory)	Alveolar fibroblasts	disease_groupHealthy	-0.451423916875681	0.327247712344884	0.169937994480793	145
+Pattern_3	Pattern_3 (inflammatory)	Alveolar fibroblasts	disease_groupOther	-0.965693047863804	0.359976340489397	0.00817711990275947	145
+Pattern_3	Pattern_3 (inflammatory)	Alveolar macrophages	disease_groupFibrotic_ILD	0.192456610678591	0.154118984838994	0.212688441259141	317
+Pattern_3	Pattern_3 (inflammatory)	Alveolar macrophages	disease_groupHealthy	-0.0210511145664953	0.145359224241559	0.884945157295668	317
+Pattern_3	Pattern_3 (inflammatory)	Alveolar macrophages	disease_groupOther	-0.488353354037401	0.154337056673254	0.00170787623588011	317
+Pattern_3	Pattern_3 (inflammatory)	Classical monocytes	disease_groupFibrotic_ILD	0.289290704304604	0.175281605038108	0.0998768539142702	311
+Pattern_3	Pattern_3 (inflammatory)	Classical monocytes	disease_groupHealthy	0.349721891416734	0.164904487467576	0.0347439571319954	311
+Pattern_3	Pattern_3 (inflammatory)	Classical monocytes	disease_groupOther	-0.000996389297138754	0.174045522380261	0.995435951811554	311
+Pattern_3	Pattern_3 (inflammatory)	DC2	disease_groupFibrotic_ILD	0.209374712995827	0.206915536799233	0.312359959752801	323
+Pattern_3	Pattern_3 (inflammatory)	DC2	disease_groupHealthy	0.0593966535829724	0.195578085490047	0.761556045242081	323
+Pattern_3	Pattern_3 (inflammatory)	DC2	disease_groupOther	-0.100231997689492	0.210280237693933	0.633931201851419	323
+Pattern_3	Pattern_3 (inflammatory)	EC aerocyte capillary	disease_groupFibrotic_ILD	-0.00648241938298471	0.508904302245859	0.989862461513912	103
+Pattern_3	Pattern_3 (inflammatory)	EC aerocyte capillary	disease_groupHealthy	0.0480872736373818	0.488192462304728	0.921733922048918	103
+Pattern_3	Pattern_3 (inflammatory)	EC aerocyte capillary	disease_groupOther	-0.881879179734046	0.508904302245859	0.0862276512880671	103
+Pattern_3	Pattern_3 (inflammatory)	EC general capillary	disease_groupFibrotic_ILD	0.145097862804302	0.285592811812062	0.612129938125544	160
+Pattern_3	Pattern_3 (inflammatory)	EC general capillary	disease_groupHealthy	0.185666172884023	0.26317995548754	0.481568443376962	160
+Pattern_3	Pattern_3 (inflammatory)	EC general capillary	disease_groupOther	-0.442257400220063	0.29170607368583	0.131516203160248	160
+Pattern_3	Pattern_3 (inflammatory)	EC venous pulmonary	disease_groupHealthy	0.301296353740724	0.166453194784864	0.0729384607880822	116
+Pattern_3	Pattern_3 (inflammatory)	EC venous pulmonary	disease_groupOther	-0.491860161459209	0.24792516894681	0.0496909738732103	116
+Pattern_3	Pattern_3 (inflammatory)	EC venous systemic	disease_groupFibrotic_ILD	0.874630587485654	0.803277095544138	0.278074202929083	146
+Pattern_3	Pattern_3 (inflammatory)	EC venous systemic	disease_groupHealthy	1.03239267458401	0.802172934066142	0.200189954635897	146
+Pattern_3	Pattern_3 (inflammatory)	EC venous systemic	disease_groupOther	1.15808999896765	0.811838016867075	0.155917920522247	146
+Pattern_3	Pattern_3 (inflammatory)	Interstitial macrophages	disease_groupFibrotic_ILD	0.09962990801734	0.184340981364738	0.589253311963949	323
+Pattern_3	Pattern_3 (inflammatory)	Interstitial macrophages	disease_groupHealthy	0.0821767294694807	0.174861164998267	0.638708882161508	323
+Pattern_3	Pattern_3 (inflammatory)	Interstitial macrophages	disease_groupOther	-0.332752703654469	0.182424038651389	0.0690781811214787	323
+Pattern_3	Pattern_3 (inflammatory)	Lymphatic EC	disease_groupFibrotic_ILD	-0.149196166664154	0.259018409522915	0.565415402892009	165
+Pattern_3	Pattern_3 (inflammatory)	Lymphatic EC	disease_groupHealthy	-0.312168444739714	0.244972465715419	0.20439332541803	165
+Pattern_3	Pattern_3 (inflammatory)	Lymphatic EC	disease_groupOther	-0.739974464145875	0.277799906008444	0.00851452367453594	165
+Pattern_3	Pattern_3 (inflammatory)	Mast cells	disease_groupFibrotic_ILD	0.328810732972261	0.312318787851692	0.29378892416225	191
+Pattern_3	Pattern_3 (inflammatory)	Mast cells	disease_groupHealthy	0.195326506225886	0.29346601651468	0.50649669127181	191
+Pattern_3	Pattern_3 (inflammatory)	Mast cells	disease_groupOther	0.289693260155717	0.317558424808693	0.362810707467097	191
+Pattern_3	Pattern_3 (inflammatory)	Myofibroblasts	disease_groupHealthy	-0.901838535910759	0.357895428831977	0.0167608375365077	36
+Pattern_3	Pattern_3 (inflammatory)	Myofibroblasts	disease_groupOther	-2.15599913863864	0.510206020774339	0.00017651029325013	36
+Pattern_3	Pattern_3 (inflammatory)	Non-classical monocytes	disease_groupFibrotic_ILD	0.343604620952965	0.193611365943146	0.0773034031922815	228
+Pattern_3	Pattern_3 (inflammatory)	Non-classical monocytes	disease_groupHealthy	0.402710335657641	0.182961699076426	0.0287525873103653	228
+Pattern_3	Pattern_3 (inflammatory)	Non-classical monocytes	disease_groupOther	-0.191039500648299	0.207177218071835	0.357465026571757	228
+Pattern_3	Pattern_3 (inflammatory)	Peribronchial fibroblasts	disease_groupHealthy	-0.275375316402153	0.201823359212543	0.175492667019777	103
+Pattern_3	Pattern_3 (inflammatory)	Peribronchial fibroblasts	disease_groupOther	-0.509336584722789	0.227004829199428	0.0270551747822795	103
+Pattern_3	Pattern_3 (inflammatory)	Pericytes	disease_groupFibrotic_ILD	0.529522664083772	0.855949717874329	0.537809491213068	89
+Pattern_3	Pattern_3 (inflammatory)	Pericytes	disease_groupHealthy	-0.0183871973596315	0.84858129052138	0.982763445506539	89
+Pattern_3	Pattern_3 (inflammatory)	Pericytes	disease_groupOther	-0.723731955460907	0.857504577862244	0.401039737194521	89
+Pattern_3	Pattern_3 (inflammatory)	Transitional Club-AT2	disease_groupFibrotic_ILD	-0.204936722234825	0.312073370607558	0.512351474405768	159
+Pattern_3	Pattern_3 (inflammatory)	Transitional Club-AT2	disease_groupHealthy	-0.0521446920415502	0.306263844323779	0.865027161622306	159
+Pattern_3	Pattern_3 (inflammatory)	Transitional Club-AT2	disease_groupOther	-0.0722860158281332	0.37482895335199	0.847328375583953	159
+Pattern_3	Pattern_3 (inflammatory)	Vascular smooth muscle	disease_groupFibrotic_ILD	0.105795073591616	0.946198411397892	0.91115579029357	127
+Pattern_3	Pattern_3 (inflammatory)	Vascular smooth muscle	disease_groupHealthy	-0.143047638827768	0.940113471038278	0.879310071865919	127
+Pattern_3	Pattern_3 (inflammatory)	Vascular smooth muscle	disease_groupOther	-0.748770010076758	0.950736559310772	0.432464281143478	127
+Pattern_6	Pattern_6 (fibroblast_like)	AT1	disease_groupFibrotic_ILD	0.254958538098346	0.0942486618728545	0.00753494242219111	171
+Pattern_6	Pattern_6 (fibroblast_like)	AT1	disease_groupHealthy	0.238680010901264	0.0821767220788242	0.00417681723083058	171
+Pattern_6	Pattern_6 (fibroblast_like)	AT1	disease_groupOther	0.137700475611773	0.0948420486069247	0.148407541749178	171
+Pattern_6	Pattern_6 (fibroblast_like)	AT2	disease_groupFibrotic_ILD	0.417172186878833	0.100398466944328	4.57269263627864e-05	236
+Pattern_6	Pattern_6 (fibroblast_like)	AT2	disease_groupHealthy	0.336493434404768	0.0942321969622853	0.000432423739726904	236
+Pattern_6	Pattern_6 (fibroblast_like)	AT2	disease_groupOther	0.196515869752368	0.104963870792191	0.0624336874874646	236
+Pattern_6	Pattern_6 (fibroblast_like)	Adventitial fibroblasts	disease_groupFibrotic_ILD	0.679577999290534	0.180595373549562	0.000243123522551908	149
+Pattern_6	Pattern_6 (fibroblast_like)	Adventitial fibroblasts	disease_groupHealthy	0.478265202287802	0.173597549915646	0.00662174935498683	149
+Pattern_6	Pattern_6 (fibroblast_like)	Adventitial fibroblasts	disease_groupOther	0.391642583164239	0.193613997186789	0.0449317859286071	149
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar fibroblasts	disease_groupFibrotic_ILD	0.734131764076909	0.196196000012055	0.000265111565514095	145
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar fibroblasts	disease_groupHealthy	0.217354246028659	0.181496595312551	0.233095166095776	145
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar fibroblasts	disease_groupOther	-0.0448071236604238	0.199648393945201	0.822747489998911	145
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar macrophages	disease_groupFibrotic_ILD	0.277597354678078	0.0830179581906901	0.00092669224129095	317
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar macrophages	disease_groupHealthy	0.225113263572002	0.0782994127123505	0.00431669080516415	317
+Pattern_6	Pattern_6 (fibroblast_like)	Alveolar macrophages	disease_groupOther	0.282254841482052	0.0831354250844549	0.000774379999956619	317
+Pattern_6	Pattern_6 (fibroblast_like)	Classical monocytes	disease_groupFibrotic_ILD	0.169642158286125	0.0646472048024726	0.00912158830363813	311
+Pattern_6	Pattern_6 (fibroblast_like)	Classical monocytes	disease_groupHealthy	0.102393739664522	0.0608199255811552	0.0932840445055201	311
+Pattern_6	Pattern_6 (fibroblast_like)	Classical monocytes	disease_groupOther	0.182848648846282	0.0641913139021282	0.00468924850541722	311
+Pattern_6	Pattern_6 (fibroblast_like)	DC2	disease_groupFibrotic_ILD	0.275248859683294	0.0658431818632567	3.76349133667516e-05	323
+Pattern_6	Pattern_6 (fibroblast_like)	DC2	disease_groupHealthy	0.198674930022254	0.0622354592148561	0.00155204263535334	323
+Pattern_6	Pattern_6 (fibroblast_like)	DC2	disease_groupOther	0.400064652063987	0.0669138729111703	6.01832490077192e-09	323
+Pattern_6	Pattern_6 (fibroblast_like)	EC aerocyte capillary	disease_groupFibrotic_ILD	0.557722279018362	0.220770143647893	0.0131136526868122	103
+Pattern_6	Pattern_6 (fibroblast_like)	EC aerocyte capillary	disease_groupHealthy	0.23904385906133	0.211785043976233	0.261747998346286	103
+Pattern_6	Pattern_6 (fibroblast_like)	EC aerocyte capillary	disease_groupOther	0.114732891443778	0.220770143647893	0.604437014111732	103
+Pattern_6	Pattern_6 (fibroblast_like)	EC general capillary	disease_groupFibrotic_ILD	0.875332125524621	0.152479310599496	4.78037151560917e-08	160
+Pattern_6	Pattern_6 (fibroblast_like)	EC general capillary	disease_groupHealthy	0.449526206612739	0.14051298392886	0.00166952902545012	160
+Pattern_6	Pattern_6 (fibroblast_like)	EC general capillary	disease_groupOther	0.338825129802942	0.155743209120303	0.0310951690908908	160
+Pattern_6	Pattern_6 (fibroblast_like)	EC venous pulmonary	disease_groupHealthy	-0.298451090198191	0.122969199803166	0.0168025633411326	116
+Pattern_6	Pattern_6 (fibroblast_like)	EC venous pulmonary	disease_groupOther	-0.278084194069153	0.183157551742145	0.131737058769334	116
+Pattern_6	Pattern_6 (fibroblast_like)	EC venous systemic	disease_groupFibrotic_ILD	0.374990917650561	0.470086936101707	0.426373369825488	146
+Pattern_6	Pattern_6 (fibroblast_like)	EC venous systemic	disease_groupHealthy	0.479488437132534	0.469440768186511	0.308800295024524	146
+Pattern_6	Pattern_6 (fibroblast_like)	EC venous systemic	disease_groupOther	0.353258540092469	0.475096885093445	0.458376937350228	146
+Pattern_6	Pattern_6 (fibroblast_like)	Interstitial macrophages	disease_groupFibrotic_ILD	0.312240942879702	0.0854928095014714	0.000303742084476147	323
+Pattern_6	Pattern_6 (fibroblast_like)	Interstitial macrophages	disease_groupHealthy	0.25041233361828	0.0810963040216393	0.00219323115411697	323
+Pattern_6	Pattern_6 (fibroblast_like)	Interstitial macrophages	disease_groupOther	0.308730062392636	0.084603778657628	0.00030730317026973	323
+Pattern_6	Pattern_6 (fibroblast_like)	Lymphatic EC	disease_groupFibrotic_ILD	0.428174036360234	0.168061746310219	0.0117793958815434	165
+Pattern_6	Pattern_6 (fibroblast_like)	Lymphatic EC	disease_groupHealthy	0.333616725008056	0.158948163035536	0.0373857530765808	165
+Pattern_6	Pattern_6 (fibroblast_like)	Lymphatic EC	disease_groupOther	-0.0713610570164462	0.180247949999336	0.692699298461773	165
+Pattern_6	Pattern_6 (fibroblast_like)	Mast cells	disease_groupFibrotic_ILD	0.178652016544853	0.078168678955723	0.0234073369527386	191
+Pattern_6	Pattern_6 (fibroblast_like)	Mast cells	disease_groupHealthy	0.174236605703589	0.0734501148238454	0.0186990304098586	191
+Pattern_6	Pattern_6 (fibroblast_like)	Mast cells	disease_groupOther	0.100187880555512	0.0794800810073053	0.209044944426432	191
+Pattern_6	Pattern_6 (fibroblast_like)	Myofibroblasts	disease_groupHealthy	-0.856378131461354	0.208348549856567	0.000245736136227976	36
+Pattern_6	Pattern_6 (fibroblast_like)	Myofibroblasts	disease_groupOther	-1.14534548634768	0.297016044332684	0.000505130025951767	36
+Pattern_6	Pattern_6 (fibroblast_like)	Non-classical monocytes	disease_groupFibrotic_ILD	0.201496425113261	0.0840004076292139	0.0172700081986193	228
+Pattern_6	Pattern_6 (fibroblast_like)	Non-classical monocytes	disease_groupHealthy	0.116360646604571	0.0793799332393862	0.144086087499113	228
+Pattern_6	Pattern_6 (fibroblast_like)	Non-classical monocytes	disease_groupOther	0.201802634558245	0.0898861008740109	0.0257388852570586	228
+Pattern_6	Pattern_6 (fibroblast_like)	Peribronchial fibroblasts	disease_groupHealthy	-0.133716051503694	0.123650004459939	0.282116835448959	103
+Pattern_6	Pattern_6 (fibroblast_like)	Peribronchial fibroblasts	disease_groupOther	-0.382471607164409	0.139077796804368	0.00707302044140946	103
+Pattern_6	Pattern_6 (fibroblast_like)	Pericytes	disease_groupFibrotic_ILD	1.36053895514756	0.704109960751304	0.056655479222286	89
+Pattern_6	Pattern_6 (fibroblast_like)	Pericytes	disease_groupHealthy	-0.0834067423249527	0.698048643145909	0.905172622965811	89
+Pattern_6	Pattern_6 (fibroblast_like)	Pericytes	disease_groupOther	0.257070268806683	0.705388998973061	0.716436340225406	89
+Pattern_6	Pattern_6 (fibroblast_like)	Transitional Club-AT2	disease_groupFibrotic_ILD	0.358306126860343	0.1470158530223	0.0159333740322486	159
+Pattern_6	Pattern_6 (fibroblast_like)	Transitional Club-AT2	disease_groupHealthy	0.32371098803252	0.144279020781207	0.0262721541039965	159
+Pattern_6	Pattern_6 (fibroblast_like)	Transitional Club-AT2	disease_groupOther	0.290575137993729	0.176579623590492	0.101877476778708	159
+Pattern_6	Pattern_6 (fibroblast_like)	Vascular smooth muscle	disease_groupFibrotic_ILD	0.99253324601763	0.589643863110604	0.0948582242094391	127
+Pattern_6	Pattern_6 (fibroblast_like)	Vascular smooth muscle	disease_groupHealthy	0.741893624652328	0.585851901829313	0.207780751172118	127
+Pattern_6	Pattern_6 (fibroblast_like)	Vascular smooth muscle	disease_groupOther	0.583838993140511	0.592471907455727	0.326347861624349	127
+Pattern_7	Pattern_7 (fibroblast_like)	AT1	disease_groupFibrotic_ILD	0.0499725602887174	0.205933791462418	0.808564064169313	171
+Pattern_7	Pattern_7 (fibroblast_like)	AT1	disease_groupHealthy	-0.195229875240292	0.179556543417831	0.278475839700588	171
+Pattern_7	Pattern_7 (fibroblast_like)	AT1	disease_groupOther	-0.689680782334048	0.207230344405689	0.00107574020191089	171
+Pattern_7	Pattern_7 (fibroblast_like)	AT2	disease_groupFibrotic_ILD	0.12279686103128	0.156507160424378	0.43348351229726	236
+Pattern_7	Pattern_7 (fibroblast_like)	AT2	disease_groupHealthy	-0.105443939069282	0.146894808416705	0.473590846608784	236
+Pattern_7	Pattern_7 (fibroblast_like)	AT2	disease_groupOther	-0.191524488835522	0.163623986150569	0.242994325502546	236
+Pattern_7	Pattern_7 (fibroblast_like)	Adventitial fibroblasts	disease_groupFibrotic_ILD	0.0730833483742764	0.130776087498631	0.577130667672943	149
+Pattern_7	Pattern_7 (fibroblast_like)	Adventitial fibroblasts	disease_groupHealthy	0.187881411113217	0.125708693036293	0.137197762406872	149
+Pattern_7	Pattern_7 (fibroblast_like)	Adventitial fibroblasts	disease_groupOther	-0.257777363746017	0.140203375863948	0.0680206012555689	149
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar fibroblasts	disease_groupFibrotic_ILD	0.118824087983096	0.227532769103095	0.602330763961188	145
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar fibroblasts	disease_groupHealthy	0.0102467615604044	0.210485549714119	0.961241973088774	145
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar fibroblasts	disease_groupOther	-0.603742078676816	0.23153658544795	0.0101008300306707	145
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar macrophages	disease_groupFibrotic_ILD	-0.0206591753333464	0.139615455860204	0.882460159619032	317
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar macrophages	disease_groupHealthy	-0.20466652301006	0.131680041736403	0.121130206338202	317
+Pattern_7	Pattern_7 (fibroblast_like)	Alveolar macrophages	disease_groupOther	-0.468641167152978	0.139813005815405	0.000900947050388762	317
+Pattern_7	Pattern_7 (fibroblast_like)	Classical monocytes	disease_groupFibrotic_ILD	0.057546018831341	0.12271333699336	0.639440542237775	311
+Pattern_7	Pattern_7 (fibroblast_like)	Classical monocytes	disease_groupHealthy	0.00308472456453677	0.115448394815454	0.978700811694805	311
+Pattern_7	Pattern_7 (fibroblast_like)	Classical monocytes	disease_groupOther	-0.659005935513778	0.121847964795798	1.28075028027889e-07	311
+Pattern_7	Pattern_7 (fibroblast_like)	DC2	disease_groupFibrotic_ILD	0.12619371124696	0.123390082697666	0.307214408519966	323
+Pattern_7	Pattern_7 (fibroblast_like)	DC2	disease_groupHealthy	0.0570087081542173	0.11662921265252	0.625317054266696	323
+Pattern_7	Pattern_7 (fibroblast_like)	DC2	disease_groupOther	-0.340850829766305	0.125396557069152	0.00692300768484075	323
+Pattern_7	Pattern_7 (fibroblast_like)	EC aerocyte capillary	disease_groupFibrotic_ILD	0.253508287653897	0.341086096221997	0.459097502038847	103
+Pattern_7	Pattern_7 (fibroblast_like)	EC aerocyte capillary	disease_groupHealthy	-0.0134937005025713	0.327204270896649	0.967188117215899	103
+Pattern_7	Pattern_7 (fibroblast_like)	EC aerocyte capillary	disease_groupOther	-0.684420540719076	0.341086096221997	0.0475203069673602	103
+Pattern_7	Pattern_7 (fibroblast_like)	EC general capillary	disease_groupFibrotic_ILD	0.121811390441862	0.209777987729897	0.562302040063812	160
+Pattern_7	Pattern_7 (fibroblast_like)	EC general capillary	disease_groupHealthy	-0.038864179252147	0.193314954682232	0.840928612008157	160
+Pattern_7	Pattern_7 (fibroblast_like)	EC general capillary	disease_groupOther	-0.641551214358616	0.214268394075239	0.00320132074380308	160
+Pattern_7	Pattern_7 (fibroblast_like)	EC venous pulmonary	disease_groupHealthy	-0.051428120116935	0.0982580451805273	0.601721832185422	116
+Pattern_7	Pattern_7 (fibroblast_like)	EC venous pulmonary	disease_groupOther	-0.527377574507248	0.146351306042825	0.000468254203970526	116
+Pattern_7	Pattern_7 (fibroblast_like)	EC venous systemic	disease_groupFibrotic_ILD	0.104603055404055	0.487626783132404	0.830453545628021	146
+Pattern_7	Pattern_7 (fibroblast_like)	EC venous systemic	disease_groupHealthy	-0.11073483953018	0.486956505450443	0.820438314325612	146
+Pattern_7	Pattern_7 (fibroblast_like)	EC venous systemic	disease_groupOther	-0.473544152564494	0.492823662949481	0.33824607797165	146
+Pattern_7	Pattern_7 (fibroblast_like)	Interstitial macrophages	disease_groupFibrotic_ILD	0.0465774757417062	0.12935948997914	0.719038812354959	323
+Pattern_7	Pattern_7 (fibroblast_like)	Interstitial macrophages	disease_groupHealthy	-0.0280348361156093	0.122707121085452	0.819427642180748	323
+Pattern_7	Pattern_7 (fibroblast_like)	Interstitial macrophages	disease_groupOther	-0.448345348899938	0.12801429408248	0.000527058860956049	323
+Pattern_7	Pattern_7 (fibroblast_like)	Lymphatic EC	disease_groupFibrotic_ILD	0.178320979766962	0.168737742279494	0.292188884760407	165
+Pattern_7	Pattern_7 (fibroblast_like)	Lymphatic EC	disease_groupHealthy	0.189677550319195	0.159587501373348	0.236367416702204	165
+Pattern_7	Pattern_7 (fibroblast_like)	Lymphatic EC	disease_groupOther	-0.333920665605241	0.180972962623236	0.0668540500663818	165
+Pattern_7	Pattern_7 (fibroblast_like)	Mast cells	disease_groupFibrotic_ILD	-0.0728864239276691	0.161692716260995	0.652676671163286	191
+Pattern_7	Pattern_7 (fibroblast_like)	Mast cells	disease_groupHealthy	-0.0337978970515443	0.151932317831246	0.824203535495773	191
+Pattern_7	Pattern_7 (fibroblast_like)	Mast cells	disease_groupOther	-0.64087338770282	0.164405364890386	0.000134989765136453	191
+Pattern_7	Pattern_7 (fibroblast_like)	Myofibroblasts	disease_groupHealthy	-0.0250110002991412	0.180557552128205	0.890670584354527	36
+Pattern_7	Pattern_7 (fibroblast_like)	Myofibroblasts	disease_groupOther	-0.854515820476728	0.2573979513869	0.00220576772607344	36
+Pattern_7	Pattern_7 (fibroblast_like)	Non-classical monocytes	disease_groupFibrotic_ILD	0.0968061942472768	0.114865713679329	0.4002520920643	228
+Pattern_7	Pattern_7 (fibroblast_like)	Non-classical monocytes	disease_groupHealthy	0.101534674084707	0.108547481383751	0.350592538896012	228
+Pattern_7	Pattern_7 (fibroblast_like)	Non-classical monocytes	disease_groupOther	-0.395302688920779	0.122914059802189	0.00149150514299013	228
+Pattern_7	Pattern_7 (fibroblast_like)	Peribronchial fibroblasts	disease_groupHealthy	-0.0102942280578571	0.12397789603634	0.933991466448705	103
+Pattern_7	Pattern_7 (fibroblast_like)	Peribronchial fibroblasts	disease_groupOther	-0.376399513638011	0.139446599363137	0.00816090043344036	103
+Pattern_7	Pattern_7 (fibroblast_like)	Pericytes	disease_groupFibrotic_ILD	0.221105275174257	0.658379270783127	0.73782459992126	89
+Pattern_7	Pattern_7 (fibroblast_like)	Pericytes	disease_groupHealthy	0.234485540900054	0.652711624978533	0.720300251069902	89
+Pattern_7	Pattern_7 (fibroblast_like)	Pericytes	disease_groupOther	-0.278904974256645	0.659575237746648	0.673468610467545	89
+Pattern_7	Pattern_7 (fibroblast_like)	Transitional Club-AT2	disease_groupFibrotic_ILD	0.158657205231466	0.199955339536339	0.428720972288751	159
+Pattern_7	Pattern_7 (fibroblast_like)	Transitional Club-AT2	disease_groupHealthy	-0.0329966042426498	0.196232991172052	0.866684374794778	159
+Pattern_7	Pattern_7 (fibroblast_like)	Transitional Club-AT2	disease_groupOther	0.0951998331863262	0.240164838446913	0.692359774626279	159
+Pattern_7	Pattern_7 (fibroblast_like)	Vascular smooth muscle	disease_groupFibrotic_ILD	0.0459221015588928	0.488347344540609	0.925233780881102	127
+Pattern_7	Pattern_7 (fibroblast_like)	Vascular smooth muscle	disease_groupHealthy	-0.0464842765081252	0.485206814572994	0.923832933720719	127
+Pattern_7	Pattern_7 (fibroblast_like)	Vascular smooth muscle	disease_groupOther	-0.517104093842745	0.49068955147701	0.294025818675557	127

@@ -94,19 +94,40 @@ per_pat <- seed_rows[, .(pat_mean_r = mean(r, na.rm = TRUE)),
 robust  <- per_pat[, .(mean_r = mean(pat_mean_r), min_r = min(pat_mean_r)), by = np]
 
 ## ---- (B) reconstruction error at each nP -----------------------------------
-meta_files <- list.files(INDIR, pattern = "^cogaps_meta_np[0-9]+.*\\.tsv$",
-                         full.names = TRUE)
-chi <- if (length(meta_files)) {
-    m <- rbindlist(lapply(meta_files, fread), fill = TRUE)
-    m[np %in% NP_SWEEP, .(meanChiSq = mean(meanChiSq, na.rm = TRUE),
-                          n_fits = .N), by = np]
-} else {
-    message("no cogaps_meta_*.tsv found; chiSq column will be NA")
-    data.table(np = NP_SWEEP, meanChiSq = NA_real_, n_fits = 0L)
+## Distributed CoGAPS does NOT populate meanChiSq on the aggregated result (it is
+## 0; chi-sq is computed per subset, not on the consensus), so we compute the
+## reconstruction error directly from the saved factors: D ~= A %*% t(P), with
+## A = feature loadings (genes x patterns) and P = sampleFactors (cells x
+## patterns). We report the fraction of total sum-of-squares left unexplained
+## (lower = better fit), which is comparable across nP.
+load_patterns <- function(np) {
+    f <- file.path(INDIR, sprintf("patterns_np%d.tsv.gz", np))
+    if (!file.exists(f)) { message("missing: ", f); return(NULL) }
+    d <- as.data.frame(fread(f)); rownames(d) <- d[[1]]; d[[1]] <- NULL
+    as.matrix(d)
 }
+recon <- data.table(np = NP_SWEEP, frac_unexplained = NA_real_)
+mtx_f <- file.path(INDIR, "cogaps_input.mtx")
+if (file.exists(mtx_f)) {
+    suppressPackageStartupMessages(library(Matrix))
+    D <- as.matrix(readMM(mtx_f))
+    rownames(D) <- readLines(file.path(INDIR, "cogaps_genes.tsv"))
+    colnames(D) <- readLines(file.path(INDIR, "cogaps_barcodes.tsv"))
+    for (k in NP_SWEEP) {
+        A <- load_loadings(k, ""); P <- load_patterns(k)
+        if (is.null(A) || is.null(P)) next
+        g   <- intersect(rownames(D), rownames(A))
+        cel <- intersect(colnames(D), rownames(P))
+        Dsub <- D[g, cel, drop = FALSE]
+        Dhat <- A[g, , drop = FALSE] %*% t(P[cel, , drop = FALSE])
+        recon[np == k, frac_unexplained := sum((Dsub - Dhat)^2) / sum(Dsub^2)]
+    }
+    rm(D); gc()
+} else message("cogaps_input.mtx not found; reconstruction error will be NA")
 
-sel <- merge(robust, chi, by = "np", all = TRUE)
-sel[, n_seeds := seed_rows[, uniqueN(seed), by = np][match(sel$np, np), V1]]
+n_fit_dt <- seed_rows[, .(n_seeds = uniqueN(seed)), by = np]
+sel <- Reduce(function(a, b) merge(a, b, by = "np", all = TRUE),
+              list(robust, recon, n_fit_dt))
 setorder(sel, np)
 fwrite(sel, file.path(OUTDIR, "cogaps_nP_selection.tsv"), sep = "\t")
 
@@ -116,37 +137,51 @@ rec <- if (nrow(ok)) max(ok$np) else sel[which.max(min_r), np]
 
 cat("\n== De-novo nP selection ==\n")
 print(sel[, .(np, mean_r = round(mean_r, 3), min_r = round(min_r, 3),
-              meanChiSq = round(meanChiSq, 1), n_seeds)])
+              frac_unexplained = round(frac_unexplained, 4), n_seeds)])
 cat(sprintf("\nRecommended nP = %d (largest nP with min_r >= %.2f).\n", rec, THRESH))
-cat("Cross-check against the meanChiSq elbow and 03.cogaps_validate.R overlap.\n")
+cat("Cross-check against the reconstruction-error elbow and 03.cogaps_validate.R overlap.\n")
 
-## ---- selection plot ---------------------------------------------------------
-pr <- ggplot(melt(sel[, .(np, mean_r, min_r)], id.vars = "np"),
-             aes(np, value, colour = variable)) +
-    geom_hline(yintercept = THRESH, linetype = 3, colour = "grey55") +
+## ---- selection figure (manuscript style: no in-panel titles, direct labels) -
+theme_sel <- theme_minimal(base_size = 11) +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank(),
+          axis.title = element_text(size = 10, colour = "grey20"),
+          axis.text  = element_text(size = 9, colour = "grey25"),
+          plot.tag   = element_text(face = "bold", size = 12),
+          legend.position = "none",
+          plot.margin = margin(6, 12, 6, 6))
+
+## A -- cross-seed pattern robustness; lines direct-labelled instead of a legend
+rob     <- melt(sel[, .(np, mean_r, min_r)], id.vars = "np")
+labmap  <- c(mean_r = "mean over\nprograms", min_r = "weakest\nprogram")
+lab_pos <- rob[np == max(np)]
+pr <- ggplot(rob, aes(np, value, colour = variable)) +
+    geom_hline(yintercept = THRESH, linetype = 3, colour = "grey60") +
+    annotate("text", x = min(NP_SWEEP), y = THRESH, vjust = -0.6, hjust = 0,
+             label = sprintf("reproducibility floor (%.1f)", THRESH),
+             size = 2.9, colour = "grey55") +
     geom_vline(xintercept = rec, linetype = 2, colour = "#B2182B") +
-    geom_line() + geom_point(size = 2.4) +
-    scale_x_continuous(breaks = NP_SWEEP) +
-    scale_colour_manual(values = c(mean_r = "#2166AC", min_r = "#E08214"),
-                        labels = c("mean over programs", "weakest program"),
-                        name = NULL) +
-    coord_cartesian(ylim = c(min(0.5, min(sel$min_r, na.rm = TRUE)), 1)) +
-    labs(x = "nPatterns", y = "cross-seed matched |r|",
-         title = "Pattern robustness") +
-    theme_bw(base_size = 12) + theme(legend.position = "bottom")
+    annotate("text", x = rec, y = 0.99, hjust = 1.08, vjust = 0, size = 3.1,
+             colour = "#B2182B", label = sprintf("selected nP = %d", rec)) +
+    geom_line(linewidth = 0.7) + geom_point(size = 2.2) +
+    geom_text(data = lab_pos, hjust = 0, nudge_x = 0.15, size = 3, lineheight = 0.9,
+              aes(label = labmap[as.character(variable)])) +
+    scale_colour_manual(values = c(mean_r = "#2166AC", min_r = "#E08214")) +
+    scale_x_continuous(breaks = NP_SWEEP, expand = expansion(mult = c(0.03, 0.24))) +
+    coord_cartesian(ylim = c(0.4, 1.0)) +
+    labs(x = "number of patterns (nP)", y = "cross-seed matched |r|", tag = "A")
 
-pc <- ggplot(sel, aes(np, meanChiSq)) +
+## B -- reconstruction error (fraction of variance left unexplained)
+pc <- ggplot(sel, aes(np, frac_unexplained)) +
     geom_vline(xintercept = rec, linetype = 2, colour = "#B2182B") +
-    geom_line(colour = "grey30") + geom_point(size = 2.4, colour = "grey20") +
+    geom_line(linewidth = 0.7, colour = "grey35") +
+    geom_point(size = 2.2, colour = "grey20") +
     scale_x_continuous(breaks = NP_SWEEP) +
-    labs(x = "nPatterns", y = "mean chi-squared",
-         title = "Reconstruction error") +
-    theme_bw(base_size = 12)
+    labs(x = "number of patterns (nP)", y = "fraction of variance unexplained",
+         tag = "B")
 
-pp <- (pr | pc) + plot_annotation(
-    title = sprintf("CoGAPS rank selection (recommended nP = %d)", rec),
-    theme = theme(plot.title = element_text(face = "bold")))
-save_gg(file.path(fig_dir, "cogaps_nP_selection"), pp, 10, 4.5)
+pp <- (pr | pc) & theme_sel
+save_gg(file.path(fig_dir, "cogaps_nP_selection"), pp, 9, 3.6)
 
 cat("\n---- sessionInfo ----\n")
 sessioninfo::session_info()

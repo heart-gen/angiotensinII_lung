@@ -20,10 +20,11 @@ module list
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
-## Validate the selected rank against the curated state model. Set NPATTERNS to
-## the nP chosen de novo by step_2 (cogaps_nP_selection.tsv); keep neighbours if
-## you want to show the choice is robust to +/-1.
-NPATTERNS="5"   # <- update to the step_2 recommendation before running
+## Validate the selected rank(s) against the curated state model. step_2 chose the
+## sweep; we carry TWO ranks forward: nP=8 is the MAIN rank (most reproducible band,
+## min_r 0.978) and nP=9 is the SENSITIVITY rank (largest with min_r >= 0.80). Both
+## get a validation_np${NP}/ dir so the choice is shown robust across the stable band.
+NPATTERNS="8 9"   # 8 = main, 9 = sensitivity (see cogaps_nP_selection.tsv)
 for NP in ${NPATTERNS}; do
     log_message "**** Validate CoGAPS nPatterns=${NP} ****"
     Rscript ../_h/03.cogaps_validate.R \
