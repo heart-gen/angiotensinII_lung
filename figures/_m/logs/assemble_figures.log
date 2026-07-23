@@ -1,15 +1,13 @@
-2026-06-17 22:36:01 - **** Job starts ****
-Job id: 41486581
+2026-07-23 09:01:35 - **** Job starts ****
+Job id: 42554792
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-17 22:36:02 - **** Export pericyte UMAP coords (scRNA_env) ****
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import get_distribution, DistributionNotFound
-2026-06-17 22:38:51,911 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+2026-07-23 09:01:36 - **** Export pericyte UMAP coords (scRNA_env) ****
+2026-07-23 09:01:42,355 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
 -----
 pandas              2.3.2
 scanpy              1.11.4
@@ -18,8 +16,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-06-17 22:38
-2026-06-17 22:39:24 - **** Integrated pericyte-layer figure (main + supplement) ****
+Session information updated at 2026-07-23 09:01
+2026-07-23 09:01:44 - **** Integrated pericyte-layer figure (main + supplement) ****
 pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 - Session info ---------------------------------------------------------------
  setting  value
@@ -31,7 +29,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-17
+ date     2026-07-23
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -76,7 +74,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-17 22:40:08 - **** Supplementary sensitivity/robustness figure ****
+2026-07-23 09:02:00 - **** Supplementary sensitivity/robustness figure ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -96,7 +94,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-17
+ date     2026-07-23
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -137,22 +135,22 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-17 22:40:16 - **** Panel manifest ****
+2026-07-23 09:02:07 - **** Panel manifest ****
 Panels present: 10 / 10 
 # A tibble: 10 x 3
-   figure panel                              exists
-   <chr>  <chr>                              <lgl> 
- 1 A      liana edges -> pericytes           TRUE  
- 2 A      liana edges -> AGTR2-det AT2       TRUE  
- 3 A      NicheNet ligand->target (pericyte) TRUE  
- 4 A      alluvial cluster->category->role   TRUE  
- 5 B      state UMAP                         TRUE  
- 6 B      DPT pseudotime UMAP                TRUE  
- 7 B      PAGA states                        TRUE  
- 8 Supp   AT1R/AT2R balance by disease       TRUE  
- 9 Supp   smoking + cohort robustness        TRUE  
-10 Supp   mouse Agtr1a by state              TRUE  
-2026-06-17 22:40:23 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+   figure panel                                 exists
+   <chr>  <chr>                                 <lgl> 
+ 1 A      liana edges -> pericytes              TRUE  
+ 2 A      liana edges -> AGTR2-det AT2          TRUE  
+ 3 A      NicheNet ligand->target (pericyte)    TRUE  
+ 4 A      alluvial cluster->category->role      TRUE  
+ 5 B      state UMAP                            TRUE  
+ 6 B      DPT pseudotime UMAP                   TRUE  
+ 7 B      PAGA states                           TRUE  
+ 8 Supp   AT1R/AT2R balance by disease          TRUE  
+ 9 Supp   smoking + cohort robustness           TRUE  
+10 Supp   mouse Agtr1a compartment (raw counts) TRUE  
+2026-07-23 09:02:09 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -166,21 +164,21 @@ i Row 1 of `x` matches multiple rows in `y`.
 i Row 13 of `y` matches multiple rows in `x`.
 i If a many-to-many relationship is expected, set `relationship =
   "many-to-many"` to silence this warning.
-`geom_smooth()` using formula = 'y ~ x'
-`geom_smooth()` using formula = 'y ~ x'
-`geom_smooth()` using formula = 'y ~ x'
 Wrote manuscript figures to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
  [1] "figureB_states_continuum_niche.pdf" "figureS_acta2_control.pdf"         
  [3] "figureS_acta2_control.svg"          "figureS_alluvial.pdf"              
  [5] "figureS_alluvial.svg"               "figureS_balance_by_state.pdf"      
- [7] "figureS_balance_by_state.svg"       "figureS_crossspecies_mouse.pdf"    
- [9] "figureS_crossspecies_mouse.svg"     "figureS_pericyte_layer.pdf"        
-[11] "figureS_pericyte_layer.svg"         "figureS_program_category.pdf"      
-[13] "figureS_program_category.svg"       "figureS_sensitivity.pdf"           
-[15] "figureS_sensitivity.svg"            "figure_ccc_nichenet.pdf"           
-[17] "figure_ccc_nichenet.svg"            "figure_mechanism_main.pdf"         
-[19] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
-[21] "figure_pericyte_layer.svg"         
+ [7] "figureS_balance_by_state.svg"       "figureS_bm_copd.pdf"               
+ [9] "figureS_bm_copd.svg"                "figureS_crossspecies_mouse.pdf"    
+[11] "figureS_crossspecies_mouse.svg"     "figureS_pericyte_layer.pdf"        
+[13] "figureS_pericyte_layer.svg"         "figureS_program_category.pdf"      
+[15] "figureS_program_category.svg"       "figureS_ras_landscape.pdf"         
+[17] "figureS_ras_landscape.svg"          "figureS_sensitivity.pdf"           
+[19] "figureS_sensitivity.svg"            "figure_basement_membrane.pdf"      
+[21] "figure_basement_membrane.svg"       "figure_ccc_nichenet.pdf"           
+[23] "figure_ccc_nichenet.svg"            "figure_mechanism_main.pdf"         
+[25] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
+[27] "figure_pericyte_layer.svg"         
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -193,7 +191,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-17
+ date     2026-07-23
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -217,12 +215,8 @@ Reproducibility information:
  glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
  gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
  labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
- lattice        0.22-7  2025-04-02 [1] CRAN (R 4.4.3)
  lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
  magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
- Matrix         1.7-4   2025-08-28 [1] CRAN (R 4.4.3)
- mgcv           1.9-3   2025-04-04 [1] CRAN (R 4.4.3)
- nlme           3.1-168 2025-03-31 [1] CRAN (R 4.4.3)
  patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
  pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
@@ -252,4 +246,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-06-17 22:40:50 - **** Job ends ****
+2026-07-23 09:02:25 - **** Job ends ****

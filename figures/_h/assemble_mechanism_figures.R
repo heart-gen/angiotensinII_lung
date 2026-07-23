@@ -68,7 +68,12 @@ manifest <- tibble::tribble(
     "B", "PAGA states",                     P("pericyte_states","_m","figures","paga_states.pdf"),
     "Supp", "AT1R/AT2R balance by disease", P("pathway_balance","_m","stats_data","balance_by_disease.pdf"),
     "Supp", "smoking + cohort robustness", P("figures","mechanism","figureS_sensitivity.pdf"),
-    "Supp", "mouse Agtr1a by state",        P("cross_species","_m","stats_data","mouse_Agtr1a_by_state.pdf")
+    ## Was "mouse Agtr1a by state" (mouse_Agtr1a_by_state.pdf). Retired 2026-07-21:
+    ## the mouse state labels are largely smooth-muscle labels (the BM "state" is 84
+    ## of 87 PA-SMCs, zero pericytes) and the panel was drawn on the dense
+    ## scvi_corrected layer. Superseded by the raw-count compartment figure.
+    "Supp", "mouse Agtr1a compartment (raw counts)",
+        P("figures","mechanism","figureS_crossspecies_mouse.pdf")
 )
 manifest$exists <- file.exists(manifest$source)
 write.table(manifest, file.path(outdir, "figure_panel_manifest.tsv"),

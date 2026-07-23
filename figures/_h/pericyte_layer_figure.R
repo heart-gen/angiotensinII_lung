@@ -25,14 +25,22 @@ P <- function(...) file.path(ROOT, ...)
 OUT <- P("figures", "mechanism"); dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
 ## ---- shared visual language (matches manuscript_mechanism_figure.R) -----
-PROG_ORDER <- c("vascular_stabilizing", "fibroblast_like", "activated_migratory")
+## PROG_ORDER = the three DOMINANT stable-cluster states (state_program). With the
+## basement-membrane panel, clusters 1/3/5 relabel fibroblast_like -> basement_membrane
+## (36% of pericytes), so BM replaces fibroblast_like here -- otherwise panels C/D/E
+## (which filter state_program %in% PROG_ORDER) would silently drop those 4,200 cells.
+## STATE_LEVELS/STATE_LABS1 keep fibroblast_like because panel F plots the continuous
+## program SCORES (the fibrillar-ECM panel is a real, separate score); BM is added there too.
+PROG_ORDER <- c("vascular_stabilizing", "basement_membrane", "activated_migratory")
 STATE_LEVELS <- c("vascular_stabilizing", "synthetic_contractile",
-                  "activated_migratory", "inflammatory", "fibroblast_like")
+                  "activated_migratory", "inflammatory", "fibroblast_like",
+                  "basement_membrane")
 STATE_LABS1 <- c(vascular_stabilizing = "Vascular-stabilizing",
                  synthetic_contractile = "Synthetic/contractile",
                  activated_migratory = "Activated/migratory",
-                 inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like")
-PROG_COL <- c(vascular_stabilizing = "#0072B2", fibroblast_like = "#D55E00",
+                 inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
+                 basement_membrane = "Basement-membrane")
+PROG_COL <- c(vascular_stabilizing = "#0072B2", basement_membrane = "#D55E00",
               activated_migratory = "#CC79A7")
 ## subcluster hues grouped into program families (matches figureS_alluvial)
 CLUST_COL <- c(P0 = "#08519C", P2 = "#6BAED6", P1 = "#D94801",
@@ -133,7 +141,7 @@ nice_feat <- c(vascular_stabilizing = "Vascular-stabilizing",
                synthetic_contractile = "Synthetic/contractile",
                activated_migratory = "Activated/migratory",
                inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-               AGTR1 = "AGTR1")
+               basement_membrane = "Basement-membrane", AGTR1 = "AGTR1")
 trend <- fread(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv")) %>%
     filter(level == "donor") %>%
     mutate(feature = sub("_score$", "", feature),

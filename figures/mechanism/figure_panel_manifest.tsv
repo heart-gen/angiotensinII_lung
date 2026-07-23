@@ -8,4 +8,4 @@ B	DPT pseudotime UMAP	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinI
 B	PAGA states	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pericyte_states/_m/figures/paga_states.pdf	TRUE
 Supp	AT1R/AT2R balance by disease	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pathway_balance/_m/stats_data/balance_by_disease.pdf	TRUE
 Supp	smoking + cohort robustness	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_sensitivity.pdf	TRUE
-Supp	mouse Agtr1a by state	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cross_species/_m/stats_data/mouse_Agtr1a_by_state.pdf	TRUE
+Supp	mouse Agtr1a compartment (raw counts)	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_crossspecies_mouse.pdf	TRUE

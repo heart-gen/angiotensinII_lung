@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=RM-small
 #SBATCH --job-name=assemble_figures
 #SBATCH --mail-type=FAIL

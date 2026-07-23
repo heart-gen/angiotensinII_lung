@@ -20,20 +20,27 @@ DISEASE_LABS   <- c(Healthy = "Healthy", COPD = "COPD",
                     Fibrotic_ILD = "Fibrotic/ILD", Other = "Other")
 DISEASE_COL <- c(Healthy = "#0072B2", COPD = "#E69F00",
                  Fibrotic_ILD = "#D55E00", Other = "#999999")
+## `basement_membrane` replaces `fibroblast_like` as the dominant program of
+## clusters 1/3/5 after the pre-specified gate in basement_membrane/_h/01.state_gate.py.
+## fibroblast_like is retained in the levels so older result tables still plot.
 STATE_LEVELS <- c("vascular_stabilizing", "synthetic_contractile",
-                  "activated_migratory", "inflammatory", "fibroblast_like")
+                  "activated_migratory", "inflammatory", "basement_membrane",
+                  "fibroblast_like")
 STATE_LABS <- c(vascular_stabilizing = "Vascular-\nstabilizing",
                 synthetic_contractile = "Synthetic/\ncontractile",
                 activated_migratory = "Activated/\nmigratory",
                 inflammatory = "Inflammatory",
+                basement_membrane = "Basement-\nmembrane",
                 fibroblast_like = "Fibroblast-\nlike")
 STATE_LABS1 <- c(vascular_stabilizing = "Vascular-stabilizing",
                  synthetic_contractile = "Synthetic/contractile",
                  activated_migratory = "Activated/migratory",
                  inflammatory = "Inflammatory",
+                 basement_membrane = "Basement-membrane",
                  fibroblast_like = "Fibroblast-like")
 STATE_COL <- c(vascular_stabilizing = "#0072B2", synthetic_contractile = "#009E73",
                activated_migratory = "#CC79A7", inflammatory = "#E69F00",
+               basement_membrane = "#56B4E9",
                fibroblast_like = "#D55E00")
 
 theme_ms <- function(base = 8) {
@@ -235,7 +242,7 @@ nice_feat <- c(vascular_stabilizing = "Vascular-stabilizing",
                synthetic_contractile = "Synthetic/contractile",
                activated_migratory = "Activated/migratory",
                inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-               AGTR1 = "AGTR1")
+               basement_membrane = "Basement-membrane", AGTR1 = "AGTR1")
 trend <- fread(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv")) %>%
     filter(level == "donor") %>%
     mutate(feature = sub("_score$", "", feature),
@@ -270,7 +277,7 @@ save_fig("figure_mechanism_main", main, 7.2, 6.0)
 ## enrichment (z of mean detection across programs, within category) so the
 ## program-specific signal -- otherwise swamped by category baseline detectability
 ## -- is visible. Cells are assigned to their dominant program by z-scored argmax
-## (03b.program_category_enrichment.py), keeping all five programs.
+## (03b.program_category_enrichment.py), keeping all six programs.
 CAT_LEVELS <- c("Signaling ligands", "Chemokines", "Cytokines", "Adhesion molecules",
                 "ECM structural", "Matrix-remodeling", "Fibrotic mediators",
                 "Mural identity")
@@ -302,7 +309,7 @@ if (file.exists(pce_f)) {
 
 ## ---- Supplement: alluvial  stable cluster -> program -> effector category --
 ## A single coherent flow: the six stable pericyte subclusters collapse onto their
-## dominant program (vascular-stabilizing / fibroblast-like / activated-migratory;
+## dominant program (vascular-stabilizing / basement-membrane / activated-migratory;
 ## the discrete state model), and each program's effector output is decomposed into
 ## six functional molecule classes. Left->middle ribbon width = cluster cell count;
 ## middle->right width = that program's effector-expression composition (mean
@@ -311,7 +318,9 @@ if (file.exists(pce_f)) {
 ## kept homogeneous per the collaborator's request.
 EFF_LEVELS <- c("Signaling ligands", "Chemokines/cytokines", "Adhesion molecules",
                 "ECM structural", "Matrix-remodeling", "Fibrotic mediators")
-PROG_ORDER <- c("vascular_stabilizing", "fibroblast_like", "activated_migratory")
+## the three dominant stable-cluster states; clusters 1/3/5 relabel to
+## basement_membrane (was fibroblast_like) after the BM panel was added.
+PROG_ORDER <- c("vascular_stabilizing", "basement_membrane", "activated_migratory")
 mf_f  <- P("cell_communication", "_m", "marker_fractions_by_cluster.tsv.gz")
 map_f <- P("pericyte_states", "_m", "annotations", "state_program_map.tsv")
 cnt_f <- P("pericyte_states", "_m", "state_counts.tsv")
@@ -338,10 +347,10 @@ if (all(file.exists(c(mf_f, map_f, cnt_f)))) {
         arrange(program, as.integer(cluster)) %>% pull(cluster)
     ## Colour alluvia by STABLE CLUSTER (left axis) so the left->middle merge is
     ## traceable; cluster hues are grouped into program families (blues = vascular-
-    ## stabilizing, oranges = fibroblast-like, pink = activated-migratory) so the
+    ## stabilizing, oranges = basement-membrane, pink = activated-migratory) so the
     ## program grouping still reads at the middle axis.
     CLUST_COL <- c(P0 = "#08519C", P2 = "#6BAED6",                 # vascular_stabilizing
-                   P1 = "#D94801", P3 = "#FD8D3C", P5 = "#FDD0A2",  # fibroblast_like
+                   P1 = "#D94801", P3 = "#FD8D3C", P5 = "#FDD0A2",  # basement_membrane
                    P4 = "#CC79A7")                                  # activated_migratory
     alluv <- counts %>% left_join(prog_map, by = "cluster") %>%
         left_join(prog_eff %>% select(program, eff, share), by = "program") %>%
@@ -366,50 +375,124 @@ if (all(file.exists(c(mf_f, map_f, cnt_f)))) {
     save_fig("figureS_alluvial", pAll, 7.2, 5.0)
 }
 
-## ---- Supplement: mouse cross-species (continuous, integration-agnostic) --
-## The sparse mouse mural set does not support the 5-state clustering, so the
-## conserved signal is shown as the continuous relationship between Agtr1a and
-## the vascular-stabilizing program -- positive and consistent across all four
-## mouse datasets. Agtr1a marks the homeostatic contractile mural compartment,
-## matching the wet-lab pericyte-loss / losartan-rescue phenotype.
-mouse_cell_f <- P("cross_species", "_m", "mouse_states_metadata.tsv.gz")
-mouse_rho_f  <- P("cross_species", "_m", "stats_data", "mouse_Agtr1a_per_dataset_consistency.tsv")
-if (file.exists(mouse_cell_f) && file.exists(mouse_rho_f)) {
-    mc <- fread(mouse_cell_f)[is_mural == TRUE]
-    rho <- fread(mouse_rho_f)
-    ## compact, stable dataset labels (D1..Dk) shared across both sub-panels
-    ds_levels <- rho[order(-rho), dataset_id]
-    ds_labs <- setNames(paste0("D", seq_along(ds_levels)), ds_levels)
-    mc[, ds := factor(ds_labs[dataset_id], levels = unname(ds_labs))]
-    rho[, ds := factor(ds_labs[dataset_id], levels = unname(ds_labs))]
-    ds_col <- setNames(c("#0072B2", "#009E73", "#E69F00", "#CC79A7",
-                         "#56B4E9", "#D55E00")[seq_along(ds_levels)], unname(ds_labs))
+## ---- Supplement: mouse cross-species (compartment-level, raw counts) ----
+## REWRITTEN 2026-07-21 after cross_species/_h/04.species_comparability.py.
+## The previous version plotted Agtr1a against the vascular-stabilizing score on
+## the DENSE scvi_corrected layer; that relationship is now known to re-express
+## cell-type identity (the stabilizing panel is a pericyte-marker panel) and its
+## detection fractions were vacuous. It has been removed entirely.
+## The figure now carries the two things the mouse data actually support:
+## why no state-level comparison is possible (A), and the compartment-level
+## Agtr1a claim in raw counts (B-D).
+mural_f <- P("cross_species", "_m", "stats_data", "species_comparability_mural_cells.tsv")
+test_f  <- P("cross_species", "_m", "stats_data", "species_comparability_agtr1a_tests.tsv")
+if (file.exists(mural_f)) {
+    mm <- fread(mural_f)
+    CT_LABS <- c("pericyte" = "Pericyte",
+                 "smooth muscle cell of the pulmonary artery" = "PA-SMC",
+                 "vascular associated smooth muscle cell" = "vSMC")
+    ## Pericyte is the focus -> saturated blue; vSMC is the compartment that is
+    ## structurally confounded with dataset -> grey, visually de-emphasised.
+    CT_COL <- c(Pericyte = "#0072B2", `PA-SMC` = "#E69F00", vSMC = "#999999")
+    mm[, ct := factor(CT_LABS[cell_type], levels = names(CT_COL))]
+    ## stable short dataset labels, ordered so the pericyte-bearing pair is adjacent
+    ds_order <- mm[, .(has_per = any(ct == "Pericyte"), n = .N), by = dataset_id][
+        order(-has_per, -n), dataset_id]
+    ds_labs <- setNames(paste0("M", seq_along(ds_order)), ds_order)
+    mm[, ds := factor(ds_labs[dataset_id], levels = unname(ds_labs))]
+    mm[, detected := Agtr1a_counts > 0]
 
-    pScatter <- ggplot(mc, aes(vascular_stabilizing_score, Agtr1a_expr, colour = ds)) +
-        geom_point(size = 0.5, alpha = 0.35) +
-        geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +
-        scale_colour_manual(values = ds_col, name = NULL) +
-        labs(x = "Vascular-stabilizing score",
-             y = expression(italic("Agtr1a") ~ "(scVI-corrected)")) +
-        theme_ms() +
-        theme(legend.position = "inside", legend.position.inside = c(0.98, 0.02),
-              legend.justification = c(1, 0),
-              legend.key.size = unit(7, "pt"), legend.text = element_text(size = 6),
-              legend.background = element_blank())
+    ## -- A: composition grid. Empty cells ARE the result: cell type is aliased
+    ##       with dataset, so pericyte-vs-vSMC is not estimable within dataset.
+    comp <- mm[, .N, by = .(ds, ct)]
+    pComp <- ggplot(comp, aes(ds, ct)) +
+        geom_point(aes(size = N, colour = ct)) +
+        ## label to the RIGHT at a fixed offset: a vjust above the point collides
+        ## with the 509/507 circles, which are an order of magnitude larger.
+        geom_text(aes(label = N), nudge_x = 0.3, hjust = 0, size = 2.1,
+                  colour = "grey20") +
+        scale_size_area(max_size = 9, guide = "none") +
+        scale_colour_manual(values = CT_COL, guide = "none") +
+        scale_x_discrete(expand = expansion(add = 0.62)) +
+        scale_y_discrete(limits = rev(names(CT_COL))) +
+        expand_limits(y = c(0.4, 3.6)) +
+        labs(x = "Mouse dataset", y = NULL) +
+        theme_ms() + theme(panel.grid.major.y = element_line(linewidth = 0.2))
 
-    pRho <- ggplot(rho, aes(ds, rho, fill = ds)) +
-        geom_col(width = 0.7) +
-        geom_hline(yintercept = 0, linewidth = 0.3) +
-        geom_text(aes(label = paste0("n=", n)), vjust = -0.4, size = 1.9) +
-        scale_fill_manual(values = ds_col) +
-        scale_y_continuous(limits = c(0, 1), expand = expansion(mult = c(0, 0.1))) +
-        labs(x = NULL, y = expression("Spearman " * rho * " (Agtr1a vs stabilizing)")) +
+    ## -- B: the claim, in raw counts, within the two datasets that contain both
+    ##       cell types. Every cell is shown (n = 41 pericytes, 87 PA-SMC).
+    info_ds <- mm[, .(k = uniqueN(ct)), by = ds][k > 1, ds]
+    bd <- mm[ds %in% info_ds & ct %in% c("Pericyte", "PA-SMC")]
+    bd[, ct := droplevels(ct)]
+    lab_b <- bd[, .(det = mean(detected), n = .N), by = .(ds, ct)][
+        , lab := sprintf("%.0f%%\n(n=%d)", 100 * det, n)][]
+    pRaw <- ggplot(bd, aes(ct, Agtr1a_lognorm, colour = ct)) +
+        geom_jitter(width = 0.18, height = 0, size = 0.9, alpha = 0.75) +
+        stat_summary(fun = median, geom = "crossbar", width = 0.45,
+                     linewidth = 0.25, colour = "grey25") +
+        geom_text(data = lab_b, aes(y = max(bd$Agtr1a_lognorm) * 1.13, label = lab),
+                  size = 2.0, lineheight = 0.9, show.legend = FALSE) +
+        facet_wrap(~ ds, nrow = 1) +
+        scale_colour_manual(values = CT_COL, guide = "none") +
+        expand_limits(y = max(bd$Agtr1a_lognorm) * 1.3) +
+        labs(x = NULL, y = expression(italic("Agtr1a") ~ "(log-normalised, raw)")) +
         theme_ms() + theme(axis.title.y = element_text(size = 6.5))
 
-    pMouse <- (pScatter | pRho) +
+    ## -- C: the negatives are dropout. Depth differs ~360x between datasets, and
+    ##       the undetected pericytes sit at the shallow end. Open symbols = no UMI.
+    pc <- mm[ct == "Pericyte"]
+    ## Direct-label each dataset cluster instead of colouring by dataset: the two
+    ## groups are already fully separated on x by their ~360x depth difference, so
+    ## a second (near-identical blue) encoding for the same variable adds nothing.
+    det_lab <- pc[, .(det = mean(detected), n = .N,
+                      x = median(log10(total_counts_cell))), by = ds][
+        , lab := sprintf("%s: %d/%d", ds, round(det * n), n)][]
+    pDepth <- ggplot(pc, aes(log10(total_counts_cell), log10(Agtr1a_counts + 1))) +
+        geom_point(aes(shape = detected), size = 1.5, stroke = 0.35,
+                   colour = "grey30", fill = CT_COL[["Pericyte"]]) +
+        geom_text(data = det_lab, aes(x = x, y = -0.30, label = lab),
+                  size = 2.1, colour = "grey20") +
+        scale_shape_manual(values = c(`FALSE` = 21, `TRUE` = 24),
+                           labels = c(`FALSE` = "no UMI", `TRUE` = "detected"),
+                           name = NULL) +
+        expand_limits(y = -0.4) +
+        labs(x = expression(log[10] ~ "total UMI per pericyte"),
+             y = expression(log[10] ~ "(" * italic("Agtr1a") ~ "UMI + 1)")) +
+        theme_ms() +
+        theme(legend.position = "inside", legend.position.inside = c(0.02, 0.98),
+              legend.justification = c(0, 1), legend.key.size = unit(7, "pt"),
+              legend.text = element_text(size = 6), legend.background = element_blank())
+
+    ## -- D: why the previous version of this figure was wrong. scVI reconstructs
+    ##       every cell as non-zero, so denoised detection is 100% regardless of
+    ##       whether a single molecule was observed.
+    dd <- rbind(
+        mm[, .(frac = mean(Agtr1a_counts > 0), layer = "Raw counts"), by = ct],
+        mm[, .(frac = mean(Agtr1a_scvi_corrected > 0), layer = "scVI-denoised"), by = ct])
+    dd[, layer := factor(layer, levels = c("Raw counts", "scVI-denoised"))]
+    pDenoise <- ggplot(dd, aes(layer, frac, group = ct, colour = ct)) +
+        geom_line(linewidth = 0.6) +
+        geom_point(size = 2) +
+        geom_text(data = dd[layer == "Raw counts"],
+                  aes(label = sprintf("%.0f%%", 100 * frac)), hjust = 1.35,
+                  size = 2.1, show.legend = FALSE) +
+        geom_text(data = dd[layer == "scVI-denoised" & ct == "Pericyte"],
+                  aes(label = "100%"), hjust = -0.45, size = 2.1, show.legend = FALSE) +
+        scale_colour_manual(values = CT_COL, name = NULL) +
+        scale_y_continuous(labels = function(x) paste0(100 * x, "%"),
+                           limits = c(0, 1.08), expand = expansion(mult = c(0.02, 0))) +
+        expand_limits(x = c(0.55, 2.5)) +
+        labs(x = NULL, y = expression(italic("Agtr1a") * "-positive cells")) +
+        theme_ms() +
+        theme(legend.position = "inside", legend.position.inside = c(0.02, 0.62),
+              legend.justification = c(0, 1), legend.key.size = unit(7, "pt"),
+              legend.text = element_text(size = 6), legend.background = element_blank(),
+              axis.title.y = element_text(size = 6.5))
+
+    pMouse <- (pComp | pRaw) / (pDepth | pDenoise) +
         plot_annotation(tag_levels = "A") &
         theme(plot.tag = element_text(face = "bold", size = 10))
-    save_fig("figureS_crossspecies_mouse", pMouse, 6.4, 3.0)
+    save_fig("figureS_crossspecies_mouse", pMouse, 7.2, 5.2)
 }
 
 ## ===== Figure: CCC + NicheNet into pericytes ============================
@@ -466,41 +549,53 @@ if (all(file.exists(c(la_f, lt_f, fr_f)))) {
               legend.title = element_text(size = 6))
 
     ## cD: projectR transfer -- pericyte-learned CoGAPS patterns projected onto
-    ## the niche (cell-type x donor pseudobulk). Shows the fibroblast-like injury
-    ## program is mirrored most strongly in bona-fide fibroblasts, while the
-    ## stabilizing / contractile programs stay mural-compartment-specific.
-    pp_f  <- P("pericyte_cogaps", "_m", "projected_pattern_by_celltype_np5.tsv")
-    ann_f <- P("cell_communication", "_m", "cogaps_receiver_annotation_np5.tsv")
+    ## the niche (cell-type x donor pseudobulk). One row per PATTERN (not per
+    ## program): the re-projection collapses several patterns onto the same
+    ## dominant program (multiple basement_membrane patterns; the mural axis is a
+    ## single merged stabilizing+contractile pattern), so rows are labelled
+    ## "Program (Pn)". Cell types (columns) are ordered by the fibrillar/disease
+    ## pattern -- the pattern most correlated with the fibroblast_like axis -- so
+    ## bona-fide fibroblasts sort to the high end and mural patterns stay
+    ## mural-compartment-specific. nP=8 is the de-novo-selected MAIN rank
+    ## (cogaps_nP_selection.tsv; nP=9 is the sensitivity rank).
+    pp_f  <- P("pericyte_cogaps", "_m", "projected_pattern_by_celltype_np8.tsv")
+    ann_f <- P("cell_communication", "_m", "cogaps_receiver_annotation_np8.tsv")
     cD <- NULL
-    if (file.exists(pp_f)) {
+    if (file.exists(pp_f) && file.exists(ann_f)) {
         pp <- fread(pp_f)
+        a  <- fread(ann_f)
         nice <- c(vascular_stabilizing = "Vascular-stabilizing",
                   synthetic_contractile = "Synthetic/contractile",
                   inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-                  activated_migratory = "Activated/migratory")
-        prog <- c(Pattern_4 = "Vascular-stabilizing", Pattern_5 = "Synthetic/contractile",
-                  Pattern_1 = "Inflammatory", Pattern_3 = "Fibroblast-like")
-        if (file.exists(ann_f)) {
-            a <- fread(ann_f)
-            m <- nice[a$assigned_program]; names(m) <- a$pattern
-            m <- m[!is.na(m)]                       # drop unassigned/mixed patterns
-            if (length(m)) prog <- m
-        }
-        pats <- names(prog)
-        mat <- as.matrix(pp[, ..pats]); rownames(mat) <- pp$cell_type
-        z <- scale(mat)                             # z within pattern (across cell types)
-        prog_levels <- intersect(c("Vascular-stabilizing", "Synthetic/contractile",
-                                    "Inflammatory", "Fibroblast-like",
-                                    "Activated/migratory"), prog)
-        fl_pat <- names(prog)[prog == "Fibroblast-like"][1]
-        ct_order <- rownames(z)[order(z[, fl_pat], decreasing = TRUE)]
+                  activated_migratory = "Activated/migratory",
+                  basement_membrane = "Basement-membrane")
+        pats <- intersect(a$pattern, names(pp))
+        a    <- a[match(pats, a$pattern)]
+        mat  <- as.matrix(pp[, ..pats]); rownames(mat) <- pp$cell_type
+        z    <- scale(mat)                          # z within pattern (across cell types)
+        ## fibrillar/disease anchor = pattern most aligned with the fibroblast_like
+        ## axis (robust to unstable pattern numbering across re-runs).
+        anchor   <- a$pattern[which.max(a$rho_fibroblast_like)]
+        ct_order <- rownames(z)[order(z[, anchor], decreasing = TRUE)]
+        ## y-axis order: BM group first (holds the anchor), then contractile,
+        ## inflammatory, etc.; anchor leads its group, else by descending self-rho.
+        prog_pri <- c("basement_membrane", "synthetic_contractile", "inflammatory",
+                      "vascular_stabilizing", "activated_migratory", "fibroblast_like")
+        selfrho  <- vapply(seq_len(nrow(a)), function(i)
+            a[[paste0("rho_", a$assigned_program[i])]][i], numeric(1))
+        a <- a[order(match(a$assigned_program, prog_pri),
+                     a$pattern != anchor, -selfrho)]
+        rlab <- sprintf("%s (%s)", nice[a$assigned_program],
+                        sub("Pattern_", "P", a$pattern))
+        names(rlab) <- a$pattern
         long <- as.data.table(as.table(z)); setnames(long, c("cell_type", "pattern", "z"))
-        long[, program := factor(prog[as.character(pattern)], levels = rev(prog_levels))]
+        long[, row := factor(rlab[as.character(pattern)], levels = rev(rlab))]
         long[, cell_type := factor(cell_type, levels = ct_order)]
-        cD <- ggplot(long, aes(cell_type, program, fill = z)) +
+        long <- long[!is.na(row)]
+        cD <- ggplot(long, aes(cell_type, row, fill = z)) +
             geom_tile(colour = "white", linewidth = 0.2) +
             scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-                                 midpoint = 0, name = "z (within\nprogram)") +
+                                 midpoint = 0, name = "z (within\npattern)") +
             labs(x = NULL, y = NULL) + theme_ms() +
             theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5.5),
                   axis.text.y = element_text(size = 6.5), panel.grid = element_blank(),
