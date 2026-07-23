@@ -17,11 +17,9 @@ Mast cells	667	2796	9200	3241
 Myofibroblasts	1	470	1257	198
 Non-classical monocytes	1721	3712	11815	3714
 Peribronchial fibroblasts	23	2012	2346	1871
-Pericyte_cg_fibroblast_like	4	161	69	87
-Pericyte_cg_inflammatory	12	1071	875	268
-Pericyte_cg_mixed	17	130	1098	914
-Pericyte_cg_synthetic_contractile	0	56	589	161
-Pericyte_cg_vascular_stabilizing	8	506	1890	431
+Pericyte_cg_basement_membrane	13	287	1260	1033
+Pericyte_cg_inflammatory	14	1124	875	282
+Pericyte_cg_synthetic_contractile	14	513	2386	546
 Subpleural fibroblasts	4	23	313	325
 Transitional Club-AT2	198	4449	7184	1026
 Vascular smooth muscle	56	3345	5803	1655

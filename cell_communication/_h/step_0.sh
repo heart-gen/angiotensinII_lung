@@ -1,12 +1,19 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
-#SBATCH --partition=EM
+#SBATCH --account=bio250020p
+# Was: --partition=EM --cpus-per-task=24, which on an EM node implicitly requests
+# ~1 TB (43 GB/core) and therefore queues behind the 4 EM nodes on Bridges-2
+# (observed estimated start: 4 days out). The job does not need it: the output
+# object is 714M nnz in X + logcounts and ~33M in counts/soupX, i.e. ~12 GB
+# resident, so ~125 GB gives ~10x headroom for the backed fancy-index
+# `to_memory()` and the write. If this ever OOMs, revert to --partition=EM.
+#SBATCH --partition=RM-shared
 #SBATCH --job-name=ccc_prepare
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=24
-#SBATCH --time=04:00:00
+#SBATCH --cpus-per-task=64
+#SBATCH --mem=125G
+#SBATCH --time=06:00:00
 #SBATCH --output=logs/ccc_prepare.log
 
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }

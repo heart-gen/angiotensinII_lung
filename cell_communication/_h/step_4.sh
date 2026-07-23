@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=RM-shared
 #SBATCH --job-name=ccc_donor_val
 #SBATCH --mail-type=FAIL

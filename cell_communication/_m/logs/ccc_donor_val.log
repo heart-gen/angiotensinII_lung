@@ -1,24 +1,24 @@
-2026-06-16 10:25:06 - **** Job starts ****
-Job id: 41454333
+2026-07-21 22:21:44 - **** Job starts ****
+Job id: 42501991
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 10:25:07 - **** Donor-level NicheNet validation: extract per-donor expression ****
-2026-06-16 10:27:54,563 [INFO] genes present: 22/22
-2026-06-16 10:27:56,828 [INFO]   read rows 0-50000
-2026-06-16 10:27:58,417 [INFO]   read rows 50000-100000
-2026-06-16 10:28:00,004 [INFO]   read rows 100000-150000
-2026-06-16 10:28:01,810 [INFO]   read rows 150000-200000
-2026-06-16 10:28:03,479 [INFO]   read rows 200000-250000
-2026-06-16 10:28:05,371 [INFO]   read rows 250000-300000
-2026-06-16 10:28:07,151 [INFO]   read rows 300000-350000
-2026-06-16 10:28:08,650 [INFO]   read rows 350000-400000
-2026-06-16 10:28:09,603 [INFO]   read rows 400000-423007
-2026-06-16 10:28:10,657 [INFO] donors with paired sender+receiver: 105
-2026-06-16 10:28:24 - **** Donor-level association test ****
+2026-07-21 22:21:45 - **** Donor-level NicheNet validation: extract per-donor expression ****
+2026-07-21 22:22:07,478 [INFO] genes present: 22/22
+2026-07-21 22:22:09,923 [INFO]   read rows 0-50000
+2026-07-21 22:22:11,747 [INFO]   read rows 50000-100000
+2026-07-21 22:22:14,129 [INFO]   read rows 100000-150000
+2026-07-21 22:22:15,954 [INFO]   read rows 150000-200000
+2026-07-21 22:22:18,439 [INFO]   read rows 200000-250000
+2026-07-21 22:22:20,581 [INFO]   read rows 250000-300000
+2026-07-21 22:22:22,900 [INFO]   read rows 300000-350000
+2026-07-21 22:22:24,900 [INFO]   read rows 350000-400000
+2026-07-21 22:22:25,749 [INFO]   read rows 400000-423007
+2026-07-21 22:22:26,643 [INFO] donors with paired sender+receiver: 105
+2026-07-21 22:22:28 - **** Donor-level association test ****
 donors: 105 
 Warning message:
 In cor.test.default(sub[[pred]], sub$receiver_target_expr, method = "spearman") :
@@ -46,7 +46,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-21
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -117,4 +117,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-16 10:28:52 - **** Job ends ****
+2026-07-21 22:23:05 - **** Job ends ****

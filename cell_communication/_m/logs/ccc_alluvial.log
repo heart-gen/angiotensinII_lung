@@ -1,20 +1,18 @@
-2026-06-16 10:25:06 - **** Job starts ****
-Job id: 41454332
+2026-07-21 22:21:42 - **** Job starts ****
+Job id: 42501990
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 10:25:07 - **** Marker detection fractions (python) ****
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/louvain/__init__.py:54: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import get_distribution, DistributionNotFound
-2026-06-16 10:28:07,433 [INFO] markers present: 34/34
-2026-06-16 10:28:07,927 [INFO] wrote 476 rows
-2026-06-16 10:28:25 - **** Alluvial figures (R) ****
+2026-07-21 22:21:42 - **** Marker detection fractions (python) ****
+2026-07-21 22:24:15,367 [INFO] markers present: 34/34
+2026-07-21 22:24:15,766 [INFO] wrote 476 rows
+2026-07-21 22:24:25 - **** Alluvial figures (R) ****
 
 Reproducibility information:
-[1] "2026-06-16 10:28:48 EDT"
+[1] "2026-07-21 22:24:33 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -25,7 +23,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-21
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -68,4 +66,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-16 10:28:49 - **** Job ends ****
+2026-07-21 22:24:34 - **** Job ends ****
