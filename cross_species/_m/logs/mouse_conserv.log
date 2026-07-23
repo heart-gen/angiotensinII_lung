@@ -1,20 +1,21 @@
-2026-06-15 01:01:25 - **** Job starts ****
-Job id: 41428985
+2026-07-21 22:11:34 - **** Job starts ****
+Job id: 42501993
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-15 01:01:38 - **** Donor/dataset-aware conservation statistics ****
+2026-07-21 22:11:46 - **** Donor/dataset-aware conservation statistics ****
 mural cells: 1144  donors: 53  datasets: 4 
+injury grouping used: score_median_split | cells: 1144 
 
 NOTE: states assigned from clustering on the scVI-integrated latent; the
  categorical and continuous tests agree and per-dataset directions are
  reported for consistency. Mouse lung pericytes remain sparsely annotated.
 
 Reproducibility information:
-[1] "2026-06-15 01:01:59 EDT"
+[1] "2026-07-21 22:12:04 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -25,7 +26,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-15
+ date     2026-07-21
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -65,6 +66,7 @@ Reproducibility information:
  nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
  nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
  numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ pbkrtest       0.5.5      2025-07-18 [1] CRAN (R 4.4.3)
  pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
  pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
  purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
@@ -96,4 +98,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-15 01:02:03 - **** Job ends ****
+2026-07-21 22:12:08 - **** Job ends ****

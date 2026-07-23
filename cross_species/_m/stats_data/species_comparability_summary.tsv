@@ -1,0 +1,9 @@
+metric	value
+n_mural_cells	1144.0
+n_pericytes	41.0
+pct_mural_that_are_pericytes	3.58
+n_pericyte_donors	18.0
+n_pericyte_datasets	2.0
+n_datasets_supporting_pericyte_vs_smc	2.0
+pct_mural_in_single_largest_whole_lung_cluster	86.98
+n_human_pericytes_for_comparison	11680.0

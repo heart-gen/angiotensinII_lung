@@ -1,0 +1,2 @@
+test	n_cells	n_donors	n_datasets	estimate	se	df	p_value	emmean_stabilizing	emmean_injury
+categorical_injury_vs_stabilizing (lmer, +1|donor, dataset fixed)	1144	53	4	-0.178096350748337	0.0508362275994779	1089.32000526271	0.000478116582768831	1.10597403317408	0.927877682425739

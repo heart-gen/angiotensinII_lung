@@ -33,6 +33,14 @@ STATE_PANELS_MOUSE = {
     "synthetic_contractile": ["Acta2", "Myh11", "Tagln", "Cnn1", "Myl9", "Des", "Vim"],
     "activated_migratory": ["Adamts1", "Thbs1", "Timp1", "Mmp2", "Mmp3", "Serpine1", "Postn"],
     "fibroblast_like": ["Col1a1", "Col1a2", "Col3a1", "Col4a1", "Fn1", "Lum", "Dcn", "Pdgfa"],
+    # Basement-membrane deposition, mirroring the human panel in
+    # basement_membrane/_h/bm_panels.py (all 13 orthologs are 1:1 and are present
+    # in mouse_lung.h5ad). Kept separate from fibroblast_like because the two
+    # matrices are biologically distinct and, in human, near-orthogonal once the
+    # shared Col4a1 is removed.
+    "basement_membrane": ["Col4a1", "Col4a2", "Col18a1", "Lama3", "Lama4",
+                          "Lama5", "Lamb1", "Lamb2", "Lamc1", "Nid1", "Nid2",
+                          "Hspg2", "Agrn"],
 }
 RECEPTORS = ["Agtr1a", "Agtr1b", "Agtr2"]
 

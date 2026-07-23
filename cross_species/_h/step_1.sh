@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=GPU-shared
 #SBATCH --gpus=v100-32:1
 #SBATCH --job-name=mouse_integrate

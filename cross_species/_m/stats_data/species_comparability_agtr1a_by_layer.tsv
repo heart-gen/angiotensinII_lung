@@ -1,0 +1,19 @@
+cell_type	n	mean	detect	gene	layer
+pericyte	41	1.582574	0.7560975609756098	Agtr1a	lognorm
+smooth muscle cell of the pulmonary artery	87	0.0	0.0	Agtr1a	lognorm
+vascular associated smooth muscle cell	1016	0.10501045	0.0797244094488189	Agtr1a	lognorm
+pericyte	41	3.4210033	1.0	Agtr1a	scvi_corrected
+smooth muscle cell of the pulmonary artery	87	0.14665854	1.0	Agtr1a	scvi_corrected
+vascular associated smooth muscle cell	1016	0.87190425	1.0	Agtr1a	scvi_corrected
+pericyte	41	0.0	0.0	Agtr1b	lognorm
+smooth muscle cell of the pulmonary artery	87	0.0	0.0	Agtr1b	lognorm
+vascular associated smooth muscle cell	1016	0.0020504124	0.001968503937007874	Agtr1b	lognorm
+pericyte	41	0.002871948	1.0	Agtr1b	scvi_corrected
+smooth muscle cell of the pulmonary artery	87	0.033581544	1.0	Agtr1b	scvi_corrected
+vascular associated smooth muscle cell	1016	0.048690613	1.0	Agtr1b	scvi_corrected
+pericyte	41	0.0	0.0	Agtr2	lognorm
+smooth muscle cell of the pulmonary artery	87	0.0	0.0	Agtr2	lognorm
+vascular associated smooth muscle cell	1016	0.0055348775	0.005905511811023622	Agtr2	lognorm
+pericyte	41	0.00945324	1.0	Agtr2	scvi_corrected
+smooth muscle cell of the pulmonary artery	87	0.3165587	1.0	Agtr2	scvi_corrected
+vascular associated smooth muscle cell	1016	0.04409211	1.0	Agtr2	scvi_corrected

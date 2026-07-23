@@ -1,0 +1,25 @@
+cell_type	n	mean	detect	gene	layer	dataset_id
+pericyte	25	1.2669371	0.64	Agtr1a	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.0	0.0	Agtr1a	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	2.0757565	0.9375	Agtr1a	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.0	0.0	Agtr1a	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+pericyte	25	3.4716768	1.0	Agtr1a	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.1814647	1.0	Agtr1a	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	3.3418257	1.0	Agtr1a	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.11264343	1.0	Agtr1a	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
+pericyte	25	0.0	0.0	Agtr1b	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.0	0.0	Agtr1b	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	0.0	0.0	Agtr1b	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.0	0.0	Agtr1b	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+pericyte	25	0.003811224	1.0	Agtr1b	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.03981711	1.0	Agtr1b	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	0.0014043299	1.0	Agtr1b	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.02748769	1.0	Agtr1b	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
+pericyte	25	0.0	0.0	Agtr2	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.0	0.0	Agtr2	lognorm	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	0.0	0.0	Agtr2	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.0	0.0	Agtr2	lognorm	98e5ea9f-16d6-47ec-a529-686e76515e39
+pericyte	25	0.014355876	1.0	Agtr2	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+smooth muscle cell of the pulmonary artery	43	0.1456952	1.0	Agtr2	scvi_corrected	48b37086-25f7-4ecd-be66-f5bb378e3aea
+pericyte	16	0.0017928717	1.0	Agtr2	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
+smooth muscle cell of the pulmonary artery	44	0.48353893	1.0	Agtr2	scvi_corrected	98e5ea9f-16d6-47ec-a529-686e76515e39
