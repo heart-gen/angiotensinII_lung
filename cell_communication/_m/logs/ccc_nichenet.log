@@ -1,14 +1,14 @@
-2026-07-21 23:09:50 - **** Job starts ****
-Job id: 42501989
-Hostname: r004
+2026-07-23 08:32:28 - **** Job starts ****
+Job id: 42554447
+Hostname: r001
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-21 23:09:51 - **** Loading mamba environment ****
-2026-07-21 23:09:53 - **** NicheNet: main (all pericytes + AGTR2-detectable AT2) ****
+2026-07-23 08:32:29 - **** Loading mamba environment ****
+2026-07-23 08:32:31 - **** NicheNet: main (all pericytes + AGTR2-detectable AT2) ****
 Warning message:
 replacing previous import 'e1071::element' by 'ggplot2::element' when loading 'nichenetr' 
 === NicheNet receiver: Pericytes ===
@@ -28,7 +28,7 @@ i The deprecated feature was likely used in the nichenetr package.
   Please report the issue at <https://github.com/saeyslab/nichenetr/issues>. 
 
 Reproducibility information:
-[1] "2026-07-21 23:11:30 EDT"
+[1] "2026-07-23 08:34:09 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -39,7 +39,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-21
+ date     2026-07-23
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/ (via rmarkdown)
  quarto   NA
 
@@ -225,21 +225,18 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-21 23:11:30 - **** NicheNet: state-stratified pericyte receivers ****
+2026-07-23 08:34:09 - **** NicheNet: state-stratified pericyte receivers ****
 Warning message:
 replacing previous import 'e1071::element' by 'ggplot2::element' when loading 'nichenetr' 
 === NicheNet receiver: Pericyte_vascular_stabilizing ===
   geneset_oi (expressed target-program genes): 34
   potential ligands: 311
-=== NicheNet receiver: Pericyte_inflammatory ===
-  receiver has too few expressed genes; skipping
-=== NicheNet receiver: Pericyte_synthetic_contractile ===
-  receiver has too few expressed genes; skipping
+=== NicheNet receiver: Pericyte_basement_membrane ===
+  geneset_oi (expressed target-program genes): 27
+  potential ligands: 328
 === NicheNet receiver: Pericyte_activated_migratory ===
   geneset_oi (expressed target-program genes): 32
   potential ligands: 310
-=== NicheNet receiver: Pericyte_fibroblast_like ===
-  receiver has too few expressed genes; skipping
 Warning messages:
 1: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 i Please use `linewidth` instead.
@@ -251,7 +248,7 @@ i The deprecated feature was likely used in the nichenetr package.
   Please report the issue at <https://github.com/saeyslab/nichenetr/issues>. 
 
 Reproducibility information:
-[1] "2026-07-21 23:12:21 EDT"
+[1] "2026-07-23 08:35:13 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -262,7 +259,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-21
+ date     2026-07-23
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/ (via rmarkdown)
  quarto   NA
 
@@ -448,4 +445,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-21 23:12:21 - **** Job ends ****
+2026-07-23 08:35:14 - **** Job ends ****

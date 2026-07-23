@@ -1,19 +1,17 @@
-2026-07-22 11:36:29 - **** Job starts ****
-Job id: 42538664
-Hostname: r228
+2026-07-23 08:03:54 - **** Job starts ****
+Job id: 42554381
+Hostname: r032
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-22 11:36:30 - **** Loading mamba environment ****
-2026-07-22 11:36:30 - **** Add CoGAPS receiver scheme (nPatterns=5) ****
-2026-07-22 11:39:56,381 [INFO] CoGAPS patterns: 11680 cells x 5 patterns
-2026-07-22 11:39:56,785 [INFO] Pattern -> program: {'Pattern_1': 'basement_membrane', 'Pattern_2': 'inflammatory', 'Pattern_3': 'synthetic_contractile', 'Pattern_4': 'basement_membrane', 'Pattern_5': 'basement_membrane'}
-2026-07-22 11:40:24,616 [INFO] CoGAPS label matched 8347/8347 niche pericytes (100.0%)
-... storing 'cogaps_dominant_pattern' as categorical
-2026-07-22 11:40:41,149 [INFO] Wrote ccc_group_cogaps into ccc_niche.h5ad; receivers: ['Pericyte_cg_basement_membrane', 'Pericyte_cg_inflammatory', 'Pericyte_cg_synthetic_contractile']
+2026-07-23 08:03:55 - **** Loading mamba environment ****
+2026-07-23 08:03:56 - **** CoGAPS receiver annotation, sensitivity nPatterns=9 (annotation only) ****
+2026-07-23 08:06:39,782 [INFO] CoGAPS patterns: 11680 cells x 9 patterns
+2026-07-23 08:06:39,975 [INFO] Pattern -> program: {'Pattern_1': 'basement_membrane', 'Pattern_2': 'inflammatory', 'Pattern_3': 'inflammatory', 'Pattern_4': 'basement_membrane', 'Pattern_5': 'synthetic_contractile', 'Pattern_6': 'fibroblast_like', 'Pattern_7': 'fibroblast_like', 'Pattern_8': 'vascular_stabilizing', 'Pattern_9': 'basement_membrane'}
+2026-07-23 08:06:40,094 [INFO] --write-h5ad false: wrote annotation only for nP=9; ccc_niche.h5ad left untouched.
 -----
 numpy               2.1.3
 pandas              2.3.2
@@ -23,11 +21,27 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-22 11:40
-2026-07-22 11:41:01 - **** Disease-stratified liana into CoGAPS receivers ****
+Session information updated at 2026-07-23 08:06
+2026-07-23 08:06:53 - **** Add CoGAPS receiver scheme, main nPatterns=8 ****
+2026-07-23 08:06:58,615 [INFO] CoGAPS patterns: 11680 cells x 8 patterns
+2026-07-23 08:06:58,644 [INFO] Pattern -> program: {'Pattern_1': 'inflammatory', 'Pattern_2': 'basement_membrane', 'Pattern_3': 'inflammatory', 'Pattern_4': 'fibroblast_like', 'Pattern_5': 'synthetic_contractile', 'Pattern_6': 'fibroblast_like', 'Pattern_7': 'vascular_stabilizing', 'Pattern_8': 'basement_membrane'}
+2026-07-23 08:07:19,274 [INFO] CoGAPS label matched 8347/8347 niche pericytes (100.0%)
+... storing 'cogaps_dominant_pattern' as categorical
+2026-07-23 08:07:34,600 [INFO] Wrote ccc_group_cogaps into ccc_niche.h5ad; receivers: ['Pericyte_cg_basement_membrane', 'Pericyte_cg_fibroblast_like', 'Pericyte_cg_inflammatory', 'Pericyte_cg_synthetic_contractile', 'Pericyte_cg_vascular_stabilizing']
+-----
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-07-23 08:07
+2026-07-23 08:07:35 - **** Disease-stratified liana into CoGAPS receivers (main nP=8) ****
 Niche: (423007, 55329)
 ==== scheme=cogaps (group_key=ccc_group_cogaps) ====
-Saved expressed fractions -> expressed_fraction_cogaps.tsv.gz: (19380, 24)
+Saved expressed fractions -> expressed_fraction_cogaps.tsv.gz: (19483, 26)
 [cogaps/COPD] running liana on 14494 cells
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/anndata.py:381: FutureWarning: The dtype argument is deprecated and will be removed in late 2024.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:146: ImplicitModificationWarning: Trying to modify attribute `.obs` of view, initializing view as actual.
@@ -52,15 +66,11 @@ Saved expressed fractions -> expressed_fraction_cogaps.tsv.gz: (19380, 24)
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/_pipe_utils/_pre.py:149: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
-[cogaps] receivers: ['AT2_AGTR2det', 'Pericyte_cg_synthetic_contractile', 'AT2_AGTR2undet', 'Pericyte_cg_inflammatory', 'Pericyte_cg_basement_membrane']
+[cogaps] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_cg_inflammatory', 'Pericyte_cg_fibroblast_like', 'Pericyte_cg_vascular_stabilizing', 'Pericyte_cg_synthetic_contractile', 'Pericyte_cg_basement_membrane']
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.png
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.pdf
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
-/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.png
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2undet.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
@@ -69,6 +79,18 @@ Saved expressed fractions -> expressed_fraction_cogaps.tsv.gz: (19380, 24)
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_inflammatory.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_inflammatory.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_fibroblast_like.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_fibroblast_like.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_vascular_stabilizing.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_vascular_stabilizing.png
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.pdf
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_synthetic_contractile.png
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_Pericyte_cg_basement_membrane.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
@@ -83,5 +105,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-22 11:55
-2026-07-22 11:55:15 - **** Job ends ****
+Session information updated at 2026-07-23 08:22
+2026-07-23 08:22:08 - **** Job ends ****

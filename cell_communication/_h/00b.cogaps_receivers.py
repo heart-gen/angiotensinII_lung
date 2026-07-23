@@ -45,8 +45,16 @@ def parse_args():
     p.add_argument("--npatterns", type=int, required=True)
     p.add_argument("--min-rho", type=float, default=0.15,
                    help="Min positive Spearman rho to name a pattern by a program")
+    p.add_argument("--write-h5ad", default="true",
+                   help="If false, only write the annotation table and leave "
+                        "ccc_niche.h5ad untouched (use for sensitivity ranks so the "
+                        "main receiver scheme in the h5ad is not overwritten).")
     p.add_argument("--outdir", required=True, type=Path)
     return p.parse_args()
+
+
+def _str2bool(s):
+    return str(s).strip().lower() in ("1", "true", "yes", "y", "t")
 
 
 def annotate_patterns(score_path, pattern_names, min_rho):
@@ -99,6 +107,12 @@ def main():
     pd.DataFrame(rows).to_csv(
         args.outdir / f"cogaps_receiver_annotation_np{args.npatterns}.tsv",
         sep="\t", index=False)
+
+    if not _str2bool(args.write_h5ad):
+        logging.info(f"--write-h5ad false: wrote annotation only for "
+                     f"nP={args.npatterns}; ccc_niche.h5ad left untouched.")
+        session_info.show()
+        return
 
     adata = sc.read_h5ad(args.niche)
     base = adata.obs["ccc_group"].astype(str).to_numpy().copy()

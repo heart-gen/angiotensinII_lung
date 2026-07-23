@@ -2,10 +2,10 @@
 Program x protein-category enrichment for the pericyte marker panel.
 
 Replaces the (uninformative) state->category->role alluvial flow with a
-quantitative program x protein-category readout. For each pericyte the five
+quantitative program x protein-category readout. For each pericyte the six
 continuous program scores are z-scored across cells and the dominant program is
 taken by argmax (the same relative-enrichment logic used to annotate the stable
-clusters in pericyte_states/00.state_discovery.py); this keeps all FIVE programs
+clusters in pericyte_states/00.state_discovery.py); this keeps all SIX programs
 as groups (the discrete clustering only yields three). We then compute, per
 program group, the mean fraction of cells expressing each marker, aggregated to
 the eight protein categories. A second table gives per-gene detection by program
@@ -70,6 +70,7 @@ PROGRAM_SCORES = {
     "synthetic_contractile": "synthetic_contractile_score",
     "activated_migratory": "activated_migratory_score",
     "fibroblast_like": "fibroblast_like_score",
+    "basement_membrane": "basement_membrane_score",
 }
 
 

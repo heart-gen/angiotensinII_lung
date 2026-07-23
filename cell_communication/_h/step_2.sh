@@ -29,10 +29,15 @@ Rscript ../_h/02.nichenet.R \
 if [ $? -ne 0 ]; then log_message "Error: NicheNet main failed"; exit 1; fi
 
 log_message "**** NicheNet: state-stratified pericyte receivers ****"
+## The stable clusters resolve to only THREE dominant state programs
+## (state_program: vascular_stabilizing, basement_membrane, activated_migratory).
+## The old list named inflammatory / synthetic_contractile / fibroblast_like, none
+## of which is a resolved state, and omitted basement_membrane (36% of pericytes);
+## match the receiver labels actually present in expressed_fraction_state.tsv.gz.
 Rscript ../_h/02.nichenet.R \
         --priors ../_m/nichenet_priors --liana-dir ../_m \
         --frac-file expressed_fraction_state.tsv.gz \
-        --receivers Pericyte_vascular_stabilizing,Pericyte_inflammatory,Pericyte_synthetic_contractile,Pericyte_activated_migratory,Pericyte_fibroblast_like \
+        --receivers Pericyte_vascular_stabilizing,Pericyte_basement_membrane,Pericyte_activated_migratory \
         --outdir ../_m/nichenet_state
 if [ $? -ne 0 ]; then log_message "Error: NicheNet state failed"; exit 1; fi
 conda deactivate
