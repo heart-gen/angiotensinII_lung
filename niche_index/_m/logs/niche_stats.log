@@ -1,12 +1,12 @@
-2026-06-16 09:16:26 - **** Job starts ****
-Job id: 41454297
+2026-07-21 17:39:16 - **** Job starts ****
+Job id: 42496659
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 09:16:28 - **** Niche-index disease statistics ****
+2026-07-21 17:39:21 - **** Niche-index disease statistics ****
 donors: 69 
 
      Healthy Fibrotic_ILD        Other 
@@ -17,7 +17,7 @@ NOTE: A lower niche-index / higher injury-stromal score in fibrotic/ILD
  pericyte-loss phenotype rescued by losartan (AT1 blockade).
 
 Reproducibility information:
-[1] "2026-06-16 09:16:32 EDT"
+[1] "2026-07-21 17:39:32 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -28,7 +28,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-06-16
+ date     2026-07-21
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -89,4 +89,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-06-16 09:16:32 - **** Job ends ****
+2026-07-21 17:39:33 - **** Job ends ****

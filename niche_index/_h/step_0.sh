@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=RM-small
 #SBATCH --job-name=niche_index
 #SBATCH --mail-type=FAIL

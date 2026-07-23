@@ -1,11 +1,11 @@
-2026-06-16 09:15:48 - **** Job starts ****
-Job id: 41454296
+2026-07-21 17:38:38 - **** Job starts ****
+Job id: 42496658
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-06-16 09:15:49 - **** Build donor-level niche index ****
-2026-06-16 09:16:11,263 [INFO] Wrote niche index for 69 donors
-2026-06-16 09:16:12 - **** Job ends ****
+2026-07-21 17:38:39 - **** Build donor-level niche index ****
+2026-07-21 17:38:57,379 [INFO] Wrote niche index for 69 donors
+2026-07-21 17:38:58 - **** Job ends ****
