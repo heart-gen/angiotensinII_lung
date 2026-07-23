@@ -1,0 +1,5 @@
+panel_a	panel_b	pearson_r
+basement_membrane	fibroblast_like	0.20857610404549162
+basement_membrane	fibroblast_like_noCOL4A1	0.0520362245723307
+basement_membrane	fibrillar_ecm	0.06752538625296789
+basement_membrane	vascular_stabilizing	-0.1527963976929973

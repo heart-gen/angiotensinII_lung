@@ -1,0 +1,7 @@
+pericyte_state	n_cells	program_5panel	program_6panel	flipped
+0	5864	vascular_stabilizing	vascular_stabilizing	False
+1	3630	fibroblast_like	basement_membrane	True
+2	1396	vascular_stabilizing	vascular_stabilizing	False
+3	457	fibroblast_like	basement_membrane	True
+4	220	activated_migratory	activated_migratory	False
+5	113	fibroblast_like	basement_membrane	True

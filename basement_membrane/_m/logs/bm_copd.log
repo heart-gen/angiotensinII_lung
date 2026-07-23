@@ -1,0 +1,177 @@
+2026-07-21 17:16:08 - **** Job starts ****
+User: kbenjamin
+Job id: 42495992
+Hostname: r027
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-21 17:16:08 - **** Donor x compartment pseudobulk (GSE136831) ****
+2026-07-21 17:17:12,773 [INFO] Opened ../../disease_association/ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
+2026-07-21 17:17:13,035 [INFO] Cells in mapped compartments: 19999
+2026-07-21 17:17:29,770 [INFO]   40000/312928 cells (4422 in map)
+2026-07-21 17:17:45,325 [INFO]   80000/312928 cells (2924 in map)
+2026-07-21 17:18:00,451 [INFO]   120000/312928 cells (4118 in map)
+2026-07-21 17:18:12,983 [INFO]   160000/312928 cells (1449 in map)
+2026-07-21 17:18:26,912 [INFO]   200000/312928 cells (934 in map)
+2026-07-21 17:18:38,227 [INFO]   240000/312928 cells (940 in map)
+2026-07-21 17:18:51,716 [INFO]   280000/312928 cells (2861 in map)
+2026-07-21 17:19:03,490 [INFO]   312928/312928 cells (2351 in map)
+2026-07-21 17:19:04,243 [INFO] built named pass
+2026-07-21 17:19:17,563 [INFO]   40000/312928 cells (525 in map)
+2026-07-21 17:19:28,902 [INFO]   80000/312928 cells (137 in map)
+2026-07-21 17:19:41,915 [INFO]   120000/312928 cells (109 in map)
+2026-07-21 17:19:55,115 [INFO]   160000/312928 cells (51 in map)
+2026-07-21 17:20:09,190 [INFO]   200000/312928 cells (7 in map)
+2026-07-21 17:20:21,882 [INFO]   240000/312928 cells (59 in map)
+2026-07-21 17:20:35,190 [INFO]   280000/312928 cells (350 in map)
+2026-07-21 17:20:47,398 [INFO]   312928/312928 cells (138 in map)
+2026-07-21 17:20:47,846 [INFO] built mural pass
+2026-07-21 17:20:48,399 [INFO] demographics matched for 536/536 units
+2026-07-21 17:20:48,651 [INFO] Wrote gse136831_bm_pseudobulk.tsv.gz: (536, 60)
+2026-07-21 17:20:48,777 [INFO] 
+Donors per compartment at >=5 cells:
+disease        COPD  Control  IPF
+compartment                      
+ATI              15       15    9
+ATII             14       17   15
+Endothelial      17       25   31
+Fibroblast       15       17   28
+Mural             9        6   21
+Myofibroblast    14       12   28
+Pericyte          6        1   15
+SMC               7        5   16
+2026-07-21 17:20:48,829 [INFO] 
+Donors per compartment at >=10 cells:
+disease        COPD  Control  IPF
+compartment                      
+ATI              13       10    6
+ATII             13       16   13
+Endothelial      16       23   31
+Fibroblast       10       15   26
+Mural             7        2   15
+Myofibroblast    10        9   24
+Pericyte          2        0   11
+SMC               3        2   11
+2026-07-21 17:20:48,832 [INFO] 
+Donors per compartment at >=20 cells:
+disease        COPD  Control  IPF
+compartment                      
+ATI               6        7    2
+ATII             11       13    7
+Endothelial      15       19   28
+Fibroblast        8       10   21
+Mural             3        1   11
+Myofibroblast     7        2   17
+Pericyte          0        0    6
+SMC               0        1    8
+-----
+anndata             0.11.4
+numpy               2.1.3
+pandas              2.3.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-07-21 17:20
+2026-07-21 17:21:06 - **** COPD basement-membrane contrast ****
+Donors per compartment (>= 5 cells):
+Key: <compartment>
+     compartment Control  COPD   IPF
+          <char>   <int> <int> <int>
+1:           ATI      15    15     9
+2:          ATII      17    14    15
+3:   Endothelial      25    17    31
+4:    Fibroblast      17    15    28
+5:         Mural       6     9    21
+6: Myofibroblast      12    14    28
+7:      Pericyte       1     6    15
+8:           SMC       5     7    16
+Powered compartments (>=5 donors on both arms): ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC
+Primary family: 14 COPD-vs-Control tests across 7 compartments
+COPD basement-membrane contrast (GSE136831) -- generated summary
+Per-donor cell floor: 5
+
+Donors per compartment x disease:
+Key: <compartment>
+     compartment Control  COPD   IPF
+          <char>   <int> <int> <int>
+1:           ATI      15    15     9
+2:          ATII      17    14    15
+3:   Endothelial      25    17    31
+4:    Fibroblast      17    15    28
+5:         Mural       6     9    21
+6: Myofibroblast      12    14    28
+7:      Pericyte       1     6    15
+8:           SMC       5     7    16
+
+Powered compartments (>=5 donors both arms): ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC
+Primary family: LAMB1+LAMA4 x 7 compartments = 14 COPD-vs-Control tests
+
+PERICYTES: NOT ESTIMABLE for COPD vs Control -- descriptive only, no p-value.
+       gene n_donors_control n_donors_copd mde_log1p_cp10k estimable
+     <char>            <int>         <int>           <num>    <lgcl>
+ 1:  COL4A1                1             6              NA     FALSE
+ 2:  COL4A2                1             6              NA     FALSE
+ 3: COL18A1                1             6              NA     FALSE
+ 4:   LAMA3                1             6              NA     FALSE
+ 5:   LAMA4                1             6              NA     FALSE
+ 6:   LAMA5                1             6              NA     FALSE
+ 7:   LAMB1                1             6              NA     FALSE
+ 8:   LAMB2                1             6              NA     FALSE
+ 9:   LAMC1                1             6              NA     FALSE
+10:    NID1                1             6              NA     FALSE
+11:    NID2                1             6              NA     FALSE
+12:   HSPG2                1             6              NA     FALSE
+13:    AGRN                1             6              NA     FALSE
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-21
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version  date (UTC) lib source
+ cli            3.6.5    2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1 2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8   2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4    2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1    2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1    2024-05-12 [1] CRAN (R 4.4.3)
+ generics       0.1.4    2025-05-09 [1] CRAN (R 4.4.3)
+ getopt         1.20.4   2023-10-01 [1] CRAN (R 4.4.3)
+ glue           1.8.0    2024-09-30 [1] CRAN (R 4.4.1)
+ lattice        0.22-7   2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4    2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4    2025-09-12 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3    2025-01-10 [1] CRAN (R 4.4.3)
+ optparse     * 1.7.5    2024-04-16 [1] CRAN (R 4.4.3)
+ pillar         1.11.1   2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3    2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3    1.8.2    2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1   2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0   2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1    2025-02-15 [1] CRAN (R 4.4.2)
+ rlang          1.1.6    2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3    2025-02-05 [1] CRAN (R 4.4.3)
+ tibble         3.3.0    2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect     1.2.1    2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5    2023-12-01 [1] CRAN (R 4.4.1)
+ xtable         1.8-4    2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-21 17:21:22 - **** Job ends ****

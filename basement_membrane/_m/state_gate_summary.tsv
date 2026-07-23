@@ -1,0 +1,2 @@
+n_cells	n_clusters	metric_A_pct_cells_changed	metric_B_n_clusters_flipped	clusters_flipped	escalate_threshold_pct	escalate	verdict
+11680	6	35.9589	3	1,3,5	5.0	True	ESCALATE: adopt 6-panel model as canonical and re-run downstream modules

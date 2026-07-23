@@ -1,0 +1,83 @@
+2026-07-21 17:02:44 - **** Job starts ****
+2026-07-21 17:02:44 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 42495697
+Job name: bm_selectivity
+Node name: 
+Hostname: r260
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-21 17:02:44 - **** Donor x cell-type pseudobulk over the CCC niche ****
+2026-07-21 17:04:29,030 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
+2026-07-21 17:04:43,246 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
+2026-07-21 17:04:43,249 [INFO] Aggregating 25/25 genes
+2026-07-21 17:04:44,546 [INFO]   aggregated 20000/423007 cells
+2026-07-21 17:04:45,474 [INFO]   aggregated 40000/423007 cells
+2026-07-21 17:04:46,284 [INFO]   aggregated 60000/423007 cells
+2026-07-21 17:04:47,077 [INFO]   aggregated 80000/423007 cells
+2026-07-21 17:04:47,766 [INFO]   aggregated 100000/423007 cells
+2026-07-21 17:04:48,588 [INFO]   aggregated 120000/423007 cells
+2026-07-21 17:04:49,360 [INFO]   aggregated 140000/423007 cells
+2026-07-21 17:04:50,060 [INFO]   aggregated 160000/423007 cells
+2026-07-21 17:04:50,978 [INFO]   aggregated 180000/423007 cells
+2026-07-21 17:04:51,738 [INFO]   aggregated 200000/423007 cells
+2026-07-21 17:04:52,518 [INFO]   aggregated 220000/423007 cells
+2026-07-21 17:04:53,445 [INFO]   aggregated 240000/423007 cells
+2026-07-21 17:04:54,213 [INFO]   aggregated 260000/423007 cells
+2026-07-21 17:04:55,241 [INFO]   aggregated 280000/423007 cells
+2026-07-21 17:04:56,218 [INFO]   aggregated 300000/423007 cells
+2026-07-21 17:04:57,030 [INFO]   aggregated 320000/423007 cells
+2026-07-21 17:04:57,780 [INFO]   aggregated 340000/423007 cells
+2026-07-21 17:04:58,537 [INFO]   aggregated 360000/423007 cells
+2026-07-21 17:04:59,371 [INFO]   aggregated 380000/423007 cells
+2026-07-21 17:05:00,060 [INFO]   aggregated 400000/423007 cells
+2026-07-21 17:05:00,746 [INFO]   aggregated 420000/423007 cells
+2026-07-21 17:05:00,838 [INFO]   aggregated 423007/423007 cells
+2026-07-21 17:05:02,219 [INFO] Wrote bm_pseudobulk_celltype.tsv.gz: 5811 units x 57 cols
+2026-07-21 17:05:02,455 [INFO] Units per group (n_cells >= 5):
+ccc_group
+DC2                          353
+Interstitial macrophages     344
+Classical monocytes          339
+Alveolar macrophages         338
+Non-classical monocytes      264
+AT2_AGTR2undet               257
+Mast cells                   238
+Lymphatic EC                 203
+Transitional Club-AT2        203
+EC general capillary         199
+AT1                          196
+EC venous systemic           190
+Adventitial fibroblasts      184
+Alveolar fibroblasts         176
+Vascular smooth muscle       168
+EC venous pulmonary          158
+EC aerocyte capillary        137
+Peribronchial fibroblasts    133
+AT2_AGTR2det                 118
+Pericytes                    105
+Myofibroblasts                61
+Subpleural fibroblasts        12
+-----
+anndata             0.11.4
+numpy               2.1.3
+pandas              2.3.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-07-21 17:05
+2026-07-21 17:05:19 - **** Cross-cell-type basement-membrane selectivity ****
+Units with >= 5 cells: 4376
+Primary cohort: 2329 units, 22 cell types, 220 donors
+Modelling 23 genes
+Error in `[.data.table`(d, is.finite(y_z)) : 
+  Column 60 is NULL; malformed data.table.
+Calls: rbindlist -> lapply -> FUN -> [ -> [.data.table
+Execution halted
+2026-07-21 17:05:42 - Error: R execution failed
