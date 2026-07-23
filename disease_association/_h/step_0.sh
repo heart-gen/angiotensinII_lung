@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=EM
 #SBATCH --job-name=gen_ref
 #SBATCH --mail-type=FAIL
