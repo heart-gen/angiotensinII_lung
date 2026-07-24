@@ -1,0 +1,2 @@
+response	n	n_healthy	n_fibrotic	beta_fib_minus_healthy	se	df	t	p	contrast_estimate	contrast_p	covars	model
+injury_program_score	66	42	24	0.727854809057206	0.237843123072306	61.1380306509348	3.0602306245194	0.00328252198775528	-0.727854809057206	0.00416783677512454	sex	LMM (1|dataset)

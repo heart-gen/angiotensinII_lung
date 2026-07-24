@@ -1,0 +1,2 @@
+smoking-adjusted disease contrast NOT estimable (smoking missing/constant within a disease group)
+never-smoker-restricted contrast not estimable (too few never-smokers in a group)

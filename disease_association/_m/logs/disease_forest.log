@@ -1,0 +1,218 @@
+2026-07-24 10:40:25 - **** Job starts ****
+Job id: 42578279
+Hostname: r187
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+injury score columns:
+               inflammatory         activated_migratory 
+       "inflammatory_score" "activated_migratory_score" 
+            fibroblast_like 
+    "fibroblast_like_score" 
+stability score column: vascular_stabilizing_score 
+
+All donors with pericytes: 194
+
+     Healthy         COPD Fibrotic_ILD        Other 
+          91           12           57           34 
+
+After min-cells >= 10: 89 donors
+
+     Healthy         COPD Fibrotic_ILD        Other 
+          42            1           24           22 
+Warning message:
+In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+
+== PRIMARY: injury_program_score, Healthy vs Fibrotic/ILD (sex + study-adjusted LMM) ==
+               response     n n_healthy n_fibrotic beta_fib_minus_healthy
+                 <char> <int>     <int>      <int>                  <num>
+1: injury_program_score    66        42         24              0.7278548
+          se       df        t           p contrast_estimate  contrast_p covars
+       <num>    <num>    <num>       <num>             <num>       <num> <char>
+1: 0.2378431 61.13803 3.060231 0.003282522        -0.7278548 0.004167837    sex
+             model
+            <char>
+1: LMM (1|dataset)
+
+== SENSITIVITY: same endpoint, +age (age-complete subset) ==
+               response     n n_healthy n_fibrotic beta_fib_minus_healthy
+                 <char> <int>     <int>      <int>                  <num>
+1: injury_program_score    44        38          6              0.2230197
+          se       df         t         p contrast_estimate contrast_p  covars
+       <num>    <num>     <num>     <num>             <num>      <num>  <char>
+1: 0.3721691 35.78195 0.5992429 0.5527865        -0.2230197  0.5692634 age+sex
+             model
+            <char>
+1: LMM (1|dataset)
+
+== component effects (each program separately) ==
+                 response     n n_healthy n_fibrotic beta_fib_minus_healthy
+                   <char> <int>     <int>      <int>                  <num>
+1:         z_inflammatory    66        42         24             0.45680150
+2:  z_activated_migratory    66        42         24             0.73666952
+3:      z_fibroblast_like    66        42         24             1.00378450
+4: z_vascular_stabilizing    66        42         24             0.07624466
+          se       df         t           p contrast_estimate  contrast_p
+       <num>    <num>     <num>       <num>             <num>       <num>
+1: 0.2860027 60.73793 1.5971927 0.115412907       -0.45680150 0.124896847
+2: 0.3215686 61.99910 2.2908630 0.025383395       -0.73666952 0.030184881
+3: 0.3288070 41.14690 3.0528078 0.003962522       -1.00378450 0.005471802
+4: 0.2348867 52.40177 0.3246019 0.746774693       -0.07624466 0.750046222
+   covars           model
+   <char>          <char>
+1:    sex LMM (1|dataset)
+2:    sex LMM (1|dataset)
+3:    sex LMM (1|dataset)
+4:    sex LMM (1|dataset)
+
+Forest: 3 studies sampled BOTH groups (>= 2 each)
+                 dataset    nH    nF
+                  <fctr> <int> <int>
+1:         Sheppard_2020     3     5
+2: Banovich_Kropski_2020     8     7
+3:         Schiller_2020     3     2
+
+== random-effects pooled Fibrotic - Healthy (SD units) ==
+    estimate        se     ci_lo    ci_hi       tau2        Q    df    p_Q
+       <num>     <num>     <num>    <num>      <num>    <num> <num>  <num>
+1: 0.9018583 0.2209693 0.4687584 1.334958 0.04235666 2.665128     2 0.2638
+         I2     p_pooled
+      <num>        <num>
+1: 24.95671 4.477045e-05
+Warning message:
+`geom_errobarh()` was deprecated in ggplot2 4.0.0.
+i Please use the `orientation` argument of `geom_errorbar()` instead. 
+`height` was translated to `width`.
+`height` was translated to `width`.
+
+== smoking availability by disease group ==
+   disease_group     n n_known n_never n_ever
+          <fctr> <int>   <int>   <int>  <int>
+1:  Fibrotic_ILD    24       0       0      0
+2:       Healthy    42      21      11     10
+
+smoking-adjusted disease contrast NOT estimable given availability above.
+
+== within-Healthy smoking effect on the endpoint ==
+                        analysis     n beta_ever_minus_never        se
+                          <char> <int>                 <num>     <num>
+1: within-Healthy smoking effect    21            -0.1236779 0.1721696
+           p
+       <num>
+1: 0.4837318
+Warning messages:
+1: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+2: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+3: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+4: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+5: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+
+== min-cells threshold sweep (primary endpoint) ==
+       response     n n_healthy n_fibrotic beta_fib_minus_healthy        se
+         <char> <int>     <int>      <int>                  <num>     <num>
+1:  min_cells_5    66        42         24              0.7278548 0.2378431
+2: min_cells_10    66        42         24              0.7278548 0.2378431
+3: min_cells_15    55        36         19              0.8615856 0.2535775
+4: min_cells_20    49        32         17              0.8449930 0.2598310
+5: min_cells_30    43        28         15              0.9289587 0.2576661
+         df        t           p contrast_estimate  contrast_p covars
+      <num>    <num>       <num>             <num>       <num> <char>
+1: 61.13803 3.060231 0.003282522        -0.7278548 0.004167837    sex
+2: 61.13803 3.060231 0.003282522        -0.7278548 0.004167837    sex
+3: 43.21930 3.397721 0.001469481        -0.8615856 0.001806001    sex
+4: 38.52945 3.252087 0.002384416        -0.8449930 0.003020529    sex
+5: 32.83940 3.605281 0.001020382        -0.9289587 0.001386361    sex
+             model min_cells
+            <char>     <num>
+1: LMM (1|dataset)         5
+2: LMM (1|dataset)        10
+3: LMM (1|dataset)        15
+4: LMM (1|dataset)        20
+5: LMM (1|dataset)        30
+
+Reproducibility information:
+[1] "2026-07-24 10:41:10 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-24
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ backports      1.5.0      2024-05-23 [1] CRAN (R 4.4.3)
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ broom          1.0.10     2025-09-13 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3      2023-08-29 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ pbkrtest       0.5.5      2025-07-18 [1] CRAN (R 4.4.3)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0      2025-09-02 [1] CRAN (R 4.4.3)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1      2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4      2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2      2024-10-28 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-07-24 10:41:14 - **** Job ends ****
