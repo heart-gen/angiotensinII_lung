@@ -86,15 +86,37 @@ predicting the pericyte target-gene program; bars show AUPR (corrected). TGF-β�
 heatmap for the prioritized ligands (rows) and their top predicted pericyte target genes
 (columns); fill encodes NicheNet regulatory potential. **(C)** Dot plot of the fraction of cells
 expressing each prioritized ligand across the niche sender cell types (size and color = fraction
-expressing), identifying which neighboring populations supply each signal. **(D)** Cross-program
-specificity by projection: pericyte-learned CoGAPS expression patterns (de-novo-selected nP = 8,
-one row per pattern labelled by its assigned program) projected (projectR/OLS) onto a cell-type ×
-donor pseudobulk; fill = within-pattern *z* across cell types. The patterns that rank pericytes
-first are the **vascular-stabilizing and the two basement-membrane patterns** (the structural/
-support programs), whereas the fibrillar-matrix and inflammatory patterns are mirrored most
-strongly in bona-fide fibroblasts — the injury axes a subset of pericytes adopt are the same ones
-fibroblasts constitutively run. Abbreviations: CCC, cell–cell communication; AUPR, area under the
-precision–recall curve.
+expressing), identifying which neighboring populations supply each signal. **(D)** Donor-level,
+covariate-adjusted validation of the predicted signaling axis. Each point is a donor; the **sender
+ligand-composite score** (mean expression of the prioritized ligands across the niche sender cells)
+and the **whole-pericyte injury-response score** (the curated NicheNet target program; receiver =
+all pericytes, not a dropout-prone *AGTR1*⁺ split) were each residualized on dataset and disease
+group, and the residuals are plotted with a single fitted line and 95% CI (partial regression /
+Frisch–Waugh–Lovell). The sender→pericyte association persists after adjustment for study and
+disease (**adjusted β = 0.50, *P* = 0.001, *n* = 105 donors**; the estimate is the ligand-score
+coefficient from `lm(pericyte response ~ ligand score + dataset + disease group)`, equal to the
+plotted residual slope). Disease group and dataset are intentionally **not** encoded by color or
+shape, so the panel isolates the covariate-adjusted association. Abbreviations: CCC, cell–cell
+communication; AUPR, area under the precision–recall curve. The cross-program CoGAPS projection
+formerly shown as panel D is now `figureS_cogaps_transfer`.
+
+### `figureS_cogaps_transfer` — Ligand-program specificity and cross-program CoGAPS projection
+
+**Figure S.** Supporting evidence that the prioritized niche ligands act specifically on the
+pericyte injury program, and that the pericyte-learned expression programs are recovered across the
+niche. **(A)** NicheNet ligand-program specificity by gene-set permutation (companion to
+`cell_communication/_m/nichenet/nichenet_specificity_Pericytes.pdf`): for the top prioritized
+ligands, the observed corrected AUPR against the curated pericyte target program (filled points;
+red = Benjamini–Hochberg *P* < 0.05) is compared with a null of 1,000 random background gene sets
+of matched size (open grey point = null mean, whiskers = mean ± 2 SD). Ligands whose observed AUPR
+lies far in the right tail act specifically on the injury program rather than reflecting generic
+connectivity. **(B)** Cross-program specificity by projection: pericyte-learned CoGAPS expression
+patterns (de-novo-selected nP = 8, one row per pattern labelled by its assigned program) projected
+(projectR/OLS) onto a cell-type × donor pseudobulk; fill = within-pattern *z* across cell types.
+The patterns that rank pericytes first are the **vascular-stabilizing and the two basement-membrane
+patterns** (the structural/support programs), whereas the fibrillar-matrix and inflammatory
+patterns are mirrored most strongly in bona-fide fibroblasts — the injury axes a subset of
+pericytes adopt are the same ones fibroblasts constitutively run.
 
 ### `figure_mechanism_main` — Donor-level disease phenotype and the stabilizing↔injury continuum
 
@@ -116,6 +138,45 @@ and activated/migratory scores rise monotonically along the continuum (donor ρ 
 shows a weak positive trend (ρ ≈ 0.25). Assemble with the state UMAP,
 DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`. *n* = 32 donors (donor-level
 mixed-model marginal means; df = 31).
+
+### `figure_disease_main` — Pericyte injury-program engagement is elevated in fibrotic/ILD lung, consistently within studies
+
+**Figure.** Donor-level association between pulmonary fibrosis/interstitial lung disease and
+pericyte injury-program engagement, tested as a pre-specified Healthy-versus-Fibrotic/ILD contrast
+with study modeled explicitly (`disease_association/_h/03.disease_forest.R`). The endpoint is the
+donor-level **injury-program score**: the mean of the *z*-standardized donor means of the
+inflammatory, activated/migratory, and fibrillar fibroblast-like per-cell program scores
+(continuous; the basement-membrane program and the *AGTR1*⁺ fraction are deliberately excluded —
+basement membrane is vascular-support biology, and binary *AGTR1* detection is dropout-prone and
+would fold the focal receptor into the outcome). **(A)** Within-study random-effects
+meta-analysis. Each blue point is the Fibrotic/ILD − Healthy difference in the injury-program
+score (SD units) estimated **within a single study** that sampled both groups (≥ 2 donors per
+group after a ≥ 10-pericyte-per-donor filter); point area is proportional to inverse-variance
+weight and whiskers are 95% CIs. The orange diamond is the DerSimonian–Laird random-effects
+pooled estimate: **+0.90 SD (95% CI 0.47–1.33), *P* = 4.5×10⁻⁵, I² = 25 %** (low heterogeneity),
+carried by the two balanced cohorts (Banovich_Kropski_2020, Sheppard_2020). Because the contrast
+is estimated within study, the effect cannot be a between-study batch artifact. **(B)** Program
+specificity. Component-wise Fibrotic/ILD − Healthy effect for each program score (sex + study
+donor-level linear mixed model, `~ disease_group + sex + (1 | dataset)`; points = coefficients,
+whiskers = 95 % CI; asterisk = *P* < 0.05). The composite is driven by the **fibrillar
+fibroblast-like** program (**+1.00 SD, *P* = 0.004**) and the **activated/migratory** program
+(**+0.74 SD, *P* = 0.03**); the inflammatory program is positive but not significant (+0.46 SD,
+*P* = 0.12) and the **vascular-stabilizing** program is flat (+0.08 SD, *P* = 0.75) — a targeted
+fibrogenic shift, not a global rescaling. **(C)** Donor-level injury-program score by disease
+group; each point is a donor (blue = Healthy, orange = Fibrotic/ILD), the black point and whisker
+are the **sex + study-adjusted marginal mean ± 95 % CI**, and the bracket shows the pre-specified
+primary contrast: **+0.73 SD, *P* = 0.003** (*n* = 66 donors; 42 Healthy, 24 Fibrotic/ILD).
+**Statistical notes / limitations** (see `MECHANISM_ANALYSES.md`): the effect is robust across
+pericyte-count thresholds (min-cells 10–30, all *P* < 0.005); **age was not adjusted** in the
+primary model because it is missing for 18/24 fibrotic donors (forcing it collapses the case group
+to *n* = 6 and the direction is preserved but underpowered, +0.22 SD, *P* = 0.55); **smoking-adjusted
+disease contrasts are not estimable** (smoking is unrecorded for all 24 fibrotic donors), and within
+healthy donors smoking does not move the endpoint (ever − never = −0.12 SD, *P* = 0.48), so it is
+not a hidden driver; COPD and other/COVID donors are excluded from the primary contrast. The
+association is therefore reported as a cross-sectional, cohort-anchored transcriptional correlate
+of disease, not evidence of pericyte loss or causal progression. **This figure supersedes the
+donor-level disease panels (A, B) of `figure_mechanism_main`**, which used a pooled composite
+ANCOVA whose only significant contrast was the off-target Healthy-versus-"Other" comparison.
 
 ### `figureS_alluvial` — Stable subclusters → dominant program → effector class
 

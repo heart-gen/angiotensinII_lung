@@ -172,7 +172,7 @@ acta2_f <- file.path(SD, "acta2_by_program_emmeans.tsv")
 agtr1_f <- file.path(SD, "agtr1_lenses_by_program_emmeans.tsv")
 cor_f   <- file.path(SD, "acta2_control_correlations.tsv")
 if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
-    PROG_LEVELS <- c("vascular_stabilizing", "fibroblast_like", "activated_migratory")
+    PROG_LEVELS <- c("vascular_stabilizing", "basement_membrane", "activated_migratory")
     READOUT_LABS <- c(ACTA2_expr = "ACTA2 (raw)", AGTR1_expr = "AGTR1 (raw)",
                       AGTR1_scvi = "AGTR1 (denoised)")
     READOUT_COL  <- c("ACTA2 (raw)" = "#009E73", "AGTR1 (raw)" = "#56B4E9",
@@ -548,68 +548,115 @@ if (all(file.exists(c(la_f, lt_f, fr_f)))) {
               legend.position = "right", legend.key.size = unit(3, "mm"),
               legend.title = element_text(size = 6))
 
-    ## cD: projectR transfer -- pericyte-learned CoGAPS patterns projected onto
-    ## the niche (cell-type x donor pseudobulk). One row per PATTERN (not per
-    ## program): the re-projection collapses several patterns onto the same
-    ## dominant program (multiple basement_membrane patterns; the mural axis is a
-    ## single merged stabilizing+contractile pattern), so rows are labelled
-    ## "Program (Pn)". Cell types (columns) are ordered by the fibrillar/disease
-    ## pattern -- the pattern most correlated with the fibroblast_like axis -- so
-    ## bona-fide fibroblasts sort to the high end and mural patterns stay
-    ## mural-compartment-specific. nP=8 is the de-novo-selected MAIN rank
-    ## (cogaps_nP_selection.tsv; nP=9 is the sensitivity rank).
-    pp_f  <- P("pericyte_cogaps", "_m", "projected_pattern_by_celltype_np8.tsv")
-    ann_f <- P("cell_communication", "_m", "cogaps_receiver_annotation_np8.tsv")
+    ## cD: donor-level, covariate-adjusted validation of the NicheNet prediction.
+    ## Residualize BOTH the sender ligand-composite score and the whole-pericyte
+    ## injury-response score on dataset + disease group, then plot the residuals
+    ## (partial regression / Frisch-Waugh-Lovell) with a SINGLE fitted line + 95% CI.
+    ## Deliberately single-colour with no disease/dataset encoding: the panel shows
+    ## the sender->receiver association that survives study and disease adjustment.
+    ## The annotated estimate/P is the sender_ligand_mean coefficient from
+    ## lm(receiver ~ sender + dataset + disease_group) (equals the residual slope).
+    dv_f <- P("cell_communication", "_m", "donor_validation_table.tsv.gz")
     cD <- NULL
-    if (file.exists(pp_f) && file.exists(ann_f)) {
-        pp <- fread(pp_f)
-        a  <- fread(ann_f)
-        nice <- c(vascular_stabilizing = "Vascular-stabilizing",
-                  synthetic_contractile = "Synthetic/contractile",
-                  inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-                  activated_migratory = "Activated/migratory",
-                  basement_membrane = "Basement-membrane")
-        pats <- intersect(a$pattern, names(pp))
-        a    <- a[match(pats, a$pattern)]
-        mat  <- as.matrix(pp[, ..pats]); rownames(mat) <- pp$cell_type
-        z    <- scale(mat)                          # z within pattern (across cell types)
-        ## fibrillar/disease anchor = pattern most aligned with the fibroblast_like
-        ## axis (robust to unstable pattern numbering across re-runs).
-        anchor   <- a$pattern[which.max(a$rho_fibroblast_like)]
-        ct_order <- rownames(z)[order(z[, anchor], decreasing = TRUE)]
-        ## y-axis order: BM group first (holds the anchor), then contractile,
-        ## inflammatory, etc.; anchor leads its group, else by descending self-rho.
-        prog_pri <- c("basement_membrane", "synthetic_contractile", "inflammatory",
-                      "vascular_stabilizing", "activated_migratory", "fibroblast_like")
-        selfrho  <- vapply(seq_len(nrow(a)), function(i)
-            a[[paste0("rho_", a$assigned_program[i])]][i], numeric(1))
-        a <- a[order(match(a$assigned_program, prog_pri),
-                     a$pattern != anchor, -selfrho)]
-        rlab <- sprintf("%s (%s)", nice[a$assigned_program],
-                        sub("Pattern_", "P", a$pattern))
-        names(rlab) <- a$pattern
-        long <- as.data.table(as.table(z)); setnames(long, c("cell_type", "pattern", "z"))
-        long[, row := factor(rlab[as.character(pattern)], levels = rev(rlab))]
-        long[, cell_type := factor(cell_type, levels = ct_order)]
-        long <- long[!is.na(row)]
-        cD <- ggplot(long, aes(cell_type, row, fill = z)) +
-            geom_tile(colour = "white", linewidth = 0.2) +
-            scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-                                 midpoint = 0, name = "z (within\npattern)") +
-            labs(x = NULL, y = NULL) + theme_ms() +
-            theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5.5),
-                  axis.text.y = element_text(size = 6.5), panel.grid = element_blank(),
-                  legend.position = "right", legend.key.size = unit(3, "mm"),
-                  legend.title = element_text(size = 6))
+    if (file.exists(dv_f)) {
+        dv <- fread(dv_f)
+        dv <- dv[is.finite(sender_ligand_mean) & is.finite(receiver_target_expr)]
+        dv[, disease_group := factor(disease_group)]
+        dv[, dataset := factor(dataset)]
+        adj <- c(if (nlevels(dv$dataset) > 1) "dataset",
+                 if (nlevels(dv$disease_group) > 1) "disease_group")
+        rhs <- if (length(adj)) paste(adj, collapse = " + ") else "1"
+        dv[, x_res := resid(lm(as.formula(paste("sender_ligand_mean ~", rhs)), data = dv))]
+        dv[, y_res := resid(lm(as.formula(paste("receiver_target_expr ~", rhs)), data = dv))]
+        full <- lm(as.formula(paste("receiver_target_expr ~ sender_ligand_mean +", rhs)), data = dv)
+        co <- summary(full)$coefficients["sender_ligand_mean", ]
+        pv <- co["Pr(>|t|)"]
+        pstr <- if (pv < 1e-3) formatC(pv, format = "e", digits = 1) else formatC(pv, format = "f", digits = 3)
+        lab <- sprintf("beta == %.2f * ',' ~ italic(P) == '%s'  ~ '(n = %d)'",
+                       co["Estimate"], pstr, nrow(dv))
+        cD <- ggplot(dv, aes(x_res, y_res)) +
+            geom_smooth(method = "lm", se = TRUE, colour = "#0072B2",
+                        fill = "#0072B2", alpha = 0.15, linewidth = 0.7) +
+            geom_point(colour = "#0072B2", alpha = 0.55, size = 1.4) +
+            annotate("text", x = -Inf, y = Inf, hjust = -0.06, vjust = 1.5,
+                     parse = TRUE, size = 2.5, label = lab) +
+            labs(x = "Sender ligand score\n(adjusted residual)",
+                 y = "Pericyte injury-response\n(adjusted residual)") +
+            theme_ms()
     }
 
-    figA <- (cA + cB + plot_layout(widths = c(1, 2.1))) / cC
-    if (!is.null(cD)) figA <- figA / cD
-    figA <- figA +
-        plot_layout(heights = if (!is.null(cD)) c(1, 0.9, 0.75) else c(1, 0.9)) +
+    ## layout: (A + B) / (C + D), with C = 2/3 and D = 1/3 of the bottom row
+    row2 <- if (!is.null(cD)) (cC + cD + plot_layout(widths = c(2, 1))) else cC
+    figA <- (cA + cB + plot_layout(widths = c(1, 2.1))) / row2 +
+        plot_layout(heights = c(1, 1)) +
         plot_annotation(tag_levels = "A") &
         theme(plot.tag = element_text(face = "bold", size = 10))
-    save_fig("figure_ccc_nichenet", figA, 9.2, if (!is.null(cD)) 9.2 else 7.0)
+    save_fig("figure_ccc_nichenet", figA, 9.2, 7.4)
+}
+
+## ===== Supplement: NicheNet ligand-program specificity + CoGAPS transfer ====
+## (A) permutation-null specificity of the prioritized ligands (moved companion to
+## cell_communication/_m/nichenet/nichenet_specificity_Pericytes.pdf); (B) the
+## projectR transfer heatmap formerly in the CCC main panel D -- pericyte-learned
+## CoGAPS patterns projected onto the niche (cell-type pseudobulk), one row per
+## PATTERN labelled "Program (Pn)"; columns ordered by the fibrillar/disease anchor
+## pattern. nP=8 is the de-novo-selected MAIN rank (nP=9 is the sensitivity rank).
+spec_f <- P("cell_communication", "_m", "nichenet", "nichenet_specificity_Pericytes.tsv")
+pp_f   <- P("pericyte_cogaps", "_m", "projected_pattern_by_celltype_np8.tsv")
+ann_f  <- P("cell_communication", "_m", "cogaps_receiver_annotation_np8.tsv")
+sspec <- NULL; sco <- NULL
+if (file.exists(spec_f)) {
+    sp <- fread(spec_f) %>% slice_max(obs_aupr, n = 15) %>%
+        mutate(test_ligand = reorder(test_ligand, obs_aupr))
+    sspec <- ggplot(sp, aes(y = test_ligand)) +
+        geom_errorbarh(aes(xmin = null_mean - 2 * null_sd, xmax = null_mean + 2 * null_sd),
+                       height = 0.3, colour = "grey65", linewidth = 0.4) +
+        geom_point(aes(x = null_mean), colour = "grey55", size = 1.6, shape = 1) +
+        geom_point(aes(x = obs_aupr, colour = p_emp_adj < 0.05), size = 2) +
+        scale_colour_manual(values = c(`TRUE` = "#B2182B", `FALSE` = "grey45"), guide = "none") +
+        labs(x = "Ligand activity (AUPR corrected):\nobserved vs random-geneset null (mean +/- 2 SD)",
+             y = NULL) + theme_ms()
+}
+if (file.exists(pp_f) && file.exists(ann_f)) {
+    pp <- fread(pp_f); a <- fread(ann_f)
+    nice <- c(vascular_stabilizing = "Vascular-stabilizing",
+              synthetic_contractile = "Synthetic/contractile",
+              inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
+              activated_migratory = "Activated/migratory",
+              basement_membrane = "Basement-membrane")
+    pats <- intersect(a$pattern, names(pp)); a <- a[match(pats, a$pattern)]
+    mat  <- as.matrix(pp[, ..pats]); rownames(mat) <- pp$cell_type
+    z    <- scale(mat)
+    anchor   <- a$pattern[which.max(a$rho_fibroblast_like)]
+    ct_order <- rownames(z)[order(z[, anchor], decreasing = TRUE)]
+    prog_pri <- c("basement_membrane", "synthetic_contractile", "inflammatory",
+                  "vascular_stabilizing", "activated_migratory", "fibroblast_like")
+    selfrho  <- vapply(seq_len(nrow(a)), function(i)
+        a[[paste0("rho_", a$assigned_program[i])]][i], numeric(1))
+    a <- a[order(match(a$assigned_program, prog_pri), a$pattern != anchor, -selfrho)]
+    rlab <- sprintf("%s (%s)", nice[a$assigned_program], sub("Pattern_", "P", a$pattern))
+    names(rlab) <- a$pattern
+    long <- as.data.table(as.table(z)); setnames(long, c("cell_type", "pattern", "z"))
+    long[, row := factor(rlab[as.character(pattern)], levels = rev(rlab))]
+    long[, cell_type := factor(cell_type, levels = ct_order)]
+    long <- long[!is.na(row)]
+    sco <- ggplot(long, aes(cell_type, row, fill = z)) +
+        geom_tile(colour = "white", linewidth = 0.2) +
+        scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
+                             midpoint = 0, name = "z (within\npattern)") +
+        labs(x = NULL, y = NULL) + theme_ms() +
+        theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5.5),
+              axis.text.y = element_text(size = 6.5), panel.grid = element_blank(),
+              legend.position = "right", legend.key.size = unit(3, "mm"),
+              legend.title = element_text(size = 6))
+}
+if (!is.null(sspec) || !is.null(sco)) {
+    figS <- if (!is.null(sspec) && !is.null(sco)) sspec / sco
+            else if (!is.null(sspec)) sspec else sco
+    figS <- figS + plot_layout(heights = c(1, 1.1)) +
+        plot_annotation(tag_levels = "A") &
+        theme(plot.tag = element_text(face = "bold", size = 10))
+    save_fig("figureS_cogaps_transfer", figS, 8.4, 8.2)
 }
 
 cat("Wrote manuscript figures to", OUT, "\n")
