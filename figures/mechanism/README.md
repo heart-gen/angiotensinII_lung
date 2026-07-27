@@ -1,11 +1,17 @@
 # Mechanism figures — index and figure legends
 
 Publication-ready figures for the mechanistic revision (target: *Circulation Research*).
-All panels are exported as `.pdf` (vector, cairo), `.svg`, and `.png` (350 dpi) by
-`figures/_h/manuscript_mechanism_figure.R` and `figures/_h/sensitivity_robustness_figure.R`
-(run via `figures/_h/step_figures.sh` from `figures/_m`). Shared visual language:
-Okabe–Ito palette, `theme_ms` (8–9 pt base), no in-panel titles (interpretation lives in
-the legends below), bold uppercase panel tags.
+All panels are exported as `.pdf` (vector, cairo), `.svg`, and `.png` (350 dpi) by the
+scripts in `figures/_h/`, all of which run from `figures/_h/step_figures.sh` (submitted
+from `figures/_m`). Shared visual language lives in `figures/_h/_fig_common.R`, sourced
+by every figure script: Okabe–Ito palette, `theme_ms` (8–9 pt base), `save_fig`, and a
+fixed RNG seed (`geom_jitter` draws at render time, so without it a figure could not be
+regenerated). No in-panel titles — interpretation lives in the legends below — and bold
+uppercase panel tags.
+
+**Non-ASCII characters do not survive `cairo_pdf` here**: a literal `ρ`, `≥`, `β` or `×`
+is emitted as `..`. Use plotmath (`expression(Spearman~rho)`, `parse = TRUE`) for
+standalone titles, and spell symbols out in ASCII inside multi-line annotations.
 
 ## How to use this directory
 
@@ -25,15 +31,39 @@ The narrative arc the figures deliver:
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
 
-**Supplements:** `figureS_pericyte_layer`, `figureS_acta2_control`, `figureS_alluvial`,
-`figureS_program_category`, `figureS_balance_by_state`, `figureS_sensitivity`,
-`figureS_crossspecies_mouse`.
+**Supplements — S1–S12.** Filenames stay semantic so scripts and cross-references do not
+churn; the manuscript number is carried by the `supp_number` column of
+`figure_panel_manifest.tsv` and by the legend headings below.
+
+| # | File | Built by |
+|---|---|---|
+| S1 | `figureS_pericyte_layer` | `pericyte_layer_figure.R` |
+| S2 | `figureS_crossspecies_mouse` | `manuscript_mechanism_figure.R` |
+| S3 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
+| S4 | `figureS_acta2_control` | `manuscript_mechanism_figure.R` |
+| S5 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
+| S6 | `figureS_bm_copd` | `basement_membrane_figure.R` |
+| S7 | `figureS_continuum_stability` | `continuum_stability_figure.R` |
+| S8 | `figureS_nichenet_specificity` | `nichenet_specificity_figure.R` |
+| S9 | `figureS_receiver_robustness` | `receiver_robustness_figure.R` |
+| S10 | `figureS_ras_landscape` | `basement_membrane_figure.R` |
+| S11 | `figureS_state_composition` | `state_composition_figure.R` |
+| S12 | `figureS_sensitivity` | `sensitivity_robustness_figure.R` |
+
+**Deliberately NOT numbered supplements:**
+- `figureS_alluvial` — a **grant** figure, not a manuscript supplement (2026-07-27). It is
+  still built by `manuscript_mechanism_figure.R` and still has a legend below; do not
+  renumber it back into the S-series.
+- `figureS_cogaps_transfer` — **retired** 2026-07-27. Its permutation-null panel became S8
+  (A–B) and its CoGAPS-projection panel became S9C; keeping it would have duplicated both
+  panels across two supplements.
 
 **Supporting files (not figures):**
-- `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control`.
-- `figure_panel_manifest.tsv` — maps the per-module PDFs (liana dotplots, NicheNet heatmap,
-  state/DPT/PAGA UMAPs, etc.) that are assembled into the main figures in a vector editor;
-  `exists` flags whether each source panel has been generated.
+- `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control` (S4).
+- `figure_panel_manifest.tsv` — two kinds of row. `figure = A|B` are the per-module PDFs
+  (liana dotplots, NicheNet heatmap, state/DPT/PAGA UMAPs) assembled into the main figures
+  in a vector editor; `figure = Supp` are the finished supplements keyed by `supp_number`.
+  `exists` flags whether each has been generated.
 - `figureB_states_continuum_niche.{pdf,png}` — **working draft only** (legacy
   `assemble_mechanism_figures.R`, `theme_bw`, in-panel titles). Superseded for submission by
   `figure_mechanism_main` + the manifest image panels; kept for quick QC, not for the manuscript.
@@ -98,25 +128,53 @@ coefficient from `lm(pericyte response ~ ligand score + dataset + disease group)
 plotted residual slope). Disease group and dataset are intentionally **not** encoded by color or
 shape, so the panel isolates the covariate-adjusted association. Abbreviations: CCC, cell–cell
 communication; AUPR, area under the precision–recall curve. The cross-program CoGAPS projection
-formerly shown as panel D is now `figureS_cogaps_transfer`.
+formerly shown as panel D is now Figure S9C.
 
-### `figureS_cogaps_transfer` — Ligand-program specificity and cross-program CoGAPS projection
+### Figure S8 — `figureS_nichenet_specificity` — Specificity and donor-level validation of predicted niche regulation of pericyte injury programs
 
-**Figure S.** Supporting evidence that the prioritized niche ligands act specifically on the
-pericyte injury program, and that the pericyte-learned expression programs are recovered across the
-niche. **(A)** NicheNet ligand-program specificity by gene-set permutation (companion to
-`cell_communication/_m/nichenet/nichenet_specificity_Pericytes.pdf`): for the top prioritized
-ligands, the observed corrected AUPR against the curated pericyte target program (filled points;
-red = Benjamini–Hochberg *P* < 0.05) is compared with a null of 1,000 random background gene sets
-of matched size (open grey point = null mean, whiskers = mean ± 2 SD). Ligands whose observed AUPR
-lies far in the right tail act specifically on the injury program rather than reflecting generic
-connectivity. **(B)** Cross-program specificity by projection: pericyte-learned CoGAPS expression
-patterns (de-novo-selected nP = 8, one row per pattern labelled by its assigned program) projected
-(projectR/OLS) onto a cell-type × donor pseudobulk; fill = within-pattern *z* across cell types.
-The patterns that rank pericytes first are the **vascular-stabilizing and the two basement-membrane
-patterns** (the structural/support programs), whereas the fibrillar-matrix and inflammatory
-patterns are mirrored most strongly in bona-fide fibroblasts — the injury axes a subset of
-pericytes adopt are the same ones fibroblasts constitutively run.
+**Figure S8.** The prioritized ligands act specifically on the pericyte injury program, and the
+prediction holds donor by donor. **(A)** For each of the 11 prioritized ligands, the observed
+corrected AUPR against the curated pericyte target program (orange) compared with a null built
+from 1,000 random gene sets of matched size (grey square = null mean, whiskers = mean ± 2 SD).
+Every observation lies far outside its null, so the ranking reflects regulation of this specific
+target program rather than generic connectivity of the prior network. **(B)** The same result as
+a standardized distance: all 11 ligands lie 23.8–40.3 SD beyond their nulls and every one reaches
+the empirical floor of the permutation test (*P* = 9.99 × 10⁻⁴ = 1/1001), so the permutation
+resolves only that they are extreme, not how they rank against one another. **(C)** Donor-level
+validation: niche expression of the prioritized-ligand composite against pericyte target-program
+expression, one point per donor (*n* = 105), colored by disease group. Raw Spearman ρ = 0.54
+(*P* = 4.4 × 10⁻⁹); adjusted for study as a random intercept, β = 0.65 (*P* = 1.2 × 10⁻⁶).
+Disease colors are retained here — unlike the disease-neutral adjusted view in the main figure —
+to show the relationship is not carried by one group. **(D)** The same for TGFB1 alone, which is
+weaker but concordant (raw ρ = 0.24, *P* = 0.014; adjusted β = 0.41, *P* = 0.019), i.e. the
+composite is not a restatement of a single ligand.
+
+### Figure S9 — `figureS_receiver_robustness` — Predicted signaling is robust to receiver definition and differs between injury and basement-membrane programs
+
+**Figure S9.** The prioritization does not depend on how the pericyte receiver is defined, and the
+basement-membrane program has a distinct predicted sender set. **(A)** Ligand rank across nine
+receiver definitions: all pericytes, the three stable-cluster programs, and five CoGAPS
+dominant-pattern groups. Rows are the union of each receiver's top 8 ligands, ordered by their
+rank under the primary all-pericyte definition; darker = better rank, grey = the ligand is not in
+that receiver's candidate set (its receptor is not expressed there). All 36 receiver pairs agree
+at Spearman ρ ≥ 0.77, and the two independently derived basement-membrane receivers — supervised
+Leiden clustering versus unsupervised NMF — agree at ρ = 0.99 with 18 of 20 top ligands shared.
+**(B)** Fibroblast- and myeloid-to-pericyte TGF-β and ECM edges (LIANA), faceted by receiver
+scheme; the same senders reach pericytes under either definition. MMP14 is absent because LIANA's
+resource carries no MMP14 ligand edge, not because the edge was tested and rejected. **(C)**
+Pericyte-learned CoGAPS patterns (de-novo-selected nP = 8, one row per pattern labelled by its
+assigned program) projected onto a cell-type × donor pseudobulk across 21 cell populations; fill =
+within-pattern *z*. The patterns that rank pericytes first are the vascular-stabilizing and the two
+basement-membrane patterns, the contractile pattern is strongest in vascular smooth muscle, and the
+fibrillar/inflammatory patterns extend into bona-fide fibroblasts and myeloid populations — the
+injury axes a subset of pericytes adopt are the ones fibroblasts constitutively run. **(D)**
+Re-running the prioritization against the **basement-membrane** target set instead of the injury
+program gives a substantially different ranking (Spearman ρ = 0.223 against the injury ranking,
+only 8 of the top 20 ligands shared). Of 321 candidates only **MMP14** survives correction
+(rank 1, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032); TIMP2 ranks second but is not FDR-significant,
+and TGFB2/TGFB1 carry regulatory potential without reaching significance. BM deposition is
+therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
+TGF-β-dominated axis that drives the injury program.
 
 ### `figure_mechanism_main` — Donor-level disease phenotype and the stabilizing↔injury continuum
 
@@ -178,7 +236,7 @@ of disease, not evidence of pericyte loss or causal progression. **This figure s
 donor-level disease panels (A, B) of `figure_mechanism_main`**, which used a pooled composite
 ANCOVA whose only significant contrast was the off-target Healthy-versus-"Other" comparison.
 
-### `figureS_alluvial` — Stable subclusters → dominant program → effector class
+### `figureS_alluvial` (grant figure, unnumbered) — Stable subclusters → dominant program → effector class
 
 **Figure S.** Alluvial flow linking the six stable pericyte Leiden subclusters (left axis) to
 their three dominant programs (middle axis: vascular-stabilizing, basement-membrane,
@@ -192,7 +250,7 @@ oranges = basement-membrane [P1, P3, P5]; pink = activated/migratory [P4]) so bo
 subcluster→program merge and the program grouping are legible. Cluster→program assignments are
 the canonical `state_program_map.tsv` used throughout the analysis.
 
-### `figureS_program_category` — Program × protein-category enrichment
+### Figure S3 — `figureS_program_category` — Program × protein-category enrichment
 
 **Figure S.** Dot heatmap relating the six pericyte programs (rows) to eight curated marker
 protein categories (columns: signaling ligands; chemokines; cytokines; adhesion molecules; ECM
@@ -203,7 +261,7 @@ otherwise swamped by category-level baseline detectability). Cells are assigned 
 program by *z*-scored argmax of the six program scores — now including basement-membrane
 (`cell_communication/_h/03b.program_category_enrichment.py`), retaining all six programs.
 
-### `figureS_pericyte_layer` — Pericyte-layer supporting detail
+### Figure S1 — `figureS_pericyte_layer` — Pericyte-layer supporting detail
 
 **Figure S.** Companion detail for `figure_pericyte_layer`, all on the same shared UMAP
 (*n* = 11,680 pericytes). **(A)** Per-program module-score overlays (vascular-stabilizing,
@@ -215,7 +273,7 @@ enrichment reversed in `figure_pericyte_layer` panel D. **(D)** Donor-mean *AGTR
 expression by stable subcluster (donor × subcluster means, subclusters with ≥5 cells; box =
 median/IQR, whiskers = 1.5×IQR), comparing the two markers' subcluster profiles.
 
-### `figureS_acta2_control` — AGTR1 is not reducible to ACTA2⁺ contractile identity
+### Figure S4 — `figureS_acta2_control` — AGTR1 is not reducible to ACTA2⁺ contractile identity
 
 **Figure S.** Control benchmarking *AGTR1* against canonical *ACTA2*⁺ contractile mural identity.
 **(A)** Centered donor-aware program marginal means (±SE) for *ACTA2* (raw), *AGTR1* (raw), and
@@ -229,26 +287,73 @@ coupling (*r* = 0.28 vs *ACTA2*; *r* = 0.39 vs contractile program) collapses af
 identity. *n* = 154 donor × program pseudobulks. Source data: `tableS_acta2_control.tsv`.
 Framed as a benchmark/control, not a mechanistic pillar.
 
-### `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
+### Figure S5 — `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
 
 **Figure S.** Donor-level AT1R–AT2R pathway balance across pericyte programs (box = median/IQR,
 points = donors). Differences among programs are **not significant** (smallest pairwise
 *P* = 0.067); this panel documents that the AT1R/AT2R skew tracks continuous injury intensity and
 disease rather than discrete program identity, justifying its demotion from the main figure.
 
-### `figureS_sensitivity` — Smoking and cohort robustness
+### Figure S7 — `figureS_continuum_stability` — Stability of the pericyte transcriptional continuum across parameter and root choices
 
-**Figure S.** Robustness of the donor-level disease associations. **(A)** Smoking status is
-recorded essentially only for Healthy donors, making a smoking-stratified disease contrast
-inestimable (the underlying confound). **(B)** Among donors carrying a smoking label, the
-injury/*AGTR1* readouts show no smoking gradient (marginal means ±95% CI), so the phenotype is
-not a smoking artifact. **(C)** The Healthy-vs-Fibrotic/ILD disease effect is essentially
-unchanged when smoking is added as a covariate (base vs +smoking marginal means ±95% CI).
-**(D)** Leave-one-study-out analysis: the Fibrotic/ILD effect on the headline injury-state
-fraction is stable across cohorts. HLCA carries no medication metadata; medication sensitivity is
-noted as a limitation/future-cohort question (see Methods).
+**Figure S7.** The vascular-stabilizing ↔ injury continuum is not an artifact of the analyst's
+choices. Diffusion pseudotime was recomputed across a grid of neighborhood sizes, diffusion-component
+counts, cell subsamples and root cells; every correlation shown is **donor-level** (Spearman of
+per-donor mean pseudotime against per-donor mean score), aggregated exactly as the headline analysis
+does. **(A)** Donor-level ρ between pseudotime and each of the six program scores plus *AGTR1*
+across the 18 parameter settings (columns: n_neighbors / n_DCs / subsample %). **(B)** The spread of
+those 18 estimates per feature; the label is the fraction of settings sharing the sign of the mean,
+which is **100% for all seven features**. The estimates are tight (s.d. ≤ 0.031, full range ≤ 0.08
+for every feature), and the canonical setting reproduces the headline analysis exactly
+(vascular-stabilizing ρ = 0.520, *AGTR1* ρ = 0.249, basement-membrane ρ = −0.172, identical to the
+values in `pseudotime_trend_correlations.tsv`). **(C)** The same correlations after re-rooting pseudotime at each of
+the six stable clusters in turn and at both extremes of the leading latent axis. **(D)** |ρ| under
+the canonical vascular-stabilizing root against |ρ| under each alternative root (open symbols = the
+sign flipped); points fall on the identity line at Spearman ρ(|ρ|) = 0.92. Re-rooting at the
+opposite pole reverses the *direction* of pseudotime, as it must, but leaves the strength of every
+feature's association intact — changing the root changes the orientation, not the underlying axis.
 
-### `figureS_crossspecies_mouse` — *Agtr1a* marks the mouse pericyte compartment
+### Figure S11 — `figureS_state_composition` — Discrete pericyte-state composition does not differ across disease groups
+
+**Figure S11.** A deliberate null that bounds what the discrete state model can be asked to do.
+Donor-level ANCOVA (fraction ~ disease group + age + sex) on donors with ≥ 20 pericytes; boxes and
+points are donors, diamonds are age/sex-adjusted marginal means ±95% CI. **(A)** Fractions of the
+six stable pericyte clusters and **(B)** of the three dominant programs, by disease group.
+**(C)** The grouped injury-associated state fraction (Healthy 0.019, Fibrotic/ILD 0.034, Other
+0.034). **(D)** Forest of every disease contrast against Healthy across all six clusters, the three
+programs and the grouped fraction. **No contrast is significant after Benjamini–Hochberg
+correction** (all BH *P* ≥ 0.47 for the grouped fraction; ≥ 0.65 for programs; ≥ 0.87 for
+clusters), and every interval crosses zero. Intervals are nominal 95% while *P* values are
+BH-adjusted, so the two need not agree exactly at the 0.05 boundary. The disease signal in this
+study is therefore carried by the **continuous** injury-program score (disease main figure), not by
+a shift in how many pericytes fall into each discrete cluster — the continuous result is not a
+relabelled abundance change.
+
+### Figure S12 — `figureS_sensitivity` — Robustness and limitations of the disease-associated injury-stromal signal
+
+**Figure S12.** What the donor-level disease association does and does not survive. **(A)** The
+injury-stromal score by disease group under the primary composite (*AGTR1* excluded) and under a
+sensitivity composite that adds the *AGTR1*-positive fraction; points are donors, diamonds are
+marginal means ±95% CI. Excluding *AGTR1* avoids both dropout and circularity, and it does not
+create the disease association — the two composites give the same picture. **(B)** The
+vascular-stability component and the net niche-stability index. Stability **rises alongside**
+injury in fibrotic/ILD lungs, which is precisely why the net index (stability minus injury) is a
+weaker discriminator than its injury half; the net index is reported for completeness, not as the
+primary endpoint. **(C)** Smoking status is recorded for 14 of 32 Healthy donors and for **no**
+diseased donor, so a smoking-stratified disease contrast is not merely underpowered but
+inestimable. **(D)** Leave-one-study-out: across all 16 refits the Fibrotic/ILD effect on the
+injury-stromal score stays positive, and it remains significant in 13 of 16; significance is lost
+only when one of three fibrosis-enriched cohorts is removed, which reflects loss of exposed donors
+rather than dependence on a single cohort. The other three responses are non-significant across
+every refit. **(E)** Among donors that do carry a smoking label, the injury/*AGTR1* readouts show
+no smoking gradient (marginal means ±95% CI). **(F)** The Healthy-vs-Fibrotic/ILD effect is
+essentially unchanged when smoking is added as a covariate. Donor counts here come from the
+`sensitivity`/`niche_index` modules; the within-study meta-analysis in the disease main figure uses
+a different donor set and endpoint and reports its own smoking availability (21 of 42 Healthy) —
+the two should not be quoted for the same claim. HLCA carries no medication metadata; medication
+sensitivity is noted as a limitation/future-cohort question (see Methods).
+
+### Figure S2 — `figureS_crossspecies_mouse` — *Agtr1a* marks the mouse pericyte compartment
 
 **Figure S.** The mouse lung data support a compartment-level, but not a state-level,
 cross-species comparison; *Agtr1a* is genuinely transcribed by mouse pericytes in raw counts.
@@ -320,7 +425,7 @@ default rather than a positive identity. The reassignment survives removing *COL
 fibroblast-like panel, and the laminin and linker sub-panels each win independently.
 Source data: `basement_membrane/_m/stats_data/`, `basement_membrane/_m/state_gate_*.tsv`.
 
-### `figureS_ras_landscape` — The lung renin–angiotensin axis is distributed across cell types
+### Figure S10 — `figureS_ras_landscape` — The lung renin–angiotensin axis is distributed across cell types
 
 **Figure S.** No lung cell type carries an autonomous angiotensin circuit. Donor × cell-type
 pseudobulk, *n* = 4,376 units, 22 cell types, 417 donors (≥5 cells per unit). **(A)** Detection
@@ -344,7 +449,7 @@ the dominant physiological source is hepatic and is invisible to lung single-cel
 local *AGT* signal does not imply low local angiotensin II.
 Source data: `agt_axis/_m/stats_data/ras_*.tsv`.
 
-### `figureS_bm_copd` — Basement-membrane remodeling in IPF but not detectably in COPD
+### Figure S6 — `figureS_bm_copd` — Basement-membrane remodeling in IPF but not detectably in COPD
 
 **Figure S.** Disease contrast for basement-membrane components in GSE136831 (Adams/Kaminski),
 the only cohort in this project with a COPD arm. Donor × compartment pseudobulk built from raw

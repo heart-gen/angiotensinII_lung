@@ -10,29 +10,12 @@ suppressPackageStartupMessages({
     library(ggplot2); library(patchwork)
 })
 
-ROOT <- normalizePath(file.path(getwd(), "..", ".."))
-P <- function(...) file.path(ROOT, ...)
-OUT <- P("figures", "mechanism"); dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
+## ROOT/P/OUT, OKABE, theme_ms(), save_fig(), tag()
+source("../_h/_fig_common.R")
 
-## ---- shared visual language (matches manuscript_mechanism_figure.R) ------
-OKABE <- c("#0072B2", "#E69F00", "#009E73", "#D55E00", "#CC79A7", "#56B4E9",
-           "#F0E442", "#999999")
-
-theme_ms <- function(base = 8) {
-    theme_bw(base_size = base) +
-        theme(plot.title = element_blank(), plot.subtitle = element_blank(),
-              panel.grid.minor = element_blank(),
-              axis.text = element_text(colour = "black"),
-              axis.title = element_text(colour = "black"),
-              strip.background = element_blank())
-}
-save_fig <- function(fn, p, w, h) {
-    ggsave(file.path(OUT, paste0(fn, ".pdf")), p, width = w, height = h, device = cairo_pdf)
-    ggsave(file.path(OUT, paste0(fn, ".svg")), p, width = w, height = h)
-    ggsave(file.path(OUT, paste0(fn, ".png")), p, width = w, height = h, dpi = 350)
-}
-tag <- function(p, lab) p + labs(tag = lab) +
-    theme(plot.tag = element_text(face = "bold", size = 10))
+## This script keeps ggplot's default legend placement -- its heatmap/dotplot
+## panels need their colour and size guides.
+theme_ms <- function(base = 8) .theme_ms(base = base, legend = NULL)
 
 BM_M <- P("basement_membrane", "_m")
 AGT_M <- P("agt_axis", "_m")

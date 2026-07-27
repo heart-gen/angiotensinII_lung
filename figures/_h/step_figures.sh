@@ -6,7 +6,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --time=00:30:00
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/assemble_figures.log
 
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }
@@ -27,16 +27,40 @@ log_message "**** Integrated pericyte-layer figure (main + supplement) ****"
 Rscript ../_h/pericyte_layer_figure.R
 if [ $? -ne 0 ]; then log_message "Error: pericyte-layer figure failed"; exit 1; fi
 
-log_message "**** Supplementary sensitivity/robustness figure ****"
+log_message "**** S12: sensitivity / robustness ****"
 Rscript ../_h/sensitivity_robustness_figure.R
 if [ $? -ne 0 ]; then log_message "Error: sensitivity figure failed"; exit 1; fi
 
-log_message "**** Panel manifest ****"
-Rscript ../_h/assemble_mechanism_figures.R
-if [ $? -ne 0 ]; then log_message "Error: manifest failed"; exit 1; fi
+## Builds the main BM figure plus S6 (figureS_bm_copd) and S10 (figureS_ras_landscape).
+## This was missing from the pipeline until 2026-07-27, which is why both supplements
+## had gone stale relative to everything else in figures/mechanism.
+log_message "**** Basement-membrane figure + S6, S10 ****"
+Rscript ../_h/basement_membrane_figure.R
+if [ $? -ne 0 ]; then log_message "Error: basement-membrane figure failed"; exit 1; fi
+
+log_message "**** S7: pericyte continuum stability ****"
+Rscript ../_h/continuum_stability_figure.R
+if [ $? -ne 0 ]; then log_message "Error: continuum stability figure failed"; exit 1; fi
+
+log_message "**** S8: NicheNet specificity + donor validation ****"
+Rscript ../_h/nichenet_specificity_figure.R
+if [ $? -ne 0 ]; then log_message "Error: nichenet specificity figure failed"; exit 1; fi
+
+log_message "**** S9: receiver robustness + BM-restricted signaling ****"
+Rscript ../_h/receiver_robustness_figure.R
+if [ $? -ne 0 ]; then log_message "Error: receiver robustness figure failed"; exit 1; fi
+
+log_message "**** S11: discrete state composition by disease ****"
+Rscript ../_h/state_composition_figure.R
+if [ $? -ne 0 ]; then log_message "Error: state composition figure failed"; exit 1; fi
 
 log_message "**** Manuscript figures (main + CCC/NicheNet + supplements) ****"
 Rscript ../_h/manuscript_mechanism_figure.R
 if [ $? -ne 0 ]; then log_message "Error: manuscript figures failed"; exit 1; fi
+
+## Manifest last: it records which supplements actually exist on disk.
+log_message "**** Panel manifest ****"
+Rscript ../_h/assemble_mechanism_figures.R
+if [ $? -ne 0 ]; then log_message "Error: manifest failed"; exit 1; fi
 conda deactivate
 log_message "**** Job ends ****"

@@ -1,13 +1,13 @@
-2026-07-24 11:29:49 - **** Job starts ****
-Job id: 42581451
+2026-07-27 12:45:25 - **** Job starts ****
+Job id: 42711721
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-24 11:29:50 - **** Export pericyte UMAP coords (scRNA_env) ****
-2026-07-24 11:32:46,609 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+2026-07-27 12:45:26 - **** Export pericyte UMAP coords (scRNA_env) ****
+2026-07-27 12:48:50,617 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
 -----
 pandas              2.3.2
 scanpy              1.11.4
@@ -16,8 +16,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-24 11:32
-2026-07-24 11:33:13 - **** Integrated pericyte-layer figure (main + supplement) ****
+Session information updated at 2026-07-27 12:48
+2026-07-27 12:49:15 - **** Integrated pericyte-layer figure (main + supplement) ****
 pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 - Session info ---------------------------------------------------------------
  setting  value
@@ -29,7 +29,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-24
+ date     2026-07-27
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -74,7 +74,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-24 11:33:43 - **** Supplementary sensitivity/robustness figure ****
+2026-07-27 12:49:34 - **** S12: sensitivity / robustness ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -82,6 +82,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Wrote figureS_sensitivity to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+  LOSO injury_stromal_score: 16 refits, 16 positive, 13 with p < 0.05
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -94,7 +95,124 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-24
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 12:49:48 - **** Basement-membrane figure + S6, S10 ****
+wrote figure_basement_membrane
+wrote figureS_ras_landscape
+wrote figureS_bm_copd
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 12:50:01 - **** S7: pericyte continuum stability ****
+Wrote figureS_continuum_stability to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+
+Reproducibility information:
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -135,22 +253,205 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-24 11:33:51 - **** Panel manifest ****
-Panels present: 10 / 10 
-# A tibble: 10 x 3
-   figure panel                                 exists
-   <chr>  <chr>                                 <lgl> 
- 1 A      liana edges -> pericytes              TRUE  
- 2 A      liana edges -> AGTR2-det AT2          TRUE  
- 3 A      NicheNet ligand->target (pericyte)    TRUE  
- 4 A      alluvial cluster->category->role      TRUE  
- 5 B      state UMAP                            TRUE  
- 6 B      DPT pseudotime UMAP                   TRUE  
- 7 B      PAGA states                           TRUE  
- 8 Supp   AT1R/AT2R balance by disease          TRUE  
- 9 Supp   smoking + cohort robustness           TRUE  
-10 Supp   mouse Agtr1a compartment (raw counts) TRUE  
-2026-07-24 11:33:56 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+2026-07-27 12:50:06 - **** S8: NicheNet specificity + donor validation ****
+Warning message:
+`geom_errobarh()` was deprecated in ggplot2 4.0.0.
+i Please use the `orientation` argument of `geom_errorbar()` instead. 
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+Wrote figureS_nichenet_specificity to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+
+Reproducibility information:
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lattice        0.22-7  2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ Matrix         1.7-4   2025-08-28 [1] CRAN (R 4.4.3)
+ mgcv           1.9-3   2025-04-04 [1] CRAN (R 4.4.3)
+ nlme           3.1-168 2025-03-31 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 12:50:17 - **** S9: receiver robustness + BM-restricted signaling ****
+Warning messages:
+1: Removed 3 rows containing missing values or values outside the scale range
+(`geom_text()`). 
+2: Removed 3 rows containing missing values or values outside the scale range
+(`geom_text()`). 
+3: Removed 3 rows containing missing values or values outside the scale range
+(`geom_text()`). 
+Wrote figureS_receiver_robustness to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+  panel A: 20 ligands x 9 receivers; min pairwise rho = 0.771
+  panel D: 321 BM candidates, rho vs injury ranking = 0.223, 8/20 shared
+
+Reproducibility information:
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridisLite    0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 12:50:30 - **** S11: discrete state composition by disease ****
+Warning message:
+`geom_errobarh()` was deprecated in ggplot2 4.0.0.
+i Please use the `orientation` argument of `geom_errorbar()` instead. 
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+Wrote figureS_state_composition to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+  donors: 36; contrasts in forest: 20; any BH p < 0.05: FALSE
+
+Reproducibility information:
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 12:50:38 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -167,26 +468,26 @@ i If a many-to-many relationship is expected, set `relationship =
 `geom_smooth()` using formula = 'y ~ x'
 `geom_smooth()` using formula = 'y ~ x'
 `geom_smooth()` using formula = 'y ~ x'
-`height` was translated to `width`.
-`height` was translated to `width`.
-`height` was translated to `width`.
 Wrote manuscript figures to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
  [1] "figureB_states_continuum_niche.pdf" "figureS_acta2_control.pdf"         
  [3] "figureS_acta2_control.svg"          "figureS_alluvial.pdf"              
  [5] "figureS_alluvial.svg"               "figureS_balance_by_state.pdf"      
  [7] "figureS_balance_by_state.svg"       "figureS_bm_copd.pdf"               
- [9] "figureS_bm_copd.svg"                "figureS_cogaps_transfer.pdf"       
-[11] "figureS_cogaps_transfer.svg"        "figureS_crossspecies_mouse.pdf"    
-[13] "figureS_crossspecies_mouse.svg"     "figureS_pericyte_layer.pdf"        
-[15] "figureS_pericyte_layer.svg"         "figureS_program_category.pdf"      
-[17] "figureS_program_category.svg"       "figureS_ras_landscape.pdf"         
-[19] "figureS_ras_landscape.svg"          "figureS_sensitivity.pdf"           
-[21] "figureS_sensitivity.svg"            "figure_basement_membrane.pdf"      
-[23] "figure_basement_membrane.svg"       "figure_ccc_nichenet.pdf"           
-[25] "figure_ccc_nichenet.svg"            "figure_disease_main.pdf"           
-[27] "figure_disease_main.svg"            "figure_mechanism_main.pdf"         
-[29] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
-[31] "figure_pericyte_layer.svg"         
+ [9] "figureS_bm_copd.svg"                "figureS_continuum_stability.pdf"   
+[11] "figureS_continuum_stability.svg"    "figureS_crossspecies_mouse.pdf"    
+[13] "figureS_crossspecies_mouse.svg"     "figureS_nichenet_specificity.pdf"  
+[15] "figureS_nichenet_specificity.svg"   "figureS_pericyte_layer.pdf"        
+[17] "figureS_pericyte_layer.svg"         "figureS_program_category.pdf"      
+[19] "figureS_program_category.svg"       "figureS_ras_landscape.pdf"         
+[21] "figureS_ras_landscape.svg"          "figureS_receiver_robustness.pdf"   
+[23] "figureS_receiver_robustness.svg"    "figureS_sensitivity.pdf"           
+[25] "figureS_sensitivity.svg"            "figureS_state_composition.pdf"     
+[27] "figureS_state_composition.svg"      "figure_basement_membrane.pdf"      
+[29] "figure_basement_membrane.svg"       "figure_ccc_nichenet.pdf"           
+[31] "figure_ccc_nichenet.svg"            "figure_disease_main.pdf"           
+[33] "figure_disease_main.svg"            "figure_mechanism_main.pdf"         
+[35] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
+[37] "figure_pericyte_layer.svg"         
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -199,7 +500,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-24
+ date     2026-07-27
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -258,4 +559,29 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-24 11:34:24 - **** Job ends ****
+2026-07-27 12:50:55 - **** Panel manifest ****
+Panels present: 19 / 19 
+Supplements present: 12 / 12 
+# A tibble: 19 x 4
+   figure supp_number panel                                               exists
+   <chr>  <chr>       <chr>                                               <lgl> 
+ 1 A      ""          liana edges -> pericytes                            TRUE  
+ 2 A      ""          liana edges -> AGTR2-det AT2                        TRUE  
+ 3 A      ""          NicheNet ligand->target (pericyte)                  TRUE  
+ 4 A      ""          alluvial cluster->category->role                    TRUE  
+ 5 B      ""          state UMAP                                          TRUE  
+ 6 B      ""          DPT pseudotime UMAP                                 TRUE  
+ 7 B      ""          PAGA states                                         TRUE  
+ 8 Supp   "S1"        Pericyte-layer supporting detail                    TRUE  
+ 9 Supp   "S2"        Agtr1a marks the mouse pericyte compartment         TRUE  
+10 Supp   "S3"        Program x protein-category enrichment               TRUE  
+11 Supp   "S4"        AGTR1 is not reducible to ACTA2+ contractile ident~ TRUE  
+12 Supp   "S5"        AT1R-AT2R balance by pericyte program               TRUE  
+13 Supp   "S6"        Basement-membrane remodeling in IPF but not COPD    TRUE  
+14 Supp   "S7"        Stability of the pericyte continuum                 TRUE  
+15 Supp   "S8"        Specificity and donor-level validation of niche re~ TRUE  
+16 Supp   "S9"        Robustness to receiver definition; BM-restricted s~ TRUE  
+17 Supp   "S10"       The lung renin-angiotensin axis is distributed acr~ TRUE  
+18 Supp   "S11"       Discrete state composition does not differ across ~ TRUE  
+19 Supp   "S12"       Robustness and limitations of the disease-associat~ TRUE  
+2026-07-27 12:50:58 - **** Job ends ****

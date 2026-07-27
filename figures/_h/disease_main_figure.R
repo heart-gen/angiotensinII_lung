@@ -14,28 +14,15 @@ suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(ggplot2); library(patchwork)
 })
 
-ROOT <- normalizePath(file.path(getwd(), "..", ".."))
-P    <- function(...) file.path(ROOT, ...)
-OUT  <- P("figures", "mechanism"); dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
-SD   <- P("disease_association", "_m", "mixed_model_forest")
+## ROOT/P/OUT, theme_ms(), save_fig(), fmt_p()
+source("../_h/_fig_common.R")
 
-DISEASE_COL <- c(Healthy = "#0072B2", Fibrotic_ILD = "#D55E00")
-DISEASE_LAB <- c(Healthy = "Healthy", Fibrotic_ILD = "Fibrotic/ILD")
+SD <- P("disease_association", "_m", "mixed_model_forest")
 
-theme_ms <- function(base = 8) {
-    theme_bw(base_size = base) +
-        theme(plot.title = element_blank(), plot.subtitle = element_blank(),
-              panel.grid.minor = element_blank(),
-              axis.text = element_text(colour = "black"),
-              axis.title = element_text(colour = "black"),
-              legend.position = "none", strip.background = element_blank())
-}
-save_fig <- function(fn, p, w, h) {
-    ggsave(file.path(OUT, paste0(fn, ".pdf")), p, width = w, height = h, device = cairo_pdf)
-    ggsave(file.path(OUT, paste0(fn, ".svg")), p, width = w, height = h)
-    ggsave(file.path(OUT, paste0(fn, ".png")), p, width = w, height = h, dpi = 350)
-}
-fmt_p <- function(p) if (p < 1e-3) sprintf("P = %.1e", p) else sprintf("P = %.3f", p)
+## This figure shows only the powered contrast, so it narrows the shared
+## DISEASE_COL/DISEASE_LABS to the two groups it plots.
+DISEASE_COL <- DISEASE_COL[c("Healthy", "Fibrotic_ILD")]
+DISEASE_LAB <- DISEASE_LABS[c("Healthy", "Fibrotic_ILD")]
 
 ## ---- load 03 outputs -------------------------------------------------------
 study  <- fread(file.path(SD, "forest_per_study.tsv"))

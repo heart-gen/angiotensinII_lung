@@ -69,6 +69,22 @@ write_tsv_safe <- function(x, file, row_names = FALSE) {
 
 sanitize <- function(x) gsub("[^A-Za-z0-9]+", "_", x)
 
+## Post-hoc contrasts carrying BOTH a BH-adjusted p-value and an interval, so the
+## composition results can be drawn as a forest plot. BH has no interval analogue,
+## so the CI is the NOMINAL 95% interval (adjust = "none") while the p-value stays
+## BH-adjusted across contrasts; interval and p-value therefore need not agree at
+## the 0.05 boundary. Column order matches the pre-existing *_posthoc.tsv schema
+## (contrast, estimate, SE, df, t.ratio, p.value) with lower/upper appended.
+posthoc_with_ci <- function(emm) {
+    pr  <- pairs(emm, adjust = "BH")
+    est <- as.data.frame(pr)
+    ci  <- as.data.frame(confint(pr, adjust = "none"))
+    m   <- match(est$contrast, ci$contrast)
+    est$lower.CL <- ci$lower.CL[m]
+    est$upper.CL <- ci$upper.CL[m]
+    est
+}
+
 ## ----- (A) AGTR1 across states / programs (donor x group mixed model) -----
 agtr1_by_group <- function(df, group, outdir, tag, min_cells = 5) {
     agg <- df |>
@@ -119,9 +135,24 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
         mutate(frac = n / n_total)
     donor_meta <- df |> group_by(donor_id) |>
         summarise(disease_group = first(disease_group), sex = first(sex),
-                  age = mean(age, na.rm = TRUE), .groups = "drop")
+                  dataset = first(dataset), age = mean(age, na.rm = TRUE),
+                  .groups = "drop")
     comp <- comp |> left_join(donor_meta, by = "donor_id") |>
         mutate(disease_group = relevel(factor(disease_group), ref = "Healthy"))
+
+    ## Donor-level source data for the supplementary composition figure. The models
+    ## below only emit marginal means, so without this the per-donor points cannot
+    ## be redrawn downstream.
+    ## donor_id is a factor carrying every donor in the dataset, so the complete()
+    ## above re-introduces donors that the >=20-cell filter dropped, as n = 0 with
+    ## n_total = NA. lm() silently ignores them; an exported table must not.
+    write_tsv_safe(
+        comp |> filter(!is.na(n_total)) |>
+            rename(level = !!rlang::sym(group)) |>
+            select(donor_id, level, disease_group, dataset, sex, age,
+                   n, n_total, frac) |>
+            arrange(level, disease_group, donor_id),
+        file.path(outdir, paste0("composition_", tag, "_by_donor.tsv")))
 
     results <- list()
     for (g in levels(factor(comp[[group]]))) {
@@ -136,7 +167,7 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
         key <- sanitize(g)
         write_tsv_safe(as.data.frame(emm),
                        file.path(outdir, paste0("composition_", tag, "_", key, "_emmeans.tsv")))
-        write_tsv_safe(as.data.frame(pairs(emm, adjust = "BH")),
+        write_tsv_safe(posthoc_with_ci(emm),
                        file.path(outdir, paste0("composition_", tag, "_", key, "_posthoc.tsv")))
         results[[g]] <- data.frame(level = g,
                                    as.data.frame(car::Anova(fit, type = 2))["disease_group", ])
@@ -162,20 +193,28 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 20) {
         filter(n_total >= min_cells_per_donor)
     donor_meta <- df |> group_by(donor_id) |>
         summarise(disease_group = first(disease_group), sex = first(sex),
-                  age = mean(age, na.rm = TRUE), .groups = "drop")
+                  dataset = first(dataset), age = mean(age, na.rm = TRUE),
+                  .groups = "drop")
     inj <- df |>
         semi_join(donor_tot, by = "donor_id") |>
         mutate(is_injury = state_program %in% INJURY_PROGRAMS) |>
         group_by(donor_id) |>
-        summarise(injury_frac = mean(is_injury), .groups = "drop") |>
+        summarise(injury_frac = mean(is_injury), n_injury = sum(is_injury),
+                  n_total = n(), .groups = "drop") |>
         left_join(donor_meta, by = "donor_id") |>
         tidyr::drop_na(age, sex) |>
         mutate(disease_group = relevel(droplevels(factor(disease_group)), "Healthy"))
 
+    write_tsv_safe(
+        inj |> select(donor_id, disease_group, dataset, sex, age,
+                      n_injury, n_total, injury_frac) |>
+            arrange(disease_group, donor_id),
+        file.path(outdir, "injury_fraction_by_donor.tsv"))
+
     fit <- lm(injury_frac ~ disease_group + age + sex, data = inj)
     emm <- emmeans(fit, ~ disease_group)
     write_tsv_safe(as.data.frame(emm), file.path(outdir, "injury_fraction_emmeans.tsv"))
-    write_tsv_safe(as.data.frame(pairs(emm, adjust = "BH")),
+    write_tsv_safe(posthoc_with_ci(emm),
                    file.path(outdir, "injury_fraction_posthoc.tsv"))
     p <- ggboxplot(inj, x = "disease_group", y = "injury_frac", add = "jitter",
                    fill = "disease_group", palette = "jco",

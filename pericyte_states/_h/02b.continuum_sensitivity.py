@@ -18,10 +18,18 @@ Two questions, two blocks of runs:
       n_neighbors x n_dcs x subsample fraction (with seeds). Here both sign and
       magnitude of rho should be stable.
 
+Every run is scored twice: at the CELL level, and DONOR-aware (Spearman of the
+per-donor mean pseudotime against the per-donor mean score). The donor level is the
+conservative read -- it is the unit a reviewer will ask for -- and it is aggregated
+exactly as the headline script does (`02.continuum_dpt.py::correlate_trends`): plain
+per-donor means, no minimum-cell filter, so the canonical setting reproduces the
+donor rows of `pseudotime_trend_correlations.tsv`.
+
 Output:
-  continuum_sensitivity_runs.tsv      one row per (setting x feature): rho, p, n
-  continuum_sensitivity_summary.tsv   per feature, over the canonical-root runs:
-                                      mean/sd/min/max rho + sign-consistency
+  continuum_sensitivity_runs.tsv      one row per (setting x feature x level):
+                                      rho, p, n; `level` is "cell" or "donor"
+  continuum_sensitivity_summary.tsv   per (feature, level), over the canonical-root
+                                      runs: mean/sd/min/max rho + sign-consistency
   figures/continuum_sensitivity.{pdf,png}
 """
 import numpy as np
@@ -77,8 +85,32 @@ def pick_root(obs_states, X, root_state):
     return int(np.argmin(d))
 
 
+def donor_rows(obs, feats):
+    """Donor-aware rho: Spearman of per-donor mean pseudotime vs per-donor mean score.
+
+    Aggregation mirrors 02.continuum_dpt.py::correlate_trends exactly (plain group
+    means, drop donors with no pseudotime, require >= 5 donors) so that the canonical
+    setting here reproduces the donor rows of pseudotime_trend_correlations.tsv.
+    """
+    if "donor_id" not in obs:
+        return []
+    agg = {"dpt_pseudotime": "mean", **{c: "mean" for c in feats}}
+    donor = obs.groupby("donor_id", observed=True).agg(agg)
+    donor = donor.dropna(subset=["dpt_pseudotime"])
+    rows = []
+    for col in feats:
+        d = donor[["dpt_pseudotime", col]].dropna()
+        if d.shape[0] < 5:
+            continue
+        rho, pval = spearmanr(d["dpt_pseudotime"], d[col])
+        rows.append(dict(feature=col, level="donor", spearman_rho=rho,
+                         p_value=pval, n=d.shape[0]))
+    return rows
+
+
 def one_run(adata, rep, root_state, neighbors, n_dcs, frac, seed):
-    """Subsample (if frac<1), run neighbors->diffmap->dpt, return per-feature rho."""
+    """Subsample (if frac<1), run neighbors->diffmap->dpt, return per-feature rho
+    at both the cell and the donor level."""
     if frac < 1.0:
         rng = np.random.default_rng(seed)
         idx = rng.choice(adata.n_obs, size=int(round(frac * adata.n_obs)), replace=False)
@@ -91,12 +123,13 @@ def one_run(adata, rep, root_state, neighbors, n_dcs, frac, seed):
     sub.uns["iroot"] = root_idx
     sc.tl.dpt(sub, n_dcs=n_dcs)
     pt = sub.obs["dpt_pseudotime"].to_numpy()
+    feats = [c for c in TREND_COLS if c in sub.obs]
     rows = []
-    for col in TREND_COLS:
-        if col not in sub.obs:
-            continue
+    for col in feats:
         rho, pval = spearmanr(pt, sub.obs[col].to_numpy(), nan_policy="omit")
-        rows.append(dict(feature=col, spearman_rho=rho, p_value=pval, n=sub.n_obs))
+        rows.append(dict(feature=col, level="cell", spearman_rho=rho,
+                         p_value=pval, n=sub.n_obs))
+    rows += donor_rows(sub.obs, feats)
     return rows
 
 
@@ -138,16 +171,16 @@ def main():
 
     # ---- summary over canonical-root parameter sweep -----------------------
     can = df[df["block"] == "param"]
-    summ = (can.groupby("feature")["spearman_rho"]
+    summ = (can.groupby(["feature", "level"])["spearman_rho"]
             .agg(n_settings="count", mean_rho="mean", sd_rho="std",
                  min_rho="min", max_rho="max")
             .reset_index())
     # fraction of canonical-root settings with the same sign as the mean
     sign = (can.assign(sgn=np.sign(can["spearman_rho"]))
-            .groupby("feature")["sgn"]
+            .groupby(["feature", "level"])["sgn"]
             .apply(lambda s: (s == np.sign(s.mean())).mean())
             .rename("sign_consistency").reset_index())
-    summ = summ.merge(sign, on="feature")
+    summ = summ.merge(sign, on=["feature", "level"])
     summ.to_csv(args.outdir / "continuum_sensitivity_summary.tsv", sep="\t", index=False)
     print("\n== Canonical-root parameter robustness (Spearman rho vs DPT) ==")
     print(summ.to_string(index=False))
@@ -155,7 +188,8 @@ def main():
     # ---- figure: rho across all settings, faceted by block -----------------
     order = [c for c in TREND_COLS if c in set(df["feature"])]
     g = sns.catplot(data=df, x="spearman_rho", y="feature", hue="block",
-                    order=order, kind="strip", dodge=True, height=4.5, aspect=1.5,
+                    col="level", col_order=["cell", "donor"],
+                    order=order, kind="strip", dodge=True, height=4.5, aspect=1.2,
                     s=7, alpha=0.7)
     g.refline(x=0, color="grey", lw=1)
     g.set_axis_labels("Spearman rho (pseudotime vs score)", "")

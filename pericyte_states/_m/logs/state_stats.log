@@ -1,14 +1,14 @@
-2026-07-22 08:31:15 - **** Job starts ****
-Job id: 42529924
-Hostname: r004
+2026-07-27 12:22:57 - **** Job starts ****
+Job id: 42710802
+Hostname: r001
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-22 08:31:15 - **** Loading mamba environment ****
-2026-07-22 08:31:31 - **** Donor-aware pericyte-state statistics ****
+2026-07-27 12:22:58 - **** Loading mamba environment ****
+2026-07-27 12:22:59 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -41,9 +41,9 @@ Warning messages:
 (`geom_point()`). 
 
 Reproducibility information:
-[1] "2026-07-22 08:32:07 EDT"
+[1] "2026-07-27 12:23:08 EDT"
    user  system elapsed 
-  7.671   0.462  35.514 
+  7.742   0.336   9.457 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -54,7 +54,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-22
+ date     2026-07-27
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -126,4 +126,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-22 08:32:07 - **** Job ends ****
+2026-07-27 12:23:09 - **** Job ends ****

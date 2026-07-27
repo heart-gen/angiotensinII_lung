@@ -20,11 +20,10 @@ suppressPackageStartupMessages({
     library(ggplot2); library(patchwork)
 })
 
-ROOT <- normalizePath(file.path(getwd(), "..", ".."))
-P <- function(...) file.path(ROOT, ...)
-OUT <- P("figures", "mechanism"); dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
+## ROOT/P/OUT, OKABE, DISEASE_*, theme_ms(), save_fig()
+source("../_h/_fig_common.R")
 
-## ---- shared visual language (matches manuscript_mechanism_figure.R) -----
+## ---- visual language specific to this script ----------------------------
 ## PROG_ORDER = the three DOMINANT stable-cluster states (state_program). With the
 ## basement-membrane panel, clusters 1/3/5 relabel fibroblast_like -> basement_membrane
 ## (36% of pericytes), so BM replaces fibroblast_like here -- otherwise panels C/D/E
@@ -46,21 +45,6 @@ PROG_COL <- c(vascular_stabilizing = "#0072B2", basement_membrane = "#D55E00",
 CLUST_COL <- c(P0 = "#08519C", P2 = "#6BAED6", P1 = "#D94801",
                P3 = "#FD8D3C", P5 = "#FDD0A2", P4 = "#CC79A7")
 CLUST_ORDER <- c("P0", "P2", "P1", "P3", "P5", "P4")
-
-theme_ms <- function(base = 8) {
-    theme_bw(base_size = base) +
-        theme(plot.title = element_blank(), plot.subtitle = element_blank(),
-              panel.grid.minor = element_blank(),
-              axis.text = element_text(colour = "black"),
-              axis.title = element_text(colour = "black"),
-              strip.background = element_blank(),
-              legend.position = "none")
-}
-save_fig <- function(fn, p, w, h) {
-    ggsave(file.path(OUT, paste0(fn, ".pdf")), p, width = w, height = h, device = cairo_pdf)
-    ggsave(file.path(OUT, paste0(fn, ".svg")), p, width = w, height = h)
-    ggsave(file.path(OUT, paste0(fn, ".png")), p, width = w, height = h, dpi = 350)
-}
 
 ## blank-axis UMAP base (the embedding axes carry no quantitative meaning)
 umap_base <- function(df) ggplot(df, aes(UMAP1, UMAP2)) +

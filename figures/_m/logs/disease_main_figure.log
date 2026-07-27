@@ -1,5 +1,5 @@
-2026-07-24 10:47:49 - **** Job starts ****
-Job id: 42578311
+2026-07-27 12:51:44 - **** Job starts ****
+Job id: 42711871
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -18,7 +18,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figure_disease_main.{pdf,svg,png} 
 
 Reproducibility information:
-[1] "2026-07-24 10:48:19 EDT"
+[1] "2026-07-27 12:52:11 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -29,7 +29,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-24
+ date     2026-07-27
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -68,4 +68,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-24 10:48:22 - **** Job ends ****
+2026-07-27 12:52:14 - **** Job ends ****

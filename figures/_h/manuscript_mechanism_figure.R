@@ -10,16 +10,10 @@ suppressPackageStartupMessages({
     library(ggplot2); library(ggpubr); library(patchwork); library(ggalluvial)
 })
 
-ROOT <- normalizePath(file.path(getwd(), "..", ".."))
-P <- function(...) file.path(ROOT, ...)
-OUT <- P("figures", "mechanism"); dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
+## ROOT/P/OUT, OKABE, DISEASE_*, theme_ms(), save_fig(), map_disease(), dx_factor()
+source("../_h/_fig_common.R")
 
-## ---- shared visual language --------------------------------------------
-DISEASE_LEVELS <- c("Healthy", "COPD", "Fibrotic_ILD", "Other")
-DISEASE_LABS   <- c(Healthy = "Healthy", COPD = "COPD",
-                    Fibrotic_ILD = "Fibrotic/ILD", Other = "Other")
-DISEASE_COL <- c(Healthy = "#0072B2", COPD = "#E69F00",
-                 Fibrotic_ILD = "#D55E00", Other = "#999999")
+## ---- visual language specific to this script ----------------------------
 ## `basement_membrane` replaces `fibroblast_like` as the dominant program of
 ## clusters 1/3/5 after the pre-specified gate in basement_membrane/_h/01.state_gate.py.
 ## fibroblast_like is retained in the levels so older result tables still plot.
@@ -43,33 +37,9 @@ STATE_COL <- c(vascular_stabilizing = "#0072B2", synthetic_contractile = "#009E7
                basement_membrane = "#56B4E9",
                fibroblast_like = "#D55E00")
 
-theme_ms <- function(base = 8) {
-    theme_bw(base_size = base) +
-        theme(plot.title = element_blank(), plot.subtitle = element_blank(),
-              panel.grid.minor = element_blank(),
-              panel.grid.major.x = element_blank(),
-              axis.text = element_text(colour = "black"),
-              axis.title = element_text(colour = "black"),
-              legend.position = "none",
-              strip.background = element_blank())
-}
+## This script drops the vertical grid (its panels are mostly categorical-x boxes).
+theme_ms <- function(base = 8) .theme_ms(base = base, grid_x = FALSE)
 
-map_disease <- function(lc) {
-    lc <- as.character(lc)
-    dplyr::case_when(
-        grepl("^Healthy", lc) ~ "Healthy", lc %in% c("COPD") ~ "COPD",
-        grepl("IPF|fibrosis|ILD|NSIP|Sarcoid|^HP$|Lymphangio|sclerosis", lc,
-              ignore.case = TRUE) ~ "Fibrotic_ILD", TRUE ~ "Other")
-}
-dx_factor <- function(x) {
-    f <- factor(map_disease(x), levels = DISEASE_LEVELS)
-    droplevels(f)
-}
-save_fig <- function(fn, p, w, h) {
-    ggsave(file.path(OUT, paste0(fn, ".pdf")), p, width = w, height = h, device = cairo_pdf)
-    ggsave(file.path(OUT, paste0(fn, ".svg")), p, width = w, height = h)
-    ggsave(file.path(OUT, paste0(fn, ".png")), p, width = w, height = h, dpi = 350)
-}
 
 ## key contrast vs Healthy for the box panels
 dx_comparisons <- function(levs)
@@ -594,70 +564,11 @@ if (all(file.exists(c(la_f, lt_f, fr_f)))) {
     save_fig("figure_ccc_nichenet", figA, 9.2, 7.4)
 }
 
-## ===== Supplement: NicheNet ligand-program specificity + CoGAPS transfer ====
-## (A) permutation-null specificity of the prioritized ligands (moved companion to
-## cell_communication/_m/nichenet/nichenet_specificity_Pericytes.pdf); (B) the
-## projectR transfer heatmap formerly in the CCC main panel D -- pericyte-learned
-## CoGAPS patterns projected onto the niche (cell-type pseudobulk), one row per
-## PATTERN labelled "Program (Pn)"; columns ordered by the fibrillar/disease anchor
-## pattern. nP=8 is the de-novo-selected MAIN rank (nP=9 is the sensitivity rank).
-spec_f <- P("cell_communication", "_m", "nichenet", "nichenet_specificity_Pericytes.tsv")
-pp_f   <- P("pericyte_cogaps", "_m", "projected_pattern_by_celltype_np8.tsv")
-ann_f  <- P("cell_communication", "_m", "cogaps_receiver_annotation_np8.tsv")
-sspec <- NULL; sco <- NULL
-if (file.exists(spec_f)) {
-    sp <- fread(spec_f) %>% slice_max(obs_aupr, n = 15) %>%
-        mutate(test_ligand = reorder(test_ligand, obs_aupr))
-    sspec <- ggplot(sp, aes(y = test_ligand)) +
-        geom_errorbarh(aes(xmin = null_mean - 2 * null_sd, xmax = null_mean + 2 * null_sd),
-                       height = 0.3, colour = "grey65", linewidth = 0.4) +
-        geom_point(aes(x = null_mean), colour = "grey55", size = 1.6, shape = 1) +
-        geom_point(aes(x = obs_aupr, colour = p_emp_adj < 0.05), size = 2) +
-        scale_colour_manual(values = c(`TRUE` = "#B2182B", `FALSE` = "grey45"), guide = "none") +
-        labs(x = "Ligand activity (AUPR corrected):\nobserved vs random-geneset null (mean +/- 2 SD)",
-             y = NULL) + theme_ms()
-}
-if (file.exists(pp_f) && file.exists(ann_f)) {
-    pp <- fread(pp_f); a <- fread(ann_f)
-    nice <- c(vascular_stabilizing = "Vascular-stabilizing",
-              synthetic_contractile = "Synthetic/contractile",
-              inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-              activated_migratory = "Activated/migratory",
-              basement_membrane = "Basement-membrane")
-    pats <- intersect(a$pattern, names(pp)); a <- a[match(pats, a$pattern)]
-    mat  <- as.matrix(pp[, ..pats]); rownames(mat) <- pp$cell_type
-    z    <- scale(mat)
-    anchor   <- a$pattern[which.max(a$rho_fibroblast_like)]
-    ct_order <- rownames(z)[order(z[, anchor], decreasing = TRUE)]
-    prog_pri <- c("basement_membrane", "synthetic_contractile", "inflammatory",
-                  "vascular_stabilizing", "activated_migratory", "fibroblast_like")
-    selfrho  <- vapply(seq_len(nrow(a)), function(i)
-        a[[paste0("rho_", a$assigned_program[i])]][i], numeric(1))
-    a <- a[order(match(a$assigned_program, prog_pri), a$pattern != anchor, -selfrho)]
-    rlab <- sprintf("%s (%s)", nice[a$assigned_program], sub("Pattern_", "P", a$pattern))
-    names(rlab) <- a$pattern
-    long <- as.data.table(as.table(z)); setnames(long, c("cell_type", "pattern", "z"))
-    long[, row := factor(rlab[as.character(pattern)], levels = rev(rlab))]
-    long[, cell_type := factor(cell_type, levels = ct_order)]
-    long <- long[!is.na(row)]
-    sco <- ggplot(long, aes(cell_type, row, fill = z)) +
-        geom_tile(colour = "white", linewidth = 0.2) +
-        scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-                             midpoint = 0, name = "z (within\npattern)") +
-        labs(x = NULL, y = NULL) + theme_ms() +
-        theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5.5),
-              axis.text.y = element_text(size = 6.5), panel.grid = element_blank(),
-              legend.position = "right", legend.key.size = unit(3, "mm"),
-              legend.title = element_text(size = 6))
-}
-if (!is.null(sspec) || !is.null(sco)) {
-    figS <- if (!is.null(sspec) && !is.null(sco)) sspec / sco
-            else if (!is.null(sspec)) sspec else sco
-    figS <- figS + plot_layout(heights = c(1, 1.1)) +
-        plot_annotation(tag_levels = "A") &
-        theme(plot.tag = element_text(face = "bold", size = 10))
-    save_fig("figureS_cogaps_transfer", figS, 8.4, 8.2)
-}
+## NOTE: `figureS_cogaps_transfer` used to be built here. It was retired on
+## 2026-07-27 because both of its panels were absorbed into the numbered supplements:
+##   panel A (permutation-null ligand specificity) -> figureS_nichenet_specificity (S8)
+##   panel B (CoGAPS nP=8 projection across the niche) -> figureS_receiver_robustness (S9C)
+## Keeping it would have duplicated the same panels across two supplements.
 
 cat("Wrote manuscript figures to", OUT, "\n")
 list.files(OUT, pattern = "\\.(pdf|svg)$")

@@ -56,27 +56,56 @@ if (length(panels)) {
            width = 5 * length(panels), height = 4.5, dpi = 300)
 }
 
-## ---- Panel manifest (image panels assembled in vector editor) -----------
+## ---- Panel manifest -----------------------------------------------------
+## Two kinds of row, distinguished by `figure`:
+##   "A" / "B"  per-module source PDFs that are assembled into a main figure in a
+##              vector editor (supp_number is empty)
+##   "Supp"     a finished, self-contained supplement in figures/mechanism/, keyed
+##              by its MANUSCRIPT NUMBER (supp_number)
+##
+## supp_number is the authority for supplementary numbering: the output filenames
+## stay semantic (`figureS_<topic>`) so scripts and cross-references do not churn,
+## and the S-number lives here and in the README legend headings.
+SF <- function(basename) P("figures", "mechanism", paste0(basename, ".pdf"))
+
 manifest <- tibble::tribble(
-    ~figure, ~panel, ~source,
-    "A", "liana edges -> pericytes",        P("cell_communication","_m","figures","dotplot_into_Pericytes.pdf"),
-    "A", "liana edges -> AGTR2-det AT2",    P("cell_communication","_m","figures","dotplot_into_AT2_AGTR2det.pdf"),
-    "A", "NicheNet ligand->target (pericyte)", P("cell_communication","_m","nichenet","ligand_target_heatmap_Pericytes.pdf"),
-    "A", "alluvial cluster->category->role", P("cell_communication","_m","figures","alluvial_state.pdf"),
-    "B", "state UMAP",                      P("pericyte_states","_m","figures","umap_pericyte_state.pdf"),
-    "B", "DPT pseudotime UMAP",             P("pericyte_states","_m","figures","umap_pseudotime.pdf"),
-    "B", "PAGA states",                     P("pericyte_states","_m","figures","paga_states.pdf"),
-    "Supp", "AT1R/AT2R balance by disease", P("pathway_balance","_m","stats_data","balance_by_disease.pdf"),
-    "Supp", "smoking + cohort robustness", P("figures","mechanism","figureS_sensitivity.pdf"),
-    ## Was "mouse Agtr1a by state" (mouse_Agtr1a_by_state.pdf). Retired 2026-07-21:
-    ## the mouse state labels are largely smooth-muscle labels (the BM "state" is 84
-    ## of 87 PA-SMCs, zero pericytes) and the panel was drawn on the dense
-    ## scvi_corrected layer. Superseded by the raw-count compartment figure.
-    "Supp", "mouse Agtr1a compartment (raw counts)",
-        P("figures","mechanism","figureS_crossspecies_mouse.pdf")
+    ~figure, ~supp_number, ~panel, ~source,
+    "A", "", "liana edges -> pericytes",        P("cell_communication","_m","figures","dotplot_into_Pericytes.pdf"),
+    "A", "", "liana edges -> AGTR2-det AT2",    P("cell_communication","_m","figures","dotplot_into_AT2_AGTR2det.pdf"),
+    "A", "", "NicheNet ligand->target (pericyte)", P("cell_communication","_m","nichenet","ligand_target_heatmap_Pericytes.pdf"),
+    "A", "", "alluvial cluster->category->role", P("cell_communication","_m","figures","alluvial_state.pdf"),
+    "B", "", "state UMAP",                      P("pericyte_states","_m","figures","umap_pericyte_state.pdf"),
+    "B", "", "DPT pseudotime UMAP",             P("pericyte_states","_m","figures","umap_pseudotime.pdf"),
+    "B", "", "PAGA states",                     P("pericyte_states","_m","figures","paga_states.pdf"),
+    "Supp", "S1",  "Pericyte-layer supporting detail",                    SF("figureS_pericyte_layer"),
+    "Supp", "S2",  "Agtr1a marks the mouse pericyte compartment",         SF("figureS_crossspecies_mouse"),
+    "Supp", "S3",  "Program x protein-category enrichment",               SF("figureS_program_category"),
+    "Supp", "S4",  "AGTR1 is not reducible to ACTA2+ contractile identity", SF("figureS_acta2_control"),
+    "Supp", "S5",  "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state"),
+    "Supp", "S6",  "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd"),
+    "Supp", "S7",  "Stability of the pericyte continuum",                 SF("figureS_continuum_stability"),
+    "Supp", "S8",  "Specificity and donor-level validation of niche regulation", SF("figureS_nichenet_specificity"),
+    "Supp", "S9",  "Robustness to receiver definition; BM-restricted signaling", SF("figureS_receiver_robustness"),
+    "Supp", "S10", "The lung renin-angiotensin axis is distributed across cell types", SF("figureS_ras_landscape"),
+    "Supp", "S11", "Discrete state composition does not differ across disease", SF("figureS_state_composition"),
+    "Supp", "S12", "Robustness and limitations of the disease-associated signal", SF("figureS_sensitivity")
 )
+## NOT numbered supplements, deliberately:
+##   figureS_alluvial          -- grant figure, not a manuscript supplement (2026-07-27)
+##   figureS_cogaps_transfer   -- retired 2026-07-27; its permutation-null panel is now
+##                                S8 and its CoGAPS projection is S9C
+##   mouse_Agtr1a_by_state.pdf -- retired 2026-07-21; the mouse state labels are largely
+##                                smooth-muscle labels (the BM "state" is 84 of 87
+##                                PA-SMCs, zero pericytes) and it was drawn on the dense
+##                                scvi_corrected layer. Superseded by S2 (raw counts).
 manifest$exists <- file.exists(manifest$source)
 write.table(manifest, file.path(outdir, "figure_panel_manifest.tsv"),
             sep = "\t", quote = FALSE, row.names = FALSE)
+
+supp <- manifest[manifest$figure == "Supp", ]
 cat("Panels present:", sum(manifest$exists), "/", nrow(manifest), "\n")
-print(manifest[, c("figure", "panel", "exists")])
+cat("Supplements present:", sum(supp$exists), "/", nrow(supp), "\n")
+if (any(!manifest$exists)) {
+    cat("MISSING:\n"); print(manifest[!manifest$exists, c("figure", "supp_number", "source")])
+}
+print(manifest[, c("figure", "supp_number", "panel", "exists")])
