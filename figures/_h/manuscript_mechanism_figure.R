@@ -240,7 +240,9 @@ main <- (pA | pB | pC) / (pD | pF | plot_spacer()) +
     theme(plot.tag = element_text(face = "bold", size = 10))
 save_fig("figure_mechanism_main", main, 7.2, 6.0)
 
-## ---- Supplement: program x protein-category enrichment (dot-heatmap) -----
+## ---- Supplement S13: program x protein-category enrichment (dot-heatmap) --
+## Numbered S3 until 2026-07-27, when figureS_state_annotation took that slot;
+## appended as S13 rather than shifting S4-S12. See figures/mechanism/README.md.
 ## The science figure the collaborator asked for: how the five pericyte programs
 ## relate to the eight marker protein categories. Dot size = prevalence (mean
 ## fraction of the program's cells expressing the category); fill = relative
@@ -538,12 +540,28 @@ if (all(file.exists(c(la_f, lt_f, fr_f)))) {
         rhs <- if (length(adj)) paste(adj, collapse = " + ") else "1"
         dv[, x_res := resid(lm(as.formula(paste("sender_ligand_mean ~", rhs)), data = dv))]
         dv[, y_res := resid(lm(as.formula(paste("receiver_target_expr ~", rhs)), data = dv))]
-        full <- lm(as.formula(paste("receiver_target_expr ~ sender_ligand_mean +", rhs)), data = dv)
-        co <- summary(full)$coefficients["sender_ligand_mean", ]
-        pv <- co["Pr(>|t|)"]
+        ## The annotated estimate comes from the PERSISTED fit in
+        ## cell_communication/_m/donor_validation/donor_validation_results.tsv
+        ## (row: predictor == "sender_ligand_mean", model == "lm(+dataset fixed)"),
+        ## which is the same lm this panel used to refit inline. Reading it instead
+        ## of refitting keeps the panel and Table S10C from drifting apart -- the
+        ## inline version was the only place this coefficient existed, so the number
+        ## in the figure had no source file behind it.
+        stats_f <- P("cell_communication", "_m", "donor_validation",
+                     "donor_validation_results.tsv")
+        if (!file.exists(stats_f))
+            stop("missing ", stats_f, " -- run cell_communication 05.donor_validation_stats.R")
+        dstat <- fread(stats_f)
+        row <- dstat[predictor == "sender_ligand_mean" & model == "lm(+dataset fixed)"]
+        if (nrow(row) != 1L)
+            stop("expected exactly 1 lm(+dataset fixed) row for sender_ligand_mean, got ", nrow(row))
+        if (row$n_donors != nrow(dv))
+            stop("donor count mismatch: stats file has ", row$n_donors,
+                 " but this panel plots ", nrow(dv))
+        pv <- row$adj_p
         pstr <- if (pv < 1e-3) formatC(pv, format = "e", digits = 1) else formatC(pv, format = "f", digits = 3)
         lab <- sprintf("beta == %.2f * ',' ~ italic(P) == '%s'  ~ '(n = %d)'",
-                       co["Estimate"], pstr, nrow(dv))
+                       row$adj_estimate, pstr, nrow(dv))
         cD <- ggplot(dv, aes(x_res, y_res)) +
             geom_smooth(method = "lm", se = TRUE, colour = "#0072B2",
                         fill = "#0072B2", alpha = 0.15, linewidth = 0.7) +

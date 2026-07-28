@@ -79,7 +79,7 @@ manifest <- tibble::tribble(
     "B", "", "PAGA states",                     P("pericyte_states","_m","figures","paga_states.pdf"),
     "Supp", "S1",  "Pericyte-layer supporting detail",                    SF("figureS_pericyte_layer"),
     "Supp", "S2",  "Agtr1a marks the mouse pericyte compartment",         SF("figureS_crossspecies_mouse"),
-    "Supp", "S3",  "Program x protein-category enrichment",               SF("figureS_program_category"),
+    "Supp", "S3",  "Stability and annotation of human lung pericyte states", SF("figureS_state_annotation"),
     "Supp", "S4",  "AGTR1 is not reducible to ACTA2+ contractile identity", SF("figureS_acta2_control"),
     "Supp", "S5",  "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state"),
     "Supp", "S6",  "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd"),
@@ -88,7 +88,11 @@ manifest <- tibble::tribble(
     "Supp", "S9",  "Robustness to receiver definition; BM-restricted signaling", SF("figureS_receiver_robustness"),
     "Supp", "S10", "The lung renin-angiotensin axis is distributed across cell types", SF("figureS_ras_landscape"),
     "Supp", "S11", "Discrete state composition does not differ across disease", SF("figureS_state_composition"),
-    "Supp", "S12", "Robustness and limitations of the disease-associated signal", SF("figureS_sensitivity")
+    "Supp", "S12", "Robustness and limitations of the disease-associated signal", SF("figureS_sensitivity"),
+    ## Held S3 until 2026-07-27, when the stability/annotation figure took that
+    ## slot. Appended here rather than shifting S4-S12 up by one, so no S-number
+    ## already used in the manuscript changes meaning.
+    "Supp", "S13", "Program x protein-category enrichment",               SF("figureS_program_category")
 )
 ## NOT numbered supplements, deliberately:
 ##   figureS_alluvial          -- grant figure, not a manuscript supplement (2026-07-27)

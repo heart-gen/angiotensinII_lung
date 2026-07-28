@@ -31,7 +31,7 @@ The narrative arc the figures deliver:
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
 
-**Supplements — S1–S12.** Filenames stay semantic so scripts and cross-references do not
+**Supplements — S1–S13.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by the `supp_number` column of
 `figure_panel_manifest.tsv` and by the legend headings below.
 
@@ -39,7 +39,7 @@ churn; the manuscript number is carried by the `supp_number` column of
 |---|---|---|
 | S1 | `figureS_pericyte_layer` | `pericyte_layer_figure.R` |
 | S2 | `figureS_crossspecies_mouse` | `manuscript_mechanism_figure.R` |
-| S3 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
+| S3 | `figureS_state_annotation` | `state_annotation_figure.R` |
 | S4 | `figureS_acta2_control` | `manuscript_mechanism_figure.R` |
 | S5 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
 | S6 | `figureS_bm_copd` | `basement_membrane_figure.R` |
@@ -49,6 +49,11 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S10 | `figureS_ras_landscape` | `basement_membrane_figure.R` |
 | S11 | `figureS_state_composition` | `state_composition_figure.R` |
 | S12 | `figureS_sensitivity` | `sensitivity_robustness_figure.R` |
+| S13 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
+
+`figureS_program_category` held S3 until 2026-07-27, when the stability/annotation figure
+took that slot. It was **appended as S13 rather than shifting S4–S12 up by one**, so no
+S-number already used in the manuscript changes meaning.
 
 **Deliberately NOT numbered supplements:**
 - `figureS_alluvial` — a **grant** figure, not a manuscript supplement (2026-07-27). It is
@@ -147,7 +152,23 @@ expression, one point per donor (*n* = 105), colored by disease group. Raw Spear
 Disease colors are retained here — unlike the disease-neutral adjusted view in the main figure —
 to show the relationship is not carried by one group. **(D)** The same for TGFB1 alone, which is
 weaker but concordant (raw ρ = 0.24, *P* = 0.014; adjusted β = 0.41, *P* = 0.019), i.e. the
-composite is not a restatement of a single ligand.
+composite is not a restatement of a single ligand. **(E)** The same for TGFB2 alone. TGFB2 is the
+**top**-ranked ligand in (A) by corrected AUPR (0.208, just above TGFB1's 0.203), so omitting it
+would leave the leading ligand as the only one with no individual donor-level estimate. Its
+donor-level support does not match its rank: raw ρ = 0.06 (*P* = 0.52), adjusted β = 0.54
+(*P* = 0.087).
+
+*Reading C–E.* In all three panels the **drawn line is the raw, unadjusted fit** while the
+**annotated β is the dataset- and disease-adjusted LMM coefficient**; *n* = 105 donors throughout.
+In C and D the two agree in direction and the distinction is cosmetic. In **E they do not**: the
+line is flat while the adjusted β is the largest of the three. The adjustment is doing the work
+there — donors with high TGFB2 are unevenly distributed across studies, so the marginal
+correlation is confounded away and the within-study slope is positive but does not reach
+significance. TGFB2's *x*-range is also compressed, with most donors below 0.15, so the estimate
+rests on relatively few high-expressing donors. **Do not describe TGFB2 as donor-validated.** The
+defensible statement is that the composite (C) is donor-validated, TGFB1 (D) individually so, and
+TGFB2 (E) is not — despite leading the AUPR ranking. That dissociation between prior-network rank
+and donor-level replication is the reason the manuscript's claims rest on the composite.
 
 ### Figure S9 — `figureS_receiver_robustness` — Predicted signaling is robust to receiver definition and differs between injury and basement-membrane programs
 
@@ -170,8 +191,10 @@ fibrillar/inflammatory patterns extend into bona-fide fibroblasts and myeloid po
 injury axes a subset of pericytes adopt are the ones fibroblasts constitutively run. **(D)**
 Re-running the prioritization against the **basement-membrane** target set instead of the injury
 program gives a substantially different ranking (Spearman ρ = 0.223 against the injury ranking,
-only 8 of the top 20 ligands shared). Of 321 candidates only **MMP14** survives correction
-(rank 1, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032); TIMP2 ranks second but is not FDR-significant,
+only 8 of the top 20 ligands shared). The target set is the **10 of 13** BM-panel genes expressed
+in pericytes above the 0.10 receiver threshold (*LAMA3*, *LAMA5* and *AGRN* fall below it and were
+never tested). Of 321 candidates only **MMP14** survives correction across 10,000 matched
+permutations (rank 1, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032); TIMP2 ranks second but is not FDR-significant,
 and TGFB2/TGFB1 carry regulatory potential without reaching significance. BM deposition is
 therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
 TGF-β-dominated axis that drives the injury program.
@@ -250,7 +273,7 @@ oranges = basement-membrane [P1, P3, P5]; pink = activated/migratory [P4]) so bo
 subcluster→program merge and the program grouping are legible. Cluster→program assignments are
 the canonical `state_program_map.tsv` used throughout the analysis.
 
-### Figure S3 — `figureS_program_category` — Program × protein-category enrichment
+### Figure S13 — `figureS_program_category` — Program × protein-category enrichment
 
 **Figure S.** Dot heatmap relating the six pericyte programs (rows) to eight curated marker
 protein categories (columns: signaling ligands; chemokines; cytokines; adhesion molecules; ECM
@@ -260,6 +283,73 @@ mean detection across programs, computed within category to expose program-speci
 otherwise swamped by category-level baseline detectability). Cells are assigned to their dominant
 program by *z*-scored argmax of the six program scores — now including basement-membrane
 (`cell_communication/_h/03b.program_category_enrichment.py`), retaining all six programs.
+
+### Figure S3 — `figureS_state_annotation` — Stability and annotation of human lung pericyte states
+
+**Figure S.** Audit trail for the six stable pericyte states used throughout the study
+(*n* = 11,680 pericytes). States are data-driven Leiden clusters on the study-integrated
+embedding (`X_pca_harmony`) chosen by a bootstrap stability sweep; curated marker panels and
+Wilcoxon differential expression **annotate** the clusters and played no part in defining them.
+**(A)** Stability sweep over Leiden neighbourhood size (15, 30) and resolution (0.3–0.9),
+30 bootstraps per setting at 80% resampling. Points are the median best-match Jaccard between
+the full-data clustering and each bootstrap replicate; labels give the number of clusters *k*;
+the dashed line is the 0.6 pass gate (`--stability-threshold`). Every setting clears the gate by
+a wide margin, so the selected solution (black ring: 30 neighbours, resolution 0.5, *k* = 6;
+median Jaccard 0.966, mean ARI 0.946, mean NMI 0.932) was chosen among stable alternatives
+rather than rescued by the threshold. **(B)** The selected solution broken out per cluster, with
+cluster size on the axis: point = median over 30 bootstraps, bar = 2.5–97.5% range, cross = worst
+replicate, dotted line = median across clusters (0.965), numbers = per-cluster medians. **This is
+the panel that qualifies (A).** The four large clusters are highly reproducible (P0 0.99, P1 1.00,
+P2 0.91, P3 0.98), but the two smallest are not: **P4** (220 cells, activated/migratory) has a
+median of only **0.52** with a worst replicate of 0.11, and **P5** (113 cells,
+basement-membrane) is bimodal — median 0.95 but a 2.5th percentile of 0.03, i.e. in a minority of
+resamples it dissolves entirely. The pooled median in (A) is taken over all 180 cluster ×
+bootstrap values, so the 120 values contributed by P0–P3 hold it at 0.97 and it does **not**
+communicate this. **(C)** What the clusters express.
+*Top row:* data-driven Wilcoxon markers per cluster (top four by score, `pval_adj` < 0.05 and
+logFC ≥ 0.25); ribosomal-protein and mitochondrial genes are excluded **from display only**, and
+the unfiltered ranking is in `pericyte_states/_m/annotations/state_markers.tsv.gz`. *Bottom row:*
+the curated `STATE_PANELS` used to annotate the clusters, four genes per program, ranked by how
+much each discriminates among P0–P5 (SD of per-cluster mean expression) — most of the
+inflammatory panel is near zero in every pericyte cluster and would otherwise fill the block with
+blanks. Panels overlap (e.g. *COL4A1* is on both the fibroblast-like and basement-membrane
+panels), so a gene is kept only for the first program that claims it. In both rows, dot size =
+fraction of the cluster's cells expressing the gene and fill = *z* of mean log-expression across
+the six clusters, so a row reads for specificity. **(D)** Relative program enrichment per cluster
+(mean of cell-level *z*-scored program scores); black outline marks the dominant program assigned
+to that cluster, giving P0/P2 → vascular-stabilizing, P1/P3/P5 → basement-membrane,
+P4 → activated/migratory.
+
+*Caveats.* (0) **P4 and P5 are not stable clusters at the level P0–P3 are** (see B). Neither
+supports a claim that rests on it being a discrete, reproducible cell state. This is consistent
+with how they are already used: the disease analyses report the *continuous* injury-program
+score, and **S11** shows discrete composition does not differ by disease group — so nothing in
+the study's conclusions rests on P4 or P5 as entities. It does mean the activated/migratory
+program label in (D) is carried by the least reproducible cluster in the solution, and any text
+describing P4 as a distinct state should be softened to a program-score statement.
+(i) P0 and P2 — the two vascular-stabilizing clusters — are not separated by
+distinctive lineage markers in the top row of (C); their top Wilcoxon genes are largely
+translational and housekeeping transcripts, i.e. the two differ substantially in transcriptional
+load rather than in identity. That is a property of the data, not of the display filter, and it
+is why the functional claims in this study rest on the continuous program scores rather than on
+P0-versus-P2 as separate biological entities. The curated row of (C) is what carries the
+cluster→program link for those two. (ii) There is deliberately no program-score UMAP panel here:
+**S1** (`figureS_pericyte_layer`) panel A already shows those six overlays on this same
+embedding, and a panel duplicated across two supplements is worse than a cross-reference.
+
+*Provenance.* Panels A and D come straight from `00.state_discovery.py`
+(`stability/cluster_stability_grid.tsv`, `annotations/state_program_map.tsv`). Panels B and C
+need two quantities that script aggregates away — per-cluster (rather than pooled) bootstrap
+Jaccard, and per-cluster mean/detection expression for the marker genes. Both are produced
+**without re-running the clustering**, because `pericyte_state` labels are keyed on by four
+downstream modules: (B) by `00.state_discovery.py --stability-only` (driver `step_0c.sh`), which
+re-runs the bootstrap at the stored solution and refuses to write unless the recomputed labels
+reproduce `pericyte_state` for every cell; (C) by `00b.annotation_support.py` (driver
+`step_0b.sh`), which only reads the published object. Note that (B)'s Jaccards are a **fresh**
+bootstrap, not a replay of the sweep — the sweep consumes one RNG stream across all eight
+settings, so a single-setting run necessarily draws a different resample sequence. (A)'s 0.966
+and (B)'s median are therefore two draws of the same quantity, agreeing within the 0.05 tolerance
+the script enforces; do not quote them as the same number.
 
 ### Figure S1 — `figureS_pericyte_layer` — Pericyte-layer supporting detail
 

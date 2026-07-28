@@ -1,0 +1,14 @@
+gene	panel	structural_subclass	n_panels	other_panels	detect_frac	mean_expr	mean_expr_in_pos
+COL4A1	basement_membrane	collagen IV	2	bm_collagen_iv	0.793921232876712	2.0454922	2.576442
+COL4A2	basement_membrane	collagen IV	2	bm_collagen_iv	0.810359589041096	2.0786228	2.5650625
+COL18A1	basement_membrane	collagen XVIII (BM-associated)	2	bm_linker	0.526284246575342	1.2048582	2.289368
+LAMA3	basement_membrane	laminin	2	bm_laminin	0.0158390410958904	0.029683067	1.8740444
+LAMA4	basement_membrane	laminin	2	bm_laminin	0.312157534246575	0.66451144	2.1287694
+LAMA5	basement_membrane	laminin	2	bm_laminin	0.0663527397260274	0.13091007	1.9729414
+LAMB1	basement_membrane	laminin	2	bm_laminin	0.596147260273973	1.43257	2.4030476
+LAMB2	basement_membrane	laminin	2	bm_laminin	0.142722602739726	0.2870429	2.0111945
+LAMC1	basement_membrane	laminin	2	bm_laminin	0.222945205479452	0.45494357	2.040607
+NID1	basement_membrane	linker/proteoglycan	2	bm_linker	0.577054794520548	1.3468853	2.3340683
+NID2	basement_membrane	linker/proteoglycan	2	bm_linker	0.0970034246575342	0.191948	1.9787755
+HSPG2	basement_membrane	linker/proteoglycan	2	bm_linker	0.139640410958904	0.2828698	2.0257018
+AGRN	basement_membrane	linker/proteoglycan	2	bm_linker	0.069263698630137	0.13686152	1.9759489

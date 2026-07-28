@@ -1,0 +1,100 @@
+panel_set	program	gene	n_state_programs	state_programs	multi_panel	program_rationale	gene_category	detect_frac	mean_expr	detected_in_object	n_cells_object
+bm_subpanel	bm_collagen_iv	COL4A1	2	basement_membrane; fibroblast_like	True		collagen IV	0.7939212328767123	2.0454920938570207	True	11680
+bm_subpanel	bm_collagen_iv	COL4A2	1	basement_membrane	False		collagen IV	0.8103595890410958	2.0786228127675512	True	11680
+bm_subpanel	bm_laminin	LAMA3	1	basement_membrane	False		laminin	0.015839041095890412	0.029683066067630298	True	11680
+bm_subpanel	bm_laminin	LAMA4	1	basement_membrane	False		laminin	0.31215753424657533	0.6645114428376498	True	11680
+bm_subpanel	bm_laminin	LAMA5	1	basement_membrane	False		laminin	0.0663527397260274	0.1309100634431186	True	11680
+bm_subpanel	bm_laminin	LAMB1	1	basement_membrane	False		laminin	0.5961472602739726	1.4325700315710617	True	11680
+bm_subpanel	bm_laminin	LAMB2	1	basement_membrane	False		laminin	0.14272260273972603	0.2870428843040989	True	11680
+bm_subpanel	bm_laminin	LAMC1	1	basement_membrane	False		laminin	0.22294520547945204	0.4549435550219392	True	11680
+bm_subpanel	bm_linker	AGRN	1	basement_membrane	False		linker/proteoglycan	0.06926369863013698	0.13686152418998823	True	11680
+bm_subpanel	bm_linker	COL18A1	1	basement_membrane	False		collagen XVIII (BM-associated)	0.5262842465753425	1.204858231217894	True	11680
+bm_subpanel	bm_linker	HSPG2	1	basement_membrane	False		linker/proteoglycan	0.13964041095890412	0.2828697936175621	True	11680
+bm_subpanel	bm_linker	NID1	1	basement_membrane	False		linker/proteoglycan	0.577054794520548	1.346885367615582	True	11680
+bm_subpanel	bm_linker	NID2	1	basement_membrane	False		linker/proteoglycan	0.09700342465753424	0.19194799971907106	True	11680
+contrast_panel	fibrillar_ecm	BGN	0		False			0.7889554794520548	2.107174724422089	True	11680
+contrast_panel	fibrillar_ecm	COL1A1	1	fibroblast_like	False			0.14726027397260275	0.3242454215271832	True	11680
+contrast_panel	fibrillar_ecm	COL1A2	1	fibroblast_like	False			0.5835616438356165	1.41611328125	True	11680
+contrast_panel	fibrillar_ecm	COL3A1	1	fibroblast_like	False			0.2661815068493151	0.6192289587569564	True	11680
+contrast_panel	fibrillar_ecm	COL5A1	0		False			0.14871575342465754	0.3004575964522688	True	11680
+contrast_panel	fibrillar_ecm	DCN	1	fibroblast_like	False			0.6856164383561644	1.7240612291309931	True	11680
+contrast_panel	fibrillar_ecm	FBN1	0		False			0.15607876712328766	0.31004968930597177	True	11680
+contrast_panel	fibrillar_ecm	FN1	1	fibroblast_like	False			0.2573630136986301	0.5474557118873074	True	11680
+contrast_panel	fibrillar_ecm	LUM	1	fibroblast_like	False			0.23227739726027397	0.5119534845221533	True	11680
+contrast_panel	fibrillar_ecm	POSTN	1	activated_migratory	False			0.032363013698630136	0.06693785680483465	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	COL1A1	1	fibroblast_like	False			0.14726027397260275	0.3242454215271832	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	COL1A2	1	fibroblast_like	False			0.5835616438356165	1.41611328125	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	COL3A1	1	fibroblast_like	False			0.2661815068493151	0.6192289587569564	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	DCN	1	fibroblast_like	False			0.6856164383561644	1.7240612291309931	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	FBLN1	1	fibroblast_like	False			0.125	0.2573561576947774	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	FN1	1	fibroblast_like	False			0.2573630136986301	0.5474557118873074	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	LUM	1	fibroblast_like	False			0.23227739726027397	0.5119534845221533	True	11680
+contrast_panel	fibroblast_like_noCOL4A1	PDGFA	1	fibroblast_like	False			0.13792808219178082	0.2774831693466396	True	11680
+extra	receptor/control genes	ACTA2	1	synthetic_contractile	False			0.5741438356164383	1.4330823924443492	True	11680
+extra	receptor/control genes	AGTR1	0		False			0.3742294520547945	0.8098208074700343	True	11680
+extra	receptor/control genes	AGTR2	0		False			8.561643835616438e-05	0.00010604955358048008	True	11680
+state_program	activated_migratory	ADAMTS1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.35154109589041094	0.8000485772955908	True	11680
+state_program	activated_migratory	MMP2	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.13304794520547944	0.26881682513511346	True	11680
+state_program	activated_migratory	MMP3	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.0004280821917808219	0.0006977494448831636	True	11680
+state_program	activated_migratory	MMP9	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.0017123287671232876	0.0031160593032836916	True	11680
+state_program	activated_migratory	POSTN	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.032363013698630136	0.06693785680483465	True	11680
+state_program	activated_migratory	SERPINE1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.10513698630136986	0.22780025952482877	True	11680
+state_program	activated_migratory	THBS1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.35368150684931504	0.8001181406517551	True	11680
+state_program	activated_migratory	TIMP1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.688527397260274	1.7803448402718323	True	11680
+state_program	basement_membrane	AGRN	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.06926369863013698	0.13686152418998823	True	11680
+state_program	basement_membrane	COL18A1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen XVIII (BM-associated)	0.5262842465753425	1.204858231217894	True	11680
+state_program	basement_membrane	COL4A1	2	basement_membrane; fibroblast_like	True	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen IV	0.7939212328767123	2.0454920938570207	True	11680
+state_program	basement_membrane	COL4A2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen IV	0.8103595890410958	2.0786228127675512	True	11680
+state_program	basement_membrane	HSPG2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.13964041095890412	0.2828697936175621	True	11680
+state_program	basement_membrane	LAMA3	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.015839041095890412	0.029683066067630298	True	11680
+state_program	basement_membrane	LAMA4	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.31215753424657533	0.6645114428376498	True	11680
+state_program	basement_membrane	LAMA5	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.0663527397260274	0.1309100634431186	True	11680
+state_program	basement_membrane	LAMB1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.5961472602739726	1.4325700315710617	True	11680
+state_program	basement_membrane	LAMB2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.14272260273972603	0.2870428843040989	True	11680
+state_program	basement_membrane	LAMC1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.22294520547945204	0.4549435550219392	True	11680
+state_program	basement_membrane	NID1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.577054794520548	1.346885367615582	True	11680
+state_program	basement_membrane	NID2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.09700342465753424	0.19194799971907106	True	11680
+state_program	fibroblast_like	COL1A1	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.14726027397260275	0.3242454215271832	True	11680
+state_program	fibroblast_like	COL1A2	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.5835616438356165	1.41611328125	True	11680
+state_program	fibroblast_like	COL3A1	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.2661815068493151	0.6192289587569564	True	11680
+state_program	fibroblast_like	COL4A1	2	basement_membrane; fibroblast_like	True	Fibrillar interstitial matrix and fibroblast identity markers	collagen IV	0.7939212328767123	2.0454920938570207	True	11680
+state_program	fibroblast_like	DCN	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.6856164383561644	1.7240612291309931	True	11680
+state_program	fibroblast_like	FBLN1	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.125	0.2573561576947774	True	11680
+state_program	fibroblast_like	FN1	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.2573630136986301	0.5474557118873074	True	11680
+state_program	fibroblast_like	LUM	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.23227739726027397	0.5119534845221533	True	11680
+state_program	fibroblast_like	PDGFA	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.13792808219178082	0.2774831693466396	True	11680
+state_program	inflammatory	CCL2	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.08287671232876713	0.1814633304125642	True	11680
+state_program	inflammatory	CCL20	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.019948630136986303	0.04165340319071731	True	11680
+state_program	inflammatory	CXCL1	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.022602739726027398	0.050434196158631206	True	11680
+state_program	inflammatory	CXCL10	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.01309931506849315	0.03168329212763538	True	11680
+state_program	inflammatory	CXCL2	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.06053082191780822	0.13022775519384097	True	11680
+state_program	inflammatory	CXCL3	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.030993150684931508	0.0628985731569055	True	11680
+state_program	inflammatory	CXCL6	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.0016267123287671233	0.0029749582891594874	True	11680
+state_program	inflammatory	CXCL8	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.03809931506849315	0.08181753811770923	True	11680
+state_program	inflammatory	ICAM1	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.06686643835616439	0.13522270934222497	True	11680
+state_program	inflammatory	IL1A	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.001113013698630137	0.002193015895477713	True	11680
+state_program	inflammatory	IL1B	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.010445205479452055	0.02228837731766374	True	11680
+state_program	inflammatory	IL6	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.09126712328767124	0.20782362010380992	True	11680
+state_program	inflammatory	MIF	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.2690068493150685	0.5976879799202697	True	11680
+state_program	inflammatory	NFKBIA	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.4624143835616438	1.0539309148919092	True	11680
+state_program	inflammatory	SELE	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.0018835616438356165	0.0033900731230435306	True	11680
+state_program	inflammatory	VCAM1	1	inflammatory	False	NF-kB-driven cytokine, chemokine and leukocyte-adhesion program		0.011986301369863013	0.0240436998132157	True	11680
+state_program	synthetic_contractile	ACTA2	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.5741438356164383	1.4330823924443492	True	11680
+state_program	synthetic_contractile	CNN1	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.0916095890410959	0.18359592385488013	True	11680
+state_program	synthetic_contractile	DES	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.015582191780821918	0.032598427550433434	True	11680
+state_program	synthetic_contractile	MYH11	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.418236301369863	0.9652654778467465	True	11680
+state_program	synthetic_contractile	MYL9	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.7745719178082192	2.0305515237050513	True	11680
+state_program	synthetic_contractile	PDGFRB	2	synthetic_contractile; vascular_stabilizing	True	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.8377568493150684	2.148231151005993	True	11680
+state_program	synthetic_contractile	TAGLN	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.564041095890411	1.424831108197774	True	11680
+state_program	synthetic_contractile	VIM	1	synthetic_contractile	False	Smooth-muscle-like contractile apparatus (actin/myosin/calponin)		0.7504280821917808	1.9654189854452055	True	11680
+state_program	vascular_stabilizing	ABCC9	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.25702054794520546	0.5371678182523545	True	11680
+state_program	vascular_stabilizing	COX4I2	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.7603595890410959	1.9912714709974315	True	11680
+state_program	vascular_stabilizing	CSPG4	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.3369006849315068	0.7368950830747003	True	11680
+state_program	vascular_stabilizing	GJA4	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.48835616438356166	1.1343985779644692	True	11680
+state_program	vascular_stabilizing	HIGD1B	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.7158390410958904	1.8504966422303082	True	11680
+state_program	vascular_stabilizing	KCNJ8	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.21327054794520547	0.4425151250133776	True	11680
+state_program	vascular_stabilizing	NDUFA4L2	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.676541095890411	1.7649169921875	True	11680
+state_program	vascular_stabilizing	NOTCH3	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.6139554794520548	1.419125240796233	True	11680
+state_program	vascular_stabilizing	PDGFRB	2	synthetic_contractile; vascular_stabilizing	True	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.8377568493150684	2.148231151005993	True	11680
+state_program	vascular_stabilizing	PLXDC1	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.19049657534246575	0.3859181025256849	True	11680
+state_program	vascular_stabilizing	RGS5	1	vascular_stabilizing	False	Canonical pericyte identity and vessel-stabilizing signalling (PDGFRB/NOTCH3 axis, KATP subunits, mitochondrial COX4I2/NDUFA4L2)		0.49511986301369865	1.2961528621307792	True	11680

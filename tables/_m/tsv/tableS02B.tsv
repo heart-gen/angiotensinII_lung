@@ -1,0 +1,4 @@
+test	dataset_id	n_pericyte	n_smc	detect_pericyte	detect_smc	p_value	p_BH	p_formatted
+fisher_exact_detection	48b37086-25f7-4ecd-be66-f5bb378e3aea	25	43	0.64	0	1.39018671268435e-09	1.39018671268435e-09	1.39e-09
+fisher_exact_detection	98e5ea9f-16d6-47ec-a529-686e76515e39	16	44	0.9375	0	3.0078529857016e-13	4.5117794785524e-13	3.01e-13
+mantel_haenszel_detection_stratified_by_dataset	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	41	87	0.75609756097561	0	8.38909705946658e-20	2.51672911783997e-19	<2.2e-16

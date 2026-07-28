@@ -1,13 +1,13 @@
-2026-07-27 12:45:25 - **** Job starts ****
-Job id: 42711721
+2026-07-27 23:11:06 - **** Job starts ****
+Job id: 42737150
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 12:45:26 - **** Export pericyte UMAP coords (scRNA_env) ****
-2026-07-27 12:48:50,617 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+2026-07-27 23:11:07 - **** Export pericyte UMAP coords (scRNA_env) ****
+2026-07-27 23:11:15,824 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
 -----
 pandas              2.3.2
 scanpy              1.11.4
@@ -16,8 +16,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-27 12:48
-2026-07-27 12:49:15 - **** Integrated pericyte-layer figure (main + supplement) ****
+Session information updated at 2026-07-27 23:11
+2026-07-27 23:11:19 - **** Integrated pericyte-layer figure (main + supplement) ****
 pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 - Session info ---------------------------------------------------------------
  setting  value
@@ -74,7 +74,62 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:49:34 - **** S12: sensitivity / robustness ****
+2026-07-27 23:11:35 - **** S3: pericyte-state stability + annotation ****
+Wrote figureS_state_annotation to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
+
+Reproducibility information:
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-27
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ patchwork    * 1.3.2   2025-08-25 [1] CRAN (R 4.4.3)
+ pillar         1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0   2025-07-10 [1] CRAN (R 4.4.3)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0   2025-09-02 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0   2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ svglite        2.2.2   2025-10-21 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1   2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4   2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-27 23:11:45 - **** S12: sensitivity / robustness ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -82,7 +137,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Wrote figureS_sensitivity to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
-  LOSO injury_stromal_score: 16 refits, 16 positive, 13 with p < 0.05
+  LOSO injury_stromal_score: 17 refits, 17 positive, 1 with p < 0.05
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -139,7 +194,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:49:48 - **** Basement-membrane figure + S6, S10 ****
+2026-07-27 23:11:58 - **** Basement-membrane figure + S6, S10 ****
 wrote figure_basement_membrane
 wrote figureS_ras_landscape
 wrote figureS_bm_copd
@@ -198,7 +253,7 @@ wrote figureS_bm_copd
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:01 - **** S7: pericyte continuum stability ****
+2026-07-27 23:12:05 - **** S7: pericyte continuum stability ****
 Wrote figureS_continuum_stability to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -253,7 +308,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:06 - **** S8: NicheNet specificity + donor validation ****
+2026-07-27 23:12:10 - **** S8: NicheNet specificity + donor validation ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -321,7 +376,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:17 - **** S9: receiver robustness + BM-restricted signaling ****
+2026-07-27 23:12:16 - **** S9: receiver robustness + BM-restricted signaling ****
 Warning messages:
 1: Removed 3 rows containing missing values or values outside the scale range
 (`geom_text()`). 
@@ -389,7 +444,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:30 - **** S11: discrete state composition by disease ****
+2026-07-27 23:12:22 - **** S11: discrete state composition by disease ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -397,7 +452,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Wrote figureS_state_composition to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
-  donors: 36; contrasts in forest: 20; any BH p < 0.05: FALSE
+  donors: 47; contrasts in forest: 20; any BH p < 0.05: FALSE
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -451,7 +506,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:38 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+2026-07-27 23:12:31 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -481,13 +536,14 @@ Wrote manuscript figures to /ocean/projects/bio260021p/kbenjamin/projects/angiot
 [19] "figureS_program_category.svg"       "figureS_ras_landscape.pdf"         
 [21] "figureS_ras_landscape.svg"          "figureS_receiver_robustness.pdf"   
 [23] "figureS_receiver_robustness.svg"    "figureS_sensitivity.pdf"           
-[25] "figureS_sensitivity.svg"            "figureS_state_composition.pdf"     
-[27] "figureS_state_composition.svg"      "figure_basement_membrane.pdf"      
-[29] "figure_basement_membrane.svg"       "figure_ccc_nichenet.pdf"           
-[31] "figure_ccc_nichenet.svg"            "figure_disease_main.pdf"           
-[33] "figure_disease_main.svg"            "figure_mechanism_main.pdf"         
-[35] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
-[37] "figure_pericyte_layer.svg"         
+[25] "figureS_sensitivity.svg"            "figureS_state_annotation.pdf"      
+[27] "figureS_state_annotation.svg"       "figureS_state_composition.pdf"     
+[29] "figureS_state_composition.svg"      "figure_basement_membrane.pdf"      
+[31] "figure_basement_membrane.svg"       "figure_ccc_nichenet.pdf"           
+[33] "figure_ccc_nichenet.svg"            "figure_disease_main.pdf"           
+[35] "figure_disease_main.svg"            "figure_mechanism_main.pdf"         
+[37] "figure_mechanism_main.svg"          "figure_pericyte_layer.pdf"         
+[39] "figure_pericyte_layer.svg"         
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -559,10 +615,10 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:50:55 - **** Panel manifest ****
-Panels present: 19 / 19 
-Supplements present: 12 / 12 
-# A tibble: 19 x 4
+2026-07-27 23:12:53 - **** Panel manifest ****
+Panels present: 20 / 20 
+Supplements present: 13 / 13 
+# A tibble: 20 x 4
    figure supp_number panel                                               exists
    <chr>  <chr>       <chr>                                               <lgl> 
  1 A      ""          liana edges -> pericytes                            TRUE  
@@ -574,7 +630,7 @@ Supplements present: 12 / 12
  7 B      ""          PAGA states                                         TRUE  
  8 Supp   "S1"        Pericyte-layer supporting detail                    TRUE  
  9 Supp   "S2"        Agtr1a marks the mouse pericyte compartment         TRUE  
-10 Supp   "S3"        Program x protein-category enrichment               TRUE  
+10 Supp   "S3"        Stability and annotation of human lung pericyte st~ TRUE  
 11 Supp   "S4"        AGTR1 is not reducible to ACTA2+ contractile ident~ TRUE  
 12 Supp   "S5"        AT1R-AT2R balance by pericyte program               TRUE  
 13 Supp   "S6"        Basement-membrane remodeling in IPF but not COPD    TRUE  
@@ -584,4 +640,5 @@ Supplements present: 12 / 12
 17 Supp   "S10"       The lung renin-angiotensin axis is distributed acr~ TRUE  
 18 Supp   "S11"       Discrete state composition does not differ across ~ TRUE  
 19 Supp   "S12"       Robustness and limitations of the disease-associat~ TRUE  
-2026-07-27 12:50:58 - **** Job ends ****
+20 Supp   "S13"       Program x protein-category enrichment               TRUE  
+2026-07-27 23:12:57 - **** Job ends ****
