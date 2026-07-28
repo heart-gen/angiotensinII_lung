@@ -1,0 +1,5 @@
+Sum Sq	Df	F value	Pr(>F)	n_donors	min_cells	model
+disease_group	3.30976533067746	2	3.41047562743294	0.0458409187517601	36	20	lm(~ disease_group + age + sex)
+age	0.451982228339949	1	0.931470493994635	0.341950286692419	36	20	lm(~ disease_group + age + sex)
+sex	0.566854462306871	1	1.16820567916426	0.288107278017622	36	20	lm(~ disease_group + age + sex)
+Residuals	15.0422897653472	31	NA	NA	36	20	lm(~ disease_group + age + sex)

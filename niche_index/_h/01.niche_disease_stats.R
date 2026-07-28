@@ -30,12 +30,25 @@ write_tsv_safe <- function(x, file, row_names = FALSE) {
                 quote = FALSE, row.names = row_names, col.names = TRUE)
 }
 
-df <- data.table::fread("niche_index_per_donor.tsv.gz") |>
+## `--suffix` selects which donor table (and hence which donor cell-count
+## threshold) to model: "" is the primary >=10 run, "_mincells20" the sensitivity
+## run. Outputs inherit the same suffix so the two never overwrite each other.
+args <- commandArgs(trailingOnly = TRUE)
+parse_arg <- function(flag, default) {
+    i <- which(args == flag); if (length(i)) args[i + 1] else default
+}
+SFX <- parse_arg("--suffix", "")
+
+infile <- paste0("niche_index_per_donor", SFX, ".tsv.gz")
+if (!file.exists(infile)) stop("missing ", infile, " -- run 00.niche_index.py first")
+df <- data.table::fread(infile) |>
     mutate(disease_group = relevel(factor(map_disease_group(lung_condition)), "Healthy"),
            sex = factor(sex), age = suppressWarnings(as.numeric(age))) |>
     filter(!is.na(disease_group))
 
-cat("donors:", nrow(df), "\n"); print(table(df$disease_group))
+MIN_CELLS <- if ("min_cells" %in% names(df)) unique(df$min_cells)[1] else NA_integer_
+cat("input:", infile, "| min_cells:", MIN_CELLS, "| donors:", nrow(df), "\n")
+print(table(df$disease_group))
 
 outdir <- "stats_data"; if (!dir.exists(outdir)) dir.create(outdir)
 
@@ -45,12 +58,23 @@ run_one <- function(response) {
     fit <- lm(reformulate(c("disease_group", "age", "sex"), response), data = sub)
     robust <- lmtest::coeftest(fit, vcov = sandwich::vcovHC(fit, type = "HC3"))
     emm <- emmeans(fit, ~ disease_group)
-    write_tsv_safe(as.data.frame(car::Anova(fit, type = 2)),
-                   file.path(outdir, paste0(response, "_anova.tsv")), TRUE)
-    write_tsv_safe(as.data.frame(emm), file.path(outdir, paste0(response, "_emmeans.tsv")))
-    write_tsv_safe(as.data.frame(pairs(emm, adjust = "BH")), file.path(outdir, paste0(response, "_posthoc.tsv")))
+    ## n_donors and min_cells travel with every output: n was previously only
+    ## recoverable by adding the residual df back to the parameter count.
+    tag <- function(x) as.data.frame(x) |>
+        mutate(n_donors = nrow(sub), min_cells = MIN_CELLS,
+               model = "lm(~ disease_group + age + sex)")
+    ## The ANOVA is written with row names (term labels), so it cannot go through
+    ## tag(); add the same provenance columns by hand. Without them a downstream
+    ## table cannot tell which donor threshold an F statistic came from.
+    av <- as.data.frame(car::Anova(fit, type = 2))
+    av$n_donors <- nrow(sub); av$min_cells <- MIN_CELLS
+    av$model <- "lm(~ disease_group + age + sex)"
+    write_tsv_safe(av, file.path(outdir, paste0(response, "_anova", SFX, ".tsv")), TRUE)
+    write_tsv_safe(tag(emm), file.path(outdir, paste0(response, "_emmeans", SFX, ".tsv")))
+    write_tsv_safe(tag(pairs(emm, adjust = "BH")),
+                   file.path(outdir, paste0(response, "_posthoc", SFX, ".tsv")))
     rb <- as.data.frame(unclass(robust)); rb$term <- rownames(rb)
-    write_tsv_safe(rb, file.path(outdir, paste0(response, "_robust_coefs.tsv")))
+    write_tsv_safe(tag(rb), file.path(outdir, paste0(response, "_robust_coefs", SFX, ".tsv")))
 
     p <- ggboxplot(sub, x = "disease_group", y = response, add = "jitter",
                    fill = "disease_group", palette = "jco",
@@ -60,7 +84,7 @@ run_one <- function(response) {
         rotate_x_text(30) +
         stat_summary(fun = mean, geom = "point", shape = 23, size = 3,
                      fill = "white", color = "black")
-    save_ggplots(file.path(outdir, paste0("box_", response)), p, 5, 5)
+    save_ggplots(file.path(outdir, paste0("box_", response, SFX)), p, 5, 5)
     invisible(fit)
 }
 

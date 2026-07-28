@@ -17,9 +17,14 @@ module load anaconda3/2024.10-1
 module list
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
-log_message "**** Niche-index disease statistics ****"
+log_message "**** Niche-index disease statistics (PRIMARY, >=10 pericytes) ****"
 Rscript ../_h/01.niche_disease_stats.R
 
-if [ $? -ne 0 ]; then log_message "Error: Rscript failed"; exit 1; fi
+if [ $? -ne 0 ]; then log_message "Error: Rscript failed (primary)"; exit 1; fi
+
+log_message "**** Niche-index disease statistics (sensitivity, >=20 pericytes) ****"
+Rscript ../_h/01.niche_disease_stats.R --suffix "_mincells20"
+
+if [ $? -ne 0 ]; then log_message "Error: Rscript failed (mincells20)"; exit 1; fi
 conda deactivate
 log_message "**** Job ends ****"

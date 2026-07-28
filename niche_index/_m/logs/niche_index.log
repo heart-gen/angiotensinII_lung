@@ -1,11 +1,13 @@
-2026-07-21 17:38:38 - **** Job starts ****
-Job id: 42496658
+2026-07-27 22:48:51 - **** Job starts ****
+Job id: 42735923
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-21 17:38:39 - **** Build donor-level niche index ****
-2026-07-21 17:38:57,379 [INFO] Wrote niche index for 69 donors
-2026-07-21 17:38:58 - **** Job ends ****
+2026-07-27 22:48:52 - **** Build donor-level niche index (PRIMARY, >=10 pericytes) ****
+2026-07-27 22:49:14,698 [INFO] Wrote niche index for 89 donors (min_cells=10, suffix='')
+2026-07-27 22:49:15 - **** Build donor-level niche index (sensitivity, >=20 pericytes) ****
+2026-07-27 22:49:15,790 [INFO] Wrote niche index for 69 donors (min_cells=20, suffix='_mincells20')
+2026-07-27 22:49:16 - **** Job ends ****

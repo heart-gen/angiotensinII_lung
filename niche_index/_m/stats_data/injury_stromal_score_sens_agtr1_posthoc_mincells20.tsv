@@ -1,0 +1,4 @@
+contrast	estimate	SE	df	t.ratio	p.value	n_donors	min_cells	model
+Healthy - Fibrotic_ILD	-0.646317923646394	0.284964493563969	31	-2.26806475278054	0.0456622813749222	36	20	lm(~ disease_group + age + sex)
+Healthy - Other	-0.77248521873454	0.328725467349522	31	-2.34994028592614	0.0456622813749222	36	20	lm(~ disease_group + age + sex)
+Fibrotic_ILD - Other	-0.126167295088146	0.411591306241448	31	-0.306535374229049	0.761246539877857	36	20	lm(~ disease_group + age + sex)

@@ -50,8 +50,15 @@ def parse_args():
     p.add_argument("--airspace-summary", required=True, type=Path,
                    help="airspace_donor_summary.csv")
     p.add_argument("--outdir", required=True, type=Path)
-    p.add_argument("--min-cells", type=int, default=20,
-                   help="Min pericytes per donor to include")
+    # >=10 matches disease_association/_h/03.disease_forest.R and
+    # pericyte_states/_h/01.state_stats.R. This defaulted to 20 while
+    # disease_association used 10, so the project reported two incompatible donor
+    # denominators with nothing in the outputs revealing the difference.
+    p.add_argument("--min-cells", type=int, default=10,
+                   help="Min pericytes per donor to include (10 primary, 20 sensitivity)")
+    p.add_argument("--out-suffix", default="",
+                   help="Appended to output basenames, e.g. _mincells20 for the "
+                        "sensitivity run, so it does not overwrite the primary.")
     return p.parse_args()
 
 
@@ -117,14 +124,20 @@ def main():
     donor["injury_stromal_score_sens_agtr1"] = donor[[f"z_{c}" for c in inj_components_sens]].mean(axis=1)
     donor["niche_index_sens_agtr1"] = donor["niche_stability_score"] - donor["injury_stromal_score_sens_agtr1"]
 
-    donor.to_csv(args.outdir / "niche_index_per_donor.tsv.gz", sep="\t", index=False)
+    # Self-describing: the donor filter is a column, not just a filename, so a
+    # downstream table can never misattribute the threshold.
+    donor["min_cells"] = args.min_cells
+    sfx = args.out_suffix
+    donor.to_csv(args.outdir / f"niche_index_per_donor{sfx}.tsv.gz", sep="\t", index=False)
     # Record component definitions for transparency
-    with open(args.outdir / "niche_index_components.txt", "w") as fh:
+    with open(args.outdir / f"niche_index_components{sfx}.txt", "w") as fh:
+        fh.write(f"min_cells_per_donor: {args.min_cells}\n")
         fh.write("stability_components: " + ", ".join(stab_components) + "\n")
         fh.write("injury_components (PRIMARY): " + ", ".join(inj_components) + "\n")
         fh.write("injury_components_sens_agtr1 (SUPPLEMENT only): "
                  + ", ".join(inj_components_sens) + "\n")
-    logging.info(f"Wrote niche index for {donor.shape[0]} donors")
+    logging.info(f"Wrote niche index for {donor.shape[0]} donors "
+                 f"(min_cells={args.min_cells}, suffix='{sfx}')")
 
 
 if __name__ == "__main__":
