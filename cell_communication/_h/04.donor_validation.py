@@ -77,6 +77,11 @@ def main():
     # per-cell summaries
     obs["_target_mean"] = expr[tgt].mean(axis=1).to_numpy()
     obs["_tgfb1"] = expr["TGFB1"].to_numpy() if "TGFB1" in present else np.nan
+    # TGFB2 is the top-ranked ligand by corrected AUPR (0.208, just above TGFB1's
+    # 0.203), so the donor-level check must be able to test it on its own rather
+    # than only inside the composite -- otherwise the leading ligand is the one
+    # ligand with no individual donor-replicated estimate.
+    obs["_tgfb2"] = expr["TGFB2"].to_numpy() if "TGFB2" in present else np.nan
     obs["_ligand_mean"] = expr[lig].mean(axis=1).to_numpy()
 
     is_recv = obs["ccc_group"].astype(str) == RECEIVER
@@ -93,6 +98,7 @@ def main():
     # sender ligand expression per donor (fibroblast/mural senders)
     send = obs[is_fibro].groupby("donor_id", observed=True).agg(
         sender_TGFB1=("_tgfb1", "mean"),
+        sender_TGFB2=("_tgfb2", "mean"),
         sender_ligand_mean=("_ligand_mean", "mean"),
         n_sender=("_ligand_mean", "size"))
 
