@@ -1,6 +1,6 @@
-2026-07-24 10:40:25 - **** Job starts ****
-Job id: 42578279
-Hostname: r187
+2026-07-28 11:39:25 - **** Job starts ****
+Job id: 42756087
+Hostname: r021
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -88,6 +88,149 @@ Warning message:
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
 `height` was translated to `width`.
 `height` was translated to `width`.
+Warning message:
+In `[.data.table`(tri, , `:=`(z_vascular_stabilizing, z(m_vascular_stabilizing))) :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+
+== THREE-GROUP set (COPD excluded) ==
+
+     Healthy Fibrotic_ILD        Other 
+          42           24           22 
+
+== THREE-GROUP composite: contrasts vs Healthy (sex + study-adjusted LMM) ==
+                 contrast  estimate        se       df  t.ratio      p.value
+                   <char>     <num>     <num>    <num>    <num>        <num>
+1: Fibrotic_ILD - Healthy 0.7901092 0.2115983 82.02384 3.734006 0.0003466653
+2:        Other - Healthy 0.6176518 0.3519822 45.69351 1.754781 0.0860003923
+               response     n       ci_lo    ci_hi covars           model
+                 <char> <int>       <num>    <num> <char>          <char>
+1: injury_program_score    88  0.37537658 1.204842    sex LMM (1|dataset)
+2: injury_program_score    88 -0.07223332 1.307537    sex LMM (1|dataset)
+
+-- adjusted marginal means --
+   disease_group     emmean        SE       df     lower.CL   upper.CL
+          <fctr>      <num>     <num>    <num>        <num>      <num>
+1:       Healthy -0.3359779 0.1835028 29.39769 -0.711062740 0.03910699
+2:  Fibrotic_ILD  0.4541313 0.2241967 44.23006  0.002358867 0.90590371
+3:         Other  0.2816739 0.3118215 32.27893 -0.353270558 0.91661842
+               response
+                 <char>
+1: injury_program_score
+2: injury_program_score
+3: injury_program_score
+
+== THREE-GROUP component effects (each program separately) ==
+                 contrast    estimate        se       df     t.ratio
+                   <char>       <num>     <num>    <num>       <num>
+1: Fibrotic_ILD - Healthy  0.54618457 0.2614798 82.80709  2.08882131
+2:        Other - Healthy  0.04058731 0.4180016 41.73066  0.09709844
+3: Fibrotic_ILD - Healthy  0.87275879 0.3066341 82.28802  2.84625487
+4:        Other - Healthy  0.65254153 0.4511781 34.78237  1.44630586
+5: Fibrotic_ILD - Healthy  1.13281911 0.3091338 79.81797  3.66449456
+6:        Other - Healthy  1.09618485 0.4303360 30.92084  2.54727645
+7: Fibrotic_ILD - Healthy  0.15424149 0.2091876 75.83707  0.73733568
+8:        Other - Healthy -0.02126661 0.4045203 65.67043 -0.05257242
+        p.value               response     n       ci_lo     ci_hi covars
+          <num>                 <char> <int>       <num>     <num> <char>
+1: 0.0397945529         z_inflammatory    88  0.03368417 1.0586850    sex
+2: 0.9231130710         z_inflammatory    88 -0.77869586 0.8598705    sex
+3: 0.0055825856  z_activated_migratory    88  0.27175596 1.4737616    sex
+4: 0.1570432824  z_activated_migratory    88 -0.23176755 1.5368506    sex
+5: 0.0004445397      z_fibroblast_like    88  0.52691687 1.7387213    sex
+6: 0.0160512223      z_fibroblast_like    88  0.25272622 1.9396435    sex
+7: 0.4631934625 z_vascular_stabilizing    88 -0.25576623 0.5642492    sex
+8: 0.9582321874 z_vascular_stabilizing    88 -0.81412644 0.7715932    sex
+             model
+            <char>
+1: LMM (1|dataset)
+2: LMM (1|dataset)
+3: LMM (1|dataset)
+4: LMM (1|dataset)
+5: LMM (1|dataset)
+6: LMM (1|dataset)
+7: LMM (1|dataset)
+8: LMM (1|dataset)
+
+== LOSO (three-group model, Fibrotic - Healthy): 23 refits, 23 with P < 0.05 ==
+   estimate range 0.652 to 1.085 (full-data 0.790)
+          dropped_dataset n_dropped               contrast  estimate        se
+                   <char>     <int>                 <char>     <num>     <num>
+ 1:         Sheppard_2020         8 Fibrotic_ILD - Healthy 0.6515525 0.2934295
+ 2: Banovich_Kropski_2020        15 Fibrotic_ILD - Healthy 0.6945889 0.2290889
+ 3:     Regev_2021_Nuclei        12 Fibrotic_ILD - Healthy 0.7360862 0.2171117
+ 4:    Peer_Massague_2020         2 Fibrotic_ILD - Healthy 0.7581694 0.2199354
+ 5:         Lafyatis_2019         4 Fibrotic_ILD - Healthy 0.7611436 0.2154059
+ 6:         Budinger_2020         3 Fibrotic_ILD - Healthy 0.7644481 0.2110728
+ 7:       Regev_2021_Cryo         2 Fibrotic_ILD - Healthy 0.7713164 0.2161817
+ 8:  Thienpont_2018_10Xv2         4 Fibrotic_ILD - Healthy 0.7789216 0.2167192
+ 9:       Sun_2020_batch4         3 Fibrotic_ILD - Healthy 0.7802322 0.2110835
+10:     Meyer_2021_5prime         4 Fibrotic_ILD - Healthy 0.7833926 0.2096856
+11:         Misharin_2021         2 Fibrotic_ILD - Healthy 0.7853929 0.2106902
+12:         Schiller_2021         2 Fibrotic_ILD - Healthy 0.7864441 0.2138163
+13:     Meyer_2021_3prime         1 Fibrotic_ILD - Healthy 0.7869318 0.2124871
+14:             Eils_2020         3 Fibrotic_ILD - Healthy 0.7880935 0.2154008
+15:       Sun_2020_batch2         2 Fibrotic_ILD - Healthy 0.7886912 0.2095754
+16:       Sun_2020_batch3         3 Fibrotic_ILD - Healthy 0.7903759 0.2092757
+17:           Tata_unpubl         1 Fibrotic_ILD - Healthy 0.7904943 0.2115526
+18:          Krasnow_2020         3 Fibrotic_ILD - Healthy 0.7941225 0.2146293
+19:       Sun_2020_batch1         1 Fibrotic_ILD - Healthy 0.7954855 0.2098425
+20:            Meyer_2019         1 Fibrotic_ILD - Healthy 0.7964456 0.2103194
+21:  Duong_lungMAP_unpubl         1 Fibrotic_ILD - Healthy 0.8012549 0.2092381
+22:         Kaminski_2020         6 Fibrotic_ILD - Healthy 0.8047952 0.2173258
+23:         Schiller_2020         5 Fibrotic_ILD - Healthy 1.0846028 0.2445092
+          dropped_dataset n_dropped               contrast  estimate        se
+         ci_lo    ci_hi       df  t.ratio      p.value             response
+         <num>    <num>    <num>    <num>        <num>               <char>
+ 1: 0.07643076 1.226674 71.23932 2.220474 2.956836e-02 injury_program_score
+ 2: 0.24557464 1.143603 63.66024 3.031962 3.512007e-03 injury_program_score
+ 3: 0.31054720 1.161625 70.62176 3.390357 1.146003e-03 injury_program_score
+ 4: 0.32709604 1.189243 78.99873 3.447237 9.105134e-04 injury_program_score
+ 5: 0.33894805 1.183339 72.49526 3.533532 7.180501e-04 injury_program_score
+ 6: 0.35074551 1.178151 78.85675 3.621728 5.157241e-04 injury_program_score
+ 7: 0.34760015 1.195033 79.81457 3.567907 6.122290e-04 injury_program_score
+ 8: 0.35415193 1.203691 77.40214 3.594151 5.702344e-04 injury_program_score
+ 9: 0.36650857 1.193956 78.73197 3.696320 4.026032e-04 injury_program_score
+10: 0.37240884 1.194376 77.78931 3.736034 3.547292e-04 injury_program_score
+11: 0.37243997 1.198346 79.97343 3.727713 3.591340e-04 injury_program_score
+12: 0.36736417 1.205524 80.02865 3.678130 4.241273e-04 injury_program_score
+13: 0.37045706 1.203407 81.07892 3.703433 3.868481e-04 injury_program_score
+14: 0.36590793 1.210279 79.06676 3.658731 4.554441e-04 injury_program_score
+15: 0.37792347 1.199459 80.08728 3.763282 3.181332e-04 injury_program_score
+16: 0.38019562 1.200556 79.26006 3.776722 3.057807e-04 injury_program_score
+17: 0.37585115 1.205138 81.26264 3.736632 3.453705e-04 injury_program_score
+18: 0.37344922 1.214796 79.29298 3.699974 3.961524e-04 injury_program_score
+19: 0.38419426 1.206777 81.69161 3.790870 2.862800e-04 injury_program_score
+20: 0.38421957 1.208672 81.48561 3.786839 2.906788e-04 injury_program_score
+21: 0.39114827 1.211361 81.79670 3.829393 2.506434e-04 injury_program_score
+22: 0.37883653 1.230754 76.07748 3.703173 4.011060e-04 injury_program_score
+23: 0.60536471 1.563841 77.98294 4.435836 2.971519e-05 injury_program_score
+         ci_lo    ci_hi       df  t.ratio      p.value             response
+        n covars           model
+    <int> <char>          <char>
+ 1:    80    sex LMM (1|dataset)
+ 2:    73    sex LMM (1|dataset)
+ 3:    76    sex LMM (1|dataset)
+ 4:    86    sex LMM (1|dataset)
+ 5:    84    sex LMM (1|dataset)
+ 6:    85    sex LMM (1|dataset)
+ 7:    86    sex LMM (1|dataset)
+ 8:    84    sex LMM (1|dataset)
+ 9:    85    sex LMM (1|dataset)
+10:    84    sex LMM (1|dataset)
+11:    86    sex LMM (1|dataset)
+12:    86    sex LMM (1|dataset)
+13:    87    sex LMM (1|dataset)
+14:    85    sex LMM (1|dataset)
+15:    86    sex LMM (1|dataset)
+16:    85    sex LMM (1|dataset)
+17:    87    sex LMM (1|dataset)
+18:    85    sex LMM (1|dataset)
+19:    87    sex LMM (1|dataset)
+20:    87    sex LMM (1|dataset)
+21:    87    sex LMM (1|dataset)
+22:    82    sex LMM (1|dataset)
+23:    83    sex LMM (1|dataset)
+        n covars           model
 
 == smoking availability by disease group ==
    disease_group     n n_known n_never n_ever
@@ -140,7 +283,7 @@ Warning messages:
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-07-24 10:41:10 EDT"
+[1] "2026-07-28 11:40:06 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -151,7 +294,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-24
+ date     2026-07-28
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -215,4 +358,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-24 10:41:14 - **** Job ends ****
+2026-07-28 11:40:10 - **** Job ends ****

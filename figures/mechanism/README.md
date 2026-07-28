@@ -30,8 +30,9 @@ The narrative arc the figures deliver:
 | `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the three-lens reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
+| `figure_disease_main.{pdf,svg,png}` | **Main Fig — disease association (continuous injury).** Graded injury-program engagement across disease groups, the programs that carry it, leave-one-study-out robustness, *AGTR1* disease effects across stromal cell types, and the independent COPD/IPF evaluation. Self-contained. | `disease_main_figure.R` |
 
-**Supplements — S1–S15.** Filenames stay semantic so scripts and cross-references do not
+**Supplements — S1–S16.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by the `supp_number` column of
 `figure_panel_manifest.tsv` and by the legend headings below.
 
@@ -52,6 +53,7 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S13 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
 | S14 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
 | S15 | `figureS_bm_copd` | `basement_membrane_figure.R` |
+| S16 | `figureS_disease_forest` | `disease_main_figure.R` |
 
 The tail of the list is where displaced figures land, so that the numbering above stays put
 when a new figure claims a slot:
@@ -63,6 +65,10 @@ when a new figure claims a slot:
 - `figureS_bm_copd` held S6 until 2026-07-28, when the CoGAPS validation figure took that
   slot; **appended as S15 rather than shifting S7–S14**. It is a disease-side figure and
   belongs with the disease supplements; S15 keeps it numbered until that section is laid out.
+- `figureS_disease_forest` is **new at S16** (2026-07-28). It was panel A of
+  `figure_disease_main` until the continuous-injury rebuild replaced that panel with
+  leave-one-study-out refits; it is appended rather than inserted for the same reason as
+  the entries above.
 
 **Deliberately NOT numbered supplements:**
 - `figureS_alluvial` — a **grant** figure, not a manuscript supplement (2026-07-27). It is
@@ -231,44 +237,123 @@ shows a weak positive trend (ρ ≈ 0.25). Assemble with the state UMAP,
 DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`. *n* = 32 donors (donor-level
 mixed-model marginal means; df = 31).
 
-### `figure_disease_main` — Pericyte injury-program engagement is elevated in fibrotic/ILD lung, consistently within studies
+### `figure_disease_main` — Disease is associated with graded pericyte injury-program engagement, while *AGTR1* dysregulation sits in fibroblasts
 
-**Figure.** Donor-level association between pulmonary fibrosis/interstitial lung disease and
-pericyte injury-program engagement, tested as a pre-specified Healthy-versus-Fibrotic/ILD contrast
-with study modeled explicitly (`disease_association/_h/03.disease_forest.R`). The endpoint is the
-donor-level **injury-program score**: the mean of the *z*-standardized donor means of the
+*Rebuilt 2026-07-28 for the continuous-injury revision. Panel provenance relative to the
+previous three-panel version: old C → **A** (now three groups), old B → **B** (now both
+contrasts), old A (within-study forest) → **S16**, replaced at **C** by leave-one-study-out
+refits. **D** and **E** are new.*
+
+**Figure.** Donor-level association between lung disease and pericyte injury-program
+engagement, and the receptor-level question that follows from it. The figure begins from an
+established null — disease is **not** associated with replacement of discrete pericyte states
+(`figureS_state_composition`, `figure_mechanism_main` D) — and shows instead that disease
+tracks a **graded, continuous** shift in program engagement. The endpoint throughout **A–C** is
+the donor-level **injury-program score**: the mean of the *z*-standardized donor means of the
 inflammatory, activated/migratory, and fibrillar fibroblast-like per-cell program scores
 (continuous; the basement-membrane program and the *AGTR1*⁺ fraction are deliberately excluded —
 basement membrane is vascular-support biology, and binary *AGTR1* detection is dropout-prone and
-would fold the focal receptor into the outcome). **(A)** Within-study random-effects
-meta-analysis. Each blue point is the Fibrotic/ILD − Healthy difference in the injury-program
-score (SD units) estimated **within a single study** that sampled both groups (≥ 2 donors per
-group after a ≥ 10-pericyte-per-donor filter); point area is proportional to inverse-variance
-weight and whiskers are 95% CIs. The orange diamond is the DerSimonian–Laird random-effects
-pooled estimate: **+0.90 SD (95% CI 0.47–1.33), *P* = 4.5×10⁻⁵, I² = 25 %** (low heterogeneity),
-carried by the two balanced cohorts (Banovich_Kropski_2020, Sheppard_2020). Because the contrast
-is estimated within study, the effect cannot be a between-study batch artifact. **(B)** Program
-specificity. Component-wise Fibrotic/ILD − Healthy effect for each program score (sex + study
-donor-level linear mixed model, `~ disease_group + sex + (1 | dataset)`; points = coefficients,
-whiskers = 95 % CI; asterisk = *P* < 0.05). The composite is driven by the **fibrillar
-fibroblast-like** program (**+1.00 SD, *P* = 0.004**) and the **activated/migratory** program
-(**+0.74 SD, *P* = 0.03**); the inflammatory program is positive but not significant (+0.46 SD,
-*P* = 0.12) and the **vascular-stabilizing** program is flat (+0.08 SD, *P* = 0.75) — a targeted
-fibrogenic shift, not a global rescaling. **(C)** Donor-level injury-program score by disease
-group; each point is a donor (blue = Healthy, orange = Fibrotic/ILD), the black point and whisker
-are the **sex + study-adjusted marginal mean ± 95 % CI**, and the bracket shows the pre-specified
-primary contrast: **+0.73 SD, *P* = 0.003** (*n* = 66 donors; 42 Healthy, 24 Fibrotic/ILD).
-**Statistical notes / limitations** (see `MECHANISM_ANALYSES.md`): the effect is robust across
-pericyte-count thresholds (min-cells 10–30, all *P* < 0.005); **age was not adjusted** in the
-primary model because it is missing for 18/24 fibrotic donors (forcing it collapses the case group
-to *n* = 6 and the direction is preserved but underpowered, +0.22 SD, *P* = 0.55); **smoking-adjusted
-disease contrasts are not estimable** (smoking is unrecorded for all 24 fibrotic donors), and within
-healthy donors smoking does not move the endpoint (ever − never = −0.12 SD, *P* = 0.48), so it is
-not a hidden driver; COPD and other/COVID donors are excluded from the primary contrast. The
-association is therefore reported as a cross-sectional, cohort-anchored transcriptional correlate
-of disease, not evidence of pericyte loss or causal progression. **This figure supersedes the
-donor-level disease panels (A, B) of `figure_mechanism_main`**, which used a pooled composite
-ANCOVA whose only significant contrast was the off-target Healthy-versus-"Other" comparison.
+would fold the focal receptor into the outcome). Models are donor-level linear mixed models
+`~ disease_group + sex + (1 | dataset)` (`disease_association/_h/03.disease_forest.R`).
+
+**(A)** Injury-program score by disease group. Each point is a donor; the black point and
+whisker are the **sex + study-adjusted marginal mean ± 95 % CI**; brackets give the contrast
+against Healthy. Engagement is **graded**: Fibrotic/ILD **+0.79 SD (95 % CI 0.38–1.20,
+*P* = 3.5×10⁻⁴)** and Other disease **+0.62 SD (95 % CI −0.07–1.31, *P* = 0.086)** (*n* = 88
+donors; 42 Healthy, 24 Fibrotic/ILD, 22 Other). **(B)** Which continuous programs carry the
+score — the same three-group model fit to each program separately (points = contrasts vs
+Healthy, whiskers = 95 % CI, asterisk = *P* < 0.05). The composite is driven by the **fibrillar
+fibroblast-like** program (Fibrotic/ILD **+1.13 SD, *P* = 4.4×10⁻⁴**; Other **+1.10 SD,
+*P* = 0.016**) and the **activated/migratory** program (Fibrotic/ILD **+0.87 SD, *P* = 0.006**),
+with a smaller inflammatory contribution (**+0.55 SD, *P* = 0.040**) and a **flat
+vascular-stabilizing** program (+0.15 SD, *P* = 0.46) — a targeted fibrogenic shift, not a
+global rescaling. **(C)** Leave-one-study-out robustness of the panel-A contrast: the same
+model refit 23 times, dropping one dataset each time (blue points and 95 % CIs; orange line =
+full-data estimate). The estimate stays between **+0.65 and +1.08 SD and remains significant in
+23 of 23 refits**, so no single cohort creates the association. **(D)** *AGTR1* disease effects
+across stromal cell types (`disease_association/_h/05.agtr1_celltype_disease.R`): the
+**omnibus** (2 df) disease effect on donor-mean *AGTR1*, expressed as partial η² — the share of
+donor-level *AGTR1* variance attributable to disease group, computed within cell type so that
+cell types with ~5× different baseline *AGTR1* are comparable. Rows are **blocked by lineage**
+(fibroblast above mural) and sorted by η² within each block, so the class-level comparison the
+panel makes is a property of the layout rather than a coincidence of a single sort order; the
+strip labels replace a colour legend and the colours are redundant encoding. All three
+**fibroblast** populations rank above both **mural** populations (peribronchial 0.195,
+adventitial 0.091, alveolar 0.071 vs pericytes 0.052, vascular smooth muscle 0.043; lineage
+means 0.119 vs 0.048).
+**(E)** Independent evaluation in **GSE136831** (Adams/Kaminski), the only dataset here with a
+real COPD arm (`disease_association/agtr1_copd_ipf/`). Donor × compartment pseudobulk *AGTR1*,
+disease minus Control, adjusted for depth, sex, age and **ever-smoker** status (which the HLCA
+metadata does not permit). Filled points are the pre-specified fibroblast-lineage family, open
+points exploratory. *AGTR1* is **lower in myofibroblasts in both arms** (COPD **−0.18,
+*P* = 0.037**; IPF **−0.17, *P* = 0.028**) — the same compartment, the same direction, in two
+independent disease arms — directionally consistent with the negative fibroblast contrasts in
+**D**; bulk fibroblasts are null (COPD −0.09, *P* = 0.17; IPF +0.03, *P* = 0.61). The primary
+family is reported at **nominal alpha**: these two compartments were fixed by the independent
+HLCA analysis in **D** before GSE136831 was touched, so this is a directional replication rather
+than a screen, and the two myofibroblast tests are the same compartment against a shared Control
+arm (correlated, not independent looks). A BH value is carried in the source table
+(`p_BH_reference` = 0.074) for readers who want it, but it is not the reporting gate; the guard
+against fishing is the pre-specification plus the `family` column, which labels every other
+compartment and gene exploratory.
+
+**Statistical notes / limitations** (see `MECHANISM_ANALYSES.md`):
+- **Scale.** A, B and C read off one three-group model whose programs are *z*-standardized once
+  over the three-group donor set, so they are mutually comparable. They are **not** on the same
+  scale as the two-group primary contrast in **S16** and must not be quoted interchangeably.
+- **COPD is excluded from A–C.** All 12 HLCA COPD donors come from a single study
+  (Kaminski_2020), so a COPD estimate there is inseparable from that study. COPD is evaluated
+  instead in **E**, where it is a real independent arm. "Other disease" in A–C is
+  COVID/carcinoma/etc., not COPD.
+- **Donor gates differ between the HLCA panels and E, because the datasets differ.** A–C:
+  **≥ 10 pericytes per donor** (`03 --min-cells 10`), and ≥ 2 donors per group for a study to
+  enter S16; the endpoint is insensitive to this — the effect holds across min-cells 5–30
+  (all *P* < 0.005), and 5 and 10 give identical donor sets because no donor has 5–9 pericytes.
+  D: **≥ 10 cells per donor per cell type** (from `01.disease_association.R`), ≥ 3 donors per
+  cell type, plus **≥ 3 donors in both Healthy and Fibrotic/ILD** for a cell type to be tested
+  at all — 3 being the smallest group that admits a within-group SD, i.e. the point at which the
+  contrast stops being estimable rather than a power preference. This gate is **not binding**:
+  the three excluded stromal populations have 1, 1 and 0 fibrotic donors (mesothelium,
+  myofibroblasts, subpleural fibroblasts), so the tested set is the same five cell types at any
+  threshold from 2 to 6. E: **≥ 5 cells per donor per compartment** and ≥ 5 donors per arm — a lower floor
+  because GSE136831 is a smaller, disease-enriched cohort, which is precisely why the pericyte
+  compartment still fails it.
+- **Panel E gives only qualified support**, by design and not by outcome. GSE136831 has exactly
+  **one** Control donor with ≥ 5 pericytes (against 6 COPD and 15 IPF), so a pericyte-specific
+  contrast is **not estimable in either direction**; that row is drawn explicitly rather than
+  omitted. This dataset can corroborate the **fibroblast** half of the claim only, and it does
+  **not** establish consistent pericyte-specific *AGTR1* upregulation.
+- **Nothing in D reaches significance** (all BH ≥ 0.71), and the fibrotic groups are small
+  (6 donors per cell type). D supports an **ordering** — disease-associated *AGTR1* variation is
+  larger in fibroblasts than in pericytes — not a positive fibroblast finding. Directional
+  contrast estimates and CIs are in
+  `disease_association/_m/mean_expr/agtr1_celltype_disease_effects.tsv`.
+- **D supersedes the earlier Kruskal–Wallis *AGTR1*-by-cell-type analysis**
+  (`disease_agtr1_kruskal_by_celltype.tsv`, from `01.disease_association.R`), which reported
+  peribronchial fibroblasts as significant (KW *P* = 0.0014, FDR = 0.0068). That test used the
+  raw CELLxGENE `disease` vocabulary (4–6 unbalanced groups per cell type) and modelled **no
+  study term**. It should not be quoted: in the stroma subset the fibrotic donors of every
+  tested cell type come from only **2–3 datasets, and only one dataset per cell type contains
+  both a Healthy and a Fibrotic/ILD donor**, so the old contrast is largely *between* studies.
+  In peribronchial fibroblasts specifically, all 6 fibrotic donors have donor-mean *AGTR1*
+  exactly 0 and come from Lafyatis_2019 and Schiller_2020, and Schiller_2020's single Healthy
+  peribronchial donor is also 0 — so the comparison is effectively one study's cases against
+  Healthy donors pooled from twelve others. Adding `(1 | dataset)` absorbs this and the
+  significance does not survive; the **direction** does (fibrotic lower, −0.86 SD). This is the
+  same failure mode already documented for the pericyte niche-index disease effect.
+- **Near the detection floor.** *AGTR1* in fibroblast populations is low (Healthy donor means
+  ≈ 0.10–0.18 log-normalized in peribronchial/alveolar fibroblasts vs ≈ 0.85 in pericytes), and
+  several fibrotic donor means are exactly 0. D is therefore partly a **detection** comparison,
+  and inherits the dropout caveat that applies to *AGTR1* throughout this project.
+- **Age was not adjusted** in the primary model because it is missing for 18/24 fibrotic donors
+  (forcing it collapses the case group to *n* = 6; direction preserved, +0.22 SD, *P* = 0.55).
+  **Smoking-adjusted disease contrasts are not estimable** (smoking is unrecorded for all
+  fibrotic donors), and within healthy donors smoking does not move the endpoint
+  (ever − never = −0.12 SD, *P* = 0.48), so it is not a hidden driver.
+- The association is reported as a cross-sectional, cohort-anchored transcriptional correlate of
+  disease, not evidence of pericyte loss or causal progression. **This figure supersedes the
+  donor-level disease panels (A, B) of `figure_mechanism_main`**, which used a pooled composite
+  ANCOVA whose only significant contrast was the off-target Healthy-versus-"Other" comparison.
 
 ### `figureS_alluvial` (grant figure, unnumbered) — Stable subclusters → dominant program → effector class
 
@@ -706,3 +791,24 @@ p-value**: at a 5-cell floor this cohort has 6 COPD but only **one** Control don
 pericytes, so a pericyte-specific COPD-vs-Control contrast is not estimable and the MDE is
 undefined. No claim is made about pericyte-specific BM dysregulation in COPD in either direction.
 Source data: `basement_membrane/_m/stats_data/bm_copd_*.tsv`, `bm_pericyte_power.tsv`.
+
+### Figure S16 — `figureS_disease_forest` — The Fibrotic/ILD injury-program effect is reproduced *within* studies
+
+**Figure S16.** Within-study random-effects meta-analysis of the Fibrotic/ILD − Healthy
+difference in the donor-level pericyte injury-program score. This was panel A of
+`figure_disease_main` until the continuous-injury rebuild (2026-07-28) replaced it with
+leave-one-study-out refits; the two panels answer **different** objections and are both worth
+keeping. Leave-one-study-out (main figure C) asks *does any single cohort create the effect*;
+this figure asks *is the effect a between-study batch artifact at all*. Each blue point is the
+contrast estimated **within a single study** that sampled both groups (≥ 2 donors per group
+after a ≥ 10-pericyte-per-donor filter); point area is proportional to inverse-variance weight
+and whiskers are 95 % CIs. The orange diamond is the DerSimonian–Laird random-effects pooled
+estimate: **+0.90 SD (95 % CI 0.47–1.33), *P* = 4.5×10⁻⁵, I² = 25 %** (low heterogeneity),
+carried by the two balanced cohorts (Banovich_Kropski_2020, Sheppard_2020). Because every
+contrast is estimated inside one study, the effect cannot be a between-study batch artifact.
+**Scale note:** this figure reads off the **two-group** primary model, whose program scores are
+*z*-standardized over Healthy + Fibrotic/ILD only. That is a different scale from panels A–C of
+`figure_disease_main` (standardized over the three-group donor set), so **+0.90 SD here and
++0.79 SD there are not the same estimate on the same scale** and should not be quoted
+interchangeably. Source data:
+`disease_association/_m/mixed_model_forest/forest_per_study.tsv`, `forest_pooled_RE.tsv`.

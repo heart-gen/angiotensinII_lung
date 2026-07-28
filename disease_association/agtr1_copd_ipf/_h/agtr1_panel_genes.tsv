@@ -1,0 +1,6 @@
+panel	gene
+ras_receptor	AGTR1
+ras_receptor	AGTR2
+ras_ligand	AGT
+ras_enzyme	ACE
+ras_enzyme	ACE2

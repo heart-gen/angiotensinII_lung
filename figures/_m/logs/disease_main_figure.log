@@ -1,11 +1,3 @@
-2026-07-27 12:51:44 - **** Job starts ****
-Job id: 42711871
-
-Currently Loaded Modules:
-  1) anaconda3/2024.10-1
-
- 
-
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -15,10 +7,16 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
+`height` was translated to `width`.
 wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figure_disease_main.{pdf,svg,png} 
 
 Reproducibility information:
-[1] "2026-07-27 12:52:11 EDT"
+[1] "2026-07-28 14:00:06 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -29,7 +27,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-27
+ date     2026-07-28
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -68,4 +66,3 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-27 12:52:14 - **** Job ends ****

@@ -38,6 +38,36 @@
 ##                       back to a within-Healthy smoking effect and a
 ##                       never-smoker-restricted contrast, with the availability
 ##                       table reported either way.
+##
+## ---------------------------------------------------------------------------
+## ADDED 2026-07-28 (continuous-injury revision) -- the THREE-GROUP block.
+## The manuscript disease figure now leads with graded engagement across
+## Healthy / Fibrotic-ILD / Other-disease rather than with the two-group forest,
+## so this script also emits, on ONE internally consistent scale:
+##   * `threegroup_*`      -- sex + study-adjusted LMM over the three groups,
+##                            with both contrasts against Healthy.
+##   * `component_effects_3group.tsv`
+##                         -- the same three-group model per program score, so
+##                            the figure can show WHICH continuous programs
+##                            carry the composite.
+##   * `leave_one_study_out_3group.tsv`
+##                         -- the three-group model refit dropping each dataset
+##                            in turn, reporting the Fibrotic-Healthy contrast.
+##                            This replaces the per-study forest as the
+##                            robustness panel: a forest asks "is the effect
+##                            reproduced within studies", LOSO asks "does any
+##                            single study create it". The forest is retained
+##                            for the supplement.
+## COPD is EXCLUDED from the three-group block. Its 12 donors come from a single
+## study (Kaminski_2020), so a COPD estimate here is inseparable from that study;
+## COPD is instead evaluated in the independent GSE136831 dataset. "Other" is
+## therefore COVID/carcinoma/etc., NOT COPD.
+## SCALE: the three-group block z-standardises the programs ONCE, over the
+## three-group donor set, and every model in the block (composite, components,
+## LOSO) reads those fixed columns. Estimates within the block are therefore
+## directly comparable; they are NOT on the same scale as the two-group primary
+## above (which standardises over Healthy+Fibrotic only) and the two must not be
+## quoted interchangeably.
 ## =============================================================================
 suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(tidyr)
@@ -260,6 +290,98 @@ pf <- ggplot(fp, aes(y = label)) +
     theme_bw(base_size = 11) +
     theme(panel.grid.major.y = element_blank(), panel.grid.minor = element_blank())
 save_gg(file.path(OUTDIR, "forest_injury_program"), pf, 7.2, 0.6 + 0.5 * nrow(fp))
+
+## ===========================================================================
+## THREE-GROUP BLOCK: graded injury engagement across Healthy / Fibrotic-ILD /
+## Other-disease  (main disease figure, panels A-C)
+## ===========================================================================
+## COPD dropped: single-study (Kaminski_2020), so not separable from study here.
+TRI_LEVELS <- c("Healthy", "Fibrotic_ILD", "Other")
+tri <- donor[disease_group %in% TRI_LEVELS]
+tri[, disease_group := factor(as.character(disease_group), levels = TRI_LEVELS)]
+## z ONCE over the three-group set; every model below reads these fixed columns.
+for (p in names(INJ_COLS)) tri[[paste0("z_", p)]] <- z(tri[[paste0("m_", p)]])
+if ("m_vascular_stabilizing" %in% names(tri)) tri[, z_vascular_stabilizing := z(m_vascular_stabilizing)]
+tri[, injury_program_score := rowMeans(as.matrix(tri[, paste0("z_", names(INJ_COLS)), with = FALSE]))]
+wt(tri, "donor_endpoint_table_3group.tsv")
+cat("\n== THREE-GROUP set (COPD excluded) ==\n"); print(table(tri$disease_group))
+
+## Fit once, return BOTH contrasts vs Healthy plus the adjusted marginal means.
+## Contrasts come from emmeans (not the coefficient table) so the reference level
+## is explicit and the same call serves the composite and each component.
+fit_tri <- function(resp, data, covars = c("sex")) {
+    keep <- is.finite(data[[resp]])
+    for (cv in covars) keep <- keep & !is.na(data[[cv]])
+    d <- data[keep]
+    d[, disease_group := droplevels(disease_group)]
+    n_ds <- nlevels(droplevels(d$dataset))
+    rhs  <- paste(c("disease_group", covars, if (n_ds >= 2) "(1 | dataset)"), collapse = " + ")
+    form <- as.formula(sprintf("%s ~ %s", resp, rhs))
+    fit  <- if (n_ds >= 2) lmerTest::lmer(form, data = d, REML = TRUE) else lm(form, data = d)
+    list(fit = fit, d = d, mixed = n_ds >= 2, covars = paste(covars, collapse = "+"))
+}
+summ_tri <- function(m, label) {
+    emm <- emmeans(m$fit, ~ disease_group)
+    ## "trt.vs.ctrl" against Healthy (level 1); unadjusted -- two pre-specified
+    ## comparisons, each reported with its own P.
+    ct <- as.data.frame(contrast(emm, "trt.vs.ctrl", ref = 1, adjust = "none"))
+    ct <- as.data.table(ct)
+    setnames(ct, c("estimate", "SE"), c("estimate", "se"), skip_absent = TRUE)
+    ct[, `:=`(response = label, n = nrow(m$d),
+              ci_lo = estimate - 1.96 * se, ci_hi = estimate + 1.96 * se,
+              covars = m$covars,
+              model = if (m$mixed) "LMM (1|dataset)" else "lm (single study)")]
+    ns <- m$d[, .N, by = disease_group]
+    list(contrasts = ct[], emmeans = as.data.table(as.data.frame(emm))[
+            , `:=`(response = label)][], n_by_group = ns)
+}
+
+m_tri  <- fit_tri("injury_program_score", tri)
+r_tri  <- summ_tri(m_tri, "injury_program_score")
+wt(r_tri$contrasts, "threegroup_effects.tsv")
+wt(r_tri$emmeans,   "threegroup_emmeans.tsv")
+wt(r_tri$n_by_group, "threegroup_n_by_group.tsv")
+cat("\n== THREE-GROUP composite: contrasts vs Healthy (sex + study-adjusted LMM) ==\n")
+print(r_tri$contrasts)
+cat("\n-- adjusted marginal means --\n"); print(r_tri$emmeans)
+
+## component decomposition on the SAME three-group model
+comp_tri <- rbindlist(lapply(c(names(INJ_COLS),
+                               if ("z_vascular_stabilizing" %in% names(tri)) "vascular_stabilizing"),
+                             function(p) {
+    t2 <- copy(tri); t2[, tmp := get(paste0("z_", p))]
+    summ_tri(fit_tri("tmp", t2), paste0("z_", p))$contrasts
+}))
+wt(comp_tri, "component_effects_3group.tsv")
+cat("\n== THREE-GROUP component effects (each program separately) ==\n"); print(comp_tri)
+
+## ---- leave-one-study-out on the three-group model --------------------------
+## Refit dropping each dataset in turn and re-report the Fibrotic-Healthy
+## contrast. Datasets are dropped one at a time from the FULL three-group set
+## (including datasets that contribute only one group -- removing those still
+## changes the study random effect and the Other arm, so they are legitimate
+## refits). The z columns are held FIXED at their full-set values so every refit
+## is on one scale.
+loso <- rbindlist(lapply(levels(droplevels(tri$dataset)), function(ds) {
+    d <- tri[dataset != ds]
+    d[, disease_group := droplevels(disease_group)]
+    if (!all(c("Healthy", "Fibrotic_ILD") %in% levels(d$disease_group))) return(NULL)
+    if (d[disease_group == "Healthy", .N] < 3 || d[disease_group == "Fibrotic_ILD", .N] < 3)
+        return(NULL)
+    r <- summ_tri(fit_tri("injury_program_score", d), "injury_program_score")$contrasts
+    r <- r[grepl("Fibrotic", contrast)]
+    r[, `:=`(dropped_dataset = ds,
+             n_dropped = tri[dataset == ds, .N])][]
+}), fill = TRUE)
+setcolorder(loso, c("dropped_dataset", "n_dropped", "contrast", "estimate", "se",
+                    "ci_lo", "ci_hi"))
+wt(loso, "leave_one_study_out_3group.tsv")
+cat(sprintf("\n== LOSO (three-group model, Fibrotic - Healthy): %d refits, %d with P < 0.05 ==\n",
+            nrow(loso), sum(loso$p.value < 0.05)))
+cat(sprintf("   estimate range %.3f to %.3f (full-data %.3f)\n",
+            min(loso$estimate), max(loso$estimate),
+            r_tri$contrasts[grepl("Fibrotic", contrast), estimate]))
+print(loso[order(estimate)])
 
 ## ===========================================================================
 ## SMOKING sensitivity (adaptive) -- major reviewer comment

@@ -1,0 +1,195 @@
+genes in pseudobulk: ACE, ACE2, AGT, AGTR1, AGTR2 
+
+== donors per compartment (>= 5  cells) ==
+Key: <compartment>
+     compartment Control  COPD   IPF
+          <char>   <int> <int> <int>
+1:           ATI      15    15     9
+2:          ATII      17    14    15
+3:   Endothelial      25    17    31
+4:    Fibroblast      17    15    28
+5:         Mural       6     9    21
+6: Myofibroblast      12    14    28
+7:      Pericyte       1     6    15
+8:           SMC       5     7    16
+
+powered for COPD vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
+powered for IPF  vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
+
+NOTE: Pericyte is NOT powered here -- descriptive only, no p-value.
+
+== PRIMARY family: AGTR1 in fibroblast-lineage compartments (nominal alpha) ==
+     compartment contrast    estimate       ci_lo       ci_hi    p.value
+          <char>   <char>       <num>       <num>       <num>      <num>
+1: Myofibroblast      IPF -0.17297264 -0.32261416 -0.02333111 0.02812504
+2: Myofibroblast     COPD -0.18147284 -0.34696562 -0.01598007 0.03679419
+3:    Fibroblast     COPD -0.08698425 -0.21080994  0.03684143 0.17434758
+4:    Fibroblast      IPF  0.02707634 -0.07671824  0.13087093 0.61126820
+   p_BH_reference n_donors
+            <num>    <int>
+1:     0.07358838       54
+2:     0.07358838       54
+3:     0.23246344       60
+4:     0.61126820       60
+
+== direction concordance across disease arms ==
+Key: <compartment>
+     compartment        COPD         IPF same_direction
+          <char>       <num>       <num>         <lgcl>
+1:    Fibroblast -0.08698425  0.02707634          FALSE
+2: Myofibroblast -0.18147284 -0.17297264           TRUE
+
+== AGTR1, every compartment (exploratory beyond the primary family) ==
+      compartment contrast estimable      estimate        ci_lo        ci_hi
+           <char>   <char>    <lgcl>         <num>        <num>        <num>
+ 1:         Mural      IPF      TRUE  0.2529437697  0.013436788  0.492450752
+ 2:      Pericyte     COPD     FALSE  0.5266301611 -0.093462768  1.146723090
+ 3:           SMC      IPF      TRUE  0.1141285329 -0.025516958  0.253774024
+ 4:         Mural     COPD      TRUE  0.2352824634 -0.059264652  0.529829579
+ 5:          ATII      IPF      TRUE  0.0114035957 -0.004497229  0.027304421
+ 6:      Pericyte      IPF     FALSE  0.2266093207 -0.271116130  0.724334771
+ 7:          ATII     COPD      TRUE  0.0070233653 -0.009426804  0.023473534
+ 8:   Endothelial      IPF      TRUE  0.0019991769 -0.004654463  0.008652817
+ 9:           ATI      IPF      TRUE  0.0027888315 -0.006600805  0.012178468
+10:           SMC     COPD      TRUE  0.0490714979 -0.125447032  0.223590028
+11:   Endothelial     COPD      TRUE -0.0015981294 -0.008571374  0.005375115
+12:           ATI     COPD      TRUE  0.0003218245 -0.008294153  0.008937802
+13: Myofibroblast      IPF      TRUE -0.1729726351 -0.322614156 -0.023331114
+14: Myofibroblast     COPD      TRUE -0.1814728432 -0.346965618 -0.015980068
+15:    Fibroblast     COPD      TRUE -0.0869842543 -0.210809936  0.036841427
+16:    Fibroblast      IPF      TRUE  0.0270763439 -0.076718240  0.130870928
+       p.value n_donors
+         <num>    <int>
+ 1: 0.04746638       36
+ 2: 0.11674013       22
+ 3: 0.12412395       28
+ 4: 0.12828201       36
+ 5: 0.16774405       46
+ 6: 0.38628786       22
+ 7: 0.40779346       46
+ 8: 0.55793278       73
+ 9: 0.56454980       39
+10: 0.58736979       28
+11: 0.65476392       73
+12: 0.94209469       39
+13: 0.02812504       54
+14: 0.03679419       54
+15: 0.17434758       60
+16: 0.61126820       60
+
+== descriptive AGTR1 by compartment x disease ==
+      compartment disease n_donors n_cells  mean_AGTR1    sd_AGTR1 detect_AGTR1
+           <char>  <fctr>    <int>   <int>       <num>       <num>        <num>
+ 1:           ATI Control       15     483 0.003610300 0.013982631 0.0013605442
+ 2:           ATI    COPD       15     370 0.000000000 0.000000000 0.0000000000
+ 3:           ATI     IPF        9     132 0.000000000 0.000000000 0.0000000000
+ 4:          ATII Control       17    2634 0.000000000 0.000000000 0.0000000000
+ 5:          ATII    COPD       14     802 0.003492613 0.013068162 0.0026455026
+ 6:          ATII     IPF       15     459 0.008543576 0.022931285 0.0075163399
+ 7:   Endothelial Control       25    2181 0.001972718 0.009863591 0.0004597701
+ 8:   Endothelial    COPD       17    1146 0.000000000 0.000000000 0.0000000000
+ 9:   Endothelial     IPF       31    4108 0.003813600 0.009787733 0.0018807218
+10:    Fibroblast Control       17     823 0.214085086 0.131213168 0.1385283767
+11:    Fibroblast    COPD       15     353 0.168443550 0.136712685 0.0805533275
+12:    Fibroblast     IPF       28    1436 0.244419077 0.144300643 0.1426524908
+13:         Mural Control        6      68 0.079796422 0.132824178 0.0357142857
+14:         Mural    COPD        9     137 0.356847794 0.293776460 0.1248468393
+15:         Mural     IPF       21    1118 0.351116437 0.214427318 0.1378411035
+16: Myofibroblast Control       12     182 0.281545277 0.283081117 0.0963612776
+17: Myofibroblast    COPD       14     424 0.152368619 0.163194707 0.0760592064
+18: Myofibroblast     IPF       28    2880 0.139399556 0.116297510 0.0767019525
+19:      Pericyte Control        1       7 0.453224936          NA 0.2857142857
+20:      Pericyte    COPD        6      57 0.781057155 0.255251757 0.2592903828
+21:      Pericyte     IPF       15     556 0.579912969 0.232935161 0.2581404366
+22:           SMC Control        5      50 0.000000000 0.000000000 0.0000000000
+23:           SMC    COPD        7      66 0.110856825 0.204384205 0.0568181818
+24:           SMC     IPF       16     532 0.112607136 0.100088203 0.0513375276
+      compartment disease n_donors n_cells  mean_AGTR1    sd_AGTR1 detect_AGTR1
+
+== minimum detectable AGTR1 effect (80% power) ==
+      compartment contrast n_control n_disease sd_log1p_cp10k   mde_80pct
+           <char>   <char>     <int>     <int>          <num>       <num>
+ 1:           ATI     COPD        15        15    0.008671660 0.008872371
+ 2:           ATI      IPF        15         9    0.008671660 0.010244932
+ 3:          ATII     COPD        17        14    0.015030434 0.015199596
+ 4:          ATII      IPF        17        15    0.015030434 0.014919167
+ 5:   Endothelial     COPD        25        17    0.008638245 0.007608935
+ 6:   Endothelial      IPF        25        31    0.008638245 0.006506341
+ 7:    Fibroblast     COPD        17        15    0.139970142 0.138933966
+ 8:    Fibroblast      IPF        17        28    0.139970142 0.120588617
+ 9:         Mural     COPD         6         9    0.243262894 0.359246669
+10:         Mural      IPF         6        21    0.243262894 0.315529966
+11: Myofibroblast     COPD        12        14    0.182836258 0.201540573
+12: Myofibroblast      IPF        12        28    0.182836258 0.176762776
+13:      Pericyte     COPD         1         6    0.247959149          NA
+14:      Pericyte      IPF         1        15    0.247959149          NA
+15:           SMC     COPD         5         7    0.129458354 0.212400146
+16:           SMC      IPF         5        16    0.129458354 0.185850128
+    estimable
+       <lgcl>
+ 1:      TRUE
+ 2:      TRUE
+ 3:      TRUE
+ 4:      TRUE
+ 5:      TRUE
+ 6:      TRUE
+ 7:      TRUE
+ 8:      TRUE
+ 9:      TRUE
+10:      TRUE
+11:      TRUE
+12:      TRUE
+13:     FALSE
+14:     FALSE
+15:      TRUE
+16:      TRUE
+
+Reproducibility information:
+[1] "2026-07-28 13:33:20 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-28
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package      * version  date (UTC) lib source
+ cli            3.6.5    2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1 2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8   2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4    2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1    2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1    2024-05-12 [1] CRAN (R 4.4.3)
+ generics       0.1.4    2025-05-09 [1] CRAN (R 4.4.3)
+ getopt         1.20.4   2023-10-01 [1] CRAN (R 4.4.3)
+ glue           1.8.0    2024-09-30 [1] CRAN (R 4.4.1)
+ lattice        0.22-7   2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4    2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr       2.0.4    2025-09-12 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3    2025-01-10 [1] CRAN (R 4.4.3)
+ optparse     * 1.7.5    2024-04-16 [1] CRAN (R 4.4.3)
+ pillar         1.11.1   2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3    2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3    1.8.2    2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1   2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0   2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1    2025-02-15 [1] CRAN (R 4.4.2)
+ rlang          1.1.6    2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3    2025-02-05 [1] CRAN (R 4.4.3)
+ tibble         3.3.0    2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect     1.2.1    2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5    2023-12-01 [1] CRAN (R 4.4.1)
+ xtable         1.8-4    2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
