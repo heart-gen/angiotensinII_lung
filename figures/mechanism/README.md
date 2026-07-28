@@ -31,7 +31,7 @@ The narrative arc the figures deliver:
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
 
-**Supplements — S1–S13.** Filenames stay semantic so scripts and cross-references do not
+**Supplements — S1–S14.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by the `supp_number` column of
 `figure_panel_manifest.tsv` and by the legend headings below.
 
@@ -40,8 +40,8 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S1 | `figureS_pericyte_layer` | `pericyte_layer_figure.R` |
 | S2 | `figureS_crossspecies_mouse` | `manuscript_mechanism_figure.R` |
 | S3 | `figureS_state_annotation` | `state_annotation_figure.R` |
-| S4 | `figureS_acta2_control` | `manuscript_mechanism_figure.R` |
-| S5 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
+| S4 | `figureS_agtr1_dropout` | `agtr1_dropout_figure.R` |
+| S5 | `figureS_acta2_control` | `manuscript_mechanism_figure.R` |
 | S6 | `figureS_bm_copd` | `basement_membrane_figure.R` |
 | S7 | `figureS_continuum_stability` | `continuum_stability_figure.R` |
 | S8 | `figureS_nichenet_specificity` | `nichenet_specificity_figure.R` |
@@ -50,10 +50,15 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S11 | `figureS_state_composition` | `state_composition_figure.R` |
 | S12 | `figureS_sensitivity` | `sensitivity_robustness_figure.R` |
 | S13 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
+| S14 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
 
-`figureS_program_category` held S3 until 2026-07-27, when the stability/annotation figure
-took that slot. It was **appended as S13 rather than shifting S4–S12 up by one**, so no
-S-number already used in the manuscript changes meaning.
+The tail of the list is where displaced figures land, so that an S-number already cited in
+the manuscript never changes meaning:
+
+- `figureS_program_category` held S3 until 2026-07-27, when the stability/annotation figure
+  took that slot; **appended as S13 rather than shifting S4–S12 up by one**.
+- `figureS_balance_by_state` held S5 until 2026-07-28, when the dropout figure entered at S4
+  and pushed the ACTA2 control into S5; **appended as S14 rather than shifting S6–S13**.
 
 **Deliberately NOT numbered supplements:**
 - `figureS_alluvial` — a **grant** figure, not a manuscript supplement (2026-07-27). It is
@@ -363,7 +368,78 @@ enrichment reversed in `figure_pericyte_layer` panel D. **(D)** Donor-mean *AGTR
 expression by stable subcluster (donor × subcluster means, subclusters with ≥5 cells; box =
 median/IQR, whiskers = 1.5×IQR), comparing the two markers' subcluster profiles.
 
-### Figure S4 — `figureS_acta2_control` — AGTR1 is not reducible to ACTA2⁺ contractile identity
+### Figure S4 — `figureS_agtr1_dropout` — Apparent AGTR1-undetected pericytes reflect transcript dropout rather than a distinct spatial population
+
+**Figure S.** *AGTR1* is detected in only 4,371 of 11,680 human lung pericytes, which invites the
+reading that the remaining cells are an *AGTR1*-negative subpopulation residing elsewhere in the
+lung. Five panels test that reading and reject it.
+**(A)** Observed versus expected number of *AGTR1*-undetected pericytes under a matched-gene
+dropout model. The null is the observed zero rate of the **200 genes closest to *AGTR1* in pooled
+abundance** (2.25–3.07 counts per 10k versus *AGTR1*'s 2.63) in the **same** cells, with
+mitochondrial and ribosomal genes excluded as ambient-dominated. Observed 7,314 of 11,680 cells
+(62.6%) versus a matched expectation of 7,459 (63.9%) [95% matched-gene interval 6,562–9,279];
+*z* = −0.19, empirical *P* = 0.85. *AGTR1* is, if anything, marginally **less** dropout-prone than
+its abundance peers.
+**(B)** Airspace-affinity distributions (mean cosine similarity to AT1/AT2/aerocyte/general-capillary
+centroids in `X_pca_harmony`) for the two groups; violin = full distribution, box = median/IQR.
+All 11,680 pericytes.
+**(C)** Effect of the *AGTR1* readout on airspace affinity across five specifications, all fitted on
+one common complete-case set (*n* = 7,157 cells, 56 donors) with the outcome z-scored, so rows are
+directly comparable in SD units. Per-cell rows are LMM with a donor random intercept and a dataset
+variance component; the donor row is OLS on donor means. Binary detectability: −0.136 unadjusted,
+−0.117 with depth covariates, **−0.114 fully adjusted** (age, sex, `n_counts`, `n_genes`,
+`pct_mito`; *P* = 1.1 × 10⁻⁵). Continuous scVI-denoised *AGTR1*: −0.087 SD per SD
+(*P* = 6.1 × 10⁻⁹). **Donor fraction *AGTR1*-detectable: −0.064 [−0.555, 0.427], *P* = 0.79** — the
+largest possible contrast on the ladder (a 0→1 predictor) and the row that carries the panel.
+**(D)** Among the 7,309 cells with **no observed *AGTR1* transcript**, scVI-denoised *AGTR1* (log
+scale, pericyte-trained model) against airspace affinity. Two readings at once: the undetected
+cells are **not** *AGTR1*-low — their denoised values span two orders of magnitude and their median
+(0.770) **exceeds** that of the detected cells (0.744, dashed rule) — and within them the denoised
+level carries no airspace signal (Spearman ρ = −0.02, *P* = 0.052).
+**(E)** *AGTR1* detection rate by sequencing-depth decile (orange, 95% Wilson interval) against the
+matched genes' detection rate in the same cells (grey, median and 2.5–97.5 percentile). Detection
+climbs monotonically from 12.4% in the shallowest decile (median 712 UMIs) to 61.6% in the deepest
+(median 6,118 UMIs), tracking the matched-gene median (13.3% → 61.4%) throughout.
+
+**Reading A and E together.** They are complementary, not redundant: **A** asks whether the *number*
+of zeros is unusual, **E** asks whether the zeros *land where dropout predicts*. A gene with a
+normal zero count but depth-independent zeros would pass A and fail E; *AGTR1* passes both.
+
+**What this figure does not claim.** It is **not** a null result. The per-cell effect in C is
+significant, and it is significant on the scVI-denoised *continuous* lens as well — so a real,
+graded association between *AGTR1* level and distance from the airspace does exist, as expected for
+a perivascular receptor. The claim is narrower and is about **detectability as a population
+boundary**: the zero count is what dropout predicts (A), the two groups' distributions coincide (B),
+the contrast does not survive donor aggregation (C), and the zeros are internally graded with no
+spatial structure of their own (D).
+
+**Caveats.**
+1. The two bands in E mean different things and must not be read as comparable error bars: the
+   orange interval is *sampling* error for one gene (binomial/Wilson), the grey band is
+   *between-gene* spread across 200 genes. That is why grey is far wider.
+2. The `counts` layer of these AnnData objects is **soupX ambient-corrected, not raw** (float,
+   minimum 0.00455). The dropout model is fitted on `raw/X` of
+   `pericyte.hlca_full.dataset.h5ad`, the only integer matrix in the project. A sampling model
+   fitted to the soupX layer would be meaningless.
+3. Two definitions of detection coexist. The project's `AGTR1_detect` is soupX-derived (4,371
+   detected); raw counts give 4,366. They agree for **99.96%** of cells. Panels A/E use raw
+   detection so they are internally consistent with the matched genes; B/C/D use the project
+   definition so C stays comparable with the published estimate.
+4. The fully adjusted row of C reproduces the previously published per-cell estimate exactly
+   (−0.003587 airspace units ÷ SD 0.0316 = −0.1136 SD), which is the intended cross-check on the
+   re-implementation.
+5. A Poisson reference (6,469 expected zeros) is written to `dropout_model_summary.tsv` but is
+   **not** plotted and is not a fair test: real counts are overdispersed and Poisson under-predicts
+   zeros for essentially every gene. The empirical matched-gene null is the primary comparison.
+6. The complete-case restriction to 7,157 of 11,680 cells is driven by missing donor age/sex in
+   HLCA, and by dropping donors that contribute only one *AGTR1* class (no within-donor contrast).
+
+**Provenance.** Upstream: `localization/airspace_analysis/_h/03.agtr1_dropout.py`
+(driver `step_3.sh`, run from `localization/airspace_analysis/_m`), writing
+`_m/agtr1_dropout/{dropout_model_summary,matched_gene_null,detection_by_depth,airspace_effect_ladder}.tsv`
+and `agtr1_cells.tsv.gz`. Figure: `figures/_h/agtr1_dropout_figure.R`.
+
+### Figure S5 — `figureS_acta2_control` — AGTR1 is not reducible to ACTA2⁺ contractile identity
 
 **Figure S.** Control benchmarking *AGTR1* against canonical *ACTA2*⁺ contractile mural identity.
 **(A)** Centered donor-aware program marginal means (±SE) for *ACTA2* (raw), *AGTR1* (raw), and
@@ -377,7 +453,7 @@ coupling (*r* = 0.28 vs *ACTA2*; *r* = 0.39 vs contractile program) collapses af
 identity. *n* = 154 donor × program pseudobulks. Source data: `tableS_acta2_control.tsv`.
 Framed as a benchmark/control, not a mechanistic pillar.
 
-### Figure S5 — `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
+### Figure S14 — `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
 
 **Figure S.** Donor-level AT1R–AT2R pathway balance across pericyte programs (box = median/IQR,
 points = donors). Differences among programs are **not significant** (smallest pairwise

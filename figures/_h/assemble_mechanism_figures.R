@@ -80,8 +80,8 @@ manifest <- tibble::tribble(
     "Supp", "S1",  "Pericyte-layer supporting detail",                    SF("figureS_pericyte_layer"),
     "Supp", "S2",  "Agtr1a marks the mouse pericyte compartment",         SF("figureS_crossspecies_mouse"),
     "Supp", "S3",  "Stability and annotation of human lung pericyte states", SF("figureS_state_annotation"),
-    "Supp", "S4",  "AGTR1 is not reducible to ACTA2+ contractile identity", SF("figureS_acta2_control"),
-    "Supp", "S5",  "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state"),
+    "Supp", "S4",  "AGTR1-undetected pericytes reflect transcript dropout", SF("figureS_agtr1_dropout"),
+    "Supp", "S5",  "AGTR1 is not reducible to ACTA2+ contractile identity", SF("figureS_acta2_control"),
     "Supp", "S6",  "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd"),
     "Supp", "S7",  "Stability of the pericyte continuum",                 SF("figureS_continuum_stability"),
     "Supp", "S8",  "Specificity and donor-level validation of niche regulation", SF("figureS_nichenet_specificity"),
@@ -89,10 +89,14 @@ manifest <- tibble::tribble(
     "Supp", "S10", "The lung renin-angiotensin axis is distributed across cell types", SF("figureS_ras_landscape"),
     "Supp", "S11", "Discrete state composition does not differ across disease", SF("figureS_state_composition"),
     "Supp", "S12", "Robustness and limitations of the disease-associated signal", SF("figureS_sensitivity"),
-    ## Held S3 until 2026-07-27, when the stability/annotation figure took that
-    ## slot. Appended here rather than shifting S4-S12 up by one, so no S-number
-    ## already used in the manuscript changes meaning.
-    "Supp", "S13", "Program x protein-category enrichment",               SF("figureS_program_category")
+    ## The tail of this list is where displaced figures land. Both of these were
+    ## appended rather than shifting the block above, so an S-number already cited
+    ## in the manuscript never changes meaning:
+    ##   S13 held S3 until 2026-07-27, when the stability/annotation figure took it.
+    ##   S14 held S5 until 2026-07-28, when the dropout figure entered at S4 and
+    ##       pushed the ACTA2 control into S5.
+    "Supp", "S13", "Program x protein-category enrichment",               SF("figureS_program_category"),
+    "Supp", "S14", "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state")
 )
 ## NOT numbered supplements, deliberately:
 ##   figureS_alluvial          -- grant figure, not a manuscript supplement (2026-07-27)

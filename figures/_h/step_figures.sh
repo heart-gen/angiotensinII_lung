@@ -31,6 +31,10 @@ log_message "**** S3: pericyte-state stability + annotation ****"
 Rscript ../_h/state_annotation_figure.R
 if [ $? -ne 0 ]; then log_message "Error: state annotation figure failed"; exit 1; fi
 
+log_message "**** S4: AGTR1 dropout vs distinct population ****"
+Rscript ../_h/agtr1_dropout_figure.R
+if [ $? -ne 0 ]; then log_message "Error: AGTR1 dropout figure failed"; exit 1; fi
+
 log_message "**** S12: sensitivity / robustness ****"
 Rscript ../_h/sensitivity_robustness_figure.R
 if [ $? -ne 0 ]; then log_message "Error: sensitivity figure failed"; exit 1; fi
