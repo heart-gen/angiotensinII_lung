@@ -29,7 +29,7 @@ Outputs:
   - pericyte_states.h5ad             (obs: pericyte_state [stable cluster], state_program)
   - pericytes_states_metadata.tsv.gz (per-cell obs for donor-aware R stats)
   - stability/cluster_stability_grid.tsv, chosen_cluster_solution.tsv,
-    cluster_size_donor_grid.tsv
+    cluster_size_donor_grid.tsv, cluster_bootstrap_jaccard.tsv
   - annotations/state_markers.tsv.gz, state_summary.tsv, state_program_map.tsv
   - figures/umap_{pericyte_state,state_program,<score>}.{png,pdf}
 """
@@ -108,6 +108,12 @@ def parse_args():
     p.add_argument("--min-cluster-cells", type=int, default=50)
     p.add_argument("--min-cluster-donors", type=int, default=3)
     p.add_argument("--seed", type=int, default=13)
+    p.add_argument("--stability-only", action="store_true",
+                   help="Load the existing OUTPUT h5ad and recompute only the "
+                        "per-cluster bootstrap Jaccard for the stored chosen "
+                        "solution. Writes stability/cluster_bootstrap_jaccard.tsv "
+                        "and touches nothing else -- use this instead of a full "
+                        "re-run, which would regenerate the published object.")
     return p.parse_args()
 
 
@@ -172,7 +178,13 @@ def cluster_embedding(emb: np.ndarray, n_neighbors: int, resolution: float,
 
 
 def best_jaccard(original: np.ndarray, bootstrap: np.ndarray) -> list:
-    """Best bootstrap overlap (Jaccard) for each original cluster."""
+    """Best bootstrap overlap (Jaccard) for each original cluster.
+
+    Returns (cluster_label, jaccard) pairs rather than bare values so callers can
+    report stability PER CLUSTER. The sweep summary only needs the median across
+    everything, but a supplementary table has to say which cluster was least
+    reproducible -- a median of 0.97 is compatible with one fragile cluster.
+    """
     out = []
     boot_sets = {b: set(np.flatnonzero(bootstrap == b).tolist())
                  for b in np.unique(bootstrap)}
@@ -183,16 +195,18 @@ def best_jaccard(original: np.ndarray, bootstrap: np.ndarray) -> list:
             denom = len(a | b)
             if denom:
                 best = max(best, len(a & b) / denom)
-        out.append(best)
+        out.append((str(cluster), best))
     return out
 
 
 def stability_sweep(adata, rep, neighbors, resolutions, n_bootstrap,
-                    resample_fraction, thr, min_cells, min_donors, seed, outdir):
+                    resample_fraction, thr, min_cells, min_donors, seed, outdir,
+                    write_grid=True):
     emb = np.asarray(adata.obsm[rep])
     donors = adata.obs["donor_id"].to_numpy()
     rng = np.random.default_rng(seed)
     records, cluster_records, labels_by_key = [], [], {}
+    jaccard_records = []
 
     for nn in neighbors:
         for res in resolutions:
@@ -209,7 +223,11 @@ def stability_sweep(adata, rep, neighbors, resolutions, n_bootstrap,
                                replace=False))
                 boot = cluster_embedding(emb[keep], nn, res, seed + i + 1)
                 orig_sub = original[keep]
-                jacc.extend(best_jaccard(orig_sub, boot))
+                pairs = best_jaccard(orig_sub, boot)
+                jacc.extend(j for _, j in pairs)
+                jaccard_records.extend(
+                    {"cluster_key": key, "cluster": c, "bootstrap": i, "jaccard": j}
+                    for c, j in pairs)
                 aris.append(adjusted_rand_score(orig_sub, boot))
                 nmis.append(normalized_mutual_info_score(orig_sub, boot))
 
@@ -235,16 +253,21 @@ def stability_sweep(adata, rep, neighbors, resolutions, n_bootstrap,
                .sort_values(["passes", "median_jaccard", "n_clusters"],
                             ascending=[False, False, False]))
     sdir = outdir / "stability"; sdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(sdir / "cluster_stability_grid.tsv", sep="\t", index=False)
-    pd.DataFrame(cluster_records).to_csv(
-        sdir / "cluster_size_donor_grid.tsv", sep="\t", index=False)
+    ## write_grid=False is the --stability-only path: the sweep is being re-run for
+    ## ONE solution, so writing these would replace the full 8-row sweep with a
+    ## single row and destroy the record of how the solution was selected.
+    if write_grid:
+        summary.to_csv(sdir / "cluster_stability_grid.tsv", sep="\t", index=False)
+        pd.DataFrame(cluster_records).to_csv(
+            sdir / "cluster_size_donor_grid.tsv", sep="\t", index=False)
 
     chosen = summary.iloc[0]
     if not chosen["passes"]:
         logging.warning("No solution passed all gates; taking the most stable.")
     chosen_key = str(chosen["cluster_key"])
-    pd.DataFrame([chosen.to_dict()]).to_csv(
-        sdir / "chosen_cluster_solution.tsv", sep="\t", index=False)
+    if write_grid:
+        pd.DataFrame([chosen.to_dict()]).to_csv(
+            sdir / "chosen_cluster_solution.tsv", sep="\t", index=False)
     logging.info(f"Chosen {chosen_key}: {chosen['n_clusters']} clusters, "
                  f"median Jaccard {chosen['median_jaccard']:.2f}, "
                  f"passes={chosen['passes']}")
@@ -252,6 +275,29 @@ def stability_sweep(adata, rep, neighbors, resolutions, n_bootstrap,
     labels = labels_by_key[chosen_key]
     order = pd.Series(labels).value_counts().index.tolist()
     remap = {old: str(i) for i, old in enumerate(order)}
+
+    # Per-cluster bootstrap Jaccard. `cluster` is the raw Leiden label; for the
+    # chosen solution `pericyte_state` carries the published size-ordered id, so
+    # the table can be joined straight onto state_summary.tsv.
+    jdf = pd.DataFrame(jaccard_records)
+    jsum = (jdf.groupby(["cluster_key", "cluster"])["jaccard"]
+            .agg(n_boot="size", jaccard_mean="mean", jaccard_median="median",
+                 jaccard_min="min",
+                 jaccard_lo=lambda s: float(np.quantile(s, 0.025)),
+                 jaccard_hi=lambda s: float(np.quantile(s, 0.975)))
+            .reset_index())
+    jsum["pericyte_state"] = [
+        remap.get(c) if k == chosen_key else None
+        for k, c in zip(jsum["cluster_key"], jsum["cluster"])]
+    jsum.to_csv(sdir / "cluster_bootstrap_jaccard.tsv", sep="\t", index=False)
+    # Guard: the median over all per-cluster values must reproduce the sweep's
+    # median_jaccard for the chosen solution, or the two are measuring different
+    # things and the supplementary table would silently disagree with the figure.
+    chk = float(np.median(jdf.loc[jdf["cluster_key"] == chosen_key, "jaccard"]))
+    if not np.isclose(chk, float(chosen["median_jaccard"]), atol=1e-9):
+        raise RuntimeError(f"per-cluster Jaccard median {chk} != stored "
+                           f"{chosen['median_jaccard']} for {chosen_key}")
+
     return pd.Categorical([remap[x] for x in labels],
                           categories=[str(i) for i in range(len(order))])
 
@@ -355,11 +401,76 @@ def plot_umap(adata, col, outdir: Path, categorical=False):
     save_figure(fig, outdir / f"umap_{col}")
 
 
+def run_stability_only(args):
+    """Recompute per-cluster bootstrap Jaccard for the ALREADY-PUBLISHED solution.
+
+    Re-running the whole script would regenerate pericyte_states.h5ad and could
+    perturb the cluster labels that every downstream module and published figure
+    depends on. This mode instead loads the existing OUTPUT object, re-runs only
+    the bootstrap at the stored chosen solution, checks that the recomputed labels
+    reproduce `pericyte_state` exactly, and writes
+    stability/cluster_bootstrap_jaccard.tsv. Nothing else on disk is touched.
+
+    The Jaccard values are a FRESH bootstrap, not a replay: the sweep's RNG is
+    consumed across all neighbor x resolution combinations in order, so a
+    single-combination run draws a different resample sequence. Cluster labels are
+    seed-deterministic and so are checked exactly; the median Jaccard is only
+    checked for agreement within a tolerance.
+    """
+    sdir = args.outdir / "stability"
+    chosen_f = sdir / "chosen_cluster_solution.tsv"
+    if not chosen_f.exists():
+        raise SystemExit(f"{chosen_f} not found -- run the full script first")
+    chosen = pd.read_csv(chosen_f, sep="\t").iloc[0]
+    nn, res = int(chosen["n_neighbors"]), float(chosen["resolution"])
+    stored_median = float(chosen["median_jaccard"])
+    logging.info(f"stability-only: chosen solution n{nn}_r{res}, "
+                 f"stored median Jaccard {stored_median:.4f}")
+
+    adata = load_anndata(args.adata)
+    if "pericyte_state" not in adata.obs.columns:
+        raise SystemExit("adata has no `pericyte_state` -- pass the OUTPUT "
+                         "pericyte_states.h5ad, not the input object")
+    if args.use_rep not in adata.obsm:
+        raise ValueError(f"{args.use_rep} not in obsm: {list(adata.obsm)}")
+
+    labels = stability_sweep(
+        adata, args.use_rep, [nn], [res], args.n_bootstrap,
+        args.resample_fraction, args.stability_threshold,
+        args.min_cluster_cells, args.min_cluster_donors, args.seed,
+        args.outdir, write_grid=False)
+
+    stored = adata.obs["pericyte_state"].astype(str).to_numpy()
+    recomputed = np.asarray(labels).astype(str)
+    n_diff = int((stored != recomputed).sum())
+    if n_diff:
+        raise SystemExit(
+            f"recomputed labels differ from the published pericyte_state for "
+            f"{n_diff}/{len(stored)} cells -- the clustering is not reproducible "
+            f"under this seed/environment, so the per-cluster Jaccard cannot be "
+            f"attributed to the published clusters")
+    logging.info(f"label check passed: {len(stored)} cells identical to "
+                 f"published pericyte_state")
+
+    jf = pd.read_csv(sdir / "cluster_bootstrap_jaccard.tsv", sep="\t")
+    new_median = float(np.median(jf["jaccard_median"]))
+    if abs(new_median - stored_median) > 0.05:
+        logging.warning(f"fresh median Jaccard {new_median:.4f} deviates from the "
+                        f"stored {stored_median:.4f} by more than 0.05")
+    logging.info(f"wrote {sdir / 'cluster_bootstrap_jaccard.tsv'} "
+                 f"({len(jf)} clusters); fresh median {new_median:.4f}")
+
+
 def main():
     args = parse_args()
     configure_logging()
     outdir = args.outdir
     outdir.mkdir(parents=True, exist_ok=True)
+
+    if args.stability_only:
+        run_stability_only(args)
+        logging.info("stability-only run complete; no other outputs modified")
+        return
 
     adata = load_anndata(args.adata)
     logging.info(f"Loaded {adata.shape[0]} pericytes x {adata.shape[1]} genes")

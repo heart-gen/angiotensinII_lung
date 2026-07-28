@@ -17,8 +17,8 @@
 ##   (C) Injury-program fraction vs disease (programs grouped; headline contrast).
 ##
 ## NOTE: COPD is very sparse among pericytes (~41 cells) and few fibrotic donors
-## clear the >=20-cell filter; the powered contrast is Healthy vs Fibrotic/ILD and
-## even that is donor-limited. The COPD AGTR1 signal is carried by the whole-stroma
+## clear the donor cell-count filter (>=10 primary, >=20 sensitivity); the powered
+## contrast is Healthy vs Fibrotic/ILD and even that is donor-limited. The COPD AGTR1 signal is carried by the whole-stroma
 ## disease_association analysis.
 
 suppressPackageStartupMessages({
@@ -32,7 +32,32 @@ suppressPackageStartupMessages({
 })
 emm_options(lmerTest.limit = 30000, pbkrtest.limit = 30000)
 
-INJURY_PROGRAMS <- c("inflammatory", "fibroblast_like", "activated_migratory")
+args <- commandArgs(trailingOnly = TRUE)
+parse_arg <- function(flag, default) {
+    i <- which(args == flag); if (length(i)) args[i + 1] else default
+}
+## Donor cell-count thresholds. The FIRST is primary and writes the canonical
+## unsuffixed filenames; the rest are sensitivity analyses and are suffixed
+## `_mincells<N>`. >=10 matches disease_association/_h/03.disease_forest.R, which
+## has always used 10 -- the modules previously disagreed (10 vs 20) with nothing
+## in the outputs revealing it, so two incompatible donor denominators were being
+## reported side by side.
+MIN_CELLS <- as.integer(strsplit(parse_arg("--min-cells", "10,20"), ",")[[1]])
+
+## Programs counted as "injury-associated" for the grouped endpoint (C).
+##
+## HISTORY -- read before editing. This vector used to be
+##   c("inflammatory", "fibroblast_like", "activated_migratory")
+## but after the 2026-07-21 relabel the only `state_program` levels that exist are
+## vascular_stabilizing, basement_membrane and activated_migratory:
+## `fibroblast_like` became `basement_membrane` (a STRUCTURAL program that is
+## deliberately not injury -- see basement_membrane/), and `inflammatory` is not
+## dominant for any stable cluster. The stale names matched nothing, so the
+## endpoint silently narrowed to activated/migratory alone while the summaries
+## kept quoting the old three-program means (0.488/0.381/0.317). Naming only
+## levels that exist, plus the hard check in injury_fraction_by_disease(), is what
+## stops that from recurring.
+INJURY_PROGRAMS <- c("activated_migratory")
 
 map_disease_group <- function(lung_condition) {
     lc <- as.character(lung_condition)
@@ -124,7 +149,8 @@ agtr1_by_group <- function(df, group, outdir, tag, min_cells = 5) {
 }
 
 ## ----- (B) Composition vs disease (per stable cluster / program) ----------
-composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor = 20) {
+composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor = 10,
+                                   sfx = "") {
     donor_tot <- df |> count(donor_id, name = "n_total") |>
         filter(n_total >= min_cells_per_donor)
     comp <- df |>
@@ -146,13 +172,16 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
     ## donor_id is a factor carrying every donor in the dataset, so the complete()
     ## above re-introduces donors that the >=20-cell filter dropped, as n = 0 with
     ## n_total = NA. lm() silently ignores them; an exported table must not.
+    ## `min_cells` is carried on every exported table so the primary and
+    ## sensitivity fits can be stacked without relying on the filename.
     write_tsv_safe(
         comp |> filter(!is.na(n_total)) |>
             rename(level = !!rlang::sym(group)) |>
             select(donor_id, level, disease_group, dataset, sex, age,
                    n, n_total, frac) |>
+            mutate(min_cells = min_cells_per_donor) |>
             arrange(level, disease_group, donor_id),
-        file.path(outdir, paste0("composition_", tag, "_by_donor.tsv")))
+        file.path(outdir, paste0("composition_", tag, "_by_donor", sfx, ".tsv")))
 
     results <- list()
     for (g in levels(factor(comp[[group]]))) {
@@ -165,17 +194,22 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
         fit <- lm(frac ~ disease_group + age + sex, data = sub)
         emm <- emmeans(fit, ~ disease_group)
         key <- sanitize(g)
-        write_tsv_safe(as.data.frame(emm),
-                       file.path(outdir, paste0("composition_", tag, "_", key, "_emmeans.tsv")))
-        write_tsv_safe(posthoc_with_ci(emm),
-                       file.path(outdir, paste0("composition_", tag, "_", key, "_posthoc.tsv")))
-        results[[g]] <- data.frame(level = g,
+        write_tsv_safe(as.data.frame(emm) |> mutate(min_cells = min_cells_per_donor,
+                                                    n_donors = nrow(sub)),
+                       file.path(outdir, paste0("composition_", tag, "_", key,
+                                                "_emmeans", sfx, ".tsv")))
+        write_tsv_safe(posthoc_with_ci(emm) |> mutate(min_cells = min_cells_per_donor),
+                       file.path(outdir, paste0("composition_", tag, "_", key,
+                                                "_posthoc", sfx, ".tsv")))
+        results[[g]] <- data.frame(level = g, n_donors = nrow(sub),
                                    as.data.frame(car::Anova(fit, type = 2))["disease_group", ])
     }
     anova_all <- bind_rows(results)
     pcol <- grep("^Pr", names(anova_all), value = TRUE)[1]
     if (!is.na(pcol)) anova_all$p_BH <- p.adjust(anova_all[[pcol]], method = "BH")
-    write_tsv_safe(anova_all, file.path(outdir, paste0("composition_", tag, "_disease_anova_all.tsv")))
+    anova_all$min_cells <- min_cells_per_donor
+    write_tsv_safe(anova_all, file.path(outdir, paste0("composition_", tag,
+                                                       "_disease_anova_all", sfx, ".tsv")))
 
     p <- ggboxplot(comp, x = "disease_group", y = "frac", add = "jitter",
                    fill = "disease_group", palette = "jco",
@@ -183,12 +217,25 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
                    xlab = "", ylab = "Fraction per donor",
                    legend = "none", ggtheme = theme_pubr(base_size = 12)) +
         facet_wrap(vars(.data[[group]]), scales = "free_y") + rotate_x_text(35)
-    save_ggplots(file.path(outdir, paste0("composition_", tag, "_by_disease")), p, 9, 7)
+    save_ggplots(file.path(outdir, paste0("composition_", tag, "_by_disease", sfx)), p, 9, 7)
     invisible(comp)
 }
 
 ## ----- (C) Injury-program fraction vs disease (headline) ------------------
-injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 20) {
+injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx = "") {
+    ## Hard fail if a named injury program is absent from the data. Silently
+    ## matching nothing is exactly how this endpoint drifted from three programs to
+    ## one without any output changing shape.
+    have <- levels(factor(df$state_program))
+    missing <- setdiff(INJURY_PROGRAMS, have)
+    if (length(missing))
+        stop("INJURY_PROGRAMS names levels absent from state_program: ",
+             paste(missing, collapse = ", "), "\nPresent levels: ",
+             paste(have, collapse = ", "),
+             "\nUpdate INJURY_PROGRAMS deliberately -- do not leave stale names.")
+    cat("injury programs:", paste(INJURY_PROGRAMS, collapse = " + "),
+        "| min_cells =", min_cells_per_donor, "\n")
+
     donor_tot <- df |> count(donor_id, name = "n_total") |>
         filter(n_total >= min_cells_per_donor)
     donor_meta <- df |> group_by(donor_id) |>
@@ -208,22 +255,28 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 20) {
     write_tsv_safe(
         inj |> select(donor_id, disease_group, dataset, sex, age,
                       n_injury, n_total, injury_frac) |>
+            mutate(min_cells = min_cells_per_donor) |>
             arrange(disease_group, donor_id),
-        file.path(outdir, "injury_fraction_by_donor.tsv"))
+        file.path(outdir, paste0("injury_fraction_by_donor", sfx, ".tsv")))
 
     fit <- lm(injury_frac ~ disease_group + age + sex, data = inj)
     emm <- emmeans(fit, ~ disease_group)
-    write_tsv_safe(as.data.frame(emm), file.path(outdir, "injury_fraction_emmeans.tsv"))
-    write_tsv_safe(posthoc_with_ci(emm),
-                   file.path(outdir, "injury_fraction_posthoc.tsv"))
+    write_tsv_safe(as.data.frame(emm) |>
+                       mutate(min_cells = min_cells_per_donor, n_donors = nrow(inj),
+                              injury_programs = paste(INJURY_PROGRAMS, collapse = "+")),
+                   file.path(outdir, paste0("injury_fraction_emmeans", sfx, ".tsv")))
+    write_tsv_safe(posthoc_with_ci(emm) |> mutate(min_cells = min_cells_per_donor),
+                   file.path(outdir, paste0("injury_fraction_posthoc", sfx, ".tsv")))
+    ylab_txt <- paste0("Injury-program fraction\n(",
+                       paste(INJURY_PROGRAMS, collapse = " + "), " states)")
     p <- ggboxplot(inj, x = "disease_group", y = "injury_frac", add = "jitter",
                    fill = "disease_group", palette = "jco",
-                   xlab = "", ylab = "Injury-program fraction\n(inflammatory+fibroblast+activated states)",
+                   xlab = "", ylab = ylab_txt,
                    legend = "none", ggtheme = theme_pubr(base_size = 13)) +
         rotate_x_text(35) +
         stat_summary(fun = mean, geom = "point", shape = 23, size = 3,
                      fill = "white", color = "black")
-    save_ggplots(file.path(outdir, "injury_fraction_by_disease"), p, 5, 5)
+    save_ggplots(file.path(outdir, paste0("injury_fraction_by_disease", sfx)), p, 5, 5)
     invisible(inj)
 }
 
@@ -239,9 +292,17 @@ if (!dir.exists(outdir)) dir.create(outdir)
 
 agtr1_by_group(df, "state_program", outdir, "program")
 agtr1_by_group(df, "pericyte_state", outdir, "state")
-composition_by_disease(df, "pericyte_state", outdir, "state")
-composition_by_disease(df, "state_program", outdir, "program")
-injury_fraction_by_disease(df, outdir)
+## Primary threshold first (canonical, unsuffixed filenames); the rest are
+## sensitivity fits written alongside with a `_mincells<N>` suffix.
+for (i in seq_along(MIN_CELLS)) {
+    mc  <- MIN_CELLS[i]
+    sfx <- if (i == 1L) "" else paste0("_mincells", mc)
+    cat("\n===== donor filter: >=", mc, "pericytes",
+        if (i == 1L) "(PRIMARY)" else "(sensitivity)", "=====\n")
+    composition_by_disease(df, "pericyte_state", outdir, "state", mc, sfx)
+    composition_by_disease(df, "state_program", outdir, "program", mc, sfx)
+    injury_fraction_by_disease(df, outdir, mc, sfx)
+}
 
 cat("\nReproducibility information:\n")
 Sys.time(); proc.time()

@@ -1,0 +1,23 @@
+2026-07-27 17:18:54 - **** Job starts ****
+Job id: 42722743
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-27 17:18:55 - **** Loading mamba environment ****
+2026-07-27 17:18:55 - **** Per-cluster bootstrap Jaccard (stability-only) ****
+2026-07-27 17:19:02,139 [INFO] stability-only: chosen solution n30_r0.5, stored median Jaccard 0.9657
+2026-07-27 17:19:03,152 [INFO] Clustering leiden_n30_r0.5
+2026-07-27 17:19:31.649148: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/pericyte_states/_m/../_h/00.state_discovery.py:175: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(tmp, resolution=resolution, random_state=seed,
+2026-07-27 17:23:46,711 [INFO] Chosen leiden_n30_r0.5: 6 clusters, median Jaccard 0.97, passes=True
+2026-07-27 17:23:46,985 [INFO] label check passed: 11680 cells identical to published pericyte_state
+2026-07-27 17:23:46,987 [INFO] wrote stability/cluster_bootstrap_jaccard.tsv (6 clusters); fresh median 0.9654
+2026-07-27 17:23:47,016 [INFO] stability-only run complete; no other outputs modified
+2026-07-27 17:23:50 - **** Job ends ****

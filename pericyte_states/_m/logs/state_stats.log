@@ -1,14 +1,14 @@
-2026-07-27 12:22:57 - **** Job starts ****
-Job id: 42710802
-Hostname: r001
+2026-07-27 22:46:47 - **** Job starts ****
+Job id: 42735886
+Hostname: r004
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 12:22:58 - **** Loading mamba environment ****
-2026-07-27 12:22:59 - **** Donor-aware pericyte-state statistics ****
+2026-07-27 22:46:48 - **** Loading mamba environment ****
+2026-07-27 22:47:01 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -21,29 +21,18 @@ programs:
 
         COPD Fibrotic_ILD      Healthy        Other 
           41         2516         7262         1861 
-Warning messages:
-1: Removed 750 rows containing non-finite outside the scale range
-(`stat_boxplot()`). 
-2: Removed 750 rows containing missing values or values outside the scale range
-(`geom_point()`). 
-3: Removed 750 rows containing non-finite outside the scale range
-(`stat_boxplot()`). 
-4: Removed 750 rows containing missing values or values outside the scale range
-(`geom_point()`). 
-Warning messages:
-1: Removed 375 rows containing non-finite outside the scale range
-(`stat_boxplot()`). 
-2: Removed 375 rows containing missing values or values outside the scale range
-(`geom_point()`). 
-3: Removed 375 rows containing non-finite outside the scale range
-(`stat_boxplot()`). 
-4: Removed 375 rows containing missing values or values outside the scale range
-(`geom_point()`). 
+
+===== donor filter: >= 10 pericytes (PRIMARY) =====
+injury programs: activated_migratory | min_cells = 10 
+
+===== donor filter: >= 20 pericytes (sensitivity) =====
+injury programs: activated_migratory | min_cells = 20 
+There were 16 warnings (use warnings() to see them)
 
 Reproducibility information:
-[1] "2026-07-27 12:23:08 EDT"
+[1] "2026-07-27 22:47:31 EDT"
    user  system elapsed 
-  7.742   0.336   9.457 
+ 11.694   0.435  29.870 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -126,4 +115,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-27 12:23:09 - **** Job ends ****
+2026-07-27 22:47:36 - **** Job ends ****
