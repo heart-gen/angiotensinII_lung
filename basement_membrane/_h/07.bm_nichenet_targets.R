@@ -12,6 +12,14 @@
 ## threshold, but with geneset_oi = the BM panel alone. The published result is
 ## untouched and the two rankings can be compared directly.
 ##
+## NOTE ON THE TARGET-SET SIZE. geneset_oi is `intersect(bm_genes, background)`,
+## i.e. the BM-panel genes EXPRESSED IN THE RECEIVER above EXPR_THR -- currently
+## 10 of the 13 panel genes, with LAMA3, LAMA5 and AGRN excluded. Describe this
+## analysis as "the 10 of 13 basement-membrane genes expressed in pericytes", not
+## as "the 13 basement-membrane genes": drafts have made that overstatement, and
+## the difference matters because the three excluded genes are laminin-alpha and
+## agrin, not a random subset. The count is logged below on every run.
+##
 ## Question answered: do the same TGF-beta ligands that drive the pericyte ECM
 ## program also rank top for basement-membrane deposition, or is BM driven by a
 ## different set of signals?
@@ -44,6 +52,10 @@ EXPR_THR <- as.numeric(parse_arg("--expr-thr", "0.10"))
 RECEIVER <- parse_arg("--receiver", "Pericytes")
 NPERM    <- as.integer(parse_arg("--nperm", "1000"))
 SEED     <- as.integer(parse_arg("--seed", "13"))
+## Write only the full ligand x target matrix and stop, leaving the published
+## ranking and its permutation null untouched. Used to produce Table S11C source
+## data without re-running a 10,000-permutation job.
+LINKS_ONLY <- "--links-only" %in% args
 dir.create(OUTDIR, showWarnings = FALSE, recursive = TRUE)
 set.seed(SEED)
 
@@ -81,6 +93,48 @@ potential_ligands <- lr_network |>
     pull(from) |> unique()
 potential_ligands <- intersect(potential_ligands, colnames(ligand_target_matrix))
 message("potential ligands: ", length(potential_ligands))
+
+## ---- full ligand x BM-target regulatory-potential matrix --------------------
+## Source data for supplementary Table S11C, kept SEPARATE from the thresholded
+## links file written further down. That file is deliberately sparse:
+## get_weighted_ligand_target_links keeps a BM gene only if it falls inside that
+## ligand's global top-n targets, so at n = 200 it yields ~23 links across 25
+## ligands. That is the right input for a readable heatmap and the wrong content
+## for a source-data table, which must let a reader reconstruct the regulatory
+## potential of every ligand x target pair, including the zeros.
+write_full_matrix <- function() {
+    m <- ligand_target_matrix[geneset_oi, potential_ligands, drop = FALSE]
+    full <- as.data.frame(as.table(as.matrix(m)), stringsAsFactors = FALSE)
+    names(full) <- c("target", "ligand", "regulatory_potential")
+    ## Rank/AUPR/FDR are joined from the PUBLISHED activities file rather than
+    ## recomputed, so this export can never disagree with the ranking in S11A.
+    af <- file.path(OUTDIR, paste0("ligand_activities_BM_", RECEIVER, ".tsv"))
+    if (file.exists(af)) {
+        a <- data.table::fread(af, data.table = FALSE)
+        keep <- intersect(c("test_ligand", "rank", "aupr_corrected", "perm_z",
+                            "perm_p_BH"), names(a))
+        a <- a[, keep, drop = FALSE]
+        names(a)[names(a) == "test_ligand"] <- "ligand"
+        names(a)[names(a) == "rank"] <- "ligand_rank"
+        full <- dplyr::left_join(full, a, by = "ligand")
+    } else {
+        warning("no published activities file at ", af,
+                "; ligand rank columns will be absent")
+        full$ligand_rank <- NA_integer_
+    }
+    full <- full |> arrange(ligand_rank, desc(regulatory_potential))
+    f <- file.path(OUTDIR, paste0("ligand_target_matrix_BM_", RECEIVER, ".tsv"))
+    write.table(full, f, sep = "\t", quote = FALSE, row.names = FALSE)
+    message(sprintf("wrote %s: %d rows (%d ligands x %d targets), %d non-zero",
+                    basename(f), nrow(full), length(potential_ligands),
+                    length(geneset_oi), sum(full$regulatory_potential > 0)))
+}
+write_full_matrix()
+if (LINKS_ONLY) {
+    message("--links-only: stopping before the permutation null; ",
+            "published outputs left untouched")
+    quit(save = "no", status = 0)
+}
 
 activities <- predict_ligand_activities(
     geneset = geneset_oi, background_expressed_genes = background,
