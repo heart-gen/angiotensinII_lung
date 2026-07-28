@@ -35,14 +35,19 @@ log_message "**** S4: AGTR1 dropout vs distinct population ****"
 Rscript ../_h/agtr1_dropout_figure.R
 if [ $? -ne 0 ]; then log_message "Error: AGTR1 dropout figure failed"; exit 1; fi
 
+log_message "**** S6: unsupervised CoGAPS validation of the programs ****"
+Rscript ../_h/cogaps_validation_figure.R
+if [ $? -ne 0 ]; then log_message "Error: CoGAPS validation figure failed"; exit 1; fi
+
 log_message "**** S12: sensitivity / robustness ****"
 Rscript ../_h/sensitivity_robustness_figure.R
 if [ $? -ne 0 ]; then log_message "Error: sensitivity figure failed"; exit 1; fi
 
-## Builds the main BM figure plus S6 (figureS_bm_copd) and S10 (figureS_ras_landscape).
+## Builds the main BM figure plus S15 (figureS_bm_copd, moved off S6 on 2026-07-28
+## when the CoGAPS validation figure took that slot) and S10 (figureS_ras_landscape).
 ## This was missing from the pipeline until 2026-07-27, which is why both supplements
 ## had gone stale relative to everything else in figures/mechanism.
-log_message "**** Basement-membrane figure + S6, S10 ****"
+log_message "**** Basement-membrane figure + S10, S15 ****"
 Rscript ../_h/basement_membrane_figure.R
 if [ $? -ne 0 ]; then log_message "Error: basement-membrane figure failed"; exit 1; fi
 

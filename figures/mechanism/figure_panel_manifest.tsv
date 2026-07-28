@@ -11,7 +11,7 @@ Supp	S2	Agtr1a marks the mouse pericyte compartment	/ocean/projects/bio260021p/k
 Supp	S3	Stability and annotation of human lung pericyte states	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_state_annotation.pdf	TRUE
 Supp	S4	AGTR1-undetected pericytes reflect transcript dropout	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_agtr1_dropout.pdf	TRUE
 Supp	S5	AGTR1 is not reducible to ACTA2+ contractile identity	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_acta2_control.pdf	TRUE
-Supp	S6	Basement-membrane remodeling in IPF but not COPD	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_bm_copd.pdf	TRUE
+Supp	S6	Unsupervised CoGAPS validation of pericyte programs	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_cogaps_validation.pdf	TRUE
 Supp	S7	Stability of the pericyte continuum	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_continuum_stability.pdf	TRUE
 Supp	S8	Specificity and donor-level validation of niche regulation	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_nichenet_specificity.pdf	TRUE
 Supp	S9	Robustness to receiver definition; BM-restricted signaling	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_receiver_robustness.pdf	TRUE
@@ -20,3 +20,4 @@ Supp	S11	Discrete state composition does not differ across disease	/ocean/projec
 Supp	S12	Robustness and limitations of the disease-associated signal	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_sensitivity.pdf	TRUE
 Supp	S13	Program x protein-category enrichment	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_program_category.pdf	TRUE
 Supp	S14	AT1R-AT2R balance by pericyte program	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_balance_by_state.pdf	TRUE
+Supp	S15	Basement-membrane remodeling in IPF but not COPD	/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figureS_bm_copd.pdf	TRUE

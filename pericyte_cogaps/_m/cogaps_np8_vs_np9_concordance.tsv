@@ -1,0 +1,10 @@
+pattern_np_main	pattern_np_sens	r_loadings	top_program_main	top_rho_main	top_program_sens	top_rho_sens	profile_r	program_agree	matched	np_main	np_sens
+Pattern_1	Pattern_3	0.999288256155521	inflammatory	0.396073516192646	inflammatory	0.396018499391872	0.999783447888001	TRUE	TRUE	8	9
+Pattern_2	Pattern_1	0.998708656398121	basement_membrane	0.247134516766657	basement_membrane	0.276942420780561	0.997136267803037	TRUE	TRUE	8	9
+Pattern_3	Pattern_2	0.995741520644807	inflammatory	0.450776650205611	inflammatory	0.460351526353786	0.99713647494986	TRUE	TRUE	8	9
+Pattern_4	Pattern_7	0.997593408946816	fibroblast_like	0.418422130707207	fibroblast_like	0.389004681080461	0.883520801644582	TRUE	TRUE	8	9
+Pattern_5	Pattern_5	0.943912049451025	synthetic_contractile	0.623094967160414	synthetic_contractile	0.728469689095728	0.951424137609137	TRUE	TRUE	8	9
+Pattern_6	Pattern_6	0.867057501478022	fibroblast_like	0.37501173263624	fibroblast_like	0.430332211876917	0.852704487335083	TRUE	TRUE	8	9
+Pattern_7	Pattern_8	0.998137859017523	vascular_stabilizing	0.582123802900492	vascular_stabilizing	0.583327136727593	0.999451192991791	TRUE	TRUE	8	9
+Pattern_8	Pattern_9	0.998722331932842	basement_membrane	0.394150131626993	basement_membrane	0.397308093521693	0.999524037813918	TRUE	TRUE	8	9
+	Pattern_4				basement_membrane	0.156735289336151			FALSE	8	9

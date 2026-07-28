@@ -1,0 +1,78 @@
+2026-07-28 09:44:39 - **** Job starts ****
+Job id: 42752405
+Hostname: r004
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-07-28 09:44:41 - **** CoGAPS nP=8 vs nP=9 concordance ****
+loadings: nP=8 2038 x 8 ; nP=9 2038 x 9 ; 2038 shared genes
+matched 8/8 patterns; median r_loadings = 0.998 (min 0.867); median profile_r = 0.997; argmax program agrees for 8/8
+unmatched nP=9 pattern(s): Pattern_4
+Index: <matched>
+   pattern_np_main pattern_np_sens r_loadings      top_program_main
+            <char>          <char>      <num>                <char>
+1:       Pattern_1       Pattern_3  0.9992883          inflammatory
+2:       Pattern_2       Pattern_1  0.9987087     basement_membrane
+3:       Pattern_3       Pattern_2  0.9957415          inflammatory
+4:       Pattern_4       Pattern_7  0.9975934       fibroblast_like
+5:       Pattern_5       Pattern_5  0.9439120 synthetic_contractile
+6:       Pattern_6       Pattern_6  0.8670575       fibroblast_like
+7:       Pattern_7       Pattern_8  0.9981379  vascular_stabilizing
+8:       Pattern_8       Pattern_9  0.9987223     basement_membrane
+9:            <NA>       Pattern_4         NA                  <NA>
+   top_rho_main      top_program_sens top_rho_sens profile_r program_agree
+          <num>                <char>        <num>     <num>        <lgcl>
+1:    0.3960735          inflammatory    0.3960185 0.9997834          TRUE
+2:    0.2471345     basement_membrane    0.2769424 0.9971363          TRUE
+3:    0.4507767          inflammatory    0.4603515 0.9971365          TRUE
+4:    0.4184221       fibroblast_like    0.3890047 0.8835208          TRUE
+5:    0.6230950 synthetic_contractile    0.7284697 0.9514241          TRUE
+6:    0.3750117       fibroblast_like    0.4303322 0.8527045          TRUE
+7:    0.5821238  vascular_stabilizing    0.5833271 0.9994512          TRUE
+8:    0.3941501     basement_membrane    0.3973081 0.9995240          TRUE
+9:           NA     basement_membrane    0.1567353        NA            NA
+   matched np_main np_sens
+    <lgcl>   <int>   <int>
+1:    TRUE       8       9
+2:    TRUE       8       9
+3:    TRUE       8       9
+4:    TRUE       8       9
+5:    TRUE       8       9
+6:    TRUE       8       9
+7:    TRUE       8       9
+8:    TRUE       8       9
+9:   FALSE       8       9
+
+---- sessionInfo ----
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-07-28
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [2] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [2] CRAN (R 4.4.3)
+ R.methodsS3   1.8.2   2022-06-13 [2] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [2] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [2] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [2] CRAN (R 4.4.3)
+
+ [1] /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib
+ [2] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-07-28 09:44:43 - **** Job ends ****

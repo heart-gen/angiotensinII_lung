@@ -31,7 +31,7 @@ The narrative arc the figures deliver:
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
 
-**Supplements — S1–S14.** Filenames stay semantic so scripts and cross-references do not
+**Supplements — S1–S15.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by the `supp_number` column of
 `figure_panel_manifest.tsv` and by the legend headings below.
 
@@ -42,7 +42,7 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S3 | `figureS_state_annotation` | `state_annotation_figure.R` |
 | S4 | `figureS_agtr1_dropout` | `agtr1_dropout_figure.R` |
 | S5 | `figureS_acta2_control` | `manuscript_mechanism_figure.R` |
-| S6 | `figureS_bm_copd` | `basement_membrane_figure.R` |
+| S6 | `figureS_cogaps_validation` | `cogaps_validation_figure.R` |
 | S7 | `figureS_continuum_stability` | `continuum_stability_figure.R` |
 | S8 | `figureS_nichenet_specificity` | `nichenet_specificity_figure.R` |
 | S9 | `figureS_receiver_robustness` | `receiver_robustness_figure.R` |
@@ -51,14 +51,18 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S12 | `figureS_sensitivity` | `sensitivity_robustness_figure.R` |
 | S13 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
 | S14 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
+| S15 | `figureS_bm_copd` | `basement_membrane_figure.R` |
 
-The tail of the list is where displaced figures land, so that an S-number already cited in
-the manuscript never changes meaning:
+The tail of the list is where displaced figures land, so that the numbering above stays put
+when a new figure claims a slot:
 
 - `figureS_program_category` held S3 until 2026-07-27, when the stability/annotation figure
   took that slot; **appended as S13 rather than shifting S4–S12 up by one**.
 - `figureS_balance_by_state` held S5 until 2026-07-28, when the dropout figure entered at S4
   and pushed the ACTA2 control into S5; **appended as S14 rather than shifting S6–S13**.
+- `figureS_bm_copd` held S6 until 2026-07-28, when the CoGAPS validation figure took that
+  slot; **appended as S15 rather than shifting S7–S14**. It is a disease-side figure and
+  belongs with the disease supplements; S15 keeps it numbered until that section is laid out.
 
 **Deliberately NOT numbered supplements:**
 - `figureS_alluvial` — a **grant** figure, not a manuscript supplement (2026-07-27). It is
@@ -66,7 +70,9 @@ the manuscript never changes meaning:
   renumber it back into the S-series.
 - `figureS_cogaps_transfer` — **retired** 2026-07-27. Its permutation-null panel became S8
   (A–B) and its CoGAPS-projection panel became S9C; keeping it would have duplicated both
-  panels across two supplements.
+  panels across two supplements. Note that it is *not* the predecessor of S6: it showed the
+  CoGAPS→niche **projection**, whereas S6 shows rank selection and the pattern↔program
+  correspondence. The two do not overlap.
 
 **Supporting files (not figures):**
 - `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control` (S4).
@@ -460,6 +466,70 @@ points = donors). Differences among programs are **not significant** (smallest p
 *P* = 0.067); this panel documents that the AT1R/AT2R skew tracks continuous injury intensity and
 disease rather than discrete program identity, justifying its demotion from the main figure.
 
+### Figure S6 — `figureS_cogaps_validation` — Unsupervised CoGAPS validation of pericyte programs
+
+**Figure S6.** The curated six-program model is marker-panel driven and can therefore only recover
+what its panels encode. CoGAPS is given no panels: it factorizes the same 2,038-HVG × 11,680-pericyte
+matrix into *nP* patterns de novo (Bayesian NMF, distributed mode, 5,000 iterations, 8 subsets).
+**(A)** Rank selection. Cross-seed reproducibility across *nP* = 4–10: for each rank, the canonical
+(seed-13) fit is the reference and each of three non-canonical seeds (1, 42, 2024) is greedily
+1:1-matched to it by |Pearson *r*| over shared gene loadings. The line is the mean over patterns, the
+band the min–max; the **floor** is what separates the ranks, since the mean stays ≥ 0.92 everywhere.
+Against a 0.80 threshold, *nP* = 5 (floor 0.700), 6 (0.577) and 10 (0.405) fail on a single collapsing
+pattern, while 7 (0.951), 8 (**0.978**) and 9 (0.952) pass. **nP = 8 is the main rank** — it maximizes
+the weakest pattern's reproducibility — and **nP = 9 is the sensitivity rank**, the largest that still
+clears the threshold (the recommendation rule in `02.select_rank.R` reports 9 for exactly that reason;
+both are carried forward, and E shows the choice does not matter). Reconstruction error is the other
+standard rank signal and does not adjudicate: unexplained variance falls monotonically from 0.727 at
+*nP* = 4 to 0.694 at *nP* = 10 with no elbow, so the rank is chosen on reproducibility alone.
+**(B)** Do the de-novo patterns carry the curated programs? Cell-level Spearman of each pattern's
+weight against each curated program score at *nP* = 8 (*n* = 11,680). Every curated axis has a leading
+pattern: vascular-stabilizing → P7 (ρ = 0.58), synthetic/contractile → P5 (0.62), inflammatory → P3
+(0.45) and P1 (0.40), fibroblast-like → P4 (0.42) and P6 (0.38), basement-membrane → P8 (0.39).
+**(C)** Is that agreement visible in the *genes*, not only the scores? Overlap of each pattern's top-50
+PatternMarker genes with the six curated panels, hypergeometric against the 2,038-gene HVG background,
+BH-adjusted over the 48 tests. Three survive, and they are the three the score panel predicts:
+P7 × vascular-stabilizing (5 of 11 panel genes, BH = 1.4 × 10⁻⁴), P5 × synthetic/contractile (4 of 8,
+BH = 5.0 × 10⁻⁴), P3 × inflammatory (4 of 16, BH = 7.5 × 10⁻³). Crosses mark measured zeros.
+**(D)** Is the *nP* = 8 solution itself stable? All 24 pattern × seed matches reach |*r*| ≥ 0.958, and
+the weakest pattern (P6) averages 0.978 — the number quoted as the *nP* = 8 floor in A.
+**(E)** Does any of this depend on picking 8 over 9? All **8 of 8** *nP* = 8 patterns match an *nP* = 9
+pattern (median |*r*| = 0.998, min 0.867), the matched pairs keep the same six-program correlation
+*profile* (median *r* = 0.997, min 0.853), and the leading curated program agrees for **8 of 8**. The
+one extra pattern *nP* = 9 buys is unmatched and correlates weakly with every curated panel (max
+ρ = 0.16), i.e. it adds no new program.
+
+**Reading B and C together.** They are independent lines of evidence and a pattern can pass one and
+fail the other, which is why both are shown. P6 does exactly that: fibroblast-like by cell-level score
+(ρ = 0.38) with **zero** marker-gene overlap against any panel. C is also the harsher test — the panels
+are 7–16 genes inside a 2,038-gene background, so an overlap of 3 is already unusual and the
+non-significant cells are mostly small-*n*, not contradictory.
+
+**What this figure does not claim.** It does not claim the CoGAPS patterns *are* the curated programs
+one-for-one. The mapping is many-to-one (two patterns lead on inflammatory, two on fibroblast-like,
+two on basement-membrane), and P2 and P8 correlate **negatively** with five of the six panels — they
+behave as low-activity/baseline factors, and their basement-membrane argmax label rests on a single
+modest positive ρ (0.25 and 0.39). The claim is narrower and is what A–E support: the curated program
+*axes* fall out of an unsupervised factorization of the same cells, at a rank the data chose, and
+neither the axes nor their gene evidence depend on that rank.
+
+**Caveats.** (1) Argmax over ρ is a weak label wherever the winning ρ is small; the underlying values
+are in `cogaps_np8_vs_np9_concordance.tsv` (`top_rho_*`) so a reader can see which labels are strong.
+(2) Distributed CoGAPS matches patterns across data subsets to form the consensus and is free to
+return a count other than the one requested — the *nP* = 6 fit came back with **7** patterns. It is
+plotted in A at the rank requested, and it is not a rank this figure relies on.
+(3) A pattern that collapses in one seed has no correlate to match against and yields no *r*; those
+are dropped from the mean rather than scored as zero (1 of 15 at *nP* = 5, 3 of 21 at *nP* = 6, 1 of 27
+at *nP* = 9, **none at *nP* = 8**). Dropping them is the convention in `02.select_rank.R` and is
+conservative *against* the ranks that have them, since a collapse is itself instability.
+(4) B and C are computed at *nP* = 8 only; the *nP* = 9 counterparts are in `validation_np9/` and E is
+the bridge between them. (5) This figure is about the pattern ↔ program correspondence; the CoGAPS →
+niche **projection** is a different analysis and lives in S9C.
+
+Source data: `pericyte_cogaps/_m/cogaps_nP_selection.tsv`, `cogaps_seed_stability.tsv`,
+`validation_np8/{pattern_score_spearman,pattern_panel_overlap}.tsv.gz`,
+`cogaps_np8_vs_np9_concordance.tsv` (written by `_h/06.rank_concordance.R`, `step_6.sh`).
+
 ### Figure S7 — `figureS_continuum_stability` — Stability of the pericyte transcriptional continuum across parameter and root choices
 
 **Figure S7.** The vascular-stabilizing ↔ injury continuum is not an artifact of the analyst's
@@ -615,7 +685,7 @@ the dominant physiological source is hepatic and is invisible to lung single-cel
 local *AGT* signal does not imply low local angiotensin II.
 Source data: `agt_axis/_m/stats_data/ras_*.tsv`.
 
-### Figure S6 — `figureS_bm_copd` — Basement-membrane remodeling in IPF but not detectably in COPD
+### Figure S15 — `figureS_bm_copd` — Basement-membrane remodeling in IPF but not detectably in COPD
 
 **Figure S.** Disease contrast for basement-membrane components in GSE136831 (Adams/Kaminski),
 the only cohort in this project with a COPD arm. Donor × compartment pseudobulk built from raw
