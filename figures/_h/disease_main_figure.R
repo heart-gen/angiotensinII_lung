@@ -2,44 +2,46 @@
 ## Disease main figure (Circ Research revision) -- CONTINUOUS-INJURY VERSION,
 ## rebuilt 2026-07-28.
 ##
-## The narrative the five panels have to carry, in order:
+## The narrative the four panels have to carry, in order:
 ##   disease is not associated with replacement of discrete pericyte states
 ##     -> it is associated with GRADED injury-stromal engagement            (A)
 ##     -> the signal is carried by SPECIFIC continuous programs             (B)
-##     -> and is directionally robust to any single study                   (C)
 ##     -> receptor dysregulation is more evident in fibroblasts than
-##        in pericytes                                                      (D)
+##        in pericytes                                                      (C)
 ##     -> which receives QUALIFIED support in an independent, disease-
-##        enriched dataset                                                  (E)
+##        enriched dataset                                                  (D)
 ##
 ## The opening clause (no discrete-state replacement) is the null established in
 ## pericyte_states and shown compositionally in figure_mechanism_main / the state
 ## composition supplement; it is the premise this figure starts from, not a panel
 ## here.
 ##
-## PANEL PROVENANCE -- what changed from the previous three-panel version:
-##   A  was C. Same donor-endpoint plot, but now the THREE-group model
-##      (Healthy / Fibrotic-ILD / Other) from 03's threegroup_* outputs rather
-##      than the two-group contrast, so "graded" is something the panel shows
-##      rather than asserts.
+## PANEL PROVENANCE:
+##   A  was C of the pre-2026-07-28 version. Same donor-endpoint plot, but now
+##      the THREE-group model (Healthy / Fibrotic-ILD / Other) from 03's
+##      threegroup_* outputs rather than the two-group contrast, so "graded" is
+##      something the panel shows rather than asserts.
 ##   B  was B, expanded from one contrast to both contrasts of the same
 ##      three-group model, so the component decomposition is on the same footing
 ##      as A.
-##   C  was A. The per-study random-effects forest is REPLACED by leave-one-
-##      study-out refits of the panel-A model. A forest answers "is the effect
-##      reproduced within studies"; LOSO answers "does any single study create
-##      it", which is the robustness question that follows a graded, pooled
-##      estimate. The forest is retained in the supplement.
-##   D  new. AGTR1 disease effects across stromal cell types
+##   C  AGTR1 disease effects across stromal cell types
 ##      (disease_association/_h/05).
-##   E  new. Independent GSE136831 COPD/IPF evaluation of fibroblast AGTR1
+##   D  Independent GSE136831 COPD/IPF evaluation of fibroblast AGTR1
 ##      (disease_association/agtr1_copd_ipf/_h/01).
 ##
-## SCALE NOTE: A, B and C are all read off the SAME three-group model, whose
-## programs are z-standardised once over the three-group donor set. They are
-## mutually comparable in SD units. They are NOT on the same scale as the
-## two-group primary contrast in the supplement forest, which standardises over
-## Healthy+Fibrotic only.
+## MOVED OUT 2026-07-29: the two robustness panels -- leave-one-study-out and the
+## within-study random-effects forest -- were pulled together into a single
+## two-panel supplement (figureS_disease_robustness, S16). They answer two
+## different objections to the SAME panel-A estimate ("one cohort drives it" and
+## "it is a between-study batch artifact"), so they belong beside each other; and
+## the main figure's job is the biological chain A -> B -> C -> D, which they
+## interrupt. Both are still built by this script.
+##
+## SCALE NOTE: A and B are read off the SAME three-group model, whose programs
+## are z-standardised once over the three-group donor set, so they are mutually
+## comparable in SD units. The supplement's forest panel standardises over
+## Healthy+Fibrotic only and is on a DIFFERENT scale -- see the supplement block
+## below, where the two panels' axis titles name their standardisation sets.
 ##
 ## No in-panel titles; interpretation belongs in the caption
 ## (figures/mechanism/README.md).
@@ -62,7 +64,8 @@ TRI      <- c("Healthy", "Fibrotic_ILD", "Other")
 TRI_COL  <- c(Healthy = "#0072B2", Fibrotic_ILD = "#D55E00", Other = "#999999")
 TRI_LAB  <- c(Healthy = "Healthy", Fibrotic_ILD = "Fibrotic/\nILD", Other = "Other\ndisease")
 
-## Contrast vocabulary shared by B, C and D so one colour always means one thing.
+## Contrast vocabulary shared by the contrast panels so one colour always means
+## one thing.
 CTR_LAB <- c("Fibrotic_ILD - Healthy" = "Fibrotic/ILD",
              "Other - Healthy"        = "Other disease")
 CTR_COL <- c("Fibrotic/ILD" = "#D55E00", "Other disease" = "#999999")
@@ -157,38 +160,7 @@ pB <- ggplot(comp, aes(estimate, prog, colour = ctr)) +
           legend.text = element_text(size = 6), legend.key.size = unit(3, "mm"))
 
 ## ===========================================================================
-## Panel C -- leave-one-study-out robustness of the panel-A contrast
-## ===========================================================================
-loso <- fread(file.path(SD, "leave_one_study_out_3group.tsv"))
-loso <- loso[grepl("Fibrotic", contrast)]
-loso[, lab := factor(short_study(dropped_dataset),
-                     levels = short_study(dropped_dataset)[order(estimate)])]
-full_est <- eff["Fibrotic_ILD - Healthy", estimate]
-n_sig <- loso[p.value < 0.05, .N]
-
-pC <- ggplot(loso, aes(estimate, lab)) +
-    geom_vline(xintercept = 0, linetype = 2, colour = "grey55", linewidth = 0.3) +
-    geom_vline(xintercept = full_est, colour = "#D55E00", linewidth = 0.4, alpha = 0.7) +
-    geom_errorbarh(aes(xmin = ci_lo, xmax = ci_hi), height = 0, linewidth = 0.4,
-                   colour = "#0072B2") +
-    geom_point(size = 1.3, colour = "#0072B2") +
-    annotate("text", x = full_est, y = nrow(loso) + 0.9,
-             label = sprintf("full data %+.2f SD", full_est),
-             size = 2.2, colour = "#D55E00", hjust = 0.5, fontface = "bold") +
-    ## sits in the margin BELOW the lowest refit, not on top of it
-    annotate("text", x = max(loso$ci_hi), y = -0.05,
-             label = sprintf("%d / %d refits P < 0.05", n_sig, nrow(loso)),
-             size = 2.2, hjust = 1, fontface = "bold") +
-    coord_cartesian(clip = "off", ylim = c(-0.4, nrow(loso) + 1.2)) +
-    labs(x = "Fibrotic/ILD minus Healthy (SD units)\nafter dropping each study",
-         y = NULL) +
-    theme_ms() +
-    theme(panel.grid.major.y = element_blank(),
-          axis.text.y = element_text(size = 5),
-          plot.margin = margin(9, 4, 3, 3))
-
-## ===========================================================================
-## Panel D -- AGTR1 disease effects across stromal cell types
+## Panel C -- AGTR1 disease effects across stromal cell types
 ## ===========================================================================
 ## The x-axis is the OMNIBUS disease effect (partial eta-squared from the 2-df
 ## joint test of disease group), not a single contrast. That is the statistic the
@@ -212,7 +184,7 @@ LIN_COL <- c(Fibroblast = "#009E73", Mural = "#0072B2")
 rank_dt[, ct := factor(cell_type, levels = cell_type[order(partial_eta_sq)])]
 rank_dt[, lin := factor(lineage, levels = names(LIN_COL))]
 
-pD <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
+pC <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
     geom_segment(aes(x = 0, xend = partial_eta_sq, yend = ct), linewidth = 0.5) +
     geom_point(size = 2.6) +
     geom_text(aes(label = sprintf("P = %.2f", p_omnibus)), hjust = -0.35,
@@ -227,13 +199,12 @@ pD <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
     theme_ms() +
     theme(panel.grid.major.y = element_blank(),
           axis.text.y = element_text(size = 6),
-          axis.title.x = element_text(size = 6.5),
           strip.placement = "outside",
           strip.text.y.left = element_text(angle = 90, face = "bold", size = 6.5),
           panel.spacing.y = unit(1.6, "mm"))
 
 ## ===========================================================================
-## Panel E -- independent GSE136831 (COPD/IPF) evaluation of AGTR1
+## Panel D -- independent GSE136831 (COPD/IPF) evaluation of AGTR1
 ## ===========================================================================
 ## Estimates are already signed disease-minus-Control by 01.agtr1_copd_stats.R.
 ## Compartments that fail the >=5-donors-per-arm floor are NOT silently dropped:
@@ -256,7 +227,7 @@ nes <- gse[estimable == FALSE]
 GSE_COL <- c(COPD = "#E69F00", IPF = "#D55E00")
 x_lo <- min(c(est$ci_lo, 0), na.rm = TRUE); x_hi <- max(c(est$ci_hi, 0), na.rm = TRUE)
 
-pE <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
+pD <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
     geom_vline(xintercept = 0, linetype = 2, colour = "grey55", linewidth = 0.3) +
     geom_errorbarh(aes(xmin = ci_lo, xmax = ci_hi),
                    position = position_dodge(width = 0.6), height = 0.18, linewidth = 0.5) +
@@ -271,7 +242,11 @@ pE <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
               hjust = 0, vjust = 0.5, size = 2.0, colour = "grey40",
               inherit.aes = FALSE) +
     scale_colour_manual(values = GSE_COL, name = NULL) +
+    ## breaks pinned: `family` is a character column, so the default legend order
+    ## is alphabetical and puts "exploratory" ahead of the pre-specified family
+    ## the panel is actually testing.
     scale_shape_manual(values = c(primary = 16, exploratory = 1), name = NULL,
+                       breaks = c("primary", "exploratory"),
                        labels = c(primary = "pre-specified", exploratory = "exploratory")) +
     ## `est` carries no Pericyte row, and ggplot2 drops that unused level from the
     ## main layer and then appends it from the `nes` layer at the END of the
@@ -279,26 +254,72 @@ pE <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
     ## row order to the intended one instead of relying on the factor levels.
     scale_y_discrete(limits = cmp_rank$compartment) +
     coord_cartesian(xlim = c(x_lo, x_hi * 1.05)) +
+    ## Half-width panel since the 2026-07-29 four-panel rebuild: the axis title is
+    ## shortened ("pseudobulk" is implied by the donor-level CI) and the legend
+    ## moved from the right margin to the bottom, where it costs height (which
+    ## this 8-row panel has) instead of width (which it has not). Kept on ONE
+    ## line -- plotmath's atop() is the only way to wrap an expression and it
+    ## opens a gap between the lines wide enough to read as a layout error.
     labs(x = expression("Disease minus Control " * italic("AGTR1") *
-                        " (log1p CP10K pseudobulk, 95% CI)"),
+                        " (log1p CP10K, 95% CI)"),
          y = NULL) +
+    guides(colour = guide_legend(order = 1), shape = guide_legend(order = 2)) +
     theme_ms() +
     theme(panel.grid.major.y = element_blank(),
           axis.text.y = element_text(size = 6.5),
-          axis.title.x = element_text(size = 6.5),
-          legend.position = "right", legend.text = element_text(size = 6),
-          legend.key.size = unit(3, "mm"), legend.spacing.y = unit(0.5, "mm"))
+          legend.position = "bottom", legend.text = element_text(size = 6),
+          legend.box = "horizontal", legend.box.spacing = unit(1, "mm"),
+          legend.margin = margin(0, 0, 0, 0),
+          legend.key.size = unit(3, "mm"), legend.spacing.x = unit(1, "mm"))
 
 ## ===========================================================================
-## SUPPLEMENT -- the within-study random-effects forest that used to be panel A
+## SUPPLEMENT S16 -- study-level robustness of the panel-A effect (two panels)
 ## ===========================================================================
-## Displaced from the main figure by the LOSO panel, but NOT discarded: it is the
-## direct answer to "the disease effect is a between-study batch artifact", which
-## LOSO does not answer (LOSO shows no single study creates the effect; the
-## forest shows the effect is reproduced INSIDE studies that sampled both arms).
-## It reads off the two-group primary model, whose programs are z-standardised
-## over Healthy+Fibrotic only -- a different scale from panels A-C, so the two
-## estimates are deliberately not annotated side by side anywhere.
+## Both panels defend the SAME estimate against two different objections, which
+## is why they now travel together rather than one sitting in the main figure and
+## one in the supplement:
+##   S16A  "a single cohort drives the effect"      -> leave-one-study-out refits
+##   S16B  "it is a between-study batch artifact"   -> within-study RE forest
+## Neither substitutes for the other: LOSO shows no one study creates the effect
+## but says nothing about whether it is reproduced INSIDE a study, and the forest
+## shows the latter but only for the three studies that sampled both arms.
+##
+## SCALE: the two panels are NOT on a common scale. S16A refits the three-group
+## model (programs z-standardised over Healthy+Fibrotic+Other); S16B is the
+## two-group primary model (standardised over Healthy+Fibrotic only). Sitting in
+## one figure they invite a numeric comparison that is not valid, so each axis
+## title names its own standardisation set and no cross-panel annotation is drawn.
+
+## ---- S16A: leave-one-study-out ---------------------------------------------
+loso <- fread(file.path(SD, "leave_one_study_out_3group.tsv"))
+loso <- loso[grepl("Fibrotic", contrast)]
+loso[, lab := factor(short_study(dropped_dataset),
+                     levels = short_study(dropped_dataset)[order(estimate)])]
+full_est <- eff["Fibrotic_ILD - Healthy", estimate]
+n_sig <- loso[p.value < 0.05, .N]
+
+pLoso <- ggplot(loso, aes(estimate, lab)) +
+    geom_vline(xintercept = 0, linetype = 2, colour = "grey55", linewidth = 0.3) +
+    geom_vline(xintercept = full_est, colour = "#D55E00", linewidth = 0.4, alpha = 0.7) +
+    geom_errorbarh(aes(xmin = ci_lo, xmax = ci_hi), height = 0, linewidth = 0.4,
+                   colour = "#0072B2") +
+    geom_point(size = 1.3, colour = "#0072B2") +
+    annotate("text", x = full_est, y = nrow(loso) + 0.9,
+             label = sprintf("full data %+.2f SD", full_est),
+             size = 2.2, colour = "#D55E00", hjust = 0.5, fontface = "bold") +
+    ## sits in the margin BELOW the lowest refit, not on top of it
+    annotate("text", x = max(loso$ci_hi), y = -0.05,
+             label = sprintf("%d / %d refits P < 0.05", n_sig, nrow(loso)),
+             size = 2.2, hjust = 1, fontface = "bold") +
+    coord_cartesian(clip = "off", ylim = c(-0.4, nrow(loso) + 1.2)) +
+    labs(x = "Fibrotic/ILD minus Healthy after dropping each study\n(SD of the Healthy + Fibrotic + Other donor set)",
+         y = NULL) +
+    theme_ms() +
+    theme(panel.grid.major.y = element_blank(),
+          axis.text.y = element_text(size = 5),
+          plot.margin = margin(9, 4, 3, 3))
+
+## ---- S16B: within-study random-effects forest ------------------------------
 study <- fread(file.path(SD, "forest_per_study.tsv"))
 pool  <- fread(file.path(SD, "forest_pooled_RE.tsv"))
 study_lab <- sprintf("%s  (%d H / %d F)", study$dataset, study$nH, study$nF)
@@ -321,18 +342,43 @@ pFor <- ggplot(fp, aes(y = label)) +
     scale_shape_manual(values = c(study = 16, pooled = 18), guide = "none") +
     scale_size_continuous(range = c(2, 5), guide = "none") +
     coord_cartesian(clip = "off", ylim = c(0.8, length(levels(fp$label)))) +
-    labs(x = "Fibrotic/ILD minus Healthy\ninjury-program score (SD units)", y = NULL) +
-    theme_ms() + theme(panel.grid.major.y = element_blank())
-save_fig("figureS_disease_forest", pFor, 4.6, 2.6)
+    labs(x = "Fibrotic/ILD minus Healthy within study\n(SD of the Healthy + Fibrotic donor set)",
+         y = NULL) +
+    theme_ms() +
+    theme(panel.grid.major.y = element_blank(),
+          axis.text.y = element_text(size = 6.5))
+
+## Stacked, not side by side: A has 23 rows and B has 4, so a single row would
+## force one shared panel height and leave B's four rows floating in whitespace.
+## The height weights keep the row pitch comparable between the two panels.
+figS <- pLoso / pFor +
+    plot_layout(heights = c(2.5, 1)) +
+    plot_annotation(tag_levels = "A") &
+    theme(plot.tag = element_text(face = "bold", size = 10),
+          ## one axis-title size for the whole figure. Both panels carry a long
+          ## two-line title naming its standardisation set, which does not fit at
+          ## theme_ms()'s 8 pt; setting it here rather than per panel keeps the
+          ## two from drifting apart.
+          axis.title = element_text(size = 7))
+save_fig("figureS_disease_robustness", figS, 5.2, 6.0)
 
 ## ---- assemble --------------------------------------------------------------
-## Reading order is strictly A,B / C,D / E. C needs the height for its 23 rows
-## and D for its cell-type labels, so the middle row is the tallest.
-fig <- (pA | pB) / (pC | pD) / pE +
-    plot_layout(heights = c(1, 1.32, 0.86)) +
+## Reading order A,B / C,D: the graded effect and the programs that carry it on
+## top, then the receptor-level result and its independent evaluation below.
+## D gets the extra width -- 8 compartment rows, long "not estimable" in-panel
+## text and a bottom legend, against C's 5 faceted rows. The widths are set on
+## the inner row, since the outer `/` only controls the two row heights.
+fig <- (pA | pB) / ((pC | pD) + plot_layout(widths = c(0.88, 1.12))) +
+    plot_layout(heights = c(1, 1.1)) +
     plot_annotation(tag_levels = "A") &
-    theme(plot.tag = element_text(face = "bold", size = 10))
-save_fig("figure_disease_main", fig, 7.5, 8.6)
+    theme(plot.tag = element_text(face = "bold", size = 10),
+          ## Axis-title size is set ONCE for all four panels rather than per
+          ## panel. C and D need to be below theme_ms()'s 8 pt for their long
+          ## titles to fit a half-width panel, and leaving A and B at 8 pt made
+          ## the same element render at two visibly different sizes in one
+          ## figure.
+          axis.title = element_text(size = 7))
+save_fig("figure_disease_main", fig, 7.5, 6.0)
 
 cat("wrote", file.path(OUT, "figure_disease_main.{pdf,svg,png}"), "\n")
 cat("\nReproducibility information:\n"); Sys.time(); options(width = 120); sessioninfo::session_info()

@@ -7,9 +7,10 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 ## Disease main figure (continuous-injury version): graded three-group endpoint,
-## component programs, leave-one-study-out, AGTR1 across stromal cell types, and
-## the independent GSE136831 COPD/IPF evaluation -- plus the displaced
-## within-study forest as figureS_disease_forest. Reads disease_association/_m/
+## component programs, AGTR1 across stromal cell types, and the independent
+## GSE136831 COPD/IPF evaluation -- plus the two-panel study-level robustness
+## supplement (leave-one-study-out + within-study forest) as
+## figureS_disease_robustness. Reads disease_association/_m/
 ## {mixed_model_forest,mean_expr} and disease_association/agtr1_copd_ipf/_m, so
 ## run disease_association step_3 and step_5 and agtr1_copd_ipf step_1 first.
 ## Pure-TSV -> ggplot; RM-shared controls memory via cores (2000 MB/core), do NOT
