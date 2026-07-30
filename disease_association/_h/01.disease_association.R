@@ -66,7 +66,16 @@ prepare_agtr1_donor_table <- function(
           age = all_of(age_key),
           disease = all_of(disease_key)
       ) |>
-      filter(age > 20)
+      ## Exclude KNOWN minors, not donors of unknown age. `filter(age > 20)`
+      ## drops NA silently, and age is missing for 89% of HLCA's Fibrotic/ILD
+      ## stroma cells (Kaminski_2020, Banovich_Kropski_2020, Misharin_Budinger_2018
+      ## and Sheppard_2020 report no age), so the bare comparison was discarding
+      ## almost the entire fibrotic arm: 6 fibrotic donors survived per cell type
+      ## against 24-43 available, and myofibroblasts fell from 10 to 1 and so
+      ## dropped below 05's >=3-donor gate entirely. Age is not a covariate in any
+      ## model downstream of this table, so admitting unknown-age donors costs
+      ## nothing. Fixed 2026-07-30.
+      filter(is.na(age) | age > 20)
 
     if (sex_key %in% cols_present)      cd <- cd |> dplyr::rename(sex = all_of(sex_key))
     if (disease_key %in% cols_present)  cd <- cd |> dplyr::rename(disease = all_of(disease_key))
@@ -83,7 +92,9 @@ prepare_agtr1_donor_table <- function(
             ethnicity=if ("ethnicity" %in% colnames(cd)) first_non_na(ethnicity) else NA,
             .groups = "drop"
         ) |>
-        tidyr::drop_na(age, AGTR1_mean) |>
+        ## age deliberately NOT required here -- see the filter above. Dropping on
+        ## it would undo that fix one step later.
+        tidyr::drop_na(AGTR1_mean) |>
         filter(n_cells >= min_cells_per_donor_celltype) |>
         group_by(cell_type) |>
         filter(n() >= min_donors_per_celltype) |>

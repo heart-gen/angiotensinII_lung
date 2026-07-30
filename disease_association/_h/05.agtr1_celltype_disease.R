@@ -25,18 +25,33 @@
 ##   GROUPS    : Healthy / Fibrotic-ILD / Other, from `lung_condition` via the
 ##               same regex as 03.disease_forest.R. COPD excluded for the same
 ##               reason (single study).
-##   MODEL     : per cell type, LMM  z_AGTR1 ~ disease_group + sex + (1|dataset)
+##   MODEL     : per cell type, LMM  z_AGTR1 ~ disease_group [+ sex] + (1|dataset)
 ##               (lm when a cell type spans one dataset), contrasts against
 ##               Healthy, BH-corrected ACROSS CELL TYPES within each contrast.
+##               `sex` is included only where it is recorded for every donor in
+##               the cell type -- see sex_covar(). The per-row `covars` column
+##               says which cell types are sex-adjusted.
 ##   SENSITIVITY: the same model on frac_AGTR1_pos (detection rate) -- AGTR1 is
 ##               dropout-prone, so a mean-expression effect that does not appear
 ##               in detection is worth seeing as such.
 ##
 ## LIMITATION carried into the outputs: `donor_metadata.tsv` is built after
-## 01.disease_association.R's carcinoma filter and its age > 20 filter, so the
-## "Other" group here is COVID-19/chronic-rhinitis/pneumonia donors and does NOT
-## include the carcinoma donors that sit in "Other" in 03.disease_forest.R. The
-## Healthy and Fibrotic-ILD groups are unaffected.
+## 01.disease_association.R's carcinoma filter, so the "Other" group here is
+## COVID-19/chronic-rhinitis/pneumonia donors and does NOT include the carcinoma
+## donors that sit in "Other" in 03.disease_forest.R. The Healthy and Fibrotic-ILD
+## groups are unaffected.
+##
+## REBUILT 2026-07-30. Until this date 01.disease_association.R gated on
+## `filter(age > 20)`, which drops missing age, and HLCA does not report age for
+## 89% of Fibrotic/ILD stroma cells. Every fibrotic arm here was therefore ~6
+## donors out of the 24-43 available, and Myofibroblasts (10 fibrotic donors ->
+## 1) and Mesothelium (15 -> 1) fell below the >=3-donor gate and were never
+## tested at all. That is why the pre-specified fibroblast-lineage family of the
+## independent GSE136831 evaluation contained a compartment this script had no
+## estimate for. The gate is now "exclude known minors" and both cell types are
+## tested. The >=10-cell floor is UNCHANGED -- the floor was never what excluded
+## them, and lowering it re-opens the low-cell dropout problem documented in
+## AGTR1_DISEASE_DIRECTION.md.
 ## =============================================================================
 suppressPackageStartupMessages({
     library(optparse); library(data.table); library(dplyr)
@@ -85,8 +100,20 @@ dc <- dc[!is.na(dataset) & !is.na(lung_condition)]
 
 dc[, disease_group := map_disease_group(lung_condition)]
 dc <- dc[disease_group %in% TRI_LEVELS & cell_type != "Unknown"]
+## HLCA codes unreported sex as the STRING "unknown", which `!is.na()` does not
+## catch, so it was silently entering the model as a third sex level. That level
+## is not a sex -- it is a marker for the studies that withhold demographics, and
+## after the 2026-07-30 age fix it is ~90% of the fibrotic arm against ~15% of the
+## healthy arm. Left as a factor level it would absorb much of the very contrast
+## this script estimates. Recoded to NA so the covariate logic in fit_ct() can
+## make an explicit decision about it; the study structure it was standing in for
+## is already carried by (1 | dataset).
+dc[sex %in% c("unknown", "Unknown", ""), sex := NA_character_]
 dc[, `:=`(disease_group = factor(disease_group, levels = TRI_LEVELS),
           dataset = factor(dataset), sex = factor(sex))]
+cat("\n== donor-level sex availability by disease group ==\n")
+print(dcast(dc[, .(n = uniqueN(donor_id)), by = .(disease_group, sex_known = !is.na(sex))],
+            disease_group ~ sex_known, value.var = "n", fill = 0L))
 
 cat("\n== donors per cell type x disease group ==\n")
 inv <- dcast(dc, cell_type ~ disease_group, fun.aggregate = length, value.var = "donor_id")
@@ -102,15 +129,26 @@ dc <- dc[cell_type %in% testable]
 z <- function(x) (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
 dc[, `:=`(z_AGTR1 = z(AGTR1_mean), z_AGTR1_frac = z(frac_AGTR1_pos)), by = cell_type]
 
+## Sex is adjusted for only where it is OBSERVED FOR EVERY DONOR in the cell type.
+## Adjusting on a covariate recorded for a biased subset is worse than not
+## adjusting: after the age fix the donors with known sex are overwhelmingly the
+## healthy ones, so `sex` would carry part of the disease contrast rather than
+## nuisance variation. Dropping donors to keep sex is the other way to satisfy the
+## model, and it is the option that produced the 6-fibrotic-donor arms in the first
+## place. The chosen covariate set is written to the `covars` column of every
+## output row, so which cell types are sex-adjusted is visible, not implicit.
+sex_covar <- function(d) {
+    if (anyNA(d$sex)) return(character(0))
+    if (uniqueN(d$sex) > 1) "sex" else character(0)
+}
+
 ## ---- per-cell-type three-group model ---------------------------------------
 fit_ct <- function(d, resp) {
-    d <- d[is.finite(get(resp)) & !is.na(sex)]
+    d <- d[is.finite(get(resp))]
     d[, `:=`(disease_group = droplevels(disease_group), dataset = droplevels(dataset))]
     if (uniqueN(d$disease_group) < 2) return(NULL)
     n_ds <- nlevels(d$dataset)
-    ## sex is dropped if it is constant or fully missing rather than failing the
-    ## whole cell type -- some stromal compartments are single-sex after filtering.
-    covars <- if (uniqueN(d$sex) > 1) "sex" else character(0)
+    covars <- sex_covar(d)
     rhs <- paste(c("disease_group", covars, if (n_ds >= 2) "(1 | dataset)"), collapse = " + ")
     form <- as.formula(sprintf("%s ~ %s", resp, rhs))
     fit <- try(if (n_ds >= 2) lmerTest::lmer(form, data = d, REML = TRUE)
@@ -137,11 +175,11 @@ fit_ct <- function(d, resp) {
 ## eta-squared is the statistic that comparison actually needs, so it is computed
 ## and carried alongside rather than being read off the contrast table.
 omnibus_ct <- function(d, resp) {
-    d <- d[is.finite(get(resp)) & !is.na(sex)]
+    d <- d[is.finite(get(resp))]
     d[, `:=`(disease_group = droplevels(disease_group), dataset = droplevels(dataset))]
     if (uniqueN(d$disease_group) < 2) return(NULL)
     n_ds <- nlevels(d$dataset)
-    covars <- if (uniqueN(d$sex) > 1) "sex" else character(0)
+    covars <- sex_covar(d)
     rhs <- paste(c("disease_group", covars, if (n_ds >= 2) "(1 | dataset)"), collapse = " + ")
     fit <- try(if (n_ds >= 2)
                    lmerTest::lmer(as.formula(sprintf("%s ~ %s", resp, rhs)), data = d, REML = TRUE)
@@ -210,9 +248,26 @@ head_dt <- merge(res_z[grepl("Fibrotic", contrast)],
                             partial_eta_sq)],
                  by = "cell_type", all.x = TRUE)
 head_dt <- head_dt[order(-partial_eta_sq)]
+## Lineage is now an EXPLICIT map rather than `grepl("fibroblast") ? F : Mural`.
+## The old fallback was safe only while the tested set happened to contain nothing
+## but fibroblasts, pericytes and vSMC. The age fix admits Mesothelium, which the
+## regex would have filed under "Mural" and quietly folded into the mural arm of
+## the fibroblast-vs-mural comparison this table exists to support. Myofibroblasts
+## do belong with the fibroblasts -- that is also how the independent GSE136831
+## evaluation defines its fibroblast-lineage family.
+LINEAGE <- c("Adventitial fibroblasts"   = "Fibroblast",
+             "Alveolar fibroblasts"      = "Fibroblast",
+             "Peribronchial fibroblasts" = "Fibroblast",
+             "Subpleural fibroblasts"    = "Fibroblast",
+             "Myofibroblasts"            = "Fibroblast",
+             "Pericytes"                 = "Mural",
+             "Vascular smooth muscle"    = "Mural",
+             "Mesothelium"               = "Mesothelial")
 head_dt[, `:=`(rank_by_omnibus = seq_len(.N),
-               lineage = fifelse(grepl("fibroblast", cell_type, ignore.case = TRUE),
-                                 "Fibroblast", "Mural"))]
+               lineage = LINEAGE[cell_type])]
+if (head_dt[is.na(lineage), .N])
+    stop("unmapped cell type(s) in LINEAGE: ",
+         paste(head_dt[is.na(lineage), cell_type], collapse = ", "))
 wt(head_dt, "agtr1_celltype_disease_ranking.tsv")
 cat("\n== ranking by omnibus disease effect on AGTR1 (partial eta^2) ==\n")
 print(head_dt[, .(rank_by_omnibus, cell_type, lineage, partial_eta_sq, p_omnibus,

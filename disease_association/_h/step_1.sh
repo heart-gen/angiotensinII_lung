@@ -1,10 +1,11 @@
 #!/bin/bash
 #SBATCH --account=bio250020p
-#SBATCH --partition=EM
+#SBATCH --partition=RM-shared
 #SBATCH --job-name=dx_association
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
-#SBATCH --ntasks-per-node=24
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
 #SBATCH --time=01:00:00
 #SBATCH --output=logs/disease_association.log
 
@@ -29,7 +30,9 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio260021p/shared/opt/env/R_env
+## bio250020p, not bio260021p -- the bio260021p path does not exist (every other
+## step script in this project already points at bio250020p).
+conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
 Rscript ../_h/01.disease_association.R
 

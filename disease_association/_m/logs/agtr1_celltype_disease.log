@@ -1,13 +1,13 @@
-2026-07-28 13:49:12 - **** Job starts ****
-Job id: 42767987
-Hostname: r352
+2026-07-30 10:04:26 - **** Job starts ****
+Job id: 42851440
+Hostname: r033
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-28 13:49:12 - **** donor -> dataset map from stroma obs ****
+2026-07-30 10:04:28 - **** donor -> dataset map from stroma obs ****
 4 donors span >1 dataset; assigning each its majority (most cells) dataset
 Wrote mean_expr/donor_dataset_map.tsv: 323 donors, 42 datasets
 lung_condition
@@ -41,178 +41,235 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-28 13:49
-2026-07-28 13:49:49 - **** AGTR1 disease effects across stromal cell types ****
+Session information updated at 2026-07-30 10:05
+2026-07-30 10:05:04 - **** AGTR1 disease effects across stromal cell types ****
+
+== donor-level sex availability by disease group ==
+Key: <disease_group>
+   disease_group FALSE  TRUE
+          <fctr> <int> <int>
+1:       Healthy    17    93
+2:  Fibrotic_ILD    50     7
+3:         Other    17     9
 
 == donors per cell type x disease group ==
 Key: <cell_type>
                    cell_type Healthy Fibrotic_ILD Other
                       <char>   <int>        <int> <int>
-1:   Adventitial fibroblasts      50            6     5
-2:      Alveolar fibroblasts      62            6     2
-3:               Mesothelium       8            1     2
-4:            Myofibroblasts      16            1     1
-5: Peribronchial fibroblasts      38            6     9
-6:                 Pericytes      32            6     3
-7:    Subpleural fibroblasts       4            0     2
-8:    Vascular smooth muscle      56            9     6
+1:   Adventitial fibroblasts      66           43    18
+2:      Alveolar fibroblasts      72           30    18
+3:               Mesothelium       8           15     2
+4:            Myofibroblasts      19           10     5
+5: Peribronchial fibroblasts      42           32    19
+6:                 Pericytes      35           24    18
+7:    Subpleural fibroblasts       5            0     2
+8:    Vascular smooth muscle      61           35    19
 
-testable cell types (>=3 donors in both Healthy and Fibrotic-ILD): Adventitial fibroblasts, Alveolar fibroblasts, Peribronchial fibroblasts, Pericytes, Vascular smooth muscle
+testable cell types (>=3 donors in both Healthy and Fibrotic-ILD): Adventitial fibroblasts, Alveolar fibroblasts, Mesothelium, Myofibroblasts, Peribronchial fibroblasts, Pericytes, Vascular smooth muscle
+boundary (singular) fit: see help('isSingular')
 
 == AGTR1 (within-cell-type SD units): contrasts vs Healthy ==
                     cell_type response               contrast    estimate
                        <char>   <char>                 <char>       <num>
- 1:      Alveolar fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy -0.75719457
- 2: Peribronchial fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy -0.86065934
- 3:   Adventitial fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy  0.18264389
- 4:    Vascular smooth muscle  z_AGTR1 Fibrotic_ILD - Healthy -0.10754696
- 5:                 Pericytes  z_AGTR1 Fibrotic_ILD - Healthy -0.04169129
- 6:   Adventitial fibroblasts  z_AGTR1        Other - Healthy -0.67412282
- 7:    Vascular smooth muscle  z_AGTR1        Other - Healthy -0.51431795
- 8:                 Pericytes  z_AGTR1        Other - Healthy -0.68027248
- 9: Peribronchial fibroblasts  z_AGTR1        Other - Healthy -0.36275305
-10:      Alveolar fibroblasts  z_AGTR1        Other - Healthy -0.28325890
-           se      ci_lo     ci_hi       df     t.ratio   p.value      p_BH
-        <num>      <num>     <num>    <num>       <num>     <num>     <num>
- 1: 0.4614658 -1.6616675 0.1472784 36.17782 -1.64084658 0.1094962 0.3465285
- 2: 0.5611584 -1.9605297 0.2392111 23.22170 -1.53371916 0.1386114 0.3465285
- 3: 0.5124854 -0.8218276 1.1871154 28.91170  0.35638844 0.7241374 0.9350026
- 4: 0.5205557 -1.1278362 0.9127423 49.85272 -0.20660028 0.8371635 0.9350026
- 5: 0.5077496 -1.0368805 0.9534979 36.93698 -0.08210995 0.9350026 0.9350026
- 6: 0.5366381 -1.7259334 0.3776878 18.04930 -1.25619644 0.2250617 0.6741125
- 7: 0.6299013 -1.7489245 0.7202886 15.15701 -0.81650561 0.4268583 0.6741125
- 8: 0.8890383 -2.4227876 1.0622427 10.65096 -0.76517789 0.4607845 0.6741125
- 9: 0.5716152 -1.4831188 0.7576127 10.47903 -0.63461061 0.5392900 0.6741125
-10: 0.7448275 -1.7431208 1.1766030 41.86132 -0.38030134 0.7056447 0.7056447
+ 1: Peribronchial fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy -0.65445316
+ 2:      Alveolar fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy -0.15175225
+ 3:            Myofibroblasts  z_AGTR1 Fibrotic_ILD - Healthy  0.29816535
+ 4:                 Pericytes  z_AGTR1 Fibrotic_ILD - Healthy -0.15245779
+ 5:   Adventitial fibroblasts  z_AGTR1 Fibrotic_ILD - Healthy -0.10699425
+ 6:               Mesothelium  z_AGTR1 Fibrotic_ILD - Healthy -0.12881314
+ 7:    Vascular smooth muscle  z_AGTR1 Fibrotic_ILD - Healthy -0.02948866
+ 8:   Adventitial fibroblasts  z_AGTR1        Other - Healthy -0.86247255
+ 9:      Alveolar fibroblasts  z_AGTR1        Other - Healthy -0.75971758
+10: Peribronchial fibroblasts  z_AGTR1        Other - Healthy -0.58333785
+11:    Vascular smooth muscle  z_AGTR1        Other - Healthy -0.56249109
+12:            Myofibroblasts  z_AGTR1        Other - Healthy  0.35883593
+13:               Mesothelium  z_AGTR1        Other - Healthy -0.15515592
+14:                 Pericytes  z_AGTR1        Other - Healthy -0.08820993
+           se      ci_lo       ci_hi         df    t.ratio    p.value      p_BH
+        <num>      <num>       <num>      <num>      <num>      <num>     <num>
+ 1: 0.2937952 -1.2302917 -0.07861457  61.125730 -2.2275829 0.02959988 0.2071992
+ 2: 0.2249286 -0.5926122  0.28910772 100.184019 -0.6746687 0.50144027 0.8494907
+ 3: 0.4416120 -0.5673943  1.16372497  30.445670  0.6751749 0.50466049 0.8494907
+ 4: 0.2603583 -0.6627600  0.35784441  72.433084 -0.5855692 0.55998509 0.8494907
+ 5: 0.2073367 -0.5133741  0.29938565 119.518902 -0.5160411 0.60677908 0.8494907
+ 6: 0.4762942 -1.0623497  0.80472347  21.438909 -0.2704487 0.78940160 0.9014820
+ 7: 0.2376165 -0.4952169  0.43623961 100.683470 -0.1241019 0.90148199 0.9014820
+ 8: 0.3738788 -1.5952749 -0.12967019  16.928881 -2.3068242 0.03397880 0.1988761
+ 9: 0.3512422 -1.4481523 -0.07128282   9.640038 -2.1629449 0.05682174 0.1988761
+10: 0.4097149 -1.3863791  0.21970338  16.086417 -1.4237652 0.17362211 0.3096093
+11: 0.4014776 -1.3493871  0.22440491  19.491060 -1.4010524 0.17691958 0.3096093
+12: 0.6124709 -0.8416069  1.55927881   7.898914  0.5858825 0.57430874 0.8040322
+13: 0.8538104 -1.8286244  1.51831256  13.285154 -0.1817217 0.85854449 0.8707005
+14: 0.5342771 -1.1353930  0.95897310  18.036726 -0.1651015 0.87070045 0.8707005
     n_donors n_healthy n_fibrotic n_other covars           model
        <int>     <int>      <int>   <int> <char>          <char>
- 1:       70        62          6       2    sex LMM (1|dataset)
- 2:       53        38          6       9    sex LMM (1|dataset)
- 3:       61        50          6       5    sex LMM (1|dataset)
- 4:       71        56          9       6    sex LMM (1|dataset)
- 5:       41        32          6       3    sex LMM (1|dataset)
- 6:       61        50          6       5    sex LMM (1|dataset)
- 7:       71        56          9       6    sex LMM (1|dataset)
- 8:       41        32          6       3    sex LMM (1|dataset)
- 9:       53        38          6       9    sex LMM (1|dataset)
-10:       70        62          6       2    sex LMM (1|dataset)
+ 1:       93        42         32      19   none LMM (1|dataset)
+ 2:      120        72         30      18   none LMM (1|dataset)
+ 3:       34        19         10       5   none LMM (1|dataset)
+ 4:       77        35         24      18   none LMM (1|dataset)
+ 5:      127        66         43      18   none LMM (1|dataset)
+ 6:       25         8         15       2   none LMM (1|dataset)
+ 7:      115        61         35      19   none LMM (1|dataset)
+ 8:      127        66         43      18   none LMM (1|dataset)
+ 9:      120        72         30      18   none LMM (1|dataset)
+10:       93        42         32      19   none LMM (1|dataset)
+11:      115        61         35      19   none LMM (1|dataset)
+12:       34        19         10       5   none LMM (1|dataset)
+13:       25         8         15       2   none LMM (1|dataset)
+14:       77        35         24      18   none LMM (1|dataset)
+boundary (singular) fit: see help('isSingular')
 
 == omnibus disease effect on AGTR1 per cell type (2 df) ==
-                   cell_type response n_donors   df1   df2     F p_omnibus
-                      <char>   <char>    <int> <num> <num> <num>     <num>
-1:      Alveolar fibroblasts  z_AGTR1       70     2 36.18 1.391 0.2618474
-2: Peribronchial fibroblasts  z_AGTR1       53     2 10.48 1.269 0.3210306
-3:   Adventitial fibroblasts  z_AGTR1       61     2 18.05 0.902 0.4232515
-4:    Vascular smooth muscle  z_AGTR1       71     2 15.16 0.343 0.7151916
-5:                 Pericytes  z_AGTR1       41     2 10.65 0.293 0.7516294
+                   cell_type response n_donors   df1   df2     F  p_omnibus
+                      <char>   <char>    <int> <num> <num> <num>      <num>
+1: Peribronchial fibroblasts  z_AGTR1       93     2 16.09 2.909 0.08348499
+2:   Adventitial fibroblasts  z_AGTR1      127     2 16.93 2.683 0.09723314
+3:      Alveolar fibroblasts  z_AGTR1      120     2  9.64 2.406 0.14208088
+4:    Vascular smooth muscle  z_AGTR1      115     2 19.49 0.989 0.38976779
+5:            Myofibroblasts  z_AGTR1       34     2  7.90 0.347 0.71673473
+6:                 Pericytes  z_AGTR1       77     2 18.04 0.176 0.83995732
+7:               Mesothelium  z_AGTR1       25     2 13.29 0.041 0.96040160
    partial_eta_sq p_omnibus_BH
             <num>        <num>
-1:     0.07140291    0.7054191
-2:     0.19496082    0.7054191
-3:     0.09086330    0.7054191
-4:     0.04329168    0.7516294
-5:     0.05215379    0.7516294
+1:    0.265565090    0.3315220
+2:    0.240670972    0.3315220
+3:    0.332964296    0.3315220
+4:    0.092137134    0.6820936
+5:    0.080754014    0.9604016
+6:    0.019138756    0.9604016
+7:    0.006132217    0.9604016
+boundary (singular) fit: see help('isSingular')
 
 == AGTR1 (raw log-normalised scale) ==
                     cell_type   response               contrast     estimate
                        <char>     <char>                 <char>        <num>
- 1:      Alveolar fibroblasts AGTR1_mean Fibrotic_ILD - Healthy -0.108972456
- 2: Peribronchial fibroblasts AGTR1_mean Fibrotic_ILD - Healthy -0.085496826
- 3:   Adventitial fibroblasts AGTR1_mean Fibrotic_ILD - Healthy  0.025587268
- 4:    Vascular smooth muscle AGTR1_mean Fibrotic_ILD - Healthy -0.008899341
- 5:                 Pericytes AGTR1_mean Fibrotic_ILD - Healthy -0.017173342
- 6:   Adventitial fibroblasts AGTR1_mean        Other - Healthy -0.094440398
- 7:    Vascular smooth muscle AGTR1_mean        Other - Healthy -0.042558996
- 8:                 Pericytes AGTR1_mean        Other - Healthy -0.280215622
- 9: Peribronchial fibroblasts AGTR1_mean        Other - Healthy -0.036035436
-10:      Alveolar fibroblasts AGTR1_mean        Other - Healthy -0.040765503
-            se       ci_lo      ci_hi       df     t.ratio   p.value      p_BH
-         <num>       <num>      <num>    <num>       <num>     <num>     <num>
- 1: 0.06641234 -0.23914064 0.02119572 36.17782 -1.64084658 0.1094962 0.3465285
- 2: 0.05574477 -0.19475658 0.02376293 23.22170 -1.53371916 0.1386114 0.3465285
- 3: 0.07179601 -0.11513291 0.16630745 28.91170  0.35638844 0.7241374 0.9350026
- 4: 0.04307516 -0.09332666 0.07552798 49.85272 -0.20660028 0.8371635 0.9350026
- 5: 0.20915056 -0.42710845 0.39276176 36.93698 -0.08210995 0.9350026 0.9350026
- 6: 0.07517964 -0.24179249 0.05291170 18.04930 -1.25619644 0.2250617 0.6741125
- 7: 0.05212334 -0.14472073 0.05960274 15.15701 -0.81650561 0.4268583 0.6741125
- 8: 0.36620977 -0.99798678 0.43755553 10.65096 -0.76517789 0.4607845 0.6741125
- 9: 0.05678354 -0.14733117 0.07526030 10.47903 -0.63461061 0.5392900 0.6741125
-10: 0.10719264 -0.25086307 0.16933207 41.86132 -0.38030134 0.7056447 0.7056447
-    n_donors n_healthy n_fibrotic n_other covars           model
-       <int>     <int>      <int>   <int> <char>          <char>
- 1:       70        62          6       2    sex LMM (1|dataset)
- 2:       53        38          6       9    sex LMM (1|dataset)
- 3:       61        50          6       5    sex LMM (1|dataset)
- 4:       71        56          9       6    sex LMM (1|dataset)
- 5:       41        32          6       3    sex LMM (1|dataset)
- 6:       61        50          6       5    sex LMM (1|dataset)
- 7:       71        56          9       6    sex LMM (1|dataset)
- 8:       41        32          6       3    sex LMM (1|dataset)
- 9:       53        38          6       9    sex LMM (1|dataset)
-10:       70        62          6       2    sex LMM (1|dataset)
+ 1: Peribronchial fibroblasts AGTR1_mean Fibrotic_ILD - Healthy -0.056749861
+ 2:      Alveolar fibroblasts AGTR1_mean Fibrotic_ILD - Healthy -0.021352061
+ 3:            Myofibroblasts AGTR1_mean Fibrotic_ILD - Healthy  0.010607416
+ 4:                 Pericytes AGTR1_mean Fibrotic_ILD - Healthy -0.065448882
+ 5:   Adventitial fibroblasts AGTR1_mean Fibrotic_ILD - Healthy -0.013326065
+ 6:               Mesothelium AGTR1_mean Fibrotic_ILD - Healthy -0.003921992
+ 7:    Vascular smooth muscle AGTR1_mean Fibrotic_ILD - Healthy -0.002426474
+ 8:   Adventitial fibroblasts AGTR1_mean        Other - Healthy -0.107420406
+ 9:      Alveolar fibroblasts AGTR1_mean        Other - Healthy -0.106894866
+10: Peribronchial fibroblasts AGTR1_mean        Other - Healthy -0.050583211
+11:    Vascular smooth muscle AGTR1_mean        Other - Healthy -0.046284566
+12:            Myofibroblasts AGTR1_mean        Other - Healthy  0.012765809
+13:               Mesothelium AGTR1_mean        Other - Healthy -0.004724054
+14:                 Pericytes AGTR1_mean        Other - Healthy -0.037867802
+            se       ci_lo        ci_hi         df    t.ratio    p.value
+         <num>       <num>        <num>      <num>      <num>      <num>
+ 1: 0.02547598 -0.10668278 -0.006816937  61.125730 -2.2275829 0.02959988
+ 2: 0.03164822 -0.08338257  0.040678446 100.184019 -0.6746687 0.50144027
+ 3: 0.01571062 -0.02018540  0.041400232  30.445670  0.6751749 0.50466049
+ 4: 0.11176967 -0.28451745  0.153619680  72.433084 -0.5855692 0.55998509
+ 5: 0.02582365 -0.06394042  0.037288292 119.518902 -0.5160411 0.60677908
+ 6: 0.01450180 -0.03234551  0.024501527  21.438909 -0.2704487 0.78940160
+ 7: 0.01955227 -0.04074891  0.035895966 100.683470 -0.1241019 0.90148199
+ 8: 0.04656636 -0.19869047 -0.016150340  16.928881 -2.3068242 0.03397880
+ 9: 0.04942098 -0.20375999 -0.010029738   9.640038 -2.1629449 0.05682174
+10: 0.03552777 -0.12021765  0.019051228  16.086417 -1.4237652 0.17362211
+11: 0.03303557 -0.11103428  0.018465152  19.491060 -1.4010524 0.17691958
+12: 0.02178903 -0.02994068  0.055472303   7.898914  0.5858825 0.57430874
+13: 0.02599608 -0.05567638  0.046228272  13.285154 -0.1817217 0.85854449
+14: 0.22936077 -0.48741492  0.411679316  18.036726 -0.1651015 0.87070045
+         p_BH n_donors n_healthy n_fibrotic n_other covars           model
+        <num>    <int>     <int>      <int>   <int> <char>          <char>
+ 1: 0.2071992       93        42         32      19   none LMM (1|dataset)
+ 2: 0.8494907      120        72         30      18   none LMM (1|dataset)
+ 3: 0.8494907       34        19         10       5   none LMM (1|dataset)
+ 4: 0.8494907       77        35         24      18   none LMM (1|dataset)
+ 5: 0.8494907      127        66         43      18   none LMM (1|dataset)
+ 6: 0.9014820       25         8         15       2   none LMM (1|dataset)
+ 7: 0.9014820      115        61         35      19   none LMM (1|dataset)
+ 8: 0.1988761      127        66         43      18   none LMM (1|dataset)
+ 9: 0.1988761      120        72         30      18   none LMM (1|dataset)
+10: 0.3096093       93        42         32      19   none LMM (1|dataset)
+11: 0.3096093      115        61         35      19   none LMM (1|dataset)
+12: 0.8040322       34        19         10       5   none LMM (1|dataset)
+13: 0.8707005       25         8         15       2   none LMM (1|dataset)
+14: 0.8707005       77        35         24      18   none LMM (1|dataset)
+boundary (singular) fit: see help('isSingular')
 
 == SENSITIVITY: AGTR1 detection rate (within-cell-type SD units) ==
                     cell_type     response               contrast    estimate
                        <char>       <char>                 <char>       <num>
- 1: Peribronchial fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy -0.75953883
- 2:      Alveolar fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy -0.47381240
- 3:   Adventitial fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy  0.08138878
- 4:                 Pericytes z_AGTR1_frac Fibrotic_ILD - Healthy  0.06883547
- 5:    Vascular smooth muscle z_AGTR1_frac Fibrotic_ILD - Healthy -0.04525332
- 6:   Adventitial fibroblasts z_AGTR1_frac        Other - Healthy -0.61978155
- 7:    Vascular smooth muscle z_AGTR1_frac        Other - Healthy -0.53912323
- 8:                 Pericytes z_AGTR1_frac        Other - Healthy -0.65151473
- 9: Peribronchial fibroblasts z_AGTR1_frac        Other - Healthy -0.27375143
-10:      Alveolar fibroblasts z_AGTR1_frac        Other - Healthy -0.09564965
-           se      ci_lo     ci_hi       df     t.ratio   p.value      p_BH
-        <num>      <num>     <num>    <num>       <num>     <num>     <num>
- 1: 0.5843610 -1.9048863 0.3858086 30.70939 -1.29977684 0.2033498 0.8295731
- 2: 0.4825341 -1.4195793 0.4719545 41.48246 -0.98192512 0.3318292 0.8295731
- 3: 0.4987602 -0.8961811 1.0589587 24.80097  0.16318221 0.8716974 0.9315211
- 4: 0.5481822 -1.0056016 1.1432725 35.29285  0.12557043 0.9007846 0.9315211
- 5: 0.5243829 -1.0730438 0.9825372 59.09979 -0.08629824 0.9315211 0.9315211
- 6: 0.5157918 -1.6307334 0.3911703 19.31695 -1.20161196 0.2440393 0.7950527
- 7: 0.6961945 -1.9036644 0.8254179 15.00731 -0.77438596 0.4507312 0.7950527
- 8: 0.8825516 -2.3813159 1.0782865 10.19519 -0.73821713 0.4770316 0.7950527
- 9: 0.6460364 -1.5399828 0.9924799 11.25849 -0.42373994 0.6797381 0.8496726
-10: 0.7858787 -1.6359719 1.4446726 31.91844 -0.12171045 0.9038914 0.9038914
+ 1: Peribronchial fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy -0.38807206
+ 2:                 Pericytes z_AGTR1_frac Fibrotic_ILD - Healthy  0.19428342
+ 3:            Myofibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy  0.31158542
+ 4:    Vascular smooth muscle z_AGTR1_frac Fibrotic_ILD - Healthy  0.14087154
+ 5:      Alveolar fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy  0.12049011
+ 6:               Mesothelium z_AGTR1_frac Fibrotic_ILD - Healthy -0.09199811
+ 7:   Adventitial fibroblasts z_AGTR1_frac Fibrotic_ILD - Healthy -0.02674635
+ 8:   Adventitial fibroblasts z_AGTR1_frac        Other - Healthy -0.91058791
+ 9:      Alveolar fibroblasts z_AGTR1_frac        Other - Healthy -0.67844083
+10:    Vascular smooth muscle z_AGTR1_frac        Other - Healthy -0.61692561
+11: Peribronchial fibroblasts z_AGTR1_frac        Other - Healthy -0.48994209
+12:            Myofibroblasts z_AGTR1_frac        Other - Healthy  0.43120899
+13:               Mesothelium z_AGTR1_frac        Other - Healthy -0.29096971
+14:                 Pericytes z_AGTR1_frac        Other - Healthy -0.12519330
+           se      ci_lo       ci_hi         df    t.ratio    p.value      p_BH
+        <num>      <num>       <num>      <num>      <num>      <num>     <num>
+ 1: 0.2998661 -0.9758097  0.19966554  76.715356 -1.2941511 0.19949562 0.8301335
+ 2: 0.2667126 -0.3284734  0.71704021  73.388289  0.7284372 0.46866405 0.8301335
+ 3: 0.4397627 -0.5503494  1.17352023  30.648167  0.7085309 0.48397034 0.8301335
+ 4: 0.2350752 -0.3198759  0.60161893 108.850268  0.5992616 0.55024371 0.8301335
+ 5: 0.2247242 -0.3199694  0.56094962 107.226461  0.5361687 0.59295249 0.8301335
+ 6: 0.4758314 -1.0246276  0.84063139  21.438909 -0.1933418 0.84851128 0.8957219
+ 7: 0.2036256 -0.4258526  0.37235987 117.879070 -0.1313506 0.89572188 0.8957219
+ 8: 0.3597565 -1.6157107 -0.20546514  16.550206 -2.5311228 0.02183534 0.1528474
+ 9: 0.3771000 -1.4175569  0.06067521  11.337913 -1.7991005 0.09864862 0.3452702
+10: 0.4389249 -1.4772184  0.24336714  20.468686 -1.4055381 0.17485895 0.4080042
+11: 0.4655304 -1.4023817  0.42249754  17.184430 -1.0524384 0.30717313 0.5375530
+12: 0.6187857 -0.7816110  1.64402897   7.912062  0.6968632 0.50584319 0.7081805
+13: 0.8529808 -1.9628121  1.38087267  13.285154 -0.3411211 0.73834718 0.8129673
+14: 0.5213084 -1.1469577  0.89657107  17.728555 -0.2401521 0.81296726 0.8129673
     n_donors n_healthy n_fibrotic n_other covars           model
        <int>     <int>      <int>   <int> <char>          <char>
- 1:       53        38          6       9    sex LMM (1|dataset)
- 2:       70        62          6       2    sex LMM (1|dataset)
- 3:       61        50          6       5    sex LMM (1|dataset)
- 4:       41        32          6       3    sex LMM (1|dataset)
- 5:       71        56          9       6    sex LMM (1|dataset)
- 6:       61        50          6       5    sex LMM (1|dataset)
- 7:       71        56          9       6    sex LMM (1|dataset)
- 8:       41        32          6       3    sex LMM (1|dataset)
- 9:       53        38          6       9    sex LMM (1|dataset)
-10:       70        62          6       2    sex LMM (1|dataset)
+ 1:       93        42         32      19   none LMM (1|dataset)
+ 2:       77        35         24      18   none LMM (1|dataset)
+ 3:       34        19         10       5   none LMM (1|dataset)
+ 4:      115        61         35      19   none LMM (1|dataset)
+ 5:      120        72         30      18   none LMM (1|dataset)
+ 6:       25         8         15       2   none LMM (1|dataset)
+ 7:      127        66         43      18   none LMM (1|dataset)
+ 8:      127        66         43      18   none LMM (1|dataset)
+ 9:      120        72         30      18   none LMM (1|dataset)
+10:      115        61         35      19   none LMM (1|dataset)
+11:       93        42         32      19   none LMM (1|dataset)
+12:       34        19         10       5   none LMM (1|dataset)
+13:       25         8         15       2   none LMM (1|dataset)
+14:       77        35         24      18   none LMM (1|dataset)
 
 == ranking by omnibus disease effect on AGTR1 (partial eta^2) ==
-   rank_by_omnibus                 cell_type    lineage partial_eta_sq
-             <int>                    <char>     <char>          <num>
-1:               1 Peribronchial fibroblasts Fibroblast     0.19496082
-2:               2   Adventitial fibroblasts Fibroblast     0.09086330
-3:               3      Alveolar fibroblasts Fibroblast     0.07140291
-4:               4                 Pericytes      Mural     0.05215379
-5:               5    Vascular smooth muscle      Mural     0.04329168
-   p_omnibus p_omnibus_BH    estimate      ci_lo     ci_hi
-       <num>        <num>       <num>      <num>     <num>
-1: 0.3210306    0.7054191 -0.86065934 -1.9605297 0.2392111
-2: 0.4232515    0.7054191  0.18264389 -0.8218276 1.1871154
-3: 0.2618474    0.7054191 -0.75719457 -1.6616675 0.1472784
-4: 0.7516294    0.7516294 -0.04169129 -1.0368805 0.9534979
-5: 0.7151916    0.7516294 -0.10754696 -1.1278362 0.9127423
+   rank_by_omnibus                 cell_type     lineage partial_eta_sq
+             <int>                    <char>      <char>          <num>
+1:               1      Alveolar fibroblasts  Fibroblast    0.332964296
+2:               2 Peribronchial fibroblasts  Fibroblast    0.265565090
+3:               3   Adventitial fibroblasts  Fibroblast    0.240670972
+4:               4    Vascular smooth muscle       Mural    0.092137134
+5:               5            Myofibroblasts  Fibroblast    0.080754014
+6:               6                 Pericytes       Mural    0.019138756
+7:               7               Mesothelium Mesothelial    0.006132217
+    p_omnibus p_omnibus_BH    estimate      ci_lo       ci_hi
+        <num>        <num>       <num>      <num>       <num>
+1: 0.14208088    0.3315220 -0.15175225 -0.5926122  0.28910772
+2: 0.08348499    0.3315220 -0.65445316 -1.2302917 -0.07861457
+3: 0.09723314    0.3315220 -0.10699425 -0.5133741  0.29938565
+4: 0.38976779    0.6820936 -0.02948866 -0.4952169  0.43623961
+5: 0.71673473    0.9604016  0.29816535 -0.5673943  1.16372497
+6: 0.83995732    0.9604016 -0.15245779 -0.6627600  0.35784441
+7: 0.96040160    0.9604016 -0.12881314 -1.0623497  0.80472347
 
 Fibroblast vs mural mean partial eta^2:
-      lineage mean_partial_eta_sq
-       <char>               <num>
-1: Fibroblast          0.11907568
-2:      Mural          0.04772274
+       lineage mean_partial_eta_sq
+        <char>               <num>
+1:  Fibroblast         0.229988593
+2:       Mural         0.055637945
+3: Mesothelial         0.006132217
 
 Reproducibility information:
-[1] "2026-07-28 13:50:19 EDT"
+[1] "2026-07-30 10:05:28 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -223,7 +280,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-28
+ date     2026-07-30
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -281,4 +338,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-28 13:50:23 - **** Job ends ****
+2026-07-30 10:05:29 - **** Job ends ****

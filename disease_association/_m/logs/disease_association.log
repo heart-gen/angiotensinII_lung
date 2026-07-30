@@ -1,10 +1,10 @@
-2026-01-05 09:37:46 - **** Job starts ****
-2026-01-05 09:37:46 - **** Bridges-2 info ****
+2026-07-30 10:01:53 - **** Job starts ****
+2026-07-30 10:01:53 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 36847210
+Job id: 42851439
 Job name: dx_association
 Node name: 
-Hostname: e003
+Hostname: r309
 Task id: N/A
 
 Currently Loaded Modules:
@@ -12,7 +12,7 @@ Currently Loaded Modules:
 
  
 
-2026-01-05 09:37:46 - **** Loading mamba environment ****
+2026-07-30 10:02:11 - **** Loading mamba environment ****
 [1] "Load data"
 Registered S3 method overwritten by 'zellkonverter':
   method                                             from      
@@ -23,9 +23,9 @@ Registered S3 method overwritten by 'zellkonverter':
 [1] "Perform correlation"
 [1] "Write data"
 [1] "Reproducibility information:"
-[1] "2026-01-05 09:38:35 EST"
+[1] "2026-07-30 10:03:59 EDT"
    user  system elapsed 
- 43.895   5.058  47.054 
+ 43.681   4.174  68.775 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -36,7 +36,7 @@ Registered S3 method overwritten by 'zellkonverter':
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-01-05
+ date     2026-07-30
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -120,4 +120,4 @@ Registered S3 method overwritten by 'zellkonverter':
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-01-05 09:38:36 - **** Job ends ****
+2026-07-30 10:04:13 - **** Job ends ****

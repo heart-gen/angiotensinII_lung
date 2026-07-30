@@ -116,7 +116,9 @@ stopifnot(!anyNA(INJ_COLS))
 cat("injury score columns:\n"); print(INJ_COLS)
 cat("stability score column:", STAB_COL, "\n")
 
-need <- c("donor_id", "dataset", "lung_condition", "age", "sex", "smoking_status")
+## `disease` is carried so the carcinoma exclusion below can be applied here too.
+need <- c("donor_id", "dataset", "lung_condition", "age", "sex", "smoking_status",
+          "disease")
 have <- intersect(need, names(meta))
 first_ok <- function(x) { y <- x[!is.na(x)]; if (length(y)) y[[1]] else x[NA_integer_] }
 
@@ -140,6 +142,32 @@ donor[, dataset := factor(dataset)]
 attr_all <- dcast(donor, dataset ~ disease_group, fun.aggregate = length, value.var = "donor_id")
 wt(attr_all, "attrition_dataset_by_disease_ALL.tsv")
 cat(sprintf("\nAll donors with pericytes: %d\n", nrow(donor))); print(table(donor$disease_group))
+
+## ---- carcinoma exclusion (added 2026-07-30) ---------------------------------
+## 01.disease_association.R and 05.agtr1_celltype_disease.R have always dropped
+## carcinoma donors; this script did not, so "Other" here was a
+## COVID/carcinoma/pneumonia grab-bag while "Other" in the cell-type panel was
+## COVID/pneumonia only. Two panels of the same figure were labelling different
+## cohorts "Other". The exclusion is applied with the same patterns as 01 so the
+## groups are now defined identically everywhere.
+##
+## SCOPE OF THE CHANGE, checked rather than assumed: all 12 carcinoma donors fall
+## in "Other" (0 in Healthy, 0 in Fibrotic/ILD), so the primary Fibrotic-vs-Healthy
+## comparison keeps every donor it had. What does move is the SD of the three-group
+## endpoint, which is standardised over Healthy + Fibrotic + Other -- dropping 12
+## Other donors rescales it, so the three-group SD-unit estimates shift slightly.
+## The two-group forest is standardised over Healthy + Fibrotic only and is
+## therefore numerically untouched.
+CANCER_RE <- "carcinoma|adenocarcinoma|cancer"
+if ("disease" %in% names(donor)) {
+    n_canc <- donor[grepl(CANCER_RE, disease, ignore.case = TRUE), .N]
+    cat(sprintf("\nExcluding %d carcinoma donors (by `disease`):\n", n_canc))
+    print(table(donor[grepl(CANCER_RE, disease, ignore.case = TRUE), disease_group]))
+    donor <- donor[!grepl(CANCER_RE, disease, ignore.case = TRUE)]
+    print(table(donor$disease_group))
+} else {
+    warning("no `disease` column -- carcinoma donors NOT excluded")
+}
 
 donor <- donor[n_cells >= MIN_CELLS]
 cat(sprintf("\nAfter min-cells >= %d: %d donors\n", MIN_CELLS, nrow(donor)))

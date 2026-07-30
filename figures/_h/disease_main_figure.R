@@ -179,6 +179,22 @@ pB <- ggplot(comp, aes(estimate, prog, colour = ctr)) +
 ## redundant encoding.
 rank_dt <- fread(file.path(MD, "agtr1_celltype_disease_ranking.tsv"))
 LIN_COL <- c(Fibroblast = "#009E73", Mural = "#0072B2")
+## Mesothelium became testable in the 2026-07-30 rebuild of 05 (the age fix admitted
+## 15 fibrotic donors where there had been 1) and it is NEITHER fibroblast nor mural,
+## so it cannot join either block without corrupting the arm it lands in. Drawn as a
+## third one-row block it clips its own rotated strip label -- "Mesothelial" is wider
+## than a single row is tall -- and it contributes nothing to the fibroblast-vs-mural
+## contrast this panel exists to make, being the lowest eta^2 of anything tested
+## (0.006, P = 0.96). So it is left out of the PANEL and kept in the outputs:
+## agtr1_celltype_disease_ranking.tsv and supplementary table S13 both carry it, and
+## the figure legend says so. Excluded here by lineage, not by name, so any future
+## non-fibroblast/non-mural cell type is handled the same way rather than silently
+## appearing in the wrong block.
+n_drop <- rank_dt[!lineage %in% names(LIN_COL), .N]
+if (n_drop) message(sprintf("panel C: %d non-fibroblast/mural cell type(s) held out: %s",
+                            n_drop, paste(rank_dt[!lineage %in% names(LIN_COL), cell_type],
+                                          collapse = ", ")))
+rank_dt <- rank_dt[lineage %in% names(LIN_COL)]
 ## global ascending eta^2 -> within each facet the strongest cell type sits at the
 ## top, and the facets themselves are ordered Fibroblast above Mural.
 rank_dt[, ct := factor(cell_type, levels = cell_type[order(partial_eta_sq)])]

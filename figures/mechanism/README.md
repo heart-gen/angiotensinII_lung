@@ -267,15 +267,20 @@ would fold the focal receptor into the outcome). Models are donor-level linear m
 
 **(A)** Injury-program score by disease group. Each point is a donor; the black point and
 whisker are the **sex + study-adjusted marginal mean ± 95 % CI**; brackets give the contrast
-against Healthy. Engagement is **graded**: Fibrotic/ILD **+0.79 SD (95 % CI 0.38–1.20,
-*P* = 3.5×10⁻⁴)** and Other disease **+0.62 SD (95 % CI −0.07–1.31, *P* = 0.086)** (*n* = 88
-donors; 42 Healthy, 24 Fibrotic/ILD, 22 Other). **(B)** Which continuous programs carry the
+against Healthy. Engagement is **specific to fibrosis**: Fibrotic/ILD **+0.75 SD (95 % CI 0.33–1.18,
+*P* = 8.8×10⁻⁴)** while Other disease is flat (**+0.25 SD, 95 % CI −0.70–1.20, *P* = 0.61**)
+(*n* = 83 donors; 42 Healthy, 24 Fibrotic/ILD, 17 Other). Carcinoma donors are excluded from
+"Other" as of 2026-07-30, matching the exclusion `01`/`05` always applied; all 11 fell in
+"Other" (0 Healthy, 0 Fibrotic/ILD), so the Fibrotic contrast keeps every donor it had and
+only its standardizing SD moved (+0.79 → +0.75 SD). The **Other-disease trend did not
+survive** the exclusion (+0.62 SD, *P* = 0.086 → +0.25 SD, *P* = 0.61): it was carried by the
+carcinoma donors, which strengthens rather than weakens the specificity claim in this panel. **(B)** Which continuous programs carry the
 score — the same three-group model fit to each program separately (points = contrasts vs
 Healthy, whiskers = 95 % CI, asterisk = *P* < 0.05). The composite is driven by the **fibrillar
-fibroblast-like** program (Fibrotic/ILD **+1.13 SD, *P* = 4.4×10⁻⁴**; Other **+1.10 SD,
-*P* = 0.016**) and the **activated/migratory** program (Fibrotic/ILD **+0.87 SD, *P* = 0.006**),
-with a smaller inflammatory contribution (**+0.55 SD, *P* = 0.040**) and a **flat
-vascular-stabilizing** program (+0.15 SD, *P* = 0.46) — a targeted fibrogenic shift, not a
+fibroblast-like** program (Fibrotic/ILD **+1.10 SD, *P* = 9.5×10⁻⁴**; Other +0.90 SD,
+*P* = 0.12) and the **activated/migratory** program (Fibrotic/ILD **+0.83 SD, *P* = 0.009**),
+with a marginal inflammatory contribution (**+0.49 SD, *P* = 0.057**) and a **flat
+vascular-stabilizing** program (+0.13 SD, *P* = 0.56) — a targeted fibrogenic shift, not a
 global rescaling. The estimate in **A** is robust to study composition from both directions —
 no single cohort creates it, and it is reproduced *within* studies that sampled both arms — see
 **S16**. **(C)** *AGTR1* disease effects
@@ -285,10 +290,24 @@ donor-level *AGTR1* variance attributable to disease group, computed within cell
 cell types with ~5× different baseline *AGTR1* are comparable. Rows are **blocked by lineage**
 (fibroblast above mural) and sorted by η² within each block, so the class-level comparison the
 panel makes is a property of the layout rather than a coincidence of a single sort order; the
-strip labels replace a colour legend and the colours are redundant encoding. All three
-**fibroblast** populations rank above both **mural** populations (peribronchial 0.195,
-adventitial 0.091, alveolar 0.071 vs pericytes 0.052, vascular smooth muscle 0.043; lineage
-means 0.119 vs 0.048).
+strip labels replace a colour legend and the colours are redundant encoding. The three
+classic **fibroblast** populations rank above both **mural** populations (alveolar 0.333,
+peribronchial 0.266, adventitial 0.241 vs vascular smooth muscle 0.092, pericytes 0.019;
+lineage means 0.230 vs 0.056 — a ~4× separation, against ~2.5× before the 2026-07-30 rebuild).
+**Myofibroblasts are now included** and land *low* within the fibroblast block (0.081,
+*P* = 0.72): the compartment that carries panel **D**'s only nominally significant estimates
+shows no comparable disease-associated *AGTR1* variance in HLCA. Both facts follow from the
+2026-07-30 rebuild of `05`, which fixed an `age > 20` gate that had been silently discarding
+the ~89 % of Fibrotic/ILD stroma donors for whom HLCA reports no age — fibrotic arms went from
+6 donors per cell type to 24–43, and myofibroblasts from 1 fibrotic donor (below the ≥3 gate,
+hence absent) to 10. See `disease_association/AGTR1_DISEASE_DIRECTION.md`. Two consequences
+are visible in the outputs: models are **no longer sex-adjusted** (`covars = none` for every
+cell type) because sex is recorded only for a healthy-skewed subset, so adjusting on it would
+have absorbed part of the disease contrast — study structure is still carried by
+`(1 | dataset)`; and **Mesothelium**, which the fix also made testable (15 fibrotic donors,
+up from 1), is tested and reported in `agtr1_celltype_disease_ranking.tsv` and table S13 but
+**held out of this panel** — it is neither fibroblast nor mural, and it is the lowest η² of
+anything tested (0.006, *P* = 0.96).
 **(D)** Independent evaluation in **GSE136831** (Adams/Kaminski), the only dataset here with a
 real COPD arm (`disease_association/agtr1_copd_ipf/`). Donor × compartment pseudobulk *AGTR1*,
 disease minus Control, adjusted for depth, sex, age and **ever-smoker** status (which the HLCA
@@ -811,10 +830,14 @@ effect a between-study batch artifact at all*. LOSO cannot answer the second (dr
 still leaves an estimate pooled across the rest), and the forest cannot answer the first (it
 covers only the three studies that sampled both arms).
 
-**(A) Leave-one-study-out.** The panel-A three-group model refit 23 times, dropping one dataset
-each time (blue points, 95 % CIs; orange line = the full-data estimate, +0.79 SD). The estimate
-stays between **+0.65 and +1.08 SD and remains significant in 23 of 23 refits**, so no single
-cohort creates the association. Source:
+**(A) Leave-one-study-out.** The panel-A three-group model refit 22 times, dropping one dataset
+each time (blue points, 95 % CIs; orange line = the full-data estimate, +0.75 SD). The estimate
+stays **positive and of similar magnitude in every refit, +0.56 to +1.04 SD**, so no single
+cohort creates the association. It is significant in **21 of 22** refits; the exception is
+dropping **Sheppard_2020** (+0.56 SD, *P* = 0.071), which removes 5 of the 24 Fibrotic/ILD
+donors — the estimate holds its direction and most of its size, but not nominal significance,
+on the remaining cohorts. Both counts changed from 23/23 with the 2026-07-30 carcinoma
+exclusion, which also removed one dataset from the refit set entirely. Source:
 `disease_association/_m/mixed_model_forest/leave_one_study_out_3group.tsv`.
 
 **(B) Within-study random-effects meta-analysis.** Each blue point is the contrast estimated
@@ -830,7 +853,7 @@ This panel was **panel A of `figure_disease_main`** until the continuous-injury 
 
 **Scale note — A and B are not on a common scale.** A refits the **three-group** model, whose
 program scores are *z*-standardized over Healthy + Fibrotic/ILD + Other; B is the **two-group**
-primary model, standardized over Healthy + Fibrotic/ILD only. So **+0.90 SD in B and +0.79 SD
+primary model, standardized over Healthy + Fibrotic/ILD only. So **+0.90 SD in B and +0.75 SD
 in A (or in `figure_disease_main` A) are not the same estimate on the same scale** and must not
 be quoted interchangeably; each axis title names its own standardization set, and no cross-panel
 annotation is drawn. The agreement that matters here is **directional and in significance**, not
