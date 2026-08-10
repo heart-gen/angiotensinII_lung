@@ -27,7 +27,8 @@
 ##   C  AGTR1 disease effects across stromal cell types
 ##      (disease_association/_h/05).
 ##   D  Independent GSE136831 COPD/IPF evaluation of fibroblast AGTR1
-##      (disease_association/agtr1_copd_ipf/_h/01).
+##      (disease_association/agtr1_copd_ipf/_h/01). The mural lineage is shown as
+##      the pooled Mural compartment as of 2026-08-07 -- see the panel-D block.
 ##
 ## MOVED OUT 2026-07-29: the two robustness panels -- leave-one-study-out and the
 ## within-study random-effects forest -- were pulled together into a single
@@ -223,15 +224,41 @@ pC <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
 ## Panel D -- independent GSE136831 (COPD/IPF) evaluation of AGTR1
 ## ===========================================================================
 ## Estimates are already signed disease-minus-Control by 01.agtr1_copd_stats.R.
-## Compartments that fail the >=5-donors-per-arm floor are NOT silently dropped:
-## the pericyte row is the reason this dataset gives only qualified support, so
-## it is drawn as an explicit "not estimable" marker rather than as a gap.
+##
+## MURAL, NOT PERICYTE (2026-08-07). The mural lineage is represented here by the
+## pooled `Mural` compartment rather than by `Pericyte`. GSE136831 has exactly ONE
+## Control donor with >=5 pericytes, so the pericyte-specific contrast is not
+## estimable at any floor this panel could reasonably use -- a floor-sensitivity
+## refit at 3 and 2 cells/donor made it nominally estimable at 2 (5 Control
+## donors) but with an MDE of 0.61-0.67 log1p CP10K, larger than the Control mean
+## itself, i.e. estimable in name only. Pooling pericytes with SMC gives 6 Control
+## donors and a real estimate, and it is also the compartment that MATCHES panel
+## C, whose "Mural" lineage block is likewise pericytes + vascular smooth muscle.
+## Drawing a permanently-not-estimable row instead was making the panel end on a
+## limitation it could not lift.
+##
+## Both the pericyte rows and the pericyte-specific descriptives (group means,
+## donor counts, MDE) stay in the source tables -- `agtr1_copd_all_contrasts.tsv`,
+## `agtr1_copd_descriptive.tsv`, `agtr1_copd_mde.tsv` -- so the limitation is
+## documented, it is just no longer the panel's closing statement. Excluded by
+## name because `Mural` is the pooled parent of exactly this one compartment.
+##
+## SMC is deliberately kept alongside Mural even though it is nested inside it:
+## it shows the pooled mural estimate is not carried by the smooth-muscle half.
+##
+## The not-estimable machinery below is retained rather than deleted -- another
+## compartment can fail the >=5-donors-per-arm floor on a rerun, and it must not
+## silently vanish if it does.
 gse <- fread(file.path(GD, "agtr1_copd_all_contrasts.tsv"))[gene == "AGTR1"]
+message(sprintf("panel D: dropping %d Pericyte row(s); mural lineage shown as pooled Mural",
+                gse[compartment == "Pericyte", .N]))
+gse <- gse[compartment != "Pericyte"]
 gse[, ctr := factor(contrast, levels = c("COPD", "IPF"))]
 ## Row order, top to bottom: the pre-specified fibroblast-lineage compartments
 ## first (that is the claim being evaluated), then the other powered
-## compartments, and the NON-estimable pericyte row last -- the panel ends on the
-## limitation rather than opening with it.
+## compartments, and any NON-estimable row last. With Pericyte held out (above)
+## that last group is now empty, but the ordering is unchanged so a compartment
+## that loses power on a rerun still lands at the bottom rather than the top.
 PRIMARY_CMP <- c("Fibroblast", "Myofibroblast")
 cmp_rank <- gse[, .(is_est = any(estimable)), by = compartment]
 cmp_rank[, grp := fifelse(!is_est, 1L, fifelse(compartment %in% PRIMARY_CMP, 3L, 2L))]
@@ -242,21 +269,26 @@ est <- gse[estimable == TRUE]
 nes <- gse[estimable == FALSE]
 GSE_COL <- c(COPD = "#E69F00", IPF = "#D55E00")
 x_lo <- min(c(est$ci_lo, 0), na.rm = TRUE); x_hi <- max(c(est$ci_hi, 0), na.rm = TRUE)
+## non-estimable rows: open crosses on the zero line, direct-labelled. Added
+## conditionally -- the right-hand padding below exists ONLY to fit those labels,
+## so with no such rows it would otherwise leave dead space on a half-width panel.
+nes_layers <- if (nrow(nes)) list(
+    geom_point(data = nes, aes(x = 0, y = cmp), shape = 4, size = 1.8,
+               colour = "grey55", inherit.aes = FALSE),
+    geom_text(data = unique(nes[, .(cmp, n_control_donors)]),
+              aes(x = 0, y = cmp,
+                  label = sprintf("  not estimable (%d Control donor%s)",
+                                  n_control_donors, ifelse(n_control_donors == 1, "", "s"))),
+              hjust = 0, vjust = 0.5, size = 2.0, colour = "grey40",
+              inherit.aes = FALSE)) else NULL
+x_pad <- if (nrow(nes)) 1.05 else 1.02
 
 pD <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
     geom_vline(xintercept = 0, linetype = 2, colour = "grey55", linewidth = 0.3) +
     geom_errorbarh(aes(xmin = ci_lo, xmax = ci_hi),
                    position = position_dodge(width = 0.6), height = 0.18, linewidth = 0.5) +
     geom_point(aes(shape = family), size = 2.3, position = position_dodge(width = 0.6)) +
-    ## non-estimable rows: open crosses on the zero line, direct-labelled
-    geom_point(data = nes, aes(x = 0, y = cmp), shape = 4, size = 1.8,
-               colour = "grey55", inherit.aes = FALSE) +
-    geom_text(data = unique(nes[, .(cmp, n_control_donors)]),
-              aes(x = 0, y = cmp,
-                  label = sprintf("  not estimable (%d Control donor%s)",
-                                  n_control_donors, ifelse(n_control_donors == 1, "", "s"))),
-              hjust = 0, vjust = 0.5, size = 2.0, colour = "grey40",
-              inherit.aes = FALSE) +
+    nes_layers +
     scale_colour_manual(values = GSE_COL, name = NULL) +
     ## breaks pinned: `family` is a character column, so the default legend order
     ## is alphabetical and puts "exploratory" ahead of the pre-specified family
@@ -264,16 +296,16 @@ pD <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
     scale_shape_manual(values = c(primary = 16, exploratory = 1), name = NULL,
                        breaks = c("primary", "exploratory"),
                        labels = c(primary = "pre-specified", exploratory = "exploratory")) +
-    ## `est` carries no Pericyte row, and ggplot2 drops that unused level from the
-    ## main layer and then appends it from the `nes` layer at the END of the
-    ## scale -- which silently moves the not-estimable row to the top. Pin the
+    ## Any compartment absent from `est` is an unused factor level that ggplot2
+    ## drops from the main layer and then re-appends from the `nes` layer at the
+    ## END of the scale -- silently moving a not-estimable row to the top. Pin the
     ## row order to the intended one instead of relying on the factor levels.
     scale_y_discrete(limits = cmp_rank$compartment) +
-    coord_cartesian(xlim = c(x_lo, x_hi * 1.05)) +
+    coord_cartesian(xlim = c(x_lo, x_hi * x_pad)) +
     ## Half-width panel since the 2026-07-29 four-panel rebuild: the axis title is
     ## shortened ("pseudobulk" is implied by the donor-level CI) and the legend
     ## moved from the right margin to the bottom, where it costs height (which
-    ## this 8-row panel has) instead of width (which it has not). Kept on ONE
+    ## this 7-row panel has) instead of width (which it has not). Kept on ONE
     ## line -- plotmath's atop() is the only way to wrap an expression and it
     ## opens a gap between the lines wide enough to read as a layout error.
     labs(x = expression("Disease minus Control " * italic("AGTR1") *
@@ -381,10 +413,13 @@ save_fig("figureS_disease_robustness", figS, 5.2, 6.0)
 ## ---- assemble --------------------------------------------------------------
 ## Reading order A,B / C,D: the graded effect and the programs that carry it on
 ## top, then the receptor-level result and its independent evaluation below.
-## D gets the extra width -- 8 compartment rows, long "not estimable" in-panel
-## text and a bottom legend, against C's 5 faceted rows. The widths are set on
-## the inner row, since the outer `/` only controls the two row heights.
-fig <- (pA | pB) / ((pC | pD) + plot_layout(widths = c(0.88, 1.12))) +
+## D used to take the extra width for its long "not estimable" in-panel text;
+## that label went with the Pericyte row on 2026-08-07, so the two panels are
+## closer to even now. D keeps a slight edge for its 7 compartment rows and
+## bottom legend, against C's 6 faceted rows with long cell-type tick labels.
+## The widths are set on the inner row, since the outer `/` only controls the
+## two row heights.
+fig <- (pA | pB) / ((pC | pD) + plot_layout(widths = c(0.95, 1.05))) +
     plot_layout(heights = c(1, 1.1)) +
     plot_annotation(tag_levels = "A") &
     theme(plot.tag = element_text(face = "bold", size = 10),

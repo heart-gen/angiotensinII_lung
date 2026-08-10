@@ -300,7 +300,7 @@ shows no comparable disease-associated *AGTR1* variance in HLCA. Both facts foll
 2026-07-30 rebuild of `05`, which fixed an `age > 20` gate that had been silently discarding
 the ~89 % of Fibrotic/ILD stroma donors for whom HLCA reports no age — fibrotic arms went from
 6 donors per cell type to 24–43, and myofibroblasts from 1 fibrotic donor (below the ≥3 gate,
-hence absent) to 10. See `disease_association/AGTR1_DISEASE_DIRECTION.md`. Two consequences
+hence absent) to 10. See `writings/AGTR1_DISEASE_DIRECTION.md`. Two consequences
 are visible in the outputs: models are **no longer sex-adjusted** (`covars = none` for every
 cell type) because sex is recorded only for a healthy-skewed subset, so adjusting on it would
 have absorbed part of the disease contrast — study structure is still carried by
@@ -315,7 +315,14 @@ metadata does not permit). Filled points are the pre-specified fibroblast-lineag
 points exploratory. *AGTR1* is **lower in myofibroblasts in both arms** (COPD **−0.18,
 *P* = 0.037**; IPF **−0.17, *P* = 0.028**) — the same compartment, the same direction, in two
 independent disease arms — directionally consistent with the negative fibroblast contrasts in
-**C**; bulk fibroblasts are null (COPD −0.09, *P* = 0.17; IPF +0.03, *P* = 0.61). The primary
+**C**; bulk fibroblasts are null (COPD −0.09, *P* = 0.17; IPF +0.03, *P* = 0.61). The mural
+lineage is shown as the pooled **Mural** compartment (pericytes + smooth muscle), matching the
+"Mural" lineage block of **C** and replacing the permanently-not-estimable pericyte row that this
+panel carried until 2026-08-07 (see the limitations below); it moves in the **opposite direction**
+to the fibroblast lineage (IPF **+0.25**, 95 % CI 0.01–0.49, *P* = 0.047; COPD +0.24,
+*P* = 0.13), as does the smooth-muscle half on its own (IPF +0.11, *P* = 0.12), so the pooled
+estimate is not a smooth-muscle artifact. Both are **exploratory** — one uncorrected test in a
+compartment with 6 Control donors — and should be read as a direction, not a result. The primary
 family is reported at **nominal alpha**: these two compartments were fixed by the independent
 HLCA analysis in **C** before GSE136831 was touched, so this is a directional replication rather
 than a screen, and the two myofibroblast tests are the same compartment against a shared Control
@@ -346,11 +353,27 @@ compartment and gene exploratory.
   threshold from 2 to 6. D: **≥ 5 cells per donor per compartment** and ≥ 5 donors per arm — a lower floor
   because GSE136831 is a smaller, disease-enriched cohort, which is precisely why the pericyte
   compartment still fails it.
-- **Panel D gives only qualified support**, by design and not by outcome. GSE136831 has exactly
-  **one** Control donor with ≥ 5 pericytes (against 6 COPD and 15 IPF), so a pericyte-specific
-  contrast is **not estimable in either direction**; that row is drawn explicitly rather than
-  omitted. This dataset can corroborate the **fibroblast** half of the claim only, and it does
-  **not** establish consistent pericyte-specific *AGTR1* upregulation.
+- **Panel D shows Mural, not Pericyte, and still gives only qualified support.** GSE136831 has
+  exactly **one** Control donor with ≥ 5 pericytes (against 6 COPD and 15 IPF), so a
+  **pericyte-specific** contrast is **not estimable in either direction** — and it is not
+  rescuable by relaxing the floor. A refit at 3 and 2 cells per donor (2026-08-07) leaves the
+  contrast below the ≥ 5-donor rule at 3 (3 Control donors) and makes it nominally estimable at 2
+  (5 Control donors, 18 cells) with an MDE of **0.61–0.67 log1p CP10K at 80 % power — larger than
+  the Control group mean itself (0.58)**, i.e. estimable in name only; both contrasts there are
+  null with intervals wider than the entire signal (COPD +0.09, *P* = 0.76; IPF −0.09,
+  *P* = 0.75), and the descriptive means reverse direction depending on which of the five Control
+  donors are admitted. The panel therefore represents the mural lineage by the **pooled Mural
+  compartment**, which clears the floor (6 Control donors) and matches how **C** blocks its rows.
+  Until 2026-08-07 the panel instead drew an explicit "not estimable" pericyte row; that
+  limitation is unchanged and is now documented here and in the source tables
+  (`agtr1_copd_{all_contrasts,descriptive,mde}.tsv`, which retain every pericyte row) rather than
+  being the panel's closing statement. This dataset can corroborate the **fibroblast** half of the
+  claim only, and it does **not** establish consistent pericyte-specific *AGTR1* upregulation.
+  Note also that relaxing the floor attenuates every estimate toward zero, mural included
+  (Mural IPF +0.25 → +0.12 → +0.06 at floors 5 → 3 → 2), for the reason set out in
+  `writings/AGTR1_DISEASE_DIRECTION.md`: 2–4-cell pseudobulk units are near-zero by
+  construction and land disproportionately in the small Control arm. **Floor 5 is the reporting
+  floor for D.**
 - **Nothing in C reaches significance** (all BH ≥ 0.71), and the fibrotic groups are small
   (6 donors per cell type). C supports an **ordering** — disease-associated *AGTR1* variation is
   larger in fibroblasts than in pericytes — not a positive fibroblast finding. Directional

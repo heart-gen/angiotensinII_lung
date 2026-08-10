@@ -6,7 +6,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --time=01:00:00
+#SBATCH --time=00:30:00
 #SBATCH --output=logs/assemble_figures.log
 
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }
@@ -43,10 +43,6 @@ log_message "**** S12: sensitivity / robustness ****"
 Rscript ../_h/sensitivity_robustness_figure.R
 if [ $? -ne 0 ]; then log_message "Error: sensitivity figure failed"; exit 1; fi
 
-## Builds the main BM figure plus S15 (figureS_bm_copd, moved off S6 on 2026-07-28
-## when the CoGAPS validation figure took that slot) and S10 (figureS_ras_landscape).
-## This was missing from the pipeline until 2026-07-27, which is why both supplements
-## had gone stale relative to everything else in figures/mechanism.
 log_message "**** Basement-membrane figure + S10, S15 ****"
 Rscript ../_h/basement_membrane_figure.R
 if [ $? -ne 0 ]; then log_message "Error: basement-membrane figure failed"; exit 1; fi
