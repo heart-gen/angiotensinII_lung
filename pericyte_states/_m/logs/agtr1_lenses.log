@@ -1,0 +1,160 @@
+2026-08-10 08:53:02 - **** Job starts ****
+Job id: 43295377
+Hostname: r015
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-08-10 08:53:03 - **** AGTR1 by program: raw / detection / scVI-denoised lenses ****
+denoised model: Pericyte-only-trained (11680 cells)
+merged 11680 cells (100.0% of pericyte states have a denoised AGTR1)
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== AGTR1_expr by program (emmeans) ==
+         state_program    emmean         SE
+1  activated_migratory 0.5913432 0.07651065
+2    basement_membrane 0.6344462 0.04003163
+3 vascular_stabilizing 0.8000520 0.03866809
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== AGTR1_scvi by program (emmeans) ==
+         state_program   emmean         SE
+1  activated_migratory 1.004699 0.05006263
+2    basement_membrane 1.032786 0.03486708
+3 vascular_stabilizing 0.933834 0.03426199
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
+To enable adjustments, add the argument 'lmerTest.limit = 11680' (or larger)
+[or, globally, 'set emm_options(lmerTest.limit = 11680)' or larger];
+but be warned that this may result in large computation time and memory use.
+
+== AGTR1_detect by program (emmeans) ==
+         state_program    emmean         SE
+1  activated_migratory 0.2453448 0.03428515
+2    basement_membrane 0.2798828 0.01836108
+3 vascular_stabilizing 0.3939326 0.01776484
+
+== Top program per lens ==
+           lens          top_program top_emmean
+         <char>               <fctr>      <num>
+1:   AGTR1_expr vascular_stabilizing  0.8000520
+2:   AGTR1_scvi    basement_membrane  1.0327856
+3: AGTR1_detect vascular_stabilizing  0.3939326
+
+Reproducibility information:
+[1] "2026-08-10 08:53:41 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-08-10
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ ggplot2      * 4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ labeling       0.4.3      2023-08-29 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ ragg           1.5.0      2025-09-02 [1] CRAN (R 4.4.3)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ systemfonts    1.3.1      2025-10-01 [1] CRAN (R 4.4.3)
+ textshaping    1.0.4      2025-10-10 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ withr          3.0.2      2024-10-28 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-08-10 08:53:44 - **** Job ends ****
