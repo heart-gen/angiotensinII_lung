@@ -18,6 +18,18 @@ suppressPackageStartupMessages({
     library(lme4); library(lmerTest); library(emmeans)
 })
 
+## The by-program fits are CELL-level (11,680 pericytes), which is above emmeans'
+## default 3000-observation ceiling, so d.f. calculation was being disabled and the
+## emmeans/pairs output fell back to asymptotic (z) inference with df = Inf. Raise
+## the ceiling so Satterthwaite d.f. are actually computed.
+##
+## pbkrtest.limit is deliberately NOT raised. emmeans prefers Kenward-Roger for
+## lmerMod and only falls back to Satterthwaite above that limit; KR on 11,680 rows
+## builds the full adjusted covariance and is the expensive path for no gain here
+## (one 3-level fixed factor, one donor intercept). Leaving pbkrtest.limit at its
+## default keeps the Satterthwaite route while lmerTest.limit makes it usable.
+emm_options(lmerTest.limit = 50000)
+
 args <- commandArgs(trailingOnly = TRUE)
 parse_arg <- function(flag, default) { i <- which(args == flag); if (length(i)) args[i + 1] else default }
 META    <- parse_arg("--meta", "pericytes_states_metadata.tsv.gz")
