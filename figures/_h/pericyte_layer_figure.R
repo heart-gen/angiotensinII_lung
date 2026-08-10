@@ -100,8 +100,18 @@ LENS_LABS <- c(AGTR1_expr = "AGTR1 (raw)", AGTR1_detect = "AGTR1 (detection)",
                AGTR1_scvi = "AGTR1 (denoised)")
 LENS_COL  <- c("AGTR1 (raw)" = "#56B4E9", "AGTR1 (detection)" = "#999999",
                "AGTR1 (denoised)" = "#D55E00")
+## bm_relabel/require_programs: this table is written by pericyte_states/_h/
+## 03.agtr1_lenses.R, which was NOT wired into any step_*.sh until step_3.sh was
+## added -- so it sat at its 2026-06-17 hand-run state, still keyed on
+## `fibroblast_like`, while every sibling table was regenerated on 2026-07-24.
+## The old filter dropped that row without a word and panel D plotted two of the
+## three programs, losing precisely the basement-membrane vs vascular-stabilizing
+## denoised contrast (BH p = 3.5e-9) that the panel exists to show.
 emm <- fread(P("pericyte_states", "_m", "stats_data", "agtr1_lenses_by_program_emmeans.tsv")) %>%
-    filter(lens %in% names(LENS_LABS), state_program %in% PROG_ORDER) %>%
+    bm_relabel(src = "agtr1_lenses_by_program_emmeans.tsv") %>%
+    filter(lens %in% names(LENS_LABS), state_program %in% PROG_ORDER)
+require_programs(emm$state_program, PROG_ORDER, "figure_pericyte_layer panel D")
+emm <- emm %>%
     mutate(lens = factor(LENS_LABS[lens], levels = LENS_LABS),
            program = factor(state_program, levels = PROG_ORDER)) %>%
     group_by(lens) %>% mutate(centered = emmean - mean(emmean)) %>% ungroup()

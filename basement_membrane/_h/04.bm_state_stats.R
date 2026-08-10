@@ -14,6 +14,13 @@
 ## detected than AGTR1 ever was (COL4A2 81%, COL4A1 79%, LAMB1 60%, NID1 58% of
 ## pericytes) so this is not the sparse-gene regime that produced the retracted
 ## AGTR1 result -- but the same defenses are applied regardless.
+##
+## Also tests AGTR1 against BM directly (--denoise), at both the pseudobulk and
+## the within-donor level. Figure panel F pairs a positive AGTR1-vs-pseudotime
+## correlation with a negative BM-vs-pseudotime one; that is two correlations
+## through a shared mediator, not an AGTR1-BM antagonism, and the manuscript may
+## not claim the latter without this test. Outputs: bm_vs_agtr1_corr.tsv,
+## bm_vs_agtr1_models.tsv, bm_vs_agtr1_within_donor.tsv.
 
 suppressPackageStartupMessages({
     library(optparse)
@@ -29,6 +36,11 @@ opt <- parse_args(OptionParser(option_list = list(
     make_option("--bm-meta", type = "character", dest = "bm_meta"),
     make_option("--state-meta", type = "character", dest = "state_meta"),
     make_option("--continuum", type = "character", default = NA_character_),
+    ## scVI-denoised AGTR1, same table and model that
+    ## pericyte_states/_h/03.agtr1_lenses.R uses as its robust lens.
+    make_option("--denoise", type = "character", default = NA_character_),
+    make_option("--den-model", type = "character", default = "Pericyte-only-trained",
+                dest = "den_model"),
     make_option("--outdir", type = "character"),
     make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells")
 )))
@@ -146,6 +158,138 @@ pb[, bm_resid := residuals(suppressMessages(lmer(
     basement_membrane_score_z ~ fibrillar_ecm_score_z + mean_log10_counts +
         (1 | study) + (1 | donor_id), data = pb)))]
 
+## ------------------------------------------- direct AGTR1 vs BM association ----
+## Panel F of figure_pericyte_layer shows AGTR1 rising and BM falling along
+## pseudotime. Those are two SEPARATE correlations sharing a mediator: they do not
+## establish that AGTR1 and BM oppose each other, and until now nothing in this
+## module or in pericyte_states/ tested the pair directly. This block does.
+##
+## The readout is the scVI-DENOISED AGTR1, not the raw lens. Raw AGTR1 and the BM
+## panel both scale with capture depth, so a raw-lens association here is
+## confounded by precisely the dropout that 03.agtr1_lenses.R showed manufactures
+## AGTR1's apparent program bias -- reporting a raw-only result would repeat the
+## error the three-lens analysis exists to catch. Raw and detection lenses are
+## carried alongside as the dropout-sensitive comparison: raw-negative with
+## denoised-null is the signature of shared dropout, not of biology (same logic as
+## the ACTA2 control in pericyte_states/_h/05.acta2_control.R).
+##
+## Two levels are tested because they answer different questions, and panel F only
+## answers the first: donor x cluster pseudobulk (do lungs/clusters with more AGTR1
+## carry less BM?) and within-donor cell-level (does AGTR1 oppose BM INSIDE a
+## lung?). The BM-vs-pseudotime trend is already known to be between-donor only --
+## flat within donors, bm_continuum_summary.tsv median rho 0.02, p = 0.84 -- so the
+## within-donor test is the one that would license an antagonism claim in the text.
+agtr1_readme <- character(0)
+agtr1_cols <- intersect(c("AGTR1_expr", "AGTR1_detect"), names(d))
+dl <- copy(d)
+if (!is.na(opt$denoise) && file.exists(opt$denoise)) {
+    den <- fread(opt$denoise, select = c("index", "Model", "AGTR1_scvi"))
+    den <- den[Model == opt$den_model]
+    if (anyDuplicated(den$index))
+        stop("denoised AGTR1 table has duplicate cells for model ", opt$den_model)
+    dl <- merge(dl, den[, .(index, AGTR1_scvi)], by = "index", all.x = TRUE)
+    message(sprintf("Denoised AGTR1 (%s): %d/%d cells (%.1f%%)", opt$den_model,
+                    sum(is.finite(dl$AGTR1_scvi)), nrow(dl),
+                    100 * sum(is.finite(dl$AGTR1_scvi)) / nrow(dl)))
+    agtr1_cols <- c("AGTR1_scvi", agtr1_cols)
+} else {
+    warning("no --denoise table supplied; the denoised lens is the DISCRIMINATING ",
+            "readout for AGTR1-vs-BM, so the raw-lens results below cannot settle ",
+            "the question on their own.", call. = FALSE)
+}
+
+if (length(agtr1_cols)) {
+    dl[, (agtr1_cols) := lapply(.SD, as.numeric), .SDcols = agtr1_cols]
+
+    ## (i) donor x cluster pseudobulk, on the SAME units as every other test here
+    apb <- dl[, lapply(.SD, mean, na.rm = TRUE),
+              by = .(donor_id, pericyte_state), .SDcols = agtr1_cols]
+    pba <- merge(pb, apb, by = c("donor_id", "pericyte_state"))
+    for (cl in agtr1_cols)
+        pba[[paste0(cl, "_z")]] <- z_within_dataset(pba[[cl]], pba$dataset)
+
+    ## Unadjusted correlations, formatted to sit beside bm_vs_fibrillar_corr.tsv.
+    corr_agtr1 <- rbindlist(lapply(agtr1_cols, function(lens) {
+        ok <- is.finite(pba[[lens]]) & is.finite(pba$basement_membrane_score)
+        if (sum(ok) < 10) return(NULL)
+        x <- pba$basement_membrane_score[ok]; y <- pba[[lens]][ok]
+        ct <- cor.test(x, y, method = "pearson")
+        cs <- suppressWarnings(cor.test(x, y, method = "spearman"))
+        data.table(comparison = paste0("basement_membrane vs ", lens),
+                   pearson_r = unname(ct$estimate),
+                   pearson_ci_lo = ct$conf.int[1], pearson_ci_hi = ct$conf.int[2],
+                   pearson_p = ct$p.value, spearman_rho = unname(cs$estimate),
+                   spearman_p = cs$p.value, n_units = sum(ok))
+    }), fill = TRUE)
+    write_tsv_safe(corr_agtr1, file.path(opt$outdir, "bm_vs_agtr1_corr.tsv"))
+
+    ## Depth-adjusted mixed models. Outcome 1 is the BM score; outcome 2 is the
+    ## fibrillar-orthogonalized residual, so a surviving slope there means AGTR1
+    ## tracks BM specifically rather than the shared stromal-ECM axis.
+    agtr1_fit <- function(lens, outcome, extra = character()) {
+        lz <- paste0(lens, "_z")
+        if (!lz %in% names(pba) || !outcome %in% names(pba)) return(NULL)
+        f <- tryCatch(suppressMessages(lmer(
+            reformulate(c(lz, extra, "(1 | study)", "(1 | donor_id)"), outcome),
+            data = pba)), error = function(e) NULL)
+        if (is.null(f)) return(NULL)
+        cf <- summary(f)$coefficients
+        if (!lz %in% rownames(cf)) return(NULL)
+        ## Satterthwaite `df`/`Pr(>|t|)` come from lmerTest::lmer. Degrade to NA
+        ## rather than erroring if a bare lme4 fit ever reaches here.
+        col <- function(nm) if (nm %in% colnames(cf)) cf[lz, nm] else NA_real_
+        data.table(outcome = outcome, lens = lens,
+                   estimate = col("Estimate"), SE = col("Std. Error"),
+                   df = col("df"), t_ratio = col("t value"),
+                   p_value = col("Pr(>|t|)"),
+                   depth_adjusted = "mean_log10_counts" %in% extra,
+                   n_units = nrow(pba), n_donors = uniqueN(pba$donor_id))
+    }
+    mods_agtr1 <- rbindlist(c(
+        lapply(agtr1_cols, agtr1_fit, outcome = "basement_membrane_score_z",
+               extra = "mean_log10_counts"),
+        lapply(agtr1_cols, agtr1_fit, outcome = "bm_resid")), fill = TRUE)
+    if (nrow(mods_agtr1)) {
+        mods_agtr1[, p_BH := p.adjust(p_value, method = "BH"), by = outcome]
+        write_tsv_safe(mods_agtr1, file.path(opt$outdir, "bm_vs_agtr1_models.tsv"))
+    }
+
+    ## (ii) within-donor, cell level: per-donor Spearman then a one-sample test on
+    ## the donor rhos. Never pools cells across donors -- the same pattern as the
+    ## continuum block below, so the two are directly comparable.
+    wd_agtr1 <- rbindlist(lapply(agtr1_cols, function(lens) {
+        sub <- dl[is.finite(get(lens)) & is.finite(basement_membrane_score)]
+        dr <- sub[, .(n = .N, rho = suppressWarnings(
+                          cor(get(lens), basement_membrane_score, method = "spearman"))),
+                  by = donor_id][n >= 20 & is.finite(rho)]
+        if (nrow(dr) < 3) return(NULL)
+        w <- suppressWarnings(wilcox.test(dr$rho))
+        data.table(lens = lens, n_donors = nrow(dr),
+                   median_rho = median(dr$rho),
+                   q25 = unname(quantile(dr$rho, 0.25)),
+                   q75 = unname(quantile(dr$rho, 0.75)),
+                   p_wilcox = w$p.value)
+    }), fill = TRUE)
+    if (nrow(wd_agtr1)) {
+        wd_agtr1[, p_BH := p.adjust(p_wilcox, method = "BH")]
+        write_tsv_safe(wd_agtr1, file.path(opt$outdir, "bm_vs_agtr1_within_donor.tsv"))
+    }
+
+    message("AGTR1 vs BM -- pseudobulk correlations:");     print(corr_agtr1)
+    message("AGTR1 vs BM -- depth-adjusted mixed models:"); print(mods_agtr1)
+    message("AGTR1 vs BM -- within-donor Spearman:");       print(wd_agtr1)
+    agtr1_readme <- c(
+        "",
+        "Direct AGTR1 vs BM (denoised lens is the readout; raw/detection are the",
+        "dropout-sensitive comparison, NOT the answer):",
+        paste(utils::capture.output(print(mods_agtr1)), collapse = "\n"),
+        "",
+        "Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):",
+        paste(utils::capture.output(print(wd_agtr1)), collapse = "\n"))
+} else {
+    message("No AGTR1 columns available -- skipping the AGTR1-vs-BM test.")
+}
+
 ## ------------------------------------------- BM along the injury continuum ----
 if (!is.na(opt$continuum) && file.exists(opt$continuum)) {
     cont <- fread(opt$continuum)
@@ -195,7 +339,8 @@ readme <- c(
     "is derived from the BM score, so testing against it would be circular.",
     "",
     "BM vs fibrillar (donor x cluster pseudobulk):",
-    paste(utils::capture.output(print(corr_tbl)), collapse = "\n"))
+    paste(utils::capture.output(print(corr_tbl)), collapse = "\n"),
+    agtr1_readme)
 writeLines(readme, file.path(opt$outdir, "bm_pericyte_axis_README.txt"))
 message(paste(readme, collapse = "\n"))
 

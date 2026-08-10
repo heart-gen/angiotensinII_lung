@@ -148,8 +148,18 @@ if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
     READOUT_COL  <- c("ACTA2 (raw)" = "#009E73", "AGTR1 (raw)" = "#56B4E9",
                       "AGTR1 (denoised)" = "#D55E00")
 
-    emm <- rbind(fread(acta2_f)[lens == "ACTA2_expr"],
-                 fread(agtr1_f)[lens %in% c("AGTR1_expr", "AGTR1_scvi")]) %>%
+    ## The two tables were generated on different sides of the 2026-07-21
+    ## basement-membrane relabel (acta2_* 2026-07-24, agtr1_lenses_* 2026-06-17),
+    ## so they disagreed on the level name. `filter(!is.na(program))` then quietly
+    ## deleted the AGTR1 rows for that program while keeping the ACTA2 one -- a
+    ## partial panel comparing readouts over different program sets. Normalise
+    ## before the rbind and refuse to plot if a program is still missing.
+    emm <- rbind(bm_relabel(fread(acta2_f), src = "acta2_by_program_emmeans.tsv")[
+                     lens == "ACTA2_expr"],
+                 bm_relabel(fread(agtr1_f), src = "agtr1_lenses_by_program_emmeans.tsv")[
+                     lens %in% c("AGTR1_expr", "AGTR1_scvi")])
+    require_programs(emm$state_program, PROG_LEVELS, "figureS_acta2_control panel A")
+    emm <- emm %>%
         mutate(readout = factor(READOUT_LABS[lens], levels = READOUT_LABS),
                program = factor(state_program, levels = PROG_LEVELS)) %>%
         filter(!is.na(program)) %>%

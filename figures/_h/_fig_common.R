@@ -79,6 +79,45 @@ map_disease <- function(lc) {
 }
 dx_factor <- function(x) droplevels(factor(map_disease(x), levels = DISEASE_LEVELS))
 
+## ---- stale-label normalisation ------------------------------------------
+## The 2026-07-21 gate (basement_membrane/_h/01.state_gate.py) relabelled stable
+## clusters 1/3/5 -- 4,200 cells, 35.96% of pericytes, i.e. the ENTIRE former
+## `fibroblast_like` set -- to `basement_membrane`. On any table keyed by
+## state_program the rename is therefore one-to-one and leaves the estimates
+## untouched. Tables regenerated after that date already carry the new level;
+## a table that predates it carries the old one and, because every figure script
+## filters state_program against a PROG_* vector containing `basement_membrane`,
+## silently DROPS that program instead of erroring. That is exactly how panel D
+## of figure_pericyte_layer shipped plotting 2 of 3 programs (and, because the
+## panel centres within lens, with every remaining point shifted too).
+##
+## Call this on any state_program-keyed table before filtering. It is a stopgap
+## for tables on disk, not a substitute for re-running the producing script --
+## if both levels are ever present the 1:1 mapping no longer holds and we stop.
+bm_relabel <- function(dt, col = "state_program", src = "table") {
+    lv <- unique(as.character(dt[[col]]))
+    if (!"fibroblast_like" %in% lv) return(dt)
+    if ("basement_membrane" %in% lv)
+        stop(src, " carries BOTH fibroblast_like and basement_membrane in `", col,
+             "`; the 1:1 relabel no longer holds -- regenerate it rather than merging ",
+             "two distinct programs.")
+    warning(src, " predates the 2026-07-21 basement-membrane relabel; mapping ",
+            "fibroblast_like -> basement_membrane. Re-run the producing script.",
+            call. = FALSE)
+    dt[[col]] <- sub("^fibroblast_like$", "basement_membrane", as.character(dt[[col]]))
+    dt
+}
+
+## Guard the other half of the same failure: a program that vanished during
+## filtering must never be plotted around silently.
+require_programs <- function(present, expected, panel) {
+    missing <- setdiff(expected, unique(as.character(present)))
+    if (length(missing))
+        stop(panel, " is missing program(s): ", paste(missing, collapse = ", "),
+             ". Refusing to plot a partial panel.")
+    invisible(TRUE)
+}
+
 fmt_p <- function(p) if (p < 1e-3) sprintf("P = %.1e", p) else sprintf("P = %.3f", p)
 
 ## Spearman rho annotation, e.g. "rho = 0.54, P = 4.4e-09"
