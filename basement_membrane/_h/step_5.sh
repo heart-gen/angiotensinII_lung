@@ -19,9 +19,7 @@ module list
 
 log_message "**** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
-## --denoise supplies the scVI-denoised AGTR1 for the direct AGTR1-vs-BM test.
-## Same table/model as pericyte_states/_h/03.agtr1_lenses.R: raw AGTR1 and the BM
-## panel share a depth confound, so the denoised lens is the discriminating one.
+
 Rscript ../_h/04.bm_state_stats.R \
         --bm-meta ./bm_metadata.tsv.gz \
         --state-meta ../../pericyte_states/_m/pericytes_states_metadata.tsv.gz \
