@@ -754,45 +754,117 @@ computed on that layer are therefore uninformative, which is why all claims here
 pericytes derive from healthy animals, so these data do not test the injury-associated pericyte
 loss or its losartan rescue. Source: `cross_species/_h/04.species_comparability.py`.
 
-### `figure_basement_membrane` — Pericytes deposit a selective vascular basement membrane
+### `figure_basement_membrane` — Pericytes build basement membrane, not interstitial collagen
 
 **Figure.** Lung pericytes selectively express a collagen-IV/nidogen basement-membrane (BM)
-module that is transcriptionally distinct from fibrillar extracellular matrix. All panels use
+module and, on the same units, sit below every fibroblast population for the fibril-forming
+interstitial collagens — a dissociation that is not explained by ambient RNA. All panels use
 donor × cell-type pseudobulk as the unit of analysis (*n* = 2,329 units, 22 cell types, 220
 healthy donors, ≥5 cells per unit); expression is log1p of the mean CP10K within each unit
 (back-transformed with `expm1` before averaging, so no Jensen bias is carried into the
-cross-cell-type comparison), standardized within dataset, and modeled as
-`expr_z ~ cell type + mean log10 total counts + (1|donor) + (1|study)` with Benjamini–Hochberg
-correction. **(A)** Dot heatmap of the 13 BM components across 22 cell types; fill is expression
-z-scored **within gene** (so cell types are comparable across genes of very different absolute
-abundance), dot size is the detection fraction. Genes are ordered by structural class (collagen
-IV, laminins, linkers/proteoglycans); pericytes are bolded on the axis. **(B)** Selectivity per
-gene: log₂ ratio of the pericyte marginal mean to the next-highest cell type, with the pericyte
-rank among 22 cell types printed at each bar. Pericytes rank **first** for *COL4A1* (log₂ 1.09),
-*COL4A2* (0.99), *COL18A1* (0.85), *LAMB1* (0.54), *NID1* (1.22) and *NID2* (0.34), but not for
-the laminin α-chains — *LAMA4* ranks 3rd (highest in alveolar fibroblasts), *LAMA5* 9th and
-*LAMA3* 17th (highest in AT1). *LAMA3* and *LAMA5* were **pre-specified** as negative controls
-and behave as predicted, confirming the metric is not simply tracking abundance. **(C)** The
-pre-specified primary endpoint, `BM − fibrillar` (mean of per-gene z across the BM panel minus
-the same across a 10-gene fibrillar panel). Because any multiplicative cell-size or
-capture-efficiency constant applies to both panels, it cancels in the difference; this
-distinguishes *selective BM deposition* from *generalized matrix richness*. Points are marginal
-means with 95% CI. Pericytes are strongly BM-shifted relative to every fibroblast population
-(peribronchial +2.16, *P* = 5.2 × 10⁻³⁰¹; adventitial +1.91, *P* = 1.3 × 10⁻²⁹¹; myofibroblast
-+1.78, *P* = 7.0 × 10⁻¹⁸²; alveolar +1.47, *P* = 8.6 × 10⁻²⁰¹) yet statistically
-**indistinguishable from capillary endothelium** (aerocyte +0.004, *P* = 0.93; general capillary
-−0.07, *P* = 0.098), with AT1 even further BM-shifted (−0.53, *P* = 2.8 × 10⁻³⁴) — i.e. BM
-deposition is a shared property of the barrier-forming cells that build the vascular and alveolar
-basement membranes. For this endpoint the study random-effect SD (0.130) did not exceed the
-residual SD (0.245) and no gene was flagged study-dominated. **(D)** Consequence for the pericyte
-state model: cluster × program relative enrichment, with the BM panel included as a sixth
-program; stars mark the winning program per cluster. Leiden clustering runs on the
-study-integrated `X_pca_harmony` embedding and is independent of the marker panels, so adding a
-panel cannot move the clusters — only their annotation. All three clusters previously labelled
-*fibroblast-like* (clusters 1, 3, 5; 4,200 cells, 36.0% of pericytes) become BM-dominant. In
-cluster 1 every one of the five original programs was **negatively** enriched (fibroblast-like
-−0.33, activated/migratory −0.57, inflammatory −0.62, synthetic/contractile −0.66,
-vascular-stabilizing −0.77) while BM scored +0.45, so the former label was a least-negative
+cross-cell-type comparison), standardized within dataset where noted, and modeled as
+`expr ~ cell type + mean log10 total counts + (1|donor) + (1|study)` with Benjamini–Hochberg
+correction. Genes are organised into four pre-registered blocks
+(`basement_membrane/_h/bm_panels.py`): **basement membrane** (13 genes), **fibrillar I/III**
+(*COL1A1*, *COL1A2*, *COL3A1* — the fibril-forming collagens that define a fibrotic matrix),
+**fibrillar V/XI** (*COL5A1/2/3*, *COL11A1/2* — low-abundance chains that nucleate fibrils and
+set their diameter, corroborating rather than independent evidence), and **ambient tracer**
+(*SFTPC*, *SFTPB*, *SCGB1A1*, *SCGB3A2*, *PTPRC* — off-lineage transcripts that measure each
+unit's ambient-RNA burden).
+
+**(A)** Dot heatmap across the four blocks; fill is expression z-scored **within gene** across all
+22 profiled cell types (so cell types are comparable across genes of very different absolute
+abundance), dot size is the detection fraction. The 12 cell types shown are the interpretable
+subset — pericytes, the mural neighbour, all five fibroblast classes, and the ambient-reference
+lineages; every statistic uses all 22. The block structure inverts: pericytes are the darkest row
+in the BM block and among the palest in the fibrillar I/III block, while the fibroblast classes do
+the reverse. **(B)** Selectivity per gene: log₂ ratio of the pericyte marginal mean to the
+next-highest cell type, with the pericyte rank among 22 cell types printed at each bar. Pericytes
+rank **first** for *COL4A1* (log₂ 1.09), *COL4A2* (0.99), *COL18A1* (0.85), *LAMB1* (0.54),
+*NID1* (1.22) and *NID2* (0.34), but not for the laminin α-chains — *LAMA4* ranks 3rd (highest in
+alveolar fibroblasts), *LAMA5* 9th and *LAMA3* 17th (highest in AT1). On the fibrillar side
+pericytes rank 6th–7th for *COL1A2*, *COL1A1* and *COL3A1* (all topped by peribronchial or
+subpleural fibroblasts) and **22nd of 22 for *COL11A1***. *LAMA3*/*LAMA5* (BM side) and *COL11A1*
+(fibrillar side) were **pre-specified negative controls** and all three behave as predicted,
+confirming the metric is not simply tracking abundance. The one fibrillar exception is *COL5A3*,
+for which pericytes rank first (log₂ 1.93, τ = 0.95). **(C)** Primary structural endpoint,
+`BM − fibrillar I/III` (mean of per-gene z across the BM panel minus the same across the three
+fibril-forming collagens). Because any multiplicative cell-size or capture-efficiency constant
+applies to both panels it cancels in the difference, which distinguishes *selective BM deposition*
+from *generalized matrix richness*. All 22 cell types are drawn, ordered by marginal mean; points
+are marginal means with 95% CI and contrast *P* values are BH-adjusted across the 21 pericyte
+contrasts. Pericytes are strongly BM-shifted relative to every fibroblast population (subpleural
++2.95, *P* = 5.6 × 10⁻¹²¹; peribronchial +2.56, *P* = 4.8 × 10⁻²⁸⁷; adventitial +2.38,
+*P* = 7.1 × 10⁻²⁹⁷; myofibroblast +2.24, *P* = 1.4 × 10⁻¹⁹⁰; alveolar +1.78, *P* = 9.4 × 10⁻¹⁹⁸)
+and to vascular smooth muscle (+1.12, *P* = 5.4 × 10⁻⁸⁴), and **indistinguishable from capillary
+endothelium** (aerocyte +0.09, *P* = 0.11; venous pulmonary −0.09, *P* = 0.11; general capillary
+−0.13, *P* = 0.015) — i.e. a BM-over-fibrillar bias is a shared property of the barrier-forming
+cells that build the vascular and alveolar basement membranes.
+
+**Pericytes are not the highest cell type on this axis, and the panel is not claiming that they
+are.** Three groups sit significantly above them — AT1 (−0.45, *P* = 4.6 × 10⁻¹⁸), venous systemic
+endothelium (−0.38, *P* = 7.5 × 10⁻¹²) and lymphatic endothelium (−0.31, *P* = 4.8 × 10⁻⁹) — which
+follows directly from (B), where AT1 carries the maxima for *LAMA3*, *LAMA5*, *LAMB2* and *AGRN*
+and contributes almost nothing to the fibrillar block. The endpoint ranks cells by how far matrix
+output is skewed **toward** BM and away from fibril-forming collagen; it is a bias measure, not a
+ranking of absolute BM production, and the comparison it is built to make is pericyte-versus-
+fibroblast. Read together with (B), the two panels say that pericytes are the top *stromal*
+producer of the core BM genes while behaving like the barrier epithelium and endothelium — not
+like fibroblasts — in the balance of BM against fibrillar collagen. Variance components for this
+endpoint are donor SD 0.152, study SD 0.141, residual SD 0.299, so it is not study-dominated. The
+frozen `BM − fibrillar` endpoint over the original 10-gene mixed panel is unchanged and reported in
+`bm_primary_endpoint_*.tsv`.
+
+**(D)** Collagen I heterotrimer stoichiometry, the positive evidence that the residual pericyte
+fibrillar signal is transcribed rather than transferred. Collagen I is an obligate α1(I)₂α2(I)₁
+heterotrimer, so a transcribing cell carries *COL1A1* and *COL1A2* together, and ambient
+contamination necessarily transfers the **source** cell's ratio. Points are per-unit values, with
+the marginal mean and 95% CI overlaid; the endpoint is the within-unit difference
+`COL1A1 − COL1A2`, so per-cell-type capture constants cancel exactly as in (C). Pericytes are the
+most *COL1A2*-skewed population in the lung (−1.48) and depart sharply from every fibroblast class
+(alveolar −0.80, *P* = 1.4 × 10⁻⁴³; adventitial −0.96, *P* = 4.2 × 10⁻⁵⁸; peribronchial −1.18,
+*P* = 8.5 × 10⁻⁷⁰; myofibroblast −1.27, *P* = 1.5 × 10⁻⁶³) and from the ambient-reference
+lineages (−1.37 to −1.47, all *P* < 10⁻⁶²), which sit near balance. No mixture of fibroblast and
+background transcripts can produce a ratio more extreme than either source, so this departure
+cannot be manufactured by soup. The study random-effect SD is 6.5 × 10⁻⁶ against a residual SD of
+0.31, so the result carries essentially no between-study component.
+
+**(E)** The two ambient controls behind that claim. *Left*: distance above the ambient floor —
+the pericyte-minus-ambient-reference contrast on log1p CP10K, where the reference is the
+co-dissociated non-collagen lineages (capillary/venous endothelium and alveolar/interstitial
+macrophages, which do not transcribe fibrillar collagen and therefore report the soup level).
+All five tracers sit at or below the floor (−0.017 to −0.37), confirming pericytes are not
+unusually soup-laden, while *COL1A2* (+1.73, *P* = 8.4 × 10⁻¹⁹⁸), *COL5A2* (+1.19), *COL5A3*
+(+1.11), *COL3A1* (+0.64), *COL5A1* (+0.46) and *COL1A1* (+0.25, *P* = 2.7 × 10⁻⁷) stand well
+above it; *COL11A1* and *COL11A2* do not (−0.016 and −0.014, both n.s.), so the type XI arm is
+**negative**. *Right*: whether the pericyte value tracks that donor's directly measured soup
+burden (mean z of the tracer panel within pericytes). Every fibrillar slope is null (all
+BH ≥ 0.45), as is the fibroblast-abundance term (`fib_frac`, all BH ≥ 0.077) — the two quantities
+ambient contamination must scale with. The donor's fibroblast **expression level** does predict
+pericyte values (e.g. *COL1A2* 1.23, BH = 1.9 × 10⁻⁶); that term is not ambient-specific, since a
+lung whose fibroblasts are matrix-active is a lung whose pericytes share the same milieu, and it
+is reported rather than interpreted as contamination. Note that the `soupX` layer in
+`pericyte_states.h5ad` is bit-identical to `counts` and carries no ambient correction, so it is
+not used anywhere. **(F)** Per-donor Spearman ρ of each program score against DPT pseudotime
+(69 donors with ≥20 pericytes; one-sample Wilcoxon on the donor ρ, BH-corrected within family;
+orange point is the median). The requested split changes the reading of the continuum: the BM
+score is flat (ρ = 0.025, *P* = 0.84) and the frozen mixed fibrillar panel rises
+(ρ = 0.040, BH = 0.014), but **the fibril-forming collagens themselves do not**
+(ρ = −0.020, BH = 0.60), nor does the `BM − fibrillar I/III` switch (ρ = −0.024, BH = 0.19); the
+V/XI chains fall (ρ = −0.062, BH = 0.0076). The rise carried by the frozen panel is therefore
+driven by its non-collagen members (*FN1*, *POSTN*, *LUM*, *DCN*, *FBN1*, *BGN*), not by a
+collagen I/III program. The ambient tracer declines steeply along the same axis
+(ρ = −0.196, BH = 3.6 × 10⁻¹⁰), which is itself a control: soup burden falls as pseudotime rises,
+so no fibrillar trend here can be an artefact of increasing contamination.
+
+**(G)** Consequence for the pericyte state model: cluster × program relative enrichment with the
+BM panel included as a sixth program; stars mark the winning program per cluster. Leiden
+clustering runs on the study-integrated `X_pca_harmony` embedding and is independent of the marker
+panels, so adding a panel cannot move the clusters — only their annotation. All three clusters
+previously labelled *fibroblast-like* (clusters 1, 3, 5; 4,200 cells, 36.0% of pericytes) become
+BM-dominant. In cluster 1 every one of the five original programs was **negatively** enriched
+(fibroblast-like −0.33, activated/migratory −0.57, inflammatory −0.62, synthetic/contractile
+−0.66, vascular-stabilizing −0.77) while BM scored +0.45, so the former label was a least-negative
 default rather than a positive identity. The reassignment survives removing *COL4A1* from the
 fibroblast-like panel, and the laminin and linker sub-panels each win independently.
 Source data: `basement_membrane/_m/stats_data/`, `basement_membrane/_m/state_gate_*.tsv`.
