@@ -105,9 +105,16 @@ def main():
     logging.info(f"Loaded {adata.n_obs} cells x {adata.n_vars} genes")
 
     score_cols = score_panels(adata, args.seed)
-    gene_df, present = per_gene_values(adata, bm_panels.BM_PANEL)
-    logging.info(f"Per-gene values for {len(present)}/{len(bm_panels.BM_PANEL)} "
-                 "BM genes")
+
+    # Per-gene values are emitted for every gene the downstream steps plot or
+    # model cell-by-cell, not just the BM panel. The fibrillar chains are needed
+    # for the COL1A1:COL1A2 stoichiometry test and the continuum panels, and the
+    # ambient tracers are needed for the within-donor ambient control in
+    # 08.fibrillar_ambient.R -- none of which can be recovered from panel scores.
+    per_gene = bm_panels.block_order()
+    gene_df, present = per_gene_values(adata, per_gene)
+    logging.info(f"Per-gene values for {len(present)}/{len(per_gene)} genes "
+                 "(BM + fibrillar core/minor + ambient tracers)")
 
     # Carry the keys the R steps join on. Everything else already lives in
     # pericytes_states_metadata.tsv.gz and is merged there, not duplicated here.
@@ -125,10 +132,13 @@ def main():
     meta.to_csv(out, sep="\t", index=False)
     logging.info(f"Wrote {out} ({meta.shape[0]} rows x {meta.shape[1]} cols)")
 
-    # Panel-level detection summary -- a fast read on which BM components
-    # pericytes express at all, before any cross-cell-type comparison.
+    # Per-gene detection summary -- a fast read on which matrix components
+    # pericytes express at all, before any cross-cell-type comparison. The
+    # ambient tracers are in here too and are the reference: a fibrillar gene
+    # sitting at tracer-level detection is soup, not transcription.
     det = pd.DataFrame({
         "gene": present,
+        "block": [bm_panels.gene_block(g) for g in present],
         "detect_frac": [gene_df[f"{g}_detect"].mean() for g in present],
         "mean_expr": [gene_df[f"{g}_expr"].mean() for g in present],
         "mean_expr_in_pos": [
@@ -137,7 +147,7 @@ def main():
     }).sort_values("detect_frac", ascending=False)
     det.to_csv(args.outdir / "bm_gene_detection_pericytes.tsv",
                sep="\t", index=False)
-    logging.info("Pericyte BM detection:\n" + det.to_string(index=False))
+    logging.info("Pericyte per-gene detection:\n" + det.to_string(index=False))
 
     session_info.show()
 

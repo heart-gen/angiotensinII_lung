@@ -54,5 +54,18 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+log_message "**** Ambient controls + collagen I stoichiometry ****"
+
+Rscript ../_h/08.fibrillar_ambient.R \
+        --pseudobulk ./bm_pseudobulk_celltype.tsv.gz \
+        --panels ./bm_panel_genes.tsv \
+        --outdir ./stats_data \
+        --min-cells 5
+
+if [ $? -ne 0 ]; then
+    log_message "Error: ambient-control step failed"
+    exit 1
+fi
+
 conda deactivate
 log_message "**** Job ends ****"

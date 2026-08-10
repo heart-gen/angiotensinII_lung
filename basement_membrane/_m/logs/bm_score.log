@@ -1,0 +1,68 @@
+2026-08-10 11:36:43 - **** Job starts ****
+2026-08-10 11:36:43 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 43300627
+Job name: bm_score
+Node name: 
+Hostname: r005
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-08-10 11:36:43 - **** Loading mamba environment ****
+2026-08-10 11:36:44 - **** Score basement-membrane programs on pericytes ****
+2026-08-10 11:40:05,847 [INFO] Loaded 11680 cells x 55329 genes
+2026-08-10 11:40:06,738 [INFO] [basement_membrane] scored 13/13 genes
+2026-08-10 11:40:06,938 [INFO] [bm_collagen_iv] scored 2/2 genes
+2026-08-10 11:40:07,133 [INFO] [bm_laminin] scored 6/6 genes
+2026-08-10 11:40:07,328 [INFO] [bm_linker] scored 5/5 genes
+2026-08-10 11:40:07,523 [INFO] [fibrillar_ecm] scored 10/10 genes
+2026-08-10 11:40:07,713 [INFO] [fibrillar_core] scored 3/3 genes
+2026-08-10 11:40:07,905 [INFO] [fibrillar_minor] scored 5/5 genes
+2026-08-10 11:40:08,100 [INFO] [ambient_tracer] scored 5/5 genes
+2026-08-10 11:40:08,297 [INFO] [fibroblast_like_noCOL4A1] scored 8/8 genes
+2026-08-10 11:40:08,693 [INFO] Per-gene values for 26/26 genes (BM + fibrillar core/minor + ambient tracers)
+2026-08-10 11:40:09,746 [INFO] Wrote bm_metadata.tsv.gz (11680 rows x 70 cols)
+2026-08-10 11:40:09,851 [INFO] Pericyte per-gene detection:
+   gene             block  detect_frac  mean_expr  mean_expr_in_pos
+ COL4A2 basement_membrane     0.810360   2.078623          2.565063
+ COL4A1 basement_membrane     0.793921   2.045492          2.576442
+  LAMB1 basement_membrane     0.596147   1.432570          2.403048
+ COL1A2    fibrillar_core     0.583562   1.416113          2.426673
+   NID1 basement_membrane     0.577055   1.346885          2.334068
+COL18A1 basement_membrane     0.526284   1.204858          2.289368
+ COL5A2   fibrillar_minor     0.354452   0.777050          2.192257
+  LAMA4 basement_membrane     0.312158   0.664511          2.128769
+ COL5A3   fibrillar_minor     0.270548   0.573743          2.120670
+ COL3A1    fibrillar_core     0.266182   0.619229          2.326341
+  SFTPC    ambient_tracer     0.253853   0.583144          2.297174
+  LAMC1 basement_membrane     0.222945   0.454944          2.040607
+SCGB1A1    ambient_tracer     0.191952   0.410940          2.140846
+ COL5A1   fibrillar_minor     0.148716   0.300458          2.020348
+ COL1A1    fibrillar_core     0.147260   0.324245          2.201853
+  LAMB2 basement_membrane     0.142723   0.287043          2.011194
+  SFTPB    ambient_tracer     0.141010   0.303402          2.151633
+  HSPG2 basement_membrane     0.139640   0.282870          2.025702
+   NID2 basement_membrane     0.097003   0.191948          1.978776
+   AGRN basement_membrane     0.069264   0.136862          1.975949
+  LAMA5 basement_membrane     0.066353   0.130910          1.972941
+SCGB3A2    ambient_tracer     0.057106   0.114532          2.005595
+  PTPRC    ambient_tracer     0.020719   0.041200          1.988509
+  LAMA3 basement_membrane     0.015839   0.029683          1.874044
+COL11A1   fibrillar_minor     0.001969   0.003531          1.793238
+COL11A2   fibrillar_minor     0.001627   0.003075          1.890196
+-----
+anndata             0.11.4
+bm_panels           NA
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-08-10 11:40
+2026-08-10 11:40:31 - **** Job ends ****
