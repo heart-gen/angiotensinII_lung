@@ -6,16 +6,6 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-## AGTR1 across pericyte programs through three dropout lenses (raw expression,
-## binary detectability, scVI-denoised). Feeds panel D of figure_pericyte_layer
-## and panel A of figureS_acta2_control.
-##
-## WHY THIS FILE EXISTS: 03.agtr1_lenses.R was the only script in this module not
-## wired into a step_*.sh. It was run by hand on 2026-06-17 and never again, so it
-## missed the 2026-07-21 basement-membrane relabel while every sibling table was
-## regenerated on 2026-07-24. Its output kept the dead `fibroblast_like` level,
-## the figure scripts filtered on `basement_membrane`, and panel D shipped with
-## 2 of 3 programs. Re-run this whenever state_program changes.
 #SBATCH --time=01:00:00
 #SBATCH --output=logs/agtr1_lenses.log
 
