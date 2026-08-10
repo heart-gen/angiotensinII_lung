@@ -1,14 +1,14 @@
-2026-08-10 08:59:17 - **** Job starts ****
+2026-08-10 11:40:45 - **** Job starts ****
 User: kbenjamin
-Job id: 43295643
-Hostname: r015
+Job id: 43300629
+Hostname: r267
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-08-10 08:59:18 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
+2026-08-10 11:40:46 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
 Merged 11680 cells
 Donor x cluster units (>=5 cells): 214 across 95 donors
 Variance: study SD 0.000 vs residual SD 0.907 -> ok
@@ -69,11 +69,24 @@ AGTR1 vs BM -- within-donor Spearman:
 2: 0.8092769
 3: 0.7865446
 Continuum trends (donor-level Spearman vs pseudotime):
-       metric n_donors  median_rho    p_wilcox       p_BH
-       <char>    <int>       <num>       <num>      <num>
-1:     rho_bm       69  0.02489331 0.843588688 0.84358869
-2:    rho_fib       69  0.03984448 0.009462871 0.01419431
-3: rho_switch       69 -0.05413687 0.008671071 0.01419431
+            metric n_donors  median_rho         q25         q75     p_wilcox
+            <char>    <int>       <num>       <num>       <num>        <num>
+1:          rho_bm       69  0.02489331 -0.09428571  0.07325194 8.435887e-01
+2:         rho_fib       69  0.03984448 -0.05181597  0.19521368 9.462871e-03
+3:        rho_core       69 -0.01969388 -0.11392496  0.08940533 6.029463e-01
+4:       rho_minor       69 -0.06214082 -0.17322558  0.04153083 3.805984e-03
+5:      rho_tracer       69 -0.19610390 -0.36420102 -0.06561584 9.100933e-11
+6:      rho_switch       69 -0.05413687 -0.16491383  0.06077189 8.671071e-03
+7: rho_switch_core       69 -0.02403192 -0.12546626  0.06084410 1.413396e-01
+   bh_family         p_BH
+      <char>        <num>
+1:  original 8.435887e-01
+2:  original 1.419431e-02
+3: expansion 6.029463e-01
+4: expansion 7.611967e-03
+5: expansion 3.640373e-10
+6:  original 1.419431e-02
+7: expansion 1.884528e-01
 BM pericyte axis -- generated summary
 Donor x cluster units (>=5 cells): 214; donors: 95
 Variance components: study SD 0.000, residual SD 0.907 -> ok
@@ -195,4 +208,4 @@ Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 08:59:29 - **** Job ends ****
+2026-08-10 11:41:32 - **** Job ends ****

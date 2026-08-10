@@ -1,13 +1,13 @@
-2026-08-10 09:07:23 - **** Job starts ****
-Job id: 43295873
+2026-08-10 13:02:15 - **** Job starts ****
+Job id: 43303192
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-08-10 09:07:24 - **** Export pericyte UMAP coords (scRNA_env) ****
-2026-08-10 09:10:21,998 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+2026-08-10 13:02:15 - **** Export pericyte UMAP coords (scRNA_env) ****
+2026-08-10 13:05:29,258 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
 -----
 pandas              2.3.2
 scanpy              1.11.4
@@ -16,8 +16,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-08-10 09:10
-2026-08-10 09:10:39 - **** Integrated pericyte-layer figure (main + supplement) ****
+Session information updated at 2026-08-10 13:05
+2026-08-10 13:05:59 - **** Integrated pericyte-layer figure (main + supplement) ****
 pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 - Session info ---------------------------------------------------------------
  setting  value
@@ -74,7 +74,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:01 - **** S3: pericyte-state stability + annotation ****
+2026-08-10 13:06:29 - **** S3: pericyte-state stability + annotation ****
 Wrote figureS_state_annotation to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -129,7 +129,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:09 - **** S4: AGTR1 dropout vs distinct population ****
+2026-08-10 13:06:36 - **** S4: AGTR1 dropout vs distinct population ****
 Wrote figureS_agtr1_dropout to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -189,7 +189,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:17 - **** S6: unsupervised CoGAPS validation of the programs ****
+2026-08-10 13:06:44 - **** S6: unsupervised CoGAPS validation of the programs ****
 Wrote figureS_cogaps_validation to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -245,7 +245,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:23 - **** S12: sensitivity / robustness ****
+2026-08-10 13:06:50 - **** S12: sensitivity / robustness ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -310,8 +310,8 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:35 - **** Basement-membrane figure + S10, S15 ****
-wrote figure_basement_membrane
+2026-08-10 13:06:59 - **** Basement-membrane figure + S10, S15 ****
+wrote figure_basement_membrane (7 panels)
 wrote figureS_ras_landscape
 wrote figureS_bm_copd
 - Session info ---------------------------------------------------------------
@@ -369,7 +369,7 @@ wrote figureS_bm_copd
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:42 - **** S7: pericyte continuum stability ****
+2026-08-10 13:07:10 - **** S7: pericyte continuum stability ****
 Wrote figureS_continuum_stability to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -424,7 +424,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:48 - **** S8: NicheNet specificity + donor validation ****
+2026-08-10 13:07:14 - **** S8: NicheNet specificity + donor validation ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -492,7 +492,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:11:54 - **** S9: receiver robustness + BM-restricted signaling ****
+2026-08-10 13:07:19 - **** S9: receiver robustness + BM-restricted signaling ****
 Warning messages:
 1: Removed 3 rows containing missing values or values outside the scale range
 (`geom_text()`). 
@@ -560,7 +560,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:12:01 - **** S11: discrete state composition by disease ****
+2026-08-10 13:07:25 - **** S11: discrete state composition by disease ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -622,7 +622,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:12:12 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+2026-08-10 13:07:34 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -734,7 +734,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 09:12:34 - **** Panel manifest ****
+2026-08-10 13:07:52 - **** Panel manifest ****
 Panels present: 22 / 22 
 Supplements present: 15 / 15 
 # A tibble: 22 x 4
@@ -751,4 +751,4 @@ Supplements present: 15 / 15
  9 Supp   "S2"        Agtr1a marks the mouse pericyte compartment         TRUE  
 10 Supp   "S3"        Stability and annotation of human lung pericyte st~ TRUE  
 # i 12 more rows
-2026-08-10 09:12:37 - **** Job ends ****
+2026-08-10 13:07:55 - **** Job ends ****

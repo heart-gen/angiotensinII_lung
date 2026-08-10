@@ -1,24 +1,33 @@
-gene	value_type	tau	n_groups	top_group	pericyte_rank	log2_pericyte_over_next	panel
-COL4A1	expr	0.871907614147395	22	Pericytes	1	1.0927463058967	basement_membrane
-COL4A2	expr	0.842327106808363	22	Pericytes	1	0.992146146568368	basement_membrane
-COL18A1	expr	0.838430320575686	22	Pericytes	1	0.84663005732005	basement_membrane
-LAMA3	expr	0.964501832677547	22	AT1	17	-6.22356933063727	basement_membrane
-LAMA4	expr	0.801640943938291	22	Alveolar fibroblasts	3	-0.93144737090471	basement_membrane
-LAMA5	expr	0.813813855787661	22	AT1	9	-2.77815053729361	basement_membrane
-LAMB1	expr	0.877866743771421	22	Pericytes	1	0.543324835207079	basement_membrane
-LAMB2	expr	0.551052826267748	22	AT1	13	-1.21348855940533	basement_membrane
-LAMC1	expr	0.767572909753676	22	Alveolar fibroblasts	8	-1.50360061746834	basement_membrane
-NID1	expr	0.891545523326121	22	Pericytes	1	1.21656362830684	basement_membrane
-NID2	expr	0.80303168886484	22	Pericytes	1	0.336871944631996	basement_membrane
-HSPG2	expr	0.794079821369469	22	EC venous pulmonary	10	-2.13887912415746	basement_membrane
-AGRN	expr	0.880629030937119	22	AT1	5	-2.31473464100176	basement_membrane
-COL1A1	expr	0.88775110076909	22	Subpleural fibroblasts	7	-5.07666351890123	fibrillar_ecm
-COL1A2	expr	0.828195295903095	22	Peribronchial fibroblasts	6	-1.3013681574066	fibrillar_ecm
-COL3A1	expr	0.845181248282147	22	Peribronchial fibroblasts	7	-3.06520244983109	fibrillar_ecm
-COL5A1	expr	0.838463466775104	22	Peribronchial fibroblasts	6	-1.91656329398193	fibrillar_ecm
-FN1	expr	0.81763251721122	22	Alveolar fibroblasts	11	-3.16779373531316	fibrillar_ecm
-POSTN	expr	0.929569107301481	22	EC venous systemic	9	-4.71210290381393	fibrillar_ecm
-LUM	expr	0.892056903185321	22	Peribronchial fibroblasts	6	-3.38738898305344	fibrillar_ecm
-DCN	expr	0.818775426492497	22	Adventitial fibroblasts	6	-1.531237521121	fibrillar_ecm
-FBN1	expr	0.871501748935507	22	Adventitial fibroblasts	7	-2.60713512313057	fibrillar_ecm
-BGN	expr	0.847499585806232	22	Pericytes	1	0.222343240887729	fibrillar_ecm
+gene	value_type	tau	n_groups	top_group	pericyte_rank	log2_pericyte_over_next	block	panel	is_bm_panel
+COL4A1	expr	0.871907614147395	22	Pericytes	1	1.0927463058967	basement_membrane	basement_membrane	TRUE
+COL4A2	expr	0.842327106808363	22	Pericytes	1	0.992146146568368	basement_membrane	basement_membrane	TRUE
+COL18A1	expr	0.838430320575686	22	Pericytes	1	0.84663005732005	basement_membrane	basement_membrane	TRUE
+LAMA3	expr	0.964501832677547	22	AT1	17	-6.22356933063727	basement_membrane	basement_membrane	TRUE
+LAMA4	expr	0.801640943938291	22	Alveolar fibroblasts	3	-0.93144737090471	basement_membrane	basement_membrane	TRUE
+LAMA5	expr	0.813813855787661	22	AT1	9	-2.77815053729361	basement_membrane	basement_membrane	TRUE
+LAMB1	expr	0.877866743771421	22	Pericytes	1	0.543324835207079	basement_membrane	basement_membrane	TRUE
+LAMB2	expr	0.551052826267748	22	AT1	13	-1.21348855940533	basement_membrane	basement_membrane	TRUE
+LAMC1	expr	0.767572909753676	22	Alveolar fibroblasts	8	-1.50360061746834	basement_membrane	basement_membrane	TRUE
+NID1	expr	0.891545523326121	22	Pericytes	1	1.21656362830684	basement_membrane	basement_membrane	TRUE
+NID2	expr	0.80303168886484	22	Pericytes	1	0.336871944631996	basement_membrane	basement_membrane	TRUE
+HSPG2	expr	0.794079821369469	22	EC venous pulmonary	10	-2.13887912415746	basement_membrane	basement_membrane	TRUE
+AGRN	expr	0.880629030937119	22	AT1	5	-2.31473464100176	basement_membrane	basement_membrane	TRUE
+COL1A1	expr	0.88775110076909	22	Subpleural fibroblasts	7	-5.07666351890123	fibrillar_core	fibrillar_core	FALSE
+COL1A2	expr	0.828195295903095	22	Peribronchial fibroblasts	6	-1.3013681574066	fibrillar_core	fibrillar_core	FALSE
+COL3A1	expr	0.845181248282147	22	Peribronchial fibroblasts	7	-3.06520244983109	fibrillar_core	fibrillar_core	FALSE
+COL5A1	expr	0.838463466775104	22	Peribronchial fibroblasts	6	-1.91656329398193	fibrillar_minor	fibrillar_minor	FALSE
+FN1	expr	0.81763251721122	22	Alveolar fibroblasts	11	-3.16779373531316	fibrillar_other	fibrillar_other	FALSE
+POSTN	expr	0.929569107301481	22	EC venous systemic	9	-4.71210290381393	fibrillar_other	fibrillar_other	FALSE
+LUM	expr	0.892056903185321	22	Peribronchial fibroblasts	6	-3.38738898305344	fibrillar_other	fibrillar_other	FALSE
+DCN	expr	0.818775426492497	22	Adventitial fibroblasts	6	-1.531237521121	fibrillar_other	fibrillar_other	FALSE
+FBN1	expr	0.871501748935507	22	Adventitial fibroblasts	7	-2.60713512313057	fibrillar_other	fibrillar_other	FALSE
+BGN	expr	0.847499585806232	22	Pericytes	1	0.222343240887729	fibrillar_other	fibrillar_other	FALSE
+COL5A2	expr	0.832186843760947	22	Peribronchial fibroblasts	3	-0.495625890937093	fibrillar_minor	fibrillar_minor	FALSE
+COL5A3	expr	0.950578975751656	22	Pericytes	1	1.88234773684306	fibrillar_minor	fibrillar_minor	FALSE
+COL11A1	expr	0.803299298428094	22	Myofibroblasts	22	-Inf	fibrillar_minor	fibrillar_minor	FALSE
+COL11A2	expr	0.854838791559941	22	Myofibroblasts	12	-3.77414630666053	fibrillar_minor	fibrillar_minor	FALSE
+SFTPC	expr	0.892411672834289	22	AT2_AGTR2undet	17	-4.03425801442299	ambient_tracer	ambient_tracer	FALSE
+SFTPB	expr	0.864789545137792	22	AT2_AGTR2undet	14	-5.00652563135176	ambient_tracer	ambient_tracer	FALSE
+SCGB1A1	expr	0.956762009640881	22	Transitional Club-AT2	17	-4.7363245138878	ambient_tracer	ambient_tracer	FALSE
+SCGB3A2	expr	0.965416361577651	22	Transitional Club-AT2	16	-6.3389217538873	ambient_tracer	ambient_tracer	FALSE
+PTPRC	expr	0.840053225025916	22	Non-classical monocytes	20	-5.31990869704194	ambient_tracer	ambient_tracer	FALSE

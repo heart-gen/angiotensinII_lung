@@ -76,6 +76,8 @@ z_within_dataset <- function(x, g) {
 ## ------------------------------------------- donor x cluster pseudobulk ----
 score_cols <- c("basement_membrane_score", "bm_collagen_iv_score",
                 "bm_laminin_score", "bm_linker_score", "fibrillar_ecm_score",
+                "fibrillar_core_score", "fibrillar_minor_score",
+                "ambient_tracer_score",
                 "fibroblast_like_noCOL4A1_score", "fibroblast_like_score")
 score_cols <- intersect(score_cols, names(d))
 
@@ -296,30 +298,59 @@ if (!is.na(opt$continuum) && file.exists(opt$continuum)) {
     setnames(cont, 1, "index")
     pt_col <- intersect(c("dpt_pseudotime", "pseudotime"), names(cont))
     if (length(pt_col)) {
-        dc <- merge(d[, .(index, donor_id, basement_membrane_score,
-                          fibrillar_ecm_score, log10_total_counts)],
+        ## Score columns carried onto the continuum. The first three metrics
+        ## below reproduce the published rho_bm / rho_fib / rho_switch exactly;
+        ## the 2026-08-10 additions resolve the fibrillar side into the
+        ## fibril-forming (I/III) and regulatory (V/XI) blocks and add the
+        ## ambient-tracer trend as a control -- if soup burden itself rises along
+        ## pseudotime, the fibrillar rise is confounded and cannot be claimed.
+        want <- c("basement_membrane_score", "fibrillar_ecm_score",
+                  "fibrillar_core_score", "fibrillar_minor_score",
+                  "ambient_tracer_score")
+        want <- intersect(want, names(d))
+        dc <- merge(d[, .SD, .SDcols = c("index", "donor_id",
+                                         "log10_total_counts", want)],
                     cont[, .SD, .SDcols = c("index", pt_col[1])], by = "index")
         setnames(dc, pt_col[1], "pt")
+
+        ## metric -> per-cell vector, so every rho is computed the same way.
+        metrics <- list(rho_bm = "basement_membrane_score",
+                        rho_fib = "fibrillar_ecm_score",
+                        rho_core = "fibrillar_core_score",
+                        rho_minor = "fibrillar_minor_score",
+                        rho_tracer = "ambient_tracer_score")
+        metrics <- metrics[vapply(metrics, `%in%`, logical(1), want)]
+        switches <- list(
+            rho_switch = c("basement_membrane_score", "fibrillar_ecm_score"),
+            rho_switch_core = c("basement_membrane_score", "fibrillar_core_score"))
+        switches <- switches[vapply(switches, function(p) all(p %in% want),
+                                    logical(1))]
+
         ## Per-donor Spearman, then a one-sample test on the donor rhos -- never
         ## pools cells across donors (the existing pseudotime-trend pattern).
-        donor_rho <- dc[, .(n = .N,
-                            rho_bm = suppressWarnings(
-                                cor(basement_membrane_score, pt, method = "spearman")),
-                            rho_fib = suppressWarnings(
-                                cor(fibrillar_ecm_score, pt, method = "spearman")),
-                            rho_switch = suppressWarnings(
-                                cor(basement_membrane_score - fibrillar_ecm_score,
-                                    pt, method = "spearman"))),
-                        by = donor_id][n >= 20]
+        spear <- function(x, pt) suppressWarnings(cor(x, pt, method = "spearman"))
+        donor_rho <- dc[, c(
+            .(n = .N),
+            lapply(metrics, function(cl) spear(get(cl), pt)),
+            lapply(switches, function(p) spear(get(p[1]) - get(p[2]), pt))),
+            by = donor_id][n >= 20]
         write_tsv_safe(donor_rho, file.path(opt$outdir, "bm_continuum_donor_rho.tsv"))
-        summ <- rbindlist(lapply(c("rho_bm", "rho_fib", "rho_switch"), function(cc) {
+
+        summ <- rbindlist(lapply(c(names(metrics), names(switches)), function(cc) {
             v <- donor_rho[[cc]]; v <- v[is.finite(v)]
             if (length(v) < 3) return(NULL)
             w <- suppressWarnings(wilcox.test(v))
             data.table(metric = cc, n_donors = length(v), median_rho = median(v),
+                       q25 = unname(quantile(v, 0.25)),
+                       q75 = unname(quantile(v, 0.75)),
                        p_wilcox = w$p.value)
         }), fill = TRUE)
-        summ[, p_BH := p.adjust(p_wilcox, method = "BH")]
+        ## BH over the three original metrics only, so the published adjusted
+        ## p-values do not move because the panel grew; the expansion metrics
+        ## are corrected as their own family.
+        orig <- c("rho_bm", "rho_fib", "rho_switch")
+        summ[, bh_family := fifelse(metric %in% orig, "original", "expansion")]
+        summ[, p_BH := p.adjust(p_wilcox, method = "BH"), by = bh_family]
         write_tsv_safe(summ, file.path(opt$outdir, "bm_continuum_summary.tsv"))
         message("Continuum trends (donor-level Spearman vs pseudotime):")
         print(summ)

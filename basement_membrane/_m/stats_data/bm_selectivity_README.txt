@@ -11,6 +11,7 @@ Variance components, primary endpoint (bm_minus_fibrillar):
 Pre-specified method sanity check:
   LAMA3/LAMA5 NOT pericyte-top3 (expected TRUE): TRUE
   fraction of mural-expected genes in pericyte top-5: 0.80
+  COL11A1 NOT pericyte-top5 (expected TRUE): TRUE
 
 Per-gene tau / pericyte rank (BM panel):
        gene       tau            top_group pericyte_rank
@@ -43,3 +44,25 @@ Per-gene tau / pericyte rank (BM panel):
 11:              -2.1388791
 12:              -1.2134886
 13:              -6.2235693
+
+Per-gene tau / pericyte rank (fibrillar core + minor):
+      gene           block       tau                 top_group pericyte_rank
+    <char>          <char>     <num>                    <fctr>         <int>
+1:  COL5A3 fibrillar_minor 0.9505790                 Pericytes             1
+2:  COL5A2 fibrillar_minor 0.8321868 Peribronchial fibroblasts             3
+3:  COL1A2  fibrillar_core 0.8281953 Peribronchial fibroblasts             6
+4:  COL5A1 fibrillar_minor 0.8384635 Peribronchial fibroblasts             6
+5:  COL1A1  fibrillar_core 0.8877511    Subpleural fibroblasts             7
+6:  COL3A1  fibrillar_core 0.8451812 Peribronchial fibroblasts             7
+7: COL11A2 fibrillar_minor 0.8548388            Myofibroblasts            12
+8: COL11A1 fibrillar_minor 0.8032993            Myofibroblasts            22
+   log2_pericyte_over_next
+                     <num>
+1:               1.8823477
+2:              -0.4956259
+3:              -1.3013682
+4:              -1.9165633
+5:              -5.0766635
+6:              -3.0652024
+7:              -3.7741463
+8:                    -Inf

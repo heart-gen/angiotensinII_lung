@@ -4,6 +4,16 @@
 ## BM axis separates from fibrillar ECM, and the state-model consequence.
 ## Supplements: the local RAS landscape, and the COPD contrast with its power bound.
 ## No in-panel titles; interpretation belongs in the caption.
+##
+## 2026-08-10 revision (collaborator request). The main figure now separates
+## basement-membrane matrix from fibril-forming interstitial collagen explicitly:
+## the dot plot is blocked into BM / fibrillar I-III / fibrillar V-XI / ambient
+## tracer, the endpoint panel contrasts BM against the fibril-forming collagens
+## rather than the mixed fibrillar panel, and two new panels carry the question
+## the split raises -- is the residual pericyte fibrillar signal transcribed
+## (collagen I stoichiometry, panel D) and is it above soup (ambient controls,
+## panel E). Grew from 4 panels to 7; the role palette is new and shared by
+## panels C-E.
 
 suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(tidyr)
@@ -21,25 +31,72 @@ BM_M <- P("basement_membrane", "_m")
 AGT_M <- P("agt_axis", "_m")
 rd <- function(f) if (file.exists(f)) fread(f) else NULL
 
-## Gene order: structural grouping, so the reader sees collagen IV / laminins /
-## linkers as blocks rather than an alphabetical jumble.
-GENE_ORDER <- c("COL4A1", "COL4A2", "COL18A1",
-                "LAMA3", "LAMA4", "LAMA5", "LAMB1", "LAMB2", "LAMC1",
-                "NID1", "NID2", "HSPG2", "AGRN")
+## ---------------------------------------------------------------- vocabulary ----
+## Gene display blocks come from basement_membrane/_m/bm_panel_genes.tsv (written
+## by bm_panels.py), so the figure never re-declares which gene is which -- the
+## 2026-08-10 revision exists precisely because COL4A1 had been living in a
+## fibrillar panel, and a second hard-coded copy here would invite the same bug.
+panel_tbl <- rd(file.path(BM_M, "bm_panel_genes.tsv"))
+if (is.null(panel_tbl))
+    stop("bm_panel_genes.tsv missing; run basement_membrane step_0 first")
+BLOCK_LEVELS <- c("basement_membrane", "fibrillar_core", "fibrillar_minor",
+                  "ambient_tracer")
+blk <- unique(panel_tbl[, .(gene, block, block_index)])[order(block_index)]
+## `fibrillar_other` -- FN1/POSTN/LUM/DCN/FBN1/BGN, the non-collagen members of
+## the frozen fibrillar_ecm panel -- is deliberately NOT displayed. Those genes
+## still drive the frozen score, but the collaborator's question is specifically
+## about collagen, and showing them would put a fifth unlabelled block on the
+## dot plot without adding evidence about fibril formation.
+blk <- blk[block %in% BLOCK_LEVELS]
+GENE_ORDER <- blk$gene
+BLOCK_OF <- setNames(blk$block, blk$gene)
 
-## ======================= A: BM gene x cell-type dot plot ==================
+BLOCK_LABS <- c(basement_membrane = "Basement membrane",
+                fibrillar_core    = "Fibrillar I/III",
+                fibrillar_minor   = "Fibrillar V/XI",
+                ambient_tracer    = "Ambient tracer")
+BLOCK_COL <- c(basement_membrane = "#0072B2", fibrillar_core = "#D55E00",
+               fibrillar_minor = "#E69F00", ambient_tracer = "#999999")
+blk_factor <- function(x) factor(x, levels = BLOCK_LEVELS, labels = BLOCK_LABS)
+
+## Cell-type roles. Mirrors the definition in basement_membrane/_h/08.fibrillar_ambient.R;
+## panels that read that script's outputs take `role` from the data, and only the
+## panels fed by other scripts derive it here.
+AMBIENT_REFERENCE <- c("EC general capillary", "EC aerocyte capillary",
+                       "EC venous pulmonary", "EC venous systemic",
+                       "Alveolar macrophages", "Interstitial macrophages")
+role_of <- function(g) fifelse(
+    g == "Pericytes", "Pericytes",
+    fifelse(grepl("fibroblast|Myofibro", g, ignore.case = TRUE), "Fibroblasts",
+    fifelse(g %in% AMBIENT_REFERENCE, "Ambient reference", "Other")))
+ROLE_LEVELS <- c("Pericytes", "Fibroblasts", "Ambient reference", "Other")
+ROLE_COL <- c(Pericytes = "#009E73", Fibroblasts = "#CC79A7",
+              `Ambient reference` = "#999999", Other = "grey80")
+role_factor <- function(x) factor(x, levels = ROLE_LEVELS)
+
+## Cell types shown in the dot plot. The full 22-group profile drives every
+## statistic; the panel shows the interpretable subset -- pericytes, the mural
+## neighbour, every fibroblast class, and the ambient-reference lineages -- so the
+## block inversion is legible instead of being buried in 22 columns of immune cells.
+FOCUS_GROUPS <- c("Pericytes", "Vascular smooth muscle",
+                  "Adventitial fibroblasts", "Alveolar fibroblasts",
+                  "Peribronchial fibroblasts", "Myofibroblasts",
+                  "Subpleural fibroblasts",
+                  "EC general capillary", "EC aerocyte capillary",
+                  "Alveolar macrophages", "AT2_AGTR2det", "AT1")
+
+## ============ A: matrix-block x cell-type dot plot (the inversion) ==========
 prof <- rd(file.path(BM_M, "stats_data", "bm_celltype_profile.tsv"))
 pbk <- rd(file.path(BM_M, "bm_pseudobulk_celltype.tsv.gz"))
 pA <- NULL
 if (!is.null(prof)) {
     d <- prof[gene %in% GENE_ORDER & value_type == "expr"]
-    ## z within gene so cell types are comparable across genes of very different
-    ## absolute abundance; dot size carries the detection fraction, which lives in
-    ## the pseudobulk table rather than the emmeans profile.
+    ## z within gene across ALL profiled cell types, then subset for display, so
+    ## the colour scale reports each gene's position in the whole lung rather
+    ## than within the curated subset.
     d[, z := (emmean - mean(emmean)) / (sd(emmean) + 1e-9), by = gene]
     if (!is.null(pbk)) {
-        dcols <- paste0(GENE_ORDER, "__detect")
-        dcols <- intersect(dcols, names(pbk))
+        dcols <- intersect(paste0(GENE_ORDER, "__detect"), names(pbk))
         det <- pbk[n_cells >= 5, lapply(.SD, mean, na.rm = TRUE),
                    by = ccc_group, .SDcols = dcols]
         det <- melt(det, id.vars = "ccc_group", variable.name = "gene",
@@ -49,69 +106,217 @@ if (!is.null(prof)) {
     } else {
         d[, detect := 0.5]
     }
-    d[, gene := factor(gene, levels = rev(GENE_ORDER))]
-    ord <- d[, .(m = mean(z)), by = ccc_group][order(-m), ccc_group]
-    d[, ccc_group := factor(ccc_group, levels = ord)]
-    pA <- ggplot(d, aes(ccc_group, gene)) +
+    d <- d[ccc_group %in% FOCUS_GROUPS]
+    d[, gene := factor(gene, levels = GENE_ORDER)]
+    d[, block := blk_factor(BLOCK_OF[as.character(gene)])]
+    ## Fixed semantic row order, shared with panels C-E, so the reader can carry
+    ## one mental ordering across the figure.
+    d[, ccc_group := factor(ccc_group, levels = rev(FOCUS_GROUPS))]
+    pA <- ggplot(d, aes(gene, ccc_group)) +
         geom_point(aes(size = detect, fill = z), shape = 21, stroke = 0.15,
                    colour = "grey30") +
+        facet_grid(. ~ block, scales = "free_x", space = "free_x") +
         scale_fill_gradient2(low = "#3B4CC0", mid = "white", high = "#B40426",
                              midpoint = 0, name = "Expression\n(z within gene)") +
-        scale_size_continuous(range = c(0.3, 3.4), name = "Detected\nfraction") +
+        scale_size_continuous(range = c(0.3, 3.4), name = "Detected\nfraction",
+                              limits = c(0, 1)) +
         labs(x = NULL, y = NULL) +
         theme_ms(7) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
-              legend.position = "right", legend.key.size = unit(0.3, "cm"))
+              legend.position = "right", legend.key.size = unit(0.3, "cm"),
+              panel.spacing.x = unit(0.18, "cm"),
+              strip.text = element_text(face = "bold", size = 6.5))
 }
 
-## ============ B: selectivity forest, pericyte vs next-highest =============
+## ============ B: selectivity, pericyte vs next-highest cell type ============
 tau <- rd(file.path(BM_M, "stats_data", "bm_tau_specificity.tsv"))
 pB <- NULL
 if (!is.null(tau)) {
-    d <- tau[value_type == "expr" & gene %in% GENE_ORDER]
+    ## Tracers are excluded here: they are off-lineage by construction, so their
+    ## ratios are uninformative and would compress the axis. They carry the
+    ## ambient argument in panel E instead.
+    d <- tau[value_type == "expr" & gene %in% GENE_ORDER &
+             BLOCK_OF[gene] != "ambient_tracer"]
     setorder(d, log2_pericyte_over_next)
     d[, gene := factor(gene, levels = d$gene)]
-    d[, enriched := log2_pericyte_over_next > 0]
-    pB <- ggplot(d, aes(log2_pericyte_over_next, gene, fill = enriched)) +
+    d[, block := blk_factor(BLOCK_OF[as.character(gene)])]
+    pB <- ggplot(d, aes(log2_pericyte_over_next, gene, fill = block)) +
         geom_col(width = 0.7, colour = "grey30", linewidth = 0.15) +
         geom_vline(xintercept = 0, linewidth = 0.3) +
         geom_text(aes(label = sprintf("#%d", pericyte_rank),
-                      hjust = ifelse(enriched, -0.25, 1.25)), size = 2.1) +
-        scale_fill_manual(values = c(`TRUE` = OKABE[1], `FALSE` = "grey75"),
-                          guide = "none") +
+                      hjust = ifelse(log2_pericyte_over_next > 0, -0.25, 1.25)),
+                  size = 2.1) +
+        ## drop = TRUE: the tracer genes are excluded from this panel, so their
+        ## key would advertise evidence the panel does not contain.
+        scale_fill_manual(values = setNames(BLOCK_COL[BLOCK_LEVELS],
+                                            BLOCK_LABS[BLOCK_LEVELS]),
+                          name = NULL, drop = TRUE) +
+        guides(fill = guide_legend(title = NULL)) +
         scale_x_continuous(expand = expansion(mult = 0.18)) +
         labs(x = expression(log[2]~"(pericyte / next-highest cell type)"), y = NULL) +
-        theme_ms(7)
-}
-
-## ======= C: primary endpoint, BM-vs-fibrillar shift by cell type ==========
-pe <- rd(file.path(BM_M, "stats_data", "bm_primary_endpoint_emmeans.tsv"))
-pC <- NULL
-if (!is.null(pe)) {
-    d <- as.data.table(pe)
-    setorder(d, emmean)
-    d[, ccc_group := factor(ccc_group, levels = d$ccc_group)]
-    d[, grp := fifelse(ccc_group == "Pericytes", "Pericytes",
-               fifelse(grepl("fibroblast|Myofibro", ccc_group, ignore.case = TRUE),
-                       "Fibroblasts",
-               fifelse(grepl("^EC |Lymphatic", ccc_group), "Endothelium", "Other")))]
-    pC <- ggplot(d, aes(emmean, ccc_group, colour = grp)) +
-        geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey50") +
-        geom_errorbar(aes(xmin = lower.CL, xmax = upper.CL), width = 0, orientation = "y",
-                       linewidth = 0.4) +
-        geom_point(size = 1.5) +
-        scale_colour_manual(values = c(Pericytes = OKABE[4], Fibroblasts = OKABE[2],
-                                       Endothelium = OKABE[1], Other = "grey60"),
-                            name = NULL) +
-        labs(x = "BM - fibrillar score (panel z difference)", y = NULL) +
         theme_ms(7) +
         theme(legend.position = "right", legend.key.size = unit(0.3, "cm"))
 }
 
-## ============= D: the state-model consequence (the gate result) ===========
-gate <- rd(file.path(BM_M, "state_gate_relenrich.tsv"))
-ct <- rd(file.path(BM_M, "state_gate_crosstab.tsv"))
+## ====== C: BM minus fibril-forming collagen, by cell type (the endpoint) =====
+## The frozen `fibrillar_ecm` endpoint mixes collagens with proteoglycans and so
+## answers "is this cell fibroblast-like"; the block endpoint asks the narrower
+## question the revision is about -- does this cell build interstitial fibrils.
+blkend <- rd(file.path(BM_M, "stats_data", "bm_block_endpoint_emmeans.tsv"))
+pe <- rd(file.path(BM_M, "stats_data", "bm_primary_endpoint_emmeans.tsv"))
+pC <- NULL
+d <- NULL
+if (!is.null(blkend) && "endpoint" %in% names(blkend) &&
+    any(blkend$endpoint == "bm_minus_fibrillar_core")) {
+    d <- as.data.table(blkend)[endpoint == "bm_minus_fibrillar_core"]
+    xlab_C <- "BM - fibrillar I/III score (panel z difference)"
+} else if (!is.null(pe)) {
+    ## Falls back to the frozen endpoint if step_2 has not been re-run yet.
+    d <- as.data.table(pe)
+    xlab_C <- "BM - fibrillar score (panel z difference)"
+}
+if (!is.null(d)) {
+    setorder(d, emmean)
+    d[, ccc_group := factor(ccc_group, levels = d$ccc_group)]
+    d[, role := role_factor(role_of(as.character(ccc_group)))]
+    pC <- ggplot(d, aes(emmean, ccc_group, colour = role)) +
+        geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey50") +
+        geom_errorbar(aes(xmin = lower.CL, xmax = upper.CL), width = 0,
+                      orientation = "y", linewidth = 0.4) +
+        geom_point(size = 1.5) +
+        scale_colour_manual(values = ROLE_COL, name = NULL, drop = FALSE) +
+        labs(x = xlab_C, y = NULL) +
+        theme_ms(7) +
+        theme(legend.position = "right", legend.key.size = unit(0.3, "cm"))
+}
+
+## ======= D: collagen I heterotrimer stoichiometry (COL1A1 vs COL1A2) ========
+## Collagen I is alpha1(I)2 alpha2(I)1. Ambient transfer preserves the source
+## cell's ratio, so a pericyte-specific departure from the fibroblast ratio is
+## evidence that the signal is transcribed -- and transcribed incompletely.
+st_emm <- rd(file.path(BM_M, "stats_data", "fibrillar_stoichiometry_emmeans.tsv"))
+st_don <- rd(file.path(BM_M, "stats_data", "fibrillar_stoichiometry_donor.tsv"))
 pD <- NULL
+if (!is.null(st_emm) && nrow(st_emm)) {
+    e <- as.data.table(st_emm)
+    e[, role := role_factor(if ("role" %in% names(e)) role else
+                            role_of(as.character(ccc_group)))]
+    setorder(e, emmean)
+    lev <- as.character(e$ccc_group)
+    e[, ccc_group := factor(ccc_group, levels = lev)]
+    pD <- ggplot(e, aes(emmean, ccc_group, colour = role))
+    if (!is.null(st_don) && nrow(st_don)) {
+        dd <- as.data.table(st_don)[ccc_group %in% lev]
+        dd[, ccc_group := factor(ccc_group, levels = lev)]
+        dd[, role := role_factor(role)]
+        pD <- pD + geom_point(data = dd, aes(stoich, ccc_group), size = 0.35,
+                              alpha = 0.28, stroke = 0,
+                              position = position_jitter(height = 0.18, width = 0))
+    }
+    pD <- pD +
+        geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey40") +
+        geom_errorbar(aes(xmin = lower.CL, xmax = upper.CL), width = 0,
+                      orientation = "y", linewidth = 0.45) +
+        geom_point(size = 1.7) +
+        annotate("text", x = 0, y = length(lev) + 0.75, label = "balanced",
+                 size = 1.9, colour = "grey40", vjust = 0) +
+        scale_colour_manual(values = ROLE_COL, name = NULL, drop = FALSE) +
+        scale_y_discrete(expand = expansion(add = c(0.6, 1.4))) +
+        labs(x = "COL1A1 - COL1A2 within unit (log1p CP10K)", y = NULL) +
+        theme_ms(7) +
+        theme(legend.position = "right", legend.key.size = unit(0.3, "cm"))
+}
+
+## ================== E: ambient controls, two independent tests ==============
+## Left facet: how far each gene sits above the co-dissociated non-collagen
+## lineages (the soup floor). Right facet: whether the pericyte value tracks that
+## donor's measured soup burden, which is what ambient contamination requires.
+## The tracer genes calibrate both: they are pure soup, so they mark where a
+## contaminated gene should land.
+flr <- rd(file.path(BM_M, "stats_data", "fibrillar_ambient_floor.tsv"))
+areg <- rd(file.path(BM_M, "stats_data", "fibrillar_ambient_regression.tsv"))
+pE <- NULL
+if (!is.null(flr) && nrow(flr)) {
+    f <- as.data.table(flr)[value_type == "expr"]
+    f <- if ("is_pericyte_contrast" %in% names(f)) f[is_pericyte_contrast == TRUE] else
+        f[grepl("Pericytes", contrast)]
+    f <- f[block %in% c("fibrillar_core", "fibrillar_minor", "ambient_tracer")]
+    f <- f[, .(gene, block, estimate, lo = estimate - 1.96 * SE,
+               hi = estimate + 1.96 * SE,
+               facet = "Above ambient floor\n(pericyte - EC/macrophage)")]
+    parts <- list(f)
+    if (!is.null(areg) && nrow(areg)) {
+        a <- as.data.table(areg)[term == "soup_burden"]
+        if (nrow(a))
+            parts <- c(parts, list(a[, .(gene, block, estimate,
+                                         lo = estimate - 1.96 * SE,
+                                         hi = estimate + 1.96 * SE,
+                                         facet = "Tracks donor soup burden\n(slope)")]))
+    }
+    g <- rbindlist(parts, fill = TRUE)
+    ## One gene order across both facets, set by the floor gap: the reader should
+    ## be able to run a finger horizontally from "high above floor" to "does not
+    ## track soup" without re-reading the axis.
+    ord <- f[order(estimate), gene]
+    g[, gene := factor(gene, levels = ord)]
+    g[, block := blk_factor(block)]
+    g <- g[!is.na(gene)]
+    pE <- ggplot(g, aes(estimate, gene, colour = block)) +
+        geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey50") +
+        geom_errorbar(aes(xmin = lo, xmax = hi), width = 0, orientation = "y",
+                      linewidth = 0.4) +
+        geom_point(size = 1.5) +
+        facet_wrap(~ facet, scales = "free_x") +
+        ## drop = TRUE here, unlike panels A/B: no basement-membrane gene appears
+        ## in this panel, and keeping the level would render a BM key for a panel
+        ## that carries no BM evidence.
+        scale_colour_manual(values = setNames(BLOCK_COL[BLOCK_LEVELS],
+                                              BLOCK_LABS[BLOCK_LEVELS]),
+                            name = NULL, drop = TRUE) +
+        guides(colour = guide_legend(title = NULL)) +
+        labs(x = "Estimate (log1p CP10K)", y = NULL) +
+        theme_ms(7) +
+        theme(legend.position = "right", legend.key.size = unit(0.3, "cm"),
+              strip.text = element_text(size = 6.2))
+}
+
+## ================ F: the two matrix programs along the continuum ============
+crho <- rd(file.path(BM_M, "stats_data", "bm_continuum_donor_rho.tsv"))
+csum <- rd(file.path(BM_M, "stats_data", "bm_continuum_summary.tsv"))
+pF <- NULL
+if (!is.null(crho) && nrow(crho)) {
+    METRIC_LABS <- c(rho_bm = "Basement\nmembrane", rho_core = "Fibrillar\nI/III",
+                     rho_minor = "Fibrillar\nV/XI",
+                     rho_switch_core = "BM - fibrillar\n(switch)",
+                     rho_tracer = "Ambient\ntracer")
+    mm <- intersect(names(METRIC_LABS), names(crho))
+    d <- melt(as.data.table(crho), id.vars = "donor_id", measure.vars = mm,
+              variable.name = "metric", value.name = "rho")[is.finite(rho)]
+    d[, metric := factor(metric, levels = mm, labels = METRIC_LABS[mm])]
+    med <- d[, .(rho = median(rho)), by = metric]
+    pF <- ggplot(d, aes(metric, rho)) +
+        geom_hline(yintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey50") +
+        geom_violin(fill = "grey92", colour = NA, width = 0.85) +
+        geom_jitter(width = 0.13, height = 0, size = 0.3, alpha = 0.35, stroke = 0) +
+        geom_point(data = med, size = 1.9, colour = "#D55E00") +
+        labs(x = NULL, y = expression("Per-donor Spearman"~rho~"vs pseudotime")) +
+        theme_ms(7)
+    ## BH stars from the donor-level Wilcoxon, placed above each violin.
+    if (!is.null(csum) && "p_BH" %in% names(csum)) {
+        s <- as.data.table(csum)[metric %in% mm]
+        s[, lab := fifelse(p_BH < 0.001, "***",
+                   fifelse(p_BH < 0.01, "**",
+                   fifelse(p_BH < 0.05, "*", "n.s.")))]
+        s[, metric := factor(metric, levels = mm, labels = METRIC_LABS[mm])]
+        s[, y := max(d$rho, na.rm = TRUE) * 1.06]
+        pF <- pF + geom_text(data = s, aes(metric, y, label = lab), size = 2.2,
+                             inherit.aes = FALSE)
+    }
+}
+
+## ============= G: the state-model consequence (the gate result) =============
+gate <- rd(file.path(BM_M, "state_gate_relenrich.tsv"))
+pG <- NULL
 if (!is.null(gate)) {
     d <- melt(gate, id.vars = "pericyte_state", variable.name = "program",
               value.name = "relenrich")
@@ -123,7 +328,7 @@ if (!is.null(gate)) {
     d[, pericyte_state := factor(pericyte_state)]
     ## Mark the winning program per cluster under the 6-panel model.
     win <- d[, .SD[which.max(relenrich)], by = pericyte_state]
-    pD <- ggplot(d, aes(program, pericyte_state, fill = relenrich)) +
+    pG <- ggplot(d, aes(program, pericyte_state, fill = relenrich)) +
         geom_tile(colour = "white", linewidth = 0.4) +
         geom_point(data = win, shape = 8, size = 1.4, colour = "black") +
         scale_fill_gradient2(low = "#3B4CC0", mid = "white", high = "#B40426",
@@ -136,12 +341,34 @@ if (!is.null(gate)) {
               panel.grid = element_blank())
 }
 
-panels <- Filter(Negate(is.null), list(tag(pA, "A"), tag(pB, "B"),
-                                       tag(pC, "C"), tag(pD, "D")))
-if (length(panels)) {
-    fig <- wrap_plots(panels, ncol = 2, widths = c(1.15, 1))
-    save_fig("figure_basement_membrane", fig, 11, 8.5)
-    message("wrote figure_basement_membrane")
+## ------------------------------------------------------------- assemble ----
+## Narrative order: what the compartment makes (A), how selectively (B), the
+## endpoint that survives capture confounding (C), the stoichiometric evidence
+## that the fibrillar residue is transcribed (D), the ambient controls behind
+## that claim (E), the behaviour along the continuum (F), and the consequence for
+## the state model (G). A spans the width because the block inversion is the
+## figure's single most important read.
+have <- !vapply(list(pA, pB, pC, pD, pE, pF, pG), is.null, logical(1))
+if (any(have)) {
+    labs_all <- LETTERS[1:7]
+    plots <- Filter(Negate(is.null), list(pA, pB, pC, pD, pE, pF, pG))
+    plots <- Map(tag, plots, labs_all[have])
+    if (all(have)) {
+        design <- "AA
+                   BC
+                   DE
+                   FG"
+        fig <- wrap_plots(plots, design = design, heights = c(1.15, 1.25, 1, 0.95))
+        save_fig("figure_basement_membrane", fig, 11, 13.5)
+    } else {
+        ## Partial run (an upstream step has not landed yet): keep it renderable
+        ## rather than failing, but the layout above is the publication one.
+        warning("only ", sum(have), "/7 panels available; emitting a fallback grid",
+                call. = FALSE)
+        fig <- wrap_plots(plots, ncol = 2)
+        save_fig("figure_basement_membrane", fig, 11, 3.4 * ceiling(sum(have) / 2))
+    }
+    message("wrote figure_basement_membrane (", sum(have), " panels)")
 }
 
 ## ================== Supplement: local RAS landscape =======================

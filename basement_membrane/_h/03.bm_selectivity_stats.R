@@ -22,6 +22,12 @@
 ## and a gene whose study SD exceeds its residual SD is flagged `study_dominated`
 ## and must not carry a claim -- the diagnostic that collapsed the earlier
 ## "injury states expand in fibrosis" result.
+##
+## 2026-08-10. The fibrillar side was resolved into fibril-forming (I/III) and
+## regulatory (V/XI) blocks, and the ambient tracers joined the per-gene models.
+## Two things are deliberately held fixed so nothing already published moves:
+## the frozen `fibrillar_ecm` primary endpoint, and the BH families (see
+## `bh_family` below). The ambient controls proper live in 08.fibrillar_ambient.R.
 
 suppressPackageStartupMessages({
     library(optparse)
@@ -41,6 +47,9 @@ REF_GROUP <- "Pericytes"
 ## recover this layout, the method is wrong, not the biology.
 EXPECT_NOT_SELECTIVE <- c("LAMA3", "LAMA5")
 EXPECT_MURAL <- c("LAMA4", "COL4A1", "COL4A2", "HSPG2", "NID1")
+## Mirror of the above on the fibrillar side; keep in step with
+## bm_panels.EXPECTED_NOT_PERICYTE_FIBRILLAR.
+EXPECT_NOT_PERICYTE_FIBRILLAR <- c("COL11A1")
 
 opt <- parse_args(OptionParser(option_list = list(
     make_option("--pseudobulk", type = "character"),
@@ -66,6 +75,30 @@ pb <- fread(opt$pseudobulk)
 panels <- fread(opt$panels)
 bm_genes <- panels[panel == "basement_membrane", unique(gene)]
 fib_genes <- panels[panel == "fibrillar_ecm", unique(gene)]
+
+## 2026-08-10 expansion. `fibrillar_ecm` stays the FROZEN primary contrast so the
+## published bm_minus_fibrillar numbers do not move; the two structural blocks are
+## fitted alongside it as secondary endpoints, and the ambient tracers are carried
+## through the per-gene models purely to give 08.fibrillar_ambient.R and the figure
+## an on-the-same-scale soup reference.
+core_genes <- panels[panel == "fibrillar_core", unique(gene)]
+minor_genes <- panels[panel == "fibrillar_minor", unique(gene)]
+tracer_genes <- panels[panel == "ambient_tracer", unique(gene)]
+
+## Gene -> display block, constant per gene (bm_panels.gene_block).
+block_map <- unique(panels[, .(gene, block)])
+if (anyDuplicated(block_map$gene))
+    stop("bm_panel_genes.tsv assigns >1 block to a gene; regenerate it with ",
+         "00.bm_score.py from the current bm_panels.py")
+
+## BH families are PRE-SPECIFIED and frozen at their original membership. If the
+## expansion genes joined the original family, every published per-gene p_BH in
+## bm_selectivity_emmeans.tsv would shift purely because the panel grew -- a
+## silent revision of results the manuscript already quotes. Each block is its
+## own family instead.
+bh_family <- function(g)
+    fifelse(g %in% c(bm_genes, fib_genes), "original_panel",
+    fifelse(g %in% tracer_genes, "ambient_tracer", "fibrillar_expansion"))
 
 pb <- pb[n_cells >= opt$min_cells]
 message(sprintf("Units with >= %d cells: %d", opt$min_cells, nrow(pb)))
@@ -157,9 +190,14 @@ emm_profile <- function(gene, value_type = "expr") {
     e
 }
 
-genes_all <- intersect(c(bm_genes, fib_genes),
-                       sub("__expr$", "", grep("__expr$", names(pb), value = TRUE)))
-message("Modelling ", length(genes_all), " genes")
+genes_all <- intersect(
+    unique(c(bm_genes, fib_genes, core_genes, minor_genes, tracer_genes)),
+    sub("__expr$", "", grep("__expr$", names(pb), value = TRUE)))
+message("Modelling ", length(genes_all), " genes (",
+        length(intersect(genes_all, c(bm_genes, fib_genes))), " original, ",
+        length(setdiff(intersect(genes_all, c(core_genes, minor_genes)),
+                       c(bm_genes, fib_genes))), " expansion, ",
+        length(intersect(genes_all, tracer_genes)), " ambient tracers)")
 
 sel <- rbindlist(lapply(genes_all, fit_gene, value_type = "expr",
                         with_depth = TRUE), fill = TRUE)
@@ -169,9 +207,15 @@ sel_detect <- rbindlist(lapply(genes_all, fit_gene, value_type = "detect",
                                with_depth = TRUE), fill = TRUE)
 
 ## BH across genes x contrasts within each lens (emmeans already adjusted within
-## a gene; this is the across-gene family).
+## a gene; this is the across-gene family). Corrected WITHIN bh_family so the
+## original panel's adjusted p-values are unchanged by the expansion.
 for (dt in list(sel, sel_nodepth, sel_detect))
-    if (nrow(dt)) dt[, p_BH_across_genes := p.adjust(p.value, method = "BH")]
+    if (nrow(dt)) {
+        dt[, bh_family := bh_family(gene)]
+        dt[, block := block_map$block[match(gene, block_map$gene)]]
+        dt[, p_BH_across_genes := p.adjust(p.value, method = "BH"),
+           by = bh_family]
+    }
 
 write_tsv_safe(sel, file.path(opt$outdir, "bm_selectivity_emmeans.tsv"))
 write_tsv_safe(sel_nodepth,
@@ -201,7 +245,13 @@ tau_tbl <- prof[, {
           if (is.finite(pv) && is.finite(nxt) && nxt > 0) log2(pv / nxt) else NA_real_
       })
 }, by = .(gene, value_type)]
-tau_tbl[, panel := fifelse(gene %in% bm_genes, "basement_membrane", "fibrillar_ecm")]
+## `panel` was a two-way BM/fibrillar flag and would have silently called the
+## collagen V/XI chains and the ambient tracers "fibrillar_ecm". It now carries
+## the display block, and the old two-way flag is kept as `is_bm_panel` so
+## anything reading the previous column semantics still resolves.
+tau_tbl[, block := block_map$block[match(gene, block_map$gene)]]
+tau_tbl[, panel := block]
+tau_tbl[, is_bm_panel := gene %in% bm_genes]
 write_tsv_safe(tau_tbl, file.path(opt$outdir, "bm_tau_specificity.tsv"))
 
 ## ---------------------------------- PRIMARY endpoint: bm_minus_fibrillar ----
@@ -236,6 +286,49 @@ write_tsv_safe(ctr_p, file.path(opt$outdir, "bm_primary_endpoint_posthoc.tsv"))
 vc_p <- as.data.frame(VarCorr(fit_primary))
 write_tsv_safe(vc_p, file.path(opt$outdir, "bm_variance_components.tsv"))
 
+## ------------- SECONDARY endpoints: BM vs each structural fibrillar block ----
+## Same estimand and the same cancellation argument as the frozen endpoint, but
+## contrasting BM against the fibril-forming collagens (I/III) and against the
+## regulatory chains (V/XI) separately. The matrix-identity claim is made on
+## `fibrillar_core`: the frozen `fibrillar_ecm` panel mixes collagens with
+## proteoglycans and glycoproteins (LUM, DCN, FN1, BGN), so it answers "is this
+## cell fibroblast-like" rather than "does this cell build interstitial fibrils".
+fit_block_endpoint <- function(block_genes, label) {
+    present <- intersect(paste0(block_genes, "__expr"), names(pb_primary))
+    if (length(present) < 2) {
+        warning("skipping endpoint '", label, "': <2 genes present", call. = FALSE)
+        return(NULL)
+    }
+    d <- copy(pb_primary)
+    d[, y := bm_z - panel_z(block_genes)]
+    fit <- suppressMessages(lmerTest::lmer(
+        y ~ ccc_group + mean_log10_total_counts + (1 | donor_id) + (1 | study),
+        data = d))
+    e <- emmeans(fit, specs = "ccc_group")
+    ct <- as.data.frame(contrast(e, "trt.vs.ctrl", ref = REF_GROUP, adjust = "BH"))
+    ct$estimate <- -ct$estimate
+    ct$contrast <- paste0(REF_GROUP, " - ",
+                          sub(" - .*$", "", as.character(ct$contrast)))
+    vc <- as.data.frame(VarCorr(fit))
+    list(emm = data.frame(endpoint = label, as.data.frame(e),
+                          n_genes = length(present)),
+         post = data.frame(endpoint = label, ct),
+         vc = data.frame(endpoint = label, vc))
+}
+blocks <- list(bm_minus_fibrillar_core = core_genes,
+               bm_minus_fibrillar_minor = minor_genes)
+sec <- Filter(Negate(is.null),
+              Map(fit_block_endpoint, blocks, names(blocks)))
+if (length(sec)) {
+    write_tsv_safe(rbindlist(lapply(sec, `[[`, "emm"), fill = TRUE),
+                   file.path(opt$outdir, "bm_block_endpoint_emmeans.tsv"))
+    write_tsv_safe(rbindlist(lapply(sec, `[[`, "post"), fill = TRUE),
+                   file.path(opt$outdir, "bm_block_endpoint_posthoc.tsv"))
+    write_tsv_safe(rbindlist(lapply(sec, `[[`, "vc"), fill = TRUE),
+                   file.path(opt$outdir, "bm_block_variance_components.tsv"))
+    message("Wrote secondary block endpoints: ", paste(names(sec), collapse = ", "))
+}
+
 ## --------------------------------------------------- sanity check report ----
 peri_tau <- tau_tbl[value_type == "expr" & gene %in% bm_genes]
 sanity <- peri_tau[, .(gene, tau, top_group, pericyte_rank,
@@ -245,6 +338,14 @@ expected_ok <- all(
     na.rm = TRUE)
 mural_ok <- mean(peri_tau[gene %in% EXPECT_MURAL, pericyte_rank] <= 5,
                  na.rm = TRUE)
+
+## Fibrillar-side negative control, the mirror of LAMA3/LAMA5. COL11A1 is a
+## fibrotic-fibroblast / CAF gene that mural cells do not transcribe, so it must
+## not come out pericyte-selective. Reported, never used to filter.
+fib_tau <- tau_tbl[value_type == "expr" & gene %in% c(core_genes, minor_genes)]
+neg_ctrl <- fib_tau[gene %in% EXPECT_NOT_PERICYTE_FIBRILLAR,
+                    .(gene, top_group, pericyte_rank, log2_pericyte_over_next)]
+neg_ok <- all(neg_ctrl$pericyte_rank > 5, na.rm = TRUE)
 
 readme <- c(
     "Basement-membrane selectivity -- generated summary",
@@ -259,9 +360,16 @@ readme <- c(
     "Pre-specified method sanity check:",
     sprintf("  LAMA3/LAMA5 NOT pericyte-top3 (expected TRUE): %s", expected_ok),
     sprintf("  fraction of mural-expected genes in pericyte top-5: %.2f", mural_ok),
+    sprintf("  COL11A1 NOT pericyte-top5 (expected TRUE): %s", neg_ok),
     "",
     "Per-gene tau / pericyte rank (BM panel):",
-    paste(utils::capture.output(print(sanity)), collapse = "\n"))
+    paste(utils::capture.output(print(sanity)), collapse = "\n"),
+    "",
+    "Per-gene tau / pericyte rank (fibrillar core + minor):",
+    paste(utils::capture.output(
+        print(fib_tau[order(pericyte_rank),
+                      .(gene, block, tau, top_group, pericyte_rank,
+                        log2_pericyte_over_next)])), collapse = "\n"))
 writeLines(readme, file.path(opt$outdir, "bm_selectivity_README.txt"))
 message(paste(readme, collapse = "\n"))
 
