@@ -26,10 +26,17 @@ BMS <- function(f) BM("stats_data", f)
 PS  <- function(f) P("pericyte_states", "_m", f)
 PSS <- function(f) P("pericyte_states", "_m", "stats_data", f)
 
-## Gene order and panel structure, mirroring figures/_h/basement_membrane_figure.R.
-GENE_ORDER <- c("COL4A1", "COL4A2", "COL18A1",
-                "LAMA3", "LAMA4", "LAMA5", "LAMB1", "LAMB2", "LAMC1",
-                "NID1", "NID2", "HSPG2", "AGRN")
+## Gene order comes from basement_membrane/_m/bm_panel_genes.tsv (written by
+## bm_panels.py), NOT from a literal list here. It was a literal until 2026-09-01,
+## when the BM panel grew from 13 to 20 genes and this table silently kept
+## reporting the old 13 -- the same duplicated-panel failure the BM module exists
+## to prevent. Falls back to the frozen 13 only if the file is missing.
+pan0 <- read_src(BM("bm_panel_genes.tsv"))
+GENE_ORDER <- if (!is.null(pan0) && "block_index" %in% names(pan0))
+    unique(pan0[block == "basement_membrane"][order(block_index), gene]) else
+    c("COL4A1", "COL4A2", "COL18A1",
+      "LAMA3", "LAMA4", "LAMA5", "LAMB1", "LAMB2", "LAMC1",
+      "NID1", "NID2", "HSPG2", "AGRN")
 
 ## =========================================================================
 ## S7 -- donor- and cell-level correlations
@@ -129,12 +136,20 @@ if (length(bits)) {
 ## S8 -- cross-cell-type BM expression and pericyte selectivity
 ## =========================================================================
 ## ---- A: panel definition ------------------------------------------------
-pan <- read_src(BM("bm_panel_genes.tsv"))
+pan <- pan0
 det_per <- read_src(BM("bm_gene_detection_pericytes.tsv"))
+## Structural subclass, covering all 20 genes of the 2026-09-01 panel. Anything
+## not listed falls back to the sub-panel membership recorded in the panel table.
 SUBCLASS <- c(COL4A1 = "collagen IV", COL4A2 = "collagen IV",
-              COL18A1 = "collagen XVIII (BM-associated)",
-              LAMA3 = "laminin", LAMA4 = "laminin", LAMA5 = "laminin",
-              LAMB1 = "laminin", LAMB2 = "laminin", LAMC1 = "laminin",
+              COL15A1 = "collagen XV (multiplexin)",
+              COL18A1 = "collagen XVIII (multiplexin)",
+              LAMA1 = "laminin alpha", LAMA2 = "laminin alpha",
+              LAMA3 = "laminin alpha", LAMA4 = "laminin alpha",
+              LAMA5 = "laminin alpha",
+              LAMB1 = "laminin beta", LAMB2 = "laminin beta",
+              LAMB3 = "laminin beta", LAMB4 = "laminin beta",
+              LAMC1 = "laminin gamma", LAMC2 = "laminin gamma",
+              LAMC3 = "laminin gamma",
               NID1 = "linker/proteoglycan", NID2 = "linker/proteoglycan",
               HSPG2 = "linker/proteoglycan", AGRN = "linker/proteoglycan")
 if (!is.null(pan)) {
@@ -165,7 +180,7 @@ if (!is.null(tau) || !is.null(sel)) {
     if ("p.value" %in% names(s8b)) s8b[, p_formatted := fmt_p(p.value)]
     write_part(s8b, "08B",
         "Per-gene pericyte selectivity of basement-membrane components",
-        supports = "Figure 3B",
+        supports = "Figure 3C",
         sources = c("basement_membrane/_m/stats_data/bm_tau_specificity.tsv",
                     "basement_membrane/_m/stats_data/bm_selectivity_emmeans.tsv"),
         notes = paste("Contrast rows are Pericytes minus each other population.",
@@ -175,7 +190,7 @@ if (!is.null(tau) || !is.null(sel)) {
                       "bm_detection_glmm.tsv."))
 }
 
-## ---- C: full 13-gene x 22-cell-type source data for Figure 3A -----------
+## ---- C: full BM-panel x 22-cell-type source data for Figure 3A/3B -------
 prof <- read_src(BMS("bm_celltype_profile.tsv"))
 pbk  <- read_src(BM("bm_pseudobulk_celltype.tsv.gz"))
 if (!is.null(prof)) {
@@ -209,8 +224,8 @@ if (!is.null(prof)) {
     d[, gene := factor(gene, levels = GENE_ORDER)]
     setorder(d, gene, within_gene_rank)
     write_part(d, "08C",
-        "Figure 3A source data: basement-membrane expression across 22 lung cell types",
-        supports = "Figure 3A",
+        "Figure 3A/3B source data: matrix-panel expression across 22 lung cell types",
+        supports = "Figure 3A; Figure 3B",
         sources = c("basement_membrane/_m/stats_data/bm_celltype_profile.tsv",
                     "basement_membrane/_m/bm_pseudobulk_celltype.tsv.gz"),
         notes = paste("Model: expr_z ~ ccc_group + mean_log10_total_counts +",
@@ -258,16 +273,21 @@ if (!is.null(cl_emm)) {
     }
     write_part(cl_emm, "09A",
         "Cluster-level basement-membrane and contrast-panel scores (marginal means)",
-        supports = "Figure 3C; Figure S6",
+        supports = "Figure S17A",
         sources = "basement_membrane/_m/stats_data/bm_by_cluster_emmeans.tsv",
-        notes = "Seven panel scores across the six stable pericyte clusters.")
+        notes = paste0(uniqueN(cl_emm$score), " panel scores across the ",
+                       uniqueN(cl_emm$pericyte_state),
+                       " stable pericyte clusters. Grouping is `pericyte_state` ",
+                       "(Leiden on X_pca_harmony), not `state_program`: the latter ",
+                       "is assigned by an argmax that includes the BM panel, so ",
+                       "testing a BM score against it would be circular."))
 }
 if (!is.null(cl_ph)) {
     cl_ph <- label_adjusted(cl_ph)
     n_sig <- cl_ph[score == "basement_membrane_score_z", sum(p_BH_within_score < 0.05)]
     write_part(cl_ph, "09B",
         "Cluster-level basement-membrane scores: pairwise contrasts",
-        supports = "Figure 3C",
+        supports = "Figure S17A",
         sources = "basement_membrane/_m/stats_data/bm_by_cluster_posthoc.tsv",
         notes = paste0("`p_BH_within_score` is the source file's `p.value`, ",
                        "renamed: emmeans::pairs was called with adjust = 'BH', so ",
@@ -285,13 +305,45 @@ if (!is.null(orth_e) || !is.null(orth_p)) {
     if (!is.null(orth_p)) o$ph  <- label_adjusted(orth_p)[, block := "pairwise contrasts"]
     write_part(rbindlist(o, fill = TRUE), "09C",
         "Basement-membrane score adjusted for the fibrillar-ECM panel (orthogonal model)",
-        supports = "Figure 3C; Figure S6",
+        supports = "Figure S17A",
         sources = c("basement_membrane/_m/stats_data/bm_orthogonalized_emmeans.tsv",
                     "basement_membrane/_m/stats_data/bm_orthogonalized_posthoc.tsv"),
         notes = paste("Tests whether the cluster-level BM signal survives",
                       "adjustment for the correlated fibrillar matrix program.",
                       "Contrast P values are already BH-adjusted by the source",
                       "script (emmeans::pairs adjust = 'BH')."))
+}
+
+## ---- E: matrix-vs-predictor associations (Figure S17B/C source data) -----
+## Added 2026-09-01 with the AGTR1 / TGF-beta association analysis. Both matrix
+## categories and their difference are outcomes; only the difference is invariant
+## to a per-unit multiplicative capture constant, so it is the row that licenses a
+## directional statement.
+assoc <- rbindlist(Filter(Negate(is.null), list(
+    read_src(BMS("bm_vs_agtr1_models.tsv")),
+    read_src(BMS("bm_vs_tgfb_models.tsv")))), fill = TRUE)
+within <- rbindlist(Filter(Negate(is.null), list(
+    read_src(BMS("bm_vs_agtr1_within_donor.tsv")),
+    read_src(BMS("bm_vs_tgfb_within_donor.tsv")))), fill = TRUE)
+if (nrow(assoc) || nrow(within)) {
+    e_bits <- list()
+    if (nrow(assoc)) e_bits$pb <- assoc[, block := "donor x cluster pseudobulk (mixed model)"]
+    if (nrow(within)) e_bits$wd <- within[, block := "within-donor cell-level Spearman"]
+    write_part(rbindlist(e_bits, fill = TRUE), "09E",
+        "Associations of the two matrix programs with AGTR1 and TGF-beta signalling",
+        supports = "Figure S17B; Figure S17C",
+        sources = c("basement_membrane/_m/stats_data/bm_vs_agtr1_{models,within_donor}.tsv",
+                    "basement_membrane/_m/stats_data/bm_vs_tgfb_{models,within_donor}.tsv"),
+        notes = paste("Outcomes are the basement-membrane score, the fibrillar-",
+                      "collagen score, their difference, and the BM score",
+                      "orthogonalized against the frozen fibrillar_ecm panel.",
+                      "The scVI-denoised lens is the AGTR1 readout; the raw and",
+                      "detection lenses are carried as the dropout-sensitive",
+                      "comparison and must not be read as the answer.",
+                      "The TGF-beta response panel shares no gene with either",
+                      "matrix panel or with any pericyte_states program",
+                      "(asserted in basement_membrane/_h/bm_panels.py), so the",
+                      "association is not arithmetic."))
 }
 
 rob <- read_src(BM("state_gate_robustness.tsv"))
@@ -306,7 +358,7 @@ if (!is.null(gs))  d_bits$gs  <- gs[,  block := "gate summary"]
 if (length(d_bits))
     write_part(rbindlist(d_bits, fill = TRUE), "09D",
         "Subpanel robustness of the basement-membrane program assignment",
-        supports = "Figure 3C; Figure S6",
+        supports = "Figure 3H",
         sources = c("basement_membrane/_m/state_gate_robustness.tsv",
                     "basement_membrane/_m/state_gate_{crosstab,relenrich,summary}.tsv"),
         notes = paste("Variants drop each BM subpanel in turn (collagen IV only,",

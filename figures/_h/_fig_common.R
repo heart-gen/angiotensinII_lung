@@ -108,6 +108,19 @@ bm_relabel <- function(dt, col = "state_program", src = "table") {
     dt
 }
 
+## emmeans names its interval columns by the degrees of freedom it used:
+## `lower.CL`/`upper.CL` for a t-based interval, `asymp.LCL`/`asymp.UCL` when df
+## is infinite (asymptotic). Two tables written by different fits therefore carry
+## different column names for the same quantity, and rbind()-ing them fails with
+## "Column 5 ['lower.CL'] of item 2 is missing in item 1" -- which is what stopped
+## figureS_acta2_control panel A. Normalise before combining; the fits themselves
+## are unchanged and the panel uses only emmean and SE.
+norm_ci <- function(dt) {
+    setnames(dt, c("asymp.LCL", "asymp.UCL"), c("lower.CL", "upper.CL"),
+             skip_absent = TRUE)
+    dt
+}
+
 ## Guard the other half of the same failure: a program that vanished during
 ## filtering must never be plotted around silently.
 require_programs <- function(present, expected, panel) {

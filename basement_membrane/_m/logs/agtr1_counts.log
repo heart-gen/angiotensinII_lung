@@ -1,0 +1,106 @@
+2026-09-02 17:44:10 - **** Job starts (R-only re-run of 10; 09 input unchanged) ****
+Job id: 45102916
+Hostname: r046
+cells: 11680 | donors: 194 | AGTR1 detected in 37.4%
+pseudobulk units (>=5 cells): 214 from 95 donors
+Warning message:
+In `[.data.table`(pb, , `:=`(bm_minus_fibrillar, basement_membrane_score -  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+  glmer.nb failed for basement_membrane_score_z at pseudobulk; falling back to Poisson + OLRE
+  glmer.nb failed for bm_minus_fibrillar_z at pseudobulk; falling back to Poisson + OLRE
+  glmer.nb failed for bm_resid_collagen at pseudobulk; falling back to Poisson + OLRE
+Warning message:
+In `[.data.table`(dl, , `:=`(bm_minus_fibrillar, basement_membrane_score -  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+   pericyte_state n_units n_donors n_cells agtr1_counts underpowered
+            <int>   <int>    <int>   <int>        <int>       <lgcl>
+1:              0      64       64    5766         4755        FALSE
+2:              1      67       67    3556         2266        FALSE
+3:              2      45       45    1297          403        FALSE
+4:              3      21       21     337          315        FALSE
+5:              4      13       13     134           43         TRUE
+6:              5       4        4      44           33         TRUE
+wrote agtr1_count_by_cluster{,_posthoc}.tsv
+   pericyte_state estimate  rate                 rate_unit n_donors
+            <int>    <num> <num>                    <char>    <int>
+1:              0   -8.628 1.791 AGTR1 per 10k transcripts       64
+2:              1   -8.425 2.193 AGTR1 per 10k transcripts       67
+3:              2   -8.614 1.816 AGTR1 per 10k transcripts       45
+4:              3   -8.344 2.379 AGTR1 per 10k transcripts       21
+5:              4   -8.745 1.592 AGTR1 per 10k transcripts       13
+6:              5   -9.111 1.105 AGTR1 per 10k transcripts        4
+   underpowered
+         <lgcl>
+1:        FALSE
+2:        FALSE
+3:        FALSE
+4:        FALSE
+5:         TRUE
+6:         TRUE
+by-program pseudobulk units (>=5 cells): 154 from 97 donors
+          state_program n_units n_donors n_cells agtr1_counts underpowered
+                 <char>   <int>    <int>   <int>        <int>       <lgcl>
+1:  activated_migratory      13       13     134           43         TRUE
+2:    basement_membrane      72       72    4084         2673        FALSE
+3: vascular_stabilizing      69       69    7118         5176        FALSE
+wrote agtr1_count_by_program{,_posthoc}.tsv
+          state_program estimate  rate                 rate_unit n_donors
+                 <char>    <num> <num>                    <char>    <int>
+1:  activated_migratory   -8.818 1.481 AGTR1 per 10k transcripts       13
+2:    basement_membrane   -8.430 2.183 AGTR1 per 10k transcripts       72
+3: vascular_stabilizing   -8.657 1.739 AGTR1 per 10k transcripts       69
+   underpowered
+         <lgcl>
+1:         TRUE
+2:        FALSE
+3:        FALSE
+                      spec      level         model                  predictor
+                    <char>     <char>        <char>                     <char>
+ 1:               +ambient       cell       NB GLMM  basement_membrane_score_z
+ 2:               +ambient       cell       NB GLMM       bm_minus_fibrillar_z
+ 3:           depth spline       cell       NB GLMM  basement_membrane_score_z
+ 4:           depth spline       cell       NB GLMM       bm_minus_fibrillar_z
+ 5:           depth spline pseudobulk binomial GLMM  basement_membrane_score_z
+ 6:           depth spline pseudobulk binomial GLMM       bm_minus_fibrillar_z
+ 7:                primary       cell       NB GLMM  basement_membrane_score_z
+ 8:                primary       cell       NB GLMM       bm_minus_fibrillar_z
+ 9:                primary       cell       NB GLMM fibrillar_collagen_score_z
+10:                primary pseudobulk       NB GLMM fibrillar_collagen_score_z
+11:                primary pseudobulk  Poisson+OLRE  basement_membrane_score_z
+12:                primary pseudobulk  Poisson+OLRE       bm_minus_fibrillar_z
+13:                primary pseudobulk  Poisson+OLRE          bm_resid_collagen
+14:                primary pseudobulk binomial GLMM  basement_membrane_score_z
+15:                primary pseudobulk binomial GLMM       bm_minus_fibrillar_z
+16:                primary pseudobulk binomial GLMM          bm_resid_collagen
+17:                primary pseudobulk binomial GLMM fibrillar_collagen_score_z
+18: within-donor (Mundlak)       cell       NB GLMM  basement_membrane_score_z
+19: within-donor (Mundlak)       cell       NB GLMM       bm_minus_fibrillar_z
+20: within-donor (Mundlak) pseudobulk binomial GLMM  basement_membrane_score_z
+21: within-donor (Mundlak) pseudobulk binomial GLMM       bm_minus_fibrillar_z
+                      spec      level         model                  predictor
+    estimate     SE  p_value     p_BH
+       <num>  <num>    <num>    <num>
+ 1:   0.0581 0.0156 1.95e-04 1.95e-04
+ 2:   0.0802 0.0157 3.11e-07 6.21e-07
+ 3:   0.0536 0.0156 6.11e-04 6.11e-04
+ 4:   0.0765 0.0157 1.07e-06 2.13e-06
+ 5:   0.1048 0.0508 3.90e-02 3.90e-02
+ 6:   0.2449 0.0538 5.23e-06 1.05e-05
+ 7:   0.0582 0.0156 1.93e-04 2.90e-04
+ 8:   0.0800 0.0157 3.23e-07 9.69e-07
+ 9:  -0.0444 0.0158 5.04e-03 5.04e-03
+10:  -0.0881 0.0511 8.46e-02 8.46e-02
+11:   0.1143 0.0476 1.63e-02 1.63e-02
+12:   0.1710 0.0480 3.68e-04 5.52e-04
+13:   0.1844 0.0508 2.82e-04 5.52e-04
+14:   0.1190 0.0499 1.71e-02 1.71e-02
+15:   0.2553 0.0526 1.24e-06 4.96e-06
+16:   0.2389 0.0557 1.77e-05 3.55e-05
+17:  -0.2017 0.0547 2.25e-04 3.00e-04
+18:   0.0589 0.0157 1.79e-04 1.79e-04
+19:   0.0774 0.0158 9.38e-07 1.88e-06
+20:   0.1237 0.0537 2.13e-02 2.13e-02
+21:   0.2647 0.0598 9.55e-06 1.91e-05
+    estimate     SE  p_value     p_BH
+wrote ./stats_data/agtr1_count_models.tsv
+2026-09-02 18:26:22 - **** Job ends ****

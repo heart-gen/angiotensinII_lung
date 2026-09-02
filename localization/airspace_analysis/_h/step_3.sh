@@ -22,9 +22,13 @@ echo "Job name: ${SLURM_JOB_NAME}"
 echo "Node name: ${SLURM_NODENAME}"
 echo "Hostname: ${HOSTNAME}"
 
+## The batch shell does not source the login profile, so `module` and `conda`
+## must be bootstrapped here rather than inherited from the submitting shell.
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
 module list
+eval "$(conda shell.bash hook)"
 
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env

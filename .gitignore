@@ -82,3 +82,26 @@ ccc_niche.h5ad
 __pycache__/
 submit_pipeline.sh
 writings/
+
+## ---------------------------------------------------------------------------
+## Added 2026-09-02, before the first commit of the mechanistic pipeline.
+## This is a PUBLIC repository. Two classes of file must never enter it.
+
+## 1. CONTROLLED-ACCESS DATA (dbGaP phs000424, GTEx, GRU data use agreement).
+## Not merely large -- legally restricted. The subject phenotype file carries
+## individual-level SEX / AGE / RACE / DTHHRDY keyed to GTEx SUBJID, and the two
+## derived sample tables below INHERIT those columns with EXACT INTEGER AGE
+## (66, 20, 21, ...), not the public binned "60-69" bucket. Publishing them
+## would breach the DUA and create a re-identification risk. Ignore the derived
+## tables too, not just the source archive.
+inputs/gtex/_m/phs000424.*
+inputs/gtex/_m/gtex_v11_sample_data.tsv
+inputs/gtex/_m/gtex_v11_lung_sample_data.tsv
+
+## 2. BULK PUBLIC DOWNLOADS -- re-fetchable, and far over GitHub's limits.
+## inputs/copd/ is 16 GB of GEO GSE310058 (a 7.7 GB tarball plus 597 per-donor
+## matrix files, 15 of them over GitHub's 100 MB hard limit). It contains no
+## scripts, so nothing analytical is lost. GTEx bulk TPM is 2.5 GB.
+## Re-obtain with the download steps in each module's _h/.
+inputs/copd/
+inputs/gtex/_m/GTEx_Analysis_*

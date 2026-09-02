@@ -1,4 +1,11 @@
-## Which niche ligands carry regulatory potential toward BASEMENT-MEMBRANE targets?
+## Which niche ligands carry regulatory potential toward a given MATRIX target set?
+##
+## Runs once per target set (`--target-panel`), so the basement-membrane and the
+## fibrillar-collagen rankings are produced by identical code on identical priors,
+## receiver and expression threshold -- the only difference between them is the
+## gene set. That is what makes "TGF-beta ranks higher toward BM than toward
+## fibrillar collagen" a statement about the target sets rather than about two
+## incomparable analyses.
 ##
 ## ADDITIVE AND NON-DESTRUCTIVE BY DESIGN. cell_communication/_h/02.nichenet.R:78
 ## builds its gene set as `intersect(unique(unlist(TARGET_PROGRAM)), background)`
@@ -12,13 +19,13 @@
 ## threshold, but with geneset_oi = the BM panel alone. The published result is
 ## untouched and the two rankings can be compared directly.
 ##
-## NOTE ON THE TARGET-SET SIZE. geneset_oi is `intersect(bm_genes, background)`,
-## i.e. the BM-panel genes EXPRESSED IN THE RECEIVER above EXPR_THR -- currently
-## 10 of the 13 panel genes, with LAMA3, LAMA5 and AGRN excluded. Describe this
-## analysis as "the 10 of 13 basement-membrane genes expressed in pericytes", not
-## as "the 13 basement-membrane genes": drafts have made that overstatement, and
-## the difference matters because the three excluded genes are laminin-alpha and
-## agrin, not a random subset. The count is logged below on every run.
+## NOTE ON THE TARGET-SET SIZE. geneset_oi is `intersect(target_genes, background)`,
+## i.e. the panel genes EXPRESSED IN THE RECEIVER above EXPR_THR -- a strict subset
+## of the panel. Describe this analysis as "the N of M basement-membrane genes
+## expressed in pericytes", never as "the M basement-membrane genes": drafts have
+## made that overstatement, and the difference matters because the excluded genes
+## are laminin-alpha and agrin, not a random subset. Under the 13-gene panel it was
+## 10 of 13. The count is logged below on every run -- read it, do not assume it.
 ##
 ## Question answered: do the same TGF-beta ligands that drive the pericyte ECM
 ## program also rank top for basement-membrane deposition, or is BM driven by a
@@ -45,6 +52,10 @@ PRIORS   <- parse_arg("--priors", "../../cell_communication/_m/nichenet_priors")
 LIANADIR <- parse_arg("--liana-dir", "../../cell_communication/_m")
 FRAC_FILE <- parse_arg("--frac-file", "expressed_fraction_main.tsv.gz")
 PANELS   <- parse_arg("--panels", "./bm_panel_genes.tsv")
+## Target gene set. `basement_membrane` reproduces the original behaviour (and
+## keeps the original output filenames via TAG below); `fibrillar_collagen` is the
+## contrast the 2026-09-01 collaborator request added.
+TARGET_PANEL <- parse_arg("--target-panel", "basement_membrane")
 FROZEN   <- parse_arg("--frozen-activities",
                       "../../cell_communication/_m/nichenet/ligand_activities_Pericytes.tsv")
 OUTDIR   <- parse_arg("--outdir", "./nichenet_bm")
@@ -56,6 +67,12 @@ SEED     <- as.integer(parse_arg("--seed", "13"))
 ## ranking and its permutation null untouched. Used to produce Table S11C source
 ## data without re-running a 10,000-permutation job.
 LINKS_ONLY <- "--links-only" %in% args
+## Filename/axis tag. Defaults to "BM" for the basement-membrane panel so the
+## published output names (ligand_activities_BM_Pericytes.tsv and friends, quoted
+## in writings/ and read by tables/_h/06.nichenet.R) are unchanged.
+TAG <- parse_arg("--tag", if (identical(TARGET_PANEL, "basement_membrane")) "BM"
+                 else toupper(gsub("[^A-Za-z0-9]+", "", TARGET_PANEL)))
+TARGET_LABEL <- gsub("_", " ", TARGET_PANEL)
 dir.create(OUTDIR, showWarnings = FALSE, recursive = TRUE)
 set.seed(SEED)
 
@@ -67,7 +84,10 @@ frac <- data.table::fread(file.path(LIANADIR, FRAC_FILE), data.table = FALSE)
 rownames(frac) <- frac[[1]]; frac[[1]] <- NULL
 
 panels <- data.table::fread(PANELS)
-bm_genes <- unique(panels[panels$panel == "basement_membrane", ]$gene)
+target_genes <- unique(panels[panels$panel == TARGET_PANEL, ]$gene)
+if (!length(target_genes))
+    stop("panel '", TARGET_PANEL, "' is not in ", PANELS)
+message("Target set: ", TARGET_PANEL, " (", length(target_genes), " genes); tag ", TAG)
 
 all_ligands <- unique(lr_network$from)
 all_receptors <- unique(lr_network$to)
@@ -78,11 +98,18 @@ genes_expressed_in <- function(group, thr = EXPR_THR) {
 
 expressed_receiver <- genes_expressed_in(RECEIVER)
 background <- intersect(expressed_receiver, rownames(ligand_target_matrix))
-geneset_oi <- intersect(bm_genes, background)
-message("BM targets expressed in ", RECEIVER, ": ", length(geneset_oi), "/",
-        length(bm_genes), " -> ", paste(geneset_oi, collapse = ", "))
+geneset_oi <- intersect(target_genes, background)
+message(TARGET_LABEL, " targets expressed in ", RECEIVER, ": ", length(geneset_oi),
+        "/", length(target_genes), " -> ", paste(geneset_oi, collapse = ", "))
 if (length(geneset_oi) < 5)
-    stop("fewer than 5 BM genes in the receiver background; ranking would be unstable")
+    stop("fewer than 5 ", TARGET_LABEL, " genes in the receiver background; ",
+         "ranking would be unstable")
+if (length(geneset_oi) < 8)
+    warning("only ", length(geneset_oi), " ", TARGET_LABEL, " genes reach the ",
+            "receiver expression threshold. AUPR on a target set this small is ",
+            "noisy: report the permutation z, which is standardised against a ",
+            "null of equally sized random sets, and do NOT compare raw AUPR ",
+            "against a run with a larger target set.", call. = FALSE)
 
 sender_groups <- setdiff(colnames(frac), RECEIVER)
 expressed_senders <- unique(unlist(lapply(sender_groups, genes_expressed_in)))
@@ -108,7 +135,7 @@ write_full_matrix <- function() {
     names(full) <- c("target", "ligand", "regulatory_potential")
     ## Rank/AUPR/FDR are joined from the PUBLISHED activities file rather than
     ## recomputed, so this export can never disagree with the ranking in S11A.
-    af <- file.path(OUTDIR, paste0("ligand_activities_BM_", RECEIVER, ".tsv"))
+    af <- file.path(OUTDIR, paste0("ligand_activities_", TAG, "_", RECEIVER, ".tsv"))
     if (file.exists(af)) {
         a <- data.table::fread(af, data.table = FALSE)
         keep <- intersect(c("test_ligand", "rank", "aupr_corrected", "perm_z",
@@ -123,7 +150,7 @@ write_full_matrix <- function() {
         full$ligand_rank <- NA_integer_
     }
     full <- full |> arrange(ligand_rank, desc(regulatory_potential))
-    f <- file.path(OUTDIR, paste0("ligand_target_matrix_BM_", RECEIVER, ".tsv"))
+    f <- file.path(OUTDIR, paste0("ligand_target_matrix_", TAG, "_", RECEIVER, ".tsv"))
     write.table(full, f, sep = "\t", quote = FALSE, row.names = FALSE)
     message(sprintf("wrote %s: %d rows (%d ligands x %d targets), %d non-zero",
                     basename(f), nrow(full), length(potential_ligands),
@@ -141,7 +168,7 @@ activities <- predict_ligand_activities(
     ligand_target_matrix = ligand_target_matrix,
     potential_ligands = potential_ligands) |>
     arrange(desc(aupr_corrected)) |>
-    mutate(rank = row_number(), receiver = RECEIVER, target_set = "basement_membrane")
+    mutate(rank = row_number(), receiver = RECEIVER, target_set = TARGET_PANEL)
 
 ## ---- permutation null: is a high BM rank more than prior-network connectivity? ----
 ## Random gene sets of the same size drawn from the receiver background.
@@ -175,7 +202,7 @@ activities$perm_p <- (rowSums(perm >= obs, na.rm = TRUE) + 1) / (NPERM + 1)
 activities$perm_p_BH <- p.adjust(activities$perm_p, method = "BH")
 
 write.table(activities,
-            file.path(OUTDIR, paste0("ligand_activities_BM_", RECEIVER, ".tsv")),
+            file.path(OUTDIR, paste0("ligand_activities_", TAG, "_", RECEIVER, ".tsv")),
             sep = "\t", quote = FALSE, row.names = FALSE)
 
 ## ---- comparison against the frozen (unmodified) ECM-program ranking ----------
@@ -192,20 +219,20 @@ if (file.exists(FROZEN)) {
                               head(activities$test_ligand[order(activities$rank)], 20)))
     tgf <- activities |> filter(test_ligand %in% c("TGFB1", "TGFB2", "TGFB3")) |>
         select(test_ligand, rank, aupr_corrected, perm_z, perm_p_BH)
-    write.table(cmp, file.path(OUTDIR, "bm_vs_frozen_ligand_ranking.tsv"),
+    write.table(cmp, file.path(OUTDIR, paste0(tolower(TAG), "_vs_frozen_ligand_ranking.tsv")),
                 sep = "\t", quote = FALSE, row.names = FALSE)
     msg <- c(
-        "BM-target ligand ranking vs the frozen ECM-program ranking",
+        sprintf("%s-target ligand ranking vs the frozen ECM-program ranking", TAG),
         sprintf("Spearman rank correlation: %.3f", rho),
         sprintf("Top-20 overlap: %d/20", top20),
-        "TGF-beta ligands in the BM ranking:",
+        sprintf("TGF-beta ligands in the %s ranking:", TAG),
         paste(utils::capture.output(print(tgf)), collapse = "\n"),
         "",
-        "Top 15 ligands toward BM targets:",
+        sprintf("Top 15 ligands toward %s targets:", TARGET_LABEL),
         paste(utils::capture.output(print(
             head(activities[, c("test_ligand", "rank", "aupr_corrected",
                                 "perm_z", "perm_p_BH")], 15))), collapse = "\n"))
-    writeLines(msg, file.path(OUTDIR, "bm_nichenet_README.txt"))
+    writeLines(msg, file.path(OUTDIR, paste0(tolower(TAG), "_nichenet_README.txt")))
     message(paste(msg, collapse = "\n"))
 }
 
@@ -215,7 +242,7 @@ links <- best |>
     lapply(get_weighted_ligand_target_links, geneset = geneset_oi,
            ligand_target_matrix = ligand_target_matrix, n = 200) |>
     bind_rows() |> drop_na()
-write.table(links, file.path(OUTDIR, paste0("ligand_target_links_BM_", RECEIVER, ".tsv")),
+write.table(links, file.path(OUTDIR, paste0("ligand_target_links_", TAG, "_", RECEIVER, ".tsv")),
             sep = "\t", quote = FALSE, row.names = FALSE)
 
 if (nrow(links)) {
@@ -225,12 +252,12 @@ if (nrow(links)) {
     ord_l <- intersect(rev(best), colnames(vis))
     vis <- vis[rownames(vis), ord_l, drop = FALSE]
     p <- make_heatmap_ggplot(t(vis), "Prioritized ligands",
-                             "Basement-membrane targets", color = "purple",
+                             paste0(TARGET_LABEL, " targets"), color = "purple",
                              legend_position = "top", x_axis_position = "top",
                              legend_title = "Regulatory potential") +
         theme(axis.text.x = element_text(angle = 90, hjust = 0))
-    ggsave(file.path(OUTDIR, "ligand_target_heatmap_BM.pdf"), p, width = 10, height = 7)
-    ggsave(file.path(OUTDIR, "ligand_target_heatmap_BM.png"), p, width = 10, height = 7,
+    ggsave(file.path(OUTDIR, paste0("ligand_target_heatmap_", TAG, ".pdf")), p, width = 10, height = 7)
+    ggsave(file.path(OUTDIR, paste0("ligand_target_heatmap_", TAG, ".png")), p, width = 10, height = 7,
            dpi = 300)
 }
 

@@ -21,6 +21,7 @@ source("../_h/_tab_common.R")
 
 CC <- function(...) P("cell_communication", "_m", ...)
 NB <- function(f) P("basement_membrane", "_m", "nichenet_bm", f)
+NF <- function(f) P("basement_membrane", "_m", "nichenet_fibrillar", f)
 
 ## Ligands prioritized in the manuscript text. `gene_program_detection.tsv` covers
 ## only 34 curated panel genes and is missing CCN2, TIMP2, COPA, VTN, MMP14,
@@ -199,14 +200,54 @@ if (!is.null(bm)) {
         supports = "Figure S9D",
         sources = c("basement_membrane/_m/nichenet_bm/ligand_activities_BM_Pericytes.tsv",
                     "basement_membrane/_m/nichenet_bm/bm_vs_frozen_ligand_ranking.tsv"),
-        notes = paste0("All ", nrow(s11a), " candidate ligands against the 13 ",
-                       "basement-membrane genes, with ", format(NPERM_BM, big.mark = ","),
+        notes = paste0("All ", nrow(s11a), " candidate ligands against the ",
+                       "basement-membrane genes expressed in pericytes (12 of the ",
+                       "20-gene panel; read the count from the run log, do not ",
+                       "assume it), with ", format(NPERM_BM, big.mark = ","),
                        " matched random target sets -- ten times the injury-set ",
                        "analysis, so the empirical P floor is 1/(",
                        format(NPERM_BM, big.mark = ","), "+1) = ",
                        signif(1 / (NPERM_BM + 1), 5), ". `rank_frozen` is the ",
                        "injury-program rank, so rank_change is positive when a ",
                        "ligand matters less for BM than for injury."))
+}
+
+## ---- S11D: BM vs fibrillar-collagen target set --------------------------
+## Two runs of the SAME script (basement_membrane/_h/07.bm_nichenet_targets.R) on
+## identical priors, receiver and expression threshold; only the target gene set
+## differs. That is what makes the two rankings comparable at all. The comparable
+## quantity is the permutation z, not the raw corrected AUPR: AUPR still scales
+## with target-set size and prior connectivity, and the two sets differ in both.
+fibact <- read_src(NF("ligand_activities_FIB_Pericytes.tsv"))
+if (!is.null(bm) && !is.null(fibact)) {
+    keep <- c("test_ligand", "rank", "aupr_corrected", "perm_z", "perm_p",
+              "perm_p_BH")
+    a <- bm[, intersect(keep, names(bm)), with = FALSE]
+    b <- fibact[, intersect(keep, names(fibact)), with = FALSE]
+    s11d <- merge(a, b, by = "test_ligand", suffixes = c("_bm", "_fibrillar"))
+    s11d[, z_difference_bm_minus_fibrillar := perm_z_bm - perm_z_fibrillar]
+    s11d[, rank_difference_bm_minus_fibrillar := rank_bm - rank_fibrillar]
+    setorder(s11d, rank_bm)
+    ok <- s11d[is.finite(rank_bm) & is.finite(rank_fibrillar)]
+    rho <- if (nrow(ok) > 2)
+        suppressWarnings(cor(ok$rank_bm, ok$rank_fibrillar, method = "spearman")) else
+        NA_real_
+    write_part(s11d, "11D",
+        "Ligand prioritization toward basement-membrane versus fibrillar-collagen targets",
+        supports = "Figure S17C",
+        sources = c("basement_membrane/_m/nichenet_bm/ligand_activities_BM_Pericytes.tsv",
+                    "basement_membrane/_m/nichenet_fibrillar/ligand_activities_FIB_Pericytes.tsv"),
+        notes = paste0("Both columns come from the same script, priors, receiver ",
+                       "and expression threshold; only geneset_oi differs, so the ",
+                       "two rankings are comparable. Compare `perm_z`, not ",
+                       "`aupr_corrected`: each z is standardised against its own ",
+                       "target set's null of equally sized random gene sets drawn ",
+                       "from the same receiver background, whereas AUPR still ",
+                       "scales with target-set size. Spearman rank correlation ",
+                       "between the two rankings: ", signif(rho, 3), " over ",
+                       nrow(ok), " ligands. The fibrillar target set is small, so ",
+                       "its individual estimates are noisy -- read it as a ",
+                       "comparison of ligand ORDERING, not of absolute activity."))
 }
 
 ## ---- S11B: BM vs injury ranking comparison ------------------------------

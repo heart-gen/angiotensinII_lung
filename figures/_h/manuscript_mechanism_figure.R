@@ -131,22 +131,52 @@ save_fig("figureS_balance_by_state", pE, 4.2, 3.2)
 
 ## ---- Supplement: ACTA2 contractile-identity control --------------------
 ## Benchmark (not a pillar): is AGTR1 simply canonical ACTA2+ contractile mural
-## identity? (A) Centered donor-aware program emmeans for ACTA2 (raw) vs AGTR1 (raw)
-## vs AGTR1 (denoised): the raw markers share a vascular-stabilizing-high pattern
-## that the denoised AGTR1 does NOT. (B) Donor x program pseudobulk Pearson
-## correlation (95% CI) of AGTR1 (raw vs denoised) against ACTA2 and the
-## leave-ACTA2-out contractile program: the raw coupling collapses to ~0 / n.s.
-## after denoising, so AGTR1 is not reducible to contractile identity.
+## identity? The answer is no, but NOT for the reason this figure used to give.
+##
+## WHAT CHANGED (2026-09-02). The previous version argued that the AGTR1<->ACTA2
+## pseudobulk correlation collapsed to ~0 under denoising, making the raw coupling
+## a shared-dropout artefact. That rested on a scVI model trained on the soupX
+## float matrix, which failed its validity gate (donor rho 0.014, p 0.91). On the
+## retrained lens the correlation STRENGTHENS (0.283 -> 0.313 vs ACTA2;
+## 0.391 -> 0.599 vs the contractile program). The coupling is real.
+##
+## The figure's conclusion survives, but its evidence moves from panel B to panel
+## A: AGTR1 and contractile identity are CORRELATED (B) but not CO-ORDERED (A).
+## ACTA2 peaks on vascular-stabilizing; AGTR1 peaks on basement-membrane once
+## dropout is handled. A correlation across donors cannot distinguish the two
+## genes; the between-program ordering can.
+##
+## (A) is therefore split into two facets by measurement scale, because the four
+## readouts are NOT on one axis: raw expression is log-normalised expression,
+## while the denoised lens and the count model are both AGTR1 per 10^4
+## transcripts (plotted as log rate, so they are directly comparable to each
+## other). Forcing all four onto a single centered axis would compress the
+## count model to a flat line and misrepresent it as "no effect".
+##
+## (B) is unchanged in construction and now reports a strengthening, not a
+## collapse; the "n.s." shape level is retained so an absent point is still
+## distinguishable from an unplotted one.
 SD <- P("pericyte_states", "_m", "stats_data")
+CNT <- P("basement_membrane", "_m", "stats_data")
 acta2_f <- file.path(SD, "acta2_by_program_emmeans.tsv")
 agtr1_f <- file.path(SD, "agtr1_lenses_by_program_emmeans.tsv")
 cor_f   <- file.path(SD, "acta2_control_correlations.tsv")
 if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
     PROG_LEVELS <- c("vascular_stabilizing", "basement_membrane", "activated_migratory")
     READOUT_LABS <- c(ACTA2_expr = "ACTA2 (raw)", AGTR1_expr = "AGTR1 (raw)",
-                      AGTR1_scvi = "AGTR1 (denoised)")
+                      AGTR1_scvi = "AGTR1 (denoised)",
+                      AGTR1_count = "AGTR1 (count model)")
     READOUT_COL  <- c("ACTA2 (raw)" = "#009E73", "AGTR1 (raw)" = "#56B4E9",
-                      "AGTR1 (denoised)" = "#D55E00")
+                      "AGTR1 (denoised)" = "#D55E00",
+                      "AGTR1 (count model)" = "#000000")
+    ## Which axis each readout belongs on. Facet labels name the UNITS, so a
+    ## reader cannot compare two series that are not comparable.
+    SCALE_OF <- c("ACTA2 (raw)" = "log-normalised expression",
+                  "AGTR1 (raw)" = "log-normalised expression",
+                  "AGTR1 (denoised)" = "log AGTR1 per 10\u2074 transcripts",
+                  "AGTR1 (count model)" = "log AGTR1 per 10\u2074 transcripts")
+    SCALE_LEVELS <- c("log-normalised expression",
+                      "log AGTR1 per 10\u2074 transcripts")
 
     ## The two tables were generated on different sides of the 2026-07-21
     ## basement-membrane relabel (acta2_* 2026-07-24, agtr1_lenses_* 2026-06-17),
@@ -154,29 +184,74 @@ if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
     ## deleted the AGTR1 rows for that program while keeping the ACTA2 one -- a
     ## partial panel comparing readouts over different program sets. Normalise
     ## before the rbind and refuse to plot if a program is still missing.
-    emm <- rbind(bm_relabel(fread(acta2_f), src = "acta2_by_program_emmeans.tsv")[
+    emm <- rbind(norm_ci(bm_relabel(fread(acta2_f), src = "acta2_by_program_emmeans.tsv"))[
                      lens == "ACTA2_expr"],
-                 bm_relabel(fread(agtr1_f), src = "agtr1_lenses_by_program_emmeans.tsv")[
-                     lens %in% c("AGTR1_expr", "AGTR1_scvi")])
+                 norm_ci(bm_relabel(fread(agtr1_f), src = "agtr1_lenses_by_program_emmeans.tsv"))[
+                     lens %in% c("AGTR1_expr", "AGTR1_scvi")],
+                 fill = TRUE)
     require_programs(emm$state_program, PROG_LEVELS, "figureS_acta2_control panel A")
+    emm <- as.data.table(emm)[, .(state_program, lens, emmean, SE)]
+
+    ## The denoised emmean is a RATE (AGTR1 per 10^4 transcripts); the count model
+    ## reports a log rate. Put the denoised lens on the log scale so the two share
+    ## an axis. Delta method for the SE: SE(log x) = SE(x)/x.
+    emm[lens == "AGTR1_scvi", `:=`(SE = SE / emmean, emmean = log(emmean))]
+
+    ## The count-model arbiter, on the same grouping the claim is made over.
+    ## `spec = with_offset` is the concentration estimand (AGTR1 per transcript
+    ## sampled), which is the one that matches the denoised lens's units.
+    cnt_f <- file.path(CNT, "agtr1_count_by_program.tsv")
+    if (file.exists(cnt_f)) {
+        cnt <- as.data.table(fread(cnt_f))[
+            level == "pseudobulk" & spec == "with_offset"]
+        ## An unconverged fit is not a result and must not be drawn as one.
+        if (nrow(cnt) && !all(cnt$converged)) {
+            warning("figureS_acta2_control: dropping ", sum(!cnt$converged),
+                    " unconverged count-model row(s)")
+            cnt <- cnt[converged == TRUE]
+        }
+        if (nrow(cnt)) {
+            ## estimate is log(AGTR1 per transcript); + log(1e4) puts it on the
+            ## per-10^4 scale the denoised lens uses. Centering removes the
+            ## constant anyway, but keeping it makes the facet label honest.
+            cnt <- cnt[, .(state_program, lens = "AGTR1_count",
+                           emmean = estimate + log(1e4), SE)]
+            emm <- rbind(emm, cnt, fill = TRUE)
+        }
+    } else {
+        warning("figureS_acta2_control: ", cnt_f, " absent; panel A omits the ",
+                "count-model arbiter")
+    }
+
     emm <- emm %>%
         mutate(readout = factor(READOUT_LABS[lens], levels = READOUT_LABS),
-               program = factor(state_program, levels = PROG_LEVELS)) %>%
-        filter(!is.na(program)) %>%
+               program = factor(state_program, levels = PROG_LEVELS),
+               scale_grp = factor(SCALE_OF[as.character(readout)],
+                                  levels = SCALE_LEVELS)) %>%
+        filter(!is.na(program), !is.na(readout)) %>%
         group_by(readout) %>% mutate(centered = emmean - mean(emmean)) %>% ungroup()
+
     sA <- ggplot(emm, aes(program, centered, colour = readout, group = readout)) +
         geom_hline(yintercept = 0, colour = "grey80", linewidth = 0.3) +
         geom_line(linewidth = 0.6) +
         geom_errorbar(aes(ymin = centered - SE, ymax = centered + SE),
                       width = 0.12, linewidth = 0.4) +
         geom_point(size = 1.9) +
-        scale_colour_manual(values = READOUT_COL, name = NULL) +
+        facet_wrap(~ scale_grp, ncol = 1, scales = "free_y") +
+        scale_colour_manual(values = READOUT_COL, name = NULL,
+                            drop = TRUE) +
+        ## Four readouts on one row overflow the panel width and the leading key
+        ## glyph gets clipped, leaving "ACTA2 (raw)" as bare text with no swatch.
+        ## Two rows fit.
+        guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +
         scale_x_discrete(labels = STATE_LABS[PROG_LEVELS]) +
-        labs(x = NULL, y = "Centered donor-aware emmean") +
-        theme_ms() + theme(legend.position = c(0.5, 0.12),
+        labs(x = NULL, y = "Centered donor-aware marginal mean",
+             title = "Not co-ordered: ACTA2 peaks on vascular-stabilizing,\nAGTR1 on basement-membrane once dropout is handled") +
+        theme_ms() + theme(legend.position = "bottom",
                            legend.background = element_blank(),
                            legend.text = element_text(size = 6),
-                           legend.key.size = unit(3, "mm"))
+                           legend.key.size = unit(3, "mm"),
+                           strip.text = element_text(size = 6))
 
     ## (B) pseudobulk correlation forest with Fisher-z 95% CI
     TARGET_LABS <- c(ACTA2_expr = "ACTA2", synth_contr_noACTA2 = "Contractile\nprogram (-ACTA2)")
@@ -194,16 +269,32 @@ if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
         geom_point(size = 2.2, position = position_dodge(width = 0.55)) +
         scale_colour_manual(values = READOUT_COL, name = NULL) +
         scale_shape_manual(values = c("p < 0.05" = 16, "n.s." = 1), name = NULL) +
-        labs(x = "Pearson r (donor x program pseudobulk, 95% CI)", y = NULL) +
+        ## The shape scale earns a key only when it distinguishes something. With
+        ## every point significant (the current state), a lone "p < 0.05" key in
+        ## the default black reads as a fifth colour category. Suppress it then,
+        ## and say so in the axis label instead, so an n.s. point in a future run
+        ## still gets an explicit key rather than a silently unlabelled hollow
+        ## marker.
+        (if (any(cor_dt$sig == "n.s.")) NULL else guides(shape = "none")) +
+        labs(x = paste0("Pearson r (donor \u00d7 program pseudobulk, 95% CI)",
+                        if (any(cor_dt$sig == "n.s.")) "" else "; all P < 0.05"),
+             y = NULL,
+             title = "Correlated: the coupling strengthens under\ndenoising rather than collapsing") +
         theme_ms() + theme(legend.position = "right",
                            legend.text = element_text(size = 6),
                            legend.key.size = unit(3, "mm"),
                            legend.spacing.y = unit(1, "mm"))
 
-    pACTA2 <- (sA | sB) + plot_layout(widths = c(1, 1.25)) +
+    pACTA2 <- (sA | sB) + plot_layout(widths = c(1, 1.1)) +
         plot_annotation(tag_levels = "A") &
-        theme(plot.tag = element_text(face = "bold", size = 10))
-    save_fig("figureS_acta2_control", pACTA2, 7.4, 3.2)
+        theme(plot.tag = element_text(face = "bold", size = 10),
+              plot.title = element_text(size = 6.5, face = "plain",
+                                        colour = "grey25", hjust = 0))
+    ## Taller than before: panel A now carries two stacked facets and a bottom
+    ## legend, so 3.2 in would clip the lower facet.
+    save_fig("figureS_acta2_control", pACTA2, 7.4, 4.8)
+    message("figureS_acta2_control panel A readouts: ",
+            paste(levels(droplevels(emm$readout)), collapse = ", "))
 
     ## source-data table (figure underlying values)
     tab_emm <- emm %>%

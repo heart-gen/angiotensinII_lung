@@ -1,13 +1,13 @@
-2026-08-10 16:26:39 - **** Job starts ****
-Job id: 43310751
-Hostname: r267
+2026-09-02 15:59:49 - **** Job starts ****
+Job id: 45100393
+Hostname: r274
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-08-10 16:26:40 - **** AGTR1 by program: raw / detection / scVI-denoised lenses ****
+2026-09-02 15:59:50 - **** AGTR1 by program: raw / detection / scVI-denoised lenses ****
 denoised model: Pericyte-only-trained (11680 cells)
 merged 11680 cells (100.0% of pericyte states have a denoised AGTR1)
 Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
@@ -34,10 +34,10 @@ To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
 but be warned that this may result in large computation time and memory use.
 
 == AGTR1_scvi by program (emmeans) ==
-         state_program   emmean         SE
-1  activated_migratory 1.004699 0.05006263
-2    basement_membrane 1.032786 0.03486708
-3 vascular_stabilizing 0.933834 0.03426199
+         state_program    emmean        SE
+1  activated_migratory  9.685612 0.7365524
+2    basement_membrane 10.689483 0.6475756
+3 vascular_stabilizing  9.615845 0.6437838
 Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
 To enable adjustments, add the argument 'pbkrtest.limit = 11680' (or larger)
 [or, globally, 'set emm_options(pbkrtest.limit = 11680)' or larger];
@@ -57,11 +57,11 @@ but be warned that this may result in large computation time and memory use.
            lens          top_program top_emmean
          <char>               <fctr>      <num>
 1:   AGTR1_expr vascular_stabilizing  0.8000520
-2:   AGTR1_scvi    basement_membrane  1.0327856
+2:   AGTR1_scvi    basement_membrane 10.6894833
 3: AGTR1_detect vascular_stabilizing  0.3939326
 
 Reproducibility information:
-[1] "2026-08-10 16:27:22 EDT"
+[1] "2026-09-02 16:00:50 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -72,7 +72,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-08-10
+ date     2026-09-02
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -133,4 +133,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-08-10 16:27:27 - **** Job ends ****
+2026-09-02 16:00:54 - **** Job ends ****

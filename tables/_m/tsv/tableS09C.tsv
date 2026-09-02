@@ -1,22 +1,22 @@
 pericyte_state	emmean	SE	df	lower.CL	upper.CL	model	block	contrast	estimate	t.ratio	p_BH_within_score	adjustment	p_formatted
-0	-0.219901480450929	0.130642853574506	37.5068564986054	-0.484488351676362	0.0446853907745035	adjusted_for_fibrillar	marginal means						
-1	0.336329151338836	0.11162311089955	26.5952575257135	0.10713424347808	0.565524059199593	adjusted_for_fibrillar	marginal means						
-2	-0.553343120101131	0.124792332632955	60.6170112177814	-0.802912701706281	-0.303773538495981	adjusted_for_fibrillar	marginal means						
-3	0.701341579941717	0.171729008708187	143.892134319961	0.361904147097187	1.04077901278625	adjusted_for_fibrillar	marginal means						
-4	-0.352600028038787	0.200972804151832	151.41702110757	-0.749673044346994	0.0444729882694194	adjusted_for_fibrillar	marginal means						
-5	0.668300069362048	0.3535959946045	151.618975172115	-0.0303114778645569	1.36691161658865	adjusted_for_fibrillar	marginal means						
-		0.178764619524643	96.9126210632066				pairwise contrasts	pericyte_state0 - pericyte_state1	-0.556230631789766	-3.11152527423407	0.00524056001087859	BH within score (applied by emmeans::pairs)	5.24e-03
-		0.177435627119224	157.089247574693				pairwise contrasts	pericyte_state0 - pericyte_state2	0.333441639650202	1.87922597656306	0.0930988086091234	BH within score (applied by emmeans::pairs)	9.31e-02
-		0.180111182177	140.934780764704				pairwise contrasts	pericyte_state0 - pericyte_state3	-0.921243060392646	-5.11485766323668	5.03727401871432e-06	BH within score (applied by emmeans::pairs)	5.04e-06
-		0.232722189246205	158.987193502668				pairwise contrasts	pericyte_state0 - pericyte_state4	0.132698547587858	0.570201526625687	0.610013501433607	BH within score (applied by emmeans::pairs)	6.10e-01
-		0.359468977422543	141.264960376959				pairwise contrasts	pericyte_state0 - pericyte_state5	-0.888201549812978	-2.47087121726481	0.0244466340869047	BH within score (applied by emmeans::pairs)	2.44e-02
-		0.131776278835751	141.413824268098				pairwise contrasts	pericyte_state1 - pericyte_state2	0.889672271439968	6.75138408293404	5.24992468015688e-09	BH within score (applied by emmeans::pairs)	5.25e-09
-		0.201365712436682	164.613918603349				pairwise contrasts	pericyte_state1 - pericyte_state3	-0.365012428602881	-1.81268411680393	0.0977761717499614	BH within score (applied by emmeans::pairs)	9.78e-02
-		0.207284651098968	143.757656997748				pairwise contrasts	pericyte_state1 - pericyte_state4	0.688929179377624	3.32358993164764	0.00295484245261983	BH within score (applied by emmeans::pairs)	2.95e-03
-		0.36940637550002	148.569227803906				pairwise contrasts	pericyte_state1 - pericyte_state5	-0.331970918023212	-0.898660499764965	0.427254986101949	BH within score (applied by emmeans::pairs)	4.27e-01
-		0.203611223615128	156.296589701137				pairwise contrasts	pericyte_state2 - pericyte_state3	-1.25468470004285	-6.16215883272964	4.38299734732267e-08	BH within score (applied by emmeans::pairs)	4.38e-08
-		0.210632347048113	136.35617870068				pairwise contrasts	pericyte_state2 - pericyte_state4	-0.200743092062344	-0.953049685272178	0.427254986101949	BH within score (applied by emmeans::pairs)	4.27e-01
-		0.369168844369918	144.178660589695				pairwise contrasts	pericyte_state2 - pericyte_state5	-1.22164318946318	-3.30917196316561	0.00295484245261983	BH within score (applied by emmeans::pairs)	2.95e-03
-		0.248779363107155	141.612839940948				pairwise contrasts	pericyte_state3 - pericyte_state4	1.0539416079805	4.23645110598079	0.000152577996151721	BH within score (applied by emmeans::pairs)	1.53e-04
-		0.362245203599619	131.984059247496				pairwise contrasts	pericyte_state3 - pericyte_state5	0.0330415105796684	0.0912131071752945	0.927461550043808	BH within score (applied by emmeans::pairs)	9.27e-01
-		0.391832581440817	137.963649550282				pairwise contrasts	pericyte_state4 - pericyte_state5	-1.02090009740084	-2.60544973990386	0.0190913119639424	BH within score (applied by emmeans::pairs)	1.91e-02
+0	-0.188438064997883	0.124193562830447	37.4387210529746	-0.439978627208031	0.0631024972122662	adjusted_for_fibrillar	marginal means						
+1	0.325576802426871	0.106098739341343	26.4003514665102	0.107648570115446	0.543505034738295	adjusted_for_fibrillar	marginal means						
+2	-0.643150073851008	0.118498744138441	59.8730609672857	-0.880193190321647	-0.406106957380369	adjusted_for_fibrillar	marginal means						
+3	0.922946209200221	0.162838699199371	142.820523070892	0.60106077118663	1.24483164721381	adjusted_for_fibrillar	marginal means						
+4	-0.405971477357027	0.190431754388089	150.481836937335	-0.782236798538469	-0.0297061561755852	adjusted_for_fibrillar	marginal means						
+5	0.144259348463789	0.334748006763819	151.098557308647	-0.517131918207531	0.805650615135108	adjusted_for_fibrillar	marginal means						
+		0.169617059341488	97.5913769506196				pairwise contrasts	pericyte_state0 - pericyte_state1	-0.514014867424753	-3.03044321968755	0.00669903744284638	BH within score (applied by emmeans::pairs)	6.70e-03
+		0.168207981923649	157.136098578708				pairwise contrasts	pericyte_state0 - pericyte_state2	0.454712008853126	2.70327248239339	0.0142909383740295	BH within score (applied by emmeans::pairs)	1.43e-02
+		0.170502732987298	140.610923978032				pairwise contrasts	pericyte_state0 - pericyte_state3	-1.1113842741981	-6.5182783567516	5.9168445516459e-09	BH within score (applied by emmeans::pairs)	5.92e-09
+		0.220405395812999	158.648577493488				pairwise contrasts	pericyte_state0 - pericyte_state4	0.217533412359145	0.986969541089225	0.353302827535793	BH within score (applied by emmeans::pairs)	3.53e-01
+		0.340178526830328	140.659674015693				pairwise contrasts	pericyte_state0 - pericyte_state5	-0.332697413461671	-0.978008272778522	0.353302827535793	BH within score (applied by emmeans::pairs)	3.53e-01
+		0.124756355059587	141.175334974904				pairwise contrasts	pericyte_state1 - pericyte_state2	0.968726876277879	7.76495013673001	1.13276435845603e-11	BH within score (applied by emmeans::pairs)	1.13e-11
+		0.190744971146969	164.335677923803				pairwise contrasts	pericyte_state1 - pericyte_state3	-0.59736940677335	-3.13177014933241	0.00514338486630693	BH within score (applied by emmeans::pairs)	5.14e-03
+		0.19618247273254	143.18462418113				pairwise contrasts	pericyte_state1 - pericyte_state4	0.731548279783898	3.72891762242814	0.000828929702981602	BH within score (applied by emmeans::pairs)	8.29e-04
+		0.349662803028002	148.034083709681				pairwise contrasts	pericyte_state1 - pericyte_state5	0.181317453963082	0.51854944933494	0.604849215789639	BH within score (applied by emmeans::pairs)	6.05e-01
+		0.192786124443682	155.936372897129				pairwise contrasts	pericyte_state2 - pericyte_state3	-1.56609628305123	-8.12349066910531	1.94205744271184e-12	BH within score (applied by emmeans::pairs)	1.94e-12
+		0.199290339400558	135.79967716553				pairwise contrasts	pericyte_state2 - pericyte_state4	-0.237178596493981	-1.19011587419333	0.29509656594647	BH within score (applied by emmeans::pairs)	2.95e-01
+		0.349384063184034	143.642815534683				pairwise contrasts	pericyte_state2 - pericyte_state5	-0.787409422314797	-2.25370732465275	0.0385929276182271	BH within score (applied by emmeans::pairs)	3.86e-02
+		0.23544452463145	141.287436052188				pairwise contrasts	pericyte_state3 - pericyte_state4	1.32891768655725	5.64429216877077	3.28719692751787e-07	BH within score (applied by emmeans::pairs)	3.29e-07
+		0.342698357715344	131.466523917252				pairwise contrasts	pericyte_state3 - pericyte_state5	0.778686860736432	2.27222232965363	0.0385929276182271	BH within score (applied by emmeans::pairs)	3.86e-02
+		0.370773804151511	137.561873907458				pairwise contrasts	pericyte_state4 - pericyte_state5	-0.550230825820816	-1.484006743896	0.191038415950721	BH within score (applied by emmeans::pairs)	1.91e-01

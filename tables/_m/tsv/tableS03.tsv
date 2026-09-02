@@ -1,17 +1,45 @@
 panel_set	program	gene	n_state_programs	state_programs	multi_panel	program_rationale	gene_category	detect_frac	mean_expr	detected_in_object	n_cells_object
 bm_subpanel	bm_collagen_iv	COL4A1	2	basement_membrane; fibroblast_like	True		collagen IV	0.7939212328767123	2.0454920938570207	True	11680
 bm_subpanel	bm_collagen_iv	COL4A2	1	basement_membrane	False		collagen IV	0.8103595890410958	2.0786228127675512	True	11680
+bm_subpanel	bm_laminin	LAMA1	1	basement_membrane	False			0.002226027397260274	0.0041034799732574045	True	11680
+bm_subpanel	bm_laminin	LAMA2	1	basement_membrane	False			0.3446917808219178	0.7730607542273117	True	11680
 bm_subpanel	bm_laminin	LAMA3	1	basement_membrane	False		laminin	0.015839041095890412	0.029683066067630298	True	11680
 bm_subpanel	bm_laminin	LAMA4	1	basement_membrane	False		laminin	0.31215753424657533	0.6645114428376498	True	11680
 bm_subpanel	bm_laminin	LAMA5	1	basement_membrane	False		laminin	0.0663527397260274	0.1309100634431186	True	11680
 bm_subpanel	bm_laminin	LAMB1	1	basement_membrane	False		laminin	0.5961472602739726	1.4325700315710617	True	11680
 bm_subpanel	bm_laminin	LAMB2	1	basement_membrane	False		laminin	0.14272260273972603	0.2870428843040989	True	11680
+bm_subpanel	bm_laminin	LAMB3	1	basement_membrane	False			0.007791095890410959	0.014161776189934718	True	11680
+bm_subpanel	bm_laminin	LAMB4	1	basement_membrane	False			0.004366438356164384	0.008502223393688463	True	11680
 bm_subpanel	bm_laminin	LAMC1	1	basement_membrane	False		laminin	0.22294520547945204	0.4549435550219392	True	11680
+bm_subpanel	bm_laminin	LAMC2	1	basement_membrane	False			0.0029965753424657533	0.005761876824783952	True	11680
+bm_subpanel	bm_laminin	LAMC3	1	basement_membrane	False			0.5709760273972603	1.3328041390196919	True	11680
 bm_subpanel	bm_linker	AGRN	1	basement_membrane	False		linker/proteoglycan	0.06926369863013698	0.13686152418998823	True	11680
+bm_subpanel	bm_linker	COL15A1	1	basement_membrane	False			0.030308219178082192	0.05579860634999732	True	11680
 bm_subpanel	bm_linker	COL18A1	1	basement_membrane	False		collagen XVIII (BM-associated)	0.5262842465753425	1.204858231217894	True	11680
 bm_subpanel	bm_linker	HSPG2	1	basement_membrane	False		linker/proteoglycan	0.13964041095890412	0.2828697936175621	True	11680
 bm_subpanel	bm_linker	NID1	1	basement_membrane	False		linker/proteoglycan	0.577054794520548	1.346885367615582	True	11680
 bm_subpanel	bm_linker	NID2	1	basement_membrane	False		linker/proteoglycan	0.09700342465753424	0.19194799971907106	True	11680
+contrast_panel	bm_v1_frozen_13gene	AGRN	1	basement_membrane	False		linker/proteoglycan	0.06926369863013698	0.13686152418998823	True	11680
+contrast_panel	bm_v1_frozen_13gene	COL18A1	1	basement_membrane	False		collagen XVIII (BM-associated)	0.5262842465753425	1.204858231217894	True	11680
+contrast_panel	bm_v1_frozen_13gene	COL4A1	2	basement_membrane; fibroblast_like	True		collagen IV	0.7939212328767123	2.0454920938570207	True	11680
+contrast_panel	bm_v1_frozen_13gene	COL4A2	1	basement_membrane	False		collagen IV	0.8103595890410958	2.0786228127675512	True	11680
+contrast_panel	bm_v1_frozen_13gene	HSPG2	1	basement_membrane	False		linker/proteoglycan	0.13964041095890412	0.2828697936175621	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMA3	1	basement_membrane	False		laminin	0.015839041095890412	0.029683066067630298	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMA4	1	basement_membrane	False		laminin	0.31215753424657533	0.6645114428376498	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMA5	1	basement_membrane	False		laminin	0.0663527397260274	0.1309100634431186	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMB1	1	basement_membrane	False		laminin	0.5961472602739726	1.4325700315710617	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMB2	1	basement_membrane	False		laminin	0.14272260273972603	0.2870428843040989	True	11680
+contrast_panel	bm_v1_frozen_13gene	LAMC1	1	basement_membrane	False		laminin	0.22294520547945204	0.4549435550219392	True	11680
+contrast_panel	bm_v1_frozen_13gene	NID1	1	basement_membrane	False		linker/proteoglycan	0.577054794520548	1.346885367615582	True	11680
+contrast_panel	bm_v1_frozen_13gene	NID2	1	basement_membrane	False		linker/proteoglycan	0.09700342465753424	0.19194799971907106	True	11680
+contrast_panel	fibrillar_collagen	COL11A1	0		False			0.001969178082191781	0.0035312054908438906	True	11680
+contrast_panel	fibrillar_collagen	COL11A2	0		False			0.0016267123287671233	0.0030748047240792887	True	11680
+contrast_panel	fibrillar_collagen	COL1A1	1	fibroblast_like	False			0.14726027397260275	0.3242454215271832	True	11680
+contrast_panel	fibrillar_collagen	COL1A2	1	fibroblast_like	False			0.5835616438356165	1.41611328125	True	11680
+contrast_panel	fibrillar_collagen	COL3A1	1	fibroblast_like	False			0.2661815068493151	0.6192289587569564	True	11680
+contrast_panel	fibrillar_collagen	COL5A1	0		False			0.14871575342465754	0.3004575964522688	True	11680
+contrast_panel	fibrillar_collagen	COL5A2	0		False			0.3544520547945205	0.7770499451519691	True	11680
+contrast_panel	fibrillar_collagen	COL5A3	0		False			0.2705479452054795	0.5737428430008562	True	11680
 contrast_panel	fibrillar_ecm	BGN	0		False			0.7889554794520548	2.107174724422089	True	11680
 contrast_panel	fibrillar_ecm	COL1A1	1	fibroblast_like	False			0.14726027397260275	0.3242454215271832	True	11680
 contrast_panel	fibrillar_ecm	COL1A2	1	fibroblast_like	False			0.5835616438356165	1.41611328125	True	11680
@@ -30,6 +58,29 @@ contrast_panel	fibroblast_like_noCOL4A1	FBLN1	1	fibroblast_like	False			0.125	0.
 contrast_panel	fibroblast_like_noCOL4A1	FN1	1	fibroblast_like	False			0.2573630136986301	0.5474557118873074	True	11680
 contrast_panel	fibroblast_like_noCOL4A1	LUM	1	fibroblast_like	False			0.23227739726027397	0.5119534845221533	True	11680
 contrast_panel	fibroblast_like_noCOL4A1	PDGFA	1	fibroblast_like	False			0.13792808219178082	0.2774831693466396	True	11680
+contrast_panel	tgfb_receptor	SMAD2	0		False			0.13638698630136986	0.2670336997672303	True	11680
+contrast_panel	tgfb_receptor	SMAD3	0		False			0.06772260273972602	0.130743408203125	True	11680
+contrast_panel	tgfb_receptor	SMAD4	0		False			0.1	0.19244840439051797	True	11680
+contrast_panel	tgfb_receptor	TGFBR1	0		False			0.0675513698630137	0.1309457439265839	True	11680
+contrast_panel	tgfb_receptor	TGFBR2	0		False			0.12011986301369863	0.23423614501953124	True	11680
+contrast_panel	tgfb_receptor	TGFBR3	0		False			0.1853595890410959	0.3905849927092252	True	11680
+contrast_panel	tgfb_response	BAMBI	0		False			0.03553082191780822	0.06856389502956442	True	11680
+contrast_panel	tgfb_response	CCN1	0		False			0.26053082191780824	0.5934189051797946	True	11680
+contrast_panel	tgfb_response	CCN2	0		False			0.32011986301369866	0.7550124913045805	True	11680
+contrast_panel	tgfb_response	CDKN1A	0		False			0.27037671232876714	0.5979612585616438	True	11680
+contrast_panel	tgfb_response	ID1	0		False			0.26386986301369864	0.5890944389447774	True	11680
+contrast_panel	tgfb_response	ID2	0		False			0.06181506849315069	0.12384752247431507	True	11680
+contrast_panel	tgfb_response	ID3	0		False			0.5125856164383562	1.2532950623394692	True	11680
+contrast_panel	tgfb_response	JUNB	0		False			0.5645547945205479	1.4736000374571918	True	11680
+contrast_panel	tgfb_response	KLF10	0		False			0.12063356164383561	0.2424345669681079	True	11680
+contrast_panel	tgfb_response	PMEPA1	0		False			0.12071917808219178	0.241645562158872	True	11680
+contrast_panel	tgfb_response	SERPINE2	0		False			0.019263698630136987	0.036298725702991225	True	11680
+contrast_panel	tgfb_response	SKI	0		False			0.0961472602739726	0.18578173493685787	True	11680
+contrast_panel	tgfb_response	SKIL	0		False			0.16977739726027397	0.3395581389126712	True	11680
+contrast_panel	tgfb_response	SMAD7	0		False			0.0351027397260274	0.06580521047931828	True	11680
+contrast_panel	tgfb_response	SNAI1	0		False			0.022003424657534246	0.04226924425935092	True	11680
+contrast_panel	tgfb_response	TGFBI	0		False			0.08852739726027398	0.17785769945954624	True	11680
+contrast_panel	tgfb_response	TGIF1	0		False			0.06660958904109589	0.12940656061041844	True	11680
 extra	receptor/control genes	ACTA2	1	synthetic_contractile	False			0.5741438356164383	1.4330823924443492	True	11680
 extra	receptor/control genes	AGTR1	0		False			0.3742294520547945	0.8098208074700343	True	11680
 extra	receptor/control genes	AGTR2	0		False			8.561643835616438e-05	0.00010604955358048008	True	11680
@@ -42,16 +93,23 @@ state_program	activated_migratory	SERPINE1	1	activated_migratory	False	Matrix-re
 state_program	activated_migratory	THBS1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.35368150684931504	0.8001181406517551	True	11680
 state_program	activated_migratory	TIMP1	1	activated_migratory	False	Matrix-remodelling proteases, their inhibitors and matricellular activation markers		0.688527397260274	1.7803448402718323	True	11680
 state_program	basement_membrane	AGRN	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.06926369863013698	0.13686152418998823	True	11680
+state_program	basement_membrane	COL15A1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.030308219178082192	0.05579860634999732	True	11680
 state_program	basement_membrane	COL18A1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen XVIII (BM-associated)	0.5262842465753425	1.204858231217894	True	11680
 state_program	basement_membrane	COL4A1	2	basement_membrane; fibroblast_like	True	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen IV	0.7939212328767123	2.0454920938570207	True	11680
 state_program	basement_membrane	COL4A2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	collagen IV	0.8103595890410958	2.0786228127675512	True	11680
 state_program	basement_membrane	HSPG2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.13964041095890412	0.2828697936175621	True	11680
+state_program	basement_membrane	LAMA1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.002226027397260274	0.0041034799732574045	True	11680
+state_program	basement_membrane	LAMA2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.3446917808219178	0.7730607542273117	True	11680
 state_program	basement_membrane	LAMA3	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.015839041095890412	0.029683066067630298	True	11680
 state_program	basement_membrane	LAMA4	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.31215753424657533	0.6645114428376498	True	11680
 state_program	basement_membrane	LAMA5	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.0663527397260274	0.1309100634431186	True	11680
 state_program	basement_membrane	LAMB1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.5961472602739726	1.4325700315710617	True	11680
 state_program	basement_membrane	LAMB2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.14272260273972603	0.2870428843040989	True	11680
+state_program	basement_membrane	LAMB3	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.007791095890410959	0.014161776189934718	True	11680
+state_program	basement_membrane	LAMB4	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.004366438356164384	0.008502223393688463	True	11680
 state_program	basement_membrane	LAMC1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	laminin	0.22294520547945204	0.4549435550219392	True	11680
+state_program	basement_membrane	LAMC2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.0029965753424657533	0.005761876824783952	True	11680
+state_program	basement_membrane	LAMC3	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers		0.5709760273972603	1.3328041390196919	True	11680
 state_program	basement_membrane	NID1	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.577054794520548	1.346885367615582	True	11680
 state_program	basement_membrane	NID2	1	basement_membrane	False	Vascular basement-membrane deposition: collagen IV network, laminins, and nidogen/perlecan/agrin linkers	linker/proteoglycan	0.09700342465753424	0.19194799971907106	True	11680
 state_program	fibroblast_like	COL1A1	1	fibroblast_like	False	Fibrillar interstitial matrix and fibroblast identity markers		0.14726027397260275	0.3242454215271832	True	11680

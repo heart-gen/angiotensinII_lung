@@ -101,7 +101,16 @@ manifest <- tibble::tribble(
     ##       section is laid out.
     "Supp", "S13", "Program x protein-category enrichment",               SF("figureS_program_category"),
     "Supp", "S14", "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state"),
-    "Supp", "S15", "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd")
+    "Supp", "S15", "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd"),
+    ##   S16 was already in use by the disease-robustness figure (README
+    ##       heading, 2026-07-29) but had never been registered here, which is how
+    ##       the 2026-09-01 addition below nearly collided with it. Registered now.
+    ##   S17 is the 2026-09-01 companion to Figure 3: what the two matrix
+    ##       categories are ASSOCIATED with (cluster, AGTR1 before/after
+    ##       denoising, TGF-beta), plus the audit of the 13 -> 20 gene BM panel
+    ##       expansion. Appended at the tail per the rule above.
+    "Supp", "S16", "Study-level robustness of the injury-program disease effect", SF("figureS_disease_robustness"),
+    "Supp", "S17", "Matrix-program associations with cluster, AGTR1 and TGF-b", SF("figureS_bm_associations")
 )
 ## NOT numbered supplements, deliberately:
 ##   figureS_alluvial          -- grant figure, not a manuscript supplement (2026-07-27)

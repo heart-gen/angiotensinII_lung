@@ -1,28 +1,28 @@
-2026-07-27 17:35:44 - **** Job starts ****
-2026-07-27 17:35:44 - **** Bridges-2 info ****
+2026-09-01 19:42:01 - **** Job starts ****
+2026-09-01 19:42:01 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 42723124
+Job id: 45016790
 Job name: peri_annot_support
 Node name: 
-Hostname: r011
+Hostname: r330
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 17:35:45 - **** Loading mamba environment ****
-2026-07-27 17:35:45 - **** Marker dot-plot table (Figure S3 panel C) ****
-2026-07-27 17:39:09,370 [INFO] Loaded 11680 cells x 55329 genes
-2026-07-27 17:39:10,882 [INFO] Displayed curated genes:
+2026-09-01 19:42:02 - **** Loading mamba environment ****
+2026-09-01 19:42:03 - **** Marker dot-plot table (Figure S3 panel C) ****
+2026-09-01 19:44:57,571 [INFO] Loaded 11680 cells x 55329 genes
+2026-09-01 19:44:59,481 [INFO] Displayed curated genes:
 block
 activated_migratory      [TIMP1, THBS1, ADAMTS1, SERPINE1]
-basement_membrane           [LAMB1, NID1, COL18A1, COL4A2]
+basement_membrane              [LAMB1, LAMC3, NID1, LAMA2]
 fibroblast_like              [DCN, COL1A2, COL4A1, COL3A1]
 inflammatory                      [NFKBIA, MIF, IL6, CCL2]
 synthetic_contractile            [MYL9, VIM, MYH11, ACTA2]
 vascular_stabilizing      [NDUFA4L2, HIGD1B, COX4I2, RGS5]
-2026-07-27 17:39:10,884 [INFO] Displayed marker genes:
+2026-09-01 19:44:59,483 [INFO] Displayed marker genes:
 block
 0      [BTF3, GAPDH, UBB, CALM2]
 1      [PRKG1, SOX5, PLCB1, LPP]
@@ -30,7 +30,7 @@ block
 3    [CSPG4, NID1, LAMC3, ITGA1]
 4     [NEAT1, NAMPT, THBS1, FOS]
 5      [SLIT3, DMD, ENAH, MACF1]
-2026-07-27 17:39:11,065 [INFO] wrote annotations/state_marker_dotplot.tsv (288 rows, 46 unique genes, 12 blocks)
+2026-09-01 19:44:59,761 [INFO] wrote annotations/state_marker_dotplot.tsv (288 rows, 45 unique genes, 12 blocks)
 -----
 numpy               2.1.3
 pandas              2.3.2
@@ -41,5 +41,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-27 17:39
-2026-07-27 17:39:28 - **** Job ends ****
+Session information updated at 2026-09-01 19:44
+2026-09-01 19:45:19 - **** Job ends ****

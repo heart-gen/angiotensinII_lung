@@ -1,0 +1,506 @@
+2026-09-02 17:03:54 - **** Job starts ****
+Job id: 45102056
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-09-02 17:03:56 - **** S3: curated program gene sets (scRNA_env) ****
+2026-09-02 17:07:27,686 [INFO] genes present in object: 102/102
+2026-09-02 17:07:29,955 [INFO] wrote tsv/tableS03.tsv (157 rows)
+2026-09-02 17:07:30,058 [INFO] registered part S03 in manifest_parts.tsv
+2026-09-02 17:07:30,074 [INFO] activated_migratory: 8 curated, 8 present, absent = none
+
+Reproducibility information:
+-----
+anndata             0.11.4
+numpy               2.1.3
+pandas              2.3.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-09-02 17:07
+2026-09-02 17:08:04 - **** S1, S2: cohort characteristics and mouse cross-species ****
+Warning message:
+In fread(path, ...) :
+  Detected 10 column names but the data has 11 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+  [S01] Cohort and dataset characteristics                           37 x 26  complete
+  [S02A] Mouse lung mural-cell composition and dataset comparabilit   50 x  3  complete
+  [S02B] Within-dataset Agtr1a detection tests (pericytes vs smooth    3 x  9  complete
+  [S02C1] Sequencing-depth dependence of raw Agtr1a detection in mou    6 x 12  complete
+  [S02C2] Receptor specificity of the mouse mural signal (Agtr1a/Agt   18 x  6  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:09 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:13 - **** S4, S5: cluster characteristics and AGTR1 models ****
+denoised merge: 11680 of 11680 cells (100.0%)
+  [S04] Stable pericyte cluster characteristics and program assign    6 x 31  complete
+  [S05A] AGTR1 dropout model: observed vs depth-matched expected un    1 x 10  complete
+  [S05B] Airspace-affinity models for AGTR1 (cell level and donor l    2 x 13  complete
+  [S05C1] AGTR1 by pericyte program under three measurement lenses:     9 x  8  complete
+  [S05C2] AGTR1 by pericyte program under three lenses: pairwise con    9 x  9  complete
+  [S05C3] Top-ranked pericyte program under each AGTR1 measurement l    3 x  4  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:15 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:16 - **** S6: ACTA2 benchmark and CoGAPS validation ****
+  [S06A] ACTA2 benchmark: AGTR1 is not reducible to ACTA2+ contract   19 x 13  complete
+  [S06B1] CoGAPS rank selection: cross-seed pattern reproducibility     7 x  7  complete
+  [S06B2] CoGAPS per-pattern cross-seed reproducibility at the selec    5 x  4  complete
+  [S06B3] CoGAPS pattern-to-program correspondence: score correlatio  394 x 12  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:17 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:17 - **** S7, S8, S9: correlations and basement membrane ****
+Warning message:
+In fread(path, ...) :
+  Detected 4 column names but the data has 5 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+  [S07] Donor- and cell-level correlations across the pericyte ana   49 x 15  complete
+  [S08A] Basement-membrane panel definition and pericyte detection    20 x 12  complete
+  [S08B] Per-gene pericyte selectivity of basement-membrane compone  459 x 25  complete
+BM cohort: 2329 profiles, 220 donors, 22 cell types
+  [S08C] Figure 3A/3B source data: matrix-panel expression across 2  440 x 14  complete
+donor x cluster units (>=5 cells): 214; donors: 95
+  [S09A] Cluster-level basement-membrane and contrast-panel scores    90 x 10  complete
+  [S09B] Cluster-level basement-membrane scores: pairwise contrasts  225 x  9  complete
+  [S09C] Basement-membrane score adjusted for the fibrillar-ECM pan   21 x 14  complete
+  [S09E] Associations of the two matrix programs with AGTR1 and TGF   48 x 22  complete
+  [S09D] Subpanel robustness of the basement-membrane program assig   37 x 24  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:20 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:20 - **** S10, S11: NicheNet injury and BM target sets ****
+  [S10A] NicheNet ligand prioritization for the pericyte injury pro  321 x 15  complete
+  [S10B] Matched-gene-set specificity of the prioritized ligands (i   25 x 12  complete
+  [S10C] Donor-level validation of the predicted sender-to-pericyte    6 x 15  complete
+  [S10D] Robustness of ligand prioritization to the definition of t 2879 x 17  complete
+  [S11A] Ligand prioritization against the basement-membrane target  321 x 19  complete
+  [S11D] Ligand prioritization toward basement-membrane versus fibr  321 x 13  complete
+  [S11B] Comparison of basement-membrane and injury-program ligand     7 x  2  complete
+  [S11C] Full ligand-to-basement-membrane-target regulatory-potenti 3852 x 11  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:22 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:22 - **** S12, S13, S14: local RAS, disease, robustness ****
+RAS cohort: 4376 profiles, 417 donors, 22 cell types
+  [S12A] Cell-type expression landscape of the local lung renin-ang  396 x 16  complete
+  [S12B] Circuit-role classification: completeness of the angiotens   22 x 16  complete
+  [S12C] AGT rank stability, ligand coexpression, and predicted-tar  114 x 23  complete
+  [S13A] Analysis cohorts and denominators for the disease models      6 x 21  complete
+  [S13B] Six stable cluster fractions by disease group                84 x 21  complete
+  [S13C] Three dominant-program fractions by disease group            42 x 21  complete
+  [S13D] Grouped injury-associated state fraction by disease group    12 x 16  complete
+  [S13E] Primary injury-stromal disease model                         30 x 25  complete
+  [S13F] Receptor-inclusive sensitivity composite (injury-stromal s   30 x 25  complete
+Warning messages:
+1: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+2: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+3: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+4: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+  [S14A] Leave-one-study-out robustness of the donor-level disease    72 x 13  complete
+Warning messages:
+1: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+2: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+3: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+4: In fread(path, ...) :
+  Detected 7 column names but the data has 8 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
+  [S14B] Net niche-stability index by disease group                   60 x 25  complete
+  [S14C] Smoking-data availability and covariate robustness           48 x 14  complete
+
+Reproducibility information:
+[1] "2026-09-02 17:08:26 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:26 - **** Anchor checks + workbook ****
+
+==== anchor checks ====
+                                     check    expected      observed passed
+                                    <char>       <num>         <num> <lgcl>
+ 1:              S10A TGFB2 corrected AUPR    0.208170    0.20817031   TRUE
+ 2:              S10A TGFB1 corrected AUPR    0.203057    0.20305693   TRUE
+ 3:                          S10A AGT rank   11.000000   11.00000000   TRUE
+ 4:               S11A MMP14 permutation z   24.583790   24.58379438   TRUE
+ 5:                          S11A MMP14 BH    0.032100    0.03209679   TRUE
+ 6:                 S11A n FDR-significant    1.000000    1.00000000   TRUE
+ 7:                     S11A TGFB2 BM rank    5.000000    5.00000000   TRUE
+ 8:                     S11A TGFB1 BM rank    8.000000    8.00000000   TRUE
+ 9:             S05A dropout obs/exp ratio    0.991120    0.99111777   TRUE
+10:                          S08C BM genes   20.000000   20.00000000   TRUE
+11:                        S08C cell types   22.000000   22.00000000   TRUE
+12:                    S08C donor profiles 2329.000000 2329.00000000   TRUE
+13:                        S12A cell types   22.000000   22.00000000   TRUE
+14:                    S12A donor profiles 4376.000000 4376.00000000   TRUE
+15:                 S12A max REN detection    0.022900    0.02290864   TRUE
+16:      S12B AGTR1 detection in pericytes    0.341800    0.34176179   TRUE
+17:      S12B complete autonomous circuits    0.000000    0.00000000   TRUE
+18:                    S12B max core roles    1.000000    1.00000000   TRUE
+19:     S09B BM-score contrasts at BH<0.05   10.000000   10.00000000   TRUE
+20:  S02C1 detection-vs-depth rho (pooled)    0.432000    0.43201382   TRUE
+21:                S13E (>=20) F statistic    5.965550    5.96554612   TRUE
+22:      S13E (>=20) Healthy marginal mean   -0.164118   -0.16411821   TRUE
+23: S13E (>=20) Fibrotic_ILD marginal mean    0.564861    0.56486094   TRUE
+24:    S13D (>=20) Healthy injury fraction    0.019157    0.01915669   TRUE
+25:              S14B (>=20) niche index F    3.410480    3.41047563   TRUE
+                                     check    expected      observed passed
+    threshold_dependent
+                 <lgcl>
+ 1:               FALSE
+ 2:               FALSE
+ 3:               FALSE
+ 4:               FALSE
+ 5:               FALSE
+ 6:               FALSE
+ 7:               FALSE
+ 8:               FALSE
+ 9:               FALSE
+10:               FALSE
+11:               FALSE
+12:               FALSE
+13:               FALSE
+14:               FALSE
+15:               FALSE
+16:               FALSE
+17:               FALSE
+18:               FALSE
+19:               FALSE
+20:               FALSE
+21:                TRUE
+22:                TRUE
+23:                TRUE
+24:                TRUE
+25:                TRUE
+    threshold_dependent
+all 25 anchor checks passed
+
+wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/tables/_m/supplementary_tables.xlsx with 46 sheets
+      part n_rows n_cols   status
+    <char>  <int>  <int>   <char>
+ 1:     01     37     26 complete
+ 2:    02A     50      3 complete
+ 3:    02B      3      9 complete
+ 4:   02C1      6     12 complete
+ 5:   02C2     18      6 complete
+ 6:     03    157     12 complete
+ 7:     04      6     31 complete
+ 8:    05A      1     10 complete
+ 9:    05B      2     13 complete
+10:   05C1      9      8 complete
+11:   05C2      9      9 complete
+12:   05C3      3      4 complete
+13:    06A     19     13 complete
+14:   06B1      7      7 complete
+15:   06B2      5      4 complete
+16:   06B3    394     12 complete
+17:     07     49     15 complete
+18:    08A     20     12 complete
+19:    08B    459     25 complete
+20:    08C    440     14 complete
+21:    09A     90     10 complete
+22:    09B    225      9 complete
+23:    09C     21     14 complete
+24:    09D     37     24 complete
+25:    09E     48     22 complete
+26:    10A    321     15 complete
+27:    10B     25     12 complete
+28:    10C      6     15 complete
+29:    10D   2879     17 complete
+30:    11A    321     19 complete
+31:    11B      7      2 complete
+32:    11C   3852     11 complete
+33:    11D    321     13 complete
+34:    12A    396     16 complete
+35:    12B     22     16 complete
+36:    12C    114     23 complete
+37:    13A      6     21 complete
+38:    13B     84     21 complete
+39:    13C     42     21 complete
+40:    13D     12     16 complete
+41:    13E     30     25 complete
+42:    13F     30     25 complete
+43:    14A     72     13 complete
+44:    14B     60     25 complete
+45:    14C     48     14 complete
+      part n_rows n_cols   status
+
+Reproducibility information:
+[1] "2026-09-02 17:08:28 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ generics      0.1.4   2025-05-09 [1] CRAN (R 4.4.3)
+ glue          1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr      2.0.4   2025-09-12 [1] CRAN (R 4.4.3)
+ pillar        1.11.1  2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ R6            2.6.1   2025-02-15 [1] CRAN (R 4.4.2)
+ rlang         1.1.6   2025-04-11 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+ tibble        3.3.0   2025-06-08 [1] CRAN (R 4.4.3)
+ tidyselect    1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ writexl     * 1.5.4   2025-04-15 [1] CRAN (R 4.4.3)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------
+2026-09-02 17:08:28 - **** Job ends ****

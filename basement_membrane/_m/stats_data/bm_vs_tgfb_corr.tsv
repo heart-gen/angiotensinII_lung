@@ -1,0 +1,7 @@
+comparison	matrix_score	predictor	pearson_r	pearson_ci_lo	pearson_ci_hi	pearson_p	spearman_rho	spearman_p	n_units
+basement_membrane vs tgfb_response_score	basement_membrane_score	tgfb_response_score	-0.456529915327023	-0.5565687627775	-0.343441674866871	2.05055219404312e-12	-0.478608140912416	0	214
+fibrillar_collagen vs tgfb_response_score	fibrillar_collagen_score	tgfb_response_score	-0.198821141153779	-0.324290433336955	-0.0664772055407933	0.00349265226024683	-0.258113514820722	0.000141088251575497	214
+basement_membrane vs tgfb_response_noECM_score	basement_membrane_score	tgfb_response_noECM_score	-0.455085622337353	-0.555309158510204	-0.341832649918284	2.45299636889006e-12	-0.468677660398382	0	214
+fibrillar_collagen vs tgfb_response_noECM_score	fibrillar_collagen_score	tgfb_response_noECM_score	-0.241348440259748	-0.363692699581289	-0.110818955324855	0.00036697974093793	-0.293711409950684	1.36978916153195e-05	214
+basement_membrane vs tgfb_receptor_score	basement_membrane_score	tgfb_receptor_score	0.350881276022547	0.227469182105297	0.463200110274018	1.35349898155059e-07	0.417477523257345	2.82978739807525e-10	214
+fibrillar_collagen vs tgfb_receptor_score	fibrillar_collagen_score	tgfb_receptor_score	0.0741396458684925	-0.0605792795356172	0.206205832311236	0.280274021016933	0.0957850559125236	0.162528556657786	214

@@ -32,7 +32,7 @@ The narrative arc the figures deliver:
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
 | `figure_disease_main.{pdf,svg,png}` | **Main Fig — disease association (continuous injury).** Graded injury-program engagement across disease groups, the programs that carry it, *AGTR1* disease effects across stromal cell types, and the independent COPD/IPF evaluation. Study-level robustness moved to S16 on 2026-07-29. Self-contained. | `disease_main_figure.R` |
 
-**Supplements — S1–S16.** Filenames stay semantic so scripts and cross-references do not
+**Supplements — S1–S17.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by the `supp_number` column of
 `figure_panel_manifest.tsv` and by the legend headings below.
 
@@ -53,6 +53,7 @@ churn; the manuscript number is carried by the `supp_number` column of
 | S13 | `figureS_program_category` | `manuscript_mechanism_figure.R` |
 | S14 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
 | S15 | `figureS_bm_copd` | `basement_membrane_figure.R` |
+| S17 | `figureS_bm_associations` | `basement_membrane_figure.R` |
 | S16 | `figureS_disease_robustness` | `disease_main_figure.R` |
 
 The tail of the list is where displaced figures land, so that the numbering above stays put
@@ -123,16 +124,26 @@ dominant state-program (vascular-stabilizing, basement-membrane, activated/migra
 *AGTR1* across programs under three measurement lenses — raw expression, binary detection, and
 scVI-denoised — as donor-aware marginal means centered within lens (±SE). The raw and detection
 lenses share a vascular-stabilizing–high pattern that **reverses** under denoising (denoised
-*AGTR1* is flat-to-injury), identifying the raw enrichment as a transcript-capture/dropout effect
-and establishing that *AGTR1* is not a vascular-stabilizing state marker. **(E)** Diffusion
+*AGTR1* is highest on the basement-membrane program, +1.074 over vascular-stabilizing,
+*P* = 7.8 × 10⁻¹¹). The reversal is adjudicated by a fourth measurement that imputes nothing — an
+NB GLMM on *AGTR1* integer counts with a library-size offset — which sides with the denoised
+ordering (basement-membrane Leiden clusters above vascular-stabilizing ones, BH = 0.0031–0.024).
+The raw enrichment is therefore a transcript-capture/dropout effect, and *AGTR1* is not a
+vascular-stabilizing state marker. **(E)** Diffusion
 pseudotime on the same embedding, ordering cells along a vascular-stabilizing ↔ injury/fibrotic
 continuum (ordering reflects transcriptional similarity, not time). **(F)** Donor-level Spearman
-correlation between each of the six program scores / *AGTR1* and pseudotime; orange = *P* < 0.05.
-The five injury/mural scores rise monotonically along the continuum (donor ρ ≈ 0.19–0.52), and
-*AGTR1* shows a weak positive trend (ρ ≈ 0.25), whereas the **basement-membrane score falls**
+correlation between each of the six program scores and *AGTR1* under **both** measurement lenses
+and pseudotime; orange = *P* < 0.05, and the two *AGTR1* rows carry the panel-D lens colours as a
+ring (blue = raw, orange = denoised). The five injury/mural scores rise monotonically along the
+continuum (donor ρ ≈ 0.19–0.52), whereas the **basement-membrane score falls**
 (donor ρ = −0.17, *P* = 0.016) — pericytes shed the structural BM program as they move toward the
-injury pole. Together: where *AGTR1* sits (A–C), why it is a compartment label not a state
-marker (D), and how the compartment is organized as an injury continuum (E–F).
+injury pole. Raw *AGTR1* shows a weak positive trend (ρ ≈ 0.25); the scVI-denoised lens is plotted
+beside it because raw *AGTR1* and every module score share a sequencing-depth gradient, and panel
+D, corroborated by the count-model arbiter, has already shown that this gradient is what
+manufactures *AGTR1*'s apparent program bias. The
+raw row alone would invite exactly the reading D refutes. Together: where *AGTR1* sits (A–C), why
+it is a compartment label not a state marker (D), and how the compartment is organized as an
+injury continuum (E–F).
 
 ### `figure_ccc_nichenet` — Niche signaling drives pericyte target programs
 
@@ -212,12 +223,14 @@ basement-membrane patterns, the contractile pattern is strongest in vascular smo
 fibrillar/inflammatory patterns extend into bona-fide fibroblasts and myeloid populations — the
 injury axes a subset of pericytes adopt are the ones fibroblasts constitutively run. **(D)**
 Re-running the prioritization against the **basement-membrane** target set instead of the injury
-program gives a substantially different ranking (Spearman ρ = 0.223 against the injury ranking,
-only 8 of the top 20 ligands shared). The target set is the **10 of 13** BM-panel genes expressed
-in pericytes above the 0.10 receiver threshold (*LAMA3*, *LAMA5* and *AGRN* fall below it and were
-never tested). Of 321 candidates only **MMP14** survives correction across 10,000 matched
-permutations (rank 1, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032); TIMP2 ranks second but is not FDR-significant,
-and TGFB2/TGFB1 carry regulatory potential without reaching significance. BM deposition is
+program gives a substantially different ranking (Spearman ρ = 0.227 against the injury ranking,
+only 8 of the top 20 ligands shared). The target set is the **12 of 20** BM-panel genes expressed
+in pericytes above the 0.10 receiver threshold. Of 321 candidates only **MMP14** survives correction
+across 10,000 matched permutations (rank 1, *z* = 24.6, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032);
+TIMP2 ranks second but is not FDR-significant, and TGFB2/TGFB1 carry regulatory potential without
+reaching significance (BH ≈ 0.235). The companion fibrillar arm (Table S11D) inverts this: **TGFB2
+is rank 3 at *z* = 23.2, BH = 0.0064** toward fibrillar collagen, and MMP14 falls to *z* = 5.55 —
+so TGF-β's predicted regulatory target is fibrillar collagen, not basement membrane. BM deposition is
 therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
 TGF-β-dominated axis that drives the injury program.
 
@@ -530,8 +543,8 @@ one common complete-case set (*n* = 7,157 cells, 56 donors) with the outcome z-s
 directly comparable in SD units. Per-cell rows are LMM with a donor random intercept and a dataset
 variance component; the donor row is OLS on donor means. Binary detectability: −0.136 unadjusted,
 −0.117 with depth covariates, **−0.114 fully adjusted** (age, sex, `n_counts`, `n_genes`,
-`pct_mito`; *P* = 1.1 × 10⁻⁵). Continuous scVI-denoised *AGTR1*: −0.087 SD per SD
-(*P* = 6.1 × 10⁻⁹). **Donor fraction *AGTR1*-detectable: −0.064 [−0.555, 0.427], *P* = 0.79** — the
+`pct_mito`; *P* = 1.1 × 10⁻⁵). Continuous scVI-denoised *AGTR1*: **−0.337 SD per SD**
+(*P* = 1.1 × 10⁻⁷⁰, retrained lens; the superseded model gave −0.087). **Donor fraction *AGTR1*-detectable: −0.064 [−0.555, 0.427], *P* = 0.79** — the
 largest possible contrast on the ladder (a 0→1 predictor) and the row that carries the panel.
 **(D)** Among the 7,309 cells with **no observed *AGTR1* transcript**, scVI-denoised *AGTR1* (log
 scale, pericyte-trained model) against airspace affinity. Two readings at once: the undetected
@@ -584,16 +597,45 @@ and `agtr1_cells.tsv.gz`. Figure: `figures/_h/agtr1_dropout_figure.R`.
 ### Figure S5 — `figureS_acta2_control` — AGTR1 is not reducible to ACTA2⁺ contractile identity
 
 **Figure S.** Control benchmarking *AGTR1* against canonical *ACTA2*⁺ contractile mural identity.
-**(A)** Centered donor-aware program marginal means (±SE) for *ACTA2* (raw), *AGTR1* (raw), and
-*AGTR1* (scVI-denoised) across the three discrete programs. The two **raw** markers share a
-vascular-stabilizing–high pattern; the **denoised** *AGTR1* does not, indicating the raw pattern
-is a shared transcript-capture/dropout effect. **(B)** Forest plot of donor × program pseudobulk
-Pearson correlation (point) with Fisher-*z* 95% CI between *AGTR1* (raw vs denoised) and either
-*ACTA2* or the leave-*ACTA2*-out contractile program; filled = *P* < 0.05, open = n.s. The raw
-coupling (*r* = 0.28 vs *ACTA2*; *r* = 0.39 vs contractile program) collapses after denoising
-(*r* = 0.04, *P* = 0.65; *r* = 0.16, *P* = 0.054), so *AGTR1* is **not** reducible to contractile
-identity. *n* = 154 donor × program pseudobulks. Source data: `tableS_acta2_control.tsv`.
-Framed as a benchmark/control, not a mechanistic pillar.
+**The two panels answer different questions, and the distinction is the point of the figure:
+*AGTR1* and contractile identity are correlated (B) but not co-ordered (A).**
+
+**(A)** Centered donor-aware program marginal means (±SE) for *ACTA2* (raw), *AGTR1* (raw),
+*AGTR1* (scVI-denoised) and the count-model arbiter across the three discrete programs. *ACTA2* is
+vascular-stabilizing–high on both of its lenses (raw 1.374 / 1.043 / 0.722, every pairwise contrast
+*P* ≤ 7.1 × 10⁻⁵; detection 0.566 / 0.400 / 0.272) and raw *AGTR1* shares that ordering
+(0.800 / 0.634 / 0.591). **Denoised *AGTR1* does not** (10.69 basement-membrane vs 9.62
+vascular-stabilizing per 10⁴ transcripts, +1.074, *P* = 7.8 × 10⁻¹¹), and the count model — *AGTR1*
+integer counts in an NB GLMM with a library-size offset, no imputation — agrees. The count-model
+series plotted here is the **pseudobulk per-transcript** fit on the same three programs
+(basement-membrane − vascular-stabilizing **+0.227, BH = 4.2 × 10⁻⁴**). Where *ACTA2* peaks is
+where *AGTR1* does not.
+
+⚠️ **Read the count-model series as direction, not magnitude.** Four further specifications of the
+same model (cell-level with and without an ambient covariate, pseudobulk per-cell, pseudobulk
+detection) all give the same sign but do **not** reach significance at program level
+(+0.028 to +0.081, BH 0.18–0.66). The grouping that separates the two genes cleanly is the
+**Leiden clusters**, where all four basement-membrane-vs-vascular-stabilizing contrasts are
+significant (+0.216 to +0.244, BH = 0.0031–0.024) and where the grouping is additionally
+non-circular — the clusters are built from 2,000 HVGs that exclude *AGTR1*, whereas `state_program`
+is a marker-panel argmax. Programs are plotted here only because that is the axis *ACTA2* is
+compared on. The activated/migratory program is 13 donors and supports no contrast.
+
+**(B)** Forest plot of donor × program pseudobulk Pearson correlation (point) with Fisher-*z* 95%
+CI between *AGTR1* (raw vs denoised) and either *ACTA2* or the leave-*ACTA2*-out contractile
+program; filled = *P* < 0.05, open = n.s. The coupling **strengthens** under denoising rather than
+collapsing: *r* = 0.283 → 0.313 against *ACTA2* (*P* = 3.7 × 10⁻⁴ → 7.9 × 10⁻⁵) and 0.391 → 0.599
+against the contractile program (*P* = 5.4 × 10⁻⁷ → 2.2 × 10⁻¹⁶). So the co-variation is real, not
+shared dropout — but it is a within-donor association, and it does not make the two genes rank the
+programs alike. *AGTR1* is **not** reducible to *ACTA2*⁺ contractile identity because of (A), not
+because of any absence of correlation in (B). *n* = 154 donor × program pseudobulks. Source data:
+`tableS_acta2_control.tsv`. Framed as a benchmark/control, not a mechanistic pillar.
+
+*Legend corrected 2026-09-02.* Panel B previously reported the denoised coupling collapsing to
+*r* = 0.04 (*P* = 0.65) and *r* = 0.16 (*P* = 0.054). Those values came from a scVI model trained on
+the soupX float matrix that failed its validity gate (donor ρ = 0.014, *P* = 0.91); the retrained
+lens (gate ρ = 0.734, *P* = 7.1 × 10⁻¹³) gives the values above. The figure's conclusion is
+unchanged; the evidence for it moved from panel B to panel A.
 
 ### Figure S14 — `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
 
@@ -675,9 +717,9 @@ per-donor mean pseudotime against per-donor mean score), aggregated exactly as t
 does. **(A)** Donor-level ρ between pseudotime and each of the six program scores plus *AGTR1*
 across the 18 parameter settings (columns: n_neighbors / n_DCs / subsample %). **(B)** The spread of
 those 18 estimates per feature; the label is the fraction of settings sharing the sign of the mean,
-which is **100% for all seven features**. The estimates are tight (s.d. ≤ 0.031, full range ≤ 0.08
+which is **100% for all seven features**. The estimates are tight (s.d. ≤ 0.032, full range ≤ 0.085
 for every feature), and the canonical setting reproduces the headline analysis exactly
-(vascular-stabilizing ρ = 0.520, *AGTR1* ρ = 0.249, basement-membrane ρ = −0.172, identical to the
+(vascular-stabilizing ρ = 0.520, *AGTR1* ρ = 0.249, basement-membrane ρ = −0.177, identical to the
 values in `pseudotime_trend_correlations.tsv`). **(C)** The same correlations after re-rooting pseudotime at each of
 the six stable clusters in turn and at both extremes of the leading latent axis. **(D)** |ρ| under
 the canonical vascular-stabilizing root against |ρ| under each alternative root (open symbols = the
@@ -756,8 +798,8 @@ loss or its losartan rescue. Source: `cross_species/_h/04.species_comparability.
 
 ### `figure_basement_membrane` — Pericytes build basement membrane, not interstitial collagen
 
-**Figure.** Lung pericytes selectively express a collagen-IV/nidogen basement-membrane (BM)
-module and, on the same units, sit below every fibroblast population for the fibril-forming
+**Figure.** Lung pericytes selectively express a collagen-IV/nidogen/laminin-γ3 basement-membrane
+(BM) module and, on the same units, sit below every fibroblast population for the fibril-forming
 interstitial collagens — a dissociation that is not explained by ambient RNA. All panels use
 donor × cell-type pseudobulk as the unit of analysis (*n* = 2,329 units, 22 cell types, 220
 healthy donors, ≥5 cells per unit); expression is log1p of the mean CP10K within each unit
@@ -765,62 +807,93 @@ healthy donors, ≥5 cells per unit); expression is log1p of the mean CP10K with
 cross-cell-type comparison), standardized within dataset where noted, and modeled as
 `expr ~ cell type + mean log10 total counts + (1|donor) + (1|study)` with Benjamini–Hochberg
 correction. Genes are organised into four pre-registered blocks
-(`basement_membrane/_h/bm_panels.py`): **basement membrane** (13 genes), **fibrillar I/III**
-(*COL1A1*, *COL1A2*, *COL3A1* — the fibril-forming collagens that define a fibrotic matrix),
-**fibrillar V/XI** (*COL5A1/2/3*, *COL11A1/2* — low-abundance chains that nucleate fibrils and
-set their diameter, corroborating rather than independent evidence), and **ambient tracer**
-(*SFTPC*, *SFTPB*, *SCGB1A1*, *SCGB3A2*, *PTPRC* — off-lineage transcripts that measure each
-unit's ambient-RNA burden).
+(`basement_membrane/_h/bm_panels.py`): **basement membrane** (20 genes — collagen IV α1/α2, the
+multiplexins *COL15A1*/*COL18A1*, all twelve laminin chains, nidogen 1/2, perlecan and agrin),
+**fibrillar I/III** (*COL1A1*, *COL1A2*, *COL3A1* — the fibril-forming collagens that define a
+fibrotic matrix), **fibrillar V/XI** (*COL5A1/2/3*, *COL11A1/2* — low-abundance chains that
+nucleate fibrils and set their diameter, corroborating rather than independent evidence), and
+**ambient tracer** (*SFTPC*, *SFTPB*, *SCGB1A1*, *SCGB3A2*, *PTPRC* — off-lineage transcripts that
+measure each unit's ambient-RNA burden).
 
-**(A)** Dot heatmap across the four blocks; fill is expression z-scored **within gene** across all
-22 profiled cell types (so cell types are comparable across genes of very different absolute
-abundance), dot size is the detection fraction. The 12 cell types shown are the interpretable
-subset — pericytes, the mural neighbour, all five fibroblast classes, and the ambient-reference
-lineages; every statistic uses all 22. The block structure inverts: pericytes are the darkest row
-in the BM block and among the palest in the fibrillar I/III block, while the fibroblast classes do
-the reverse. **(B)** Selectivity per gene: log₂ ratio of the pericyte marginal mean to the
-next-highest cell type, with the pericyte rank among 22 cell types printed at each bar. Pericytes
-rank **first** for *COL4A1* (log₂ 1.09), *COL4A2* (0.99), *COL18A1* (0.85), *LAMB1* (0.54),
-*NID1* (1.22) and *NID2* (0.34), but not for the laminin α-chains — *LAMA4* ranks 3rd (highest in
-alveolar fibroblasts), *LAMA5* 9th and *LAMA3* 17th (highest in AT1). On the fibrillar side
+**Panel provenance (2026-09-01).** The BM panel was expanded from 13 to 20 genes at the
+collaborator's request, adding the full structural laminin set (*LAMA1*, *LAMA2*, *LAMB3*,
+*LAMB4*, *LAMC2*, *LAMC3*) and *COL15A1*. *COL18A1* was retained although it was not on the
+supplied list, because pericytes rank first for it. The expansion **does not change the state
+model**: the pre-specified gate returns 0 of 6 clusters flipped and 0.000% of cells reassigned,
+and the 20-gene and 13-gene scores correlate at *r* = 0.968 (Spearman 0.974) across the 2,329
+units, with a maximum shift of 5 positions in the 22-cell-type ranking of the structural endpoint.
+The audit is in `bm_panel_version_audit.tsv` and Figure S17D; per-gene BH families are frozen at
+their original membership, so no published per-gene adjusted *P* value moves because the panel
+grew.
+
+**(A)** Dot heatmap of the **basement-membrane block alone** (20 genes); fill is expression
+z-scored **within gene** across all 22 profiled cell types (so cell types are comparable across
+genes of very different absolute abundance), dot size is the detection fraction. The 12 cell types
+shown are the interpretable subset — pericytes, the mural neighbour, all five fibroblast classes,
+and the ambient-reference lineages; every statistic uses all 22. **(B)** The same heatmap for the
+**fibrillar-collagen block**, on the identical colour and size scales, with the ambient-tracer
+genes carried alongside as the soup reference. Presenting the two matrix categories as two panels
+rather than as facets of one is the point of the figure: pericytes are the darkest row in (A) and
+among the palest in the fibrillar I/III facet of (B), while the fibroblast classes do the reverse.
+
+**(C)** Selectivity per gene: log₂ ratio of the pericyte marginal mean to the next-highest cell
+type, with the pericyte rank among 22 cell types printed at each bar. Pericytes rank **first** for
+eight BM genes — *COL4A1* (log₂ 1.09), *COL4A2* (0.99), *COL18A1* (0.85), *LAMB1* (0.54), *NID1*
+(1.22), *NID2* (0.34) and, newly, ***LAMC3*** (4.75) and *LAMB4* (1.07) — but not for the laminin
+α-chains: *LAMA4* ranks 3rd (highest in alveolar fibroblasts), *LAMA2* 5th (adventitial
+fibroblasts), *LAMA5* 9th and *LAMA3* 17th (both AT1). *COL15A1*, the other new gene, ranks 10th
+and is highest in peribronchial fibroblasts — it is not a pericyte gene. On the fibrillar side
 pericytes rank 6th–7th for *COL1A2*, *COL1A1* and *COL3A1* (all topped by peribronchial or
-subpleural fibroblasts) and **22nd of 22 for *COL11A1***. *LAMA3*/*LAMA5* (BM side) and *COL11A1*
-(fibrillar side) were **pre-specified negative controls** and all three behave as predicted,
-confirming the metric is not simply tracking abundance. The one fibrillar exception is *COL5A3*,
-for which pericytes rank first (log₂ 1.93, τ = 0.95). **(C)** Primary structural endpoint,
-`BM − fibrillar I/III` (mean of per-gene z across the BM panel minus the same across the three
-fibril-forming collagens). Because any multiplicative cell-size or capture-efficiency constant
-applies to both panels it cancels in the difference, which distinguishes *selective BM deposition*
-from *generalized matrix richness*. All 22 cell types are drawn, ordered by marginal mean; points
-are marginal means with 95% CI and contrast *P* values are BH-adjusted across the 21 pericyte
-contrasts. Pericytes are strongly BM-shifted relative to every fibroblast population (subpleural
-+2.95, *P* = 5.6 × 10⁻¹²¹; peribronchial +2.56, *P* = 4.8 × 10⁻²⁸⁷; adventitial +2.38,
-*P* = 7.1 × 10⁻²⁹⁷; myofibroblast +2.24, *P* = 1.4 × 10⁻¹⁹⁰; alveolar +1.78, *P* = 9.4 × 10⁻¹⁹⁸)
-and to vascular smooth muscle (+1.12, *P* = 5.4 × 10⁻⁸⁴), and **indistinguishable from capillary
-endothelium** (aerocyte +0.09, *P* = 0.11; venous pulmonary −0.09, *P* = 0.11; general capillary
-−0.13, *P* = 0.015) — i.e. a BM-over-fibrillar bias is a shared property of the barrier-forming
-cells that build the vascular and alveolar basement membranes.
+subpleural fibroblasts) and **22nd of 22 for *COL11A1***. The one fibrillar exception is *COL5A3*,
+for which pericytes rank first (log₂ 1.88, τ = 0.95).
+
+*Two readings of (C) require care.* **(i)** ***LAMC3* is the strongest new result and *LAMB4* is
+not.** *LAMC3* is detected in 57.1% of pericytes and is close to pericyte-exclusive across the
+lung (τ = 0.994, 27-fold over the next cell type) — the most cell-type-restricted member of the
+whole panel. *LAMB4*, by contrast, reaches rank 1 on a transcript detected in **0.4%** of
+pericytes; a rank computed on a gene this sparse carries essentially no evidence and must not be
+quoted as a pericyte laminin. **(ii)** The three chains of **laminin-332** (*LAMA3*, *LAMB3*,
+*LAMC2*) all rank 17th, 8th and 20th with **AT1 as the top cell type** — the complete heterotrimer
+lands together in alveolar epithelium. *LAMA3*/*LAMA5* were the pre-specified BM-side negative
+controls and *COL11A1* the fibrillar-side one; all three behave as predicted, and the coherent
+epithelial placement of the whole laminin-332 trimer is an additional, unplanned check that the
+metric tracks biology rather than abundance.
+
+**(D)** Primary structural endpoint, `BM − fibrillar I/III` (mean of per-gene z across the BM
+panel minus the same across the three fibril-forming collagens). Because any multiplicative
+cell-size or capture-efficiency constant applies to both panels it cancels in the difference, which
+distinguishes *selective BM deposition* from *generalized matrix richness*. All 22 cell types are
+drawn, ordered by marginal mean; points are marginal means with 95% CI and contrast *P* values are
+BH-adjusted across the 21 pericyte contrasts. Pericytes are strongly BM-shifted relative to every
+fibroblast population (subpleural +3.01, *P* = 1.9 × 10⁻¹³²; peribronchial +2.53,
+*P* = 8.1 × 10⁻²⁹⁷; adventitial +2.34, *P* = 5.9 × 10⁻³⁰³; myofibroblast +2.21,
+*P* = 5.1 × 10⁻¹⁹⁷; alveolar +1.84, *P* = 5.9 × 10⁻²¹⁹) and to vascular smooth muscle (+1.29,
+*P* = 3.3 × 10⁻¹¹⁵), and **indistinguishable from capillary and pulmonary-venous endothelium**
+(general capillary −0.01, *P* = 0.85; venous pulmonary +0.08, *P* = 0.14; lymphatic −0.10,
+*P* = 0.052) — i.e. a BM-over-fibrillar bias is a shared property of the barrier-forming cells that
+build the vascular and alveolar basement membranes.
 
 **Pericytes are not the highest cell type on this axis, and the panel is not claiming that they
-are.** Three groups sit significantly above them — AT1 (−0.45, *P* = 4.6 × 10⁻¹⁸), venous systemic
-endothelium (−0.38, *P* = 7.5 × 10⁻¹²) and lymphatic endothelium (−0.31, *P* = 4.8 × 10⁻⁹) — which
-follows directly from (B), where AT1 carries the maxima for *LAMA3*, *LAMA5*, *LAMB2* and *AGRN*
-and contributes almost nothing to the fibrillar block. The endpoint ranks cells by how far matrix
+are.** Two groups sit significantly above them — AT1 (−0.54, *P* = 5.7 × 10⁻²⁶) and venous
+systemic endothelium (−0.30, *P* = 5.2 × 10⁻⁸) — which follows directly from (C), where AT1
+carries the maxima for the whole laminin-332 trimer plus *LAMA5*, *LAMB2* and *AGRN* and
+contributes almost nothing to the fibrillar block. The endpoint ranks cells by how far matrix
 output is skewed **toward** BM and away from fibril-forming collagen; it is a bias measure, not a
 ranking of absolute BM production, and the comparison it is built to make is pericyte-versus-
-fibroblast. Read together with (B), the two panels say that pericytes are the top *stromal*
+fibroblast. Read together with (C), the two panels say that pericytes are the top *stromal*
 producer of the core BM genes while behaving like the barrier epithelium and endothelium — not
-like fibroblasts — in the balance of BM against fibrillar collagen. Variance components for this
-endpoint are donor SD 0.152, study SD 0.141, residual SD 0.299, so it is not study-dominated. The
-frozen `BM − fibrillar` endpoint over the original 10-gene mixed panel is unchanged and reported in
-`bm_primary_endpoint_*.tsv`.
+like fibroblasts — in the balance of BM against fibrillar collagen. Variance components for the
+frozen `BM − fibrillar` endpoint are donor SD 0.102, study SD 0.130, residual SD 0.233, so it is
+not study-dominated. Under the 13-gene panel pericytes ranked 5th on this axis and were just below
+capillary endothelium; under the 20-gene panel they rank 3rd and are level with it. The direction,
+the fibroblast contrasts and every order of magnitude are unchanged (see the audit above).
 
-**(D)** Collagen I heterotrimer stoichiometry, the positive evidence that the residual pericyte
+**(E)** Collagen I heterotrimer stoichiometry, the positive evidence that the residual pericyte
 fibrillar signal is transcribed rather than transferred. Collagen I is an obligate α1(I)₂α2(I)₁
 heterotrimer, so a transcribing cell carries *COL1A1* and *COL1A2* together, and ambient
 contamination necessarily transfers the **source** cell's ratio. Points are per-unit values, with
 the marginal mean and 95% CI overlaid; the endpoint is the within-unit difference
-`COL1A1 − COL1A2`, so per-cell-type capture constants cancel exactly as in (C). Pericytes are the
+`COL1A1 − COL1A2`, so per-cell-type capture constants cancel exactly as in (D). Pericytes are the
 most *COL1A2*-skewed population in the lung (−1.48) and depart sharply from every fibroblast class
 (alveolar −0.80, *P* = 1.4 × 10⁻⁴³; adventitial −0.96, *P* = 4.2 × 10⁻⁵⁸; peribronchial −1.18,
 *P* = 8.5 × 10⁻⁷⁰; myofibroblast −1.27, *P* = 1.5 × 10⁻⁶³) and from the ambient-reference
@@ -829,7 +902,7 @@ background transcripts can produce a ratio more extreme than either source, so t
 cannot be manufactured by soup. The study random-effect SD is 6.5 × 10⁻⁶ against a residual SD of
 0.31, so the result carries essentially no between-study component.
 
-**(E)** The two ambient controls behind that claim. *Left*: distance above the ambient floor —
+**(F)** The two ambient controls behind that claim. *Left*: distance above the ambient floor —
 the pericyte-minus-ambient-reference contrast on log1p CP10K, where the reference is the
 co-dissociated non-collagen lineages (capillary/venous endothelium and alveolar/interstitial
 macrophages, which do not transcribe fibrillar collagen and therefore report the soup level).
@@ -845,7 +918,7 @@ pericyte values (e.g. *COL1A2* 1.23, BH = 1.9 × 10⁻⁶); that term is not amb
 lung whose fibroblasts are matrix-active is a lung whose pericytes share the same milieu, and it
 is reported rather than interpreted as contamination. Note that the `soupX` layer in
 `pericyte_states.h5ad` is bit-identical to `counts` and carries no ambient correction, so it is
-not used anywhere. **(F)** Per-donor Spearman ρ of each program score against DPT pseudotime
+not used anywhere. **(G)** Per-donor Spearman ρ of each program score against DPT pseudotime
 (69 donors with ≥20 pericytes; one-sample Wilcoxon on the donor ρ, BH-corrected within family;
 orange point is the median). The requested split changes the reading of the continuum: the BM
 score is flat (ρ = 0.025, *P* = 0.84) and the frozen mixed fibrillar panel rises
@@ -857,7 +930,7 @@ collagen I/III program. The ambient tracer declines steeply along the same axis
 (ρ = −0.196, BH = 3.6 × 10⁻¹⁰), which is itself a control: soup burden falls as pseudotime rises,
 so no fibrillar trend here can be an artefact of increasing contamination.
 
-**(G)** Consequence for the pericyte state model: cluster × program relative enrichment with the
+**(H)** Consequence for the pericyte state model: cluster × program relative enrichment with the
 BM panel included as a sixth program; stars mark the winning program per cluster. Leiden
 clustering runs on the study-integrated `X_pca_harmony` embedding and is independent of the marker
 panels, so adding a panel cannot move the clusters — only their annotation. All three clusters
@@ -866,8 +939,105 @@ BM-dominant. In cluster 1 every one of the five original programs was **negative
 (fibroblast-like −0.33, activated/migratory −0.57, inflammatory −0.62, synthetic/contractile
 −0.66, vascular-stabilizing −0.77) while BM scored +0.45, so the former label was a least-negative
 default rather than a positive identity. The reassignment survives removing *COL4A1* from the
-fibroblast-like panel, and the laminin and linker sub-panels each win independently.
+fibroblast-like panel, and the laminin and linker sub-panels each win independently. It also
+survives the 2026-09-01 expansion of the BM panel from 13 to 20 genes without a single cluster
+changing label (gate metric A = 0.000%, metric B = 0). The relative-enrichment values printed here
+are those of the **current 20-gene panel**; the enrichment numbers quoted in the cluster-1
+sentence above are the 13-gene values that the manuscript already reports and that the gate's
+validation arm reproduces exactly.
 Source data: `basement_membrane/_m/stats_data/`, `basement_membrane/_m/state_gate_*.tsv`.
+The three association analyses that ask what these two matrix categories are *associated with* —
+cluster, *AGTR1* across the three plotted lenses (with the count-model arbiter reported in the
+legend), and TGF-β signalling — are in **Figure S17**.
+
+### Figure S17 — `figureS_bm_associations` — *AGTR1* and TGF-β both track the basement-membrane side, in opposite directions
+
+**Figure S17.** What the two matrix categories are *associated with*. Companion to Figure 3,
+which establishes what pericytes make; this figure asks what covaries with it. Unit of analysis
+throughout is the donor × Leiden-cluster pseudobulk (214 units, 95 donors, ≥5 pericytes per unit),
+modelled as `outcome ~ predictor + mean log10 total counts + (1|study) + (1|donor)` and
+BH-corrected within outcome. Between-study variance is negligible for these units (study SD 0.000
+vs residual SD 0.912). Four outcomes are shown: the basement-membrane score, the fibrillar-collagen
+score (all eight chains), their difference, and the BM score orthogonalized against
+fibrillar collagen. Note that the difference here uses **fibrillar collagen** while Figure 3D uses
+**fibrillar I/III**; they are different endpoints and their numbers are not interchangeable.
+
+**(A)** Both matrix scores across the six stable pericyte clusters (marginal means, 95% CI).
+The grouping variable is `pericyte_state` — the Leiden clusters, computed on `X_pca_harmony` and
+therefore independent of every marker panel — and deliberately **not** `state_program`, which is
+assigned by a relative-enrichment argmax that includes the BM panel and would make the comparison
+circular. The two categories are not redundant: basement membrane peaks in P3 (+1.12) and is
+lowest in P2 (−0.71), while fibrillar collagen peaks in P5 (+1.03) and separates P5 from P3 in the
+opposite direction. Ten of 15 pairwise contrasts are significant for BM and 8 of 15 for fibrillar
+collagen.
+
+**(B)** Both matrix scores against *AGTR1* under the three measurement lenses. **The
+BM-versus-fibrillar contrast is positive under all three lenses; neither matrix score on its own
+is.** *BM − fibrillar* is +0.313 per SD denoised (BH = 9.2 × 10⁻⁶), +0.197 raw (BH = 0.0060) and
++0.165 by detection (BH = 0.028), and the fibrillar-orthogonalized BM residual behaves the same way
+(+0.178, +0.161, +0.159; all BH = 0.0047). The BM score alone reaches BH < 0.05 under the raw and
+detection lenses (+0.170, BH = 0.024; +0.209, BH = 0.017) but not under the denoised lens
+(+0.126, *P* = 0.064), and fibrillar collagen is null under all three (BH ≥ 0.14). Read the
+difference, not the components.
+
+**The claim is arbitrated by the count model, not by the denoised lens.** A negative-binomial GLMM
+with *AGTR1* integer counts as the response and `offset(log(library size))` — no imputation, no
+gene borrowing — gives *BM − fibrillar* β = +0.080 (*P* = 3.2 × 10⁻⁷, cell level) and +0.255
+(*P* = 1.2 × 10⁻⁶, pseudobulk binomial), holding under ambient-tracer, depth-spline and
+within-donor (Mundlak) controls. The denoised row in this panel is a concordant sensitivity.
+One depth caveat remains on the raw side: the within-donor raw-lens BM correlation
+(median donor ρ = 0.040, BH = 0.027) does not survive partialling out per-cell sequencing depth
+(partial ρ = 0.033, BH = 0.17).
+
+*Legend corrected 2026-09-02.* This panel previously read "no *AGTR1*–matrix coupling can be
+claimed", citing denoised values of +0.029, +0.075 and +0.047. Those came from a scVI model trained
+on the soupX float matrix that failed its validity gate (donor ρ = 0.014, *P* = 0.91); the panel
+now plots the retrained lens (gate ρ = 0.734, *P* = 7.1 × 10⁻¹³).
+
+**(C)** *Left*: both matrix scores against a curated SMAD2/3 TGF-β response signature
+(`bm_panels.TGFB_RESPONSE`; 17 genes sharing no member with either matrix panel or with any
+pericyte-state program, asserted in code). **TGF-β response is associated with a lower
+basement-membrane program specifically** (−0.196 per SD, BH = 0.0074), and with the
+fibrillar-orthogonalized BM residual (−0.154, BH = 0.015), while the fibrillar-collagen score is
+null (−0.073, BH = 0.40). Three controls hold: the TGF-β **receptor/transducer** panel
+(*TGFBR1–3*, *SMAD2–4*) is null against every outcome (all BH ≥ 0.56), so the result is not simply
+"cells with more TGF-β machinery"; dropping *TGFBI* — the one response gene that is itself a
+secreted matrix protein — leaves the estimate unchanged (−0.194, BH = 0.0074), so the association
+is not definitional; and the within-donor arm survives partialling out sequencing depth
+(median donor partial ρ = −0.047, BH = 0.0040 for BM; +0.002, BH = 0.82 for fibrillar collagen).
+This is coherent with the continuum: the TGF-β response score **rises** along DPT pseudotime
+(donor ρ = +0.134, BH = 2.5 × 10⁻⁵) on the same axis along which the BM score falls (Figure 2F,
+ρ = −0.177, *P* = 0.013) and the BM − fibrillar-collagen switch index falls
+(ρ = −0.063, BH = 0.013).
+
+**Read the direction carefully.** The difference endpoint itself is **not** significant
+(−0.084, BH = 0.37), so the defensible statement is *"TGF-β response is associated with a lower
+basement-membrane program, with no detectable association on the fibrillar side"* — not
+*"TGF-β shifts pericyte matrix output from basement membrane toward fibrillar collagen"*, which
+this figure does not support. The signature is also a transcriptional **response** proxy, so it
+cannot separate TGF-β driving matrix loss from both being downstream of a shared activation state;
+and the matrix scores have no denoised counterpart, so every row in (B) still has
+one depth-affected side — which is why the depth-adjusted count model, not the denoised lens,
+carries the *AGTR1* claim.
+
+*Right*: the mechanistic counterpart, from two runs of `07.bm_nichenet_targets.R` that differ only
+in the target gene set. Bars are the permutation *z* of each TGF-β ligand's corrected AUPR against
+that target set's **own** null of equally sized random gene sets drawn from the same receiver
+background; rank within its own run and the permutation BH star are printed on the bar. The *z*,
+not the raw AUPR, is plotted because corrected AUPR still scales with target-set size and prior
+connectivity, and the two sets differ in both.
+
+**(D)** Audit of the 2026-09-01 BM panel expansion from 13 to 20 genes: the cluster-level BM
+marginal means under both panels. The two scores agree at *r* = 0.934 at the cell level and
+*r* = 0.964 at the donor × cluster level; the cluster profile is preserved but the ordering of the
+three BM-dominant clusters changes from P5 > P3 > P1 to P3 > P5 > P1, because P5 loses most from
+the dilution by the five near-absent added chains. The state model itself is unaffected — the
+pre-specified gate reassigns 0.000% of cells and flips 0 of 6 clusters, cluster assignments agree
+11,680/11,680, and the five non-BM program scores are bit-identical. `bm_v1_score` exists solely
+for this audit and carries no claim.
+Source data: `basement_membrane/_m/stats_data/bm_vs_{agtr1,tgfb}_{models,within_donor}.tsv`,
+`bm_by_cluster_{emmeans,posthoc}.tsv`, `bm_v1_vs_v2_{concordance,by_cluster}.tsv`,
+`basement_membrane/_m/nichenet_{bm,fibrillar}/`; Table S9E.
 
 ### Figure S10 — `figureS_ras_landscape` — The lung renin–angiotensin axis is distributed across cell types
 

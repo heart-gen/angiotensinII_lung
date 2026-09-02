@@ -85,6 +85,12 @@ core_genes <- panels[panel == "fibrillar_core", unique(gene)]
 minor_genes <- panels[panel == "fibrillar_minor", unique(gene)]
 tracer_genes <- panels[panel == "ambient_tracer", unique(gene)]
 
+## 2026-09-01 expansion. BM_PANEL grew 13 -> 20 genes. `bm_v1_genes` is the panel
+## every published BM number was computed on; it is carried through the primary
+## endpoint as an AUDIT arm only (bm_v1_minus_fibrillar), so a reader can see
+## exactly how much of any movement is the panel change. It never carries a claim.
+bm_v1_genes <- panels[panel == "bm_v1", unique(gene)]
+
 ## Gene -> display block, constant per gene (bm_panels.gene_block).
 block_map <- unique(panels[, .(gene, block)])
 if (anyDuplicated(block_map$gene))
@@ -96,9 +102,19 @@ if (anyDuplicated(block_map$gene))
 ## bm_selectivity_emmeans.tsv would shift purely because the panel grew -- a
 ## silent revision of results the manuscript already quotes. Each block is its
 ## own family instead.
-bh_family <- function(g)
-    fifelse(g %in% c(bm_genes, fib_genes), "original_panel",
-    fifelse(g %in% tracer_genes, "ambient_tracer", "fibrillar_expansion"))
+##
+## The partition is DECLARED in bm_panels.BH_FAMILIES and read from the table's
+## `bh_family` column, not re-derived here. It used to be re-derived from
+## `bm_genes`, which silently pulled the seven 2026-09-01 BM additions into the
+## original family the moment BM_PANEL grew -- the exact silent revision this
+## block exists to prevent.
+if (!"bh_family" %in% names(panels))
+    stop("bm_panel_genes.tsv has no bh_family column; regenerate it with ",
+         "00.bm_score.py from the current bm_panels.py")
+family_map <- unique(panels[, .(gene, bh_family)])
+if (anyDuplicated(family_map$gene))
+    stop("bm_panel_genes.tsv assigns >1 BH family to a gene")
+bh_family <- function(g) family_map$bh_family[match(g, family_map$gene)]
 
 pb <- pb[n_cells >= opt$min_cells]
 message(sprintf("Units with >= %d cells: %d", opt$min_cells, nrow(pb)))
@@ -193,11 +209,10 @@ emm_profile <- function(gene, value_type = "expr") {
 genes_all <- intersect(
     unique(c(bm_genes, fib_genes, core_genes, minor_genes, tracer_genes)),
     sub("__expr$", "", grep("__expr$", names(pb), value = TRUE)))
-message("Modelling ", length(genes_all), " genes (",
-        length(intersect(genes_all, c(bm_genes, fib_genes))), " original, ",
-        length(setdiff(intersect(genes_all, c(core_genes, minor_genes)),
-                       c(bm_genes, fib_genes))), " expansion, ",
-        length(intersect(genes_all, tracer_genes)), " ambient tracers)")
+message("Modelling ", length(genes_all), " genes by BH family: ",
+        paste(sprintf("%s=%d", names(table(bh_family(genes_all))),
+                      as.integer(table(bh_family(genes_all)))),
+              collapse = ", "))
 
 sel <- rbindlist(lapply(genes_all, fit_gene, value_type = "expr",
                         with_depth = TRUE), fill = TRUE)
@@ -269,6 +284,10 @@ panel_z <- function(genes, value_type = "expr") {
 pb_primary[, bm_z := panel_z(bm_genes)]
 pb_primary[, fib_z := panel_z(fib_genes)]
 pb_primary[, bm_minus_fibrillar := bm_z - fib_z]
+## Audit arm: the same endpoint on the frozen 13-gene panel, so the movement
+## caused by the 2026-09-01 expansion is measurable rather than inferred.
+pb_primary[, bm_v1_z := panel_z(bm_v1_genes)]
+pb_primary[, bm_v1_minus_fibrillar := bm_v1_z - fib_z]
 
 fit_primary <- suppressMessages(lmerTest::lmer(
     bm_minus_fibrillar ~ ccc_group + mean_log10_total_counts +
@@ -285,6 +304,28 @@ write_tsv_safe(ctr_p, file.path(opt$outdir, "bm_primary_endpoint_posthoc.tsv"))
 
 vc_p <- as.data.frame(VarCorr(fit_primary))
 write_tsv_safe(vc_p, file.path(opt$outdir, "bm_variance_components.tsv"))
+
+## ------------------------------- AUDIT: 13-gene vs 20-gene BM panel ----
+## Reported so the manuscript can say how far the endpoint moved, per cell type,
+## when the panel was expanded. `bm_v1_*` rows are provenance, never a result.
+fit_v1 <- suppressMessages(lmerTest::lmer(
+    bm_v1_minus_fibrillar ~ ccc_group + mean_log10_total_counts +
+        (1 | donor_id) + (1 | study), data = pb_primary))
+emm_v1 <- as.data.frame(emmeans(fit_v1, specs = "ccc_group"))
+audit <- merge(as.data.frame(emm_p)[, c("ccc_group", "emmean", "SE")],
+               emm_v1[, c("ccc_group", "emmean", "SE")],
+               by = "ccc_group", suffixes = c("_bm20", "_bm13"))
+audit$delta <- audit$emmean_bm20 - audit$emmean_bm13
+audit <- audit[order(-audit$emmean_bm20), ]
+audit$rank_bm20 <- seq_len(nrow(audit))
+audit$rank_bm13 <- rank(-audit$emmean_bm13, ties.method = "first")
+audit$rank_shift <- audit$rank_bm13 - audit$rank_bm20
+z20 <- pb_primary$bm_z; z13 <- pb_primary$bm_v1_z
+write_tsv_safe(audit, file.path(opt$outdir, "bm_panel_version_audit.tsv"))
+message(sprintf(
+    "BM panel audit: unit-level r(bm20, bm13) = %.4f (Spearman %.4f); max |rank shift| = %d",
+    stats::cor(z20, z13), stats::cor(z20, z13, method = "spearman"),
+    max(abs(audit$rank_shift))))
 
 ## ------------- SECONDARY endpoints: BM vs each structural fibrillar block ----
 ## Same estimand and the same cancellation argument as the frozen endpoint, but

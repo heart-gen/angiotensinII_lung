@@ -1,44 +1,44 @@
-2026-08-10 11:40:44 - **** Job starts ****
-2026-08-10 11:40:44 - **** Bridges-2 info ****
+2026-09-01 18:49:08 - **** Job starts ****
+2026-09-01 18:49:08 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 43300628
+Job id: 45013701
 Job name: bm_selectivity
 Node name: 
-Hostname: r048
+Hostname: r269
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-08-10 11:40:44 - **** Donor x cell-type pseudobulk over the CCC niche ****
-2026-08-10 11:42:30,096 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
-2026-08-10 11:42:48,740 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
-2026-08-10 11:42:48,744 [INFO] Aggregating 34/34 genes
-2026-08-10 11:42:50,243 [INFO]   aggregated 20000/423007 cells
-2026-08-10 11:42:52,454 [INFO]   aggregated 40000/423007 cells
-2026-08-10 11:42:53,455 [INFO]   aggregated 60000/423007 cells
-2026-08-10 11:42:54,538 [INFO]   aggregated 80000/423007 cells
-2026-08-10 11:42:55,511 [INFO]   aggregated 100000/423007 cells
-2026-08-10 11:42:56,575 [INFO]   aggregated 120000/423007 cells
-2026-08-10 11:42:57,419 [INFO]   aggregated 140000/423007 cells
-2026-08-10 11:42:58,580 [INFO]   aggregated 160000/423007 cells
-2026-08-10 11:42:59,542 [INFO]   aggregated 180000/423007 cells
-2026-08-10 11:43:00,516 [INFO]   aggregated 200000/423007 cells
-2026-08-10 11:43:01,746 [INFO]   aggregated 220000/423007 cells
-2026-08-10 11:43:02,740 [INFO]   aggregated 240000/423007 cells
-2026-08-10 11:43:03,772 [INFO]   aggregated 260000/423007 cells
-2026-08-10 11:43:04,855 [INFO]   aggregated 280000/423007 cells
-2026-08-10 11:43:05,803 [INFO]   aggregated 300000/423007 cells
-2026-08-10 11:43:08,463 [INFO]   aggregated 320000/423007 cells
-2026-08-10 11:43:09,901 [INFO]   aggregated 340000/423007 cells
-2026-08-10 11:43:11,295 [INFO]   aggregated 360000/423007 cells
-2026-08-10 11:43:12,120 [INFO]   aggregated 380000/423007 cells
-2026-08-10 11:43:13,067 [INFO]   aggregated 400000/423007 cells
-2026-08-10 11:43:13,975 [INFO]   aggregated 420000/423007 cells
-2026-08-10 11:43:14,078 [INFO]   aggregated 423007/423007 cells
-2026-08-10 11:43:16,678 [INFO] Wrote bm_pseudobulk_celltype.tsv.gz: 5811 units x 75 cols
-2026-08-10 11:43:16,776 [INFO] Units per group (n_cells >= 5):
+2026-09-01 18:49:18 - **** Donor x cell-type pseudobulk over the CCC niche ****
+2026-09-01 18:50:59,286 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
+2026-09-01 18:51:15,301 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
+2026-09-01 18:51:15,307 [INFO] Aggregating 64/64 genes
+2026-09-01 18:51:17,323 [INFO]   aggregated 20000/423007 cells
+2026-09-01 18:51:18,676 [INFO]   aggregated 40000/423007 cells
+2026-09-01 18:51:20,637 [INFO]   aggregated 60000/423007 cells
+2026-09-01 18:51:22,419 [INFO]   aggregated 80000/423007 cells
+2026-09-01 18:51:23,541 [INFO]   aggregated 100000/423007 cells
+2026-09-01 18:51:24,833 [INFO]   aggregated 120000/423007 cells
+2026-09-01 18:51:26,191 [INFO]   aggregated 140000/423007 cells
+2026-09-01 18:51:27,967 [INFO]   aggregated 160000/423007 cells
+2026-09-01 18:51:29,574 [INFO]   aggregated 180000/423007 cells
+2026-09-01 18:51:31,139 [INFO]   aggregated 200000/423007 cells
+2026-09-01 18:51:33,062 [INFO]   aggregated 220000/423007 cells
+2026-09-01 18:51:34,474 [INFO]   aggregated 240000/423007 cells
+2026-09-01 18:51:35,812 [INFO]   aggregated 260000/423007 cells
+2026-09-01 18:51:37,011 [INFO]   aggregated 280000/423007 cells
+2026-09-01 18:51:38,451 [INFO]   aggregated 300000/423007 cells
+2026-09-01 18:51:40,076 [INFO]   aggregated 320000/423007 cells
+2026-09-01 18:51:41,617 [INFO]   aggregated 340000/423007 cells
+2026-09-01 18:51:43,291 [INFO]   aggregated 360000/423007 cells
+2026-09-01 18:51:44,530 [INFO]   aggregated 380000/423007 cells
+2026-09-01 18:51:45,885 [INFO]   aggregated 400000/423007 cells
+2026-09-01 18:51:47,460 [INFO]   aggregated 420000/423007 cells
+2026-09-01 18:51:47,615 [INFO]   aggregated 423007/423007 cells
+2026-09-01 18:51:52,017 [INFO] Wrote bm_pseudobulk_celltype.tsv.gz: 5811 units x 135 cols
+2026-09-01 18:51:52,133 [INFO] Units per group (n_cells >= 5):
 ccc_group
 DC2                          353
 Interstitial macrophages     344
@@ -71,24 +71,25 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-08-10 11:43
-2026-08-10 11:43:30 - **** Cross-cell-type basement-membrane selectivity ****
+Session information updated at 2026-09-01 18:51
+2026-09-01 18:52:08 - **** Cross-cell-type basement-membrane selectivity ****
 Units with >= 5 cells: 4376
 Primary cohort: 2329 units, 22 cell types, 220 donors
-Modelling 32 genes (23 original, 4 expansion, 5 ambient tracers)
-There were 30 warnings (use warnings() to see them)
-There were 29 warnings (use warnings() to see them)
-There were 30 warnings (use warnings() to see them)
+Modelling 39 genes by BH family: ambient_tracer=5, bm_expansion=7, fibrillar_expansion=4, original_panel=23
+There were 35 warnings (use warnings() to see them)
+There were 34 warnings (use warnings() to see them)
+There were 36 warnings (use warnings() to see them)
+BM panel audit: unit-level r(bm20, bm13) = 0.9681 (Spearman 0.9739); max |rank shift| = 5
 Wrote secondary block endpoints: bm_minus_fibrillar_core, bm_minus_fibrillar_minor
 Basement-membrane selectivity -- generated summary
 Units (>=5 cells): 2329; cell types: 22; donors: 220
 Cohort: Healthy donors only
 
 Variance components, primary endpoint (bm_minus_fibrillar):
-       grp        var1 var2       vcov      sdcor
-1 donor_id (Intercept) <NA> 0.00904089 0.09508359
-2    study (Intercept) <NA> 0.01692599 0.13009993
-3 Residual        <NA> <NA> 0.05992558 0.24479701
+       grp        var1 var2       vcov     sdcor
+1 donor_id (Intercept) <NA> 0.01044342 0.1021931
+2    study (Intercept) <NA> 0.01688290 0.1299342
+3 Residual        <NA> <NA> 0.05424585 0.2329074
 
 Pre-specified method sanity check:
   LAMA3/LAMA5 NOT pericyte-top3 (expected TRUE): TRUE
@@ -96,36 +97,52 @@ Pre-specified method sanity check:
   COL11A1 NOT pericyte-top5 (expected TRUE): TRUE
 
 Per-gene tau / pericyte rank (BM panel):
-       gene       tau            top_group pericyte_rank
-     <char>     <num>               <fctr>         <int>
- 1:  COL4A1 0.8719076            Pericytes             1
- 2:  COL4A2 0.8423271            Pericytes             1
- 3: COL18A1 0.8384303            Pericytes             1
- 4:   LAMB1 0.8778667            Pericytes             1
- 5:    NID1 0.8915455            Pericytes             1
- 6:    NID2 0.8030317            Pericytes             1
- 7:   LAMA4 0.8016409 Alveolar fibroblasts             3
- 8:    AGRN 0.8806290                  AT1             5
- 9:   LAMC1 0.7675729 Alveolar fibroblasts             8
-10:   LAMA5 0.8138139                  AT1             9
-11:   HSPG2 0.7940798  EC venous pulmonary            10
-12:   LAMB2 0.5510528                  AT1            13
-13:   LAMA3 0.9645018                  AT1            17
+       gene       tau                 top_group pericyte_rank
+     <char>     <num>                    <fctr>         <int>
+ 1:  COL4A1 0.8719076                 Pericytes             1
+ 2:  COL4A2 0.8423271                 Pericytes             1
+ 3: COL18A1 0.8384303                 Pericytes             1
+ 4:   LAMB1 0.8778667                 Pericytes             1
+ 5:   LAMB4 0.8648643                 Pericytes             1
+ 6:   LAMC3 0.9935237                 Pericytes             1
+ 7:    NID1 0.8915455                 Pericytes             1
+ 8:    NID2 0.8030317                 Pericytes             1
+ 9:   LAMA4 0.8016409      Alveolar fibroblasts             3
+10:   LAMA2 0.8300583   Adventitial fibroblasts             5
+11:    AGRN 0.8806290                       AT1             5
+12:   LAMA1 0.6388169      Alveolar macrophages             7
+13:   LAMB3 0.9306873                       AT1             8
+14:   LAMC1 0.7675729      Alveolar fibroblasts             8
+15:   LAMA5 0.8138139                       AT1             9
+16: COL15A1 0.8811074 Peribronchial fibroblasts            10
+17:   HSPG2 0.7940798       EC venous pulmonary            10
+18:   LAMB2 0.5510528                       AT1            13
+19:   LAMA3 0.9645018                       AT1            17
+20:   LAMC2 0.9567766                       AT1            20
+       gene       tau                 top_group pericyte_rank
     log2_pericyte_over_next
                       <num>
  1:               1.0927463
  2:               0.9921461
  3:               0.8466301
  4:               0.5433248
- 5:               1.2165636
- 6:               0.3368719
- 7:              -0.9314474
- 8:              -2.3147346
- 9:              -1.5036006
-10:              -2.7781505
-11:              -2.1388791
-12:              -1.2134886
-13:              -6.2235693
+ 5:               1.0674290
+ 6:               4.7465630
+ 7:               1.2165636
+ 8:               0.3368719
+ 9:              -0.9314474
+10:              -0.6425932
+11:              -2.3147346
+12:              -0.9875248
+13:              -4.6848095
+14:              -1.5036006
+15:              -2.7781505
+16:              -4.8006950
+17:              -2.1388791
+18:              -1.2134886
+19:              -6.2235693
+20:              -5.9447401
+    log2_pericyte_over_next
 
 Per-gene tau / pericyte rank (fibrillar core + minor):
       gene           block       tau                 top_group pericyte_rank
@@ -158,7 +175,7 @@ Per-gene tau / pericyte rank (fibrillar core + minor):
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-08-10
+ date     2026-09-01
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -219,7 +236,7 @@ Per-gene tau / pericyte rank (fibrillar core + minor):
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 11:47:32 - **** Ambient controls + collagen I stoichiometry ****
+2026-09-01 19:00:04 - **** Ambient controls + collagen I stoichiometry ****
 Units: 2329 | cell types: 22 | donors: 220 | cohort: Healthy only
                     ccc_group              role
                        <char>            <char>
@@ -252,32 +269,39 @@ In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
 Ambient-floor contrasts (expr lens, pericyte - ambient reference):
        gene             block estimate     p_BH
      <char>            <char>    <num>    <num>
- 1:  COL1A2    fibrillar_core    1.729 8.4e-198
- 2:    NID1 basement_membrane    1.705 5.5e-156
- 3:   LAMB1 basement_membrane    1.697 1.9e-105
- 4:  COL4A1 basement_membrane    1.294  4.3e-46
- 5:  COL4A2 basement_membrane    1.200  6.8e-39
- 6:  COL5A2   fibrillar_minor    1.192 7.2e-123
- 7: COL18A1 basement_membrane    1.139  2.0e-56
- 8:  COL5A3   fibrillar_minor    1.112 3.2e-184
- 9:   LAMA4 basement_membrane    0.793  3.3e-31
-10:  COL3A1    fibrillar_core    0.643  3.1e-34
-11:   LAMC1 basement_membrane    0.505  1.4e-17
-12:  COL5A1   fibrillar_minor    0.455  2.0e-22
-13:    NID2 basement_membrane    0.393  5.6e-31
-14:  COL1A1    fibrillar_core    0.245  2.7e-07
-15:   HSPG2 basement_membrane    0.130  2.2e-01
-16:    AGRN basement_membrane    0.058  1.3e-01
-17:   LAMA3 basement_membrane   -0.011  6.6e-01
-18: COL11A2   fibrillar_minor   -0.014  4.0e-01
-19: COL11A1   fibrillar_minor   -0.016  3.8e-01
-20:   SFTPB    ambient_tracer   -0.017  7.0e-01
-21: SCGB3A2    ambient_tracer   -0.021  6.6e-01
-22: SCGB1A1    ambient_tracer   -0.049  4.0e-01
-23:   LAMB2 basement_membrane   -0.061  3.6e-01
-24:   SFTPC    ambient_tracer   -0.064  2.8e-01
-25:   LAMA5 basement_membrane   -0.362  1.3e-08
-26:   PTPRC    ambient_tracer   -0.370  3.2e-05
+ 1:   LAMC3 basement_membrane    1.953  0.0e+00
+ 2:  COL1A2    fibrillar_core    1.729 8.4e-198
+ 3:    NID1 basement_membrane    1.705 5.1e-156
+ 4:   LAMB1 basement_membrane    1.697 2.2e-105
+ 5:  COL4A1 basement_membrane    1.294  4.9e-46
+ 6:   LAMA2 basement_membrane    1.222  1.7e-92
+ 7:  COL4A2 basement_membrane    1.200  8.0e-39
+ 8:  COL5A2   fibrillar_minor    1.192 7.2e-123
+ 9: COL18A1 basement_membrane    1.139  2.2e-56
+10:  COL5A3   fibrillar_minor    1.112 3.2e-184
+11:   LAMA4 basement_membrane    0.793  4.1e-31
+12:  COL3A1    fibrillar_core    0.643  3.1e-34
+13:   LAMC1 basement_membrane    0.505  1.7e-17
+14:  COL5A1   fibrillar_minor    0.455  2.0e-22
+15:    NID2 basement_membrane    0.393  7.0e-31
+16:  COL1A1    fibrillar_core    0.245  2.7e-07
+17:   HSPG2 basement_membrane    0.130  2.5e-01
+18:    AGRN basement_membrane    0.058  1.5e-01
+19:   LAMB4 basement_membrane    0.041  1.8e-04
+20:   LAMB3 basement_membrane    0.016  4.1e-01
+21:   LAMA1 basement_membrane    0.014  3.9e-01
+22:   LAMA3 basement_membrane   -0.011  6.8e-01
+23:   LAMC2 basement_membrane   -0.012  6.0e-01
+24: COL11A2   fibrillar_minor   -0.014  4.0e-01
+25: COL11A1   fibrillar_minor   -0.016  3.8e-01
+26:   SFTPB    ambient_tracer   -0.017  7.0e-01
+27: SCGB3A2    ambient_tracer   -0.021  6.6e-01
+28: SCGB1A1    ambient_tracer   -0.049  4.0e-01
+29:   LAMB2 basement_membrane   -0.061  3.9e-01
+30:   SFTPC    ambient_tracer   -0.064  2.8e-01
+31: COL15A1 basement_membrane   -0.096  1.5e-01
+32:   LAMA5 basement_membrane   -0.362  1.5e-08
+33:   PTPRC    ambient_tracer   -0.370  3.2e-05
        gene             block estimate     p_BH
 Ambient regression: 49 donors with pericytes (47 with fibroblasts)
 Ambient-burden slopes (positive => consistent with soup):
@@ -417,7 +441,7 @@ NOTE: the soupX layer in pericyte_states.h5ad is bit-identical to counts
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-08-10
+ date     2026-09-01
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -478,4 +502,4 @@ NOTE: the soupX layer in pericyte_states.h5ad is bit-identical to counts
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 11:47:54 - **** Job ends ****
+2026-09-01 19:00:50 - **** Job ends ****

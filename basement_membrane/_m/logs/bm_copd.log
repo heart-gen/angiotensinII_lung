@@ -1,37 +1,38 @@
-2026-07-21 17:16:08 - **** Job starts ****
+2026-09-01 18:48:30 - **** Job starts ****
 User: kbenjamin
-Job id: 42495992
-Hostname: r027
+Job id: 45013702
+Hostname: r283
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-21 17:16:08 - **** Donor x compartment pseudobulk (GSE136831) ****
-2026-07-21 17:17:12,773 [INFO] Opened ../../disease_association/ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
-2026-07-21 17:17:13,035 [INFO] Cells in mapped compartments: 19999
-2026-07-21 17:17:29,770 [INFO]   40000/312928 cells (4422 in map)
-2026-07-21 17:17:45,325 [INFO]   80000/312928 cells (2924 in map)
-2026-07-21 17:18:00,451 [INFO]   120000/312928 cells (4118 in map)
-2026-07-21 17:18:12,983 [INFO]   160000/312928 cells (1449 in map)
-2026-07-21 17:18:26,912 [INFO]   200000/312928 cells (934 in map)
-2026-07-21 17:18:38,227 [INFO]   240000/312928 cells (940 in map)
-2026-07-21 17:18:51,716 [INFO]   280000/312928 cells (2861 in map)
-2026-07-21 17:19:03,490 [INFO]   312928/312928 cells (2351 in map)
-2026-07-21 17:19:04,243 [INFO] built named pass
-2026-07-21 17:19:17,563 [INFO]   40000/312928 cells (525 in map)
-2026-07-21 17:19:28,902 [INFO]   80000/312928 cells (137 in map)
-2026-07-21 17:19:41,915 [INFO]   120000/312928 cells (109 in map)
-2026-07-21 17:19:55,115 [INFO]   160000/312928 cells (51 in map)
-2026-07-21 17:20:09,190 [INFO]   200000/312928 cells (7 in map)
-2026-07-21 17:20:21,882 [INFO]   240000/312928 cells (59 in map)
-2026-07-21 17:20:35,190 [INFO]   280000/312928 cells (350 in map)
-2026-07-21 17:20:47,398 [INFO]   312928/312928 cells (138 in map)
-2026-07-21 17:20:47,846 [INFO] built mural pass
-2026-07-21 17:20:48,399 [INFO] demographics matched for 536/536 units
-2026-07-21 17:20:48,651 [INFO] Wrote gse136831_bm_pseudobulk.tsv.gz: (536, 60)
-2026-07-21 17:20:48,777 [INFO] 
+2026-09-01 18:48:30 - **** Donor x compartment pseudobulk (GSE136831) ****
+2026-09-01 18:50:21,267 [INFO] Opened ../../disease_association/ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
+2026-09-01 18:50:21,282 [WARNING] absent: ['CCN1', 'CCN2']
+2026-09-01 18:50:21,524 [INFO] Cells in mapped compartments: 19999
+2026-09-01 18:50:46,988 [INFO]   40000/312928 cells (4422 in map)
+2026-09-01 18:51:11,072 [INFO]   80000/312928 cells (2924 in map)
+2026-09-01 18:51:36,586 [INFO]   120000/312928 cells (4118 in map)
+2026-09-01 18:51:56,246 [INFO]   160000/312928 cells (1449 in map)
+2026-09-01 18:52:15,831 [INFO]   200000/312928 cells (934 in map)
+2026-09-01 18:52:36,907 [INFO]   240000/312928 cells (940 in map)
+2026-09-01 18:52:59,526 [INFO]   280000/312928 cells (2861 in map)
+2026-09-01 18:53:23,252 [INFO]   312928/312928 cells (2351 in map)
+2026-09-01 18:53:24,132 [INFO] built named pass
+2026-09-01 18:53:46,865 [INFO]   40000/312928 cells (525 in map)
+2026-09-01 18:54:06,639 [INFO]   80000/312928 cells (137 in map)
+2026-09-01 18:54:29,108 [INFO]   120000/312928 cells (109 in map)
+2026-09-01 18:54:51,208 [INFO]   160000/312928 cells (51 in map)
+2026-09-01 18:55:11,619 [INFO]   200000/312928 cells (7 in map)
+2026-09-01 18:55:32,806 [INFO]   240000/312928 cells (59 in map)
+2026-09-01 18:55:55,623 [INFO]   280000/312928 cells (350 in map)
+2026-09-01 18:56:17,038 [INFO]   312928/312928 cells (138 in map)
+2026-09-01 18:56:17,677 [INFO] built mural pass
+2026-09-01 18:56:18,291 [INFO] demographics matched for 536/536 units
+2026-09-01 18:56:18,874 [INFO] Wrote gse136831_bm_pseudobulk.tsv.gz: (536, 134)
+2026-09-01 18:56:19,052 [INFO] 
 Donors per compartment at >=5 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -43,7 +44,7 @@ Mural             9        6   21
 Myofibroblast    14       12   28
 Pericyte          6        1   15
 SMC               7        5   16
-2026-07-21 17:20:48,829 [INFO] 
+2026-09-01 18:56:19,116 [INFO] 
 Donors per compartment at >=10 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -55,7 +56,7 @@ Mural             7        2   15
 Myofibroblast    10        9   24
 Pericyte          2        0   11
 SMC               3        2   11
-2026-07-21 17:20:48,832 [INFO] 
+2026-09-01 18:56:19,124 [INFO] 
 Donors per compartment at >=20 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -76,8 +77,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-21 17:20
-2026-07-21 17:21:06 - **** COPD basement-membrane contrast ****
+Session information updated at 2026-09-01 18:56
+2026-09-01 18:56:49 - **** COPD basement-membrane contrast ****
 Donors per compartment (>= 5 cells):
 Key: <compartment>
      compartment Control  COPD   IPF
@@ -116,17 +117,25 @@ PERICYTES: NOT ESTIMABLE for COPD vs Control -- descriptive only, no p-value.
      <char>            <int>         <int>           <num>    <lgcl>
  1:  COL4A1                1             6              NA     FALSE
  2:  COL4A2                1             6              NA     FALSE
- 3: COL18A1                1             6              NA     FALSE
- 4:   LAMA3                1             6              NA     FALSE
- 5:   LAMA4                1             6              NA     FALSE
- 6:   LAMA5                1             6              NA     FALSE
- 7:   LAMB1                1             6              NA     FALSE
- 8:   LAMB2                1             6              NA     FALSE
- 9:   LAMC1                1             6              NA     FALSE
-10:    NID1                1             6              NA     FALSE
-11:    NID2                1             6              NA     FALSE
-12:   HSPG2                1             6              NA     FALSE
-13:    AGRN                1             6              NA     FALSE
+ 3: COL15A1                1             6              NA     FALSE
+ 4: COL18A1                1             6              NA     FALSE
+ 5:   LAMA1                1             6              NA     FALSE
+ 6:   LAMA2                1             6              NA     FALSE
+ 7:   LAMA3                1             6              NA     FALSE
+ 8:   LAMA4                1             6              NA     FALSE
+ 9:   LAMA5                1             6              NA     FALSE
+10:   LAMB1                1             6              NA     FALSE
+11:   LAMB2                1             6              NA     FALSE
+12:   LAMB3                1             6              NA     FALSE
+13:   LAMB4                1             6              NA     FALSE
+14:   LAMC1                1             6              NA     FALSE
+15:   LAMC2                1             6              NA     FALSE
+16:   LAMC3                1             6              NA     FALSE
+17:    NID1                1             6              NA     FALSE
+18:    NID2                1             6              NA     FALSE
+19:   HSPG2                1             6              NA     FALSE
+20:    AGRN                1             6              NA     FALSE
+       gene n_donors_control n_donors_copd mde_log1p_cp10k estimable
 - Session info ---------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -137,7 +146,7 @@ PERICYTES: NOT ESTIMABLE for COPD vs Control -- descriptive only, no p-value.
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-21
+ date     2026-09-01
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -174,4 +183,4 @@ PERICYTES: NOT ESTIMABLE for COPD vs Control -- descriptive only, no p-value.
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-21 17:21:22 - **** Job ends ****
+2026-09-01 18:57:14 - **** Job ends ****

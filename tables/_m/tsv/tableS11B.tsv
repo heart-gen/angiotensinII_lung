@@ -1,8 +1,8 @@
 metric	value
-Spearman rank correlation (BM vs injury)	0.223 (P = 6e-05)
+Spearman rank correlation (BM vs injury)	0.227 (P = 4.33e-05)
 n ligands compared	321
 top-20 overlap (count)	8
 top-20 Jaccard	0.250
 shared top-20 ligands	COL1A1; COL5A1; COPA; MMP14; RELN; TGFB1; TGFB2; TIMP2
-BM-specific top-20 ligands	CALM3; CALR; COL10A1; FGF2; FGF7; IGF2; JAG1; MXRA5; NPNT; POSTN; SEMA4C; VEGFC
+BM-specific top-20 ligands	BMP2; CALM3; CALR; COL10A1; FGF2; FGF7; IGF1; IGF2; LAMA2; MXRA5; POSTN; VEGFC
 injury-specific top-20 ligands	AGT; CCN2; COL4A1; ENG; FN1; ICAM1; NAMPT; SIRPB2; TGM2; THBS2; VCAM1; VTN
