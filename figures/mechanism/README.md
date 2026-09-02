@@ -223,12 +223,14 @@ basement-membrane patterns, the contractile pattern is strongest in vascular smo
 fibrillar/inflammatory patterns extend into bona-fide fibroblasts and myeloid populations — the
 injury axes a subset of pericytes adopt are the ones fibroblasts constitutively run. **(D)**
 Re-running the prioritization against the **basement-membrane** target set instead of the injury
-program gives a substantially different ranking (Spearman ρ = 0.223 against the injury ranking,
-only 8 of the top 20 ligands shared). The target set is the **10 of 13** BM-panel genes expressed
-in pericytes above the 0.10 receiver threshold (*LAMA3*, *LAMA5* and *AGRN* fall below it and were
-never tested). Of 321 candidates only **MMP14** survives correction across 10,000 matched
-permutations (rank 1, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032); TIMP2 ranks second but is not FDR-significant,
-and TGFB2/TGFB1 carry regulatory potential without reaching significance. BM deposition is
+program gives a substantially different ranking (Spearman ρ = 0.227 against the injury ranking,
+only 8 of the top 20 ligands shared). The target set is the **12 of 20** BM-panel genes expressed
+in pericytes above the 0.10 receiver threshold. Of 321 candidates only **MMP14** survives correction
+across 10,000 matched permutations (rank 1, *z* = 24.6, empirical *P* = 9.999 × 10⁻⁵, FDR = 0.032);
+TIMP2 ranks second but is not FDR-significant, and TGFB2/TGFB1 carry regulatory potential without
+reaching significance (BH ≈ 0.235). The companion fibrillar arm (Table S11D) inverts this: **TGFB2
+is rank 3 at *z* = 23.2, BH = 0.0064** toward fibrillar collagen, and MMP14 falls to *z* = 5.55 —
+so TGF-β's predicted regulatory target is fibrillar collagen, not basement membrane. BM deposition is
 therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
 TGF-β-dominated axis that drives the injury program.
 
