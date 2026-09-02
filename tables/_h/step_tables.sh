@@ -32,9 +32,11 @@
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }
 log_message "**** Job starts ****"; echo "Job id: ${SLURM_JOBID}"
 
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
 module list
+eval "$(conda shell.bash hook)"
 
 ## S3 needs the h5ad to score panel-gene detection, so it runs in the Python env.
 log_message "**** S3: curated program gene sets (scRNA_env) ****"

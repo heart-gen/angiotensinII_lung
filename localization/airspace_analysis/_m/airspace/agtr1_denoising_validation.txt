@@ -1,0 +1,44 @@
+AGTR1 scVI denoising -- validity gate
+============================================================
+OVERALL VERDICT: PASS
+
+Primary criterion: Spearman correlation between donor-mean denoised
+AGTR1 and the donor AGTR1 detection rate, donors with >= 20
+pericytes. Pre-specified: PASS rho >= 0.5 and p < 0.05;
+WEAK 0.25 <= rho < 0.5; FAIL otherwise.
+
+Pooling to that level averages dropout away, so the detection rate is a
+good estimate of the donor's true AGTR1 level. A denoised lens that does
+not track it is not measuring AGTR1, and a null result obtained with it
+is uninformative rather than evidence of absence.
+
+                  model                    level         reference                       statistic    value       p_value     n verdict
+AGTR1_scvi_perivascular                     cell      AGTR1_detect                    spearman_rho 0.329512 7.692058e-294 11680        
+AGTR1_scvi_perivascular                     cell        AGTR1_expr                    spearman_rho 0.352759  0.000000e+00 11680        
+AGTR1_scvi_perivascular                 donor>=5 AGTR1_detect_rate                    spearman_rho 0.636201  3.033542e-13   105        
+AGTR1_scvi_perivascular                donor>=20 AGTR1_detect_rate                    spearman_rho 0.743053  2.660350e-13    69    PASS
+AGTR1_scvi_perivascular                donor>=50 AGTR1_detect_rate                    spearman_rho 0.724315  1.881543e-09    51        
+AGTR1_scvi_perivascular               donor>=100 AGTR1_detect_rate                    spearman_rho 0.713077  6.316067e-05    25        
+AGTR1_scvi_perivascular                     cell             study between_study_variance_fraction 0.418123           NaN 11680        
+   AGTR1_scvi_pericytes                     cell      AGTR1_detect                    spearman_rho 0.341759  0.000000e+00 11680        
+   AGTR1_scvi_pericytes                     cell        AGTR1_expr                    spearman_rho 0.364252  0.000000e+00 11680        
+   AGTR1_scvi_pericytes                 donor>=5 AGTR1_detect_rate                    spearman_rho 0.618615  2.031091e-12   105        
+   AGTR1_scvi_pericytes                donor>=20 AGTR1_detect_rate                    spearman_rho 0.734102  7.132742e-13    69    PASS
+   AGTR1_scvi_pericytes                donor>=50 AGTR1_detect_rate                    spearman_rho 0.731419  1.087745e-09    51        
+   AGTR1_scvi_pericytes               donor>=100 AGTR1_detect_rate                    spearman_rho 0.789231  2.745427e-06    25        
+   AGTR1_scvi_pericytes                     cell             study between_study_variance_fraction 0.426235           NaN 11680        
+AGTR1_scvi_perivascular pericyte_vs_capillary_EC       subclusters                           AUROC 0.999755           NaN 76263    PASS
+           AGTR1_detect pericyte_vs_capillary_EC       subclusters                           AUROC 0.686488           NaN 76263    PASS
+
+Observed detection rate by denoised quintile (model-free):
+                  model  q    n  mean_denoised  observed_detect_rate
+AGTR1_scvi_perivascular Q1 2336       2.243930              0.116438
+AGTR1_scvi_perivascular Q2 2336       5.705426              0.281250
+AGTR1_scvi_perivascular Q3 2336       9.877432              0.425514
+AGTR1_scvi_perivascular Q4 2336      14.267927              0.484161
+AGTR1_scvi_perivascular Q5 2336      23.043587              0.563784
+   AGTR1_scvi_pericytes Q1 2336       1.823082              0.122432
+   AGTR1_scvi_pericytes Q2 2336       5.021347              0.262414
+   AGTR1_scvi_pericytes Q3 2336       9.331037              0.430651
+   AGTR1_scvi_pericytes Q4 2336      14.995372              0.469606
+   AGTR1_scvi_pericytes Q5 2336      26.957846              0.586045

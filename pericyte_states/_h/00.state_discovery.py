@@ -38,12 +38,21 @@ import pandas as pd
 import scanpy as sc
 import session_info
 import seaborn as sns
-import logging, argparse
+import logging, argparse, sys
 from pathlib import Path
 from scipy import sparse
 from anndata import AnnData
 import matplotlib.pyplot as plt
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
+
+# The basement-membrane panel is DECLARED in basement_membrane/_h/bm_panels.py and
+# imported here rather than copied. A second literal copy is exactly the failure
+# this module's BM work exists to fix (COL4A1 sat in a fibrillar panel unnoticed
+# for months), and the two copies drifted the moment the panel grew from 13 to 20
+# genes on 2026-09-01.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] /
+                       "basement_membrane" / "_h"))
+import bm_panels
 
 sns.set_context("talk")
 sns.set_style("whitegrid")
@@ -75,11 +84,9 @@ STATE_PANELS = {
     # Basement-membrane deposition. Kept SEPARATE from fibroblast_like because
     # the two are biologically distinct matrices and, empirically, near-orthogonal
     # in these cells (panel-score r = 0.05 once the shared COL4A1 is removed).
-    # Panel definition and provenance: basement_membrane/_h/bm_panels.py.
-    "basement_membrane": [
-        "COL4A1", "COL4A2", "COL18A1", "LAMA3", "LAMA4", "LAMA5",
-        "LAMB1", "LAMB2", "LAMC1", "NID1", "NID2", "HSPG2", "AGRN",
-    ],
+    # Panel definition and provenance: basement_membrane/_h/bm_panels.py, imported
+    # above so this file cannot drift from it.
+    "basement_membrane": list(bm_panels.BM_PANEL),
 }
 
 EXTRA_GENES = ["AGTR1", "AGTR2", "ACTA2"]

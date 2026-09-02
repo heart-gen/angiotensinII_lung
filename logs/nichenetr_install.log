@@ -1,0 +1,474 @@
+libPaths: /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib | /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+Downloading GitHub repo saeyslab/nichenetr@HEAD
+Installing 33 packages: wk, diffobj, pkgbuild, desc, urca, fracdiff, forecast, BBmisc, ParamHelpers, parallelMap, units, s2, classInt, rex, waldo, praise, pkgload, brio, lhs, smoof, mlr, visNetwork, sf, covr, mco, doMC, testthat, shadowtext, DiceKriging, emoa, mlrMBO, DiagrammeR, fdrtool
+trying URL 'https://cloud.r-project.org/src/contrib/wk_0.9.5.tar.gz'
+Content type 'application/x-gzip' length 1041465 bytes (1017 KB)
+==================================================
+downloaded 1017 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/diffobj_0.3.6.tar.gz'
+Content type 'application/x-gzip' length 472960 bytes (461 KB)
+==================================================
+downloaded 461 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/pkgbuild_1.4.8.tar.gz'
+Content type 'application/x-gzip' length 51302 bytes (50 KB)
+==================================================
+downloaded 50 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/desc_1.4.3.tar.gz'
+Content type 'application/x-gzip' length 80066 bytes (78 KB)
+==================================================
+downloaded 78 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/urca_1.3-4.tar.gz'
+Content type 'application/x-gzip' length 680691 bytes (664 KB)
+==================================================
+downloaded 664 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/fracdiff_1.5-4.tar.gz'
+Content type 'application/x-gzip' length 59652 bytes (58 KB)
+==================================================
+downloaded 58 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/forecast_9.0.2.tar.gz'
+Content type 'application/x-gzip' length 590857 bytes (577 KB)
+==================================================
+downloaded 577 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/BBmisc_1.13.1.tar.gz'
+Content type 'application/x-gzip' length 88087 bytes (86 KB)
+==================================================
+downloaded 86 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/ParamHelpers_1.14.2.tar.gz'
+Content type 'application/x-gzip' length 114877 bytes (112 KB)
+==================================================
+downloaded 112 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/parallelMap_1.5.1.tar.gz'
+Content type 'application/x-gzip' length 29651 bytes (28 KB)
+==================================================
+downloaded 28 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/units_1.0-1.tar.gz'
+Content type 'application/x-gzip' length 369348 bytes (360 KB)
+==================================================
+downloaded 360 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/s2_1.1.11.tar.gz'
+Content type 'application/x-gzip' length 2974506 bytes (2.8 MB)
+==================================================
+downloaded 2.8 MB
+
+trying URL 'https://cloud.r-project.org/src/contrib/classInt_0.4-11.tar.gz'
+Content type 'application/x-gzip' length 440406 bytes (430 KB)
+==================================================
+downloaded 430 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/rex_1.2.2.tar.gz'
+Content type 'application/x-gzip' length 91288 bytes (89 KB)
+==================================================
+downloaded 89 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/waldo_0.6.2.tar.gz'
+Content type 'application/x-gzip' length 45913 bytes (44 KB)
+==================================================
+downloaded 44 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/praise_1.0.0.tar.gz'
+Content type 'application/x-gzip' length 6100 bytes
+==================================================
+downloaded 6100 bytes
+
+trying URL 'https://cloud.r-project.org/src/contrib/pkgload_1.5.2.tar.gz'
+Content type 'application/x-gzip' length 88118 bytes (86 KB)
+==================================================
+downloaded 86 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/brio_1.1.5.tar.gz'
+Content type 'application/x-gzip' length 13172 bytes (12 KB)
+==================================================
+downloaded 12 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/lhs_1.3.0.tar.gz'
+Content type 'application/x-gzip' length 243654 bytes (237 KB)
+==================================================
+downloaded 237 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/smoof_1.7.0.tar.gz'
+Content type 'application/x-gzip' length 236301 bytes (230 KB)
+==================================================
+downloaded 230 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/mlr_2.19.3.tar.gz'
+Content type 'application/x-gzip' length 2943826 bytes (2.8 MB)
+==================================================
+downloaded 2.8 MB
+
+trying URL 'https://cloud.r-project.org/src/contrib/visNetwork_2.1.4.tar.gz'
+Content type 'application/x-gzip' length 4269530 bytes (4.1 MB)
+==================================================
+downloaded 4.1 MB
+
+trying URL 'https://cloud.r-project.org/src/contrib/sf_1.1-1.tar.gz'
+Content type 'application/x-gzip' length 4408116 bytes (4.2 MB)
+==================================================
+downloaded 4.2 MB
+
+trying URL 'https://cloud.r-project.org/src/contrib/covr_3.6.5.tar.gz'
+Content type 'application/x-gzip' length 173724 bytes (169 KB)
+==================================================
+downloaded 169 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/mco_1.17.tar.gz'
+Content type 'application/x-gzip' length 37370 bytes (36 KB)
+==================================================
+downloaded 36 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/doMC_1.3.8.tar.gz'
+Content type 'application/x-gzip' length 154488 bytes (150 KB)
+==================================================
+downloaded 150 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/testthat_3.3.2.tar.gz'
+Content type 'application/x-gzip' length 834043 bytes (814 KB)
+==================================================
+downloaded 814 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/shadowtext_0.1.6.tar.gz'
+Content type 'application/x-gzip' length 174300 bytes (170 KB)
+==================================================
+downloaded 170 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/DiceKriging_1.6.1.tar.gz'
+Content type 'application/x-gzip' length 109173 bytes (106 KB)
+==================================================
+downloaded 106 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/emoa_0.5-3.tar.gz'
+Content type 'application/x-gzip' length 94035 bytes (91 KB)
+==================================================
+downloaded 91 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/mlrMBO_1.1.6.tar.gz'
+Content type 'application/x-gzip' length 692408 bytes (676 KB)
+==================================================
+downloaded 676 KB
+
+trying URL 'https://cloud.r-project.org/src/contrib/DiagrammeR_1.0.12.tar.gz'
+Content type 'application/x-gzip' length 1235201 bytes (1.2 MB)
+==================================================
+downloaded 1.2 MB
+
+trying URL 'https://cloud.r-project.org/src/contrib/fdrtool_1.2.18.tar.gz'
+Content type 'application/x-gzip' length 60023 bytes (58 KB)
+==================================================
+downloaded 58 KB
+
+* installing *source* package 'wk' ...
+** package 'wk' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+sh: x86_64-conda-linux-gnu-c++: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG -I../inst/include/  -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c bbox-handler.c -o bbox-handler.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: bbox-handler.o] Error 127
+ERROR: compilation failed for package 'wk'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/wk'
+* installing *source* package 'diffobj' ...
+** package 'diffobj' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c diff.c -o diff.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: diff.o] Error 127
+ERROR: compilation failed for package 'diffobj'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/diffobj'
+* installing *source* package 'desc' ...
+** package 'desc' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (desc)
+* installing *source* package 'urca' ...
+** package 'urca' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+sh: x86_64-conda-linux-gnu-gfortran: command not found
+x86_64-conda-linux-gnu-gfortran  -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c UnitRootMacKinnon.f -o UnitRootMacKinnon.o
+make: x86_64-conda-linux-gnu-gfortran: Command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:221: UnitRootMacKinnon.o] Error 127
+ERROR: compilation failed for package 'urca'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/urca'
+* installing *source* package 'fracdiff' ...
+** package 'fracdiff' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c fdcore.c -o fdcore.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: fdcore.o] Error 127
+ERROR: compilation failed for package 'fracdiff'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/fracdiff'
+* installing *source* package 'BBmisc' ...
+** package 'BBmisc' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c getMaxColRowIndex.c -o getMaxColRowIndex.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: getMaxColRowIndex.o] Error 127
+ERROR: compilation failed for package 'BBmisc'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/BBmisc'
+* installing *source* package 'units' ...
+** package 'units' successfully unpacked and MD5 sums checked
+** using staged installation
+configure: units: 1.0-1
+./configure: line 2628: x86_64-conda-linux-gnu-c++: command not found
+checking for default C++ standard... ./configure: line 2630: test: -lt: unary operator expected
+
+checking whether the C++ compiler works... no
+configure: error: in '/tmp/RtmpUm7PFx/R.INSTALL34960b194a1b9/units':
+configure: error: C++ compiler cannot create executables
+See 'config.log' for more details
+ERROR: configuration failed for package 'units'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/units'
+* installing *source* package 'classInt' ...
+** package 'classInt' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+sh: x86_64-conda-linux-gnu-gfortran: command not found
+x86_64-conda-linux-gnu-gfortran  -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c fish1.f -o fish1.o
+make: x86_64-conda-linux-gnu-gfortran: Command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:221: fish1.o] Error 127
+ERROR: compilation failed for package 'classInt'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/classInt'
+* installing *source* package 'rex' ...
+** package 'rex' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (rex)
+* installing *source* package 'praise' ...
+** package 'praise' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (praise)
+* installing *source* package 'brio' ...
+** package 'brio' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c brio.c -o brio.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: brio.o] Error 127
+ERROR: compilation failed for package 'brio'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/brio'
+* installing *source* package 'lhs' ...
+** package 'lhs' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+sh: x86_64-conda-linux-gnu-c++: command not found
+x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG -DRCOMPILE -I'/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix   -c COrthogonalArray.cpp -o COrthogonalArray.o
+/bin/sh: x86_64-conda-linux-gnu-c++: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:204: COrthogonalArray.o] Error 127
+ERROR: compilation failed for package 'lhs'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/lhs'
+* installing *source* package 'visNetwork' ...
+** package 'visNetwork' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (visNetwork)
+* installing *source* package 'mco' ...
+** package 'mco' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG -DVARIANT=4  -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c avl.c -o avl.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: avl.o] Error 127
+ERROR: compilation failed for package 'mco'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/mco'
+* installing *source* package 'doMC' ...
+** package 'doMC' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** demo
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (doMC)
+* installing *source* package 'shadowtext' ...
+** package 'shadowtext' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (shadowtext)
+* installing *source* package 'DiceKriging' ...
+** package 'DiceKriging' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c CovFuns.c -o CovFuns.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: CovFuns.o] Error 127
+ERROR: compilation failed for package 'DiceKriging'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/DiceKriging'
+* installing *source* package 'emoa' ...
+** package 'emoa' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c avl.c -o avl.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: avl.o] Error 127
+ERROR: compilation failed for package 'emoa'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/emoa'
+* installing *source* package 'fdrtool' ...
+** package 'fdrtool' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c fdrtool_init.c -o fdrtool_init.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: fdrtool_init.o] Error 127
+ERROR: compilation failed for package 'fdrtool'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/fdrtool'
+* installing *source* package 'pkgbuild' ...
+** package 'pkgbuild' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (pkgbuild)
+ERROR: dependencies 'fracdiff', 'urca' are not available for package 'forecast'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/forecast'
+ERROR: dependency 'BBmisc' is not available for package 'ParamHelpers'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/ParamHelpers'
+ERROR: dependency 'BBmisc' is not available for package 'parallelMap'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/parallelMap'
+ERROR: dependency 'wk' is not available for package 's2'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/s2'
+ERROR: dependency 'diffobj' is not available for package 'waldo'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/waldo'
+* installing *source* package 'covr' ...
+** package 'covr' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+sh: x86_64-conda-linux-gnu-cc: command not found
+x86_64-conda-linux-gnu-cc -I"/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -I/ocean/projects/bio250020p/shared/opt/env/R_env/include -Wl,-rpath-link,/ocean/projects/bio250020p/shared/opt/env/R_env/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /ocean/projects/bio250020p/shared/opt/env/R_env/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1740766681150/work=/usr/local/src/conda/r-base-4.4.3 -fdebug-prefix-map=/ocean/projects/bio250020p/shared/opt/env/R_env=/usr/local/src/conda-prefix  -c reassign.c -o reassign.o
+/bin/sh: x86_64-conda-linux-gnu-cc: command not found
+make: *** [/ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/etc/Makeconf:197: reassign.o] Error 127
+ERROR: compilation failed for package 'covr'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/covr'
+* installing *source* package 'DiagrammeR' ...
+** package 'DiagrammeR' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (DiagrammeR)
+* installing *source* package 'pkgload' ...
+** package 'pkgload' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (pkgload)
+ERROR: dependencies 'ParamHelpers', 'BBmisc' are not available for package 'smoof'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/smoof'
+ERROR: dependencies 'ParamHelpers', 'BBmisc', 'parallelMap' are not available for package 'mlr'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/mlr'
+ERROR: dependencies 'classInt', 's2', 'units' are not available for package 'sf'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/sf'
+ERROR: dependencies 'brio', 'waldo' are not available for package 'testthat'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/testthat'
+ERROR: dependencies 'mlr', 'ParamHelpers', 'smoof', 'BBmisc', 'lhs', 'parallelMap' are not available for package 'mlrMBO'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/mlrMBO'
+
+The downloaded source packages are in
+	'/tmp/Rtmpmin7MQ/downloaded_packages'
+-- R CMD build -----------------------------------------------------------------
+* checking for file '/tmp/Rtmpmin7MQ/remotes347109132fa958/saeyslab-nichenetr-66f90d5/DESCRIPTION' ... OK
+* preparing 'nichenetr':
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+* building 'nichenetr_2.2.1.1.tar.gz'
+Warning: invalid uid value replaced by that for user 'nobody'
+
+ERROR: dependencies 'fdrtool', 'mlrMBO', 'parallelMap', 'emoa', 'DiceKriging' are not available for package 'nichenetr'
+* removing '/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib/nichenetr'
+There were 25 warnings (use warnings() to see them)
+NICHENETR_INSTALL_FAILED

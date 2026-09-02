@@ -1,7 +1,7 @@
 endpoint	grp	var1	var2	vcov	sdcor
-bm_minus_fibrillar_core	donor_id	(Intercept)	NA	0.0231885731184734	0.152277946920995
-bm_minus_fibrillar_core	study	(Intercept)	NA	0.019911655679955	0.141108666211381
-bm_minus_fibrillar_core	Residual	NA	NA	0.0893637503940788	0.29893770319931
-bm_minus_fibrillar_minor	donor_id	(Intercept)	NA	0.00647800490655274	0.0804860541122047
-bm_minus_fibrillar_minor	study	(Intercept)	NA	0.00664565201456078	0.0815208685832087
-bm_minus_fibrillar_minor	Residual	NA	NA	0.160226554177315	0.400283092544907
+bm_minus_fibrillar_core	donor_id	(Intercept)	NA	0.0252601702478365	0.158934484136818
+bm_minus_fibrillar_core	study	(Intercept)	NA	0.0222989849757034	0.14932844663929
+bm_minus_fibrillar_core	Residual	NA	NA	0.0835392600916191	0.289031590127479
+bm_minus_fibrillar_minor	donor_id	(Intercept)	NA	0.00722843366261765	0.0850201956162044
+bm_minus_fibrillar_minor	study	(Intercept)	NA	0.00610602017096875	0.0781410274501734
+bm_minus_fibrillar_minor	Residual	NA	NA	0.156760356252821	0.395929736509928

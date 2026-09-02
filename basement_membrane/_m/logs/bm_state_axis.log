@@ -1,95 +1,316 @@
-2026-08-10 11:40:45 - **** Job starts ****
+2026-09-02 18:37:55 - **** Job starts ****
 User: kbenjamin
-Job id: 43300629
-Hostname: r267
+Job id: 45105363
+Hostname: r040
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-08-10 11:40:46 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
+2026-09-02 18:37:56 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
 Merged 11680 cells
 Donor x cluster units (>=5 cells): 214 across 95 donors
-Variance: study SD 0.000 vs residual SD 0.907 -> ok
-Warning message:
-Model failed to converge with 1 negative eigenvalue: -6.8e+00 
+Variance: study SD 0.000 vs residual SD 0.912 -> ok
+Warning messages:
+1: Model failed to converge with 1 negative eigenvalue: -1.7e+01 
+2: Model failed to converge with 1 negative eigenvalue: -6.8e+00 
 BM vs fibrillar correlations (donor x cluster pseudobulk):
                                             comparison pearson_r pearson_ci_lo
                                                 <char>     <num>         <num>
-1:            basement_membrane vs fibrillar_ecm_score 0.2593153     0.1297099
-2: basement_membrane vs fibroblast_like_noCOL4A1_score 0.2584707     0.1288197
-3:          basement_membrane vs fibroblast_like_score 0.3903410     0.2703791
-   pearson_ci_hi    pearson_p spearman_rho   spearman_p n_units
-           <num>        <num>        <num>        <num>   <int>
-1:     0.3802088 1.245046e-04    0.2386003 4.453588e-04     214
-2:     0.3794341 1.312285e-04    0.2087917 2.178351e-03     214
-3:     0.4983674 3.359348e-09    0.3301946 9.006730e-07     214
+1:            basement_membrane vs fibrillar_ecm_score 0.1687275    0.03541232
+2: basement_membrane vs fibroblast_like_noCOL4A1_score 0.1500919    0.01630353
+3:          basement_membrane vs fibroblast_like_score 0.2768100    0.14819519
+   pearson_ci_hi    pearson_p spearman_rho  spearman_p n_units
+           <num>        <num>        <num>       <num>   <int>
+1:     0.2961426 1.345247e-02    0.1483040 0.030180023     214
+2:     0.2786003 2.814595e-02    0.1052784 0.124636856     214
+3:     0.3962171 4.022414e-05    0.2210316 0.001162914     214
 Warning message:
 In `[.data.table`(pb, , `:=`(bm_resid, residuals(suppressMessages(lmer(basement_membrane_score_z ~  :
   A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+Matrix outcomes: basement_membrane_score_z, fibrillar_collagen_score_z, bm_minus_fibrillar_z, bm_resid, bm_resid_collagen
 Denoised AGTR1 (Pericyte-only-trained): 11680/11680 cells (100.0%)
-AGTR1 vs BM -- pseudobulk correlations:
-                          comparison     pearson_r pearson_ci_lo pearson_ci_hi
-                              <char>         <num>         <num>         <num>
-1:   basement_membrane vs AGTR1_scvi  0.0001018431    -0.1340166    0.13421657
-2:   basement_membrane vs AGTR1_expr -0.1223042132    -0.2522826    0.01200934
-3: basement_membrane vs AGTR1_detect -0.0553483152    -0.1880688    0.07935733
-    pearson_p spearman_rho spearman_p n_units
-        <num>        <num>      <num>   <int>
-1: 0.99881825   0.07348127 0.28433161     214
-2: 0.07419871  -0.14976699 0.02849238     214
-3: 0.42050144  -0.08970518 0.19113634     214
-AGTR1 vs BM -- depth-adjusted mixed models:
-                     outcome         lens   estimate         SE       df
-                      <char>       <char>      <num>      <num>    <num>
-1: basement_membrane_score_z   AGTR1_scvi 0.02180869 0.06670510 190.0879
-2: basement_membrane_score_z   AGTR1_expr 0.08881811 0.07089932 210.6897
-3: basement_membrane_score_z AGTR1_detect 0.10939161 0.07600907 210.4516
-4:                  bm_resid   AGTR1_scvi 0.03170310 0.05816112 212.0000
-5:                  bm_resid   AGTR1_expr 0.05727642 0.05806877 212.0000
-6:                  bm_resid AGTR1_detect 0.04589860 0.05811643 212.0000
-     t_ratio   p_value depth_adjusted n_units n_donors      p_BH
-       <num>     <num>         <lgcl>   <int>    <int>     <num>
-1: 0.3269419 0.7440716           TRUE     214       95 0.7440716
-2: 1.2527357 0.2116905           TRUE     214       95 0.3175358
-3: 1.4391916 0.1515819           TRUE     214       95 0.3175358
-4: 0.5450909 0.5862640          FALSE     214       95 0.5862640
-5: 0.9863550 0.3250833          FALSE     214       95 0.5862640
-6: 0.7897698 0.4305447          FALSE     214       95 0.5862640
-AGTR1 vs BM -- within-donor Spearman:
-           lens n_donors   median_rho         q25        q75  p_wilcox
-         <char>    <int>        <num>       <num>      <num>     <num>
-1:   AGTR1_scvi       69 -0.015972445 -0.08905322 0.07967829 0.6324255
-2:   AGTR1_expr       68  0.005213482 -0.08801746 0.07508115 0.8092769
-3: AGTR1_detect       68  0.034538796 -0.05559512 0.10347627 0.2621815
-        p_BH
-       <num>
-1: 0.8092769
-2: 0.8092769
-3: 0.7865446
+[agtr1] pseudobulk correlations:
+                           comparison             matrix_score    predictor
+                               <char>                   <char>       <char>
+1:    basement_membrane vs AGTR1_scvi  basement_membrane_score   AGTR1_scvi
+2:   fibrillar_collagen vs AGTR1_scvi fibrillar_collagen_score   AGTR1_scvi
+3:    basement_membrane vs AGTR1_expr  basement_membrane_score   AGTR1_expr
+4:   fibrillar_collagen vs AGTR1_expr fibrillar_collagen_score   AGTR1_expr
+5:  basement_membrane vs AGTR1_detect  basement_membrane_score AGTR1_detect
+6: fibrillar_collagen vs AGTR1_detect fibrillar_collagen_score AGTR1_detect
+     pearson_r pearson_ci_lo pearson_ci_hi    pearson_p spearman_rho
+         <num>         <num>         <num>        <num>        <num>
+1: -0.25748216   -0.37852718   -0.12777810 1.395293e-04  -0.24379330
+2: -0.43531288   -0.53801849   -0.31987125 2.625089e-11  -0.48337502
+3: -0.04023410   -0.17341491    0.09439181 5.583030e-01  -0.05019206
+4: -0.26071137   -0.38148891   -0.13118167 1.140933e-04  -0.27202595
+5:  0.03728395   -0.09731925    0.17054771 5.875351e-01   0.02443280
+6: -0.20473706   -0.32979782   -0.07261438 2.617235e-03  -0.19324453
+     spearman_p n_units
+          <num>   <int>
+1: 3.308440e-04     214
+2: 0.000000e+00     214
+3: 4.651416e-01     214
+4: 5.521149e-05     214
+5: 7.223044e-01     214
+6: 4.551693e-03     214
+[agtr1] depth-adjusted mixed models:
+                       outcome    predictor family    estimate         SE
+                        <char>       <char> <char>       <num>      <num>
+ 1:  basement_membrane_score_z   AGTR1_scvi  agtr1  0.12586104 0.06766576
+ 2:  basement_membrane_score_z   AGTR1_expr  agtr1  0.16953707 0.07001725
+ 3:  basement_membrane_score_z AGTR1_detect  agtr1  0.20942094 0.07478746
+ 4: fibrillar_collagen_score_z   AGTR1_scvi  agtr1 -0.13445426 0.06690631
+ 5: fibrillar_collagen_score_z   AGTR1_expr  agtr1 -0.05428682 0.06872898
+ 6: fibrillar_collagen_score_z AGTR1_detect  agtr1 -0.02962787 0.07444179
+ 7:       bm_minus_fibrillar_z   AGTR1_scvi  agtr1  0.31299294 0.06528566
+ 8:       bm_minus_fibrillar_z   AGTR1_expr  agtr1  0.19656985 0.06753085
+ 9:       bm_minus_fibrillar_z AGTR1_detect  agtr1  0.16482494 0.07427925
+10:                   bm_resid   AGTR1_scvi  agtr1  0.09869076 0.05785751
+11:                   bm_resid   AGTR1_expr  agtr1  0.12474511 0.05761972
+12:                   bm_resid AGTR1_detect  agtr1  0.11806967 0.05768603
+13:          bm_resid_collagen   AGTR1_scvi  agtr1  0.17836082 0.05596710
+14:          bm_resid_collagen   AGTR1_expr  agtr1  0.16053390 0.05552796
+15:          bm_resid_collagen AGTR1_detect  agtr1  0.15863770 0.05554629
+          df    t_ratio      p_value depth_adjusted n_units n_donors
+       <num>      <num>        <num>         <lgcl>   <int>    <int>
+ 1: 194.5246  1.8600402 6.438947e-02           TRUE     214       95
+ 2: 210.8952  2.4213614 1.630843e-02           TRUE     214       95
+ 3: 208.4804  2.8002148 5.586839e-03           TRUE     214       95
+ 4: 210.0517 -2.0095902 4.575405e-02           TRUE     214       95
+ 5: 205.6773 -0.7898680 4.305145e-01           TRUE     214       95
+ 6: 210.1228 -0.3980006 6.910338e-01           TRUE     214       95
+ 7: 210.9628  4.7942063 3.081321e-06           TRUE     214       95
+ 8: 203.7377  2.9108158 4.005926e-03           TRUE     214       95
+ 9: 209.8778  2.2189905 2.755831e-02           TRUE     214       95
+10: 212.0000  1.7057552 8.951825e-02          FALSE     214       95
+11: 212.0000  2.1649725 3.150665e-02          FALSE     214       95
+12: 212.0000  2.0467636 4.191505e-02          FALSE     214       95
+13: 187.8239  3.1868871 1.684534e-03          FALSE     214       95
+14: 211.6891  2.8910460 4.239946e-03          FALSE     214       95
+15: 211.9983  2.8559551 4.717458e-03          FALSE     214       95
+            p_BH
+           <num>
+ 1: 6.438947e-02
+ 2: 2.446265e-02
+ 3: 1.676052e-02
+ 4: 1.372622e-01
+ 5: 6.457718e-01
+ 6: 6.910338e-01
+ 7: 9.243962e-06
+ 8: 6.008889e-03
+ 9: 2.755831e-02
+10: 8.951825e-02
+11: 6.287257e-02
+12: 6.287257e-02
+13: 4.717458e-03
+14: 4.717458e-03
+15: 4.717458e-03
+[agtr1] within-donor Spearman:
+                    outcome    predictor family n_donors   median_rho
+                     <char>       <char> <char>    <int>        <num>
+1:  basement_membrane_score   AGTR1_scvi  agtr1       69  0.084976796
+2:  basement_membrane_score   AGTR1_expr  agtr1       68  0.039638258
+3:  basement_membrane_score AGTR1_detect  agtr1       68  0.067008892
+4: fibrillar_collagen_score   AGTR1_scvi  agtr1       69 -0.046589551
+5: fibrillar_collagen_score   AGTR1_expr  agtr1       68  0.005040658
+6: fibrillar_collagen_score AGTR1_detect  agtr1       68  0.019995792
+7:       bm_minus_fibrillar   AGTR1_scvi  agtr1       69  0.088140716
+8:       bm_minus_fibrillar   AGTR1_expr  agtr1       68  0.041346391
+9:       bm_minus_fibrillar AGTR1_detect  agtr1       68  0.038447788
+            q25        q75     p_wilcox n_donors_partial median_partial_rho
+          <num>      <num>        <num>            <int>              <num>
+1: -0.027976555 0.17682117 4.321191e-05               69       0.1105007644
+2: -0.035930433 0.13533215 1.789605e-02               68       0.0333808908
+3: -0.020513300 0.14065585 4.891189e-03               68       0.0354257196
+4: -0.145094972 0.07042091 1.130980e-01               69      -0.0206935519
+5: -0.067621645 0.07727464 5.432006e-01               68       0.0008151748
+6: -0.075524117 0.10135007 2.298736e-01               68      -0.0012597016
+7:  0.002651306 0.18785681 2.367066e-05               69       0.0950449384
+8: -0.052837663 0.10121413 1.467217e-01               68       0.0459549183
+9: -0.074749591 0.12291877 2.595902e-01               68       0.0431531020
+   p_wilcox_partial      depth_control         p_BH p_BH_partial
+              <num>             <char>        <num>        <num>
+1:     8.112945e-07 log10_total_counts 1.296357e-04 2.433883e-06
+2:     1.114415e-01 log10_total_counts 1.789605e-02 1.114415e-01
+3:     1.114415e-01 log10_total_counts 7.336784e-03 1.114415e-01
+4:     2.007230e-01 log10_total_counts 3.392940e-01 6.021689e-01
+5:     9.196927e-01 log10_total_counts 5.432006e-01 9.196927e-01
+6:     8.235138e-01 log10_total_counts 3.448104e-01 9.196927e-01
+7:     1.205511e-05 log10_total_counts 7.101199e-05 3.616534e-05
+8:     6.543543e-02 log10_total_counts 2.200825e-01 8.653715e-02
+9:     8.653715e-02 log10_total_counts 2.595902e-01 8.653715e-02
+[tgfb] pseudobulk correlations:
+                                        comparison             matrix_score
+                                            <char>                   <char>
+1:        basement_membrane vs tgfb_response_score  basement_membrane_score
+2:       fibrillar_collagen vs tgfb_response_score fibrillar_collagen_score
+3:  basement_membrane vs tgfb_response_noECM_score  basement_membrane_score
+4: fibrillar_collagen vs tgfb_response_noECM_score fibrillar_collagen_score
+5:        basement_membrane vs tgfb_receptor_score  basement_membrane_score
+6:       fibrillar_collagen vs tgfb_receptor_score fibrillar_collagen_score
+                   predictor   pearson_r pearson_ci_lo pearson_ci_hi
+                      <char>       <num>         <num>         <num>
+1:       tgfb_response_score -0.45652992   -0.55656876   -0.34344167
+2:       tgfb_response_score -0.19882114   -0.32429043   -0.06647721
+3: tgfb_response_noECM_score -0.45508562   -0.55530916   -0.34183265
+4: tgfb_response_noECM_score -0.24134844   -0.36369270   -0.11081896
+5:       tgfb_receptor_score  0.35088128    0.22746918    0.46320011
+6:       tgfb_receptor_score  0.07413965   -0.06057928    0.20620583
+      pearson_p spearman_rho   spearman_p n_units
+          <num>        <num>        <num>   <int>
+1: 2.050552e-12  -0.47860814 0.000000e+00     214
+2: 3.492652e-03  -0.25811351 1.410883e-04     214
+3: 2.452996e-12  -0.46867766 0.000000e+00     214
+4: 3.669797e-04  -0.29371141 1.369789e-05     214
+5: 1.353499e-07   0.41747752 2.829787e-10     214
+6: 2.802740e-01   0.09578506 1.625286e-01     214
+[tgfb] depth-adjusted mixed models:
+                       outcome                 predictor family    estimate
+                        <char>                    <char> <char>       <num>
+ 1:  basement_membrane_score_z       tgfb_response_score   tgfb -0.19640313
+ 2:  basement_membrane_score_z tgfb_response_noECM_score   tgfb -0.19399552
+ 3:  basement_membrane_score_z       tgfb_receptor_score   tgfb -0.01481949
+ 4: fibrillar_collagen_score_z       tgfb_response_score   tgfb -0.07285565
+ 5: fibrillar_collagen_score_z tgfb_response_noECM_score   tgfb -0.08991185
+ 6: fibrillar_collagen_score_z       tgfb_receptor_score   tgfb  0.05669635
+ 7:       bm_minus_fibrillar_z       tgfb_response_score   tgfb -0.08402273
+ 8:       bm_minus_fibrillar_z tgfb_response_noECM_score   tgfb -0.06091967
+ 9:       bm_minus_fibrillar_z       tgfb_receptor_score   tgfb -0.07206932
+10:                   bm_resid       tgfb_response_score   tgfb -0.17420163
+11:                   bm_resid tgfb_response_noECM_score   tgfb -0.16889543
+12:                   bm_resid       tgfb_receptor_score   tgfb -0.02187767
+13:          bm_resid_collagen       tgfb_response_score   tgfb -0.15411975
+14:          bm_resid_collagen tgfb_response_noECM_score   tgfb -0.14557040
+15:          bm_resid_collagen       tgfb_receptor_score   tgfb -0.03347436
+            SE       df    t_ratio     p_value depth_adjusted n_units n_donors
+         <num>    <num>      <num>       <num>         <lgcl>   <int>    <int>
+ 1: 0.06830555 210.8685 -2.8753615 0.004449556           TRUE     214       95
+ 2: 0.06822635 210.9935 -2.8434105 0.004902097           TRUE     214       95
+ 3: 0.07030150 210.4357 -0.2107990 0.833248071           TRUE     214       95
+ 4: 0.06695423 201.8757 -1.0881412 0.277830167           TRUE     214       95
+ 5: 0.06679380 202.1379 -1.3461108 0.179774461           TRUE     214       95
+ 6: 0.06753625 200.0888  0.8394951 0.402193449           TRUE     214       95
+ 7: 0.06752045 200.3239 -1.2444043 0.214804776           TRUE     214       95
+ 8: 0.06753420 200.2648 -0.9020567 0.368110397           TRUE     214       95
+ 9: 0.06725174 195.4630 -1.0716350 0.285205376           TRUE     214       95
+10: 0.05701133 212.0000 -3.0555613 0.002534854          FALSE     214       95
+11: 0.05708660 212.0000 -2.9585828 0.003441593          FALSE     214       95
+12: 0.05823381 212.0000 -0.3756867 0.707525457          FALSE     214       95
+13: 0.05561279 209.5853 -2.7713005 0.006085473          FALSE     214       95
+14: 0.05572565 208.9176 -2.6122692 0.009647434          FALSE     214       95
+15: 0.05661169 210.4815 -0.5912976 0.554955547          FALSE     214       95
+           p_BH
+          <num>
+ 1: 0.007353145
+ 2: 0.007353145
+ 3: 0.833248071
+ 4: 0.402193449
+ 5: 0.402193449
+ 6: 0.402193449
+ 7: 0.368110397
+ 8: 0.368110397
+ 9: 0.368110397
+10: 0.005162389
+11: 0.005162389
+12: 0.707525457
+13: 0.014471150
+14: 0.014471150
+15: 0.554955547
+[tgfb] within-donor Spearman:
+                    outcome                 predictor family n_donors
+                     <char>                    <char> <char>    <int>
+1:  basement_membrane_score       tgfb_response_score   tgfb       69
+2:  basement_membrane_score tgfb_response_noECM_score   tgfb       69
+3:  basement_membrane_score       tgfb_receptor_score   tgfb       69
+4: fibrillar_collagen_score       tgfb_response_score   tgfb       69
+5: fibrillar_collagen_score tgfb_response_noECM_score   tgfb       69
+6: fibrillar_collagen_score       tgfb_receptor_score   tgfb       69
+7:       bm_minus_fibrillar       tgfb_response_score   tgfb       69
+8:       bm_minus_fibrillar tgfb_response_noECM_score   tgfb       69
+9:       bm_minus_fibrillar       tgfb_receptor_score   tgfb       69
+     median_rho         q25        q75    p_wilcox n_donors_partial
+          <num>       <num>      <num>       <num>            <int>
+1: -0.036470588 -0.10017094 0.02142857 0.008224926               69
+2: -0.034569123 -0.11026332 0.03113553 0.017330469               69
+3: -0.014338575 -0.09775510 0.05071532 0.276520846               69
+4:  0.004202959 -0.08003953 0.11284932 0.909554903               69
+5: -0.007508266 -0.08826604 0.09343968 0.810983183               69
+6:  0.029169526 -0.04347826 0.10684935 0.033295245               69
+7: -0.023137481 -0.09777445 0.08454151 0.220317614               69
+8: -0.021691352 -0.09336979 0.07746904 0.354063267               69
+9: -0.035612245 -0.09518326 0.06684880 0.113097996               69
+   median_partial_rho p_wilcox_partial      depth_control       p_BH
+                <num>            <num>             <char>      <num>
+1:      -0.0468964875      0.001499292 log10_total_counts 0.02467478
+2:      -0.0504222067      0.002687139 log10_total_counts 0.02599570
+3:       0.0002973228      0.895350662 log10_total_counts 0.27652085
+4:       0.0021866435      0.783292014 log10_total_counts 0.90955490
+5:      -0.0037888437      0.820268258 log10_total_counts 0.90955490
+6:       0.0430345277      0.036382088 log10_total_counts 0.09988573
+7:      -0.0381524697      0.097687774 log10_total_counts 0.33047642
+8:      -0.0430546586      0.190402532 log10_total_counts 0.35406327
+9:      -0.0147867734      0.215848874 log10_total_counts 0.33047642
+   p_BH_partial
+          <num>
+1:  0.004030708
+2:  0.004030708
+3:  0.895350662
+4:  0.820268258
+5:  0.820268258
+6:  0.109146263
+7:  0.215848874
+8:  0.215848874
+9:  0.215848874
+TGF-beta directional headline: BM - fibrillar ~ TGF-beta response = -0.0840 (SE 0.0675, p = 0.215, BH = 0.368) -- NOT significant
+  TGFBI leave-out sensitivity: -0.0609 (p = 0.368) vs -0.0840 with TGFBI -- same direction
+BM panel version concordance (13-gene vs 20-gene):
+             level pearson_r spearman_rho     n
+            <char>     <num>        <num> <int>
+1:            cell 0.9338996    0.9284512 11680
+2: donor_x_cluster 0.9635773    0.9556716   214
+Key: <pericyte_state>
+   pericyte_state basement_membrane_score_z bm_v1_score_z        delta
+           <fctr>                     <num>         <num>        <num>
+1:              0                -0.1507888    -0.1755643  0.024775554
+2:              1                 0.2532141     0.2596388 -0.006424759
+3:              2                -0.7062628    -0.6177745 -0.088488298
+4:              3                 1.1204005     0.9100146  0.210385945
+5:              4                -0.5294279    -0.4816293 -0.047798692
+6:              5                 0.4723302     1.0121455 -0.539815284
+Warning messages:
+1: Model failed to converge with 1 negative eigenvalue: -1.7e+01 
+2: Model failed to converge with 1 negative eigenvalue: -6.8e+00 
 Continuum trends (donor-level Spearman vs pseudotime):
-            metric n_donors  median_rho         q25         q75     p_wilcox
-            <char>    <int>       <num>       <num>       <num>        <num>
-1:          rho_bm       69  0.02489331 -0.09428571  0.07325194 8.435887e-01
-2:         rho_fib       69  0.03984448 -0.05181597  0.19521368 9.462871e-03
-3:        rho_core       69 -0.01969388 -0.11392496  0.08940533 6.029463e-01
-4:       rho_minor       69 -0.06214082 -0.17322558  0.04153083 3.805984e-03
-5:      rho_tracer       69 -0.19610390 -0.36420102 -0.06561584 9.100933e-11
-6:      rho_switch       69 -0.05413687 -0.16491383  0.06077189 8.671071e-03
-7: rho_switch_core       69 -0.02403192 -0.12546626  0.06084410 1.413396e-01
-   bh_family         p_BH
-      <char>        <num>
-1:  original 8.435887e-01
-2:  original 1.419431e-02
-3: expansion 6.029463e-01
-4: expansion 7.611967e-03
-5: expansion 3.640373e-10
-6:  original 1.419431e-02
-7: expansion 1.884528e-01
+                 metric n_donors  median_rho         q25         q75
+                 <char>    <int>       <num>       <num>       <num>
+ 1:              rho_bm       69 -0.02053654 -0.08563135  0.08980938
+ 2:             rho_fib       69  0.03984448 -0.05181597  0.19521368
+ 3:        rho_collagen       69  0.02697533 -0.07138057  0.13190954
+ 4:            rho_core       69 -0.01969388 -0.11392496  0.08940533
+ 5:           rho_minor       69 -0.06214082 -0.17322558  0.04153083
+ 6:          rho_tracer       69 -0.19610390 -0.36420102 -0.06561584
+ 7:            rho_tgfb       69  0.13348621  0.01869717  0.23073021
+ 8:          rho_switch       69 -0.05492674 -0.17725482  0.06509217
+ 9:     rho_switch_core       69 -0.01716834 -0.12250674  0.06537101
+10: rho_switch_collagen       69 -0.06311166 -0.14457054  0.05189474
+        p_wilcox bh_family         p_BH
+           <num>    <char>        <num>
+ 1: 6.239403e-01  original 6.239403e-01
+ 2: 9.462871e-03  original 1.419431e-02
+ 3: 1.479235e-01 expansion 1.994340e-01
+ 4: 6.029463e-01 expansion 6.029463e-01
+ 5: 3.805984e-03 expansion 8.880628e-03
+ 6: 9.100933e-11 expansion 6.370653e-10
+ 7: 7.116011e-06 expansion 2.490604e-05
+ 8: 6.759571e-03  original 1.419431e-02
+ 9: 1.709434e-01 expansion 1.994340e-01
+10: 7.262819e-03 expansion 1.270993e-02
 BM pericyte axis -- generated summary
 Donor x cluster units (>=5 cells): 214; donors: 95
-Variance components: study SD 0.000, residual SD 0.907 -> ok
+Variance components: study SD 0.000, residual SD 0.912 -> ok
 
 Grouping variable is pericyte_state (panel-independent Leiden clusters).
 state_program is NOT used as an outcome grouping: after the gate escalated it
@@ -98,45 +319,215 @@ is derived from the BM score, so testing against it would be circular.
 BM vs fibrillar (donor x cluster pseudobulk):
                                             comparison pearson_r pearson_ci_lo
                                                 <char>     <num>         <num>
-1:            basement_membrane vs fibrillar_ecm_score 0.2593153     0.1297099
-2: basement_membrane vs fibroblast_like_noCOL4A1_score 0.2584707     0.1288197
-3:          basement_membrane vs fibroblast_like_score 0.3903410     0.2703791
-   pearson_ci_hi    pearson_p spearman_rho   spearman_p n_units
-           <num>        <num>        <num>        <num>   <int>
-1:     0.3802088 1.245046e-04    0.2386003 4.453588e-04     214
-2:     0.3794341 1.312285e-04    0.2087917 2.178351e-03     214
-3:     0.4983674 3.359348e-09    0.3301946 9.006730e-07     214
+1:            basement_membrane vs fibrillar_ecm_score 0.1687275    0.03541232
+2: basement_membrane vs fibroblast_like_noCOL4A1_score 0.1500919    0.01630353
+3:          basement_membrane vs fibroblast_like_score 0.2768100    0.14819519
+   pearson_ci_hi    pearson_p spearman_rho  spearman_p n_units
+           <num>        <num>        <num>       <num>   <int>
+1:     0.2961426 1.345247e-02    0.1483040 0.030180023     214
+2:     0.2786003 2.814595e-02    0.1052784 0.124636856     214
+3:     0.3962171 4.022414e-05    0.2210316 0.001162914     214
 
-Direct AGTR1 vs BM (denoised lens is the readout; raw/detection are the
-dropout-sensitive comparison, NOT the answer):
-                     outcome         lens   estimate         SE       df
-                      <char>       <char>      <num>      <num>    <num>
-1: basement_membrane_score_z   AGTR1_scvi 0.02180869 0.06670510 190.0879
-2: basement_membrane_score_z   AGTR1_expr 0.08881811 0.07089932 210.6897
-3: basement_membrane_score_z AGTR1_detect 0.10939161 0.07600907 210.4516
-4:                  bm_resid   AGTR1_scvi 0.03170310 0.05816112 212.0000
-5:                  bm_resid   AGTR1_expr 0.05727642 0.05806877 212.0000
-6:                  bm_resid AGTR1_detect 0.04589860 0.05811643 212.0000
-     t_ratio   p_value depth_adjusted n_units n_donors      p_BH
-       <num>     <num>         <lgcl>   <int>    <int>     <num>
-1: 0.3269419 0.7440716           TRUE     214       95 0.7440716
-2: 1.2527357 0.2116905           TRUE     214       95 0.3175358
-3: 1.4391916 0.1515819           TRUE     214       95 0.3175358
-4: 0.5450909 0.5862640          FALSE     214       95 0.5862640
-5: 0.9863550 0.3250833          FALSE     214       95 0.5862640
-6: 0.7897698 0.4305447          FALSE     214       95 0.5862640
+Matrix-vs-predictor associations. Outcomes are BOTH matrix categories, their
+difference (taken on the raw scores, then standardized) and two
+orthogonalizations. Depth is a covariate in every pseudobulk model and is
+partialled out of every within-donor rho: all score_genes scores rise with
+capture depth, so an unadjusted correlation between two of them is the
+expected result under pure technical variation.
+
+WHICH LENS ARBITRATES (changed 2026-09-02). The denoised lens was originally
+designated the AGTR1 readout. It is NOT the arbiter any more: it is a model
+output that can in principle manufacture or erase an association by borrowing
+across genes, and the first version of it was trained on the soupX float
+matrix and failed its validity gate (donor rho 0.014, p 0.91). It is now
+reported as a CONCORDANT SENSITIVITY. Between-group contrasts are arbitrated
+by 10.agtr1_count_models.R -- AGTR1 integer counts from raw/X as the response
+of an NB GLMM with offset(log(library size)), so dropout sits inside the
+likelihood and nothing is imputed. raw/detection remain the dropout-sensitive
+comparison. Note the matrix scores themselves have no denoised counterpart, so
+EVERY row here still has one depth-affected side, which is the other reason
+the offset-bearing count model carries the claim.
+                       outcome                 predictor family    estimate
+                        <char>                    <char> <char>       <num>
+ 1:  basement_membrane_score_z                AGTR1_scvi  agtr1  0.12586104
+ 2:  basement_membrane_score_z                AGTR1_expr  agtr1  0.16953707
+ 3:  basement_membrane_score_z              AGTR1_detect  agtr1  0.20942094
+ 4: fibrillar_collagen_score_z                AGTR1_scvi  agtr1 -0.13445426
+ 5: fibrillar_collagen_score_z                AGTR1_expr  agtr1 -0.05428682
+ 6: fibrillar_collagen_score_z              AGTR1_detect  agtr1 -0.02962787
+ 7:       bm_minus_fibrillar_z                AGTR1_scvi  agtr1  0.31299294
+ 8:       bm_minus_fibrillar_z                AGTR1_expr  agtr1  0.19656985
+ 9:       bm_minus_fibrillar_z              AGTR1_detect  agtr1  0.16482494
+10:                   bm_resid                AGTR1_scvi  agtr1  0.09869076
+11:                   bm_resid                AGTR1_expr  agtr1  0.12474511
+12:                   bm_resid              AGTR1_detect  agtr1  0.11806967
+13:          bm_resid_collagen                AGTR1_scvi  agtr1  0.17836082
+14:          bm_resid_collagen                AGTR1_expr  agtr1  0.16053390
+15:          bm_resid_collagen              AGTR1_detect  agtr1  0.15863770
+16:  basement_membrane_score_z       tgfb_response_score   tgfb -0.19640313
+17:  basement_membrane_score_z tgfb_response_noECM_score   tgfb -0.19399552
+18:  basement_membrane_score_z       tgfb_receptor_score   tgfb -0.01481949
+19: fibrillar_collagen_score_z       tgfb_response_score   tgfb -0.07285565
+20: fibrillar_collagen_score_z tgfb_response_noECM_score   tgfb -0.08991185
+21: fibrillar_collagen_score_z       tgfb_receptor_score   tgfb  0.05669635
+22:       bm_minus_fibrillar_z       tgfb_response_score   tgfb -0.08402273
+23:       bm_minus_fibrillar_z tgfb_response_noECM_score   tgfb -0.06091967
+24:       bm_minus_fibrillar_z       tgfb_receptor_score   tgfb -0.07206932
+25:                   bm_resid       tgfb_response_score   tgfb -0.17420163
+26:                   bm_resid tgfb_response_noECM_score   tgfb -0.16889543
+27:                   bm_resid       tgfb_receptor_score   tgfb -0.02187767
+28:          bm_resid_collagen       tgfb_response_score   tgfb -0.15411975
+29:          bm_resid_collagen tgfb_response_noECM_score   tgfb -0.14557040
+30:          bm_resid_collagen       tgfb_receptor_score   tgfb -0.03347436
+                       outcome                 predictor family    estimate
+            SE       df    t_ratio      p_value depth_adjusted n_units n_donors
+         <num>    <num>      <num>        <num>         <lgcl>   <int>    <int>
+ 1: 0.06766576 194.5246  1.8600402 6.438947e-02           TRUE     214       95
+ 2: 0.07001725 210.8952  2.4213614 1.630843e-02           TRUE     214       95
+ 3: 0.07478746 208.4804  2.8002148 5.586839e-03           TRUE     214       95
+ 4: 0.06690631 210.0517 -2.0095902 4.575405e-02           TRUE     214       95
+ 5: 0.06872898 205.6773 -0.7898680 4.305145e-01           TRUE     214       95
+ 6: 0.07444179 210.1228 -0.3980006 6.910338e-01           TRUE     214       95
+ 7: 0.06528566 210.9628  4.7942063 3.081321e-06           TRUE     214       95
+ 8: 0.06753085 203.7377  2.9108158 4.005926e-03           TRUE     214       95
+ 9: 0.07427925 209.8778  2.2189905 2.755831e-02           TRUE     214       95
+10: 0.05785751 212.0000  1.7057552 8.951825e-02          FALSE     214       95
+11: 0.05761972 212.0000  2.1649725 3.150665e-02          FALSE     214       95
+12: 0.05768603 212.0000  2.0467636 4.191505e-02          FALSE     214       95
+13: 0.05596710 187.8239  3.1868871 1.684534e-03          FALSE     214       95
+14: 0.05552796 211.6891  2.8910460 4.239946e-03          FALSE     214       95
+15: 0.05554629 211.9983  2.8559551 4.717458e-03          FALSE     214       95
+16: 0.06830555 210.8685 -2.8753615 4.449556e-03           TRUE     214       95
+17: 0.06822635 210.9935 -2.8434105 4.902097e-03           TRUE     214       95
+18: 0.07030150 210.4357 -0.2107990 8.332481e-01           TRUE     214       95
+19: 0.06695423 201.8757 -1.0881412 2.778302e-01           TRUE     214       95
+20: 0.06679380 202.1379 -1.3461108 1.797745e-01           TRUE     214       95
+21: 0.06753625 200.0888  0.8394951 4.021934e-01           TRUE     214       95
+22: 0.06752045 200.3239 -1.2444043 2.148048e-01           TRUE     214       95
+23: 0.06753420 200.2648 -0.9020567 3.681104e-01           TRUE     214       95
+24: 0.06725174 195.4630 -1.0716350 2.852054e-01           TRUE     214       95
+25: 0.05701133 212.0000 -3.0555613 2.534854e-03          FALSE     214       95
+26: 0.05708660 212.0000 -2.9585828 3.441593e-03          FALSE     214       95
+27: 0.05823381 212.0000 -0.3756867 7.075255e-01          FALSE     214       95
+28: 0.05561279 209.5853 -2.7713005 6.085473e-03          FALSE     214       95
+29: 0.05572565 208.9176 -2.6122692 9.647434e-03          FALSE     214       95
+30: 0.05661169 210.4815 -0.5912976 5.549555e-01          FALSE     214       95
+            SE       df    t_ratio      p_value depth_adjusted n_units n_donors
+            p_BH
+           <num>
+ 1: 6.438947e-02
+ 2: 2.446265e-02
+ 3: 1.676052e-02
+ 4: 1.372622e-01
+ 5: 6.457718e-01
+ 6: 6.910338e-01
+ 7: 9.243962e-06
+ 8: 6.008889e-03
+ 9: 2.755831e-02
+10: 8.951825e-02
+11: 6.287257e-02
+12: 6.287257e-02
+13: 4.717458e-03
+14: 4.717458e-03
+15: 4.717458e-03
+16: 7.353145e-03
+17: 7.353145e-03
+18: 8.332481e-01
+19: 4.021934e-01
+20: 4.021934e-01
+21: 4.021934e-01
+22: 3.681104e-01
+23: 3.681104e-01
+24: 3.681104e-01
+25: 5.162389e-03
+26: 5.162389e-03
+27: 7.075255e-01
+28: 1.447115e-02
+29: 1.447115e-02
+30: 5.549555e-01
+            p_BH
 
 Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
-           lens n_donors   median_rho         q25        q75  p_wilcox
-         <char>    <int>        <num>       <num>      <num>     <num>
-1:   AGTR1_scvi       69 -0.015972445 -0.08905322 0.07967829 0.6324255
-2:   AGTR1_expr       68  0.005213482 -0.08801746 0.07508115 0.8092769
-3: AGTR1_detect       68  0.034538796 -0.05559512 0.10347627 0.2621815
-        p_BH
-       <num>
-1: 0.8092769
-2: 0.8092769
-3: 0.7865446
+                     outcome                 predictor family n_donors
+                      <char>                    <char> <char>    <int>
+ 1:  basement_membrane_score                AGTR1_scvi  agtr1       69
+ 2:  basement_membrane_score                AGTR1_expr  agtr1       68
+ 3:  basement_membrane_score              AGTR1_detect  agtr1       68
+ 4: fibrillar_collagen_score                AGTR1_scvi  agtr1       69
+ 5: fibrillar_collagen_score                AGTR1_expr  agtr1       68
+ 6: fibrillar_collagen_score              AGTR1_detect  agtr1       68
+ 7:       bm_minus_fibrillar                AGTR1_scvi  agtr1       69
+ 8:       bm_minus_fibrillar                AGTR1_expr  agtr1       68
+ 9:       bm_minus_fibrillar              AGTR1_detect  agtr1       68
+10:  basement_membrane_score       tgfb_response_score   tgfb       69
+11:  basement_membrane_score tgfb_response_noECM_score   tgfb       69
+12:  basement_membrane_score       tgfb_receptor_score   tgfb       69
+13: fibrillar_collagen_score       tgfb_response_score   tgfb       69
+14: fibrillar_collagen_score tgfb_response_noECM_score   tgfb       69
+15: fibrillar_collagen_score       tgfb_receptor_score   tgfb       69
+16:       bm_minus_fibrillar       tgfb_response_score   tgfb       69
+17:       bm_minus_fibrillar tgfb_response_noECM_score   tgfb       69
+18:       bm_minus_fibrillar       tgfb_receptor_score   tgfb       69
+      median_rho          q25        q75     p_wilcox n_donors_partial
+           <num>        <num>      <num>        <num>            <int>
+ 1:  0.084976796 -0.027976555 0.17682117 4.321191e-05               69
+ 2:  0.039638258 -0.035930433 0.13533215 1.789605e-02               68
+ 3:  0.067008892 -0.020513300 0.14065585 4.891189e-03               68
+ 4: -0.046589551 -0.145094972 0.07042091 1.130980e-01               69
+ 5:  0.005040658 -0.067621645 0.07727464 5.432006e-01               68
+ 6:  0.019995792 -0.075524117 0.10135007 2.298736e-01               68
+ 7:  0.088140716  0.002651306 0.18785681 2.367066e-05               69
+ 8:  0.041346391 -0.052837663 0.10121413 1.467217e-01               68
+ 9:  0.038447788 -0.074749591 0.12291877 2.595902e-01               68
+10: -0.036470588 -0.100170940 0.02142857 8.224926e-03               69
+11: -0.034569123 -0.110263322 0.03113553 1.733047e-02               69
+12: -0.014338575 -0.097755102 0.05071532 2.765208e-01               69
+13:  0.004202959 -0.080039526 0.11284932 9.095549e-01               69
+14: -0.007508266 -0.088266044 0.09343968 8.109832e-01               69
+15:  0.029169526 -0.043478261 0.10684935 3.329524e-02               69
+16: -0.023137481 -0.097774448 0.08454151 2.203176e-01               69
+17: -0.021691352 -0.093369788 0.07746904 3.540633e-01               69
+18: -0.035612245 -0.095183260 0.06684880 1.130980e-01               69
+    median_partial_rho p_wilcox_partial      depth_control         p_BH
+                 <num>            <num>             <char>        <num>
+ 1:       0.1105007644     8.112945e-07 log10_total_counts 1.296357e-04
+ 2:       0.0333808908     1.114415e-01 log10_total_counts 1.789605e-02
+ 3:       0.0354257196     1.114415e-01 log10_total_counts 7.336784e-03
+ 4:      -0.0206935519     2.007230e-01 log10_total_counts 3.392940e-01
+ 5:       0.0008151748     9.196927e-01 log10_total_counts 5.432006e-01
+ 6:      -0.0012597016     8.235138e-01 log10_total_counts 3.448104e-01
+ 7:       0.0950449384     1.205511e-05 log10_total_counts 7.101199e-05
+ 8:       0.0459549183     6.543543e-02 log10_total_counts 2.200825e-01
+ 9:       0.0431531020     8.653715e-02 log10_total_counts 2.595902e-01
+10:      -0.0468964875     1.499292e-03 log10_total_counts 2.467478e-02
+11:      -0.0504222067     2.687139e-03 log10_total_counts 2.599570e-02
+12:       0.0002973228     8.953507e-01 log10_total_counts 2.765208e-01
+13:       0.0021866435     7.832920e-01 log10_total_counts 9.095549e-01
+14:      -0.0037888437     8.202683e-01 log10_total_counts 9.095549e-01
+15:       0.0430345277     3.638209e-02 log10_total_counts 9.988573e-02
+16:      -0.0381524697     9.768777e-02 log10_total_counts 3.304764e-01
+17:      -0.0430546586     1.904025e-01 log10_total_counts 3.540633e-01
+18:      -0.0147867734     2.158489e-01 log10_total_counts 3.304764e-01
+    p_BH_partial
+           <num>
+ 1: 2.433883e-06
+ 2: 1.114415e-01
+ 3: 1.114415e-01
+ 4: 6.021689e-01
+ 5: 9.196927e-01
+ 6: 9.196927e-01
+ 7: 3.616534e-05
+ 8: 8.653715e-02
+ 9: 8.653715e-02
+10: 4.030708e-03
+11: 4.030708e-03
+12: 8.953507e-01
+13: 8.202683e-01
+14: 8.202683e-01
+15: 1.091463e-01
+16: 2.158489e-01
+17: 2.158489e-01
+18: 2.158489e-01
 - Session info ---------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -147,7 +538,7 @@ Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-08-10
+ date     2026-09-02
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -208,4 +599,4 @@ Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-08-10 11:41:32 - **** Job ends ****
+2026-09-02 18:38:35 - **** Job ends ****

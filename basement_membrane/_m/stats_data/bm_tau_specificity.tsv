@@ -1,13 +1,20 @@
 gene	value_type	tau	n_groups	top_group	pericyte_rank	log2_pericyte_over_next	block	panel	is_bm_panel
 COL4A1	expr	0.871907614147395	22	Pericytes	1	1.0927463058967	basement_membrane	basement_membrane	TRUE
 COL4A2	expr	0.842327106808363	22	Pericytes	1	0.992146146568368	basement_membrane	basement_membrane	TRUE
+COL15A1	expr	0.881107376492014	22	Peribronchial fibroblasts	10	-4.80069495744613	basement_membrane	basement_membrane	TRUE
 COL18A1	expr	0.838430320575686	22	Pericytes	1	0.84663005732005	basement_membrane	basement_membrane	TRUE
+LAMA1	expr	0.63881692030079	22	Alveolar macrophages	7	-0.987524811309642	basement_membrane	basement_membrane	TRUE
+LAMA2	expr	0.830058324608989	22	Adventitial fibroblasts	5	-0.64259324942896	basement_membrane	basement_membrane	TRUE
 LAMA3	expr	0.964501832677547	22	AT1	17	-6.22356933063727	basement_membrane	basement_membrane	TRUE
 LAMA4	expr	0.801640943938291	22	Alveolar fibroblasts	3	-0.93144737090471	basement_membrane	basement_membrane	TRUE
 LAMA5	expr	0.813813855787661	22	AT1	9	-2.77815053729361	basement_membrane	basement_membrane	TRUE
 LAMB1	expr	0.877866743771421	22	Pericytes	1	0.543324835207079	basement_membrane	basement_membrane	TRUE
 LAMB2	expr	0.551052826267748	22	AT1	13	-1.21348855940533	basement_membrane	basement_membrane	TRUE
+LAMB3	expr	0.9306873495127	22	AT1	8	-4.68480953247281	basement_membrane	basement_membrane	TRUE
+LAMB4	expr	0.864864327551641	22	Pericytes	1	1.06742900430325	basement_membrane	basement_membrane	TRUE
 LAMC1	expr	0.767572909753676	22	Alveolar fibroblasts	8	-1.50360061746834	basement_membrane	basement_membrane	TRUE
+LAMC2	expr	0.956776583867592	22	AT1	20	-5.94474006676511	basement_membrane	basement_membrane	TRUE
+LAMC3	expr	0.993523740760518	22	Pericytes	1	4.74656297515399	basement_membrane	basement_membrane	TRUE
 NID1	expr	0.891545523326121	22	Pericytes	1	1.21656362830684	basement_membrane	basement_membrane	TRUE
 NID2	expr	0.80303168886484	22	Pericytes	1	0.336871944631996	basement_membrane	basement_membrane	TRUE
 HSPG2	expr	0.794079821369469	22	EC venous pulmonary	10	-2.13887912415746	basement_membrane	basement_membrane	TRUE

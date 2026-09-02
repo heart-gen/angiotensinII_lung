@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --account=bio260021p
+#SBATCH --account=bio250020p
 #SBATCH --partition=RM-shared
 #SBATCH --job-name=airspace_denoising
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks-per-node=64
-#SBATCH --time=12:00:00
+#SBATCH --time=16:00:00
 #SBATCH --output=logs/airspace_denoising.log
 
 log_message() {
@@ -24,13 +24,18 @@ echo "Task id: ${SLURM_ARRAY_TASK_ID:-N/A}"
 
 ## List current modules for reproducibility
 
+## The batch shell does not source the login profile, so `module` and `conda`
+## are undefined unless bootstrapped here. Previously this script only ran when
+## submitted from a shell that already had them loaded.
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
 module load gcc/13.3.1-p20240614
 module list
+eval "$(conda shell.bash hook)"
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio260021p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run analysis ****"
 OUTDIR="results"

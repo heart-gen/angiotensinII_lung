@@ -66,8 +66,21 @@ def main():
     sc.settings.verbosity = 1
 
     adata = sc.read_h5ad(args.adata)
-    # Census X is raw counts
+    ## Census X is raw counts -- ASSERTED, not assumed. The same one-line
+    ## assumption in localization/airspace_analysis was wrong (there X is the
+    ## soupX ambient-corrected float matrix), and an NB likelihood fitted to
+    ## non-integer values is meaningless while failing silently. Verified here on
+    ## 2026-09-02: 2M nonzeros sampled across 200 chunks spanning the whole
+    ## matrix, zero non-integer values. The check is cheap; keep it.
     adata.layers["counts"] = adata.X.copy()
+    _d = adata.layers["counts"]
+    _d = _d.data if hasattr(_d, "data") else np.asarray(_d).ravel()
+    if _d.size and not np.allclose(_d, np.round(_d)):
+        raise ValueError(
+            f"{args.adata} X is not integer-valued (max fractional part "
+            f"{np.abs(_d - np.round(_d)).max():.3g}); scVI's NB/ZINB likelihood "
+            "must not be fitted to it. Find the true counts layer first.")
+    logging.info("counts layer verified integer-valued (%d nonzeros)", _d.size)
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
     adata.layers["lognorm"] = adata.X.copy()

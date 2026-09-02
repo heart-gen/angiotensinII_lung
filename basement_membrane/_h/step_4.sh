@@ -17,16 +17,34 @@ module purge
 module load anaconda3/2024.10-1
 module list
 
-log_message "**** NicheNet ligand ranking toward basement-membrane targets ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
+
+## Two runs of the SAME script on the SAME priors, receiver and threshold; only
+## the target gene set differs. Anything else would make the BM-vs-fibrillar
+## comparison a comparison of two analyses rather than of two matrices.
+log_message "**** NicheNet ligand ranking toward basement-membrane targets ****"
 Rscript ../_h/07.bm_nichenet_targets.R \
         --priors ../../cell_communication/_m/nichenet_priors \
         --liana-dir ../../cell_communication/_m \
         --frac-file expressed_fraction_main.tsv.gz \
         --panels ./bm_panel_genes.tsv \
+        --target-panel basement_membrane \
         --frozen-activities ../../cell_communication/_m/nichenet/ligand_activities_Pericytes.tsv \
         --outdir ./nichenet_bm \
         --nperm 10000
-if [ $? -ne 0 ]; then log_message "Error: R failed"; exit 1; fi
+if [ $? -ne 0 ]; then log_message "Error: BM NicheNet failed"; exit 1; fi
+
+log_message "**** NicheNet ligand ranking toward fibrillar-collagen targets ****"
+Rscript ../_h/07.bm_nichenet_targets.R \
+        --priors ../../cell_communication/_m/nichenet_priors \
+        --liana-dir ../../cell_communication/_m \
+        --frac-file expressed_fraction_main.tsv.gz \
+        --panels ./bm_panel_genes.tsv \
+        --target-panel fibrillar_collagen \
+        --tag FIB \
+        --frozen-activities ../../cell_communication/_m/nichenet/ligand_activities_Pericytes.tsv \
+        --outdir ./nichenet_fibrillar \
+        --nperm 10000
+if [ $? -ne 0 ]; then log_message "Error: fibrillar NicheNet failed"; exit 1; fi
 conda deactivate
 log_message "**** Job ends ****"

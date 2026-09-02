@@ -119,7 +119,16 @@ def main():
     for name, genes in bm.BM_SUBPANELS.items():
         for g in genes:
             rows.append({"panel_set": "bm_subpanel", "program": name, "gene": g})
+    # `bm_v1` is the frozen 13-gene BM panel every published BM number was
+    # computed on; it is listed so a reader can see exactly which seven genes the
+    # 2026-09-01 expansion added. The TGF-beta panels are listed because the
+    # matrix-vs-TGF-beta association is only interpretable if the reader can
+    # verify the response signature shares no gene with the matrix panels.
     for name, genes in [("fibrillar_ecm", bm.FIBRILLAR_CONTRAST),
+                        ("fibrillar_collagen", bm.FIBRILLAR_COLLAGEN),
+                        ("bm_v1_frozen_13gene", bm.BM_PANEL_V1),
+                        ("tgfb_response", bm.TGFB_RESPONSE),
+                        ("tgfb_receptor", bm.TGFB_RECEPTOR),
                         ("fibroblast_like_noCOL4A1", bm.FIBROBLAST_LIKE_NO_COL4A1)]:
         for g in genes:
             rows.append({"panel_set": "contrast_panel", "program": name, "gene": g})

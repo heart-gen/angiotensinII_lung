@@ -41,7 +41,15 @@ from pathlib import Path
 # the argmax breaks ties by first column, so ordering is part of the logic.
 BASE_PROGRAMS = ["vascular_stabilizing", "inflammatory", "synthetic_contractile",
                  "activated_migratory", "fibroblast_like"]
+# NOTE (2026-09-01): these five scores come from the STATE metadata, which is
+# correct -- they are unchanged by the BM panel expansion (verified bit-identical
+# across all 11,680 cells). Only the basement-membrane scores come from
+# bm_metadata, and the validation arm below is chosen from the committed map.
 BM_PROGRAM = "basement_membrane"
+# The frozen 13-gene BM panel, scored as its own panel by 00.bm_score.py. It is
+# what the committed 6-panel map was built on, so it -- not the current 20-gene
+# panel -- is what the validation arm must reproduce.
+FROZEN_BM_PROGRAM = "bm_v1"
 ESCALATE_PCT = 5.0
 
 
@@ -92,6 +100,17 @@ def main():
     # basement_membrane, but the robustness variants below need the sub-panels
     # and the leave-COL4A1-out fibroblast panel.
     bm_scores = [c for c in bm.columns if c.endswith("_score")]
+    # The state metadata already carries `basement_membrane_score` once the
+    # 6-panel model is canonical, so a plain merge silently suffixes both copies
+    # to _x/_y and the gate then fails (or, worse, would score the STALE panel).
+    # This module's freshly computed scores are the ones the gate must evaluate,
+    # so any colliding column is dropped from the state side first -- the same
+    # idiom as 04.bm_state_stats.R.
+    clash = [c for c in bm_scores if c in state.columns]
+    if clash:
+        logging.info("dropping stale score columns from state metadata, using "
+                     f"the current bm_metadata copies: {clash}")
+        state = state.drop(columns=clash)
     merged = state.merge(bm[[key] + bm_scores], on=key, how="inner",
                          validate="one_to_one")
     if len(merged) != len(state):
@@ -101,36 +120,61 @@ def main():
     prog5, rel5 = relative_enrichment(merged, BASE_PROGRAMS)
     prog6, rel6 = relative_enrichment(merged, BASE_PROGRAMS + [BM_PROGRAM])
 
-    # --- validation: the 5-panel arm must match the committed canonical map ---
+    # --- validation: recompute the CANONICAL model and require it to match ------
+    # The committed map is whatever `annotate_states` last wrote. Before the
+    # 2026-07-21 escalation that was the 5-panel model; since then it is the
+    # 6-panel model built on the FROZEN 13-gene BM panel. Validating the 5-panel
+    # arm against a 6-panel committed map compares two different models and can
+    # only fail, which is exactly what it did on 2026-09-01. So the arm to
+    # validate is chosen from the committed map itself, and `bm_v1_score` (the
+    # frozen 13-gene panel, scored alongside in 00.bm_score.py) is what
+    # reproduces it. The gate's own question -- does the CURRENT BM panel change
+    # the model? -- is then asked against that reproduction, not against it.
     ref = pd.read_csv(args.reference_map, sep="\t")
     ref_prog = (ref.set_index("pericyte_state")["state_program"]
                 .astype(str))
-    got = prog5.copy()
+    canonical_is_6panel = bool((ref_prog == BM_PROGRAM).any())
+    if canonical_is_6panel and f"{FROZEN_BM_PROGRAM}_score" in merged.columns:
+        prog_ref, _ = relative_enrichment(merged,
+                                          BASE_PROGRAMS + [FROZEN_BM_PROGRAM])
+        prog_ref = prog_ref.replace({FROZEN_BM_PROGRAM: BM_PROGRAM})
+        ref_arm = (f"6-panel with the frozen 13-gene BM panel "
+                   f"({FROZEN_BM_PROGRAM})")
+    elif canonical_is_6panel:
+        prog_ref, ref_arm = prog6, "6-panel with the CURRENT BM panel"
+        logging.warning("no %s_score in bm_metadata; validating against the "
+                        "current BM panel, so the validation cannot detect a "
+                        "panel-driven change", FROZEN_BM_PROGRAM)
+    else:
+        prog_ref, ref_arm = prog5, "5-panel"
+    got = prog_ref.copy()
     got.index = got.index.astype(ref_prog.index.dtype)
     ref_prog = ref_prog.reindex(got.index)
     if not (got.astype(str).values == ref_prog.values).all():
         cmp = pd.DataFrame({"recomputed": got.astype(str), "committed": ref_prog})
-        logging.error("5-panel arm does NOT reproduce the canonical map:\n"
-                      + cmp.to_string())
+        logging.error("%s arm does NOT reproduce the canonical map:\n%s",
+                      ref_arm, cmp.to_string())
         sys.exit("Gate logic has diverged from annotate_states; refusing to "
-                 "report a 6-panel result built on it.")
-    logging.info("Validation passed: 5-panel arm reproduces the canonical map.")
+                 "report a result built on it.")
+    logging.info("Validation passed: %s arm reproduces the canonical map.", ref_arm)
 
-    # --- metrics ---
+    # --- metrics: canonical model vs the model under the CURRENT BM panel ------
     sizes = merged["pericyte_state"].value_counts()
-    sizes.index = sizes.index.astype(prog5.index.dtype)
-    flipped = prog5.index[prog5.values != prog6.reindex(prog5.index).values]
+    sizes.index = sizes.index.astype(prog_ref.index.dtype)
+    flipped = prog_ref.index[prog_ref.values != prog6.reindex(prog_ref.index).values]
     n_flip_cells = int(sizes.reindex(flipped).sum()) if len(flipped) else 0
     pct = 100.0 * n_flip_cells / len(merged)
     escalate = bool(len(flipped) > 0 and pct >= args.escalate_pct)
 
     crosstab = pd.DataFrame({
-        "pericyte_state": prog5.index,
-        "n_cells": sizes.reindex(prog5.index).to_numpy(),
-        "program_5panel": prog5.to_numpy(),
-        "program_6panel": prog6.reindex(prog5.index).to_numpy(),
+        "pericyte_state": prog_ref.index,
+        "n_cells": sizes.reindex(prog_ref.index).to_numpy(),
+        "program_5panel": prog5.reindex(prog_ref.index).to_numpy(),
+        "program_canonical": prog_ref.to_numpy(),
+        "program_6panel": prog6.reindex(prog_ref.index).to_numpy(),
     })
-    crosstab["flipped"] = crosstab["program_5panel"] != crosstab["program_6panel"]
+    crosstab["canonical_arm"] = ref_arm
+    crosstab["flipped"] = crosstab["program_canonical"] != crosstab["program_6panel"]
     crosstab.to_csv(args.outdir / "state_gate_crosstab.tsv", sep="\t", index=False)
 
     rel = rel5.join(rel6[[f"{BM_PROGRAM}_relenrich"]], how="left")
@@ -163,13 +207,15 @@ def main():
             logging.warning(f"[{name}] skipped; missing {missing}")
             continue
         vprog, _ = relative_enrichment(merged, progs)
-        for cluster in prog5.index:
+        for cluster in prog_ref.index:
             rob_rows.append({
+                # `program_frozen` is the CANONICAL committed model (see
+                # ref_arm), not the 5-panel model, since 2026-09-01.
                 "variant": name, "pericyte_state": cluster,
                 "n_cells": int(sizes.get(cluster, 0)),
-                "program_frozen": prog5[cluster],
+                "program_frozen": prog_ref[cluster],
                 "program_variant": vprog[cluster],
-                "flipped": prog5[cluster] != vprog[cluster],
+                "flipped": prog_ref[cluster] != vprog[cluster],
             })
     robust = pd.DataFrame(rob_rows)
     robust.to_csv(args.outdir / "state_gate_robustness.tsv", sep="\t", index=False)
@@ -196,16 +242,18 @@ def main():
 
     summary = pd.DataFrame([{
         "n_cells": len(merged),
-        "n_clusters": len(prog5),
+        "n_clusters": len(prog_ref),
+        "canonical_arm": ref_arm,
         "metric_A_pct_cells_changed": round(pct, 4),
         "metric_B_n_clusters_flipped": len(flipped),
         "clusters_flipped": ",".join(map(str, flipped)) if len(flipped) else "",
         "escalate_threshold_pct": args.escalate_pct,
         "escalate": escalate,
-        "verdict": ("ESCALATE: adopt 6-panel model as canonical and re-run "
-                    "downstream modules" if escalate else
-                    "HOLD: frozen 5-panel model stays canonical; BM reported "
-                    "additively"),
+        "verdict": ("ESCALATE: the current BM panel changes the state model; "
+                    "adopt it as canonical and re-run downstream modules"
+                    if escalate else
+                    "HOLD: the canonical model is unchanged under the current BM "
+                    "panel; report the panel additively"),
     }])
     summary.to_csv(args.outdir / "state_gate_summary.tsv", sep="\t", index=False)
 

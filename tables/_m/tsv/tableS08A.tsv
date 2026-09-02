@@ -1,14 +1,21 @@
-gene	panel	structural_subclass	n_panels	other_panels	detect_frac	mean_expr	mean_expr_in_pos
-COL4A1	basement_membrane	collagen IV	2	bm_collagen_iv	0.793921232876712	2.0454922	2.576442
-COL4A2	basement_membrane	collagen IV	2	bm_collagen_iv	0.810359589041096	2.0786228	2.5650625
-COL18A1	basement_membrane	collagen XVIII (BM-associated)	2	bm_linker	0.526284246575342	1.2048582	2.289368
-LAMA3	basement_membrane	laminin	2	bm_laminin	0.0158390410958904	0.029683067	1.8740444
-LAMA4	basement_membrane	laminin	2	bm_laminin	0.312157534246575	0.66451144	2.1287694
-LAMA5	basement_membrane	laminin	2	bm_laminin	0.0663527397260274	0.13091007	1.9729414
-LAMB1	basement_membrane	laminin	2	bm_laminin	0.596147260273973	1.43257	2.4030476
-LAMB2	basement_membrane	laminin	2	bm_laminin	0.142722602739726	0.2870429	2.0111945
-LAMC1	basement_membrane	laminin	2	bm_laminin	0.222945205479452	0.45494357	2.040607
-NID1	basement_membrane	linker/proteoglycan	2	bm_linker	0.577054794520548	1.3468853	2.3340683
-NID2	basement_membrane	linker/proteoglycan	2	bm_linker	0.0970034246575342	0.191948	1.9787755
-HSPG2	basement_membrane	linker/proteoglycan	2	bm_linker	0.139640410958904	0.2828698	2.0257018
-AGRN	basement_membrane	linker/proteoglycan	2	bm_linker	0.069263698630137	0.13686152	1.9759489
+gene	panel	block.x	block_index	bh_family	structural_subclass	n_panels	other_panels	block.y	detect_frac	mean_expr	mean_expr_in_pos
+COL4A1	basement_membrane	basement_membrane	0	original_panel	collagen IV	3	bm_v1; bm_collagen_iv	basement_membrane	0.793921232876712	2.0454922	2.576442
+COL4A2	basement_membrane	basement_membrane	1	original_panel	collagen IV	3	bm_v1; bm_collagen_iv	basement_membrane	0.810359589041096	2.0786228	2.5650625
+COL15A1	basement_membrane	basement_membrane	2	bm_expansion	collagen XV (multiplexin)	2	bm_linker	basement_membrane	0.0303082191780822	0.055798605	1.8410386
+COL18A1	basement_membrane	basement_membrane	3	original_panel	collagen XVIII (multiplexin)	3	bm_v1; bm_linker	basement_membrane	0.526284246575342	1.2048582	2.289368
+LAMA1	basement_membrane	basement_membrane	4	bm_expansion	laminin alpha	2	bm_laminin	basement_membrane	0.00222602739726027	0.00410348	1.8434093
+LAMA2	basement_membrane	basement_membrane	5	bm_expansion	laminin alpha	2	bm_laminin	basement_membrane	0.344691780821918	0.77306074	2.2427595
+LAMA3	basement_membrane	basement_membrane	6	original_panel	laminin alpha	3	bm_v1; bm_laminin	basement_membrane	0.0158390410958904	0.029683067	1.8740444
+LAMA4	basement_membrane	basement_membrane	7	original_panel	laminin alpha	3	bm_v1; bm_laminin	basement_membrane	0.312157534246575	0.66451144	2.1287694
+LAMA5	basement_membrane	basement_membrane	8	original_panel	laminin alpha	3	bm_v1; bm_laminin	basement_membrane	0.0663527397260274	0.13091007	1.9729414
+LAMB1	basement_membrane	basement_membrane	9	original_panel	laminin beta	3	bm_v1; bm_laminin	basement_membrane	0.596147260273973	1.43257	2.4030476
+LAMB2	basement_membrane	basement_membrane	10	original_panel	laminin beta	3	bm_v1; bm_laminin	basement_membrane	0.142722602739726	0.2870429	2.0111945
+LAMB3	basement_membrane	basement_membrane	11	bm_expansion	laminin beta	2	bm_laminin	basement_membrane	0.00779109589041096	0.014161776	1.8176872
+LAMB4	basement_membrane	basement_membrane	12	bm_expansion	laminin beta	2	bm_laminin	basement_membrane	0.00436643835616438	0.0085022235	1.9471759
+LAMC1	basement_membrane	basement_membrane	13	original_panel	laminin gamma	3	bm_v1; bm_laminin	basement_membrane	0.222945205479452	0.45494357	2.040607
+LAMC2	basement_membrane	basement_membrane	14	bm_expansion	laminin gamma	2	bm_laminin	basement_membrane	0.00299657534246575	0.0057618767	1.9228208
+LAMC3	basement_membrane	basement_membrane	15	bm_expansion	laminin gamma	2	bm_laminin	basement_membrane	0.57097602739726	1.3328041	2.3342557
+NID1	basement_membrane	basement_membrane	16	original_panel	linker/proteoglycan	3	bm_v1; bm_linker	basement_membrane	0.577054794520548	1.3468853	2.3340683
+NID2	basement_membrane	basement_membrane	17	original_panel	linker/proteoglycan	3	bm_v1; bm_linker	basement_membrane	0.0970034246575342	0.191948	1.9787755
+HSPG2	basement_membrane	basement_membrane	18	original_panel	linker/proteoglycan	3	bm_v1; bm_linker	basement_membrane	0.139640410958904	0.2828698	2.0257018
+AGRN	basement_membrane	basement_membrane	19	original_panel	linker/proteoglycan	3	bm_v1; bm_linker	basement_membrane	0.069263698630137	0.13686152	1.9759489

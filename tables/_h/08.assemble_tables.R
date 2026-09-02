@@ -50,18 +50,28 @@ chk("S10A TGFB2 corrected AUPR", maybe(x, x[test_ligand == "TGFB2", aupr_correct
 chk("S10A TGFB1 corrected AUPR", maybe(x, x[test_ligand == "TGFB1", aupr_corrected]), 0.203057)
 chk("S10A AGT rank",             maybe(x, as.numeric(x[test_ligand == "AGT", rank])), 11, tol = 0)
 
+## S11A ranks ligands against the BM TARGET SET, so it moves whenever BM_PANEL
+## moves. Re-anchored 2026-09-02 to the 20-gene panel (was the 13-gene panel):
+## MMP14 z 27.1049 -> 24.58379 and TGFB1 rank 12 -> 8. MMP14 stays rank 1 and the
+## only FDR-significant ligand, and TGFB2 stays rank 5, so the ranking's shape is
+## unchanged -- this is the panel expansion, NOT the scVI denoising fix, which
+## touches no NicheNet input.
 x <- tsv("11A")
-chk("S11A MMP14 permutation z",  maybe(x, x[test_ligand == "MMP14", perm_z]), 27.1049, tol = 1e-3)
+chk("S11A MMP14 permutation z",  maybe(x, x[test_ligand == "MMP14", perm_z]), 24.58379, tol = 1e-3)
 chk("S11A MMP14 BH",             maybe(x, x[test_ligand == "MMP14", perm_p_BH]), 0.0321, tol = 1e-3)
 chk("S11A n FDR-significant",    maybe(x, sum(x$fdr_significant)), 1, tol = 0)
 chk("S11A TGFB2 BM rank",        maybe(x, as.numeric(x[test_ligand == "TGFB2", rank])), 5, tol = 0)
-chk("S11A TGFB1 BM rank",        maybe(x, as.numeric(x[test_ligand == "TGFB1", rank])), 12, tol = 0)
+chk("S11A TGFB1 BM rank",        maybe(x, as.numeric(x[test_ligand == "TGFB1", rank])), 8, tol = 0)
 
 x <- tsv("05A")
 chk("S05A dropout obs/exp ratio", maybe(x, x$ratio_observed_to_expected[1]), 0.99112, tol = 1e-4)
 
+## S08C is the BM panel itself. Re-anchored 2026-09-02: 13 -> 20 genes, the
+## collaborator's 19 plus the retained COL18A1. Cell types and donor profiles are
+## unchanged, which is the check that the expansion added genes without changing
+## the profiled population.
 x <- tsv("08C")
-chk("S08C BM genes",      maybe(x, uniqueN(x$gene)), 13, tol = 0)
+chk("S08C BM genes",      maybe(x, uniqueN(x$gene)), 20, tol = 0)
 chk("S08C cell types",    maybe(x, uniqueN(x$ccc_group)), 22, tol = 0)
 chk("S08C donor profiles", maybe(x, sum(x[gene == x$gene[1], n_profiles], na.rm = TRUE)), 2329, tol = 0)
 
@@ -76,9 +86,15 @@ chk("S12B AGTR1 detection in pericytes",
 chk("S12B complete autonomous circuits", maybe(x, sum(x$autonomous_circuit)), 0, tol = 0)
 chk("S12B max core roles", maybe(x, max(x$n_core_roles)), 1, tol = 0)
 
+## S09B counts significant BM-score contrasts, which the panel change dilutes:
+## re-anchored 2026-09-02 from 12 to 10 of 15 at BH<0.05. Five of the seven added
+## genes are near-absent in pericytes (COL15A1 3.0%, LAMB3 0.8%, LAMB4 0.4%,
+## LAMC2 0.3%, LAMA1 0.2%), so the score gained noise faster than signal. LOSING
+## two contrasts is the expected cost of the expansion, recorded here rather than
+## discovered later.
 x <- tsv("09B")
 chk("S09B BM-score contrasts at BH<0.05",
-    maybe(x, sum(x[score == "basement_membrane_score_z", p_BH_within_score] < 0.05)), 12, tol = 0)
+    maybe(x, sum(x[score == "basement_membrane_score_z", p_BH_within_score] < 0.05)), 10, tol = 0)
 
 x <- tsv("02C1")
 chk("S02C1 detection-vs-depth rho (pooled)",

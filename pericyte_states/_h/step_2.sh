@@ -16,16 +16,22 @@ log_message() {
 log_message "**** Job starts ****"
 echo "Job id: ${SLURM_JOBID}"; echo "Hostname: ${HOSTNAME}"
 
+## The batch shell does not source the login profile, so `module` and `conda`
+## must be bootstrapped here rather than inherited from the submitting shell.
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
 module list
+eval "$(conda shell.bash hook)"
 
 log_message "**** Loading mamba environment ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Expression-only state continuum (DPT + PAGA) ****"
 python ../_h/02.continuum_dpt.py \
-       --adata pericyte_states.h5ad --outdir "./"
+       --adata pericyte_states.h5ad --outdir "./" \
+       --denoise ../../localization/airspace_analysis/_m/airspace/pericytes_airspace_denoising.tsv \
+       --den-model Pericyte-only-trained
 
 if [ $? -ne 0 ]; then
     log_message "Error: Python execution failed"

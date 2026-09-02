@@ -1,0 +1,17 @@
+model	level	reference	statistic	value	p_value	n	verdict
+AGTR1_scvi_perivascular	cell	AGTR1_detect	spearman_rho	0.3295121321118009	7.692057921873811e-294	11680	
+AGTR1_scvi_perivascular	cell	AGTR1_expr	spearman_rho	0.352758691417906	0.0	11680	
+AGTR1_scvi_perivascular	donor>=5	AGTR1_detect_rate	spearman_rho	0.6362008078450725	3.0335422628374047e-13	105	
+AGTR1_scvi_perivascular	donor>=20	AGTR1_detect_rate	spearman_rho	0.7430533989803839	2.6603499849058353e-13	69	PASS
+AGTR1_scvi_perivascular	donor>=50	AGTR1_detect_rate	spearman_rho	0.7243150299371884	1.8815428766426357e-09	51	
+AGTR1_scvi_perivascular	donor>=100	AGTR1_detect_rate	spearman_rho	0.713076923076923	6.316066872715697e-05	25	
+AGTR1_scvi_perivascular	cell	study	between_study_variance_fraction	0.418122890676405		11680	
+AGTR1_scvi_pericytes	cell	AGTR1_detect	spearman_rho	0.34175864665006994	0.0	11680	
+AGTR1_scvi_pericytes	cell	AGTR1_expr	spearman_rho	0.3642515630556642	0.0	11680	
+AGTR1_scvi_pericytes	donor>=5	AGTR1_detect_rate	spearman_rho	0.6186149715763255	2.0310905281243148e-12	105	
+AGTR1_scvi_pericytes	donor>=20	AGTR1_detect_rate	spearman_rho	0.7341018288004069	7.132741875416463e-13	69	PASS
+AGTR1_scvi_pericytes	donor>=50	AGTR1_detect_rate	spearman_rho	0.7314192630664531	1.0877447550863266e-09	51	
+AGTR1_scvi_pericytes	donor>=100	AGTR1_detect_rate	spearman_rho	0.7892307692307692	2.7454274815005813e-06	25	
+AGTR1_scvi_pericytes	cell	study	between_study_variance_fraction	0.42623461991735856		11680	
+AGTR1_scvi_perivascular	pericyte_vs_capillary_EC	subclusters	AUROC	0.9997551626779938		76263	PASS
+AGTR1_detect	pericyte_vs_capillary_EC	subclusters	AUROC	0.6864876260165585		76263	PASS

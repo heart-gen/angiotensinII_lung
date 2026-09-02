@@ -1,0 +1,16 @@
+contrast	estimate	SE	df	z.ratio	p.value	grouping	level	spec	model	max_grad	converged	involves_underpowered
+activated_migratory - basement_membrane	-0.19013057713512	0.143730094367325	Inf	-1.32283067072378	0.385614242319421	state_program	cell	+ambient	NB GLMM	0.000428772182203829	TRUE	TRUE
+activated_migratory - vascular_stabilizing	-0.161929526507785	0.142879553432756	Inf	-1.13332889568412	0.385614242319421	state_program	cell	+ambient	NB GLMM	0.000428772182203829	TRUE	TRUE
+basement_membrane - vascular_stabilizing	0.0282010506273349	0.0519820167499977	Inf	0.542515515759326	0.587463421743228	state_program	cell	+ambient	NB GLMM	0.000428772182203829	TRUE	FALSE
+activated_migratory - basement_membrane	-0.384432980970334	0.155954914537453	Inf	-2.46502639631797	0.0411009474687873	state_program	pseudobulk	depth_covar	NB GLMM	0.00137964889290743	TRUE	TRUE
+activated_migratory - vascular_stabilizing	-0.30316489402024	0.160367224708234	Inf	-1.89044173191752	0.0880483598206359	state_program	pseudobulk	depth_covar	NB GLMM	0.00137964889290743	TRUE	TRUE
+basement_membrane - vascular_stabilizing	0.0812680869500943	0.0601346235408079	Inf	1.35143586448072	0.17655585169407	state_program	pseudobulk	depth_covar	NB GLMM	0.00137964889290743	TRUE	FALSE
+activated_migratory - basement_membrane	-0.219420178906461	0.24272416599889	Inf	-0.903989835554587	0.657764061609206	state_program	pseudobulk	detection	binomial GLMM	3.11081294057658e-05	TRUE	TRUE
+activated_migratory - vascular_stabilizing	-0.176422117024188	0.249177997355128	Inf	-0.708016433620952	0.657764061609206	state_program	pseudobulk	detection	binomial GLMM	3.11081294057658e-05	TRUE	TRUE
+basement_membrane - vascular_stabilizing	0.0429980618822727	0.0970605809718554	Inf	0.443002313109385	0.657764061609206	state_program	pseudobulk	detection	binomial GLMM	3.11081294057658e-05	TRUE	FALSE
+activated_migratory - basement_membrane	-0.190723592551114	0.143729612233269	Inf	-1.32696101789779	0.382438088544039	state_program	cell	with_offset	NB GLMM	0.00107494997791946	TRUE	TRUE
+activated_migratory - vascular_stabilizing	-0.16264020143708	0.14286893203402	Inf	-1.13838746550126	0.382438088544039	state_program	cell	with_offset	NB GLMM	0.00107494997791946	TRUE	TRUE
+basement_membrane - vascular_stabilizing	0.0280833911140336	0.0519776006598703	Inf	0.540297950607704	0.588991571497374	state_program	cell	with_offset	NB GLMM	0.00107494997791946	TRUE	FALSE
+activated_migratory - basement_membrane	-0.388246448535446	0.15616873586729	Inf	-2.48607025202133	0.0193743697673677	state_program	pseudobulk	with_offset	NB GLMM	0.000188363173947437	TRUE	TRUE
+activated_migratory - vascular_stabilizing	-0.160789974415366	0.16028881089481	Inf	-1.00312662822663	0.315799768322858	state_program	pseudobulk	with_offset	NB GLMM	0.000188363173947437	TRUE	TRUE
+basement_membrane - vascular_stabilizing	0.22745647412008	0.0597703942255607	Inf	3.80550399687356	0.000424547186688262	state_program	pseudobulk	with_offset	NB GLMM	0.000188363173947437	TRUE	FALSE

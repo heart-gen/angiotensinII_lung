@@ -35,8 +35,19 @@ sns.set_style("whitegrid")
 TREND_COLS = [
     "vascular_stabilizing_score", "inflammatory_score",
     "synthetic_contractile_score", "activated_migratory_score",
-    "fibroblast_like_score", "basement_membrane_score", "AGTR1_expr",
+    "fibroblast_like_score", "basement_membrane_score",
+    "AGTR1_expr", "AGTR1_scvi",
 ]
+
+# scVI-denoised AGTR1, merged from the same table and model that
+# pericyte_states/_h/03.agtr1_lenses.R uses as its robust lens. Raw AGTR1 and the
+# program scores both scale with capture depth, so a raw-only continuum trend
+# cannot distinguish a receptor gradient from a depth gradient -- which is the
+# exact confound 03.agtr1_lenses.R showed reverses AGTR1's apparent program bias.
+# The denoised lens is carried alongside so figure_pericyte_layer panel F shows
+# both and the reader can see the raw trend for what it is.
+DENOISE_DEFAULT = ("../../localization/airspace_analysis/_m/airspace/"
+                   "pericytes_airspace_denoising.tsv")
 
 
 def configure_logging():
@@ -53,6 +64,10 @@ def parse_args():
     p.add_argument("--neighbors", type=int, default=30)
     p.add_argument("--n-dcs", type=int, default=10)
     p.add_argument("--root-state", default="vascular_stabilizing")
+    p.add_argument("--denoise", type=Path, default=Path(DENOISE_DEFAULT),
+                   help="pericytes_airspace_denoising.tsv (scVI-denoised AGTR1)")
+    p.add_argument("--den-model", default="Pericyte-only-trained",
+                   help="which scVI model in --denoise to use as the denoised lens")
     p.add_argument("--seed", type=int, default=13)
     return p.parse_args()
 
@@ -64,10 +79,27 @@ def save_figure(fig, base: Path):
 
 
 def pick_root(adata: AnnData, root_state: str, rep: str) -> int:
-    """Root = cell of root_state closest to that state's centroid in latent space."""
-    mask = (adata.obs["pericyte_state"] == root_state).to_numpy()
+    """Root = cell of root_state closest to that state's centroid in latent space.
+
+    KNOWN AND UNRESOLVED (recorded 2026-09-01, not fixed here): `--root-state`
+    defaults to the PROGRAM name `vascular_stabilizing`, but `pericyte_state` holds
+    the numeric Leiden cluster id, so the match is empty and the root silently falls
+    back to the global PC1 minimum. Every sign in the continuum results -- BM
+    falling, AGTR1 rising, the switch index -- is therefore root-dependent and
+    currently set by PC1, not by the intended biology. The fallback is left in
+    place deliberately so this run reproduces the published pseudotime; it is now
+    logged at ERROR level and written to root_selection.tsv so it cannot be
+    mistaken for the intended behaviour. Fixing it changes every published rho and
+    is a separate, deliberate decision.
+    """
+    mask = (adata.obs["pericyte_state"].astype(str) == str(root_state)).to_numpy()
     if mask.sum() == 0:
-        logging.warning(f"No cells in root state {root_state}; using global PC1 min")
+        logging.error(
+            "ROOT FALLBACK IN EFFECT: no cells match --root-state=%r in "
+            "obs['pericyte_state'] (values: %s). Using the global PC1 minimum "
+            "instead. Every continuum sign below is PC1-rooted, NOT rooted on the "
+            "requested state.", root_state,
+            ", ".join(map(str, pd.unique(adata.obs["pericyte_state"])[:10])))
         return int(np.argmin(adata.obsm[rep][:, 0]))
     X = adata.obsm[rep]
     centroid = X[mask].mean(axis=0)
@@ -193,6 +225,28 @@ def plot_trends(adata, outdir: Path):
         logging.warning(f"PAGA plot failed: {e}")
 
 
+def add_denoised_agtr1(adata, path: Path, model: str):
+    """Attach the scVI-denoised AGTR1 lens as obs['AGTR1_scvi'].
+
+    Missing is tolerated and warned about, not fatal: the continuum result itself
+    does not depend on it. But figure_pericyte_layer panel F asserts the row is
+    present, so a silent absence there is caught downstream rather than here.
+    """
+    if not Path(path).exists():
+        logging.warning(f"denoising table not found at {path}; the denoised AGTR1 "
+                        "trend will be absent from pseudotime_trend_correlations.tsv")
+        return
+    den = pd.read_csv(path, sep="\t", usecols=["index", "Model", "AGTR1_scvi"])
+    den = den.loc[den["Model"] == model]
+    if den["index"].duplicated().any():
+        raise ValueError(f"denoising table has duplicate cells for model {model}")
+    den = den.set_index("index")["AGTR1_scvi"]
+    adata.obs["AGTR1_scvi"] = den.reindex(adata.obs_names).to_numpy()
+    n = int(np.isfinite(adata.obs["AGTR1_scvi"]).sum())
+    logging.info(f"Denoised AGTR1 ({model}): {n}/{adata.n_obs} cells "
+                 f"({100 * n / adata.n_obs:.1f}%)")
+
+
 def main():
     args = parse_args()
     configure_logging()
@@ -204,9 +258,20 @@ def main():
         expr = adata[:, "AGTR1"].layers["logcounts"]
         adata.obs["AGTR1_expr"] = (expr.toarray().ravel()
                                    if sparse.issparse(expr) else np.asarray(expr).ravel())
+    add_denoised_agtr1(adata, args.denoise, args.den_model)
 
     root_idx = pick_root(adata, args.root_state, args.use_rep)
-    logging.info(f"Root cell index={root_idx} (state={args.root_state})")
+    root_matched = bool((adata.obs["pericyte_state"].astype(str)
+                         == str(args.root_state)).any())
+    logging.info(f"Root cell index={root_idx} (requested state={args.root_state}, "
+                 f"matched={root_matched})")
+    pd.DataFrame([{"requested_root_state": args.root_state,
+                   "root_state_matched": root_matched,
+                   "root_cell_index": root_idx,
+                   "root_barcode": adata.obs_names[root_idx],
+                   "method": "state centroid" if root_matched
+                             else "GLOBAL PC1 MINIMUM (fallback)"}]).to_csv(
+        outdir / "root_selection.tsv", sep="\t", index=False)
     run_dpt(adata, args.use_rep, args.neighbors, args.n_dcs, root_idx, args.seed)
 
     fig_dir = outdir / "figures"

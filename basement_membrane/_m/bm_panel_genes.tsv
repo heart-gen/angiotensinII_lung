@@ -1,58 +1,132 @@
-panel	gene	block	block_index
-basement_membrane	COL4A1	basement_membrane	0
-basement_membrane	COL4A2	basement_membrane	1
-basement_membrane	COL18A1	basement_membrane	2
-basement_membrane	LAMA3	basement_membrane	3
-basement_membrane	LAMA4	basement_membrane	4
-basement_membrane	LAMA5	basement_membrane	5
-basement_membrane	LAMB1	basement_membrane	6
-basement_membrane	LAMB2	basement_membrane	7
-basement_membrane	LAMC1	basement_membrane	8
-basement_membrane	NID1	basement_membrane	9
-basement_membrane	NID2	basement_membrane	10
-basement_membrane	HSPG2	basement_membrane	11
-basement_membrane	AGRN	basement_membrane	12
-bm_collagen_iv	COL4A1	basement_membrane	0
-bm_collagen_iv	COL4A2	basement_membrane	1
-bm_laminin	LAMA3	basement_membrane	3
-bm_laminin	LAMA4	basement_membrane	4
-bm_laminin	LAMA5	basement_membrane	5
-bm_laminin	LAMB1	basement_membrane	6
-bm_laminin	LAMB2	basement_membrane	7
-bm_laminin	LAMC1	basement_membrane	8
-bm_linker	NID1	basement_membrane	9
-bm_linker	NID2	basement_membrane	10
-bm_linker	HSPG2	basement_membrane	11
-bm_linker	AGRN	basement_membrane	12
-bm_linker	COL18A1	basement_membrane	2
-fibrillar_ecm	COL1A1	fibrillar_core	13
-fibrillar_ecm	COL1A2	fibrillar_core	14
-fibrillar_ecm	COL3A1	fibrillar_core	15
-fibrillar_ecm	COL5A1	fibrillar_minor	16
-fibrillar_ecm	FN1	fibrillar_other	10000
-fibrillar_ecm	POSTN	fibrillar_other	10000
-fibrillar_ecm	LUM	fibrillar_other	10000
-fibrillar_ecm	DCN	fibrillar_other	10000
-fibrillar_ecm	FBN1	fibrillar_other	10000
-fibrillar_ecm	BGN	fibrillar_other	10000
-fibrillar_core	COL1A1	fibrillar_core	13
-fibrillar_core	COL1A2	fibrillar_core	14
-fibrillar_core	COL3A1	fibrillar_core	15
-fibrillar_minor	COL5A1	fibrillar_minor	16
-fibrillar_minor	COL5A2	fibrillar_minor	17
-fibrillar_minor	COL5A3	fibrillar_minor	18
-fibrillar_minor	COL11A1	fibrillar_minor	19
-fibrillar_minor	COL11A2	fibrillar_minor	20
-ambient_tracer	SFTPC	ambient_tracer	21
-ambient_tracer	SFTPB	ambient_tracer	22
-ambient_tracer	SCGB1A1	ambient_tracer	23
-ambient_tracer	SCGB3A2	ambient_tracer	24
-ambient_tracer	PTPRC	ambient_tracer	25
-fibroblast_like_noCOL4A1	COL1A1	fibrillar_core	13
-fibroblast_like_noCOL4A1	COL1A2	fibrillar_core	14
-fibroblast_like_noCOL4A1	COL3A1	fibrillar_core	15
-fibroblast_like_noCOL4A1	FN1	fibrillar_other	10000
-fibroblast_like_noCOL4A1	LUM	fibrillar_other	10000
-fibroblast_like_noCOL4A1	DCN	fibrillar_other	10000
-fibroblast_like_noCOL4A1	PDGFA	fibrillar_other	10000
-fibroblast_like_noCOL4A1	FBLN1	fibrillar_other	10000
+panel	gene	block	block_index	bh_family
+basement_membrane	COL4A1	basement_membrane	0	original_panel
+basement_membrane	COL4A2	basement_membrane	1	original_panel
+basement_membrane	COL15A1	basement_membrane	2	bm_expansion
+basement_membrane	COL18A1	basement_membrane	3	original_panel
+basement_membrane	LAMA1	basement_membrane	4	bm_expansion
+basement_membrane	LAMA2	basement_membrane	5	bm_expansion
+basement_membrane	LAMA3	basement_membrane	6	original_panel
+basement_membrane	LAMA4	basement_membrane	7	original_panel
+basement_membrane	LAMA5	basement_membrane	8	original_panel
+basement_membrane	LAMB1	basement_membrane	9	original_panel
+basement_membrane	LAMB2	basement_membrane	10	original_panel
+basement_membrane	LAMB3	basement_membrane	11	bm_expansion
+basement_membrane	LAMB4	basement_membrane	12	bm_expansion
+basement_membrane	LAMC1	basement_membrane	13	original_panel
+basement_membrane	LAMC2	basement_membrane	14	bm_expansion
+basement_membrane	LAMC3	basement_membrane	15	bm_expansion
+basement_membrane	NID1	basement_membrane	16	original_panel
+basement_membrane	NID2	basement_membrane	17	original_panel
+basement_membrane	HSPG2	basement_membrane	18	original_panel
+basement_membrane	AGRN	basement_membrane	19	original_panel
+bm_v1	COL4A1	basement_membrane	0	original_panel
+bm_v1	COL4A2	basement_membrane	1	original_panel
+bm_v1	COL18A1	basement_membrane	3	original_panel
+bm_v1	LAMA3	basement_membrane	6	original_panel
+bm_v1	LAMA4	basement_membrane	7	original_panel
+bm_v1	LAMA5	basement_membrane	8	original_panel
+bm_v1	LAMB1	basement_membrane	9	original_panel
+bm_v1	LAMB2	basement_membrane	10	original_panel
+bm_v1	LAMC1	basement_membrane	13	original_panel
+bm_v1	NID1	basement_membrane	16	original_panel
+bm_v1	NID2	basement_membrane	17	original_panel
+bm_v1	HSPG2	basement_membrane	18	original_panel
+bm_v1	AGRN	basement_membrane	19	original_panel
+bm_collagen_iv	COL4A1	basement_membrane	0	original_panel
+bm_collagen_iv	COL4A2	basement_membrane	1	original_panel
+bm_laminin	LAMA1	basement_membrane	4	bm_expansion
+bm_laminin	LAMA2	basement_membrane	5	bm_expansion
+bm_laminin	LAMA3	basement_membrane	6	original_panel
+bm_laminin	LAMA4	basement_membrane	7	original_panel
+bm_laminin	LAMA5	basement_membrane	8	original_panel
+bm_laminin	LAMB1	basement_membrane	9	original_panel
+bm_laminin	LAMB2	basement_membrane	10	original_panel
+bm_laminin	LAMB3	basement_membrane	11	bm_expansion
+bm_laminin	LAMB4	basement_membrane	12	bm_expansion
+bm_laminin	LAMC1	basement_membrane	13	original_panel
+bm_laminin	LAMC2	basement_membrane	14	bm_expansion
+bm_laminin	LAMC3	basement_membrane	15	bm_expansion
+bm_linker	NID1	basement_membrane	16	original_panel
+bm_linker	NID2	basement_membrane	17	original_panel
+bm_linker	HSPG2	basement_membrane	18	original_panel
+bm_linker	AGRN	basement_membrane	19	original_panel
+bm_linker	COL15A1	basement_membrane	2	bm_expansion
+bm_linker	COL18A1	basement_membrane	3	original_panel
+fibrillar_ecm	COL1A1	fibrillar_core	20	original_panel
+fibrillar_ecm	COL1A2	fibrillar_core	21	original_panel
+fibrillar_ecm	COL3A1	fibrillar_core	22	original_panel
+fibrillar_ecm	COL5A1	fibrillar_minor	23	original_panel
+fibrillar_ecm	FN1	fibrillar_other	10000	original_panel
+fibrillar_ecm	POSTN	fibrillar_other	10000	original_panel
+fibrillar_ecm	LUM	fibrillar_other	10000	original_panel
+fibrillar_ecm	DCN	fibrillar_other	10000	original_panel
+fibrillar_ecm	FBN1	fibrillar_other	10000	original_panel
+fibrillar_ecm	BGN	fibrillar_other	10000	original_panel
+fibrillar_collagen	COL1A1	fibrillar_core	20	original_panel
+fibrillar_collagen	COL1A2	fibrillar_core	21	original_panel
+fibrillar_collagen	COL3A1	fibrillar_core	22	original_panel
+fibrillar_collagen	COL5A1	fibrillar_minor	23	original_panel
+fibrillar_collagen	COL5A2	fibrillar_minor	24	fibrillar_expansion
+fibrillar_collagen	COL5A3	fibrillar_minor	25	fibrillar_expansion
+fibrillar_collagen	COL11A1	fibrillar_minor	26	fibrillar_expansion
+fibrillar_collagen	COL11A2	fibrillar_minor	27	fibrillar_expansion
+fibrillar_core	COL1A1	fibrillar_core	20	original_panel
+fibrillar_core	COL1A2	fibrillar_core	21	original_panel
+fibrillar_core	COL3A1	fibrillar_core	22	original_panel
+fibrillar_minor	COL5A1	fibrillar_minor	23	original_panel
+fibrillar_minor	COL5A2	fibrillar_minor	24	fibrillar_expansion
+fibrillar_minor	COL5A3	fibrillar_minor	25	fibrillar_expansion
+fibrillar_minor	COL11A1	fibrillar_minor	26	fibrillar_expansion
+fibrillar_minor	COL11A2	fibrillar_minor	27	fibrillar_expansion
+ambient_tracer	SFTPC	ambient_tracer	28	ambient_tracer
+ambient_tracer	SFTPB	ambient_tracer	29	ambient_tracer
+ambient_tracer	SCGB1A1	ambient_tracer	30	ambient_tracer
+ambient_tracer	SCGB3A2	ambient_tracer	31	ambient_tracer
+ambient_tracer	PTPRC	ambient_tracer	32	ambient_tracer
+tgfb_response	SMAD7	tgfb_response	33	tgfb_response
+tgfb_response	SKIL	tgfb_response	34	tgfb_response
+tgfb_response	SKI	tgfb_response	35	tgfb_response
+tgfb_response	JUNB	tgfb_response	36	tgfb_response
+tgfb_response	PMEPA1	tgfb_response	37	tgfb_response
+tgfb_response	TGFBI	tgfb_response	38	tgfb_response
+tgfb_response	ID1	tgfb_response	39	tgfb_response
+tgfb_response	ID2	tgfb_response	40	tgfb_response
+tgfb_response	ID3	tgfb_response	41	tgfb_response
+tgfb_response	CDKN1A	tgfb_response	42	tgfb_response
+tgfb_response	SERPINE2	tgfb_response	43	tgfb_response
+tgfb_response	CCN2	tgfb_response	44	tgfb_response
+tgfb_response	CCN1	tgfb_response	45	tgfb_response
+tgfb_response	KLF10	tgfb_response	46	tgfb_response
+tgfb_response	BAMBI	tgfb_response	47	tgfb_response
+tgfb_response	TGIF1	tgfb_response	48	tgfb_response
+tgfb_response	SNAI1	tgfb_response	49	tgfb_response
+tgfb_response_noECM	SMAD7	tgfb_response	33	tgfb_response
+tgfb_response_noECM	SKIL	tgfb_response	34	tgfb_response
+tgfb_response_noECM	SKI	tgfb_response	35	tgfb_response
+tgfb_response_noECM	JUNB	tgfb_response	36	tgfb_response
+tgfb_response_noECM	PMEPA1	tgfb_response	37	tgfb_response
+tgfb_response_noECM	ID1	tgfb_response	39	tgfb_response
+tgfb_response_noECM	ID2	tgfb_response	40	tgfb_response
+tgfb_response_noECM	ID3	tgfb_response	41	tgfb_response
+tgfb_response_noECM	CDKN1A	tgfb_response	42	tgfb_response
+tgfb_response_noECM	SERPINE2	tgfb_response	43	tgfb_response
+tgfb_response_noECM	CCN2	tgfb_response	44	tgfb_response
+tgfb_response_noECM	CCN1	tgfb_response	45	tgfb_response
+tgfb_response_noECM	KLF10	tgfb_response	46	tgfb_response
+tgfb_response_noECM	BAMBI	tgfb_response	47	tgfb_response
+tgfb_response_noECM	TGIF1	tgfb_response	48	tgfb_response
+tgfb_response_noECM	SNAI1	tgfb_response	49	tgfb_response
+tgfb_receptor	TGFBR1	tgfb_receptor	50	tgfb_response
+tgfb_receptor	TGFBR2	tgfb_receptor	51	tgfb_response
+tgfb_receptor	TGFBR3	tgfb_receptor	52	tgfb_response
+tgfb_receptor	SMAD2	tgfb_receptor	53	tgfb_response
+tgfb_receptor	SMAD3	tgfb_receptor	54	tgfb_response
+tgfb_receptor	SMAD4	tgfb_receptor	55	tgfb_response
+fibroblast_like_noCOL4A1	COL1A1	fibrillar_core	20	original_panel
+fibroblast_like_noCOL4A1	COL1A2	fibrillar_core	21	original_panel
+fibroblast_like_noCOL4A1	COL3A1	fibrillar_core	22	original_panel
+fibroblast_like_noCOL4A1	FN1	fibrillar_other	10000	original_panel
+fibroblast_like_noCOL4A1	LUM	fibrillar_other	10000	original_panel
+fibroblast_like_noCOL4A1	DCN	fibrillar_other	10000	original_panel
+fibroblast_like_noCOL4A1	PDGFA	fibrillar_other	10000	fibrillar_expansion
+fibroblast_like_noCOL4A1	FBLN1	fibrillar_other	10000	fibrillar_expansion

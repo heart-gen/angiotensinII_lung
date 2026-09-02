@@ -1,26 +1,26 @@
-2026-07-28 08:47:12 - **** Job starts ****
-2026-07-28 08:47:12 - **** Bridges-2 info ****
+2026-09-02 15:59:49 - **** Job starts ****
+2026-09-02 15:59:49 - **** Bridges-2 info ****
 User: kbenjamin
-Job id: 42750667
+Job id: 45100391
 Job name: agtr1_dropout
 Node name: 
-Hostname: r024
+Hostname: r043
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-28 08:47:13 - **** Loading mamba environment ****
-2026-07-28 08:47:13 - **** AGTR1 dropout model + airspace ladder ****
-2026-07-28 08:50:15,703 [INFO] loaded raw counts: 11680 cells x 55329 genes (14344930 nonzero)
-2026-07-28 08:50:19,543 [INFO] observed undetected 7314/11680 (0.626); matched expectation 0.639 [0.562, 0.794], empirical p = 0.846
-2026-07-28 08:50:25,149 [INFO] airspace ladder on 7157 cells / 56 donors
-2026-07-28 08:50:25,150 [INFO]   binary detectability, unadjusted         beta = -0.1364  p = 4.83e-08
-2026-07-28 08:50:25,150 [INFO]   binary detectability, depth-adjusted     beta = -0.1166  p = 6.29e-06
-2026-07-28 08:50:25,150 [INFO]   binary detectability, fully adjusted     beta = -0.1136  p = 1.1e-05
-2026-07-28 08:50:25,150 [INFO]   scVI-denoised AGTR1 (per SD)             beta = -0.0873  p = 6.09e-09
-2026-07-28 08:50:25,150 [INFO]   donor fraction AGTR1-detectable          beta = -0.0641  p = 0.794
+2026-09-02 15:59:51 - **** Loading mamba environment ****
+2026-09-02 15:59:51 - **** AGTR1 dropout model + airspace ladder ****
+2026-09-02 16:02:49,673 [INFO] loaded raw counts: 11680 cells x 55329 genes (14344930 nonzero)
+2026-09-02 16:02:53,328 [INFO] observed undetected 7314/11680 (0.626); matched expectation 0.639 [0.562, 0.794], empirical p = 0.846
+2026-09-02 16:02:59,855 [INFO] airspace ladder on 7157 cells / 56 donors
+2026-09-02 16:02:59,855 [INFO]   binary detectability, unadjusted         beta = -0.1364  p = 4.83e-08
+2026-09-02 16:02:59,855 [INFO]   binary detectability, depth-adjusted     beta = -0.1166  p = 6.29e-06
+2026-09-02 16:02:59,855 [INFO]   binary detectability, fully adjusted     beta = -0.1136  p = 1.1e-05
+2026-09-02 16:02:59,855 [INFO]   scVI-denoised AGTR1 (per SD)             beta = -0.3369  p = 1.07e-70
+2026-09-02 16:02:59,855 [INFO]   donor fraction AGTR1-detectable          beta = -0.0641  p = 0.794
 -----
 anndata             0.11.4
 h5py                3.14.0
@@ -33,5 +33,5 @@ statsmodels         0.14.6
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-28 08:50
-2026-07-28 08:50:42 - **** Job ends ****
+Session information updated at 2026-09-02 16:02
+2026-09-02 16:03:20 - **** Job ends ****

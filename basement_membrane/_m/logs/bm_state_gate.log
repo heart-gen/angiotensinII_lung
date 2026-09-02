@@ -1,0 +1,73 @@
+2026-09-01 18:47:29 - **** Job starts ****
+2026-09-01 18:47:29 - **** Bridges-2 info ****
+User: kbenjamin
+Job id: 45013555
+Job name: bm_state_gate
+Node name: 
+Hostname: r001
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-09-01 18:47:29 - **** Loading mamba environment ****
+2026-09-01 18:47:30 - **** Pre-specified gate: does a BM panel change the state model? ****
+2026-09-01 18:47:30,922 [INFO] dropping stale score columns from state metadata, using the current bm_metadata copies: ['basement_membrane_score']
+2026-09-01 18:47:30,947 [INFO] Merged 11680 cells
+2026-09-01 18:47:31,014 [INFO] Validation passed: 6-panel with the frozen 13-gene BM panel (bm_v1) arm reproduces the canonical map.
+2026-09-01 18:47:31,474 [INFO] 
+Robustness (does the verdict survive each variant?):
+                       variant  pericyte_state  n_cells       program_frozen      program_variant  flipped
+fibroblast_like_without_COL4A1               0     5864 vascular_stabilizing vascular_stabilizing    False
+fibroblast_like_without_COL4A1               1     3630    basement_membrane    basement_membrane    False
+fibroblast_like_without_COL4A1               2     1396 vascular_stabilizing vascular_stabilizing    False
+fibroblast_like_without_COL4A1               3      457    basement_membrane    basement_membrane    False
+fibroblast_like_without_COL4A1               4      220  activated_migratory  activated_migratory    False
+fibroblast_like_without_COL4A1               5      113    basement_membrane    basement_membrane    False
+               bm_laminin_only               0     5864 vascular_stabilizing vascular_stabilizing    False
+               bm_laminin_only               1     3630    basement_membrane           bm_laminin     True
+               bm_laminin_only               2     1396 vascular_stabilizing vascular_stabilizing    False
+               bm_laminin_only               3      457    basement_membrane           bm_laminin     True
+               bm_laminin_only               4      220  activated_migratory  activated_migratory    False
+               bm_laminin_only               5      113    basement_membrane      fibroblast_like     True
+                bm_linker_only               0     5864 vascular_stabilizing vascular_stabilizing    False
+                bm_linker_only               1     3630    basement_membrane            bm_linker     True
+                bm_linker_only               2     1396 vascular_stabilizing vascular_stabilizing    False
+                bm_linker_only               3      457    basement_membrane            bm_linker     True
+                bm_linker_only               4      220  activated_migratory  activated_migratory    False
+                bm_linker_only               5      113    basement_membrane            bm_linker     True
+           bm_collagen_iv_only               0     5864 vascular_stabilizing vascular_stabilizing    False
+           bm_collagen_iv_only               1     3630    basement_membrane       bm_collagen_iv     True
+           bm_collagen_iv_only               2     1396 vascular_stabilizing vascular_stabilizing    False
+           bm_collagen_iv_only               3      457    basement_membrane      fibroblast_like     True
+           bm_collagen_iv_only               4      220  activated_migratory  activated_migratory    False
+           bm_collagen_iv_only               5      113    basement_membrane      fibroblast_like     True
+2026-09-01 18:47:31,504 [INFO] 
+BM axis correlations:
+          panel_a                  panel_b  pearson_r
+basement_membrane          fibroblast_like   0.136982
+basement_membrane fibroblast_like_noCOL4A1  -0.015334
+basement_membrane            fibrillar_ecm   0.005500
+basement_membrane     vascular_stabilizing  -0.197616
+2026-09-01 18:47:31,520 [INFO] 
+ pericyte_state  n_cells       program_5panel    program_canonical       program_6panel                                    canonical_arm  flipped
+              0     5864 vascular_stabilizing vascular_stabilizing vascular_stabilizing 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+              1     3630      fibroblast_like    basement_membrane    basement_membrane 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+              2     1396 vascular_stabilizing vascular_stabilizing vascular_stabilizing 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+              3      457      fibroblast_like    basement_membrane    basement_membrane 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+              4      220  activated_migratory  activated_migratory  activated_migratory 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+              5      113      fibroblast_like    basement_membrane    basement_membrane 6-panel with the frozen 13-gene BM panel (bm_v1)    False
+2026-09-01 18:47:31,521 [INFO] metric A (% cells changed): 0.000%
+2026-09-01 18:47:31,521 [INFO] metric B (clusters flipped): 0
+2026-09-01 18:47:31,521 [INFO] HOLD: the canonical model is unchanged under the current BM panel; report the panel additively
+-----
+numpy               2.1.3
+pandas              2.3.2
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-09-01 18:47
+2026-09-01 18:47:32 - **** Job ends ****

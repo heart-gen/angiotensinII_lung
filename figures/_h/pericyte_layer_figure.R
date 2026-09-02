@@ -131,27 +131,46 @@ pD <- ggplot(emm, aes(program, centered, colour = lens, group = lens)) +
 pE <- umap_cont(df, "dpt_pseudotime", "Pseudotime", option = "magma", dir = -1)
 
 ## F: donor-level continuum trends (programs & AGTR1 vs pseudotime)
+## BOTH AGTR1 lenses are plotted. Raw AGTR1 and the program scores share a
+## sequencing-depth gradient, which is what 03.agtr1_lenses.R showed manufactures
+## AGTR1's apparent program bias; showing the raw trend alone here would invite
+## exactly the reading panel D exists to refute. The two lens rows carry the panel
+## D lens colours as a ring so the reader connects the panels.
+LENS_FEAT <- c(AGTR1_expr = "AGTR1 (raw)", AGTR1_scvi = "AGTR1 (denoised)")
+SIG_COL <- c("p < 0.05" = "#D55E00", "n.s." = "grey60")
 nice_feat <- c(vascular_stabilizing = "Vascular-stabilizing",
                synthetic_contractile = "Synthetic/contractile",
                activated_migratory = "Activated/migratory",
                inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-               basement_membrane = "Basement-membrane", AGTR1 = "AGTR1")
+               basement_membrane = "Basement-membrane", LENS_FEAT)
 trend <- fread(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv")) %>%
     filter(level == "donor") %>%
     mutate(feature = sub("_score$", "", feature),
-           feature = recode(feature, AGTR1_expr = "AGTR1"),
            feature = recode(feature, !!!nice_feat),
            sig = ifelse(p_value < 0.05, "p < 0.05", "n.s.")) %>%
     arrange(spearman_rho)
+## Same failure mode as panel D: a missing lens would silently drop a row rather
+## than error, and the panel's whole point is the raw-vs-denoised comparison.
+require_programs(trend$feature, unname(LENS_FEAT),
+                 "figure_pericyte_layer panel F (AGTR1 lenses)")
 trend$feature <- factor(trend$feature, levels = trend$feature)
+## Colour encodes significance only, exactly as on every other row -- the two lens
+## rows are identified by their axis labels, which match panel D's legend text
+## verbatim. An earlier version outlined them in the panel D lens colours, but the
+## denoised ring re-used the significance orange, so a non-significant denoised
+## point acquired an orange outline and read as significant.
 pF <- ggplot(trend, aes(spearman_rho, feature, colour = sig)) +
     geom_vline(xintercept = 0, colour = "grey70", linewidth = 0.3) +
     geom_segment(aes(x = 0, xend = spearman_rho, yend = feature), linewidth = 0.5) +
     geom_point(size = 1.8) +
-    scale_colour_manual(values = c("p < 0.05" = "#D55E00", "n.s." = "grey60"), name = NULL) +
+    scale_colour_manual(values = SIG_COL, name = NULL) +
     labs(x = "Spearman correlation (donor)", y = NULL) +
-    theme_ms() + theme(legend.position = c(0.72, 0.18), legend.background = element_blank(),
-                       legend.text = element_text(size = 6))
+    theme_ms() +
+    ## Legend at the bottom: with eight rows there is no interior gap that stays
+    ## clear as the estimates move between runs.
+    theme(legend.position = "bottom", legend.background = element_blank(),
+          legend.text = element_text(size = 6), legend.key.size = unit(3, "mm"),
+          legend.margin = margin(t = -4))
 
 main <- (pA | pB | pC) / (pD | pE | pF) +
     plot_annotation(tag_levels = "A") &

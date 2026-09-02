@@ -1,4 +1,4 @@
 lens	top_program	top_emmean	lens_label
 AGTR1_expr	vascular_stabilizing	0.800052045194599	raw expression
-AGTR1_scvi	fibroblast_like	1.03278556905887	scVI-denoised
+AGTR1_scvi	basement_membrane	10.6894833381714	scVI-denoised
 AGTR1_detect	vascular_stabilizing	0.393932552441958	binary detection

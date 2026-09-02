@@ -1,14 +1,14 @@
-2026-07-27 22:46:47 - **** Job starts ****
-Job id: 42735886
-Hostname: r004
+2026-09-01 19:45:27 - **** Job starts ****
+Job id: 45016792
+Hostname: r002
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 22:46:48 - **** Loading mamba environment ****
-2026-07-27 22:47:01 - **** Donor-aware pericyte-state statistics ****
+2026-09-01 19:45:28 - **** Loading mamba environment ****
+2026-09-01 19:45:38 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -30,9 +30,9 @@ injury programs: activated_migratory | min_cells = 20
 There were 16 warnings (use warnings() to see them)
 
 Reproducibility information:
-[1] "2026-07-27 22:47:31 EDT"
+[1] "2026-09-01 19:46:00 EDT"
    user  system elapsed 
- 11.694   0.435  29.870 
+ 11.670   0.557  22.280 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -43,7 +43,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-27
+ date     2026-09-01
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -115,4 +115,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-27 22:47:36 - **** Job ends ****
+2026-09-01 19:46:05 - **** Job ends ****

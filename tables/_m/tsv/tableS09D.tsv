@@ -1,38 +1,38 @@
-variant	pericyte_state	n_cells	program_frozen	program_variant	flipped	block	program_5panel	program_6panel	vascular_stabilizing_relenrich	inflammatory_relenrich	synthetic_contractile_relenrich	activated_migratory_relenrich	fibroblast_like_relenrich	basement_membrane_relenrich	n_clusters	metric_A_pct_cells_changed	metric_B_n_clusters_flipped	clusters_flipped	escalate_threshold_pct	escalate	verdict
-fibroblast_like_without_COL4A1	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-fibroblast_like_without_COL4A1	1	3630	fibroblast_like	basement_membrane	TRUE	subpanel variant															
-fibroblast_like_without_COL4A1	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-fibroblast_like_without_COL4A1	3	457	fibroblast_like	basement_membrane	TRUE	subpanel variant															
-fibroblast_like_without_COL4A1	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant															
-fibroblast_like_without_COL4A1	5	113	fibroblast_like	basement_membrane	TRUE	subpanel variant															
-bm_laminin_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_laminin_only	1	3630	fibroblast_like	bm_laminin	TRUE	subpanel variant															
-bm_laminin_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_laminin_only	3	457	fibroblast_like	bm_laminin	TRUE	subpanel variant															
-bm_laminin_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant															
-bm_laminin_only	5	113	fibroblast_like	bm_laminin	TRUE	subpanel variant															
-bm_linker_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_linker_only	1	3630	fibroblast_like	bm_linker	TRUE	subpanel variant															
-bm_linker_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_linker_only	3	457	fibroblast_like	bm_linker	TRUE	subpanel variant															
-bm_linker_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant															
-bm_linker_only	5	113	fibroblast_like	bm_linker	TRUE	subpanel variant															
-bm_collagen_iv_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_collagen_iv_only	1	3630	fibroblast_like	bm_collagen_iv	TRUE	subpanel variant															
-bm_collagen_iv_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant															
-bm_collagen_iv_only	3	457	fibroblast_like	fibroblast_like	FALSE	subpanel variant															
-bm_collagen_iv_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant															
-bm_collagen_iv_only	5	113	fibroblast_like	fibroblast_like	FALSE	subpanel variant															
-	0	5864			FALSE	5-panel vs 6-panel assignment	vascular_stabilizing	vascular_stabilizing													
-	1	3630			TRUE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane													
-	2	1396			FALSE	5-panel vs 6-panel assignment	vascular_stabilizing	vascular_stabilizing													
-	3	457			TRUE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane													
-	4	220			FALSE	5-panel vs 6-panel assignment	activated_migratory	activated_migratory													
-	5	113			TRUE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane													
-	0					relative enrichment			0.406285247773245	0.350204602112112	0.389513127819458	0.333942234645733	0.152704331446619	-0.228580798926394							
-	1					relative enrichment			-0.766240037164607	-0.615563229825091	-0.659120673475037	-0.570514788664555	-0.332161365428045	0.448891578475808							
-	2					relative enrichment			0.309694021772106	0.227594302280687	0.0804533852990692	-0.016564840531864	0.048387552389917	-0.473664693566503							
-	3					relative enrichment			0.266362034387596	-0.350564039509164	0.219913433153568	0.0461761083968497	0.374927813088019	0.668736153658214							
-	4					relative enrichment			-0.441773216200193	0.413199454905609	-0.532414381377593	0.438486147066716	0.156004843996093	-0.0380936645751681							
-	5					relative enrichment			-0.512173049378178	-0.597548871926814	0.113458958013056	0.161827454692013	0.328101393841937	0.663057267617393							
-		11680				gate summary									6	35.9589	3	1,3,5	5	TRUE	ESCALATE: adopt 6-panel model as canonical and re-run downstream modules
+variant	pericyte_state	n_cells	program_frozen	program_variant	flipped	block	program_5panel	program_canonical	program_6panel	canonical_arm	vascular_stabilizing_relenrich	inflammatory_relenrich	synthetic_contractile_relenrich	activated_migratory_relenrich	fibroblast_like_relenrich	basement_membrane_relenrich	n_clusters	metric_A_pct_cells_changed	metric_B_n_clusters_flipped	clusters_flipped	escalate_threshold_pct	escalate	verdict
+fibroblast_like_without_COL4A1	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+fibroblast_like_without_COL4A1	1	3630	basement_membrane	basement_membrane	FALSE	subpanel variant																	
+fibroblast_like_without_COL4A1	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+fibroblast_like_without_COL4A1	3	457	basement_membrane	basement_membrane	FALSE	subpanel variant																	
+fibroblast_like_without_COL4A1	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant																	
+fibroblast_like_without_COL4A1	5	113	basement_membrane	basement_membrane	FALSE	subpanel variant																	
+bm_laminin_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_laminin_only	1	3630	basement_membrane	bm_laminin	TRUE	subpanel variant																	
+bm_laminin_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_laminin_only	3	457	basement_membrane	bm_laminin	TRUE	subpanel variant																	
+bm_laminin_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant																	
+bm_laminin_only	5	113	basement_membrane	fibroblast_like	TRUE	subpanel variant																	
+bm_linker_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_linker_only	1	3630	basement_membrane	bm_linker	TRUE	subpanel variant																	
+bm_linker_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_linker_only	3	457	basement_membrane	bm_linker	TRUE	subpanel variant																	
+bm_linker_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant																	
+bm_linker_only	5	113	basement_membrane	bm_linker	TRUE	subpanel variant																	
+bm_collagen_iv_only	0	5864	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_collagen_iv_only	1	3630	basement_membrane	bm_collagen_iv	TRUE	subpanel variant																	
+bm_collagen_iv_only	2	1396	vascular_stabilizing	vascular_stabilizing	FALSE	subpanel variant																	
+bm_collagen_iv_only	3	457	basement_membrane	fibroblast_like	TRUE	subpanel variant																	
+bm_collagen_iv_only	4	220	activated_migratory	activated_migratory	FALSE	subpanel variant																	
+bm_collagen_iv_only	5	113	basement_membrane	fibroblast_like	TRUE	subpanel variant																	
+	0	5864			FALSE	5-panel vs 6-panel assignment	vascular_stabilizing	vascular_stabilizing	vascular_stabilizing	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	1	3630			FALSE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane	basement_membrane	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	2	1396			FALSE	5-panel vs 6-panel assignment	vascular_stabilizing	vascular_stabilizing	vascular_stabilizing	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	3	457			FALSE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane	basement_membrane	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	4	220			FALSE	5-panel vs 6-panel assignment	activated_migratory	activated_migratory	activated_migratory	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	5	113			FALSE	5-panel vs 6-panel assignment	fibroblast_like	basement_membrane	basement_membrane	6-panel with the frozen 13-gene BM panel (bm_v1)													
+	0					relative enrichment					0.406285247773245	0.350204602112112	0.389513127819458	0.333942234645733	0.152704331446619	-0.253163013234495							
+	1					relative enrichment					-0.766240037164607	-0.615563229825091	-0.659120673475037	-0.570514788664555	-0.332161365428045	0.532054343466125							
+	2					relative enrichment					0.309694021772106	0.227594302280687	0.0804533852990692	-0.016564840531864	0.048387552389917	-0.576717794899616							
+	3					relative enrichment					0.266362034387596	-0.350564039509164	0.219913433153568	0.0461761083968497	0.374927813088019	0.736685581478289							
+	4					relative enrichment					-0.441773216200193	0.413199454905609	-0.532414381377593	0.438486147066716	0.156004843996093	-0.133645018268873							
+	5					relative enrichment					-0.512173049378178	-0.597548871926814	0.113458958013056	0.161827454692013	0.328101393841937	0.451551130871476							
+		11680				gate summary				6-panel with the frozen 13-gene BM panel (bm_v1)							6	0	0		5	FALSE	HOLD: the canonical model is unchanged under the current BM panel; report the panel additively
