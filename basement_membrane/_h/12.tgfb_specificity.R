@@ -270,35 +270,51 @@ if (!is.na(opt$null_pb) && file.exists(opt$null_pb)) {
         row <- obs_alone[i]
         nd <- nullres[arm == row$arm & outcome == row$outcome & converged == TRUE]
         if (!nrow(nd)) return(NULL)
-        ## Two-sided empirical p: how often does a detection-matched panel of
-        ## random genes reach an effect at least this extreme?
-        emp_p <- (1 + sum(abs(nd$estimate) >= abs(row$estimate))) / (1 + nrow(nd))
-        ## Power: could a panel this sparse have produced the reported effect?
-        pwr <- mean(abs(nd$estimate) >= opt$ref_beta)
+        ## THE NULL IS NOT CENTRED ON ZERO, and everything here depends on that.
+        ## A random panel of well-detected genes predicts the BM score at about
+        ## +0.45, because any sc.tl.score_genes score shares a "general
+        ## expression level" component with the BM score that the depth
+        ## covariate does not fully absorb. So an empirical p built from
+        ## |null| >= |observed| is invalid: it asks whether random panels have
+        ## large effects (they do) instead of whether THIS panel is unusual.
+        ## Both the p-value and the power statement are therefore referred to
+        ## the null's OWN centre.
+        mu <- mean(nd$estimate); sdev <- sd(nd$estimate)
+        emp_p <- (1 + sum(abs(nd$estimate - mu) >= abs(row$estimate - mu))) /
+                 (1 + nrow(nd))
+        p_lower <- (1 + sum(nd$estimate <= row$estimate)) / (1 + nrow(nd))
+        ## Power: the deviation from the null centre that 80% of matched panels
+        ## fall within -- i.e. the smallest shift this design can resolve. If it
+        ## is below ref_beta, an arm sitting inside its null is a real null and
+        ## not a power failure.
+        detectable <- quantile(abs(nd$estimate - mu), 0.80)
         data.table(
             arm = row$arm, outcome = row$outcome,
             beta_observed = row$estimate, p_model = row$p_value,
             n_null = nrow(nd),
-            null_mean = mean(nd$estimate), null_sd = sd(nd$estimate),
+            null_mean = mu, null_sd = sdev,
             null_q025 = quantile(nd$estimate, 0.025),
             null_q975 = quantile(nd$estimate, 0.975),
-            empirical_p = emp_p,
-            frac_null_reaching_ref = pwr, ref_beta = opt$ref_beta)
+            z_vs_null = (row$estimate - mu) / sdev,
+            empirical_p = emp_p, empirical_p_lower = p_lower,
+            detectable_effect_80 = detectable, ref_beta = opt$ref_beta)
     }), fill = TRUE)
 
     ## The verdict table from TGFB_SPECIFICITY_PLAN.md section 7, applied
     ## mechanically so the rule cannot drift after seeing the numbers.
     summ[, outside_null := empirical_p < 0.05]
-    summ[, well_powered := frac_null_reaching_ref >= 0.80]
+    ## "Well powered" means the design can resolve a shift of ref_beta from the
+    ## null centre, so an arm inside its null is informative rather than mute.
+    summ[, well_powered := detectable_effect_80 <= ref_beta]
     summ[, arm_verdict := fifelse(
-        outside_null & beta_observed < 0, "carries the association",
+        outside_null & beta_observed < null_mean, "carries the association",
         fifelse(!outside_null & well_powered, "null, adequately powered",
                 "inside null, underpowered -- uninformative"))]
     fwrite(summ, file.path(outdir, "tgfb_specificity_summary.tsv"), sep = "\t")
 
     message("\n---- verdict inputs ----")
-    print(summ[, .(arm, outcome, beta_observed, empirical_p,
-                   frac_null_reaching_ref, arm_verdict)])
+    print(summ[, .(arm, outcome, beta_observed, null_mean, z_vs_null,
+                   empirical_p, detectable_effect_80, arm_verdict)])
 } else {
     warning("no --null-pseudobulk supplied; the arms are reported WITHOUT their ",
             "detection-matched null, and a null SMAD arm cannot be interpreted. ",

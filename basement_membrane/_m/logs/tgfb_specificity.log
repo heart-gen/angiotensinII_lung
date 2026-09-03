@@ -18,3 +18,80 @@ Currently Loaded Modules:
 2026-09-02 20:35:29,429 [INFO] [smad] scored 200/1000
 2026-09-02 20:36:09,420 [INFO] [smad] scored 300/1000
 2026-09-02 20:36:47,323 [INFO] [smad] scored 400/1000
+2026-09-02 20:37:25,237 [INFO] [smad] scored 500/1000
+2026-09-02 20:38:04,207 [INFO] [smad] scored 600/1000
+2026-09-02 20:38:43,212 [INFO] [smad] scored 700/1000
+2026-09-02 20:39:22,557 [INFO] [smad] scored 800/1000
+2026-09-02 20:40:02,168 [INFO] [smad] scored 900/1000
+2026-09-02 20:40:41,715 [INFO] [smad] scored 1000/1000
+2026-09-02 20:40:49,369 [INFO] [ieg] 1000 null panels; mean detection target 0.3220, achieved 0.3220
+2026-09-02 20:41:28,123 [INFO] [ieg] scored 100/1000
+2026-09-02 20:42:08,007 [INFO] [ieg] scored 200/1000
+2026-09-02 20:42:47,013 [INFO] [ieg] scored 300/1000
+2026-09-02 20:43:25,913 [INFO] [ieg] scored 400/1000
+2026-09-02 20:44:03,024 [INFO] [ieg] scored 500/1000
+2026-09-02 20:44:39,124 [INFO] [ieg] scored 600/1000
+2026-09-02 20:45:17,332 [INFO] [ieg] scored 700/1000
+2026-09-02 20:45:57,533 [INFO] [ieg] scored 800/1000
+2026-09-02 20:46:37,403 [INFO] [ieg] scored 900/1000
+2026-09-02 20:47:14,988 [INFO] [ieg] scored 1000/1000
+2026-09-02 20:47:21,770 [INFO] leave-one-out: 17 refits of the full panel
+2026-09-02 20:47:22,431 [INFO] null pseudobulk: 543 units x 2017 panels
+-----
+bm_panels           NA
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-09-02 20:47
+2026-09-02 20:47:44 - **** Specificity models against the matched null ****
+Merged 11680 cells
+Donor x cluster units (>=5 cells): 214 across 95 donors
+Warning message:
+In `[.data.table`(pb, , `:=`(bm_minus_fibrillar, basement_membrane_score_z -  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+Complexity floor: 107 of 214 units at/above median depth 3.234
+
+---- Test C: between-study variance, RAW scale ----
+                 score      pct
+                <char>    <num>
+1: tgfb_response_score 46.08171
+2:     tgfb_smad_score  0.00000
+3:      tgfb_ieg_score 59.21288
+Null panels: 2000, fitted on 214 units
+  null fit 200/2000
+  null fit 400/2000
+  null fit 600/2000
+  null fit 800/2000
+  null fit 1000/2000
+  null fit 1200/2000
+  null fit 1400/2000
+  null fit 1600/2000
+  null fit 1800/2000
+  null fit 2000/2000
+Leave-one-out (BM): beta -0.2471 to -0.1324 across 17 drops; full panel -0.1964
+
+---- verdict inputs ----
+      arm                   outcome beta_observed empirical_p
+   <char>                    <char>         <num>       <num>
+1:   smad basement_membrane_score_z  -0.002507829  0.98001998
+2:   smad      bm_minus_fibrillar_z  -0.186850285  0.07592408
+3:    ieg basement_membrane_score_z  -0.186730764  1.00000000
+4:    ieg      bm_minus_fibrillar_z  -0.013775548  1.00000000
+   frac_null_reaching_ref                                arm_verdict
+                    <num>                                     <char>
+1:                  0.019 inside null, underpowered -- uninformative
+2:                  0.061 inside null, underpowered -- uninformative
+3:                  1.000                   null, adequately powered
+4:                  0.589 inside null, underpowered -- uninformative
+
+---- head-to-head (the parameter that answers the question) ----
+                term    estimate         SE    t_ratio     p_value       p_BH
+              <char>       <num>      <num>      <num>       <num>      <num>
+1: tgfb_smad_score_z  0.02575085 0.06686143  0.3851376 0.700542152 0.81964311
+2:  tgfb_ieg_score_z -0.19073564 0.06850371 -2.7843109 0.005854114 0.01170823
+2026-09-02 20:56:06 - **** Job ends ****

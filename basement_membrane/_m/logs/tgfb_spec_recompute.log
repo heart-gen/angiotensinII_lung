@@ -1,0 +1,45 @@
+Merged 11680 cells
+Donor x cluster units (>=5 cells): 214 across 95 donors
+Warning message:
+In `[.data.table`(pb, , `:=`(bm_minus_fibrillar, basement_membrane_score_z -  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+Complexity floor: 107 of 214 units at/above median depth 3.234
+
+---- Test C: between-study variance, RAW scale ----
+                 score      pct
+                <char>    <num>
+1: tgfb_response_score 46.08171
+2:     tgfb_smad_score  0.00000
+3:      tgfb_ieg_score 59.21288
+Null panels: 2000, fitted on 214 units
+  null fit 200/2000
+  null fit 400/2000
+  null fit 600/2000
+  null fit 800/2000
+  null fit 1000/2000
+  null fit 1200/2000
+  null fit 1400/2000
+  null fit 1600/2000
+  null fit 1800/2000
+  null fit 2000/2000
+Leave-one-out (BM): beta -0.2471 to -0.1324 across 17 drops; full panel -0.1964
+
+---- verdict inputs ----
+      arm                   outcome beta_observed  null_mean   z_vs_null
+   <char>                    <char>         <num>      <num>       <num>
+1:   smad basement_membrane_score_z  -0.002507829 0.04722503  -0.7127883
+2:   smad      bm_minus_fibrillar_z  -0.186850285 0.02626035  -2.1809764
+3:    ieg basement_membrane_score_z  -0.186730764 0.44954064 -11.8333095
+4:    ieg      bm_minus_fibrillar_z  -0.013775548 0.22400114  -2.8653497
+   empirical_p detectable_effect_80              arm_verdict
+         <num>                <num>                   <char>
+1: 0.524475524           0.08939367 null, adequately powered
+2: 0.012987013           0.13064024  carries the association
+3: 0.000999001           0.06538409  carries the association
+4: 0.000999001           0.11908360  carries the association
+
+---- head-to-head (the parameter that answers the question) ----
+                term    estimate         SE    t_ratio     p_value       p_BH
+              <char>       <num>      <num>      <num>       <num>      <num>
+1: tgfb_smad_score_z  0.02575085 0.06686143  0.3851376 0.700542152 0.81964311
+2:  tgfb_ieg_score_z -0.19073564 0.06850371 -2.7843109 0.005854114 0.01170823

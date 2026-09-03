@@ -196,3 +196,55 @@ keeps the pre-specified set intact.
 
 Neither change touches §7's decision rule, the arm definitions, the primary
 model, or the null.
+
+**3. The empirical p and power statistics were invalid as first written, and are
+corrected.** Both were built as `|null| >= |observed|`, which presumes a null
+centred on zero. **The null is not centred on zero.** A detection-matched random
+panel predicts the BM score at **+0.45** for IEG-like detection, because any
+`sc.tl.score_genes` score shares a general-expression component with the BM
+score that the `mean_log10_counts` covariate does not absorb.
+
+The first pass therefore asked "do random panels have large effects?" (they do)
+instead of "is this panel unusual?", and returned **empirical p = 1.000 for the
+single strongest result in the study** (IEG → BM, which is 11.8 SD below its own
+null). The power column failed the same way. Both are now referred to the null's
+**own centre**, and a `z_vs_null` column is emitted so the reference is visible
+rather than implicit.
+
+This changes three of the four verdicts. It does not change §7's rule, the arms,
+the model, or the null itself.
+
+---
+
+# Verdict — 2026-09-02, against §7
+
+| Arm → outcome | β | Null mean | z vs null | Emp. p | Verdict |
+| --- | ---: | ---: | ---: | ---: | --- |
+| SMAD → BM (**primary**) | −0.003 | +0.047 | −0.71 | 0.52 | **null, adequately powered** |
+| SMAD → BM − fibrillar | −0.187 | +0.026 | −2.18 | 0.013 | carries the association |
+| IEG → BM (**primary**) | −0.187 | +0.450 | −11.83 | 0.001 | carries the association |
+| IEG → BM − fibrillar | −0.014 | +0.224 | −2.87 | 0.001 | carries the association |
+
+Resolvable shift is 0.065–0.131 across all four, below the 0.196 reference, so
+**no arm is underpowered** and every null above is a real null.
+
+**On the pre-specified primary endpoint the rule fires row 2 of §7's table:
+"Generic activation — retract the TGF-β framing."** The SMAD arm is a genuine,
+adequately powered null against BM; the IEG arm carries the whole association
+and holds **59.2 % between-study variance** to the SMAD arm's **0.0 %**.
+Leave-one-out agrees: dropping **JUNB** alone takes the panel from −0.196 to
+−0.132 (*p* = 0.057).
+
+**On the secondary endpoint a genuine SMAD-specific signal survives** (−0.187,
+z = −2.18 against its matched null, *p* = 0.013), strengthening to −0.249 in the
+deep half, and agreeing in direction with the NicheNet ligand arm, which shares
+no evidence with it. Per §7 this is real but **secondary**, and it is a
+hypothesis this analysis generated rather than one it confirmed.
+
+**Unanticipated result with reach beyond this question.** The null mean falls
+from +0.45 on BM alone to +0.026 on BM − fibrillar: the contrast differences out
+most of the shared-expression artifact. That is new quantitative support for the
+module's existing "claim the contrast, never either matrix score alone" rule,
+arrived at independently of the reasoning that produced it — and it means panel
+scores tested against β = 0 on a single matrix score are testing against the
+wrong reference.
