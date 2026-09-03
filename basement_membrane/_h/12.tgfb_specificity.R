@@ -164,18 +164,34 @@ if (nrow(deep)) {
 ## ---- Test C: where does each arm's variance live? ---------------------------
 ## If the IEG arm is a warm-dissociation artifact it should partition markedly
 ## more variance to `study` (i.e. to protocol) than the SMAD arm does.
-vc <- rbindlist(lapply(c("tgfb_response_score_z", "tgfb_smad_score_z",
-                         "tgfb_ieg_score_z"), function(v) {
-    f <- reformulate(c("1", "(1 | study)", "(1 | dataset)", "(1 | donor_id)"),
-                     response = v)
-    fit <- try(suppressMessages(lmer(f, data = pb)), silent = TRUE)
-    if (inherits(fit, "try-error")) return(NULL)
-    vv <- as.data.table(VarCorr(fit))
-    tot <- sum(vv$vcov)
-    data.table(score = v, component = vv$grp, variance = vv$vcov,
-               pct = 100 * vv$vcov / tot)
+##
+## THIS MUST RUN ON THE RAW SCORES, NOT THE _z ONES. `dataset` nests strictly
+## inside `study` here (33 dataset/study pairs, one study per dataset), so
+## z_within_dataset() centres away the between-study variance by construction
+## and the z version of this test reports ~0% for every score no matter what is
+## true. Both are emitted, `scale` distinguishes them, and only the raw rows
+## answer the question -- the z rows are kept solely to show the test is vacuous
+## on that scale, so nobody re-runs it there and reads the zeros as a result.
+vc_scores <- c("tgfb_response_score", "tgfb_smad_score", "tgfb_ieg_score")
+vc <- rbindlist(lapply(c("raw", "z"), function(scale) {
+    rbindlist(lapply(vc_scores, function(v) {
+        vv_col <- if (scale == "z") paste0(v, "_z") else v
+        if (!vv_col %in% names(pb)) return(NULL)
+        f <- reformulate(c("1", "(1 | study)", "(1 | dataset)", "(1 | donor_id)"),
+                         response = vv_col)
+        fit <- try(suppressMessages(lmer(f, data = pb)), silent = TRUE)
+        if (inherits(fit, "try-error")) return(NULL)
+        vv <- as.data.table(VarCorr(fit))
+        tot <- sum(vv$vcov)
+        data.table(scale = scale, score = v, component = vv$grp,
+                   variance = vv$vcov, pct = 100 * vv$vcov / tot)
+    }), fill = TRUE)
 }), fill = TRUE)
 fwrite(vc, file.path(outdir, "tgfb_specificity_varcomp.tsv"), sep = "\t")
+if (nrow(vc)) {
+    message("\n---- Test C: between-study variance, RAW scale ----")
+    print(vc[scale == "raw" & component == "study", .(score, pct)])
+}
 
 ## ---- leave-one-gene-out on the full panel -----------------------------------
 if (length(logo_cols)) {

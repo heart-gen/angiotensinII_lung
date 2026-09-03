@@ -173,3 +173,26 @@ clears it. Destination: a new panel E in `figureS_bm_associations`.
 outside its own — with the null shown to be well-powered. That result would mean
 the reported association is an activation/stress program, and the TGF-β framing
 of the cell-state half of the claim comes out.
+
+---
+
+# Postscript — corrections made while running, before the verdict
+
+Recorded here rather than silently, because §7's rule is only binding if the
+analysis it judges is the one that was specified.
+
+**1. Test C was vacuous as first written, and is fixed.** It was fitted on the
+`_z` scores. `dataset` nests strictly inside `study` in this data (33
+dataset/study pairs, one study per dataset), so `z_within_dataset()` centres the
+between-study variance away by construction: the test returned 0.0 % study
+variance for *every* score, including the full panel, which cannot be right.
+Refitted on the raw scores it is highly informative. Both scales are now
+emitted with a `scale` column, and the z rows are retained only to document
+that the test is empty on that scale.
+
+**2. A fourth sensitivity was added** (`--complexity floor`, §8 item 4). It was
+in the plan and had not been implemented; adding it rather than dropping it
+keeps the pre-specified set intact.
+
+Neither change touches §7's decision rule, the arm definitions, the primary
+model, or the null.
