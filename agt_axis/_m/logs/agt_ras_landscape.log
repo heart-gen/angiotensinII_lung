@@ -69,3 +69,6 @@ Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
 Session information updated at 2026-09-02 20:06
+2026-09-02 20:06:41 - **** RAS source / receiver landscape and circuit completeness ****
+Units: 4376; cell types: 22; donors: 417
+Modelling 18 RAS/comparator genes

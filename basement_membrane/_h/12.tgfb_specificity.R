@@ -138,6 +138,29 @@ obs[, n_units := nrow(pb)][, n_donors := uniqueN(pb$donor_id)]
 obs[, p_BH := p.adjust(p_value, "BH"), by = model]
 fwrite(obs, file.path(outdir, "tgfb_specificity_models.tsv"), sep = "\t")
 
+## ---- sensitivity 4 of the plan: complexity floor ----------------------------
+## Sparse panel scores are least reliable in shallow units, and the SMAD arm is
+## the sparse one -- so if its estimate is an artifact of low-depth noise it
+## should change when the shallow half is dropped. Listed in
+## TGFB_SPECIFICITY_PLAN.md section 8; run here so the pre-specified set is
+## complete rather than quietly trimmed.
+depth_cut <- median(pb$mean_log10_counts, na.rm = TRUE)
+pb_deep <- pb[mean_log10_counts >= depth_cut]
+message(sprintf("Complexity floor: %d of %d units at/above median depth %.3f",
+                nrow(pb_deep), nrow(pb), depth_cut))
+deep <- rbindlist(lapply(spec, function(s)
+    rbindlist(lapply(OUTCOMES, function(o) {
+        r <- fit_one(pb_deep, o, s$preds)
+        if (is.null(r)) return(NULL)
+        r[, model := s$tag][]
+    }), fill = TRUE)), fill = TRUE)
+if (nrow(deep)) {
+    deep[, `:=`(arm_set = "deep_half", n_units = nrow(pb_deep),
+                depth_cut = depth_cut)]
+    fwrite(deep, file.path(outdir, "tgfb_specificity_depth_sensitivity.tsv"),
+           sep = "\t")
+}
+
 ## ---- Test C: where does each arm's variance live? ---------------------------
 ## If the IEG arm is a warm-dissociation artifact it should partition markedly
 ## more variance to `study` (i.e. to protocol) than the SMAD arm does.
