@@ -210,10 +210,17 @@ if (length(logo_cols)) {
 if (!is.na(opt$null_pb) && file.exists(opt$null_pb)) {
     nl <- fread(opt$null_pb)
     null_cols <- grep("^null_", names(nl), value = TRUE)
-    pbn <- merge(pb[, .(donor_id, pericyte_state, study, dataset,
-                        mean_log10_counts, basement_membrane_score_z,
-                        bm_minus_fibrillar_z)],
-                 nl, by = c("donor_id", "pericyte_state"))
+    ## Join keys must agree in type. `pb$pericyte_state` is a factor (set on the
+    ## cell table above) while the null table round-trips through TSV and comes
+    ## back integer, so data.table refuses the merge outright. Cast both to
+    ## character rather than relying on either side's storage type.
+    nl[, pericyte_state := as.character(pericyte_state)]
+    nl[, donor_id := as.character(donor_id)]
+    pb_keys <- pb[, .(donor_id = as.character(donor_id),
+                      pericyte_state = as.character(pericyte_state),
+                      study, dataset, mean_log10_counts,
+                      basement_membrane_score_z, bm_minus_fibrillar_z)]
+    pbn <- merge(pb_keys, nl, by = c("donor_id", "pericyte_state"))
     if (nrow(pbn) != nrow(pb))
         stop("null pseudobulk does not cover the analysis units: ", nrow(pbn),
              " of ", nrow(pb), ". The null must be fitted on the same units as ",
