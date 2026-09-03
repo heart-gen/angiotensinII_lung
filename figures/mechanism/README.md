@@ -1010,11 +1010,42 @@ This is coherent with the continuum: the TGF-β response score **rises** along D
 ρ = −0.177, *P* = 0.013) and the BM − fibrillar-collagen switch index falls
 (ρ = −0.063, BH = 0.013).
 
-**Read the direction carefully.** The difference endpoint itself is **not** significant
-(−0.084, BH = 0.37), so the defensible statement is *"TGF-β response is associated with a lower
-basement-membrane program, with no detectable association on the fibrillar side"* — not
-*"TGF-β shifts pericyte matrix output from basement membrane toward fibrillar collagen"*, which
-this figure does not support. The signature is also a transcriptional **response** proxy, so it
+**⚠️ Panel C's TGF-β reading is superseded by panel E (2026-09-02).** Panel C plots the whole
+17-gene panel against a zero reference. Panel E shows both assumptions are wrong: the panel is not
+TGF-β-specific, and the correct reference is not zero.
+
+**(E)** The TGF-β panel split by pharmacology into a **SMAD-proximal** arm (`SMAD7, SKIL, SKI,
+PMEPA1, KLF10, BAMBI, TGIF1`; 9.2 % mean pericyte detection) and an **immediate-early/mechano** arm
+(`JUNB, ID1–3, CCN1, CCN2, CDKN1A`; 32.2 %), each fitted alone and mutually adjusted, against both
+matrix outcomes. **The grey band is the panel's argument**: the 2.5–97.5 % of β from **1,000 random
+gene panels matched gene-by-gene on pericyte detection**, scored and fitted identically. The arms
+differ 3.5× in detection by construction, so a sparse arm's null is wide, and "near zero" means
+nothing until the reader can see how wide.
+
+**The null is not centred on zero.** Random well-detected panels predict the BM score at **+0.45** —
+any `score_genes` score shares a general-expression component with the BM score that the depth
+covariate does not absorb. Against that reference the **IEG arm** is 11.8 SD below (β = −0.187,
+emp. *p* = 0.001) and carries the entire association (head-to-head −0.191, *P* = 0.0059), while the
+**SMAD arm is an adequately powered null on BM** (−0.003, *z* = −0.71, emp. *p* = 0.52; resolvable
+shift 0.089 < 0.196). The IEG arm also holds **59.2 % between-study variance** to the SMAD arm's
+**0.0 %** across 25 studies, and dropping **JUNB** alone takes the panel from −0.196 to −0.132.
+
+**So the supported statement is *"a generic immediate-early/activation program tracks lower
+basement membrane"*, not *"TGF-β response tracks lower basement membrane"*.**
+
+**Panel C's "no switch" conclusion also reverses.** On **BM − fibrillar** the SMAD arm carries a
+real signal (−0.187, *z* = −2.18, emp. *p* = 0.013; −0.249 in the deep half) that the full panel
+missed (−0.135, *P* = 0.054) because the IEG genes diluted it — and it agrees in direction with
+panel C's own NicheNet half, which shares no evidence with it. This is a **secondary** endpoint and
+a hypothesis generated here, not confirmed; it needs replication.
+
+Note also that the null mean falls from **+0.45** on BM alone to **+0.026** on BM − fibrillar: the
+contrast differences out most of the shared-expression artifact, which is independent support for
+this module's *"claim the contrast, never either matrix score alone"* rule.
+
+**Read the direction carefully.** The difference endpoint on the *full panel* is **not** significant
+(−0.084, BH = 0.37), so nothing in panel C supports
+*"TGF-β shifts pericyte matrix output from basement membrane toward fibrillar collagen"*. The signature is also a transcriptional **response** proxy, so it
 cannot separate TGF-β driving matrix loss from both being downstream of a shared activation state;
 and the matrix scores have no denoised counterpart, so every row in (B) still has
 one depth-affected side — which is why the depth-adjusted count model, not the denoised lens,
