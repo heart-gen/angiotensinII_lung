@@ -11,7 +11,7 @@ part	title	supports	n_rows	n_cols	status	file	sources
 05C1	AGTR1 by pericyte program under three measurement lenses: marginal means	Figure 2; Figure S5	9	8	complete	tableS05C1.tsv	pericyte_states/_m/stats_data/agtr1_lenses_by_program_emmeans.tsv
 05C2	AGTR1 by pericyte program under three lenses: pairwise contrasts	Figure 2; Figure S5	9	9	complete	tableS05C2.tsv	pericyte_states/_m/stats_data/agtr1_lenses_by_program_posthoc.tsv
 05C3	Top-ranked pericyte program under each AGTR1 measurement lens	Figure 2	3	4	complete	tableS05C3.tsv	pericyte_states/_m/stats_data/agtr1_lenses_top_program.tsv
-06A	ACTA2 benchmark: AGTR1 is not reducible to ACTA2+ contractile identity	Figure S4	19	13	complete	tableS06A.tsv	figures/mechanism/tableS_acta2_control.tsv; pericyte_states/_m/stats_data/acta2_by_program_posthoc.tsv
+06A	ACTA2 benchmark: AGTR1 is not reducible to ACTA2+ contractile identity	Figure S4	22	13	complete	tableS06A.tsv	figures/mechanism/tableS_acta2_control.tsv; pericyte_states/_m/stats_data/acta2_by_program_posthoc.tsv
 06B1	CoGAPS rank selection: cross-seed pattern reproducibility and reconstruction error	Figure S8	7	7	complete	tableS06B1.tsv	pericyte_cogaps/_m/cogaps_nP_selection.tsv
 06B2	CoGAPS per-pattern cross-seed reproducibility at the selected rank	Figure S8	5	4	complete	tableS06B2.tsv	pericyte_cogaps/_m/cogaps_seed_stability_summary.tsv
 06B3	CoGAPS pattern-to-program correspondence: score correlations and PatternMarker overlaps	Figure S8	394	12	complete	tableS06B3.tsv	pericyte_cogaps/_m/validation_np{5,7,8,9}/pattern_panel_overlap.tsv.gz; .../pattern_score_spearman.tsv.gz; .../pattern_AGTR1_spearman.tsv.gz

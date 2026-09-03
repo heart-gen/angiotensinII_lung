@@ -118,6 +118,23 @@ def matched_panels(arm_genes, detect, pool, n_null, rng):
     return panels
 
 
+def score_into(adata, genes, col, seed, store):
+    """Score one panel and move the result straight out of `adata.obs`.
+
+    sc.tl.score_genes writes its result as a new obs column. Inserting ~2,000
+    columns one at a time makes pandas re-copy the whole frame on almost every
+    call -- the first 100 panels took 2 minutes, panels 200-300 took 16, and the
+    cost keeps climbing, so the run would not have finished inside its wall
+    clock. Pulling each score out and dropping the column keeps obs at constant
+    width and the per-panel cost flat.
+    """
+    tmp = "__score_tmp__"
+    sc.tl.score_genes(adata, genes, score_name=tmp, random_state=seed,
+                      use_raw=False)
+    store[col] = adata.obs[tmp].to_numpy(dtype=np.float32, copy=True)
+    del adata.obs[tmp]
+
+
 def main():
     configure_logging()
     args = parse_args()
@@ -153,7 +170,7 @@ def main():
     logging.info(f"null candidate pool: {len(pool)} genes "
                  f"({len(ex)} panel genes excluded)")
 
-    panel_rows, score_cols = [], {}
+    panel_rows, score_cols, store = [], {}, {}
     for arm, genes in arms.items():
         nulls = matched_panels(genes, detect, pool, args.n_null, rng)
         # Report how tight the match actually is -- if it is loose, the null
@@ -167,8 +184,7 @@ def main():
             panel_rows.append({"arm": arm, "panel": col,
                                "genes": ",".join(panel),
                                "mean_detect": float(detect[panel].mean())})
-            sc.tl.score_genes(adata, panel, score_name=col,
-                              random_state=args.seed, use_raw=False)
+            score_into(adata, panel, col, args.seed, store)
             score_cols[col] = arm
             if k % 100 == 0:
                 logging.info(f"[{arm}] scored {k}/{args.n_null}")
@@ -183,8 +199,7 @@ def main():
     full = [g for g in bm_panels.TGFB_RESPONSE if g in adata.var_names]
     for g in full:
         col = f"logo_{g}"
-        sc.tl.score_genes(adata, [x for x in full if x != g], score_name=col,
-                          random_state=args.seed, use_raw=False)
+        score_into(adata, [x for x in full if x != g], col, args.seed, store)
         score_cols[col] = "logo"
     logging.info(f"leave-one-out: {len(full)} refits of the full panel")
 
@@ -196,8 +211,14 @@ def main():
         if need not in obs.columns:
             raise KeyError(f"obs is missing '{need}'")
     cols = list(score_cols)
-    df = pd.DataFrame(obs[["donor_id", "pericyte_state"]]).copy()
-    df[cols] = adata.obs[cols].to_numpy()
+    missing = [c for c in cols if c not in store]
+    if missing:
+        raise RuntimeError(f"{len(missing)} panels were not stored, e.g. {missing[:3]}")
+    # One concat, not 2,000 inserts.
+    df = pd.concat(
+        [obs[["donor_id", "pericyte_state"]].reset_index(drop=True),
+         pd.DataFrame({c: store[c] for c in cols})],
+        axis=1)
     pbn = df.groupby(["donor_id", "pericyte_state"], observed=True)[cols].mean()
     pbn = pbn.reset_index()
     logging.info(f"null pseudobulk: {pbn.shape[0]} units x {len(cols)} panels")
