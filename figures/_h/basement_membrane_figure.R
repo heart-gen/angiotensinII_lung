@@ -721,16 +721,81 @@ if (!is.null(aud) && nrow(aud) &&
         theme(legend.position = "right", legend.key.size = unit(0.3, "cm"))
 }
 
-have_s <- !vapply(list(sA, sB, sC1, sC2, sD), is.null, logical(1))
+## ---- E: is the TGF-beta association TGF-beta, or a generic stress program? --
+## The panel's argument is the SHADED BAND, not the points: it is the 2.5-97.5%
+## of betas from 1,000 random gene panels matched gene-by-gene on pericyte
+## detection. The SMAD arm is 3.5x sparser than the IEG arm, so a sparse arm's
+## null is wide, and "near zero" only means something once the reader can see
+## how wide. An arm inside its own band carries no evidence either way.
+sE <- NULL
+spec_m <- rd(file.path(BM_M, "stats_data", "tgfb_specificity_models.tsv"))
+spec_s <- rd(file.path(BM_M, "stats_data", "tgfb_specificity_summary.tsv"))
+if (!is.null(spec_m) && nrow(spec_m)) {
+    m <- as.data.table(spec_m)[converged == TRUE]
+    m[, arm_lab := fcase(
+        model == "full_panel",                                   "Full panel (17)",
+        model == "smad_alone",                                   "SMAD-proximal (7)",
+        model == "ieg_alone",                                    "IEG / mechano (7)",
+        model == "head_to_head" & term == "tgfb_smad_score_z",   "SMAD | IEG",
+        model == "head_to_head" & term == "tgfb_ieg_score_z",    "IEG | SMAD",
+        default = NA_character_)]
+    m <- m[!is.na(arm_lab)]
+    LEV <- c("IEG | SMAD", "SMAD | IEG", "IEG / mechano (7)",
+             "SMAD-proximal (7)", "Full panel (17)")
+    m[, arm_lab := factor(arm_lab, levels = LEV)]
+    m[, `:=`(lo = estimate - 1.96 * SE, hi = estimate + 1.96 * SE)]
+    m[, out_lab := factor(outcome,
+                          levels = c("basement_membrane_score_z", "bm_minus_fibrillar_z"),
+                          labels = c("Basement membrane", "BM - fibrillar"))]
+    m[, adjusted := grepl("\\|", as.character(arm_lab))]
+
+    band <- NULL
+    if (!is.null(spec_s) && nrow(spec_s)) {
+        band <- as.data.table(spec_s)
+        band[, arm_lab := factor(fifelse(arm == "smad", "SMAD-proximal (7)",
+                                         "IEG / mechano (7)"), levels = LEV)]
+        band[, out_lab := factor(outcome,
+                                 levels = c("basement_membrane_score_z", "bm_minus_fibrillar_z"),
+                                 labels = c("Basement membrane", "BM - fibrillar"))]
+    }
+
+    sE <- ggplot(m, aes(estimate, arm_lab))
+    if (!is.null(band) && nrow(band))
+        sE <- sE + geom_rect(data = band, inherit.aes = FALSE,
+                             aes(xmin = null_q025, xmax = null_q975,
+                                 ymin = as.integer(arm_lab) - 0.4,
+                                 ymax = as.integer(arm_lab) + 0.4),
+                             fill = "grey70", alpha = 0.35)
+    sE <- sE +
+        geom_vline(xintercept = 0, linetype = 2, linewidth = 0.3, colour = "grey40") +
+        geom_errorbarh(aes(xmin = lo, xmax = hi, colour = adjusted),
+                       height = 0, linewidth = 0.5) +
+        geom_point(aes(colour = adjusted, shape = adjusted), size = 2) +
+        scale_colour_manual(values = c(`FALSE` = "#000000", `TRUE` = "#D55E00"),
+                            labels = c(`FALSE` = "marginal", `TRUE` = "mutually adjusted"),
+                            name = NULL) +
+        scale_shape_manual(values = c(`FALSE` = 16, `TRUE` = 17),
+                           labels = c(`FALSE` = "marginal", `TRUE` = "mutually adjusted"),
+                           name = NULL) +
+        facet_wrap(~ out_lab, nrow = 1, scales = "free_x") +
+        labs(x = "Standardized slope (95% CI); grey band = 2.5-97.5% of 1,000 detection-matched random panels",
+             y = NULL) +
+        theme_ms(7) +
+        theme(legend.position = "bottom", legend.key.size = unit(0.3, "cm"))
+}
+
+have_s <- !vapply(list(sA, sB, sC1, sC2, sD, sE), is.null, logical(1))
 if (any(have_s)) {
     sC <- if (!is.null(sC1) && !is.null(sC2))
         wrap_plots(list(sC1, sC2), nrow = 1, widths = c(1, 1)) else
         if (!is.null(sC1)) sC1 else sC2
-    parts <- Filter(Negate(is.null), list(sA, sB, sC, sD))
+    parts <- Filter(Negate(is.null), list(sA, sB, sC, sD, sE))
     labs_s <- LETTERS[seq_along(parts)]
     parts <- Map(tag, parts, labs_s)
-    figS <- wrap_plots(parts, ncol = 1, heights = c(0.75, 1.3, 1.15, 0.75)[seq_along(parts)])
-    save_fig("figureS_bm_associations", figS, 9.5, 11.5)
+    figS <- wrap_plots(parts, ncol = 1,
+                       heights = c(0.75, 1.3, 1.15, 0.75, 0.95)[seq_along(parts)])
+    save_fig("figureS_bm_associations", figS, 9.5,
+             if (!is.null(sE)) 13.6 else 11.5)
     message("wrote figureS_bm_associations (", length(parts), " panels)")
 } else {
     message("figureS_bm_associations skipped: no association tables on disk yet")
