@@ -150,6 +150,33 @@ TGFB_RESPONSE = [
 # signalling result.
 TGFB_RESPONSE_NO_ECM = [g for g in TGFB_RESPONSE if g != "TGFBI"]
 
+# ------------------------------------------------- TGF-beta specificity arms --
+# TGFB_RESPONSE cannot on its own distinguish TGF-beta/SMAD signalling from a
+# generic activation or warm-dissociation program, because sc.tl.score_genes
+# weights genes by observed variance and this panel's variance sits almost
+# entirely in six genes that are NOT TGF-beta-specific. JUNB alone (56.5%
+# detected in pericytes) is detected more often than the whole SMAD arm.
+#
+# The split below is assigned by PHARMACOLOGY and was written down, with its
+# decision rule, in _h/TGFB_SPECIFICITY_PLAN.md BEFORE any model was fitted --
+# the two arms differ 3.5x in detection by construction, so whichever arm lost
+# could otherwise be explained away after the fact.
+#
+# Direct SMAD2/3 targets forming the canonical negative-feedback module.
+# Mean pericyte detection 9.2%.
+TGFB_SMAD = ["SMAD7", "SKIL", "SKI", "PMEPA1", "KLF10", "BAMBI", "TGIF1"]
+
+# TGF-beta-inducible in the literature, but each has a dominant non-TGF-beta
+# route: AP-1 (JUNB), BMP/SMAD1-5-8 (ID1/2/3), YAP-TAZ and strain (CCN1/CCN2),
+# p53 and stress (CDKN1A). Mean pericyte detection 32.2%.
+TGFB_IEG = ["JUNB", "ID1", "ID2", "ID3", "CCN1", "CCN2", "CDKN1A"]
+
+# TGFBI (ECM, already the noECM arm), SERPINE2 and SNAI1 (broadly EMT/stress-
+# responsive, both under 2.2% detected) sit in NEITHER arm. Forcing them in
+# would blur the contrast the split exists to draw.
+TGFB_UNASSIGNED = [g for g in TGFB_RESPONSE
+                   if g not in set(TGFB_SMAD) | set(TGFB_IEG)]
+
 # Receptor/transducer availability. Descriptive only -- reported so a reader can
 # see that pericytes can receive TGF-beta at all; never used as a response score.
 TGFB_RECEPTOR = ["TGFBR1", "TGFBR2", "TGFBR3", "SMAD2", "SMAD3", "SMAD4"]
@@ -184,6 +211,8 @@ PANELS = {
     "ambient_tracer": AMBIENT_TRACER,
     "tgfb_response": TGFB_RESPONSE,
     "tgfb_response_noECM": TGFB_RESPONSE_NO_ECM,
+    "tgfb_smad": TGFB_SMAD,
+    "tgfb_ieg": TGFB_IEG,
     "tgfb_receptor": TGFB_RECEPTOR,
     "fibroblast_like_noCOL4A1": FIBROBLAST_LIKE_NO_COL4A1,
 }
@@ -238,13 +267,29 @@ def _assert_tgfb_disjoint():
         "COL1A1", "COL1A2", "COL3A1", "COL4A1", "FN1", "LUM", "DCN", "PDGFA",
         "FBLN1",
     }
-    bad_matrix = sorted(set(TGFB_RESPONSE) & matrix)
-    bad_state = sorted(set(TGFB_RESPONSE) & state_panel_genes)
-    if bad_matrix or bad_state:
+    for nm, panel in (("TGFB_RESPONSE", TGFB_RESPONSE),
+                      ("TGFB_SMAD", TGFB_SMAD), ("TGFB_IEG", TGFB_IEG)):
+        bad_matrix = sorted(set(panel) & matrix)
+        bad_state = sorted(set(panel) & state_panel_genes)
+        if bad_matrix or bad_state:
+            raise AssertionError(
+                f"{nm} overlaps the panels it is tested against: "
+                f"matrix={bad_matrix}, state={bad_state}. Remove them -- an "
+                "overlapping gene makes the TGF-beta association arithmetic.")
+
+    # The two specificity arms must partition cleanly, or the head-to-head model
+    # in 04.bm_state_stats.R is fitting two overlapping predictors against each
+    # other and the adjusted coefficients are uninterpretable.
+    shared = sorted(set(TGFB_SMAD) & set(TGFB_IEG))
+    if shared:
         raise AssertionError(
-            "TGFB_RESPONSE overlaps the panels it is tested against: "
-            f"matrix={bad_matrix}, state={bad_state}. Remove them -- an "
-            "overlapping gene makes the TGF-beta association arithmetic.")
+            f"TGFB_SMAD and TGFB_IEG share genes: {shared}. The arms are "
+            "regressed against each other and must be disjoint.")
+    stray = sorted((set(TGFB_SMAD) | set(TGFB_IEG)) - set(TGFB_RESPONSE))
+    if stray:
+        raise AssertionError(
+            f"specificity arms contain genes absent from TGFB_RESPONSE: {stray}. "
+            "The arms must be a partition of the panel the claim was made on.")
 
 
 def _assert_panels_consistent():

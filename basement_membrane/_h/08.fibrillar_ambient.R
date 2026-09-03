@@ -52,6 +52,27 @@ suppressPackageStartupMessages({
     library(lmerTest)
     library(emmeans)
 })
+
+## ---------------------------------------------------------------------------
+## emmeans' trt.vs.ctrl returns (other - REF); every table here reports
+## (REF - other), so the WHOLE contrast has to be reversed -- estimate,
+## t.ratio and the label together.
+##
+## The idiom this replaces negated `estimate` alone. p-values are two-sided so
+## they stayed correct, and SE/df were never affected, but `t.ratio` kept
+## pointing the other way in 882 of 882 shipped rows across four supplementary
+## tables: a reader inferring direction from `t.ratio` got every comparison
+## backwards. Flipping in one place is what stops the three from drifting apart
+## again.
+flip_contrast <- function(ct, ref) {
+    ct$estimate <- -ct$estimate
+    ## emmeans names this z.ratio when df are infinite; handle both.
+    if ("t.ratio" %in% names(ct)) ct$t.ratio <- -ct$t.ratio
+    if ("z.ratio" %in% names(ct)) ct$z.ratio <- -ct$z.ratio
+    ct$contrast <- paste0(ref, " - ",
+                          sub(" - .*$", "", as.character(ct$contrast)))
+    ct
+}
 emm_options(lmerTest.limit = 50000, pbkrtest.limit = 50000)
 
 REF_GROUP <- "Pericytes"
@@ -272,9 +293,7 @@ if (!all(paste0(STOICH, "__expr") %in% names(pb))) {
     e_s <- emmeans(fit_s, specs = "ccc_group")
     ct_s <- as.data.frame(contrast(e_s, "trt.vs.ctrl", ref = REF_GROUP,
                                    adjust = "BH"))
-    ct_s$estimate <- -ct_s$estimate
-    ct_s$contrast <- paste0(REF_GROUP, " - ",
-                            sub(" - .*$", "", as.character(ct_s$contrast)))
+    ct_s <- flip_contrast(ct_s, REF_GROUP)
     emm_s <- as.data.frame(e_s)
     emm_s$role <- d$role[match(emm_s$ccc_group, d$ccc_group)]
     emm_s$n_units <- as.integer(table(d$ccc_group)[as.character(emm_s$ccc_group)])

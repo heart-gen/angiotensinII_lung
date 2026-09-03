@@ -24,6 +24,27 @@ suppressPackageStartupMessages({
     library(lmerTest)
     library(emmeans)
 })
+
+## ---------------------------------------------------------------------------
+## emmeans' trt.vs.ctrl returns (other - REF); every table here reports
+## (REF - other), so the WHOLE contrast has to be reversed -- estimate,
+## t.ratio and the label together.
+##
+## The idiom this replaces negated `estimate` alone. p-values are two-sided so
+## they stayed correct, and SE/df were never affected, but `t.ratio` kept
+## pointing the other way in 882 of 882 shipped rows across four supplementary
+## tables: a reader inferring direction from `t.ratio` got every comparison
+## backwards. Flipping in one place is what stops the three from drifting apart
+## again.
+flip_contrast <- function(ct, ref) {
+    ct$estimate <- -ct$estimate
+    ## emmeans names this z.ratio when df are infinite; handle both.
+    if ("t.ratio" %in% names(ct)) ct$t.ratio <- -ct$t.ratio
+    if ("z.ratio" %in% names(ct)) ct$z.ratio <- -ct$z.ratio
+    ct$contrast <- paste0(ref, " - ",
+                          sub(" - .*$", "", as.character(ct$contrast)))
+    ct
+}
 emm_options(lmerTest.limit = 50000, pbkrtest.limit = 50000)
 
 opt <- parse_args(OptionParser(option_list = list(
@@ -102,7 +123,10 @@ contrast_vs <- function(gene, ref) {
     if (inherits(fit, "try-error")) return(NULL)
     e <- emmeans(fit, specs = "ccc_group")
     ct <- as.data.frame(contrast(e, "trt.vs.ctrl", ref = ref, adjust = "BH"))
-    ct$estimate <- -ct$estimate
+    ## This site previously negated `estimate` and left BOTH t.ratio and the
+    ## `contrast` label describing the opposite comparison -- all 42 rows of
+    ## agt_source_posthoc.tsv read backwards from their own estimate.
+    ct <- flip_contrast(ct, ref)
     data.frame(gene = gene, reference = ref, ct, row.names = NULL)
 }
 ## AGT against its top source; AGTR1 against pericytes.

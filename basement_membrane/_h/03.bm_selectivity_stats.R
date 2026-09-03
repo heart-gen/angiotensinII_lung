@@ -38,6 +38,27 @@ suppressPackageStartupMessages({
     library(lmerTest)
     library(emmeans)
 })
+
+## ---------------------------------------------------------------------------
+## emmeans' trt.vs.ctrl returns (other - REF); every table here reports
+## (REF - other), so the WHOLE contrast has to be reversed -- estimate,
+## t.ratio and the label together.
+##
+## The idiom this replaces negated `estimate` alone. p-values are two-sided so
+## they stayed correct, and SE/df were never affected, but `t.ratio` kept
+## pointing the other way in 882 of 882 shipped rows across four supplementary
+## tables: a reader inferring direction from `t.ratio` got every comparison
+## backwards. Flipping in one place is what stops the three from drifting apart
+## again.
+flip_contrast <- function(ct, ref) {
+    ct$estimate <- -ct$estimate
+    ## emmeans names this z.ratio when df are infinite; handle both.
+    if ("t.ratio" %in% names(ct)) ct$t.ratio <- -ct$t.ratio
+    if ("z.ratio" %in% names(ct)) ct$z.ratio <- -ct$z.ratio
+    ct$contrast <- paste0(ref, " - ",
+                          sub(" - .*$", "", as.character(ct$contrast)))
+    ct
+}
 emm_options(lmerTest.limit = 50000, pbkrtest.limit = 50000)
 
 REF_GROUP <- "Pericytes"
@@ -180,11 +201,9 @@ fit_gene <- function(gene, value_type = "expr", with_depth = TRUE) {
     emm <- emmeans(fit, specs = "ccc_group")
     ctr <- as.data.frame(contrast(emm, "trt.vs.ctrl", ref = REF_GROUP,
                                   adjust = "BH"))
-    ## emmeans' trt.vs.ctrl gives (other - Pericytes); flip so positive means
-    ## pericyte-enriched, which is what the figures and text will say.
-    ctr$estimate <- -ctr$estimate
-    ctr$contrast <- paste0(REF_GROUP, " - ",
-                           sub(" - .*$", "", as.character(ctr$contrast)))
+    ## Flip so positive means pericyte-enriched, which is what the figures and
+    ## text will say.
+    ctr <- flip_contrast(ctr, REF_GROUP)
     data.frame(gene = gene, value_type = value_type, with_depth = with_depth,
                ctr, sd_study = sd_study, sd_residual = sd_resid,
                study_dominated = !is.na(sd_study) && sd_study > sd_resid,
@@ -295,9 +314,7 @@ fit_primary <- suppressMessages(lmerTest::lmer(
 emm_p <- emmeans(fit_primary, specs = "ccc_group")
 ctr_p <- as.data.frame(contrast(emm_p, "trt.vs.ctrl", ref = REF_GROUP,
                                 adjust = "BH"))
-ctr_p$estimate <- -ctr_p$estimate
-ctr_p$contrast <- paste0(REF_GROUP, " - ",
-                         sub(" - .*$", "", as.character(ctr_p$contrast)))
+ctr_p <- flip_contrast(ctr_p, REF_GROUP)
 write_tsv_safe(as.data.frame(emm_p),
                file.path(opt$outdir, "bm_primary_endpoint_emmeans.tsv"))
 write_tsv_safe(ctr_p, file.path(opt$outdir, "bm_primary_endpoint_posthoc.tsv"))
@@ -347,9 +364,7 @@ fit_block_endpoint <- function(block_genes, label) {
         data = d))
     e <- emmeans(fit, specs = "ccc_group")
     ct <- as.data.frame(contrast(e, "trt.vs.ctrl", ref = REF_GROUP, adjust = "BH"))
-    ct$estimate <- -ct$estimate
-    ct$contrast <- paste0(REF_GROUP, " - ",
-                          sub(" - .*$", "", as.character(ct$contrast)))
+    ct <- flip_contrast(ct, REF_GROUP)
     vc <- as.data.frame(VarCorr(fit))
     list(emm = data.frame(endpoint = label, as.data.frame(e),
                           n_genes = length(present)),
