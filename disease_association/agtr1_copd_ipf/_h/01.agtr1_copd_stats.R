@@ -110,6 +110,16 @@ fit_one <- function(gene, comp) {
     ## Sign flip so a POSITIVE estimate means "higher in disease". emmeans emits
     ## `Control - COPD`; leaving that convention in place would invert the
     ## direction of every statement in the figure caption.
+    ##
+    ## The test statistic has to turn with the estimate. Flipping `estimate`
+    ## alone left `t.ratio` describing the opposite comparison in every row of
+    ## agtr1_copd_all_contrasts.tsv (68) and agtr1_copd_primary.tsv (4) --
+    ## the same defect fixed in basement_membrane and agt_axis. Two-sided
+    ## p-values, `se` and the CI bounds (recomputed from the flipped estimate
+    ## below) were never affected.
+    tstat <- intersect(c("t.ratio", "z.ratio"), names(ctr))
+    if (length(tstat)) ctr[, (tstat) := lapply(.SD, function(x) -x),
+                           .SDcols = tstat]
     ctr[, `:=`(contrast = sub("^Control - ", "", contrast),
                estimate = -estimate)]
     ctr[, `:=`(gene = gene, compartment = comp, n_donors = nrow(d),

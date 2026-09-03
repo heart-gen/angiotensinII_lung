@@ -3,3 +3,433 @@ User: kbenjamin
 Job id: 45107214
 Hostname: r182
 2026-09-02 20:07:09 - **** Cross-cell-type basement-membrane selectivity ****
+Units with >= 5 cells: 4376
+Primary cohort: 2329 units, 22 cell types, 220 donors
+Modelling 39 genes by BH family: ambient_tracer=5, bm_expansion=7, fibrillar_expansion=4, original_panel=23
+There were 35 warnings (use warnings() to see them)
+There were 34 warnings (use warnings() to see them)
+There were 36 warnings (use warnings() to see them)
+BM panel audit: unit-level r(bm20, bm13) = 0.9681 (Spearman 0.9739); max |rank shift| = 5
+Wrote secondary block endpoints: bm_minus_fibrillar_core, bm_minus_fibrillar_minor
+Basement-membrane selectivity -- generated summary
+Units (>=5 cells): 2329; cell types: 22; donors: 220
+Cohort: Healthy donors only
+
+Variance components, primary endpoint (bm_minus_fibrillar):
+       grp        var1 var2       vcov     sdcor
+1 donor_id (Intercept) <NA> 0.01044342 0.1021931
+2    study (Intercept) <NA> 0.01688290 0.1299342
+3 Residual        <NA> <NA> 0.05424585 0.2329074
+
+Pre-specified method sanity check:
+  LAMA3/LAMA5 NOT pericyte-top3 (expected TRUE): TRUE
+  fraction of mural-expected genes in pericyte top-5: 0.80
+  COL11A1 NOT pericyte-top5 (expected TRUE): TRUE
+
+Per-gene tau / pericyte rank (BM panel):
+       gene       tau                 top_group pericyte_rank
+     <char>     <num>                    <fctr>         <int>
+ 1:  COL4A1 0.8719076                 Pericytes             1
+ 2:  COL4A2 0.8423271                 Pericytes             1
+ 3: COL18A1 0.8384303                 Pericytes             1
+ 4:   LAMB1 0.8778667                 Pericytes             1
+ 5:   LAMB4 0.8648643                 Pericytes             1
+ 6:   LAMC3 0.9935237                 Pericytes             1
+ 7:    NID1 0.8915455                 Pericytes             1
+ 8:    NID2 0.8030317                 Pericytes             1
+ 9:   LAMA4 0.8016409      Alveolar fibroblasts             3
+10:   LAMA2 0.8300583   Adventitial fibroblasts             5
+11:    AGRN 0.8806290                       AT1             5
+12:   LAMA1 0.6388169      Alveolar macrophages             7
+13:   LAMB3 0.9306873                       AT1             8
+14:   LAMC1 0.7675729      Alveolar fibroblasts             8
+15:   LAMA5 0.8138139                       AT1             9
+16: COL15A1 0.8811074 Peribronchial fibroblasts            10
+17:   HSPG2 0.7940798       EC venous pulmonary            10
+18:   LAMB2 0.5510528                       AT1            13
+19:   LAMA3 0.9645018                       AT1            17
+20:   LAMC2 0.9567766                       AT1            20
+       gene       tau                 top_group pericyte_rank
+    log2_pericyte_over_next
+                      <num>
+ 1:               1.0927463
+ 2:               0.9921461
+ 3:               0.8466301
+ 4:               0.5433248
+ 5:               1.0674290
+ 6:               4.7465630
+ 7:               1.2165636
+ 8:               0.3368719
+ 9:              -0.9314474
+10:              -0.6425932
+11:              -2.3147346
+12:              -0.9875248
+13:              -4.6848095
+14:              -1.5036006
+15:              -2.7781505
+16:              -4.8006950
+17:              -2.1388791
+18:              -1.2134886
+19:              -6.2235693
+20:              -5.9447401
+    log2_pericyte_over_next
+
+Per-gene tau / pericyte rank (fibrillar core + minor):
+      gene           block       tau                 top_group pericyte_rank
+    <char>          <char>     <num>                    <fctr>         <int>
+1:  COL5A3 fibrillar_minor 0.9505790                 Pericytes             1
+2:  COL5A2 fibrillar_minor 0.8321868 Peribronchial fibroblasts             3
+3:  COL1A2  fibrillar_core 0.8281953 Peribronchial fibroblasts             6
+4:  COL5A1 fibrillar_minor 0.8384635 Peribronchial fibroblasts             6
+5:  COL1A1  fibrillar_core 0.8877511    Subpleural fibroblasts             7
+6:  COL3A1  fibrillar_core 0.8451812 Peribronchial fibroblasts             7
+7: COL11A2 fibrillar_minor 0.8548388            Myofibroblasts            12
+8: COL11A1 fibrillar_minor 0.8032993            Myofibroblasts            22
+   log2_pericyte_over_next
+                     <num>
+1:               1.8823477
+2:              -0.4956259
+3:              -1.3013682
+4:              -1.9165633
+5:              -5.0766635
+6:              -3.0652024
+7:              -3.7741463
+8:                    -Inf
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ backports      1.5.0      2024-05-23 [1] CRAN (R 4.4.3)
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ broom          1.0.10     2025-09-13 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ getopt         1.20.4     2023-10-01 [1] CRAN (R 4.4.3)
+ ggplot2        4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ optparse     * 1.7.5      2024-04-16 [1] CRAN (R 4.4.3)
+ pbkrtest       0.5.5      2025-07-18 [1] CRAN (R 4.4.3)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr        * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-09-02 20:11:44 - **** Ambient controls + collagen I stoichiometry ****
+Units: 2329 | cell types: 22 | donors: 220 | cohort: Healthy only
+                    ccc_group              role
+                       <char>            <char>
+ 1:      Alveolar macrophages Ambient reference
+ 2:     EC aerocyte capillary Ambient reference
+ 3:      EC general capillary Ambient reference
+ 4:       EC venous pulmonary Ambient reference
+ 5:        EC venous systemic Ambient reference
+ 6:  Interstitial macrophages Ambient reference
+ 7:   Adventitial fibroblasts       Fibroblasts
+ 8:      Alveolar fibroblasts       Fibroblasts
+ 9:            Myofibroblasts       Fibroblasts
+10: Peribronchial fibroblasts       Fibroblasts
+11:    Subpleural fibroblasts       Fibroblasts
+12:                       AT1             Other
+13:              AT2_AGTR2det             Other
+14:            AT2_AGTR2undet             Other
+15:       Classical monocytes             Other
+16:                       DC2             Other
+17:              Lymphatic EC             Other
+18:                Mast cells             Other
+19:   Non-classical monocytes             Other
+20:     Transitional Club-AT2             Other
+21:    Vascular smooth muscle             Other
+22:                 Pericytes         Pericytes
+                    ccc_group              role
+Warning message:
+In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+  Model failed to converge with max|grad| = 0.00503007 (tol = 0.002, component 1)
+Ambient-floor contrasts (expr lens, pericyte - ambient reference):
+       gene             block estimate     p_BH
+     <char>            <char>    <num>    <num>
+ 1:   LAMC3 basement_membrane    1.953  0.0e+00
+ 2:  COL1A2    fibrillar_core    1.729 8.4e-198
+ 3:    NID1 basement_membrane    1.705 5.1e-156
+ 4:   LAMB1 basement_membrane    1.697 2.2e-105
+ 5:  COL4A1 basement_membrane    1.294  4.9e-46
+ 6:   LAMA2 basement_membrane    1.222  1.7e-92
+ 7:  COL4A2 basement_membrane    1.200  8.0e-39
+ 8:  COL5A2   fibrillar_minor    1.192 7.2e-123
+ 9: COL18A1 basement_membrane    1.139  2.2e-56
+10:  COL5A3   fibrillar_minor    1.112 3.2e-184
+11:   LAMA4 basement_membrane    0.793  4.1e-31
+12:  COL3A1    fibrillar_core    0.643  3.1e-34
+13:   LAMC1 basement_membrane    0.505  1.7e-17
+14:  COL5A1   fibrillar_minor    0.455  2.0e-22
+15:    NID2 basement_membrane    0.393  7.0e-31
+16:  COL1A1    fibrillar_core    0.245  2.7e-07
+17:   HSPG2 basement_membrane    0.130  2.5e-01
+18:    AGRN basement_membrane    0.058  1.5e-01
+19:   LAMB4 basement_membrane    0.041  1.8e-04
+20:   LAMB3 basement_membrane    0.016  4.1e-01
+21:   LAMA1 basement_membrane    0.014  3.9e-01
+22:   LAMA3 basement_membrane   -0.011  6.8e-01
+23:   LAMC2 basement_membrane   -0.012  6.0e-01
+24: COL11A2   fibrillar_minor   -0.014  4.0e-01
+25: COL11A1   fibrillar_minor   -0.016  3.8e-01
+26:   SFTPB    ambient_tracer   -0.017  7.0e-01
+27: SCGB3A2    ambient_tracer   -0.021  6.6e-01
+28: SCGB1A1    ambient_tracer   -0.049  4.0e-01
+29:   LAMB2 basement_membrane   -0.061  3.9e-01
+30:   SFTPC    ambient_tracer   -0.064  2.8e-01
+31: COL15A1 basement_membrane   -0.096  1.5e-01
+32:   LAMA5 basement_membrane   -0.362  1.5e-08
+33:   PTPRC    ambient_tracer   -0.370  3.2e-05
+       gene             block estimate     p_BH
+Ambient regression: 49 donors with pericytes (47 with fibroblasts)
+Ambient-burden slopes (positive => consistent with soup):
+       gene        term estimate  p_BH
+     <char>      <char>    <num> <num>
+ 1:  COL1A1    fib_frac    2.395 0.077
+ 2:  COL5A3    fib_frac    1.526 0.300
+ 3:  COL1A2    fib_frac    1.479 0.300
+ 4:  COL3A1    fib_frac    1.051 0.460
+ 5:  COL5A1    fib_frac    0.109 0.880
+ 6: COL11A1    fib_frac    0.064 0.077
+ 7: COL11A2    fib_frac   -0.078 0.460
+ 8:  COL5A2    fib_frac   -0.198 0.880
+ 9:  COL1A2 soup_burden    0.211 0.450
+10:  COL3A1 soup_burden    0.081 0.900
+11:  COL1A1 soup_burden    0.070 0.900
+12: COL11A2 soup_burden   -0.001 0.900
+13: COL11A1 soup_burden   -0.005 0.450
+14:  COL5A2 soup_burden   -0.020 0.900
+15:  COL5A1 soup_burden   -0.042 0.900
+16:  COL5A3 soup_burden   -0.048 0.900
+Stoichiometry: 1270/2329 units carry >=1 collagen I chain
+COL1A1 - COL1A2 by role (emmeans):
+                    ccc_group              role emmean n_units
+                       <fctr>            <char>  <num>   <int>
+ 1:                 Pericytes         Pericytes -1.477      49
+ 2:      Alveolar fibroblasts       Fibroblasts -0.681      98
+ 3:   Adventitial fibroblasts       Fibroblasts -0.512      94
+ 4:    Vascular smooth muscle             Other -0.327      81
+ 5: Peribronchial fibroblasts       Fibroblasts -0.299      57
+ 6:            Myofibroblasts       Fibroblasts -0.207      33
+ 7:       EC venous pulmonary Ambient reference -0.107      26
+ 8:        EC venous systemic Ambient reference -0.091      36
+ 9:      Alveolar macrophages Ambient reference -0.076     103
+10:  Interstitial macrophages Ambient reference -0.048      73
+11:     EC aerocyte capillary Ambient reference -0.037      28
+12:      EC general capillary Ambient reference -0.032      45
+13:   Non-classical monocytes             Other -0.032      45
+14:       Classical monocytes             Other -0.027      63
+15:                       DC2             Other -0.015      47
+16:              Lymphatic EC             Other -0.003      42
+17:                Mast cells             Other  0.024      36
+18:                       AT1             Other  0.048      73
+19:            AT2_AGTR2undet             Other  0.085     118
+20:              AT2_AGTR2det             Other  0.091      45
+21:     Transitional Club-AT2             Other  0.104      70
+22:    Subpleural fibroblasts       Fibroblasts  0.134       8
+                    ccc_group              role emmean n_units
+Fibrillar-collagen ambient controls -- generated summary
+Cohort: Healthy donors only | units: 2329 | cell types: 22 | donors: 220
+Ambient reference groups: Alveolar macrophages, EC aerocyte capillary, EC general capillary, EC venous pulmonary, EC venous systemic, Interstitial macrophages
+
+NOTE: the soupX layer in pericyte_states.h5ad is bit-identical to counts
+(verified 2026-08-10). It carries no ambient correction and is NOT used.
+
+(1) Pericyte minus ambient-floor, log1p(CP10K), expr lens:
+       gene           block estimate     p_BH
+     <char>          <char>    <num>    <num>
+ 1:   SFTPB  ambient_tracer   -0.017  7.0e-01
+ 2: SCGB3A2  ambient_tracer   -0.021  6.6e-01
+ 3: SCGB1A1  ambient_tracer   -0.049  4.0e-01
+ 4:   SFTPC  ambient_tracer   -0.064  2.8e-01
+ 5:   PTPRC  ambient_tracer   -0.370  3.2e-05
+ 6:  COL1A2  fibrillar_core    1.729 8.4e-198
+ 7:  COL3A1  fibrillar_core    0.643  3.1e-34
+ 8:  COL1A1  fibrillar_core    0.245  2.7e-07
+ 9:  COL5A2 fibrillar_minor    1.192 7.2e-123
+10:  COL5A3 fibrillar_minor    1.112 3.2e-184
+11:  COL5A1 fibrillar_minor    0.455  2.0e-22
+12: COL11A2 fibrillar_minor   -0.014  4.0e-01
+13: COL11A1 fibrillar_minor   -0.016  3.8e-01
+
+(2) Ambient-burden slopes (soup_burden = pericyte off-lineage tracer z;
+    fibexpr_ = same gene in that donor's fibroblasts; fib_frac = fibroblast
+    share of the niche). Positive and significant => consistent with soup.
+       gene        term estimate    p_BH
+     <char>      <char>    <num>   <num>
+ 1: COL11A1    fib_frac    0.064 7.7e-02
+ 2: COL11A1    fibexpr_    0.070 6.1e-03
+ 3: COL11A1 soup_burden   -0.005 4.5e-01
+ 4: COL11A2    fib_frac   -0.078 4.6e-01
+ 5: COL11A2    fibexpr_    0.268 9.3e-02
+ 6: COL11A2 soup_burden   -0.001 9.0e-01
+ 7:  COL1A1    fib_frac    2.395 7.7e-02
+ 8:  COL1A1    fibexpr_    0.395 7.7e-03
+ 9:  COL1A1 soup_burden    0.070 9.0e-01
+10:  COL1A2    fib_frac    1.479 3.0e-01
+11:  COL1A2    fibexpr_    1.231 1.9e-06
+12:  COL1A2 soup_burden    0.211 4.5e-01
+13:  COL3A1    fib_frac    1.051 4.6e-01
+14:  COL3A1    fibexpr_    0.869 2.2e-06
+15:  COL3A1 soup_burden    0.081 9.0e-01
+16:  COL5A1    fib_frac    0.109 8.8e-01
+17:  COL5A1    fibexpr_    0.602 2.6e-05
+18:  COL5A1 soup_burden   -0.042 9.0e-01
+19:  COL5A2    fib_frac   -0.198 8.8e-01
+20:  COL5A2    fibexpr_    0.576 4.0e-04
+21:  COL5A2 soup_burden   -0.020 9.0e-01
+22:  COL5A3    fib_frac    1.526 3.0e-01
+23:  COL5A3    fibexpr_    0.792 3.6e-02
+24:  COL5A3 soup_burden   -0.048 9.0e-01
+       gene        term estimate    p_BH
+
+(3) COL1A1 - COL1A2 within unit, by cell type:
+                    ccc_group              role emmean n_units
+                       <fctr>            <char>  <num>   <int>
+ 1:                 Pericytes         Pericytes -1.477      49
+ 2:      Alveolar fibroblasts       Fibroblasts -0.681      98
+ 3:   Adventitial fibroblasts       Fibroblasts -0.512      94
+ 4:    Vascular smooth muscle             Other -0.327      81
+ 5: Peribronchial fibroblasts       Fibroblasts -0.299      57
+ 6:            Myofibroblasts       Fibroblasts -0.207      33
+ 7:       EC venous pulmonary Ambient reference -0.107      26
+ 8:        EC venous systemic Ambient reference -0.091      36
+ 9:      Alveolar macrophages Ambient reference -0.076     103
+10:  Interstitial macrophages Ambient reference -0.048      73
+11:     EC aerocyte capillary Ambient reference -0.037      28
+12:      EC general capillary Ambient reference -0.032      45
+13:   Non-classical monocytes             Other -0.032      45
+14:       Classical monocytes             Other -0.027      63
+15:                       DC2             Other -0.015      47
+16:              Lymphatic EC             Other -0.003      42
+17:                Mast cells             Other  0.024      36
+18:                       AT1             Other  0.048      73
+19:            AT2_AGTR2undet             Other  0.085     118
+20:              AT2_AGTR2det             Other  0.091      45
+21:     Transitional Club-AT2             Other  0.104      70
+22:    Subpleural fibroblasts       Fibroblasts  0.134       8
+                    ccc_group              role emmean n_units
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-02
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -------------------------------------------------------------------
+ package      * version    date (UTC) lib source
+ backports      1.5.0      2024-05-23 [1] CRAN (R 4.4.3)
+ boot           1.3-32     2025-08-29 [1] CRAN (R 4.4.3)
+ broom          1.0.10     2025-09-13 [1] CRAN (R 4.4.3)
+ cli            3.6.5      2025-04-23 [1] CRAN (R 4.4.3)
+ coda           0.19-4.1   2024-01-31 [1] CRAN (R 4.4.3)
+ data.table   * 1.17.8     2025-07-10 [1] CRAN (R 4.4.3)
+ dplyr          1.1.4      2023-11-17 [1] CRAN (R 4.4.1)
+ emmeans      * 2.0.1      2025-12-16 [1] CRAN (R 4.4.3)
+ estimability   1.5.1      2024-05-12 [1] CRAN (R 4.4.3)
+ farver         2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
+ generics       0.1.4      2025-05-09 [1] CRAN (R 4.4.3)
+ getopt         1.20.4     2023-10-01 [1] CRAN (R 4.4.3)
+ ggplot2        4.0.0      2025-09-11 [1] CRAN (R 4.4.3)
+ glue           1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
+ gtable         0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
+ lattice        0.22-7     2025-04-02 [1] CRAN (R 4.4.3)
+ lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
+ lme4         * 1.1-37     2025-03-26 [1] CRAN (R 4.4.3)
+ lmerTest     * 3.2-0      2026-01-13 [1] CRAN (R 4.4.3)
+ magrittr       2.0.4      2025-09-12 [1] CRAN (R 4.4.3)
+ MASS           7.3-65     2025-02-28 [1] CRAN (R 4.4.3)
+ Matrix       * 1.7-4      2025-08-28 [1] CRAN (R 4.4.3)
+ minqa          1.2.8      2024-08-17 [1] CRAN (R 4.4.3)
+ mvtnorm        1.3-3      2025-01-10 [1] CRAN (R 4.4.3)
+ nlme           3.1-168    2025-03-31 [1] CRAN (R 4.4.3)
+ nloptr         2.2.1      2025-03-17 [1] CRAN (R 4.4.3)
+ numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.4.1)
+ optparse     * 1.7.5      2024-04-16 [1] CRAN (R 4.4.3)
+ pbkrtest       0.5.5      2025-07-18 [1] CRAN (R 4.4.3)
+ pillar         1.11.1     2025-09-17 [1] CRAN (R 4.4.3)
+ pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
+ purrr          1.1.0      2025-07-10 [1] CRAN (R 4.4.3)
+ R.methodsS3    1.8.2      2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo           1.27.1     2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils        2.13.0     2025-02-24 [1] CRAN (R 4.4.3)
+ R6             2.6.1      2025-02-15 [1] CRAN (R 4.4.2)
+ rbibutils      2.3        2024-10-04 [1] CRAN (R 4.4.3)
+ RColorBrewer   1.1-3      2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp           1.1.0      2025-07-02 [1] CRAN (R 4.4.3)
+ Rdpack         2.6.4      2025-04-09 [1] CRAN (R 4.4.3)
+ reformulas     0.4.2      2025-10-28 [1] CRAN (R 4.4.3)
+ rlang          1.1.6      2025-04-11 [1] CRAN (R 4.4.3)
+ S7             0.2.0      2024-11-07 [1] CRAN (R 4.4.3)
+ scales         1.4.0      2025-04-24 [1] CRAN (R 4.4.3)
+ sessioninfo    1.2.3      2025-02-05 [1] CRAN (R 4.4.3)
+ tibble         3.3.0      2025-06-08 [1] CRAN (R 4.4.3)
+ tidyr          1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect     1.2.1      2024-03-11 [1] CRAN (R 4.4.1)
+ vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.4.1)
+ xtable         1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+2026-09-02 20:12:12 - **** Job ends ****
