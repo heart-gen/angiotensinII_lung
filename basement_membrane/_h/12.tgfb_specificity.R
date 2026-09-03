@@ -78,9 +78,10 @@ if (length(missing_arms))
     stop("metadata lacks the specificity arms: ", paste(missing_arms, collapse = ", "),
          ". Re-run 00.bm_score.py after adding tgfb_smad/tgfb_ieg to bm_panels.PANELS.")
 
-logo_cols <- grep("^logo_", names(d), value = TRUE)
-score_cols <- c("basement_membrane_score", "fibrillar_collagen_score",
-                ARM_COLS, logo_cols)
+## Leave-one-out scores are NOT in the cell table: 11.tgfb_null_panels.py
+## re-scores them and writes them, already aggregated, into the null pseudobulk
+## alongside the null panels. They are picked up in the null section below.
+score_cols <- c("basement_membrane_score", "fibrillar_collagen_score", ARM_COLS)
 score_cols <- intersect(score_cols, names(d))
 
 pb <- d[, c(lapply(.SD, mean, na.rm = TRUE),
@@ -193,19 +194,6 @@ if (nrow(vc)) {
     print(vc[scale == "raw" & component == "study", .(score, pct)])
 }
 
-## ---- leave-one-gene-out on the full panel -----------------------------------
-if (length(logo_cols)) {
-    logo <- rbindlist(lapply(logo_cols, function(cl) {
-        r <- fit_one(pb, "basement_membrane_score_z", paste0(cl, "_z"))
-        if (is.null(r)) return(NULL)
-        r[, dropped_gene := sub("^logo_", "", cl)][]
-    }), fill = TRUE)
-    setorder(logo, estimate)
-    fwrite(logo, file.path(outdir, "tgfb_specificity_logo.tsv"), sep = "\t")
-    message(sprintf("Leave-one-out: beta ranges %.4f to %.4f across %d drops",
-                    min(logo$estimate), max(logo$estimate), nrow(logo)))
-}
-
 ## ---- detection-matched empirical null ---------------------------------------
 if (!is.na(opt$null_pb) && file.exists(opt$null_pb)) {
     nl <- fread(opt$null_pb)
@@ -241,6 +229,38 @@ if (!is.na(opt$null_pb) && file.exists(opt$null_pb)) {
         }), fill = TRUE)
     }), fill = TRUE)
     fwrite(nullres, file.path(outdir, "tgfb_specificity_null.tsv"), sep = "\t")
+
+    ## ---- leave-one-gene-out on the full 17-gene panel -----------------------
+    ## Sourced from the same file as the null panels. An earlier version looked
+    ## for these columns in the cell table, where they never exist, so the whole
+    ## sensitivity skipped without a word -- the exact silent-skip this plan was
+    ## written to prevent. Absence is now an error, not a shrug.
+    logo_cols <- grep("^logo_", names(nl), value = TRUE)
+    if (!length(logo_cols)) {
+        warning("null pseudobulk carries no logo_* columns; the leave-one-gene-out ",
+                "sensitivity did NOT run. Re-run 11.tgfb_null_panels.py -- it "
+                , "writes them alongside the null panels.", call. = FALSE)
+    } else {
+        for (cl in logo_cols)
+            pbn[[paste0(cl, "_z")]] <- z_within_dataset(pbn[[cl]], pbn$dataset)
+        logo <- rbindlist(lapply(logo_cols, function(cl) {
+            rbindlist(lapply(OUTCOMES, function(o) {
+                r <- fit_one(pbn, o, paste0(cl, "_z"))
+                if (is.null(r)) return(NULL)
+                r[, dropped_gene := sub("^logo_", "", cl)][]
+            }), fill = TRUE)
+        }), fill = TRUE)
+        if (nrow(logo)) {
+            setorder(logo, outcome, estimate)
+            fwrite(logo, file.path(outdir, "tgfb_specificity_logo.tsv"), sep = "\t")
+            lb <- logo[outcome == "basement_membrane_score_z"]
+            message(sprintf(
+                "Leave-one-out (BM): beta %.4f to %.4f across %d drops; full panel %.4f",
+                min(lb$estimate), max(lb$estimate), nrow(lb),
+                obs[model == "full_panel" &
+                    outcome == "basement_membrane_score_z"]$estimate[1]))
+        }
+    }
 
     ## Empirical p and power, per arm and outcome.
     obs_alone <- obs[model %in% c("smad_alone", "ieg_alone")]
