@@ -84,22 +84,41 @@ message(sprintf("Null genes to fit: %d  x %d predictors = %d fits",
                 length(null_genes), length(PREDICTORS),
                 length(null_genes) * length(PREDICTORS)))
 
-## Same NB-with-offset specification the arbiter uses. glmer.nb is slow and
-## occasionally fails to converge; a failure is recorded and dropped from the
-## null rather than silently contributing a meaningless coefficient.
+## Same NB-with-offset specification the arbiter uses.
+##
+## Convergence is GRADED, not gated on warnings. An earlier version passed
+## `warning = function(w) NULL` to tryCatch, which threw away every fit that
+## emitted any warning -- and glmer.nb warns most readily on the highest-expressed
+## genes, so the survivors were 18 genes short and systematically depleted of
+## COX8A, NDUFA1, UQCR11, ATP6V0E1 and their kind. A null selected on fit
+## behaviour is not a null. Warnings are now recorded and the fit is kept; only
+## a hard error or a gradient above the same 0.01 threshold the arbiter uses is
+## excluded, and the count of each is reported.
 fit_null <- function(y, pred) {
+    ## Backtick the response: gene symbols are not all syntactic R names
+    ## (MIR4435-2HG has a hyphen), and as.formula() fails on the bare column.
     f <- as.formula(sprintf(
-        "%s ~ %s + log10_total_counts + (1|study) + (1|donor_id) + offset(log(raw_total_counts))",
+        "`%s` ~ %s + log10_total_counts + (1|study) + (1|donor_id) + offset(log(raw_total_counts))",
         y, pred))
-    fit <- tryCatch(suppressMessages(glmer.nb(f, data = dl)),
-                    error = function(e) NULL, warning = function(w) NULL)
+    warned <- character(0)
+    fit <- withCallingHandlers(
+        tryCatch(suppressMessages(glmer.nb(f, data = dl)),
+                 error = function(e) NULL),
+        warning = function(w) {
+            warned <<- c(warned, conditionMessage(w))
+            invokeRestart("muffleWarning")
+        })
     if (is.null(fit)) return(NULL)
     co <- summary(fit)$coefficients
     if (!pred %in% rownames(co)) return(NULL)
+    gmax <- tryCatch(max(abs(fit@optinfo$derivs$gradient)),
+                     error = function(e) NA_real_)
     data.table(gene = sub("^null_", "", y), predictor = pred,
                estimate = co[pred, 1], SE = co[pred, 2],
                z_value = co[pred, 3], p_value = co[pred, 4],
-               singular = isSingular(fit))
+               singular = isSingular(fit), max_grad = gmax,
+               converged = is.na(gmax) || gmax < 0.01,
+               n_warnings = length(warned))
 }
 
 t0 <- Sys.time()
@@ -114,8 +133,9 @@ fits_out <- if (opt$chunk > 0)
     sprintf("agtr1_count_null_fits_chunk%02d.tsv", opt$chunk) else
     "agtr1_count_null_fits.tsv"
 fwrite(res, file.path(opt$outdir, fits_out), sep = "\t")
-message(sprintf("Converged null fits: %d of %d attempted",
-                nrow(res), length(null_genes) * length(PREDICTORS)))
+message(sprintf("Fits returned: %d of %d attempted (%d flagged non-converged, %d singular)",
+                nrow(res), length(null_genes) * length(PREDICTORS),
+                sum(!res$converged, na.rm = TRUE), sum(res$singular, na.rm = TRUE)))
 
 if (opt$chunk > 0) {
     message("Chunk complete; summary is built by 17.agtr1_count_null_summarise.R")

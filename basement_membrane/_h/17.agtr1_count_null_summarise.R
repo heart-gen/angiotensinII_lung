@@ -11,8 +11,8 @@ f <- list.files(opt$dir, pattern = "^agtr1_count_null_fits_chunk[0-9]+\\.tsv$",
                 full.names = TRUE)
 if (!length(f)) stop("no chunk files in ", opt$dir)
 res <- rbindlist(lapply(f, fread), fill = TRUE)
-message(sprintf("Pooled %d chunks -> %d converged fits over %d genes",
-                length(f), nrow(res), uniqueN(res$gene)))
+message(sprintf("Pooled %d chunks -> %d fits over %d genes (%d non-converged)",
+                length(f), nrow(res), uniqueN(res$gene), sum(!res$converged, na.rm = TRUE)))
 fwrite(res, file.path(opt$outdir, "agtr1_count_null_fits.tsv"), sep = "\t")
 
 obs <- fread(opt$observed)
@@ -20,7 +20,7 @@ obs <- obs[level == "cell" & spec == "primary" & model == "NB GLMM" &
            predictor %in% unique(res$predictor)]
 summ <- rbindlist(lapply(seq_len(nrow(obs)), function(i) {
     row <- obs[i]
-    nd <- res[predictor == row$predictor & is.finite(estimate)]
+    nd <- res[predictor == row$predictor & is.finite(estimate) & converged == TRUE]
     if (!nrow(nd)) return(NULL)
     mu <- mean(nd$estimate); sdev <- sd(nd$estimate)
     emp <- (1 + sum(abs(nd$estimate - mu) >= abs(row$estimate - mu))) / (1 + nrow(nd))
