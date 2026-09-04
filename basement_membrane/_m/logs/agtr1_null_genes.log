@@ -1,0 +1,15 @@
+2026-09-02 21:37:59,994 [INFO] AGTR1 pericyte detection: 0.3742
+2026-09-02 21:38:00,164 [INFO] pool: 28977 genes (65 excluded)
+2026-09-02 21:38:00,270 [INFO] 1000 null genes; detection target 0.3742, achieved mean 0.3259 [0.2286, 0.5178]
+2026-09-02 21:38:01,035 [INFO] null pseudobulk: 543 units x 2000 predictors
+-----
+bm_panels           NA
+numpy               2.1.3
+pandas              2.3.2
+scanpy              1.11.4
+session_info        v1.0.1
+-----
+Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
+Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
+-----
+Session information updated at 2026-09-02 21:38
