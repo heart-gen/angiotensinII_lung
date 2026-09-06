@@ -30,7 +30,7 @@ module load gcc/13.3.1-p20240614
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio260021p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 OUTDIR="./"

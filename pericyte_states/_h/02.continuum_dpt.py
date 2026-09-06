@@ -69,6 +69,10 @@ def parse_args():
     p.add_argument("--den-model", default="Pericyte-only-trained",
                    help="which scVI model in --denoise to use as the denoised lens")
     p.add_argument("--seed", type=int, default=13)
+    p.add_argument("--allow-root-fallback", action="store_true",
+                   help="permit the global PC1-minimum fallback when --root-state "
+                        "matches no cells. OFF by default: the fallback silently "
+                        "rooted the continuum at the WRONG POLE for months.")
     return p.parse_args()
 
 
@@ -78,34 +82,57 @@ def save_figure(fig, base: Path):
     plt.close(fig)
 
 
-def pick_root(adata: AnnData, root_state: str, rep: str) -> int:
+def pick_root(adata: AnnData, root_state: str, rep: str,
+              allow_fallback: bool = False):
     """Root = cell of root_state closest to that state's centroid in latent space.
 
-    KNOWN AND UNRESOLVED (recorded 2026-09-01, not fixed here): `--root-state`
-    defaults to the PROGRAM name `vascular_stabilizing`, but `pericyte_state` holds
-    the numeric Leiden cluster id, so the match is empty and the root silently falls
-    back to the global PC1 minimum. Every sign in the continuum results -- BM
-    falling, AGTR1 rising, the switch index -- is therefore root-dependent and
-    currently set by PC1, not by the intended biology. The fallback is left in
-    place deliberately so this run reproduces the published pseudotime; it is now
-    logged at ERROR level and written to root_selection.tsv so it cannot be
-    mistaken for the intended behaviour. Fixing it changes every published rho and
-    is a separate, deliberate decision.
+    FIXED 2026-09-02. `--root-state` defaults to the PROGRAM name
+    `vascular_stabilizing`, but this matched only against `pericyte_state`, which
+    holds numeric Leiden cluster ids -- so the match was always empty and the root
+    silently fell back to the global PC1 minimum.
+
+    That fallback was not a harmless default. The PC1-minimum cell is a
+    `basement_membrane` cell, i.e. the OPPOSITE POLE from the requested root, so
+    every continuum sign was not merely arbitrary but inverted relative to the
+    intended biology.
+
+    `state_program` is now searched as well, the column that matched is recorded,
+    and the fallback requires --allow-root-fallback. A silent wrong root is worse
+    than a crash.
     """
-    mask = (adata.obs["pericyte_state"].astype(str) == str(root_state)).to_numpy()
-    if mask.sum() == 0:
-        logging.error(
-            "ROOT FALLBACK IN EFFECT: no cells match --root-state=%r in "
-            "obs['pericyte_state'] (values: %s). Using the global PC1 minimum "
-            "instead. Every continuum sign below is PC1-rooted, NOT rooted on the "
-            "requested state.", root_state,
-            ", ".join(map(str, pd.unique(adata.obs["pericyte_state"])[:10])))
-        return int(np.argmin(adata.obsm[rep][:, 0]))
+    obs = adata.obs
+    matched_col = None
+    mask = np.zeros(adata.n_obs, dtype=bool)
+    for col in ("pericyte_state", "state_program"):
+        if col not in obs.columns:
+            continue
+        m = (obs[col].astype(str) == str(root_state)).to_numpy()
+        if m.sum():
+            mask, matched_col = m, col
+            break
+
+    if matched_col is None:
+        avail = {c: list(map(str, pd.unique(obs[c])[:8]))
+                 for c in ("pericyte_state", "state_program") if c in obs.columns}
+        msg = (f"--root-state={root_state!r} matches no cells in "
+               f"pericyte_state or state_program. Available: {avail}")
+        if not allow_fallback:
+            raise ValueError(
+                msg + ". Refusing to fall back to the global PC1 minimum: that "
+                "fallback previously rooted this continuum on a basement_membrane "
+                "cell -- the opposite pole from the requested root -- and inverted "
+                "every reported sign. Pass --allow-root-fallback to reproduce the "
+                "old behaviour deliberately.")
+        logging.error("ROOT FALLBACK IN EFFECT (explicitly allowed): %s", msg)
+        return int(np.argmin(adata.obsm[rep][:, 0])), "PC1_MINIMUM_FALLBACK"
+
+    logging.info("Root state %r matched %d cells in obs[%r]",
+                 root_state, int(mask.sum()), matched_col)
     X = adata.obsm[rep]
     centroid = X[mask].mean(axis=0)
     d = np.linalg.norm(X - centroid, axis=1)
     d[~mask] = np.inf
-    return int(np.argmin(d))
+    return int(np.argmin(d)), matched_col
 
 
 def run_dpt(adata, rep, neighbors, n_dcs, root_idx, seed):
@@ -260,13 +287,21 @@ def main():
                                    if sparse.issparse(expr) else np.asarray(expr).ravel())
     add_denoised_agtr1(adata, args.denoise, args.den_model)
 
-    root_idx = pick_root(adata, args.root_state, args.use_rep)
-    root_matched = bool((adata.obs["pericyte_state"].astype(str)
-                         == str(args.root_state)).any())
-    logging.info(f"Root cell index={root_idx} (requested state={args.root_state}, "
-                 f"matched={root_matched})")
+    root_idx, matched_col = pick_root(adata, args.root_state, args.use_rep,
+                                      args.allow_root_fallback)
+    root_matched = matched_col != "PC1_MINIMUM_FALLBACK"
+    # Record the program the root cell actually belongs to. The old fallback
+    # rooted on a basement_membrane cell while claiming to want
+    # vascular_stabilizing, and nothing in the output said so.
+    root_program = (str(adata.obs["state_program"].iloc[root_idx])
+                    if "state_program" in adata.obs.columns else "NA")
+    logging.info("Root cell index=%d (requested=%s, matched_on=%s, "
+                 "root cell's state_program=%s)", root_idx, args.root_state,
+                 matched_col, root_program)
     pd.DataFrame([{"requested_root_state": args.root_state,
                    "root_state_matched": root_matched,
+                   "matched_on_column": matched_col,
+                   "root_cell_state_program": root_program,
                    "root_cell_index": root_idx,
                    "root_barcode": adata.obs_names[root_idx],
                    "method": "state centroid" if root_matched

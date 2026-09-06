@@ -29,7 +29,7 @@ module load anaconda3/2024.10-1
 module list
 
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio260021p/shared/opt/env/scRNA_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Run subclustering ****"
 

@@ -1,36 +1,36 @@
-2026-09-02 15:59:49 - **** Job starts ****
-Job id: 45100392
-Hostname: r260
+2026-09-06 04:06:31 - **** Job starts ****
+Job id: 45323187
+Hostname: r038
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-02 15:59:51 - **** Loading mamba environment ****
-2026-09-02 15:59:52 - **** Expression-only state continuum (DPT + PAGA) ****
-2026-09-02 16:03:30,180 [INFO] Denoised AGTR1 (Pericyte-only-trained): 11680/11680 cells (100.0%)
-2026-09-02 16:03:30,243 [ERROR] ROOT FALLBACK IN EFFECT: no cells match --root-state='vascular_stabilizing' in obs['pericyte_state'] (values: 1, 0, 2, 3, 4, 5). Using the global PC1 minimum instead. Every continuum sign below is PC1-rooted, NOT rooted on the requested state.
-2026-09-02 16:03:30,258 [INFO] Root cell index=11135 (requested state=vascular_stabilizing, matched=False)
-2026-09-02 16:05:11.966272: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2026-09-06 04:06:33 - **** Loading mamba environment ****
+2026-09-06 04:06:34 - **** Expression-only state continuum (DPT + PAGA) ****
+2026-09-06 04:07:55,387 [INFO] Denoised AGTR1 (Pericyte-only-trained): 11680/11680 cells (100.0%)
+2026-09-06 04:07:55,392 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-06 04:07:55,397 [INFO] Root cell index=10492 (requested=vascular_stabilizing, matched_on=state_program, root cell's state_program=vascular_stabilizing)
+2026-09-06 04:09:09.869227: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
                     feature level  spearman_rho       p_value  partial_rho     partial_p     n
- vascular_stabilizing_score  cell      0.452328  0.000000e+00     0.504811  0.000000e+00 11680
-         inflammatory_score  cell      0.475704  0.000000e+00     0.545761  0.000000e+00 11680
-synthetic_contractile_score  cell      0.436033  0.000000e+00     0.444393  0.000000e+00 11680
-  activated_migratory_score  cell      0.412794  0.000000e+00     0.401147  0.000000e+00 11680
-      fibroblast_like_score  cell      0.216563 5.281889e-124     0.207491 9.235889e-114 11680
-    basement_membrane_score  cell     -0.324096 8.781169e-284    -0.412797  0.000000e+00 11680
-                 AGTR1_expr  cell      0.114014  4.248917e-35     0.062337  1.556492e-11 11680
-                 AGTR1_scvi  cell      0.252146 7.765537e-169     0.290593 5.032429e-226 11680
- vascular_stabilizing_score donor      0.520496  7.313671e-15     0.548380  1.516507e-16   194
-         inflammatory_score donor      0.476611  2.142719e-12     0.599797  3.054381e-20   194
-synthetic_contractile_score donor      0.459457  1.597913e-11     0.483351  1.080182e-12   194
-  activated_migratory_score donor      0.465911  7.601827e-12     0.456673  2.468971e-11   194
-      fibroblast_like_score donor      0.270440  1.368667e-04     0.190184  8.068757e-03   194
-    basement_membrane_score donor     -0.177394  1.334199e-02    -0.301621  2.019404e-05   194
-                 AGTR1_expr donor      0.248671  4.717763e-04     0.141173  5.019211e-02   194
-                 AGTR1_scvi donor      0.335118  1.785298e-06     0.394167  1.414013e-08   194
+ vascular_stabilizing_score  cell     -0.487508  0.000000e+00    -0.534469  0.000000e+00 11680
+         inflammatory_score  cell     -0.452106  0.000000e+00    -0.511324  0.000000e+00 11680
+synthetic_contractile_score  cell     -0.451197  0.000000e+00    -0.457196  0.000000e+00 11680
+  activated_migratory_score  cell     -0.391652  0.000000e+00    -0.377557  0.000000e+00 11680
+      fibroblast_like_score  cell     -0.222439 6.891885e-131    -0.213370 2.446439e-120 11680
+    basement_membrane_score  cell      0.321518 4.550765e-279     0.399978  0.000000e+00 11680
+                 AGTR1_expr  cell     -0.130448  1.689811e-45    -0.084384  6.558757e-20 11680
+                 AGTR1_scvi  cell     -0.308244 1.619873e-255    -0.344935  0.000000e+00 11680
+ vascular_stabilizing_score donor     -0.572875  2.589109e-18    -0.606353  9.222332e-21   194
+         inflammatory_score donor     -0.490649  3.800740e-13    -0.613630  2.362773e-21   194
+synthetic_contractile_score donor     -0.468296  5.754233e-12    -0.492430  3.495043e-13   194
+  activated_migratory_score donor     -0.440728  1.265844e-10    -0.427682  5.519444e-10   194
+      fibroblast_like_score donor     -0.290942  3.862608e-05    -0.214508  2.738795e-03   194
+    basement_membrane_score donor      0.138151  5.473100e-02     0.255124  3.426590e-04   194
+                 AGTR1_expr donor     -0.297272  2.561479e-05    -0.199040  5.520013e-03   194
+                 AGTR1_scvi donor     -0.374223  7.648132e-08    -0.436959  2.107981e-10   194
 -----
 anndata             0.11.4
 matplotlib          3.10.5
@@ -44,5 +44,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-02 16:08
-2026-09-02 16:08:17 - **** Job ends ****
+Session information updated at 2026-09-06 04:11
+2026-09-06 04:11:51 - **** Job ends ****

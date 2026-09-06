@@ -1,2 +1,2 @@
-requested_root_state	root_state_matched	root_cell_index	root_barcode	method
-vascular_stabilizing	False	11135	CATTATCCAGGACGTA-1-WTDAtest7732269-0_meyer_unpubl	GLOBAL PC1 MINIMUM (fallback)
+requested_root_state	root_state_matched	matched_on_column	root_cell_state_program	root_cell_index	root_barcode	method
+vascular_stabilizing	True	state_program	vascular_stabilizing	10492	Valenzi_SSc3_GCATACAAGGCACATG_valenzi	state centroid

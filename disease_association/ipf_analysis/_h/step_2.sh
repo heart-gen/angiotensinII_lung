@@ -30,7 +30,7 @@ module list
 
 ## Edit with your job command
 log_message "**** Loading mamba environment ****"
-conda activate /ocean/projects/bio260021p/shared/opt/env/R_env
+conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
 log_message "**** Run IPF conversion ****"
 

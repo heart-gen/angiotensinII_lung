@@ -1,13 +1,13 @@
-2026-07-23 08:22:22 - **** Job starts ****
-Job id: 42554382
-Hostname: r041
+2026-09-06 04:13:50 - **** Job starts ****
+Job id: 45323484
+Hostname: r336
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-23 08:22:39 - **** projectR transfer (R_env), nPatterns=8 ****
+2026-09-06 04:14:05 - **** projectR transfer (R_env), nPatterns=8 ****
 Shared genes for projection: 2038 (loadings 2038, pseudobulk 2038)
 projectR not installed -> OLS projection (install projectR on a login node for the canonical call)
 Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
@@ -74,9 +74,12 @@ Note: D.f. calculations have been disabled because the number of observations ex
 To enable adjustments, add the argument 'lmerTest.limit = 3605' (or larger)
 [or, globally, 'set emm_options(lmerTest.limit = 3605)' or larger];
 but be warned that this may result in large computation time and memory use.
+disease_group reference: Healthy | levels: Healthy, COPD, Fibrotic_ILD, Other
+samples per group: Healthy=1906, COPD=167, Fibrotic_ILD=867, Other=665
+injury_pattern_disease_np8: 228 tests, 90 at BH<0.05 (within pattern x term), 93 at BH<0.05 (all tests); reference = Healthy
 
 Reproducibility information:
-[1] "2026-07-23 08:23:05 EDT"
+[1] "2026-09-06 04:14:28 EDT"
 - Session info ---------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -87,7 +90,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-23
+ date     2026-09-06
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -148,7 +151,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-23 08:23:08 - **** projectR transfer (R_env), nPatterns=9 ****
+2026-09-06 04:14:31 - **** projectR transfer (R_env), nPatterns=9 ****
 Shared genes for projection: 2038 (loadings 2038, pseudobulk 2038)
 projectR not installed -> OLS projection (install projectR on a login node for the canonical call)
 Note: D.f. calculations have been disabled because the number of observations exceeds 3000.
@@ -223,9 +226,12 @@ Note: D.f. calculations have been disabled because the number of observations ex
 To enable adjustments, add the argument 'lmerTest.limit = 3605' (or larger)
 [or, globally, 'set emm_options(lmerTest.limit = 3605)' or larger];
 but be warned that this may result in large computation time and memory use.
+disease_group reference: Healthy | levels: Healthy, COPD, Fibrotic_ILD, Other
+samples per group: Healthy=1906, COPD=167, Fibrotic_ILD=867, Other=665
+injury_pattern_disease_np9: 228 tests, 83 at BH<0.05 (within pattern x term), 91 at BH<0.05 (all tests); reference = Healthy
 
 Reproducibility information:
-[1] "2026-07-23 08:23:16 EDT"
+[1] "2026-09-06 04:14:38 EDT"
 - Session info ---------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -236,7 +242,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-23
+ date     2026-09-06
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -297,4 +303,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-23 08:23:16 - **** Job ends ****
+2026-09-06 04:14:39 - **** Job ends ****

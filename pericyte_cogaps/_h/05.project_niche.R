@@ -108,7 +108,22 @@ map_disease_group <- function(lc) {
               grepl("IPF|fibrosis|ILD|NSIP|Sarcoid|^HP$|Lymphangio|sclerosis", lc, ignore.case = TRUE) ~ "Fibrotic_ILD",
               TRUE ~ "Other")
 }
+## Healthy is the reference, explicitly. Without relevel() the factor takes
+## alphabetical order and **COPD** becomes the baseline -- 167 of 3,605
+## pseudobulk samples -- so every exported term read "X - COPD" while being
+## interpreted as a contrast against health. Set it rather than inherit it.
 df <- df |> mutate(disease_group = factor(map_disease_group(disease_group)))
+if (!"Healthy" %in% levels(df$disease_group))
+    stop("no 'Healthy' level in disease_group after mapping; levels are: ",
+         paste(levels(df$disease_group), collapse = ", "),
+         ". The reference group must be set deliberately, not inherited from ",
+         "alphabetical order.")
+df <- df |> mutate(disease_group = relevel(disease_group, ref = "Healthy"))
+message("disease_group reference: ", levels(df$disease_group)[1],
+        " | levels: ", paste(levels(df$disease_group), collapse = ", "))
+message("samples per group: ",
+        paste(sprintf("%s=%d", names(table(df$disease_group)),
+                      as.integer(table(df$disease_group))), collapse = ", "))
 ## injury patterns = those whose annotation maps to an injury program
 injury_progs <- c("inflammatory", "fibroblast_like", "activated_migratory")
 injury_pat <- if (!is.null(ann)) ann$pattern[ann$assigned_program %in% injury_progs] else character(0)
@@ -127,9 +142,26 @@ for (p in intersect(injury_pat, pat_cols)) {
         }
     }
 }
-if (length(dx_rows))
-    fwrite(rbindlist(dx_rows, fill = TRUE),
-           file.path(OUTDIR, sprintf("injury_pattern_disease_np%d.tsv", NP)), sep = "\t")
+if (length(dx_rows)) {
+    dx <- rbindlist(dx_rows, fill = TRUE)
+    ## These are hundreds of tests across patterns x cell types x disease terms
+    ## and shipped with raw p only. BH within the family that is actually
+    ## scanned -- one correction per pattern-and-term, across cell types --
+    ## since that is how the table is read.
+    dx[, reference_group := levels(df$disease_group)[1]]
+    dx[, n_tests := .N]
+    dx[, p_BH := p.adjust(p, method = "BH"), by = .(pattern, term)]
+    dx[, p_BH_all := p.adjust(p, method = "BH")]
+    setorder(dx, p_BH)
+    fwrite(dx, file.path(OUTDIR, sprintf("injury_pattern_disease_np%d.tsv", NP)),
+           sep = "\t")
+    message(sprintf(paste0("injury_pattern_disease_np%d: %d tests, %d at ",
+                           "BH<0.05 (within pattern x term), %d at BH<0.05 ",
+                           "(all tests); reference = %s"),
+                    NP, nrow(dx), sum(dx$p_BH < 0.05, na.rm = TRUE),
+                    sum(dx$p_BH_all < 0.05, na.rm = TRUE),
+                    levels(df$disease_group)[1]))
+}
 
 ## ---- (C) heatmap: cell_type x pattern (mean projected weight, column z-scored) -
 hm <- by_ct |> tibble::column_to_rownames("cell_type") |> as.matrix()

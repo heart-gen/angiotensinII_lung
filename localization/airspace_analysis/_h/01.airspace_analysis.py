@@ -110,7 +110,38 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     df = adata.obs.copy()
     df = df[df[key] == pericyte_label].copy()
 
-    # Drop incomplete rows
+    # ------------------------------------------------------------------
+    # DONOR SUMMARY FIRST, MODEL FILTERS SECOND  (fixed 2026-09-02)
+    #
+    # `airspace_donor_summary.csv` is consumed by niche_index/ as the stability
+    # arm's second component, but it used to be produced *after* the filters the
+    # LMM below needs -- complete age/sex, and both AGTR1 levels present. Neither
+    # has anything to do with a donor's mean airspace score: the score is cosine
+    # similarity to AT1/AT2/EC centroids, computed in compute_airspace_scores()
+    # from the embedding alone.
+    #
+    # The cost was large and invisible. All 11,680 pericytes carry a score and
+    # 194 donors have one, but the exported summary held only 56 -- and because
+    # `groupby(observed=False)` emits every donor level, the other 317 shipped as
+    # NaN rather than as absent rows. Downstream, niche_index averaged whichever
+    # components a donor happened to have, so 43 of its 89 donors silently got a
+    # one-component "composite", and the missingness was disease-linked because
+    # the age filter is a study filter.
+    #
+    # The unfiltered summary covers all 89 niche-index donors.
+    df_all = df.dropna(subset=["airspace_score", "donor_id"]).copy()
+    donor_all = (
+        df_all.groupby("donor_id", observed=True)
+        .agg(mean_airspace_score=("airspace_score", "mean"),
+             n_cells=("airspace_score", "size"))
+        .reset_index()
+    )
+    donor_all.to_csv(outdir / "airspace_donor_summary.csv", index=False)
+    logging.info("airspace_donor_summary.csv: %d donors, %d pericytes "
+                 "(no age/sex or AGTR1-level filtering -- the mean score needs "
+                 "neither)", len(donor_all), len(df_all))
+
+    # Drop incomplete rows -- required by the LMM below, NOT by the summary above
     df = df.dropna(subset=[
         "airspace_score", "AGTR1_detect", "donor_id", 
         "sex", "age_or_mean_of_age_range",
@@ -127,14 +158,23 @@ def fit_lmm(adata: AnnData, outdir: Path, pericyte_label="Pericytes", key="subcl
     df.to_csv(outdir / "airspace_donor_data.tsv", sep="\t")
 
     # Aggregate to donor level
-    donor_df = df.groupby(["donor_id"], observed=False)\
+    # observed=True: a categorical donor_id with observed=False emits a row for
+    # EVERY level, so filtered-out donors shipped as NaN rather than as absent
+    # rows -- which is exactly how the downstream composite came to average a
+    # different component set per donor without anything looking wrong.
+    donor_df = df.groupby(["donor_id"], observed=True)\
                  .agg(
                      mean_airspace_score=("airspace_score", "mean"),
                      frac_AGTR1_pos=("AGTR1_detect", "mean"),
                      n_cells=("AGTR1_detect", "size"),
                      age=("age", "first"), sex=("sex", "first"),
                  ).reset_index()
-    donor_df.to_csv(outdir / "airspace_donor_summary.csv", index=False)
+    # The MODEL's donor frame -- age/sex-complete and AGTR1-informative. Written
+    # under its own name so it can never again be mistaken for, or overwrite, the
+    # unfiltered summary that niche_index/ consumes.
+    donor_df.to_csv(outdir / "airspace_donor_summary_lmm_cohort.csv", index=False)
+    logging.info("airspace_donor_summary_lmm_cohort.csv: %d donors "
+                 "(age/sex complete AND both AGTR1 levels)", len(donor_df))
 
     # Fit OLS at donor level
     formula = "mean_airspace_score ~ frac_AGTR1_pos + age + C(sex)"
