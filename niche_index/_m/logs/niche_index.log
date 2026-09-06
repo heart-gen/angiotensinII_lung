@@ -1,13 +1,21 @@
-2026-07-27 22:48:51 - **** Job starts ****
-Job id: 42735923
+2026-09-06 03:32:39 - **** Job starts ****
+Job id: 45317804
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 22:48:52 - **** Build donor-level niche index (PRIMARY, >=10 pericytes) ****
-2026-07-27 22:49:14,698 [INFO] Wrote niche index for 89 donors (min_cells=10, suffix='')
-2026-07-27 22:49:15 - **** Build donor-level niche index (sensitivity, >=20 pericytes) ****
-2026-07-27 22:49:15,790 [INFO] Wrote niche index for 69 donors (min_cells=20, suffix='_mincells20')
-2026-07-27 22:49:16 - **** Job ends ****
+2026-09-06 03:32:40 - **** Build donor-level niche index (PRIMARY, >=10 pericytes) ****
+2026-09-06 03:33:18,899 [WARNING] [niche_stability_score] 'mean_airspace_score' is missing for 43/89 donors and is EXCLUDED from the primary composite; it enters niche_stability_score_full only.
+2026-09-06 03:33:18,922 [INFO] [niche_stability_score] primary components (1): mean_vascular_stabilizing_score | full components (2), complete in 46/89 donors
+2026-09-06 03:33:18,926 [INFO] [injury_stromal_score] primary components (4): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac | full components (4), complete in 89/89 donors
+2026-09-06 03:33:18,930 [INFO] [injury_stromal_score_sens_agtr1] primary components (5): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac, AGTR1_pos_frac | full components (5), complete in 89/89 donors
+2026-09-06 03:33:19,034 [INFO] Wrote niche index for 89 donors (min_cells=10, suffix='')
+2026-09-06 03:33:19 - **** Build donor-level niche index (sensitivity, >=20 pericytes) ****
+2026-09-06 03:33:20,126 [WARNING] [niche_stability_score] 'mean_airspace_score' is missing for 34/69 donors and is EXCLUDED from the primary composite; it enters niche_stability_score_full only.
+2026-09-06 03:33:20,129 [INFO] [niche_stability_score] primary components (1): mean_vascular_stabilizing_score | full components (2), complete in 35/69 donors
+2026-09-06 03:33:20,133 [INFO] [injury_stromal_score] primary components (4): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac | full components (4), complete in 69/69 donors
+2026-09-06 03:33:20,137 [INFO] [injury_stromal_score_sens_agtr1] primary components (5): mean_inflammatory_score, mean_fibroblast_like_score, mean_activated_migratory_score, injury_frac, AGTR1_pos_frac | full components (5), complete in 69/69 donors
+2026-09-06 03:33:20,177 [INFO] Wrote niche index for 69 donors (min_cells=20, suffix='_mincells20')
+2026-09-06 03:33:20 - **** Job ends ****

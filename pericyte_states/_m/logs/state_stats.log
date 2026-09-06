@@ -1,14 +1,14 @@
-2026-09-01 19:45:27 - **** Job starts ****
-Job id: 45016792
-Hostname: r002
+2026-09-06 03:39:45 - **** Job starts ****
+Job id: 45318921
+Hostname: r001
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-01 19:45:28 - **** Loading mamba environment ****
-2026-09-01 19:45:38 - **** Donor-aware pericyte-state statistics ****
+2026-09-06 03:39:46 - **** Loading mamba environment ****
+2026-09-06 03:39:48 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -23,16 +23,25 @@ programs:
           41         2516         7262         1861 
 
 ===== donor filter: >= 10 pericytes (PRIMARY) =====
+  [state] primary n=89 | age-restricted sensitivity n=47
+  [program] primary n=89 | age-restricted sensitivity n=47
 injury programs: activated_migratory | min_cells = 10 
+    NOTE: COPD has <3 donors; its contrasts are flagged
+  injury_fraction[primary]: n=89 donors, 24 fibrotic
+  injury_fraction[_ageadj]: n=47 donors, 6 fibrotic
 
 ===== donor filter: >= 20 pericytes (sensitivity) =====
+  [state] primary n=69 | age-restricted sensitivity n=36
+  [program] primary n=69 | age-restricted sensitivity n=36
 injury programs: activated_migratory | min_cells = 20 
+  injury_fraction[primary]: n=69 donors, 17 fibrotic
+  injury_fraction[_ageadj]: n=36 donors, 4 fibrotic
 There were 16 warnings (use warnings() to see them)
 
 Reproducibility information:
-[1] "2026-09-01 19:46:00 EDT"
+[1] "2026-09-06 03:40:04 EDT"
    user  system elapsed 
- 11.670   0.557  22.280 
+ 15.826   0.404  16.036 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -43,7 +52,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-01
+ date     2026-09-06
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -115,4 +124,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-01 19:46:05 - **** Job ends ****
+2026-09-06 03:40:05 - **** Job ends ****

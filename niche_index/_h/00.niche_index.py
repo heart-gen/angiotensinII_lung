@@ -116,13 +116,65 @@ def main():
     for c in set(stab_components + inj_components + inj_components_sens):
         donor[f"z_{c}"] = zscore(donor[c])
 
-    donor["niche_stability_score"] = donor[[f"z_{c}" for c in stab_components]].mean(axis=1)
+    # ------------------------------------------------------------------
+    # A COMPOSITE MUST MEAN THE SAME THING IN EVERY DONOR  (fixed 2026-09-02)
+    #
+    # `DataFrame.mean(axis=1)` skips NaN, so a donor missing a component
+    # silently received the mean of the components it happened to have. That is
+    # not a noisier estimate of the same quantity -- it is a DIFFERENT quantity.
+    # `mean_airspace_score` is missing for 43 of 89 donors and the missingness is
+    # disease-linked, so the index systematically meant something different in
+    # fibrotic than in healthy donors: a definitional shift aligned with the very
+    # contrast being tested.
+    #
+    # Two composites are now emitted, and neither can rescale silently:
+    #   *_score       PRIMARY. Mean over the components present for EVERY donor,
+    #                 so the definition is constant across the cohort.
+    #   *_score_full  SENSITIVITY. Mean over all components, NaN for any donor
+    #                 missing one -- complete-case, never rescaled.
+    # `n_*_components` records the count actually averaged, per donor.
+    def complete_components(cols):
+        """Components with no missing value in any donor."""
+        return [c for c in cols if donor[f"z_{c}"].notna().all()]
+
+    def composite(cols, name):
+        """Primary (constant-definition) + full (complete-case) + the count."""
+        zc = [f"z_{c}" for c in cols]
+        core = complete_components(cols)
+        dropped = [c for c in cols if c not in core]
+        if dropped:
+            for c in dropped:
+                n_missing = int(donor[f"z_{c}"].isna().sum())
+                logging.warning(
+                    "[%s] '%s' is missing for %d/%d donors and is EXCLUDED from "
+                    "the primary composite; it enters %s_full only.",
+                    name, c, n_missing, len(donor), name)
+        if not core:
+            raise ValueError(
+                f"{name}: no component is complete across donors, so no "
+                "constant-definition composite exists. Decide explicitly which "
+                "donors to drop rather than averaging different quantities.")
+        donor[name] = donor[[f"z_{c}" for c in core]].mean(axis=1)
+        donor[f"n_{name}_components"] = len(core)
+        # Complete-case version: require every component, no silent rescale.
+        donor[f"{name}_full"] = donor[zc].mean(axis=1).where(
+            donor[zc].notna().all(axis=1))
+        donor[f"n_{name}_full_components"] = donor[zc].notna().sum(axis=1)
+        logging.info("[%s] primary components (%d): %s | full components (%d), "
+                     "complete in %d/%d donors", name, len(core), ", ".join(core),
+                     len(cols), int(donor[f"{name}_full"].notna().sum()), len(donor))
+        return core
+
+    stab_core = composite(stab_components, "niche_stability_score")
     # primary (no AGTR1)
-    donor["injury_stromal_score"] = donor[[f"z_{c}" for c in inj_components]].mean(axis=1)
+    inj_core = composite(inj_components, "injury_stromal_score")
     donor["niche_index"] = donor["niche_stability_score"] - donor["injury_stromal_score"]
+    donor["niche_index_full"] = (donor["niche_stability_score_full"]
+                                 - donor["injury_stromal_score_full"])
     # sensitivity (with AGTR1+ fraction) -- supplement only
-    donor["injury_stromal_score_sens_agtr1"] = donor[[f"z_{c}" for c in inj_components_sens]].mean(axis=1)
-    donor["niche_index_sens_agtr1"] = donor["niche_stability_score"] - donor["injury_stromal_score_sens_agtr1"]
+    composite(inj_components_sens, "injury_stromal_score_sens_agtr1")
+    donor["niche_index_sens_agtr1"] = (donor["niche_stability_score"]
+                                       - donor["injury_stromal_score_sens_agtr1"])
 
     # Self-describing: the donor filter is a column, not just a filename, so a
     # downstream table can never misattribute the threshold.
@@ -133,6 +185,11 @@ def main():
     with open(args.outdir / f"niche_index_components{sfx}.txt", "w") as fh:
         fh.write(f"min_cells_per_donor: {args.min_cells}\n")
         fh.write("stability_components: " + ", ".join(stab_components) + "\n")
+        fh.write("stability_components_PRIMARY (complete in all donors): "
+                 + ", ".join(stab_core) + "\n")
+        fh.write("injury_components_PRIMARY (complete in all donors): "
+                 + ", ".join(inj_core) + "\n")
+
         fh.write("injury_components (PRIMARY): " + ", ".join(inj_components) + "\n")
         fh.write("injury_components_sens_agtr1 (SUPPLEMENT only): "
                  + ", ".join(inj_components_sens) + "\n")

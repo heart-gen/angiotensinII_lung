@@ -2,9 +2,20 @@
 ##
 ## States are STABLE Leiden clusters on the study-integrated embedding
 ## (`pericyte_state`), annotated to a dominant curated program (`state_program`)
-## by 00.state_discovery.py. Study is handled once, by the integration that the
-## clustering runs on, so the donor-level models below do NOT add a study term.
-## The unit of replication is the donor throughout.
+## by 00.state_discovery.py. The unit of replication is the donor throughout.
+##
+## ** REVISED 2026-09-02: the donor-level disease models DO now carry `(1 | study)`. **
+## This file previously argued that study was "handled once, by the integration
+## that the clustering runs on". That is true of the EMBEDDING but not of the
+## donor-level composition fractions: integration harmonises where a cell lands,
+## not how many pericytes of each state a given cohort's donors contribute, which
+## still varies with tissue sampling, dissociation and disease definition.
+## Measured, once the age filter stopped hiding it: without a study term
+## basement_membrane composition gives p = 0.0015 and vascular_stabilizing
+## p = 0.0018 against disease; with `(1 | study)` the same fits give p = 0.797 and
+## p = 0.912. The apparent effect sat in the "Other" group, 14 of whose 22 donors
+## are Regev_2021. The integration argument did not survive contact with the
+## restored donors.
 ##
 ##   (A) AGTR1 across states / programs (donor x group mixed model) -- this is the
 ##       RAW-EXPRESSION lens ONLY. Its apparent vascular-stabilizing enrichment is a
@@ -118,14 +129,19 @@ agtr1_by_group <- function(df, group, outdir, tag, min_cells = 5) {
                   disease_group = first(disease_group), sex = first(sex),
                   age = mean(age, na.rm = TRUE), .groups = "drop") |>
         filter(n_cells >= min_cells) |>
-        tidyr::drop_na(AGTR1_mean, age, sex)
+        ## `age` deliberately not required here either -- see the rationale block
+        ## below composition_by_disease(). Requiring it would fit this model on a
+        ## different (47-donor, 5-studies-deleted) cohort than the composition and
+        ## injury models, which is how the module came to report disease results
+        ## on incompatible donor sets in the first place.
+        tidyr::drop_na(AGTR1_mean, sex)
     agg[[group]]       <- droplevels(factor(agg[[group]]))
     agg$disease_group  <- droplevels(agg$disease_group)
     agg$sex            <- droplevels(agg$sex)
     if (nlevels(agg[[group]]) < 2) return(invisible(NULL))
 
     # Donor random intercept accounts for within-donor correlation across groups.
-    form <- reformulate(c(group, "disease_group", "sex", "age", "(1 | donor_id)"),
+    form <- reformulate(c(group, "disease_group", "sex", "(1 | donor_id)"),
                         "AGTR1_mean")
     fit <- suppressMessages(lmerTest::lmer(form, data = agg))
     emm <- emmeans(fit, specs = group)
@@ -149,6 +165,83 @@ agtr1_by_group <- function(df, group, outdir, tag, min_cells = 5) {
 }
 
 ## ----- (B) Composition vs disease (per stable cluster / program) ----------
+## ---------------------------------------------------------------------------
+## WHY THE PRIMARY MODELS NO LONGER CARRY `+ age`  (changed 2026-09-02)
+##
+## `+ age` was never a covariate adjustment here. Age is missing for 46 of the 93
+## donors passing the cell filter, and the missingness is a STUDY property, not a
+## donor property: 17 of 18 studies are all-or-nothing (only Banovich_Kropski_2020
+## is partial, 8/15). So dropping incomplete rows deletes five whole studies.
+##
+## That deletion is not random with respect to the exposure. Retention by group:
+##
+##     Healthy       38 / 42   (90%)
+##     Fibrotic/ILD   6 / 19   (32%)
+##     Other          3 / 28   (11%)
+##     COPD           0 / 1
+##
+## It removes entire dedicated fibrosis cohorts -- Kaminski_2020 (6 IPF + 1 COPD)
+## and Sheppard_2020 (5 fibrotic) -- leaving the disease contrast resting on one
+## or two remaining fibrosis studies. Adding age to control confounding therefore
+## makes disease and study MORE collinear than they were: the cure introduces a
+## worse confound than the one it treats.
+##
+## And age does not predict these outcomes anyway. Within the 47 age-complete
+## donors, with study in the model, NO outcome shows an age effect at BH < 0.05
+## (min BH = 0.225; only activated_migratory_score is even nominal, p = 0.025).
+## `age` also spans 0-75 years here, crossing developmental stages, so a linear
+## term is questionable regardless.
+##
+## Multiple imputation is deliberately NOT used: five studies have zero age
+## observations, so there is no within-study information to borrow and imputation
+## would extrapolate across studies -- and study is confounded with disease, so it
+## would fabricate the very structure under test.
+##
+## `disease_association/_h/03.disease_forest.R` already dropped age for exactly
+## this reason. Matching it here also ends the state of two modules reporting
+## disease results on incompatible donor sets.
+##
+## The age-adjusted fit is still produced, as an explicit SENSITIVITY on the
+## age-complete subset, written with the `_ageadj` suffix. It is labelled for what
+## it is -- a restriction to age-reporting cohorts -- not as "age-adjusted".
+##
+## THE STUDY RANDOM EFFECT IS NOT OPTIONAL ONCE AGE IS DROPPED.
+## Restoring the 42 donors puts five whole studies back, and the composition
+## models had no study term -- so the restored between-study variance flowed
+## straight into the disease coefficient and manufactured an effect. Measured:
+## basement_membrane p = 0.0015 and vascular_stabilizing p = 0.0018 without a
+## study term, but p = 0.797 and p = 0.912 with `(1 | study)`. The apparent
+## signal sat in the "Other" group, of which 14 of 22 donors are Regev_2021.
+## Dropping age and omitting `(1 | study)` is strictly worse than doing neither.
+COVARS_PRIMARY   <- c("disease_group", "sex", "(1 | study)")
+COVARS_AGE_SENS  <- c("disease_group", "sex", "age", "(1 | study)")
+
+## Fit an lmer when the formula carries a random term, an lm otherwise, and take
+## the omnibus disease test from whichever was fitted.
+fit_model <- function(covars, response, data) {
+    f <- reformulate(covars, response)
+    if (any(grepl("\\|", covars)))
+        suppressMessages(lmerTest::lmer(f, data = data))
+    else lm(f, data = data)
+}
+disease_omnibus <- function(fit) {
+    if (inherits(fit, "merMod")) {
+        a <- as.data.frame(anova(fit))
+        r <- a["disease_group", , drop = FALSE]
+        data.frame(Df = r[["NumDF"]], F.value = r[["F value"]],
+                   `Pr..F.` = r[["Pr(>F)"]], check.names = FALSE)
+    } else {
+        a <- as.data.frame(car::Anova(fit, type = 2))["disease_group", ]
+        data.frame(Df = a[["Df"]], F.value = a[["F value"]],
+                   `Pr..F.` = a[["Pr(>F)"]], check.names = FALSE)
+    }
+}
+
+## n_donors must come from the FITTED object. lm() performs NA deletion after
+## nrow() is taken, so counting rows reported 93 donors for models that fitted 47
+## -- the exported df of 42 (= 47 - 5 parameters) proved it against itself.
+fit_n <- function(fit) tryCatch(stats::nobs(fit), error = function(e) NA_integer_)
+
 composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor = 10,
                                    sfx = "") {
     donor_tot <- df |> count(donor_id, name = "n_total") |>
@@ -161,7 +254,8 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
         mutate(frac = n / n_total)
     donor_meta <- df |> group_by(donor_id) |>
         summarise(disease_group = first(disease_group), sex = first(sex),
-                  dataset = first(dataset), age = mean(age, na.rm = TRUE),
+                  dataset = first(dataset), study = first(study),
+                  age = mean(age, na.rm = TRUE),
                   .groups = "drop")
     comp <- comp |> left_join(donor_meta, by = "donor_id") |>
         mutate(disease_group = relevel(factor(disease_group), ref = "Healthy"))
@@ -183,33 +277,50 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
             arrange(level, disease_group, donor_id),
         file.path(outdir, paste0("composition_", tag, "_by_donor", sfx, ".tsv")))
 
-    results <- list()
-    for (g in levels(factor(comp[[group]]))) {
-        sub <- comp |> filter(.data[[group]] == g) |> tidyr::drop_na(age, sex) |>
-            mutate(disease_group = droplevels(disease_group))
-        if (nlevels(sub$disease_group) < 2) next
-        ## Skip degenerate levels (e.g. a single-program grouping makes frac==1
-        ## everywhere -> zero residual variance -> Anova.lm errors).
-        if (sd(sub$frac, na.rm = TRUE) < 1e-9) next
-        fit <- lm(frac ~ disease_group + age + sex, data = sub)
-        emm <- emmeans(fit, ~ disease_group)
-        key <- sanitize(g)
-        write_tsv_safe(as.data.frame(emm) |> mutate(min_cells = min_cells_per_donor,
-                                                    n_donors = nrow(sub)),
-                       file.path(outdir, paste0("composition_", tag, "_", key,
-                                                "_emmeans", sfx, ".tsv")))
-        write_tsv_safe(posthoc_with_ci(emm) |> mutate(min_cells = min_cells_per_donor),
-                       file.path(outdir, paste0("composition_", tag, "_", key,
-                                                "_posthoc", sfx, ".tsv")))
-        results[[g]] <- data.frame(level = g, n_donors = nrow(sub),
-                                   as.data.frame(car::Anova(fit, type = 2))["disease_group", ])
+    ## Two arms per level: the primary fit on every donor, and the age-restricted
+    ## sensitivity. Emitted through one loop so they can never drift apart.
+    run_arm <- function(covars, arm_sfx, drop_age_rows) {
+        results <- list()
+        for (g in levels(factor(comp[[group]]))) {
+            sub <- comp |> filter(.data[[group]] == g)
+            sub <- if (drop_age_rows) tidyr::drop_na(sub, age, sex) else
+                tidyr::drop_na(sub, sex)
+            sub <- sub |> mutate(disease_group = droplevels(disease_group))
+            if (nlevels(sub$disease_group) < 2) next
+            ## Skip degenerate levels (e.g. a single-program grouping makes frac==1
+            ## everywhere -> zero residual variance -> Anova.lm errors).
+            if (sd(sub$frac, na.rm = TRUE) < 1e-9) next
+            fit <- fit_model(covars, "frac", sub)
+            emm <- emmeans(fit, ~ disease_group)
+            key <- sanitize(g)
+            write_tsv_safe(as.data.frame(emm) |>
+                               mutate(min_cells = min_cells_per_donor,
+                                      n_donors = fit_n(fit), arm = arm_sfx),
+                           file.path(outdir, paste0("composition_", tag, "_", key,
+                                                    "_emmeans", sfx, arm_sfx, ".tsv")))
+            write_tsv_safe(posthoc_with_ci(emm) |>
+                               mutate(min_cells = min_cells_per_donor, arm = arm_sfx),
+                           file.path(outdir, paste0("composition_", tag, "_", key,
+                                                    "_posthoc", sfx, arm_sfx, ".tsv")))
+            results[[g]] <- data.frame(
+                level = g, n_donors = fit_n(fit), arm = arm_sfx,
+                disease_omnibus(fit))
+        }
+        anova_all <- bind_rows(results)
+        if (!nrow(anova_all)) return(invisible(NULL))
+        pcol <- grep("^Pr", names(anova_all), value = TRUE)[1]
+        if (!is.na(pcol)) anova_all$p_BH <- p.adjust(anova_all[[pcol]], method = "BH")
+        anova_all$min_cells <- min_cells_per_donor
+        write_tsv_safe(anova_all, file.path(outdir, paste0("composition_", tag,
+                                            "_disease_anova_all", sfx, arm_sfx, ".tsv")))
+        invisible(anova_all)
     }
-    anova_all <- bind_rows(results)
-    pcol <- grep("^Pr", names(anova_all), value = TRUE)[1]
-    if (!is.na(pcol)) anova_all$p_BH <- p.adjust(anova_all[[pcol]], method = "BH")
-    anova_all$min_cells <- min_cells_per_donor
-    write_tsv_safe(anova_all, file.path(outdir, paste0("composition_", tag,
-                                                       "_disease_anova_all", sfx, ".tsv")))
+    a_pri <- run_arm(COVARS_PRIMARY, "", drop_age_rows = FALSE)
+    a_sen <- run_arm(COVARS_AGE_SENS, "_ageadj", drop_age_rows = TRUE)
+    if (!is.null(a_pri) && !is.null(a_sen))
+        cat(sprintf("  [%s] primary n=%s | age-restricted sensitivity n=%s\n", tag,
+                    paste(unique(a_pri$n_donors), collapse = "/"),
+                    paste(unique(a_sen$n_donors), collapse = "/")))
 
     p <- ggboxplot(comp, x = "disease_group", y = "frac", add = "jitter",
                    fill = "disease_group", palette = "jco",
@@ -240,7 +351,8 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx
         filter(n_total >= min_cells_per_donor)
     donor_meta <- df |> group_by(donor_id) |>
         summarise(disease_group = first(disease_group), sex = first(sex),
-                  dataset = first(dataset), age = mean(age, na.rm = TRUE),
+                  dataset = first(dataset), study = first(study),
+                  age = mean(age, na.rm = TRUE),
                   .groups = "drop")
     inj <- df |>
         semi_join(donor_tot, by = "donor_id") |>
@@ -249,7 +361,7 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx
         summarise(injury_frac = mean(is_injury), n_injury = sum(is_injury),
                   n_total = n(), .groups = "drop") |>
         left_join(donor_meta, by = "donor_id") |>
-        tidyr::drop_na(age, sex) |>
+        tidyr::drop_na(sex) |>
         mutate(disease_group = relevel(droplevels(factor(disease_group)), "Healthy"))
 
     write_tsv_safe(
@@ -259,14 +371,63 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx
             arrange(disease_group, donor_id),
         file.path(outdir, paste0("injury_fraction_by_donor", sfx, ".tsv")))
 
-    fit <- lm(injury_frac ~ disease_group + age + sex, data = inj)
+    ## Primary on every donor; age-restricted arm as an explicit sensitivity.
+    ## This is the project's headline disease endpoint, so the two must be
+    ## emitted together and the fitted N carried on both.
+    ## Match the fibrotic level against the levels actually present rather than
+    ## a hardcoded string: the level is `Fibrotic_ILD` here, and a literal
+    ## "Fibrotic/ILD" silently counted zero.
+    fibro_lvl <- grep("fibro", levels(inj$disease_group), value = TRUE,
+                      ignore.case = TRUE)
+    if (!length(fibro_lvl))
+        warning("no fibrotic level found in disease_group; levels are: ",
+                paste(levels(inj$disease_group), collapse = ", "), call. = FALSE)
+
+    run_inj <- function(covars, arm_sfx, drop_age_rows) {
+        dat <- if (drop_age_rows) tidyr::drop_na(inj, age) else inj
+        dat <- dat |> mutate(disease_group = droplevels(disease_group))
+        if (nlevels(dat$disease_group) < 2) {
+            warning("injury_fraction[", arm_sfx, "]: <2 disease groups after ",
+                    "filtering; arm skipped", call. = FALSE)
+            return(invisible(NULL))
+        }
+        fit <- fit_model(covars, "injury_frac", dat)
+        emm <- emmeans(fit, ~ disease_group)
+        n_fit <- fit_n(fit)
+        ## Per-group donor counts travel with the estimates. Without them a
+        ## single-donor group (COPD is n = 1 here) produces a significant
+        ## contrast -- Healthy vs COPD p = 0.036 -- with nothing on the row to
+        ## warn the reader that it rests on one donor.
+        grp_n <- dat |> distinct(donor_id, disease_group) |>
+            count(disease_group, name = "n_donors_group")
+        emm_df <- as.data.frame(emm) |>
+            left_join(grp_n, by = "disease_group") |>
+            mutate(min_cells = min_cells_per_donor, n_donors = n_fit,
+                   arm = arm_sfx,
+                   n_fibrotic = sum(dat$disease_group %in% fibro_lvl, na.rm = TRUE),
+                   estimable = n_donors_group >= 3,
+                   injury_programs = paste(INJURY_PROGRAMS, collapse = "+"))
+        write_tsv_safe(emm_df, file.path(outdir, paste0("injury_fraction_emmeans",
+                                                        sfx, arm_sfx, ".tsv")))
+        ## Same for contrasts: flag any comparison touching a <3-donor group.
+        small <- grp_n$disease_group[grp_n$n_donors_group < 3]
+        ph <- posthoc_with_ci(emm) |>
+            mutate(min_cells = min_cells_per_donor, arm = arm_sfx, n_donors = n_fit,
+                   touches_small_group = Reduce(`|`, lapply(small, function(g)
+                       grepl(g, contrast, fixed = TRUE)), FALSE))
+        write_tsv_safe(ph, file.path(outdir, paste0("injury_fraction_posthoc", sfx,
+                                                    arm_sfx, ".tsv")))
+        if (length(small))
+            cat(sprintf("    NOTE: %s has <3 donors; its contrasts are flagged\n",
+                        paste(small, collapse = ", ")))
+        cat(sprintf("  injury_fraction[%s]: n=%s donors, %d fibrotic\n",
+                    if (nzchar(arm_sfx)) arm_sfx else "primary", n_fit,
+                    sum(dat$disease_group %in% fibro_lvl, na.rm = TRUE)))
+        invisible(fit)
+    }
+    fit <- run_inj(COVARS_PRIMARY, "", drop_age_rows = FALSE)
+    run_inj(COVARS_AGE_SENS, "_ageadj", drop_age_rows = TRUE)
     emm <- emmeans(fit, ~ disease_group)
-    write_tsv_safe(as.data.frame(emm) |>
-                       mutate(min_cells = min_cells_per_donor, n_donors = nrow(inj),
-                              injury_programs = paste(INJURY_PROGRAMS, collapse = "+")),
-                   file.path(outdir, paste0("injury_fraction_emmeans", sfx, ".tsv")))
-    write_tsv_safe(posthoc_with_ci(emm) |> mutate(min_cells = min_cells_per_donor),
-                   file.path(outdir, paste0("injury_fraction_posthoc", sfx, ".tsv")))
     ylab_txt <- paste0("Injury-program fraction\n(",
                        paste(INJURY_PROGRAMS, collapse = " + "), " states)")
     p <- ggboxplot(inj, x = "disease_group", y = "injury_frac", add = "jitter",
