@@ -1,14 +1,14 @@
-2026-09-02 18:37:55 - **** Job starts ****
+2026-09-06 04:18:58 - **** Job starts ****
 User: kbenjamin
-Job id: 45105363
-Hostname: r040
+Job id: 45323881
+Hostname: r236
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-02 18:37:56 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
+2026-09-06 04:18:59 - **** BM vs pericyte clusters, fibrillar axis, AGTR1 and injury continuum ****
 Merged 11680 cells
 Donor x cluster units (>=5 cells): 214 across 95 donors
 Variance: study SD 0.000 vs residual SD 0.912 -> ok
@@ -284,30 +284,30 @@ Warning messages:
 1: Model failed to converge with 1 negative eigenvalue: -1.7e+01 
 2: Model failed to converge with 1 negative eigenvalue: -6.8e+00 
 Continuum trends (donor-level Spearman vs pseudotime):
-                 metric n_donors  median_rho         q25         q75
-                 <char>    <int>       <num>       <num>       <num>
- 1:              rho_bm       69 -0.02053654 -0.08563135  0.08980938
- 2:             rho_fib       69  0.03984448 -0.05181597  0.19521368
- 3:        rho_collagen       69  0.02697533 -0.07138057  0.13190954
- 4:            rho_core       69 -0.01969388 -0.11392496  0.08940533
- 5:           rho_minor       69 -0.06214082 -0.17322558  0.04153083
- 6:          rho_tracer       69 -0.19610390 -0.36420102 -0.06561584
- 7:            rho_tgfb       69  0.13348621  0.01869717  0.23073021
- 8:          rho_switch       69 -0.05492674 -0.17725482  0.06509217
- 9:     rho_switch_core       69 -0.01716834 -0.12250674  0.06537101
-10: rho_switch_collagen       69 -0.06311166 -0.14457054  0.05189474
+                 metric n_donors   median_rho         q25        q75
+                 <char>    <int>        <num>       <num>      <num>
+ 1:              rho_bm       69 -0.013624569 -0.08431085 0.08307756
+ 2:             rho_fib       69 -0.054241320 -0.16590636 0.07703155
+ 3:        rho_collagen       69 -0.013530485 -0.12934346 0.06645242
+ 4:            rho_core       69  0.020516276 -0.08444738 0.11975252
+ 5:           rho_minor       69  0.066296639 -0.01704682 0.13641026
+ 6:          rho_tracer       69  0.202624434  0.06521739 0.31251435
+ 7:            rho_tgfb       69 -0.130795547 -0.22444496 0.01377608
+ 8:          rho_switch       69  0.024140400 -0.08782609 0.14737095
+ 9:     rho_switch_core       69  0.003638606 -0.06693974 0.12182661
+10: rho_switch_collagen       69  0.049536465 -0.06933800 0.13598520
         p_wilcox bh_family         p_BH
            <num>    <char>        <num>
- 1: 6.239403e-01  original 6.239403e-01
- 2: 9.462871e-03  original 1.419431e-02
- 3: 1.479235e-01 expansion 1.994340e-01
- 4: 6.029463e-01 expansion 6.029463e-01
- 5: 3.805984e-03 expansion 8.880628e-03
- 6: 9.100933e-11 expansion 6.370653e-10
- 7: 7.116011e-06 expansion 2.490604e-05
- 8: 6.759571e-03  original 1.419431e-02
- 9: 1.709434e-01 expansion 1.994340e-01
-10: 7.262819e-03 expansion 1.270993e-02
+ 1: 7.153236e-01  original 7.153236e-01
+ 2: 2.134113e-02  original 6.131192e-02
+ 3: 2.765208e-01 expansion 3.871292e-01
+ 4: 5.619431e-01 expansion 5.619431e-01
+ 5: 6.987667e-04 expansion 1.630456e-03
+ 6: 1.132140e-09 expansion 7.924983e-09
+ 7: 3.190434e-04 expansion 1.116652e-03
+ 8: 4.087461e-02  original 6.131192e-02
+ 9: 5.262320e-01 expansion 5.619431e-01
+10: 9.063800e-02 expansion 1.586165e-01
 BM pericyte axis -- generated summary
 Donor x cluster units (>=5 cells): 214; donors: 95
 Variance components: study SD 0.000, residual SD 0.912 -> ok
@@ -538,7 +538,7 @@ Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-06
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -599,4 +599,4 @@ Within-donor (cell-level Spearman per donor, >=20 cells, one-sample test):
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 18:38:35 - **** Job ends ****
+2026-09-06 04:19:26 - **** Job ends ****

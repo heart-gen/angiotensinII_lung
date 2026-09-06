@@ -710,6 +710,43 @@ Source data: `pericyte_cogaps/_m/cogaps_nP_selection.tsv`, `cogaps_seed_stabilit
 
 ### Figure S7 — `figureS_continuum_stability` — Stability of the pericyte transcriptional continuum across parameter and root choices
 
+> ### ⚠️ RE-ROOTED 2026-09-02 (P1-3) — every continuum sign above is superseded
+>
+> The DPT root never matched. `--root-state=vascular_stabilizing` is a
+> `state_program` value but was tested only against `pericyte_state`, which holds
+> numeric Leiden ids, so the root silently fell back to the global PC1 minimum —
+> **a `basement_membrane` cell, the opposite pole from the one requested.** The
+> published continuum was therefore not merely arbitrarily oriented but
+> **inverted**. Re-rooted correctly, **all 16 of 16 trend correlations flip sign**
+> with magnitudes essentially unchanged.
+>
+> | Endpoint (donor level) | Published | Re-rooted |
+> | --- | ---: | ---: |
+> | BM vs pseudotime | −0.177 (*P* = 0.013, sig.) | **−0.014 (BH = 0.715, null)** |
+> | Ambient tracer | −0.196 (BH = 3.6 × 10⁻¹⁰) | **+0.203 (BH = 7.9 × 10⁻⁹)** |
+> | TGF-β response | +0.134 (BH = 2.5 × 10⁻⁵) | **−0.131 (BH = 0.0011)** |
+> | BM − fibrillar switch | −0.063 (BH = 0.013, sig.) | **+0.024 (BH = 0.061, n.s.)** |
+>
+> **Two claims do not survive as stated.** The BM-versus-pseudotime association
+> becomes a **null** (−0.014, BH = 0.715), so "the BM score falls along the
+> continuum" should not be replaced by "rises" — it should be dropped. And the
+> switch index loses significance (BH 0.013 → 0.061).
+>
+> **⚠️ The "injury continuum" framing itself needs re-examination.** Rooted at the
+> stabilizing pole, the injury programs *decrease* along the axis (inflammatory
+> **−0.452**, activated/migratory **−0.392**, cell level) and **basement membrane
+> is the only program that rises** (+0.322). The axis runs stabilizing →
+> basement-membrane, not stabilizing → injury. Calling it an injury continuum was
+> a consequence of rooting it on a BM cell.
+>
+> **Caveat before that is over-read:** *every* program score except BM falls along
+> the axis, which is the signature of an overall score-magnitude gradient as much
+> as of program-specific biology. This needs checking before the axis is
+> reinterpreted, not assumed.
+>
+> Source: `pericyte_states/_m/{root_selection.tsv,pseudotime_trend_correlations.tsv}`,
+> `basement_membrane/_m/stats_data/bm_continuum_summary.tsv`.
+
 **Figure S7.** The vascular-stabilizing ↔ injury continuum is not an artifact of the analyst's
 choices. Diffusion pseudotime was recomputed across a grid of neighborhood sizes, diffusion-component
 counts, cell subsamples and root cells; every correlation shown is **donor-level** (Spearman of
