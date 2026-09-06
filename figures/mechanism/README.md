@@ -973,7 +973,9 @@ collagen.
 
 **(B)** Both matrix scores against *AGTR1* under the three measurement lenses. **The
 BM-versus-fibrillar contrast is positive under all three lenses; neither matrix score on its own
-is.** *BM − fibrillar* is +0.313 per SD denoised (BH = 9.2 × 10⁻⁶), +0.197 raw (BH = 0.0060) and
+is.** ⚠️ **All three lenses are tested against β = 0 and all three fail a detection-matched null
+(see the narrowing note at the end of this legend); the surviving claim rests on the count model
+alone.** *BM − fibrillar* is +0.313 per SD denoised (BH = 9.2 × 10⁻⁶), +0.197 raw (BH = 0.0060) and
 +0.165 by detection (BH = 0.028), and the fibrillar-orthogonalized BM residual behaves the same way
 (+0.178, +0.161, +0.159; all BH = 0.0047). The BM score alone reaches BH < 0.05 under the raw and
 detection lenses (+0.170, BH = 0.024; +0.209, BH = 0.017) but not under the denoised lens
