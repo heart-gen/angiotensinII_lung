@@ -729,6 +729,17 @@ feature's association intact — changing the root changes the orientation, not 
 
 ### Figure S11 — `figureS_state_composition` — Discrete pericyte-state composition does not differ across disease groups
 
+**⚠️ Re-fitted 2026-09-02 — the null holds and is now well powered; this legend's numbers and its
+model are superseded.** `+ age` was a study filter, not a covariate: it deleted five whole studies
+and left the null resting on **6 fibrotic donors** while the tables reported 93. The primary model
+now drops age (kept as an `_ageadj` sensitivity), adds **`(1 | study)`**, and fits **89 donors, 24
+fibrotic** — cluster fractions all BH ≥ 0.199, programs all BH ≥ 0.201, injury fraction Healthy vs
+Fibrotic/ILD *P* = 0.58. Two things a reader of the new tables must use: **COPD is *n* = 1** and
+alone drives cluster 5 to BH = 0.0005 (*P* = 0.51 excluding it — read `p_excl_small_groups`), and
+**`(1 | study)` is load-bearing** (without it, basement-membrane *P* = 0.0015 and
+vascular-stabilizing *P* = 0.0018 appear, both gone at 0.797/0.912 with study modelled). **This
+figure needs regenerating against the new tables.**
+
 **Figure S11.** A deliberate null that bounds what the discrete state model can be asked to do.
 Donor-level ANCOVA (fraction ~ disease group + age + sex) on donors with ≥ 20 pericytes; boxes and
 points are donors, diamonds are age/sex-adjusted marginal means ±95% CI. **(A)** Fractions of the

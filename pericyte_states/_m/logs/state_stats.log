@@ -1,5 +1,5 @@
-2026-09-06 03:39:45 - **** Job starts ****
-Job id: 45318921
+2026-09-06 03:47:26 - **** Job starts ****
+Job id: 45321856
 Hostname: r001
 
 Currently Loaded Modules:
@@ -7,8 +7,8 @@ Currently Loaded Modules:
 
  
 
-2026-09-06 03:39:46 - **** Loading mamba environment ****
-2026-09-06 03:39:48 - **** Donor-aware pericyte-state statistics ****
+2026-09-06 03:47:27 - **** Loading mamba environment ****
+2026-09-06 03:47:28 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -39,9 +39,9 @@ injury programs: activated_migratory | min_cells = 20
 There were 16 warnings (use warnings() to see them)
 
 Reproducibility information:
-[1] "2026-09-06 03:40:04 EDT"
+[1] "2026-09-06 03:47:45 EDT"
    user  system elapsed 
- 15.826   0.404  16.036 
+ 16.150   0.420  16.392 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -124,4 +124,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-06 03:40:05 - **** Job ends ****
+2026-09-06 03:47:45 - **** Job ends ****

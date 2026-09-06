@@ -293,18 +293,51 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
             fit <- fit_model(covars, "frac", sub)
             emm <- emmeans(fit, ~ disease_group)
             key <- sanitize(g)
+            ## Per-group donor counts and a small-group flag, for the same reason
+            ## they are on the injury endpoint: COPD is n = 1 here, and on its own
+            ## it drives cluster 5 to BH = 0.0005 (p = 0.51 once it is excluded).
+            ## A significant omnibus that rests on one donor must not reach a
+            ## reader as a bare p-value.
+            ## Count on the rows the MODEL used. `tidyr::complete()` above
+            ## re-introduces every donor that failed the cell filter as
+            ## n_total = NA, so counting `sub` directly would tally donors the
+            ## fit never saw -- the same error as P1-1, one level down. COPD
+            ## then looked like a normal-sized group and its single-donor
+            ## contrast went unflagged.
+            fitted_rows <- sub |> filter(!is.na(frac), !is.na(n_total))
+            grp_n <- fitted_rows |> distinct(donor_id, disease_group) |>
+                count(disease_group, name = "n_donors_group")
+            small <- grp_n$disease_group[grp_n$n_donors_group < 3]
             write_tsv_safe(as.data.frame(emm) |>
+                               left_join(grp_n, by = "disease_group") |>
                                mutate(min_cells = min_cells_per_donor,
-                                      n_donors = fit_n(fit), arm = arm_sfx),
+                                      n_donors = fit_n(fit), arm = arm_sfx,
+                                      estimable = n_donors_group >= 3),
                            file.path(outdir, paste0("composition_", tag, "_", key,
                                                     "_emmeans", sfx, arm_sfx, ".tsv")))
             write_tsv_safe(posthoc_with_ci(emm) |>
-                               mutate(min_cells = min_cells_per_donor, arm = arm_sfx),
+                               mutate(min_cells = min_cells_per_donor, arm = arm_sfx,
+                                      touches_small_group = Reduce(`|`,
+                                          lapply(small, function(x)
+                                              grepl(x, contrast, fixed = TRUE)), FALSE)),
                            file.path(outdir, paste0("composition_", tag, "_", key,
                                                     "_posthoc", sfx, arm_sfx, ".tsv")))
+            ## Refit without any <3-donor group so the omnibus can be read against
+            ## a version that no single donor can carry.
+            p_nosmall <- NA_real_
+            if (length(small)) {
+                sub2 <- fitted_rows |> filter(!disease_group %in% small) |>
+                    mutate(disease_group = droplevels(disease_group))
+                if (nlevels(sub2$disease_group) >= 2)
+                    p_nosmall <- tryCatch(
+                        disease_omnibus(fit_model(covars, "frac", sub2))[["Pr..F."]],
+                        error = function(e) NA_real_)
+            }
             results[[g]] <- data.frame(
                 level = g, n_donors = fit_n(fit), arm = arm_sfx,
-                disease_omnibus(fit))
+                disease_omnibus(fit),
+                p_excl_small_groups = p_nosmall,
+                small_groups = paste(small, collapse = ","))
         }
         anova_all <- bind_rows(results)
         if (!nrow(anova_all)) return(invisible(NULL))
