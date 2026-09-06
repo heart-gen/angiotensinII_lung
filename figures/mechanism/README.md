@@ -989,6 +989,34 @@ One depth caveat remains on the raw side: the within-donor raw-lens BM correlati
 (median donor ρ = 0.040, BH = 0.027) does not survive partialling out per-cell sequencing depth
 (partial ρ = 0.033, BH = 0.17).
 
+**⚠️ Narrowed 2026-09-02 — panel B's three lenses are all tested against β = 0, which is the wrong
+reference.** A random gene of the same detection rate does not give zero. Refitting every model with
+**175 genes matched to *AGTR1*'s 0.374 pericyte detection** substituted for *AGTR1* gives:
+
+| Model | β | Null mean | Emp. *p* (1-sided) |
+| --- | ---: | ---: | ---: |
+| Panel B's lenses → BM | +0.170 / +0.209 | +0.070 / +0.106 | 0.55 / 0.52 |
+| Panel B's lenses → BM − fibrillar | +0.197 / +0.165 | +0.025 / +0.028 | 0.28 / 0.36 |
+| **Count model → BM** | +0.058 | +0.001 | **0.173** |
+| **Count model → BM − fibrillar** | +0.080 | +0.013 | **0.029** |
+
+**The three-lens agreement in panel B carries less than it looks like:** 28–36 % of
+detection-matched genes beat those estimates. The lenses agree because they share the artifact, not
+because they converge on a signal. **The BM-alone rows should not be read as a result at all** —
+29 of 172 matched genes match or beat them.
+
+**What survives is the count model on the contrast, marginally:** only 4 of 174 matched genes reach
++0.080 (1-sided *p* = 0.029; 2-sided 0.051). Between-gene SD is 2.1× the model SE on the contrast
+and 4.0× on BM alone, which is why *P* = 3.2 × 10⁻⁷ against zero becomes *p* = 0.029 against genes:
+a model SE asks whether one gene's coupling is non-zero, a specificity claim asks whether it is
+unusual.
+
+The same run validates two rules this figure already follows. The count model's null is centred at
+**+0.001 / +0.013** while the lens regressions' sit at +0.070–+0.106 and gene-set panel scores at
+**+0.45** — the counts-with-offset design does remove the shared-expression artifact, which is the
+empirical case for it arbitrating. And the contrast null is centred and half as wide as the
+BM-alone null — the empirical case for "read the difference, not the components".
+
 *Legend corrected 2026-09-02.* This panel previously read "no *AGTR1*–matrix coupling can be
 claimed", citing denoised values of +0.029, +0.075 and +0.047. Those came from a scVI model trained
 on the soupX float matrix that failed its validity gate (donor ρ = 0.014, *P* = 0.91); the panel
