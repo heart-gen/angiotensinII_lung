@@ -1,0 +1,5 @@
+panel	n_genes_panel	n_genes_present	genes_missing
+basement_membrane	20	20	""
+fibrillar_collagen	8	8	""
+tgfb_smad	7	7	""
+tgfb_ieg	7	5	CCN1;CCN2

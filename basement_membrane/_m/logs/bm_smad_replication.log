@@ -1,0 +1,73 @@
+== panel coverage in the GSE136831 pseudobulk ==
+                panel n_genes_panel n_genes_present genes_missing
+               <char>         <int>           <int>        <char>
+1:  basement_membrane            20              20              
+2: fibrillar_collagen             8               8              
+3:          tgfb_smad             7               7              
+4:           tgfb_ieg             7               5     CCN1;CCN2
+
+Pericyte units at >=5 cells: 22
+
+   COPD Control     IPF 
+      6       1      15 
+dropping disease arms with <2 units: Control 
+
+== SMAD arm replication in GSE136831 (signs and significance only) ==
+      arm              outcome evaluable n_units    estimate   p_value
+   <char>               <char>    <lgcl>   <int>       <num>     <num>
+1:   smad bm_minus_fibrillar_z      TRUE      21 -0.08280507 0.5288780
+2:    ieg bm_minus_fibrillar_z      TRUE      21  0.03687647 0.7902627
+3:   smad                 bm_z     FALSE      21          NA        NA
+4:    ieg                 bm_z     FALSE      21          NA        NA
+   hlca_beta same_sign_as_hlca
+       <num>            <lgcl>
+1:   -0.1869              TRUE
+2:   -0.0138             FALSE
+3:   -0.0025                NA
+4:   -0.1867                NA
+
+== VERDICT ==
+Same sign as HLCA but not significant (p = 0.529) on 21 units.
+THIS TEST WAS NOT INFORMATIVE. Its 80%-power MDE is 0.361, larger than the HLCA effect it is meant to
+evaluate (-0.1869). GSE136831 could not have detected an effect
+of that size even if it were exactly true, so this is neither support nor
+a failed replication -- it is an absent test. P1-20(a) is NOT resolved by
+this dataset, and the claim stays a supplementary observation.
+
+Either way: 1 Control / 6 COPD / 15 IPF is a disease-skewed donor set, and
+no disease-stratified statement may be made from this file.
+
+PANEL SHRINKAGE: tgfb_ieg lost CCN1;CCN2.
+A panel that lost genes is a different panel -- weigh the arm accordingly.
+
+Reproducibility information:
+[1] "2026-09-07 13:12:48 EDT"
+- Session info -------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.4.3 (2025-02-28)
+ os       Red Hat Enterprise Linux 8.10 (Ootpa)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  C
+ ctype    C
+ tz       America/New_York
+ date     2026-09-07
+ pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
+ quarto   NA
+
+- Packages -----------------------------------------------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ cli           3.6.5   2025-04-23 [1] CRAN (R 4.4.3)
+ data.table  * 1.17.8  2025-07-10 [1] CRAN (R 4.4.3)
+ getopt        1.20.4  2023-10-01 [1] CRAN (R 4.4.3)
+ optparse    * 1.7.5   2024-04-16 [1] CRAN (R 4.4.3)
+ R.methodsS3   1.8.2   2022-06-13 [1] CRAN (R 4.4.3)
+ R.oo          1.27.1  2025-05-02 [1] CRAN (R 4.4.3)
+ R.utils       2.13.0  2025-02-24 [1] CRAN (R 4.4.3)
+ sessioninfo   1.2.3   2025-02-05 [1] CRAN (R 4.4.3)
+
+ [1] /ocean/projects/bio250020p/shared/opt/env/R_env/lib/R/library
+ * -- Packages attached to the search path.
+
+----------------------------------------------------------------------------------------------------------------------

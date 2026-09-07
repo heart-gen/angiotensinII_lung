@@ -128,7 +128,8 @@ summ <- rbindlist(lapply(seq_len(nrow(obs)), function(i) {
                           n_null = NA_integer_, null_mean = NA_real_,
                           null_sd = NA_real_, z_vs_null = NA_real_,
                           empirical_p = NA_real_, detectable_effect_80 = NA_real_,
-                          verdict = "no matched null (scVI cannot be permuted here)"))
+                          verdict = "no matched null (scVI cannot be permuted here)",
+                          citable_as = "CONCORDANT SENSITIVITY ONLY -- never as independent support, and never as the arbiter. Building a matched null would need scVI retrained per null gene; see P1-20(c)."))
     }
     nd <- res[lens == row$lens & outcome == row$outcome & converged == TRUE]
     mu <- mean(nd$estimate); sdev <- sd(nd$estimate)
@@ -143,12 +144,38 @@ summ <- rbindlist(lapply(seq_len(nrow(obs)), function(i) {
                empirical_p = emp,
                detectable_effect_80 = quantile(abs(nd$estimate - mu), 0.80),
                verdict = fifelse(emp < 0.05, "outside its matched null",
-                                 "INSIDE its matched null"))
+                                 "INSIDE its matched null"),
+               ## What this row may be used for, written next to the row rather
+               ## than left to a caption (P1-20c). A beta INSIDE its matched null
+               ## is not evidence, however small its model p-value is.
+               citable_as = fifelse(
+                   emp < 0.05,
+                   "citable: distinguishable from its detection-matched null",
+                   "NOT CITABLE as evidence: beta is INSIDE its matched null. Its model p-value tests beta = 0, which is the wrong reference."))
 }), fill = TRUE)
 fwrite(summ, file.path(opt$outdir, "agtr1_null_summary.tsv"), sep = "\t")
 
 message("\n---- AGTR1 vs its detection-matched null ----")
 print(summ[, .(predictor, outcome, beta_observed, null_mean, z_vs_null,
                empirical_p, verdict)])
+
+## The standing rule, stated by the run rather than remembered (P1-20c). If NO
+## lens regression clears its matched null on an outcome, that outcome has no
+## lens-based support at all and rests on the count model alone -- which is a
+## stronger statement than "do not cite the denoiser", and is the one that is
+## true here.
+for (oc in unique(summ$outcome)) {
+    r <- summ[outcome == oc]
+    testable <- r[!is.na(empirical_p)]
+    if (nrow(testable) == 0) next
+    if (all(testable$empirical_p >= 0.05))
+        message(sprintf(paste0(
+            "\nSTANDING RULE for `%s`: NONE of the %d lenses with a matched null ",
+            "clears it (empirical p %.2f-%.2f).\n  So no lens regression supports ",
+            "this outcome. `AGTR1_scvi` has no null at all and cannot rescue it. ",
+            "Any claim\n  on this outcome rests on the COUNT MODEL ",
+            "(10.agtr1_count_models.R) alone, and must say so."),
+            oc, nrow(testable), min(testable$empirical_p), max(testable$empirical_p)))
+}
 writeLines(capture.output(sessionInfo()),
            file.path(opt$outdir, "agtr1_null_sessionInfo.txt"))
