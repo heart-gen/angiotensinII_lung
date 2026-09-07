@@ -189,7 +189,7 @@ disease_agtr1_analysis <- function(
                                         # Plot
     plot_disease_agtr1(donor_celltype, outdir)
     return(list(donor_celltype = donor_celltype, enriched = enriched,
-                stats = stats, peri_freq = prei_freq))
+                stats = stats, peri_freq = peri_freq))
 }
 
 #### Main
