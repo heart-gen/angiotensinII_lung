@@ -81,7 +81,22 @@ if (!is.null(np)) {
                       "fourth comparison. Reconstruction error is reported as",
                       "fraction-unexplained: distributed CoGAPS does not populate",
                       "meanChiSq, so this is NOT a chi-square statistic.",
-                      "Validation was run for nP = 5, 7, 8, 9 only."))
+                      "Validation was run for nP = 5, 7, 8, 9 only.",
+                      "THE TWO COLUMNS THAT SELECT THE MAIN RANK:",
+                      "`min_r_collapse_zero` re-scores a pattern that matched",
+                      "NOTHING as r = 0 instead of letting mean(na.rm = TRUE) drop",
+                      "it -- dropping is generous to exactly the ranks that",
+                      "failed, and nP = 9 falls 0.952 -> 0.635 under it while",
+                      "nP = 8 is unchanged at 0.978. `n_patterns_seeds` /",
+                      "`dimension_consistent` report how many patterns each fit",
+                      "actually RETURNED against how many were requested:",
+                      "distributed CoGAPS need not return the requested count, and",
+                      "at nP = 9 the three replicate seeds return 10, 9 and 8.",
+                      "nP = 8 is the largest dimensionally consistent rank that",
+                      "also clears the 0.80 gate under either NA convention, which",
+                      "is why it is SELECTED (main) rather than nP = 9 -- the bare",
+                      "'largest nP with min_r >= 0.80' rule returns 9, and 9 is",
+                      "carried as the sensitivity rank for that reason."))
 }
 
 ## ---- B2: per-pattern cross-seed stability at the selected rank ----------

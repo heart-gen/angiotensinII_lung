@@ -1,44 +1,34 @@
 # Resume notes — basement-membrane + AGT-axis expansion
 
-Paused 2026-07-21. **Nothing has been committed.** Two background submitters are
-still running and will keep feeding SLURM jobs as QOS slots free (10-job cap):
-
-```
-scratchpad/cascade2.sh        # cell_communication chain + pseudobulk refreshes + figures
-scratchpad/cross_species.sh   # mouse scVI re-run with the BM panel
-```
-Scratchpad lives under
-`/ocean/projects/bio250020p/shared/tmp/claude-96597/.../scratchpad/`.
-To stop them: `pkill -f cascade2.sh; pkill -f cross_species.sh` (this does NOT
-cancel already-submitted jobs; use `scancel` for those).
-
-All jobs now run on account **bio250020p**. New module scripts carry it in the
-`#SBATCH` line; older modules still say `bio260021p` on disk and are overridden at
-submission with `sbatch --account=bio250020p`. Decide whether to make that
-permanent in their tracked files.
-
-## Is it safe to exit the session?
-
-Yes. Verified at pause time:
-
-- **SLURM jobs are fully independent of the session.** Once submitted they run to
-  completion regardless of whether Claude Code, the terminal, or the SSH
-  connection is alive.
-- **Both background submitters have PPID 1** (already reparented to init) and were
-  started with `nohup`, so they survive the session ending and will keep feeding
-  jobs as QOS slots free. They are not guaranteed to survive a login-node reboot.
-- **All work is written to disk.** Nothing is held in session state.
-- **Nothing is committed to git.** The work is safe on disk but unversioned, so
-  avoid destructive git operations (`git checkout .`, `git clean -fd`, `git reset
-  --hard`) in this repo until it is committed.
-
-If the submitters die before finishing, run `bash resubmit_remaining.sh` — it
-submits everything still outstanding, in dependency order, and lists the job IDs
-already submitted so you do not duplicate them. Check `squeue -u $USER` first;
-the script does not deduplicate.
-
-To stop everything instead:
-`pkill -f cascade2.sh; pkill -f cross_species.sh; scancel -u $USER`
+> ## ⚠️ HISTORICAL. Refreshed 2026-09-07 — read this box first.
+>
+> This file was written on **2026-07-21** to hand a paused session back to
+> itself. Its operational half described live SLURM submitters, an uncommitted
+> working tree, and a set of open decisions. **All of that is dead**, and some of
+> it was actively misleading by the time of this refresh:
+>
+> | Claim as written | Status 2026-09-07 |
+> | ---------------- | ----------------- |
+> | "Nothing has been committed." | **False.** The expansion and everything after it is committed; `main` is many commits ahead of the pause. Normal git operations are safe. |
+> | "Two background submitters are still running." | **Gone.** Nothing matching `cascade2.sh` or `cross_species.sh` is running, and the scratchpad they lived in is session-scoped and long expired. |
+> | "If the submitters die, run `bash resubmit_remaining.sh`." | The script is still in the repo root, but it targets the July job graph. **Do not run it blind** — it would resubmit work that has since been re-run several times, over inputs that have changed. |
+> | "All nine mechanism modules now have a per-analysis summary." | **False.** None of the nine `<module>/_h/ANALYSIS_SUMMARY.md` files is on disk. They were superseded by [`writings/pi_briefings/`](writings/pi_briefings/README.md), which has a unit per module. The list further down is kept as a record of what each summary *covered*, not as a claim that it exists. |
+> | "All jobs now run on account bio250020p." | True for the mechanism modules it was scoped to. Repo-wide it is **59 of 87** `step_*.sh`; the remaining 27 still say `bio260021p` and sit in `localization/`, the legacy `disease_association/{copd,ipf_analysis,mouse_cs,pericyte_analysis}/` trees and `inputs/`. Untouched, not fixed. |
+>
+> **The three current authorities, which this file is not:**
+>
+> | For | Read |
+> | --- | ---- |
+> | Open defects, priorities, and what each fix changed | [`writings/TODO.md`](writings/TODO.md) |
+> | What still has to be redrawn, and the checks to run after | [`figures/FIGURE_REGEN_TASKS.md`](figures/FIGURE_REGEN_TASKS.md) |
+> | Per-module analysis review, with numbers | [`writings/pi_briefings/`](writings/pi_briefings/README.md) |
+>
+> **What this file is still good for:** it is the only narrative record of *why*
+> the basement-membrane expansion was done and what it changed at the time.
+> Sections below that have since been superseded are marked inline. Numbers here
+> are **as of 2026-07-22** unless a note says otherwise — several have since moved
+> (the DPT re-root, the composition-model donor fix, the min-cells sweep), so
+> quote `writings/` or the module outputs, never this file.
 
 ## State of the world
 
@@ -58,6 +48,11 @@ To stop everything instead:
 - All 18 edited Python/R scripts parse cleanly.
 
 ### Running / queued at pause
+*(Historical. All of these completed in July 2026, and several have been re-run
+since — `pericyte_states` step_2/step_2b under the corrected DPT root on
+2026-09-02/07, `pathway_balance` on 2026-09-07. Kept as the record of what the
+pause was waiting on, not as current status.)*
+
 | Job | Status | Blocks |
 |---|---|---|
 | `bm_nichenet` | **DONE** — summarized | — |
@@ -72,13 +67,16 @@ consider whether `cell_communication` truly needs a full re-run: only
 (used by the BM selectivity result) does not, so the completed selectivity numbers
 are already valid.
 
-If the AGT bootstrap is too slow, drop `--nboot` from 300 to ~100 in
-`agt_axis/_h/step_1.sh`. The point estimate (AGT rank 11) is already established;
-the bootstrap only adds the interval.
+~~If the AGT bootstrap is too slow, drop `--nboot` from 300 to ~100.~~ It
+finished: rank median 18, 95% interval 6–63. Note that the "rank 11" point
+estimate quoted here is not the bootstrap median, and that **P3-8** records the
+rank bootstrap as downward-biased by construction — quote the `agt_axis` briefing,
+not this line.
 
-## Open decisions — ALL RESOLVED 2026-07-22
+## Open decisions — all resolved 2026-07-22; three have moved since
 
-Resolutions are recorded below each item. Two follow-up jobs were still running at
+Resolutions are recorded below each item, with a **2026-09-07** note wherever the
+July resolution has been overtaken. Two follow-up jobs were still running at
 the time of writing: `cogaps_run`→`validate`/`project`/`stability` (42529933–36,
 the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
 
@@ -114,6 +112,11 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
    surviving file reports BH ≥ 0.98, so the quoted number predates every output on
    disk. Either restore that analysis to the script and re-run, or drop the
    sentence — do not patch the number from the quarantined files.
+   **2026-09-07: still open, tracked as P1-4** — the oldest unresolved item in the
+   ledger. Note also that the composition tables whose *labels* this decision fixed
+   have since had their *numbers* corrected (P1-1/P1-2: the models reported 93
+   donors and fit 47; they now fit 89 with `(1 | study)` and a fourth disease
+   group), so nothing in `stats_data/` should be read from this section.
 5. **`pericyte_cogaps` steps 3 and 4 were stale, and the BM panel was missing** —
    **FIXED, re-running.** `00.prepare_cogaps_input.py` now forces in the
    basement-membrane panel; the feature space grew from 2,030 to **2,038 genes**
@@ -131,6 +134,16 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
    inflammation still has no marker-supported pattern. Seed stability improved for
    the outlier (0.30 → 0.700) but that outlier **is now the basement-membrane
    pattern**, which is a caveat that must travel with it.
+   **2026-09-07 — the operating rank was re-derived, and the 0.700 above is
+   nP = 5, not the rank in use.** The rank is **nP = 8 main / nP = 9 sensitivity**,
+   and the justification was strengthened from "8 maximises the weakest pattern's
+   reproducibility" (0.978 vs 0.952 — a hair) to a rule that selects 8 uniquely:
+   the largest rank that is *dimensionally consistent* — all four fits return
+   exactly 8 patterns, where nP = 9's three seeds return 10, 9 and 8 — **and** that
+   clears the 0.80 gate under either NA convention, nP = 9 falling 0.952 → 0.635
+   once an unmatched pattern is scored 0 instead of dropped by `na.rm`.
+   Supplementary Table **S06B2** shipped this section's nP = 5 numbers under the
+   title "at the selected rank" until P1-12 was fixed on 2026-09-07.
    **A latent trap was found and is being fixed.** `05.project_niche.R` labels its
    outputs from `cell_communication/_m/cogaps_receiver_annotation_np5.tsv`, which
    had not been regenerated — so after the re-run all five hardcoded labels in
@@ -140,6 +153,11 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
    annotation from the current correlations and cogaps `step_3` (42538665) re-runs
    the projection behind it. **Do not quote per-cell-type disease contrasts until
    those land**; the manuscript paragraph carries a blockquote saying so.
+   **2026-09-07: they landed, and a second defect in the same script was found
+   later.** `05.project_niche.R` contrasted every disease group against COPD
+   (*n* = 1) rather than Healthy — fixed as **P1-13** on 2026-09-02, with BH
+   columns added. Read `injury_pattern_disease_np{8,9}.tsv`, not the `np5` files
+   this paragraph refers to.
 6. **`pathway_balance` statistics had never successfully run** — **FIXED.**
    `01.balance_stats.R:94` used `df[, inj_cols]` on a data.table, which resolves
    the bare symbol as a column name; both 2026-07-21 attempts died there, leaving
@@ -150,6 +168,16 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
    **The conclusions changed and `MECHANISM_ANALYSES.md` was rewritten accordingly**
    (by-disease contrasts now n.s.; the adjustment no longer absorbs the disease
    term; the AT1R-arm-only result stands).
+   **2026-09-07 (P1-9): the module moved again, in two directions at once.**
+   Section (C) and the arm decomposition were plain `lm` with no `(1 | dataset)`
+   guard, and the module header quoted the unguarded number; both fits are now
+   written, distinguished by a `study_guard` column. For the balance composite the
+   guard demotes Healthy-vs-Other from *P* = 0.025 to **0.128**. For the AT1R arm
+   it changes nothing — the between-dataset SD is estimated at zero — so "the
+   AT1R-arm-only result stands" survives the guard. But AT1R Fibrotic/ILD moved
+   **out** of significance (0.030 → 0.053) because the `niche_index` re-run
+   restored two donors (28 → 30). Only AT1R Other survives, at *P* = 0.0124 on
+   3 "Other" donors.
 
 ## Summaries (per the per-analysis-summarization skill)
 
@@ -176,14 +204,16 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
 - `pathway_balance/_h/ANALYSIS_SUMMARY.md` — **COMPLETE**, on the corrected
   2026-07-22 numbers.
 - `sensitivity/_h/ANALYSIS_SUMMARY.md` — the two metadata limitations (no smoking
-  status for any diseased donor; no medication data at all). **Two corrections to
-  this entry:** the file is not on disk — the per-module summaries were superseded
-  by `writings/pi_briefings/` — and the leave-one-dataset-out breakdown it is
-  credited with was wrong. It is **1 of 17** refits significant, not 13 of 16; see
-  P1-11, fixed 2026-09-07.
+  status for any diseased donor; no medication data at all). **The
+  leave-one-dataset-out breakdown this entry credits it with was wrong**: it is
+  **1 of 17** refits significant, not 13 of 16, and the refits drop datasets, not
+  studies. Corrected repo-wide 2026-09-07 as P1-11.
 
-**All nine mechanism modules now have a per-analysis summary.**
-`disease_association/` and `localization/` do not — they predate this expansion.
+> **⚠️ None of the nine files listed above exists.** They were superseded by
+> `writings/pi_briefings/`, which covers thirteen units including
+> `disease_association/` and `localization/` — the two this section notes as
+> missing. The list is retained only as a record of what each summary covered.
+> Verified 2026-09-07 by checking all nine paths.
 
 ### Follow-up flagged by the NicheNet result — ADDRESSED, running
 `07.bm_nichenet_targets.R` ran with `--nperm 200`, which floors the empirical
@@ -205,7 +235,11 @@ ligands, sits at BH ~= 0.189. **The 200-perm z-scores were badly inflated** by t
 underestimated null SD and must not be quoted anywhere: MMP14 87.0 -> 27.1,
 TIMP2 37.5 -> 14.4, TGFB2 5.9 -> 3.2, TGFB1 2.4 -> 1.7. TGFB2 stays 5th and TGFB1
 12th; TGFB3 274th. `basement_membrane/_h/ANALYSIS_SUMMARY.md` was updated.
-Still to do: `MECHANISM_ANALYSES.md` does not yet state the MMP14 result.
+~~Still to do: `MECHANISM_ANALYSES.md` does not yet state the MMP14 result.~~
+**Done** — `MECHANISM_ANALYSES.md` carries MMP14 in seven places (checked
+2026-09-07). Related and still open: **P1-6**, that TGFB2 ranks first by NicheNet
+and is a donor-level null (ρ = 0.064, *P* = 0.52), which is the same resolution
+problem seen from the other side.
 
 ## Cross-species result (mouse) — RESOLVED, section rewritten
 

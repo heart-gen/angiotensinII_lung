@@ -101,9 +101,21 @@ chk("S02C1 detection-vs-depth rho (pooled)",
     maybe(x, x[dataset_id == "ALL DATASETS POOLED" &
                    grepl("^Agtr1a detection", measure), spearman_rho]), 0.432, tol = 1e-3)
 
-## -- threshold-dependent: assert against the >=20 SENSITIVITY rows, where the
-##    previously published values still apply. The >=10 primary fit is new and has
-##    no prior value to check, so it is validated structurally instead (below).
+## -- threshold-dependent: assert against the >=20 SENSITIVITY rows. The >=10
+##    primary fit is new and has no prior value to check, so it is validated
+##    structurally instead (below).
+##
+##    The premise here used to be "the previously published >=20 values still
+##    apply". That holds for S13E and S14B, whose models did not change, but NOT
+##    for S13D: `injury_fraction` is the one endpoint whose >=20 arm was ALSO
+##    case-deleted by `+ age`. Because age missingness in the HLCA is
+##    study-structured, `+ age` acted as a cohort filter (P1-2), and the >=20 fit
+##    ran on 36 donors (29 H / 4 F / 3 O), not 69 (32 / 17 / 20). Its published
+##    Healthy marginal mean, 0.0191567, is therefore a number the corrected model
+##    cannot reproduce and should not be asked to: re-pointed 2026-09-07 to the
+##    age-free >=20 fit. The nearest surviving comparison is the named
+##    `_ageadj` sensitivity at 0.0192790, which still differs from 0.0191567
+##    because the same fix added `(1 | study)` (df 5.33 against 31).
 ge20 <- function(d) if (is.null(d) || !"analysis_role" %in% names(d)) NULL else
     d[grepl(">=20", analysis_role)]
 
@@ -117,7 +129,7 @@ chk("S13E (>=20) Fibrotic_ILD marginal mean",
 
 x <- ge20(tsv("13D"))
 chk("S13D (>=20) Healthy injury fraction",
-    maybe(x, x[block == "marginal means" & disease_group == "Healthy", emmean]), 0.019157, tol = 1e-4, TRUE)
+    maybe(x, x[block == "marginal means" & disease_group == "Healthy", emmean]), 0.0158929, tol = 1e-4, TRUE)
 
 x <- ge20(tsv("14B"))
 chk("S14B (>=20) niche index F",

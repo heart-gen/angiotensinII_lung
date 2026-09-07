@@ -12,8 +12,8 @@ part	title	supports	n_rows	n_cols	status	file	sources
 05C2	AGTR1 by pericyte program under three lenses: pairwise contrasts	Figure 2; Figure S5	9	9	complete	tableS05C2.tsv	pericyte_states/_m/stats_data/agtr1_lenses_by_program_posthoc.tsv
 05C3	Top-ranked pericyte program under each AGTR1 measurement lens	Figure 2	3	4	complete	tableS05C3.tsv	pericyte_states/_m/stats_data/agtr1_lenses_top_program.tsv
 06A	ACTA2 benchmark: AGTR1 is not reducible to ACTA2+ contractile identity	Figure S4	22	13	complete	tableS06A.tsv	figures/mechanism/tableS_acta2_control.tsv; pericyte_states/_m/stats_data/acta2_by_program_posthoc.tsv
-06B1	CoGAPS rank selection: cross-seed pattern reproducibility and reconstruction error	Figure S8	7	7	complete	tableS06B1.tsv	pericyte_cogaps/_m/cogaps_nP_selection.tsv
-06B2	CoGAPS per-pattern cross-seed reproducibility at the selected rank	Figure S8	5	4	complete	tableS06B2.tsv	pericyte_cogaps/_m/cogaps_seed_stability_summary.tsv
+06B1	CoGAPS rank selection: cross-seed pattern reproducibility and reconstruction error	Figure S8	7	12	complete	tableS06B1.tsv	pericyte_cogaps/_m/cogaps_nP_selection.tsv
+06B2	CoGAPS per-pattern cross-seed reproducibility at the selected rank	Figure S8	8	5	complete	tableS06B2.tsv	pericyte_cogaps/_m/cogaps_seed_stability.tsv
 06B3	CoGAPS pattern-to-program correspondence: score correlations and PatternMarker overlaps	Figure S8	394	12	complete	tableS06B3.tsv	pericyte_cogaps/_m/validation_np{5,7,8,9}/pattern_panel_overlap.tsv.gz; .../pattern_score_spearman.tsv.gz; .../pattern_AGTR1_spearman.tsv.gz
 07	Donor- and cell-level correlations across the pericyte analyses	Figures 1-3; Figures S1, S4, S7	49	15	complete	tableS07.tsv	pericyte_states/_m/pseudotime_trend_correlations.tsv; pericyte_states/_m/stats_data/{acta2_control,AGTR1_program}_correlations.tsv; basement_membrane/_m/stats_data/{bm_vs_fibrillar_corr,bm_continuum_summary}.tsv; basement_membrane/_m/state_gate_axis_correlation.tsv; localization/pericyte_analysis/_m/stats_data/correlation_by_subcluster.tsv
 08A	Basement-membrane panel definition and pericyte detection	Figure 3A	20	12	complete	tableS08A.tsv	basement_membrane/_m/bm_panel_genes.tsv; basement_membrane/_m/bm_gene_detection_pericytes.tsv
@@ -36,11 +36,11 @@ part	title	supports	n_rows	n_cols	status	file	sources
 12B	Circuit-role classification: completeness of the angiotensin II axis per cell type	Figure S10	22	16	complete	tableS12B.tsv	agt_axis/_m/stats_data/ras_circuit_completeness.tsv
 12C	AGT rank stability, ligand coexpression, and predicted-target overlap	Results (local RAS); cited in place of Figure S10	114	23	complete	tableS12C.tsv	agt_axis/_m/stats_data/agt_ligand_rank_bootstrap.tsv; agt_axis/_m/stats_data/agt_ligand_coexpression.tsv; agt_axis/_m/stats_data/agt_target_overlap.tsv
 13A	Analysis cohorts and denominators for the disease models	Figure 5; Figure S11	6	21	complete	tableS13A.tsv	pericyte_states/_m/pericytes_states_metadata.tsv.gz; disease_association/_m/mixed_model_forest/smoking_availability_by_disease.tsv
-13B	Six stable cluster fractions by disease group	Figure S11	84	21	complete	tableS13B.tsv	pericyte_states/_m/stats_data/composition_state_*
-13C	Three dominant-program fractions by disease group	Figure S11	42	21	complete	tableS13C.tsv	pericyte_states/_m/stats_data/composition_program_*
-13D	Grouped injury-associated state fraction by disease group	Figure S11	12	16	complete	tableS13D.tsv	pericyte_states/_m/stats_data/injury_fraction_*
+13B	Six stable cluster fractions by disease group	Figure S11	108	26	complete	tableS13B.tsv	pericyte_states/_m/stats_data/composition_state_*
+13C	Three dominant-program fractions by disease group	Figure S11	54	26	complete	tableS13C.tsv	pericyte_states/_m/stats_data/composition_program_*
+13D	Grouped injury-associated state fraction by disease group	Figure S11	16	21	complete	tableS13D.tsv	pericyte_states/_m/stats_data/injury_fraction_*
 13E	Primary injury-stromal disease model	Figure 5A	30	25	complete	tableS13E.tsv	niche_index/_m/stats_data/injury_stromal_score_*
 13F	Receptor-inclusive sensitivity composite (injury-stromal score + AGTR1+ fraction)	Figure S12	30	25	complete	tableS13F.tsv	niche_index/_m/stats_data/injury_stromal_score_sens_agtr1_*
-14A	Leave-one-study-out robustness of the donor-level disease effects	Figure S12	72	13	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
+14A	Leave-one-dataset-out robustness of the donor-level disease effects	Figure S12	72	16	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
 14B	Net niche-stability index by disease group	Figure S12	60	25	complete	tableS14B.tsv	niche_index/_m/stats_data/niche_index_*
 14C	Smoking-data availability and covariate robustness	Figure S12	48	14	complete	tableS14C.tsv	sensitivity/_m/stats_data/*.tsv
