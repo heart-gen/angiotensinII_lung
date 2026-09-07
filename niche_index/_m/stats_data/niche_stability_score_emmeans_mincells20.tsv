@@ -1,4 +1,4 @@
-disease_group	emmean	SE	df	lower.CL	upper.CL	n_donors	min_cells	model
-Healthy	0.0310516245058905	0.0995480368763089	31	-0.171977935265707	0.234081184277488	36	20	lm(~ disease_group + age + sex)
-Fibrotic_ILD	0.5781129858708	0.256589554373881	31	0.0547951395204077	1.10143083222119	36	20	lm(~ disease_group + age + sex)
-Other	0.0154156452406638	0.291549398924534	31	-0.579203274154713	0.610034564636041	36	20	lm(~ disease_group + age + sex)
+disease_group	emmean	SE	df	lower.CL	upper.CL	n_donors	min_cells	arm	n_studies	study_sd	singular	n_donors_group	small_groups	estimable	model
+Healthy	0.08789829800884	0.209695812398518	18.6913382906505	-0.351491148766706	0.527287744784386	69	20	primary	17	0.595999037979414	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lmer(disease_group + sex + (1 | study))
+Fibrotic_ILD	0.0249796942524144	0.239463336268802	28.681263167776	-0.465014342211044	0.514973730715873	69	20	primary	17	0.595999037979414	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lmer(disease_group + sex + (1 | study))
+Other	0.154463531672428	0.331739493027291	13.5789280535957	-0.559122402939502	0.868049466284358	69	20	primary	17	0.595999037979414	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lmer(disease_group + sex + (1 | study))

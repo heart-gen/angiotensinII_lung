@@ -1,0 +1,4 @@
+contrast	estimate	SE	df	t.ratio	p.value	n_donors	min_cells	arm	n_studies	study_sd	singular	n_donors_group	small_groups	estimable	model	p_excl_small_groups
+Healthy - Fibrotic_ILD	0.395453907034457	0.477609324471231	41.7201692639089	0.827986152641117	0.828150706842901	47	10	_ageadj	13	0.847508340317212	FALSE	Healthy=38;Fibrotic_ILD=6;Other=3	none	TRUE	lmer(disease_group + sex + age + (1 | study))	NA
+Healthy - Other	0.586001403377719	0.951522506640296	9.74531255466087	0.615856586983754	0.828150706842901	47	10	_ageadj	13	0.847508340317212	FALSE	Healthy=38;Fibrotic_ILD=6;Other=3	none	TRUE	lmer(disease_group + sex + age + (1 | study))	NA
+Fibrotic_ILD - Other	0.190547496343261	1.03661725851329	12.0414660220428	0.183816635096875	0.857216385679901	47	10	_ageadj	13	0.847508340317212	FALSE	Healthy=38;Fibrotic_ILD=6;Other=3	none	TRUE	lmer(disease_group + sex + age + (1 | study))	NA

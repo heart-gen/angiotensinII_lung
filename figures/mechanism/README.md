@@ -872,27 +872,33 @@ relabelled abundance change.
 
 ### Figure S12 — `figureS_sensitivity` — Robustness and limitations of the disease-associated injury-stromal signal
 
+> **⚠️ LEGEND UPDATED 2026-09-07 (P1-10); THE FIGURE HAS NOT BEEN REDRAWN.** The
+> `sensitivity/` and `niche_index/` models changed — `+ age` dropped from the
+> primary (it was a study filter deleting 42 of 89 donors and three-quarters of
+> the fibrotic arm) and `(1 | study)` added — and every panel below now describes
+> the new run. **Panels B, C and D on disk still plot the old one**, including a
+> stability arm drawn as rising and a LOSO panel showing 17 refits with one
+> significant. Re-run before use; tracked in `figures/FIGURE_REGEN_TASKS.md`.
+
 **Figure S12.** What the donor-level disease association does and does not survive. **(A)** The
 injury-stromal score by disease group under the primary composite (*AGTR1* excluded) and under a
 sensitivity composite that adds the *AGTR1*-positive fraction; points are donors, diamonds are
 marginal means ±95% CI. Excluding *AGTR1* avoids both dropout and circularity, and it does not
 create the disease association — the two composites give the same picture. **(B)** The
-vascular-stability component and the net niche-stability index. Stability **rises alongside**
-injury in fibrotic/ILD lungs, which is precisely why the net index (stability minus injury) is a
-weaker discriminator than its injury half; the net index is reported for completeness, not as the
-primary endpoint. **(C)** Smoking status is recorded for 14 of 32 Healthy donors and for **no**
-diseased donor, so a smoking-stratified disease contrast is not merely underpowered but
-inestimable. **(D)** Leave-one-dataset-out (17 refits; the
+vascular-stability component and the net niche-stability index. The stability arm is **flat**
+across disease groups (*F*₃,₅₂.₃ = 0.15, *P* = 0.93), so the net index (stability minus injury)
+tracks its injury half; the net index is reported for completeness, not as the primary endpoint.
+**(C)** Smoking status is recorded for **21 of 42** Healthy donors and for **no**
+diseased donor (0 of 47), so a smoking-stratified disease contrast is not merely underpowered but
+inestimable. **(D)** Leave-one-dataset-out (**23 refits**; the
 rows are datasets, not studies — `Sun_2020_batch1`–`batch4` and `Meyer_2021_3prime`/`5prime` are
-dropped separately). The Fibrotic/ILD effect on the injury-stromal score stays positive in all 17
-refits and its magnitude is stable — 16 of the 17 estimates lie between 0.440 and 0.548 — but it
-reaches *P* < 0.05 in only **one** (`Meyer_2019`, *P* = 0.048). This panel therefore shows
-consistency of direction and size under persistent underpowering, not significance-level
-robustness: the fit has 6 fibrotic donors of 47. `Lafyatis_2019` supplies 4 of those 6, and
-dropping it is the single refit that moves the estimate, cutting it 43% to 0.301 (*P* = 0.513).
-`injury_frac` (17/17 positive) and `niche_index` (0/17 positive) are non-significant in every
-refit; `AGTR1_pos_frac` reaches *P* = 0.030 in exactly one refit — the `Lafyatis_2019` drop, which
-leaves 2 fibrotic donors and is not interpretable as an effect. **(E)** Among donors that do carry a smoking label, the injury/*AGTR1* readouts show
+dropped separately). The Fibrotic/ILD effect on the injury-stromal score stays positive **and
+significant in all 23 refits**, estimates 0.643–0.920, *P* from 3.7 × 10⁻⁴ to 0.012 — weakest
+dropping `Banovich_Kropski_2020` (0.643, *P* = 0.0093), strongest dropping `Schiller_2020`
+(0.920). This panel is therefore a **significance-robustness** result, not merely a consistency
+check. `injury_frac` is positive in 23/23 and non-significant in every one (*P* = 0.247–0.564);
+`niche_index` is negative in 23/23 and significant in 22 (*P* = 0.0012–0.061); `AGTR1_pos_frac` is
+negative in 23/23 and non-significant throughout (*P* = 0.226–0.828). **(E)** Among donors that do carry a smoking label, the injury/*AGTR1* readouts show
 no smoking gradient (marginal means ±95% CI). **(F)** The Healthy-vs-Fibrotic/ILD effect is
 essentially unchanged when smoking is added as a covariate. Donor counts here come from the
 `sensitivity`/`niche_index` modules; the within-study meta-analysis in the disease main figure uses

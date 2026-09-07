@@ -180,3 +180,30 @@ These are hand-curated and do **not** come out of `step_figures.sh`:
    cluster-0 and PC1-max roots).
 3. **`niche_stability_score` is now a real 2-component composite** — any legend
    describing it as vascular-stabilizing alone is stale.
+
+---
+
+## Added 2026-09-07 — the niche_index / sensitivity model change (P1-10)
+
+`niche_index/_h/01.niche_disease_stats.R` and `sensitivity/_h/00.sensitivity.R`
+moved from `lm(~ disease_group + age + sex)` (no study term, 47 of 89 donors) to
+`lmer(~ disease_group + sex + (1 | study))` on all 89. Both modules were re-run
+(jobs 45444388 / 45444507 / 45444589). **Every figure reading their tables is
+stale**, and three panels now plot something that is no longer true:
+
+| Figure / panel | What is on disk | What the tables now say |
+| -------------- | --------------- | ----------------------- |
+| **S12 B** — stability arm | drawn as **rising** in fibrotic/ILD | **flat**, *F*₃,₅₂.₃ = 0.15, *P* = 0.93 |
+| **S12 C** — smoking availability | 14 of 32 Healthy, 0 of 37 diseased | **21 of 42**, 0 of 47 |
+| **S12 D** — LOSO | **17** refits, **1** significant, est 0.440–0.548 | **23** refits, **23** significant, est 0.643–0.920 |
+| **S12 A / E / F** | 36-donor `+ age` marginal means | 89-donor primary means |
+
+Two things to verify after the redraw, because they are new failure modes:
+
+1. **The COPD arm is one donor.** Dropping `+ age` restored it. Panels that draw
+   disease groups must either omit it or mark it — and any *P* quoted next to it
+   should be the `p_excl_small_groups` column, which is now emitted alongside
+   `p.value` in every `niche_index` posthoc/anova table.
+2. **`leave_one_study_out.tsv` gained columns** (`n_studies`, `singular`, `model`)
+   and grew from 68 to 92 rows. `sensitivity_robustness_figure.R` should be checked
+   for anything that assumed the old width or the old 17-row-per-response shape.

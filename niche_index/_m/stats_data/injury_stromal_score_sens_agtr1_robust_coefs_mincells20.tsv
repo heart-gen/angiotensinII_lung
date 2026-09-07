@@ -1,6 +1,6 @@
-Estimate	Std. Error	t value	Pr(>|t|)	term	n_donors	min_cells	model
--0.340017387626549	0.240170503281004	-1.41573333519946	0.166822726420732	(Intercept)	36	20	lm(~ disease_group + age + sex)
-0.646317923646394	0.308612016368639	2.09427335737427	0.0445052151236486	disease_groupFibrotic_ILD	36	20	lm(~ disease_group + age + sex)
-0.77248521873454	0.33397522723785	2.31300155141265	0.0275261843419347	disease_groupOther	36	20	lm(~ disease_group + age + sex)
-0.00428240011883712	0.00414274972440108	1.03370958994059	0.309269226075085	age	36	20	lm(~ disease_group + age + sex)
-0.0781132999377981	0.176951270616655	0.441439610270004	0.661958635142815	sexmale	36	20	lm(~ disease_group + age + sex)
+Estimate	Std. Error	t value	Pr(>|t|)	term	n_donors	min_cells	arm	n_studies	study_sd	singular	n_donors_group	small_groups	estimable	model
+-0.0465043361459945	0.149863032994597	-0.310312257911337	0.757331801325255	(Intercept)	69	20	primary	17	0.384047456673623	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lm + HC3 -- UNGUARDED, comparison only
+0.821782183160074	0.227573633970907	3.61106059968762	0.000599623780065187	disease_groupFibrotic_ILD	69	20	primary	17	0.384047456673623	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lm + HC3 -- UNGUARDED, comparison only
+0.146113232513936	0.220125421949165	0.663772640252694	0.509220008151969	disease_groupOther	69	20	primary	17	0.384047456673623	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lm + HC3 -- UNGUARDED, comparison only
+-0.00171989334848853	0.18417258300098	-0.0093384874147059	0.992578122282817	sexmale	69	20	primary	17	0.384047456673623	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lm + HC3 -- UNGUARDED, comparison only
+-0.454634844762188	0.243964073861339	-1.86353194372622	0.0669764791504331	sexunknown	69	20	primary	17	0.384047456673623	FALSE	Healthy=32;Fibrotic_ILD=17;Other=20	none	TRUE	lm + HC3 -- UNGUARDED, comparison only

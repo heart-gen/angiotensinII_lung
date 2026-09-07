@@ -86,13 +86,22 @@ def main():
     for c in score_cols:
         donor[f"mean_{c}"] = g[c].mean()
     # carry covariates
+    # NOTE ON THE GROUPING: donor -> study is 1:1 across all 194 donors, but three
+    # donors contribute cells to two `dataset` values, so `dataset` here is a
+    # first-of and `study` is the column to model on.
+    # `dataset` and `study` are carried so the donor-level models downstream can
+    # fit a study random intercept. Without them 01.niche_disease_stats.R had no
+    # way to guard against the between-study confounding this compartment is
+    # known to carry, and fitted a plain `lm` (defect P1-10).
     meta = g.agg(disease=("disease", "first"),
                  lung_condition=("lung_condition", "first"),
                  smoking_status=("smoking_status", "first"),
                  sex=("sex", "first"),
                  ethnicity=("self_reported_ethnicity", "first"),
                  age=("age_or_mean_of_age_range", "mean"),
-                 BMI=("BMI", "first"))
+                 BMI=("BMI", "first"),
+                 dataset=("dataset", "first"),
+                 study=("study", "first"))
     donor = donor.join(meta)
     donor = donor[donor["n_cells"] >= args.min_cells].copy()
 

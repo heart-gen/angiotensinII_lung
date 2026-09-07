@@ -2,16 +2,40 @@
 ##
 ## Re-fits disease effects on injury-state fraction, niche index, injury-stromal
 ## score, and AGTR1+ fraction with progressively added covariates:
-##   base:        resp ~ disease_group + age + sex
-##   + smoking:   ... + smoking_status
-##   + comorbid:  ... + smoking_status + BMI
-## plus smoking-stratified emmeans and leave-one-study-out (LOSO) robustness.
+##   base:        resp ~ disease_group + sex + (1 | study)      <- the PRIMARY model
+##   + age:       ... + age                                     (age-complete donors only)
+##   + smoking:   ... + smoking                                 (all donors; label is a level)
+##   + comorbid:  ... + smoking + BMI
+## plus smoking-stratified emmeans and leave-one-dataset-out (LOSO) robustness.
+##
+## ** REVISED 2026-09-07 (defect P1-10). ** The base model here used to be
+## `lm(~ disease_group + age + sex)` -- no study term, and `drop_na(age)` applied
+## before every fit. That mirrored `niche_index/_h/01`, which has now moved to
+## `lmer(~ disease_group + sex + (1 | study))` for the reasons written into that
+## script's header (age missingness is study-structured and deletes 42 of 89
+## donors, three-quarters of them fibrotic). A covariate-robustness module whose
+## OWN base model differs from the primary it is testing cannot do its job, so the
+## base is realigned and `+ age` becomes one of the arms being tested -- which is
+## what a covariate-sensitivity analysis should have been doing with it anyway.
+## Each row carries `n` and `restriction` so a shrinking sample is visible rather
+## than inferred.
+##
+## LOSO is over `dataset`, not `study`, and the column and axis say so (P1-11).
 ##
 ## LIMITATION (documented): the HLCA has NO medication metadata, so medication
 ## (e.g., ACE inhibitor / ARB use) sensitivity cannot be tested here; it is a
 ## limitation to state in the manuscript and a question for future cohorts.
 
-suppressPackageStartupMessages({ library(dplyr); library(tidyr); library(emmeans) })
+suppressPackageStartupMessages({
+    library(dplyr); library(tidyr); library(emmeans); library(lmerTest)
+})
+emm_options(lmerTest.limit = 30000, pbkrtest.limit = 30000)
+
+## Fit an lmer when the formula carries a random term, an lm otherwise.
+fit_model <- function(form, data) {
+    if (any(grepl("\\|", labels(terms(form)))))
+        suppressMessages(lmerTest::lmer(form, data = data)) else lm(form, data = data)
+}
 
 map_disease_group <- function(lc) {
     lc <- as.character(lc)
@@ -41,26 +65,61 @@ donor <- data.table::fread(NICHE) |>
            age = suppressWarnings(as.numeric(age)), sex = factor(sex),
            BMI = suppressWarnings(as.numeric(BMI)))
 
-## donor -> dataset map for LOSO
-dataset_map <- data.table::fread(STATES) |>
-    group_by(donor_id) |> summarise(dataset = dplyr::first(dataset), .groups = "drop")
-donor <- left_join(donor, dataset_map, by = "donor_id")
+## `dataset` and `study` now arrive on the niche table itself (added to
+## 00.niche_index.py 2026-09-07). Joining a second copy here produced
+## `dataset.x`/`dataset.y` and a hard failure, so the map is only built when the
+## upstream table predates that change.
+if (!all(c("dataset", "study") %in% names(donor))) {
+    dataset_map <- data.table::fread(STATES) |>
+        group_by(donor_id) |>
+        summarise(dataset = dplyr::first(dataset), study = dplyr::first(study),
+                  .groups = "drop")
+    donor <- left_join(donor, dataset_map, by = "donor_id")
+}
+stopifnot(all(c("dataset", "study") %in% names(donor)))
+donor <- donor |> mutate(study = factor(study), dataset = factor(dataset))
+cat("donors:", nrow(donor), "| studies:", nlevels(droplevels(donor$study)),
+    "| datasets:", nlevels(droplevels(donor$dataset)), "\n")
+print(table(donor$disease_group))
 
 RESPONSES <- c("injury_frac", "niche_index", "injury_stromal_score", "AGTR1_pos_frac")
 
 ## ---- (1) covariate robustness ------------------------------------------
 covariate_robustness <- function(resp) {
-    d <- donor |> tidyr::drop_na(all_of(resp), age, sex) |>
+    d <- donor |> tidyr::drop_na(all_of(resp), sex) |>
         mutate(disease_group = droplevels(disease_group))
-    models <- list(
-        base      = reformulate(c("disease_group", "age", "sex"), resp),
-        smoking   = reformulate(c("disease_group", "age", "sex", "smoking"), resp),
-        comorbid  = reformulate(c("disease_group", "age", "sex", "smoking", "BMI"), resp))
-    rows <- lapply(names(models), function(m) {
-        dm <- if (m == "comorbid") tidyr::drop_na(d, BMI) else d
-        fit <- lm(models[[m]], data = dm)
+    n_base <- nrow(d)
+    ## Each arm names the rows it needs, so a covariate that is really a cohort
+    ## filter shows up as a drop in `n` rather than as a quiet change in estimate.
+    arms <- list(
+        base     = list(terms = c("disease_group", "sex", "(1 | study)"),
+                        need = character(0), note = "PRIMARY -- all donors"),
+        age      = list(terms = c("disease_group", "sex", "age", "(1 | study)"),
+                        need = "age",
+                        note = "RESTRICTED to age-reporting cohorts -- not an age adjustment"),
+        smoking  = list(terms = c("disease_group", "sex", "smoking", "(1 | study)"),
+                        need = character(0),
+                        note = "smoking label is a factor level; diseased donors are all other/unknown"),
+        comorbid = list(terms = c("disease_group", "sex", "smoking", "BMI", "(1 | study)"),
+                        need = "BMI", note = "RESTRICTED to BMI-reporting donors"))
+    rows <- lapply(names(arms), function(m) {
+        a  <- arms[[m]]
+        dm <- if (length(a$need)) tidyr::drop_na(d, all_of(a$need)) else d
+        dm <- mutate(dm, disease_group = droplevels(disease_group))
+        if (nlevels(dm$disease_group) < 2 || dplyr::n_distinct(dm$study) < 2) {
+            cat("SKIP", resp, m, "-- groups:", nlevels(dm$disease_group),
+                "studies:", dplyr::n_distinct(dm$study), "\n")
+            return(NULL)
+        }
+        fit <- try(fit_model(reformulate(a$terms, resp), dm), silent = TRUE)
+        if (inherits(fit, "try-error")) { cat("FAIL", resp, m, "\n"); return(NULL) }
         e <- as.data.frame(emmeans(fit, ~ disease_group))
-        e$model <- m; e$response <- resp; e$n <- nrow(dm); e
+        e$model <- m; e$response <- resp; e$n <- nrow(dm)
+        e$n_dropped_vs_base <- n_base - nrow(dm); e$restriction <- a$note
+        e$n_donors_group <- paste(names(table(dm$disease_group)),
+                                  as.integer(table(dm$disease_group)),
+                                  sep = "=", collapse = ";")
+        e
     })
     bind_rows(rows)
 }
@@ -77,7 +136,7 @@ write_tsv_safe(cov_res, file.path(outdir, "covariate_robustness_emmeans.tsv"))
 ## do carry a smoking label (effectively the Healthy donors), which is what the
 ## data can actually support.
 strat <- donor |> filter(smoking %in% c("never", "former", "active")) |>
-    tidyr::drop_na(injury_stromal_score, age, sex)
+    tidyr::drop_na(injury_stromal_score, sex)
 
 ## (2a) smoking x disease availability table (drives the confound note)
 avail <- donor |> mutate(has_smk = smoking %in% c("never", "former", "active")) |>
@@ -92,7 +151,7 @@ write_tsv_safe(avail, file.path(outdir, "smoking_availability_by_disease.tsv"))
 strat_rows <- lapply(c("never", "former", "active"), function(sm) {
     sub <- strat |> filter(smoking == sm) |> mutate(disease_group = droplevels(disease_group))
     if (nlevels(sub$disease_group) < 2 || nrow(sub) < 8) return(NULL)
-    fit <- lm(injury_stromal_score ~ disease_group + age, data = sub)
+    fit <- lm(injury_stromal_score ~ disease_group, data = sub)
     e <- as.data.frame(emmeans(fit, ~ disease_group)); e$smoking <- sm; e$n <- nrow(sub); e
 })
 strat_res <- bind_rows(strat_rows)
@@ -107,29 +166,48 @@ write_tsv_safe(strat_res, file.path(outdir, "smoking_stratified_injury.tsv"))
 smk_main <- function(resp) {
     d <- donor |> filter(smoking %in% c("never", "former", "active")) |>
         mutate(smoking = factor(smoking, levels = c("never", "former", "active"))) |>
-        tidyr::drop_na(all_of(resp), age) |> droplevels()
+        tidyr::drop_na(all_of(resp)) |> droplevels()
     if (nlevels(d$smoking) < 2 || nrow(d) < 8) return(NULL)
-    terms <- c("smoking", "age"); if (nlevels(factor(d$sex)) > 1) terms <- c(terms, "sex")
-    fit <- lm(reformulate(terms, resp), data = d)
+    ## Age is not required here either: this arm is already restricted to the
+    ## smoking-labelled donors, and stacking a second missingness filter on top
+    ## makes the reported n uninterpretable.
+    terms <- "smoking"; if (nlevels(factor(d$sex)) > 1) terms <- c(terms, "sex")
+    if (dplyr::n_distinct(d$study) > 1) terms <- c(terms, "(1 | study)")
+    fit <- try(fit_model(reformulate(terms, resp), d), silent = TRUE)
+    if (inherits(fit, "try-error")) return(NULL)
     e <- as.data.frame(emmeans(fit, ~ smoking)); e$response <- resp; e$n <- nrow(d)
+    e$model <- paste(terms, collapse = " + ")
     e
 }
 smk_main_res <- bind_rows(lapply(RESPONSES, smk_main))
 write_tsv_safe(smk_main_res, file.path(outdir, "smoking_main_effect_healthy.tsv"))
 
 ## ---- (3) leave-one-study-out (LOSO) -------------------------------------
+## Refits the PRIMARY model with one dataset removed. `age` is deliberately NOT a
+## drop_na target here: requiring it would silently make every LOSO refit a
+## different, age-restricted analysis than the effect being tested.
 loso <- function(resp = "injury_stromal_score") {
-    d <- donor |> tidyr::drop_na(all_of(resp), age, sex, dataset) |>
+    d <- donor |> tidyr::drop_na(all_of(resp), sex, dataset, study) |>
         mutate(disease_group = droplevels(disease_group))
     if (!"Fibrotic_ILD" %in% levels(d$disease_group)) return(NULL)
-    out <- lapply(unique(d$dataset), function(ds) {
-        sub <- d |> filter(dataset != ds) |> mutate(disease_group = droplevels(disease_group))
+    out <- lapply(levels(droplevels(d$dataset)), function(ds) {
+        sub <- d |> filter(dataset != ds) |>
+            mutate(disease_group = droplevels(disease_group), study = droplevels(study))
         if (!all(c("Healthy", "Fibrotic_ILD") %in% levels(sub$disease_group))) return(NULL)
-        fit <- lm(reformulate(c("disease_group", "age", "sex"), resp), data = sub)
-        ct <- summary(fit)$coefficients
+        if (dplyr::n_distinct(sub$study) < 2) return(NULL)
+        fit <- try(suppressMessages(lmerTest::lmer(
+            reformulate(c("disease_group", "sex", "(1 | study)"), resp), data = sub)),
+            silent = TRUE)
+        if (inherits(fit, "try-error")) return(NULL)
+        ct   <- summary(fit)$coefficients
         term <- grep("Fibrotic_ILD", rownames(ct), value = TRUE)[1]
+        if (is.na(term)) return(NULL)
         data.frame(dropped_dataset = ds, response = resp, n = nrow(sub),
-                   estimate = ct[term, 1], se = ct[term, 2], p = ct[term, 4])
+                   n_studies = dplyr::n_distinct(sub$study),
+                   estimate = ct[term, "Estimate"], se = ct[term, "Std. Error"],
+                   p = ct[term, ncol(ct)],
+                   singular = lme4::isSingular(fit),
+                   model = "lmer(~ disease_group + sex + (1 | study))")
     })
     bind_rows(out)
 }

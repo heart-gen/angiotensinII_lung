@@ -1,5 +1,3 @@
-Sum Sq	Df	F value	Pr(>F)	n_donors	min_cells	model
-disease_group	1.04673489749943	2	2.08260778614443	0.141693637960089	36	20	lm(~ disease_group + age + sex)
-age	1.30744902167059	1	5.20266118770456	0.0295793787220074	36	20	lm(~ disease_group + age + sex)
-sex	0.314753414680348	1	1.2524812418021	0.271676075878176	36	20	lm(~ disease_group + age + sex)
-Residuals	7.790420749976	31	NA	NA	36	20	lm(~ disease_group + age + sex)
+Sum Sq	Mean Sq	NumDF	DenDF	F value	Pr(>F)	n_donors	min_cells	arm	n_studies	study_sd	singular	p_excl_small_groups	small_groups	estimable	n_donors_group	model
+disease_group	0.0258548305619506	0.0129274152809753	2	24.6756130790595	0.0690759130613845	0.933435639755108	69	20	primary	17	0.595999037979414	FALSE	NA	none	TRUE	Healthy=32;Fibrotic_ILD=17;Other=20	lmer(disease_group + sex + (1 | study))
+sex	0.0368408158566525	0.0184204079283263	2	57.3998833834511	0.098426983968315	0.906414483472246	69	20	primary	17	0.595999037979414	FALSE	NA	none	TRUE	Healthy=32;Fibrotic_ILD=17;Other=20	lmer(disease_group + sex + (1 | study))
