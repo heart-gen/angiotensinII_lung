@@ -113,8 +113,23 @@ res <- obs |>
     ) |>
     ungroup() |>
     arrange(desc(obs_aupr)) |>
-    mutate(rank = row_number(), receiver = RECEIVER,
-           p_emp_adj = p.adjust(p_emp, "BH"))
+    mutate(rank_by_aupr = row_number(), receiver = RECEIVER,
+           p_emp_adj = p.adjust(p_emp, "BH"),
+           ## ORDER LIGANDS BY z, NOT BY AUPR OR BY p_emp (defect P1-6).
+           ## `p_emp` is bounded below by 1/(N_PERM+1), so every strong ligand
+           ## piles up on the floor and the p-value cannot rank them. Raw AUPR is
+           ## not comparable across ligands either -- each has its own null mean
+           ## and sd, and the calibrated statistic REVERSES the raw headline
+           ## (TGFB1 z > TGFB2 z while TGFB2 has the higher AUPR). `z` is the
+           ## calibrated quantity and is what any prose should quote.
+           rank_by_z = rank(-z, ties.method = "first"),
+           p_emp_at_floor = p_emp <= 1 / (N_PERM + 1),
+           rank_note = ifelse(rank_by_aupr == rank_by_z, "aupr and z agree",
+                              sprintf("DISAGREE: aupr rank %d, z rank %d -- quote z",
+                                      rank_by_aupr, rank_by_z))) |>
+    ## `rank` retained under its old name so downstream readers do not break, but
+    ## it is the AUPR ordering and is no longer the one to report.
+    mutate(rank = rank_by_aupr)
 
 data.table::fwrite(res, file.path(OUTDIR, sprintf("nichenet_specificity_%s.tsv", RECEIVER)),
                    sep = "\t")

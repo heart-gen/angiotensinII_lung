@@ -61,8 +61,41 @@ fit_one <- function(sub, pred, spec) {
     }
 }
 
+## PREDICTORS, and what each one is for (defect P1-6, extended 2026-09-07).
+##
+##   sender_ligand_mean  AGGREGATE niche signalling. This is the claim that
+##                       validates, and the level any manuscript statement should
+##                       be scoped to.
+##   sender_TGFB1/2      LIGAND-SPECIFIC transcript in the sender. These are the
+##                       problem: TGFB2 ranks first by NicheNet AUPR and is a
+##                       donor-level null; TGFB1 sits on the boundary and crosses
+##                       it depending on the dataset specification.
+##   receiver_TGFB_SMAD  PATHWAY ACTIVITY in the receiver -- the canonical SMAD2/3
+##                       negative-feedback module. A ligand transcript is a poor
+##                       proxy for signalling (TGF-beta is secreted latent and
+##                       activated post-translationally), so this asks the
+##                       mechanistic question directly. THE READOUT for a
+##                       TGF-beta claim.
+##   receiver_TGFB_IEG   DISCRIMINATING CONTROL, not a second test. These AP-1 /
+##                       BMP / YAP-TAZ genes respond to warm dissociation and carry
+##                       59.2% between-study variance where the SMAD arm carries
+##                       0.0% (basement_membrane/_h/TGFB_SPECIFICITY_PLAN.md). If
+##                       IEG predicts the target program and SMAD does not, the
+##                       association is a protocol artifact and NO TGF-beta claim
+##                       may be made from it.
+##
+## Both receiver predictors are measured on the same pericytes as the outcome and
+## share no gene with it (asserted in 04.donor_validation.py).
+PREDICTORS <- c("sender_TGFB1", "sender_TGFB2", "sender_ligand_mean",
+                "receiver_TGFB_SMAD", "receiver_TGFB_IEG")
+PRED_ROLE <- c(sender_TGFB1       = "ligand-specific transcript",
+               sender_TGFB2       = "ligand-specific transcript",
+               sender_ligand_mean = "AGGREGATE -- the defensible claim level",
+               receiver_TGFB_SMAD = "pathway activity -- the TGF-beta readout",
+               receiver_TGFB_IEG  = "DISCRIMINATING CONTROL -- dissociation-responsive, not a TGF-beta claim")
+
 results <- list()
-for (pred in c("sender_TGFB1", "sender_TGFB2", "sender_ligand_mean")) {
+for (pred in PREDICTORS) {
     if (!pred %in% names(d)) { cat("skipping absent predictor:", pred, "\n"); next }
     sub <- d |> tidyr::drop_na(receiver_target_expr, all_of(pred))
     if (nrow(sub) < 10 || all(!is.finite(sub[[pred]]))) {
@@ -80,7 +113,8 @@ for (pred in c("sender_TGFB1", "sender_TGFB2", "sender_ligand_mean")) {
                  model = "lm(no dataset adj)", figure = NA_character_)
         est <- unname(f$co["Estimate"]); se <- unname(f$co["Std. Error"])
         results[[paste(pred, spec)]] <- data.frame(
-            predictor = pred, n_donors = nrow(sub), model = f$model, figure = f$figure,
+            predictor = pred, role = unname(PRED_ROLE[pred]),
+            n_donors = nrow(sub), model = f$model, figure = f$figure,
             spearman_rho = unname(ct$estimate), spearman_p = ct$p.value,
             adj_estimate = est, adj_se = se,
             adj_ci_lo = est - 1.96 * se, adj_ci_hi = est + 1.96 * se,
@@ -94,6 +128,46 @@ res <- res |> group_by(model) |> mutate(adj_p_BH = p.adjust(adj_p, method = "BH"
     ungroup() |> as.data.frame()
 write_tsv(res, file.path(outdir, "donor_validation_results.tsv"))
 print(res)
+
+## The SMAD-vs-IEG comparison is the whole point of adding the receiver arms, so
+## it is stated in the log rather than left for a reader to assemble.
+if (all(c("receiver_TGFB_SMAD", "receiver_TGFB_IEG") %in% res$predictor)) {
+    cmp <- res[res$predictor %in% c("receiver_TGFB_SMAD", "receiver_TGFB_IEG"), ]
+    cat("\n== TGF-beta pathway activity: SMAD arm vs dissociation control ==\n")
+    print(cmp[, c("predictor", "role", "model", "spearman_rho", "spearman_p",
+                  "adj_estimate", "adj_p", "adj_p_BH")], row.names = FALSE)
+    sm <- cmp[cmp$predictor == "receiver_TGFB_SMAD" & cmp$model == "lmer(+1|dataset)", ]
+    ie <- cmp[cmp$predictor == "receiver_TGFB_IEG" & cmp$model == "lmer(+1|dataset)", ]
+    if (nrow(sm) == 1 && nrow(ie) == 1) {
+        if (sm$adj_p_BH >= 0.05 && ie$adj_p_BH < 0.05)
+            cat("VERDICT: IEG predicts and SMAD does not -- treat as a dissociation/",
+                "activation artifact. Do NOT make a TGF-beta signalling claim.\n", sep = "")
+        else if (sm$adj_p_BH < 0.05 && ie$adj_p_BH >= 0.05)
+            cat("VERDICT: the SMAD arm validates at donor level and the dissociation\n",
+                "control does not. This IS the specific result and supports a TGF-beta\n",
+                "signalling claim at the pathway level.\n", sep = "")
+        else if (sm$adj_p_BH < 0.05)
+            ## Both significant. Which is the BETTER predictor decides how this can
+            ## be described, and the comparable statistic is rho -- the betas are on
+            ## different panel-score scales and cannot be ranked against each other.
+            cat("VERDICT: the SMAD arm validates (rho ", signif(sm$spearman_rho, 3),
+                ", BH ", signif(sm$adj_p_BH, 3), ") -- a firmer footing than either\n",
+                "ligand transcript. BUT the dissociation control ALSO validates (rho ",
+                signif(ie$spearman_rho, 3), ", BH ", signif(ie$adj_p_BH, 3), "), ",
+                if (ie$spearman_rho > sm$spearman_rho) "and predicts the target program\nBETTER"
+                else "though it predicts the target program\nless well",
+                ". So the association is NOT separable from a generic activation\n",
+                "program at donor level, and it may NOT be described as TGF-beta-specific.\n",
+                "The defensible claim stays at the AGGREGATE niche-signalling level.\n",
+                "(The target program itself contains ACTA2, TAGLN, SERPINE1, IL6, CXCL2,\n",
+                "ICAM1, VCAM1 -- an activation program -- so this confound is expected,\n",
+                "not surprising, and no amount of donor-level modelling will remove it.)\n",
+                sep = "")
+        else
+            cat("VERDICT: neither receiver arm reaches BH < 0.05. The TGF-beta claim",
+                " stays at the AGGREGATE ligand level.\n", sep = "")
+    }
+}
 
 ## scatter: fibroblast TGFB1 vs whole-pericyte target program (per donor)
 ds <- d |> tidyr::drop_na(sender_TGFB1, receiver_target_expr)
