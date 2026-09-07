@@ -126,12 +126,20 @@ These are hand-curated and do **not** come out of `step_figures.sh`:
 
 ## Open questions that affect what the figures should say
 
-1. **Is this still an "injury continuum"?** Rooted correctly, the injury
-   programs *fall* along the axis (inflammatory −0.452, activated/migratory
-   −0.392) and basement membrane is the only program that *rises* (+0.322). But
-   **every** program except BM falls, which is equally consistent with an overall
-   score-magnitude gradient. Any axis label asserting "injury" is currently
-   unsupported. **Resolve before finalising Figure 2F's axis title.**
+1. ~~**Is this still an "injury continuum"?**~~ **RESOLVED 2026-09-07 — it is not,
+   and the name has been dropped repo-wide.** Rooted correctly, the injury programs
+   *fall* along the axis (inflammatory −0.452, activated/migratory −0.392) and
+   basement membrane is the only program that *rises* (+0.322); the re-run `02b`
+   sweep (question 2) then showed the poles are basement-membrane versus everything
+   else, with `activated_migratory` on the *same* end as `vascular_stabilizing`.
+   **Axis titles should read "vascular-stabilizing ↔ basement-membrane", never
+   "injury".** Applies to Figure 2E/2F, `figure_mechanism_main` panel E, and S7.
+
+   Still open, and unaffected: **every** program except BM falls, which is equally
+   consistent with an overall score-magnitude gradient. Depth-adjusted partials
+   preserve the pattern (BM +0.400, inflammatory −0.511), so it is not a pure depth
+   artifact — but "BM rises while the rest fall" is the claim to make, not a
+   mechanism.
 2. ~~**The continuum sensitivity sweep (`02b`) has not been re-run under the new
    root.**~~ **RESOLVED 2026-09-07** — re-run, and it bears directly on question 1
    above. The axis is bipolar with **`vascular_stabilizing` and

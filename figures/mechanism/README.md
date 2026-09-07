@@ -18,8 +18,8 @@ standalone titles, and spell symbols out in ASCII inside multi-line annotations.
 The narrative arc the figures deliver:
 
 > niche signals (CCC/NicheNet) → drive pericyte target programs → reframed as interpretable
-> functional **states/programs** → arranged on a vascular-stabilizing ↔ injury/fibrotic
-> **continuum** → summarized as a donor-level **niche-stability index** → with an
+> functional **states/programs** → arranged on a vascular-stabilizing ↔ basement-membrane
+> **axis** → summarized as a donor-level **niche-stability index** → with an
 > **AT1R/AT2R balance** axis rationalizing AGTR1 blockade → robust to smoking/cohort
 > confounders → and **conserved in mouse**.
 
@@ -130,20 +130,20 @@ NB GLMM on *AGTR1* integer counts with a library-size offset — which sides wit
 ordering (basement-membrane Leiden clusters above vascular-stabilizing ones, BH = 0.0031–0.024).
 The raw enrichment is therefore a transcript-capture/dropout effect, and *AGTR1* is not a
 vascular-stabilizing state marker. **(E)** Diffusion
-pseudotime on the same embedding, ordering cells along a vascular-stabilizing ↔ injury/fibrotic
-continuum (ordering reflects transcriptional similarity, not time). **(F)** Donor-level Spearman
+pseudotime on the same embedding, ordering cells along a vascular-stabilizing ↔ basement-membrane
+axis (ordering reflects transcriptional similarity, not time). **(F)** Donor-level Spearman
 correlation between each of the six program scores and *AGTR1* under **both** measurement lenses
 and pseudotime; orange = *P* < 0.05, and the two *AGTR1* rows carry the panel-D lens colours as a
-ring (blue = raw, orange = denoised). The five injury/mural scores rise monotonically along the
-continuum (donor ρ ≈ 0.19–0.52), whereas the **basement-membrane score falls**
-(donor ρ = −0.17, *P* = 0.016) — pericytes shed the structural BM program as they move toward the
-injury pole. Raw *AGTR1* shows a weak positive trend (ρ ≈ 0.25); the scVI-denoised lens is plotted
+ring (blue = raw, orange = denoised). The five mural/injury scores *decline* along the axis
+(donor ρ ≈ −0.29 to −0.57), whereas the **basement-membrane score is the lone riser**
+(donor ρ = +0.14, *P* = 0.055, n.s.; cell-level ρ = +0.32). Raw *AGTR1* declines
+(ρ = −0.30), as does the denoised lens (ρ = −0.37); the scVI-denoised lens is plotted
 beside it because raw *AGTR1* and every module score share a sequencing-depth gradient, and panel
 D, corroborated by the count-model arbiter, has already shown that this gradient is what
 manufactures *AGTR1*'s apparent program bias. The
 raw row alone would invite exactly the reading D refutes. Together: where *AGTR1* sits (A–C), why
-it is a compartment label not a state marker (D), and how the compartment is organized as an
-injury continuum (E–F).
+it is a compartment label not a state marker (D), and how the compartment is organized along the
+basement-membrane axis (E–F).
 
 ### `figure_ccc_nichenet` — Niche signaling drives pericyte target programs
 
@@ -234,7 +234,7 @@ so TGF-β's predicted regulatory target is fibrillar collagen, not basement memb
 therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
 TGF-β-dominated axis that drives the injury program.
 
-### `figure_mechanism_main` — Donor-level disease phenotype and the stabilizing↔injury continuum
+### `figure_mechanism_main` — Donor-level disease phenotype and the stabilizing↔basement-membrane axis
 
 **Figure.** Pericyte niche state across health and disease at the donor level. **(A)**
 Niche-stability index and **(B)** injury-stromal score per donor, grouped by disease
@@ -247,11 +247,11 @@ effect is redundant with the injury-stromal score and collapses after adjustment
 activated/migratory — plus the continuous-program assignments).
 **(E)** Continuum trends: donor-level Spearman correlation between diffusion-pseudotime ordering
 and each of the six program scores / *AGTR1*; points colored by significance (orange, *P* < 0.05).
-The ordering reflects transcriptional similarity along a vascular-stabilizing ↔ injury/fibrotic
-**continuum**, not a temporal axis. Vascular-stabilizing, inflammatory, synthetic/contractile,
-and activated/migratory scores rise monotonically along the continuum (donor ρ ≈ 0.46–0.52,
-*P* < 1×10⁻¹¹); the **basement-membrane score falls** (donor ρ = −0.17, *P* = 0.016); *AGTR1*
-shows a weak positive trend (ρ ≈ 0.25). Assemble with the state UMAP,
+The ordering reflects transcriptional similarity along a vascular-stabilizing ↔ basement-membrane
+**axis**, not a temporal axis. Vascular-stabilizing, inflammatory, synthetic/contractile
+and activated/migratory scores all *decline* along the axis (donor ρ ≈ −0.44 to −0.57,
+*P* < 1×10⁻¹⁰); the **basement-membrane score is the lone riser** (donor ρ = +0.14, *P* = 0.055,
+n.s.); *AGTR1* declines under both lenses (raw ρ = −0.30, denoised ρ = −0.37). Assemble with the state UMAP,
 DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`. *n* = 32 donors (donor-level
 mixed-model marginal means; df = 31).
 
@@ -747,37 +747,58 @@ Source data: `pericyte_cogaps/_m/cogaps_nP_selection.tsv`, `cogaps_seed_stabilit
 > **already a null before the re-root** (−0.021, BH = 0.624): the re-root did not
 > create that null, and saying it “becomes” one overstated what the fix changed.
 >
-> **⚠️ The "injury continuum" framing itself needs re-examination.** Rooted at the
+> **✅ The "injury continuum" framing has been dropped (2026-09-07).** Rooted at the
 > stabilizing pole, the injury programs *decrease* along the axis (inflammatory
 > **−0.452**, activated/migratory **−0.392**, cell level) and **basement membrane
-> is the only program that rises** (+0.322). The axis runs stabilizing →
-> basement-membrane, not stabilizing → injury. Calling it an injury continuum was
-> a consequence of rooting it on a BM cell.
+> is the only program that rises** (+0.322). The re-run `02b` sweep confirms the
+> axis has a basement-membrane pole and no injury pole: rooting at the
+> `activated_migratory` program reproduces the `vascular_stabilizing` signs exactly,
+> while rooting at `basement_membrane` reverses all eight features together. Calling
+> it an injury continuum was a consequence of rooting it on a BM cell. Refer to it as
+> the **basement-membrane axis**.
 >
-> **Caveat before that is over-read:** *every* program score except BM falls along
-> the axis, which is the signature of an overall score-magnitude gradient as much
-> as of program-specific biology. This needs checking before the axis is
-> reinterpreted, not assumed.
+> **Caveat that is unaffected and stays open:** *every* program score except BM falls
+> along the axis, which is the signature of an overall score-magnitude gradient as
+> much as of program-specific biology. Depth-adjusted partials preserve the pattern
+> (BM +0.400, inflammatory −0.511), so it is not a pure depth artifact, but "BM rises
+> while the rest fall" is the claim the data support, not a mechanism.
 >
 > Source: `pericyte_states/_m/{root_selection.tsv,pseudotime_trend_correlations.tsv}`,
 > `basement_membrane/_m/stats_data/bm_continuum_summary.tsv`.
 
-**Figure S7.** The vascular-stabilizing ↔ injury continuum is not an artifact of the analyst's
+**⚠️ Re-run 2026-09-07 under the corrected root — every number in the previous version of this
+legend was computed at the wrong pole.** `02b` carried its own copy of `pick_root` with the same
+column mismatch as P1-3, so all 18 "canonical" runs used the global PC1 minimum, a
+`basement_membrane` cell, while *writing* `root=vascular_stabilizing` into the runs table. The
+output misreported its root rather than losing it. `02b` now imports `pick_root` from `02`, so no
+second copy remains to drift.
+
+**Figure S7.** The vascular-stabilizing ↔ basement-membrane axis is not an artifact of the analyst's
 choices. Diffusion pseudotime was recomputed across a grid of neighborhood sizes, diffusion-component
 counts, cell subsamples and root cells; every correlation shown is **donor-level** (Spearman of
 per-donor mean pseudotime against per-donor mean score), aggregated exactly as the headline analysis
-does. **(A)** Donor-level ρ between pseudotime and each of the six program scores plus *AGTR1*
-across the 18 parameter settings (columns: n_neighbors / n_DCs / subsample %). **(B)** The spread of
-those 18 estimates per feature; the label is the fraction of settings sharing the sign of the mean,
-which is **100% for all seven features**. The estimates are tight (s.d. ≤ 0.032, full range ≤ 0.085
-for every feature), and the canonical setting reproduces the headline analysis exactly
-(vascular-stabilizing ρ = 0.520, *AGTR1* ρ = 0.249, basement-membrane ρ = −0.177, identical to the
-values in `pseudotime_trend_correlations.tsv`). **(C)** The same correlations after re-rooting pseudotime at each of
-the six stable clusters in turn and at both extremes of the leading latent axis. **(D)** |ρ| under
-the canonical vascular-stabilizing root against |ρ| under each alternative root (open symbols = the
-sign flipped); points fall on the identity line at Spearman ρ(|ρ|) = 0.92. Re-rooting at the
-opposite pole reverses the *direction* of pseudotime, as it must, but leaves the strength of every
-feature's association intact — changing the root changes the orientation, not the underlying axis.
+does. **(A)** Donor-level ρ between pseudotime and each of the six program scores plus *AGTR1* under
+**both** lenses (eight features) across the 18 parameter settings (columns: n_neighbors / n_DCs /
+subsample %). **(B)** The spread of those 18 estimates per feature; the label is the fraction of
+settings sharing the sign of the mean, which is **100% for all eight features**. The estimates are
+tight (s.d. ≤ 0.035), and the canonical setting reproduces the headline analysis **bit-identically**
+for all eight features (vascular-stabilizing ρ = −0.5729, raw *AGTR1* ρ = −0.2973, denoised *AGTR1*
+ρ = −0.3742, basement-membrane ρ = +0.1382 — identical to `pseudotime_trend_correlations.tsv`).
+**(C)** The same correlations after re-rooting pseudotime at each of the two non-canonical state
+programs, each of the six stable clusters, and both extremes of the leading latent axis (ten roots).
+**(D)** |ρ| under the canonical vascular-stabilizing root against |ρ| under each alternative root
+(open symbols = the sign flipped); Spearman ρ(|ρ|) ≥ 0.88 for every alternative root and exactly
+1.00 for the cluster-0 and PC1-max roots. Re-rooting at the opposite pole reverses the *direction*
+of pseudotime, as it must, but leaves the strength of every feature's association intact — changing
+the root changes the orientation, not the underlying axis.
+
+**What panel C establishes beyond robustness.** The eight features always flip **together**, never
+feature-by-feature, so the axis is bipolar rather than a bundle of independent gradients. Which sign
+a root returns therefore identifies which end it sits on — and the ends are `basement_membrane`
+(the BM program, clusters 1/3/5, PC1 min) versus **everything else**: rooting at the
+`activated_migratory` program reproduces the `vascular_stabilizing` signs exactly. **Injury is not a
+pole.** This is the evidence on which the "injury continuum" name was dropped repo-wide on
+2026-09-07. Root provenance for every run is in `continuum_sensitivity_root_audit.tsv`.
 
 ### Figure S11 — `figureS_state_composition` — Discrete pericyte-state composition does not differ across disease groups
 

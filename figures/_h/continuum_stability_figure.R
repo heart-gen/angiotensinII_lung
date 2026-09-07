@@ -2,8 +2,10 @@
 ## the analyst's choices?
 ##
 ## The headline result is that along a diffusion pseudotime rooted at the
-## vascular-stabilizing pole, the injury / activation / ECM program scores rise and
-## the basement-membrane score falls. A reviewer can object that this depends on the
+## vascular-stabilizing pole, the injury / activation / ECM program scores FALL and
+## the basement-membrane score RISES -- the far pole is basement-membrane, which is
+## why this is the basement-membrane axis and not an "injury continuum" (the old name
+## came from rooting on a BM cell; see P1-3). A reviewer can object that this depends on the
 ## root cell, the neighborhood size, the number of diffusion components, or the
 ## particular cells included. pericyte_states/_h/02b.continuum_sensitivity.py re-runs
 ## DPT across all of those choices; this figure shows the resulting distribution.

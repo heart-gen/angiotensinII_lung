@@ -127,7 +127,7 @@ pD <- ggplot(emm, aes(program, centered, colour = lens, group = lens)) +
                        legend.text = element_text(size = 6), legend.key.size = unit(3, "mm"),
                        axis.text.x = element_text(angle = 20, hjust = 1))
 
-## E: DPT pseudotime on the SAME embedding (WHY -- stabilizing<->injury continuum)
+## E: DPT pseudotime on the SAME embedding (WHY -- stabilizing<->basement-membrane axis)
 pE <- umap_cont(df, "dpt_pseudotime", "Pseudotime", option = "magma", dir = -1)
 
 ## F: donor-level continuum trends (programs & AGTR1 vs pseudotime)

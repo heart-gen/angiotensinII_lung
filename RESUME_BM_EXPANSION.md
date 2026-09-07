@@ -255,9 +255,11 @@ NEEDS REVISION blockquote is gone. New outputs are the seven
 - On BM-minus-fibrillar, pericytes separate from every fibroblast population
   (P down to 5×10⁻³⁰¹) but are **indistinguishable from capillary endothelium**.
 - The BM cluster pattern **survives orthogonalization** against fibrillar ECM.
-- Along the injury continuum, fibrillar rises (median ρ = 0.040, BH = 0.014) while
-  BM does not (ρ = 0.025, P = 0.84); the BM-minus-fibrillar switch index falls
-  (ρ = −0.054, BH = 0.014).
+- Along the continuum **as then rooted** (superseded — the root was the wrong pole;
+  see P1-3), fibrillar rose (median ρ = 0.040, BH = 0.014) while BM did not
+  (ρ = 0.025, P = 0.84) and the BM-minus-fibrillar switch index fell (ρ = −0.054,
+  BH = 0.014). Re-rooted, the switch is **n.s.** (+0.024, BH = 0.061) and the axis is
+  the basement-membrane axis, not an injury continuum.
 - COPD: null on LAMB1/LAMA4 across 7 powered compartments (all BH ≥ 0.81), with a
   working IPF positive control (endothelial HSPG2 P = 1.5×10⁻⁵). **No pericyte
   COPD claim** — only one Control donor clears 5 pericytes.

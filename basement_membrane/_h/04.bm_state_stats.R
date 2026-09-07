@@ -508,7 +508,7 @@ if (all(c("bm_v1_score", "basement_membrane_score") %in% names(pb))) {
     print(wide)
 }
 
-## ------------------------------------------- BM along the injury continuum ----
+## ---------------------------------- BM along the basement-membrane axis ----
 if (!is.na(opt$continuum) && file.exists(opt$continuum)) {
     cont <- fread(opt$continuum)
     setnames(cont, 1, "index")
