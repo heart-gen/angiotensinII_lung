@@ -175,9 +175,12 @@ the BM-panel re-run) and `bm_nichenet` at `--nperm 10000` (42529989).
   injury-stromal *arm*, not the net index, is the interpretable readout.
 - `pathway_balance/_h/ANALYSIS_SUMMARY.md` — **COMPLETE**, on the corrected
   2026-07-22 numbers.
-- `sensitivity/_h/ANALYSIS_SUMMARY.md` — **COMPLETE.** Includes the exact
-  leave-one-study-out breakdown (13 of 16 significant) and the two metadata
-  limitations (no smoking status for any diseased donor; no medication data at all).
+- `sensitivity/_h/ANALYSIS_SUMMARY.md` — the two metadata limitations (no smoking
+  status for any diseased donor; no medication data at all). **Two corrections to
+  this entry:** the file is not on disk — the per-module summaries were superseded
+  by `writings/pi_briefings/` — and the leave-one-dataset-out breakdown it is
+  credited with was wrong. It is **1 of 17** refits significant, not 13 of 16; see
+  P1-11, fixed 2026-09-07.
 
 **All nine mechanism modules now have a per-analysis summary.**
 `disease_association/` and `localization/` do not — they predate this expansion.

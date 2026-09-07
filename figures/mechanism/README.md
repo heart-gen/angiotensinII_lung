@@ -839,11 +839,17 @@ injury in fibrotic/ILD lungs, which is precisely why the net index (stability mi
 weaker discriminator than its injury half; the net index is reported for completeness, not as the
 primary endpoint. **(C)** Smoking status is recorded for 14 of 32 Healthy donors and for **no**
 diseased donor, so a smoking-stratified disease contrast is not merely underpowered but
-inestimable. **(D)** Leave-one-study-out: across all 16 refits the Fibrotic/ILD effect on the
-injury-stromal score stays positive, and it remains significant in 13 of 16; significance is lost
-only when one of three fibrosis-enriched cohorts is removed, which reflects loss of exposed donors
-rather than dependence on a single cohort. The other three responses are non-significant across
-every refit. **(E)** Among donors that do carry a smoking label, the injury/*AGTR1* readouts show
+inestimable. **(D)** Leave-one-dataset-out (17 refits; the
+rows are datasets, not studies — `Sun_2020_batch1`–`batch4` and `Meyer_2021_3prime`/`5prime` are
+dropped separately). The Fibrotic/ILD effect on the injury-stromal score stays positive in all 17
+refits and its magnitude is stable — 16 of the 17 estimates lie between 0.440 and 0.548 — but it
+reaches *P* < 0.05 in only **one** (`Meyer_2019`, *P* = 0.048). This panel therefore shows
+consistency of direction and size under persistent underpowering, not significance-level
+robustness: the fit has 6 fibrotic donors of 47. `Lafyatis_2019` supplies 4 of those 6, and
+dropping it is the single refit that moves the estimate, cutting it 43% to 0.301 (*P* = 0.513).
+`injury_frac` (17/17 positive) and `niche_index` (0/17 positive) are non-significant in every
+refit; `AGTR1_pos_frac` reaches *P* = 0.030 in exactly one refit — the `Lafyatis_2019` drop, which
+leaves 2 fibrotic donors and is not interpretable as an effect. **(E)** Among donors that do carry a smoking label, the injury/*AGTR1* readouts show
 no smoking gradient (marginal means ±95% CI). **(F)** The Healthy-vs-Fibrotic/ILD effect is
 essentially unchanged when smoking is added as a covariate. Donor counts here come from the
 `sensitivity`/`niche_index` modules; the within-study meta-analysis in the disease main figure uses

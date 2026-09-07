@@ -333,18 +333,30 @@ for (resp in c("injury_stromal_score", "injury_stromal_score_sens_agtr1")) {
 ## =========================================================================
 loso <- read_src(SE("leave_one_study_out.tsv"))
 if (!is.null(loso)) {
-    ## "significant in 13 of 16" is quoted but the count was never stored.
+    ## The summary rows exist because the count was quoted in prose but never
+    ## stored, and the quoted value ("significant in 13 of 16") was wrong in both
+    ## halves -- the table is 1 of 17 (P1-11). `n_positive` is added alongside
+    ## `n_significant` because for the injury-stromal score the defensible claim
+    ## is consistency of sign and magnitude, not significance.
     summ <- loso[, .(n_refits = .N, n_significant = sum(p < 0.05),
+                     n_positive = sum(estimate > 0),
                      estimate_min = min(estimate), estimate_max = max(estimate),
+                     p_min = min(p), p_max = max(p),
                      n_donors_min = min(n), n_donors_max = max(n)), by = response]
     write_part(rbindlist(list(loso[, block := "per-refit"],
                               summ[, block := "summary"]), fill = TRUE), "14A",
-        "Leave-one-study-out robustness of the donor-level disease effects",
+        "Leave-one-dataset-out robustness of the donor-level disease effects",
         supports = "Figure S12",
         sources = "sensitivity/_m/stats_data/leave_one_study_out.tsv",
-        notes = paste("Each study is dropped in turn and the model refit.",
-                      "The summary rows give the significant-refit count, which",
-                      "was quoted in the summaries but never stored."))
+        notes = paste("Each DATASET is dropped in turn and the model refit --",
+                      "Sun_2020_batch1-4 and Meyer_2021_3prime/5prime are dropped",
+                      "separately, so these are 17 dataset refits, not studies.",
+                      "The summary rows give the significant-refit and",
+                      "positive-refit counts, which were quoted in the summaries",
+                      "but never stored. For injury_stromal_score the counts are",
+                      "17 positive and 1 significant: the effect is consistent in",
+                      "sign and size and consistently underpowered at 6 fibrotic",
+                      "donors of 47."))
 }
 
 nib <- list()

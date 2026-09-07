@@ -84,15 +84,62 @@ if (!is.null(np)) {
                       "Validation was run for nP = 5, 7, 8, 9 only."))
 }
 
-## ---- B2: per-pattern cross-seed stability -------------------------------
-ss <- read_src(CG("cogaps_seed_stability_summary.tsv"))
-if (!is.null(ss)) {
-    setnames(ss, c("mean_r", "min_r"), c("cross_seed_r_mean", "cross_seed_r_min"))
+## ---- B2: per-pattern cross-seed stability at the selected rank ----------
+## P1-12. This part used to read `cogaps_seed_stability_summary.tsv`. Nothing in
+## pericyte_cogaps/_h/ writes that file -- it was orphaned by commit 68846fd and
+## the reader was never repointed. It is the nP = 5 aggregation: its Pattern_5
+## mean, 0.700339288223707, is to 15 digits the nP = 5 `min_r` in
+## cogaps_nP_selection.tsv. Because it carries no `np` column, nothing on its
+## face contradicted the "at the selected rank" title, and S06B2 shipped a
+## weakest-pattern r of 0.402 against a selected rank whose weakest pattern is
+## 0.978. The file is quarantined under pericyte_cogaps/_m/_superseded/.
+##
+## The live source is `cogaps_seed_stability.tsv`, which is one row per
+## (ref_pattern, seed) and DOES carry `np`. Aggregate it the way 02.select_rank.R
+## does for B1: per reference pattern, the mean and the minimum of the best-match
+## correlation across the three replicate seeds.
+SELECTED_NP <- 8L
+ssr <- read_src(CG("cogaps_seed_stability.tsv"))
+if (!is.null(ssr)) {
+    stopifnot("np" %in% names(ssr))
+    ss <- ssr[np == SELECTED_NP,
+              .(nP = SELECTED_NP, n_seeds = .N,
+                cross_seed_r_mean = mean(r), cross_seed_r_min = min(r)),
+              by = ref_pattern][order(ref_pattern)]
+
+    ## The guard that makes P1-12 impossible to repeat silently. Two claims are
+    ## checked against B1 rather than trusted: that the rank reported here is the
+    ## one B1 flags as SELECTED, and that aggregating this file reproduces B1's
+    ## own summary of that rank. Under the old reader both checks would have
+    ## failed -- 0.700 vs 0.978 -- instead of shipping.
+    if (!is.null(np) && nrow(ss) > 0) {
+        b1 <- np[np == SELECTED_NP]
+        if (nrow(b1) != 1L || b1$selection_status != "SELECTED (main)")
+            stop("S06B2: nP = ", SELECTED_NP, " is not the rank B1 flags as ",
+                 "SELECTED (main). Update SELECTED_NP together with the ",
+                 "fcase() in the B1 block -- do not let them disagree.")
+        d_mean <- abs(mean(ss$cross_seed_r_mean) - b1$cross_seed_r_mean)
+        d_min  <- abs(min(ss$cross_seed_r_mean)  - b1$cross_seed_r_weakest_pattern)
+        if (max(d_mean, d_min) > 1e-9)
+            stop("S06B2: aggregating cogaps_seed_stability.tsv at nP = ",
+                 SELECTED_NP, " does not reproduce the B1 row for that rank ",
+                 "(mean off by ", signif(d_mean, 3), ", weakest off by ",
+                 signif(d_min, 3), "). The two parts would ship different ",
+                 "reproducibility numbers for the same factorization.")
+    }
+
     write_part(ss, "06B2",
         "CoGAPS per-pattern cross-seed reproducibility at the selected rank",
         supports = "Figure S8",
-        sources = "pericyte_cogaps/_m/cogaps_seed_stability_summary.tsv",
-        notes = "Best-match correlation of each reference pattern to each replicate seed.")
+        sources = "pericyte_cogaps/_m/cogaps_seed_stability.tsv",
+        notes = paste("Best-match correlation of each reference pattern to each",
+                      "replicate seed, at the SELECTED rank nP = 8 only; the",
+                      "`nP` column states this on every row. `n_seeds` = 3",
+                      "matched replicate seeds (1, 42, 2024); the canonical seed",
+                      "(13) is the reference they are matched TO, not a fourth",
+                      "comparison. Averaging `cross_seed_r_mean` over these rows",
+                      "reproduces the nP = 8 row of S06B1 exactly, and the",
+                      "script refuses to write this part if it does not."))
 }
 
 ## ---- B3: pattern-to-program correspondence at each validated rank -------

@@ -17,7 +17,12 @@
 ##      the net index (stability - injury) separates the groups less well.
 ##   C  smoking metadata is recorded only for Healthy donors -- the confound that
 ##      makes a smoking-STRATIFIED disease contrast inestimable, not merely weak.
-##   D  leave-one-study-out: the Fibrotic/ILD effect is stable across cohorts.
+##   D  leave-one-DATASET-out: the Fibrotic/ILD effect on the injury-stromal score
+##      is stable in DIRECTION and MAGNITUDE across cohorts, and significant in only
+##      1 of 17 refits. The panel is a consistency check under persistent
+##      underpowering (6 fibrotic donors of 47), NOT a significance-robustness
+##      claim -- see the count block at the foot of this script, which prints the
+##      numbers the legend must quote (P1-11).
 ##   E  among donors that DO carry a smoking label, smoking shows no gradient in the
 ##      injury / AGTR1 read-outs.
 ##   F  the disease effect is unchanged when smoking is added as a covariate.
@@ -125,7 +130,10 @@ pC <- ggplot(avail, aes(disease_group, n, fill = status)) +
           legend.key.size = unit(3, "mm"), legend.text = element_text(size = 6),
           axis.text.x = element_text(angle = 25, hjust = 1))
 
-## ===== Panel D -- leave-one-study-out stability of the Fibrotic/ILD effect =
+## ===== Panel D -- leave-one-DATASET-out stability of the Fibrotic/ILD effect
+## The rows are `dropped_dataset`: Sun_2020_batch1-4 and Meyer_2021_3prime/5prime
+## are separate rows, so this is not leave-one-STUDY-out and must not be captioned
+## as such.
 loso <- fread(SD("leave_one_study_out.tsv")) %>%
     mutate(response = resp_factor(response),
            lo = estimate - 1.96 * se, hi = estimate + 1.96 * se,
@@ -141,7 +149,7 @@ pD <- ggplot(loso, aes(estimate, dropped_dataset, colour = sig)) +
     facet_wrap(~ response, nrow = 1, scales = "free_x",
                labeller = as_labeller(RESP_LABS)) +
     scale_colour_manual(values = c("p < 0.05" = "#D55E00", "n.s." = "grey60"), name = NULL) +
-    labs(x = "Fibrotic/ILD effect (study left out)", y = NULL) +
+    labs(x = "Fibrotic/ILD effect (dataset left out)", y = NULL) +
     theme_ms() +
     theme(axis.text.y = element_text(size = 5.5),
           legend.position = "top", legend.text = element_text(size = 6.5),
@@ -202,7 +210,17 @@ fig <- row1 / row2 / pE / pF +
 save_fig("figureS_sensitivity", fig, 9.0, 14.0)
 
 cat("Wrote figureS_sensitivity to", OUT, "\n")
-n_loso <- loso %>% filter(response == "injury_stromal_score")
-cat(sprintf("  LOSO injury_stromal_score: %d refits, %d positive, %d with p < 0.05\n",
-            nrow(n_loso), sum(n_loso$estimate > 0), sum(n_loso$p < 0.05)))
+## Panel D's caption is the one place in this figure where a claim can silently
+## invert (P1-11: the shipped legend said "significant in 13 of 16" against a table
+## reading 1 of 17). Print the counts for EVERY response, plus the refit that moves
+## the estimate most, so the legend is written from this block and not from memory.
+cat("  LOSO (rows are datasets, not studies):\n")
+for (rp in levels(loso$response)) {
+    x <- loso %>% filter(response == rp)
+    w <- x %>% arrange(estimate) %>% slice(1)
+    cat(sprintf("    %-22s %2d refits | %2d positive | %d with p < 0.05 | est %.3f-%.3f | lowest est %.3f (drop %s, p = %.3f)\n",
+                rp, nrow(x), sum(x$estimate > 0), sum(x$p < 0.05),
+                min(x$estimate), max(x$estimate), w$estimate,
+                as.character(w$dropped_dataset), w$p))
+}
 cat("\nReproducibility information:\n"); sessioninfo::session_info()
