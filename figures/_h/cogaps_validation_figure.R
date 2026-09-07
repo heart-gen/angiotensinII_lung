@@ -7,8 +7,13 @@
 ## separate, because they can fail independently:
 ##
 ##   A  what rank does the data support?  Cross-seed reproducibility across
-##      nP = 4-10, with the band over patterns. nP=8 (main) maximises the WEAKEST
-##      pattern's reproducibility; nP=9 (sensitivity) is the largest rank that still
+##      nP = 4-10, with the band over patterns. nP=8 (main) is the largest rank that
+##      is dimensionally consistent (all four fits return exactly 8; nP=9's seeds
+##      return 10, 9, 8) AND clears the gate whether an unmatched pattern is dropped
+##      or scored 0 (0.978 either way; nP=9 falls 0.952 -> 0.635). It also happens to
+##      maximise the weakest pattern's reproducibility, but that alone is a 0.978-vs-
+##      0.952 hair and is NOT the justification. nP=9 (sensitivity) is the largest
+##      rank that still
 ##      clears the 0.80 threshold.
 ##   B  do the de-novo patterns carry the curated programs?  Cell-level Spearman of
 ##      pattern weight against each curated score at nP=8.

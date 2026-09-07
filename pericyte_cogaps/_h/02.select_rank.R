@@ -21,6 +21,27 @@
 ## The curated-program overlap (03.cogaps_validate.R) then *validates* the chosen
 ## nP rather than choosing it.
 ##
+## TWO CAVEATS ON THAT RULE, both emitted as columns rather than left implicit --
+## they are why the MAIN rank is nP = 8 and not the nP = 9 the bare rule returns:
+##
+##   (i)  `mean(r, na.rm = TRUE)` silently drops a pattern that matched NOTHING.
+##        A rank can therefore pass the gate on the strength of having had a
+##        pattern collapse, because the collapse is removed from its own score.
+##        `min_r_collapse_zero` re-scores an unmatched pattern as r = 0, which is
+##        what "did not reproduce" means. nP = 8 is identical under both
+##        conventions (no collapses at any seed); nP = 9 falls 0.952 -> 0.635.
+##
+##   (ii) Distributed CoGAPS is free to return a DIFFERENT number of patterns than
+##        requested -- the consensus is built by matching across data subsets. So
+##        "is this rank reproducible?" has a prior question: does the method even
+##        agree on the dimensionality? `n_patterns_ref`, `n_patterns_seeds` and
+##        `dimension_consistent` answer it. At nP = 9 the three replicate seeds
+##        return 10, 9 and 8 patterns; at nP = 8 all four fits return exactly 8.
+##
+## Under both caveats the selection is unambiguous: nP = 8 is the largest rank
+## that is dimensionally consistent AND clears the gate under either NA
+## convention. See the S6 legend in figures/mechanism/README.md.
+##
 ## Outputs (to --outdir):
 ##   cogaps_seed_stability.tsv       per (np, ref_pattern, seed) matched r
 ##   cogaps_nP_selection.tsv         per np: mean_r, min_r, meanChiSq, n_seeds
@@ -89,9 +110,27 @@ if (!nrow(seed_rows))
 fwrite(seed_rows, file.path(OUTDIR, "cogaps_seed_stability.tsv"), sep = "\t")
 
 ## per (np, pattern): mean matched r across seeds; then per np: mean/min over patterns
-per_pat <- seed_rows[, .(pat_mean_r = mean(r, na.rm = TRUE)),
+## `pat_mean_r` keeps the historical na.rm convention so mean_r/min_r stay
+## comparable with every previously shipped table; `pat_mean_r0` is the same
+## quantity with an unmatched pattern scored 0 (caveat (i) in the header).
+per_pat <- seed_rows[, .(pat_mean_r  = mean(r, na.rm = TRUE),
+                         pat_mean_r0 = mean(fifelse(is.finite(r), r, 0)),
+                         n_na        = sum(!is.finite(r))),
                      by = .(np, ref_pattern)]
-robust  <- per_pat[, .(mean_r = mean(pat_mean_r), min_r = min(pat_mean_r)), by = np]
+robust  <- per_pat[, .(mean_r = mean(pat_mean_r), min_r = min(pat_mean_r),
+                       min_r_collapse_zero = min(pat_mean_r0),
+                       n_collapsed_matches = sum(n_na)), by = np]
+
+## Dimensional consistency (caveat (ii)): how many patterns each fit actually
+## returned, against how many were requested.
+dims <- rbindlist(lapply(NP_SWEEP, function(np) {
+    got <- vapply(c("", paste0("_seed", SEEDS)), function(tg) {
+        m <- load_loadings(np, tg); if (is.null(m)) NA_integer_ else ncol(m)
+    }, integer(1))
+    data.table(np = np, n_patterns_ref = got[[1]],
+               n_patterns_seeds = paste(got[-1], collapse = ","),
+               dimension_consistent = all(!is.na(got) & got == np))
+}), fill = TRUE)
 
 ## ---- (B) reconstruction error at each nP -----------------------------------
 ## Distributed CoGAPS does NOT populate meanChiSq on the aggregated result (it is
@@ -127,18 +166,33 @@ if (file.exists(mtx_f)) {
 
 n_fit_dt <- seed_rows[, .(n_seeds = uniqueN(seed)), by = np]
 sel <- Reduce(function(a, b) merge(a, b, by = "np", all = TRUE),
-              list(robust, recon, n_fit_dt))
+              list(robust, recon, n_fit_dt, dims))
 setorder(sel, np)
 fwrite(sel, file.path(OUTDIR, "cogaps_nP_selection.tsv"), sep = "\t")
 
 ## recommendation: largest nP whose weakest program is still reproducible
 ok  <- sel[!is.na(min_r) & min_r >= THRESH]
 rec <- if (nrow(ok)) max(ok$np) else sel[which.max(min_r), np]
+## and the same rule under both header caveats: dimensionally consistent AND
+## clearing the gate with an unmatched pattern scored 0 rather than dropped.
+ok_strict  <- sel[!is.na(min_r_collapse_zero) & min_r_collapse_zero >= THRESH &
+                  dimension_consistent == TRUE]
+rec_strict <- if (nrow(ok_strict)) max(ok_strict$np) else NA_integer_
 
 cat("\n== De-novo nP selection ==\n")
-print(sel[, .(np, mean_r = round(mean_r, 3), min_r = round(min_r, 3),
+print(sel[, .(np, n_patterns_ref, n_patterns_seeds, dimension_consistent,
+              mean_r = round(mean_r, 3), min_r = round(min_r, 3),
+              min_r0 = round(min_r_collapse_zero, 3), n_collapsed_matches,
               frac_unexplained = round(frac_unexplained, 4), n_seeds)])
-cat(sprintf("\nRecommended nP = %d (largest nP with min_r >= %.2f).\n", rec, THRESH))
+cat(sprintf("\nBare rule:   nP = %d (largest nP with min_r >= %.2f, na.rm convention).\n",
+            rec, THRESH))
+cat(sprintf("Strict rule: nP = %s (also dimensionally consistent, and min_r >= %.2f with an\n",
+            ifelse(is.na(rec_strict), "none", rec_strict), THRESH))
+cat("             unmatched pattern scored 0). THIS is the rank carried as MAIN.\n")
+if (!is.na(rec_strict) && rec_strict != rec)
+    cat(sprintf("             The two rules disagree (%d vs %d) -- see the header caveats;\n",
+                rec, rec_strict),
+        sprintf("             nP = %d is carried as the SENSITIVITY rank.\n", rec))
 cat("Cross-check against the reconstruction-error elbow and 03.cogaps_validate.R overlap.\n")
 
 ## ---- selection figure (manuscript style: no in-panel titles, direct labels) -

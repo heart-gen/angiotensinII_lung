@@ -676,11 +676,31 @@ matrix into *nP* patterns de novo (Bayesian NMF, distributed mode, 5,000 iterati
 (seed-13) fit is the reference and each of three non-canonical seeds (1, 42, 2024) is greedily
 1:1-matched to it by |Pearson *r*| over shared gene loadings. The line is the mean over patterns, the
 band the min–max; the **floor** is what separates the ranks, since the mean stays ≥ 0.92 everywhere.
-Against a 0.80 threshold, *nP* = 5 (floor 0.700), 6 (0.577) and 10 (0.405) fail on a single collapsing
-pattern, while 7 (0.951), 8 (**0.978**) and 9 (0.952) pass. **nP = 8 is the main rank** — it maximizes
-the weakest pattern's reproducibility — and **nP = 9 is the sensitivity rank**, the largest that still
-clears the threshold (the recommendation rule in `02.select_rank.R` reports 9 for exactly that reason;
-both are carried forward, and E shows the choice does not matter). Reconstruction error is the other
+Against a 0.80 threshold, *nP* = 5 (floor 0.700), 6 (0.577) and 10 (0.405) fail, while 7 (0.951),
+8 (**0.978**) and 9 (0.952) pass — and on that reading alone 8 and 9 are indistinguishable. **They are
+not**, on two counts that the floor as plotted cannot show, both now emitted as columns of
+`cogaps_nP_selection.tsv`.
+
+*First, the floor is computed with `na.rm = TRUE`, so a pattern that matched **nothing** is dropped from
+its own rank's score rather than counted as irreproducible.* Scoring an unmatched pattern *r* = 0 —
+which is what "did not reproduce" means — leaves *nP* = 8 **unchanged at 0.978** (it has no unmatched
+patterns at any seed) while *nP* = 9 falls **0.952 → 0.635**, below the threshold. *nP* = 5 and 6 have
+the same defect in the same direction (0.700 → 0.467; 0.577 → 0.385); *nP* = 10 does not — its
+Pattern_10 matches at *r* = 0.39–0.43 in all three seeds, a consistently irreproducible tenth program
+rather than a collapse.
+
+*Second, distributed CoGAPS is free to return a different number of patterns than requested*, because
+the consensus is assembled by matching across data subsets — so "is this rank reproducible?" has a
+prior question: does the method agree on the dimensionality at all? At ***nP* = 9 the three replicate
+seeds return 10, 9 and 8 patterns**; the missing match above is seed 2024 recovering only eight. At
+***nP* = 8 all four fits return exactly eight.** Only *nP* = 4, 8 and 10 are dimensionally consistent,
+and 10 fails the stability gate outright.
+
+**nP = 8 is therefore the main rank as the largest rank that is dimensionally consistent *and* clears
+the threshold under either NA convention** — a criterion that selects it uniquely, rather than on the
+0.978-versus-0.952 hair the plotted floor shows. **nP = 9 remains the sensitivity rank**, being what
+the bare recommendation rule in `02.select_rank.R` returns; the script now prints both rules and says
+where they disagree. Both are carried forward, and E shows the choice does not change the biology. Reconstruction error is the other
 standard rank signal and does not adjudicate: unexplained variance falls monotonically from 0.727 at
 *nP* = 4 to 0.694 at *nP* = 10 with no elbow, so the rank is chosen on reproducibility alone.
 **(B)** Do the de-novo patterns carry the curated programs? Cell-level Spearman of each pattern's

@@ -1,8 +1,11 @@
 ## Does the CoGAPS story depend on the rank we picked?
 ##
 ## step_2 chose nP on cross-seed reproducibility and carried TWO ranks forward:
-## nP=8 (main; min_r 0.978) and nP=9 (sensitivity; the largest nP with
-## min_r >= 0.80). 02.select_rank.R already writes a np-correspondence table, but
+## nP=8 (main; min_r 0.978, and the largest DIMENSIONALLY CONSISTENT rank clearing
+## the gate under either NA convention) and nP=9 (sensitivity; what the bare
+## `largest nP with min_r >= 0.80` rule returns -- its 0.952 depends on na.rm
+## dropping a pattern that matched nothing, and its three seeds return 10, 9 and 8
+## patterns). See 02.select_rank.R's header. 02.select_rank.R already writes a np-correspondence table, but
 ## it is anchored on nP=5 -- the rank that was canonical before the sweep -- so
 ## nothing on disk compares the two ranks we actually report.
 ##
