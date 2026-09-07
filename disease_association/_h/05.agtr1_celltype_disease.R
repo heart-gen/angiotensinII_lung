@@ -168,6 +168,22 @@ fit_ct <- function(d, resp) {
     ct[]
 }
 
+## Nakagawa marginal R^2: variance explained by the FIXED effects as a share of
+## total variance (fixed + random + residual). Defined the same way for `lm` and
+## `lmer`, and free of any denominator df -- which is what makes a difference of
+## two of these comparable across cell types (P1-16).
+r2_marginal <- function(fit) {
+    if (inherits(fit, "merMod")) {
+        vf <- stats::var(as.vector(lme4::getME(fit, "X") %*% lme4::fixef(fit)))
+        vr <- sum(as.data.frame(lme4::VarCorr(fit))$vcov)   # includes Residual
+    } else {
+        vf <- stats::var(stats::fitted(fit))
+        vr <- sum(stats::residuals(fit)^2) / fit$df.residual
+    }
+    if (!is.finite(vf) || !is.finite(vr) || (vf + vr) <= 0) return(NA_real_)
+    vf / (vf + vr)
+}
+
 ## Omnibus disease effect (2 df) per cell type. The pairwise contrasts alone
 ## cannot support "AGTR1 varies more with disease in fibroblasts than in
 ## pericytes": a near-zero pericyte contrast with a wide CI is imprecision, not
@@ -190,12 +206,32 @@ omnibus_ct <- function(d, resp) {
     if (!nrow(jt)) return(NULL)
     setnames(jt, c("df1", "df2", "F.ratio", "p.value"), c("df1", "df2", "F", "p_omnibus"),
              skip_absent = TRUE)
-    ## partial eta^2 from the F statistic and its dfs -- the share of the
-    ## endpoint's variance attributable to disease group, on a 0-1 scale that is
-    ## comparable across cell types with different n.
+    ## P1-16. `partial_eta_sq` is RETAINED for continuity with the previously
+    ## shipped tables but MUST NOT be used to compare cell types. Its denominator
+    ## carries `df2`, the Satterthwaite denominator df of a mixed model, which is
+    ## a function of the study random-effect structure rather than of sample size
+    ## and varies ~2x across the cell types tested here. The visible consequence
+    ## was that Alveolar fibroblasts ranked FIRST while having the lowest F and
+    ## the weakest P of the top three (df2 = 9.6 against 16-17).
     jt[, partial_eta_sq := (F * df1) / (F * df1 + df2)]
+
+    ## The replacement, on a common basis: the increase in Nakagawa MARGINAL R^2
+    ## when `disease_group` is added to the same model on the same rows. Marginal
+    ## R^2 is fixed-effect variance over total variance (fixed + all random +
+    ## residual), so it is a share of the endpoint's variance on 0-1 with no df
+    ## in it at all, and it is defined identically for the `lm` and `lmer` arms.
+    rhs0  <- paste(c(covars, if (n_ds >= 2) "(1 | dataset)"), collapse = " + ")
+    if (!nzchar(rhs0)) rhs0 <- "1"
+    fit0  <- try(if (n_ds >= 2)
+                     lmerTest::lmer(as.formula(sprintf("%s ~ %s", resp, rhs0)), data = d, REML = TRUE)
+                 else lm(as.formula(sprintf("%s ~ %s", resp, rhs0)), data = d), silent = TRUE)
+    d_r2  <- if (inherits(fit0, "try-error")) NA_real_
+             else r2_marginal(fit) - r2_marginal(fit0)
+    jt[, delta_r2_marginal := d_r2]
+
     jt[, `:=`(response = resp, n_donors = nrow(d))]
-    jt[, .(response, n_donors, df1, df2, F, p_omnibus, partial_eta_sq)]
+    jt[, .(response, n_donors, df1, df2, F, p_omnibus, delta_r2_marginal,
+           partial_eta_sq)]
 }
 
 run_omnibus <- function(resp) {
@@ -245,9 +281,11 @@ cat("\n== SENSITIVITY: AGTR1 detection rate (within-cell-type SD units) ==\n"); 
 ## where pericytes land.
 head_dt <- merge(res_z[grepl("Fibrotic", contrast)],
                  omni_z[, .(cell_type, F, df1, df2, p_omnibus, p_omnibus_BH,
-                            partial_eta_sq)],
+                            delta_r2_marginal, partial_eta_sq)],
                  by = "cell_type", all.x = TRUE)
-head_dt <- head_dt[order(-partial_eta_sq)]
+## P1-16: ordered by delta marginal R^2, the comparable statistic, NOT by the
+## df2-dependent partial eta^2 this table used to sort on.
+head_dt <- head_dt[order(-delta_r2_marginal)]
 ## Lineage is now an EXPLICIT map rather than `grepl("fibroblast") ? F : Mural`.
 ## The old fallback was safe only while the tested set happened to contain nothing
 ## but fibroblasts, pericytes and vSMC. The age fix admits Mesothelium, which the
@@ -263,16 +301,34 @@ LINEAGE <- c("Adventitial fibroblasts"   = "Fibroblast",
              "Pericytes"                 = "Mural",
              "Vascular smooth muscle"    = "Mural",
              "Mesothelium"               = "Mesothelial")
-head_dt[, `:=`(rank_by_omnibus = seq_len(.N),
+## The column is named for what it sorts by. It used to be `rank_by_omnibus`
+## while being assigned from `order(-partial_eta_sq)`, and the module's own
+## `agtr1_celltype_disease_omnibus.tsv` -- which IS ordered by P -- gave a
+## different top rank. Both orderings are now carried side by side so the
+## disagreement is visible in one file instead of across two (P1-16).
+head_dt[, `:=`(rank_by_delta_r2 = seq_len(.N),
+               rank_by_omnibus_p = frank(p_omnibus, ties.method = "first"),
+               rank_by_partial_eta_sq_DEPRECATED = frank(-partial_eta_sq, ties.method = "first"),
                lineage = LINEAGE[cell_type])]
 if (head_dt[is.na(lineage), .N])
     stop("unmapped cell type(s) in LINEAGE: ",
          paste(head_dt[is.na(lineage), cell_type], collapse = ", "))
 wt(head_dt, "agtr1_celltype_disease_ranking.tsv")
-cat("\n== ranking by omnibus disease effect on AGTR1 (partial eta^2) ==\n")
-print(head_dt[, .(rank_by_omnibus, cell_type, lineage, partial_eta_sq, p_omnibus,
-                  p_omnibus_BH, estimate, ci_lo, ci_hi)])
-cat("\nFibroblast vs mural mean partial eta^2:\n")
-print(head_dt[, .(mean_partial_eta_sq = mean(partial_eta_sq)), by = lineage])
+cat("\n== ranking by omnibus disease effect on AGTR1 (delta marginal R^2) ==\n")
+print(head_dt[, .(rank_by_delta_r2, rank_by_partial_eta_sq_DEPRECATED,
+                  rank_by_omnibus_p, cell_type, lineage, delta_r2_marginal,
+                  partial_eta_sq, df2, p_omnibus, p_omnibus_BH, estimate,
+                  ci_lo, ci_hi)])
+cat("\nFibroblast vs mural mean delta marginal R^2 (and the deprecated eta^2):\n")
+print(head_dt[, .(mean_delta_r2_marginal = mean(delta_r2_marginal),
+                  mean_partial_eta_sq_DEPRECATED = mean(partial_eta_sq)),
+              by = lineage])
+## Does the ordering survive the change of statistic? If it does not, panel C is
+## ranking denominator degrees of freedom and has no message (P1-16).
+cat(sprintf("\nRank concordance eta^2 vs delta marginal R^2: Spearman rho = %.3f; top cell type %s -> %s\n",
+            suppressWarnings(cor(head_dt$partial_eta_sq, head_dt$delta_r2_marginal,
+                                 method = "spearman", use = "complete")),
+            head_dt[which.min(rank_by_partial_eta_sq_DEPRECATED), cell_type],
+            head_dt[which.min(rank_by_delta_r2), cell_type]))
 
 cat("\nReproducibility information:\n"); Sys.time(); options(width = 120); sessioninfo::session_info()

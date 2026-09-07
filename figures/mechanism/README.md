@@ -298,18 +298,36 @@ global rescaling. The estimate in **A** is robust to study composition from both
 no single cohort creates it, and it is reproduced *within* studies that sampled both arms — see
 **S16**. **(C)** *AGTR1* disease effects
 across stromal cell types (`disease_association/_h/05.agtr1_celltype_disease.R`): the
-**omnibus** (2 df) disease effect on donor-mean *AGTR1*, expressed as partial η² — the share of
-donor-level *AGTR1* variance attributable to disease group, computed within cell type so that
-cell types with ~5× different baseline *AGTR1* are comparable. Rows are **blocked by lineage**
-(fibroblast above mural) and sorted by η² within each block, so the class-level comparison the
-panel makes is a property of the layout rather than a coincidence of a single sort order; the
-strip labels replace a colour legend and the colours are redundant encoding. The three
-classic **fibroblast** populations rank above both **mural** populations (alveolar 0.333,
-peribronchial 0.266, adventitial 0.241 vs vascular smooth muscle 0.092, pericytes 0.019;
-lineage means 0.230 vs 0.056 — a ~4× separation, against ~2.5× before the 2026-07-30 rebuild).
-**Myofibroblasts are now included** and land *low* within the fibroblast block (0.081,
+**omnibus** (2 df) disease effect on donor-mean *AGTR1*, expressed as the increase in
+**Nakagawa marginal *R*²** when `disease_group` is added to the same model on the same donors —
+the share of donor-level *AGTR1* variance attributable to disease group, computed within cell
+type so that cell types with ~5× different baseline *AGTR1* are comparable. Rows are **blocked
+by lineage** (fibroblast above mural) and sorted by Δ*R*² within each block, so the class-level
+comparison the panel makes is a property of the layout rather than a coincidence of a single
+sort order; the strip labels replace a colour legend and the colours are redundant encoding.
+The three classic **fibroblast** populations rank above both **mural** populations
+(peribronchial 0.088, adventitial 0.078, alveolar 0.069 vs vascular smooth muscle 0.039,
+pericytes 0.0038; lineage means 0.065 vs 0.021 — a ~3× separation at the class level, and a
+23× gap between the top fibroblast and pericytes).
+**Myofibroblasts are now included** and land *low* within the fibroblast block (0.024,
 *P* = 0.72): the compartment that carries panel **D**'s only nominally significant estimates
-shows no comparable disease-associated *AGTR1* variance in HLCA. Both facts follow from the
+shows no comparable disease-associated *AGTR1* variance in HLCA.
+
+**Statistic changed 2026-09-07 (P1-16).** This panel previously plotted partial η²ₚ, computed
+as *F*·df1/(*F*·df1 + df2). `df2` there is the **Satterthwaite denominator df of a mixed
+model** — a function of the study random-effect structure, not of sample size — and it varies
+~2× across these cell types (7.9 to 19.5). The consequence was visible in the shipped table:
+**alveolar fibroblasts ranked first on the lowest *F* and the weakest *P* (0.142) of the top
+three**, on df2 = 9.6 against 16–17. Δ marginal *R*² has no denominator df in it and is defined
+identically for the `lm` and `lmer` arms. **The panel's message survives the change** — rank
+concordance with the old statistic is Spearman ρ = 0.893, fibroblasts still lead mural, and
+pericytes are still second-from-bottom — but the **top cell type changes from alveolar to
+peribronchial fibroblasts**, and the new ordering now agrees *exactly*, rank for rank, with the
+module's `agtr1_celltype_disease_omnibus.tsv`, which is ordered by *P* and used to disagree.
+The ranking table carries `rank_by_delta_r2`, `rank_by_omnibus_p` and the retained
+`rank_by_partial_eta_sq_DEPRECATED` side by side so this is checkable in one file.
+**No cell type is significant after BH correction** (minimum BH *P* = 0.332), so this panel
+ranks variance shares, it does not establish disease effects. Both facts follow from the
 2026-07-30 rebuild of `05`, which fixed an `age > 20` gate that had been silently discarding
 the ~89 % of Fibrotic/ILD stroma donors for whom HLCA reports no age — fibrotic arms went from
 6 donors per cell type to 24–43, and myofibroblasts from 1 fibrotic donor (below the ≥3 gate,
@@ -319,8 +337,8 @@ cell type) because sex is recorded only for a healthy-skewed subset, so adjustin
 have absorbed part of the disease contrast — study structure is still carried by
 `(1 | dataset)`; and **Mesothelium**, which the fix also made testable (15 fibrotic donors,
 up from 1), is tested and reported in `agtr1_celltype_disease_ranking.tsv` and table S13 but
-**held out of this panel** — it is neither fibroblast nor mural, and it is the lowest η² of
-anything tested (0.006, *P* = 0.96).
+**held out of this panel** — it is neither fibroblast nor mural, and it is the lowest of
+anything tested (Δ*R*² = 0.0037, *P* = 0.96).
 **(D)** Independent evaluation in **GSE136831** (Adams/Kaminski), the only dataset here with a
 real COPD arm (`disease_association/agtr1_copd_ipf/`). Donor × compartment pseudobulk *AGTR1*,
 disease minus Control, adjusted for depth, sex, age and **ever-smoker** status (which the HLCA

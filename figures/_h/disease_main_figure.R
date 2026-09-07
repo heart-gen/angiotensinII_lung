@@ -179,14 +179,24 @@ pB <- ggplot(comp, aes(estimate, prog, colour = ctr)) +
 ## job of the colour legend, so the legend is dropped and the colours are left as
 ## redundant encoding.
 rank_dt <- fread(file.path(MD, "agtr1_celltype_disease_ranking.tsv"))
+## P1-16: the panel plots `delta_r2_marginal`, NOT `partial_eta_sq`. The latter
+## is still written for continuity but its denominator carries the Satterthwaite
+## df2, which varies ~2x across these cell types, so it ranked Alveolar
+## fibroblasts first on the lowest F and the weakest P of the top three. Fail
+## loudly rather than silently falling back to the old column.
+if (!"delta_r2_marginal" %in% names(rank_dt))
+    stop("agtr1_celltype_disease_ranking.tsv has no `delta_r2_marginal` column -- ",
+         "re-run disease_association/_h/05.agtr1_celltype_disease.R (P1-16). ",
+         "Do NOT substitute partial_eta_sq: it is not comparable across cell types.")
 LIN_COL <- c(Fibroblast = "#009E73", Mural = "#0072B2")
 ## Mesothelium became testable in the 2026-07-30 rebuild of 05 (the age fix admitted
 ## 15 fibrotic donors where there had been 1) and it is NEITHER fibroblast nor mural,
 ## so it cannot join either block without corrupting the arm it lands in. Drawn as a
 ## third one-row block it clips its own rotated strip label -- "Mesothelial" is wider
 ## than a single row is tall -- and it contributes nothing to the fibroblast-vs-mural
-## contrast this panel exists to make, being the lowest eta^2 of anything tested
-## (0.006, P = 0.96). So it is left out of the PANEL and kept in the outputs:
+## contrast this panel exists to make, being the lowest of anything tested
+## (delta marginal R^2 = 0.0037, P = 0.96). So it is left out of the PANEL and
+## kept in the outputs:
 ## agtr1_celltype_disease_ranking.tsv and supplementary table S13 both carry it, and
 ## the figure legend says so. Excluded here by lineage, not by name, so any future
 ## non-fibroblast/non-mural cell type is handled the same way rather than silently
@@ -196,13 +206,13 @@ if (n_drop) message(sprintf("panel C: %d non-fibroblast/mural cell type(s) held 
                             n_drop, paste(rank_dt[!lineage %in% names(LIN_COL), cell_type],
                                           collapse = ", ")))
 rank_dt <- rank_dt[lineage %in% names(LIN_COL)]
-## global ascending eta^2 -> within each facet the strongest cell type sits at the
-## top, and the facets themselves are ordered Fibroblast above Mural.
-rank_dt[, ct := factor(cell_type, levels = cell_type[order(partial_eta_sq)])]
+## global ascending delta R^2 -> within each facet the strongest cell type sits at
+## the top, and the facets themselves are ordered Fibroblast above Mural.
+rank_dt[, ct := factor(cell_type, levels = cell_type[order(delta_r2_marginal)])]
 rank_dt[, lin := factor(lineage, levels = names(LIN_COL))]
 
-pC <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
-    geom_segment(aes(x = 0, xend = partial_eta_sq, yend = ct), linewidth = 0.5) +
+pC <- ggplot(rank_dt, aes(delta_r2_marginal, ct, colour = lin)) +
+    geom_segment(aes(x = 0, xend = delta_r2_marginal, yend = ct), linewidth = 0.5) +
     geom_point(size = 2.6) +
     geom_text(aes(label = sprintf("P = %.2f", p_omnibus)), hjust = -0.35,
               size = 2.1, colour = "grey25", show.legend = FALSE) +
@@ -211,7 +221,7 @@ pC <- ggplot(rank_dt, aes(partial_eta_sq, ct, colour = lin)) +
     ## right-hand headroom for the direct P labels; the facet strips took width
     ## off the panel, so 0.28 clipped the longest label.
     scale_x_continuous(expand = expansion(mult = c(0, 0.40))) +
-    labs(x = expression("Disease-attributable " * italic("AGTR1") * " variance (partial " * eta^2 * ")"),
+    labs(x = expression("Disease-attributable " * italic("AGTR1") * " variance (" * Delta * " marginal " * R^2 * ")"),
          y = NULL) +
     theme_ms() +
     theme(panel.grid.major.y = element_blank(),
