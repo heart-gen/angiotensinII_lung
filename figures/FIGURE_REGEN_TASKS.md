@@ -21,6 +21,10 @@ P1-14).
 | **P1-5 / P1-14** contrast signs | `bm_*_posthoc`, `bm_selectivity_*`, `agt_source_posthoc`, `agtr1_copd_*` | `t.ratio` and labels corrected in 9 tables / 2,655 rows. |
 | **P1-13** reference group | `injury_pattern_disease_np{8,9}.tsv` | Baseline COPD → **Healthy**; BH columns added. |
 | TGF-β / AGTR1 nulls | `tgfb_specificity_*`, `agtr1_null_*`, `agtr1_count_null_*` | New panel already added (S17E); legends rewritten. |
+| **P1-16** (2026-09-07) effect size | `agtr1_celltype_disease_{omnibus,ranking}.tsv` | Panel C's statistic **changed**: partial η² → Δ marginal *R*². Ordering survives (ρ = 0.893) but the **top cell type moves** alveolar → peribronchial fibroblasts. |
+| **P1-15** (2026-09-07) min-cells | `mincells_sensitivity.tsv` | The ≥5 rung is real for the first time: +0.526, *P* = 0.033 on 79 donors, against a duplicated +0.728 before. |
+| **P1-9** (2026-09-07) study guard | `balance_disease_injury_adjusted.tsv`, `balance_arm_decomposition.tsv` | Each row is now **duplicated** across a `study_guard` column. Any figure reading these must filter to the PRIMARY rows or it will double-plot. |
+| **P1-11** (2026-09-07) LOSO caption | *(no table moved)* | Axis label only: "study left out" → "dataset left out". |
 
 ---
 
@@ -51,6 +55,17 @@ Ordered by how badly the current version misleads.
 
 ### Tier 2 — data moved substantially
 
+- [ ] **`figure_disease_main`** — **panel C's statistic changed** (P1-16,
+      2026-09-07). The script now plots `delta_r2_marginal` and **`stop()`s if
+      that column is missing**, so a stale
+      `agtr1_celltype_disease_ranking.tsv` fails the job loudly rather than
+      falling back. The x-axis label changed to "Δ marginal *R*²" and the row
+      order changes: **peribronchial fibroblasts move to the top**, ahead of
+      alveolar. Moved up from Tier 3, where it sat only for the `agtr1_copd_*`
+      sign corrections.
+      *Also check:* the panel's *P* labels are unchanged (the omnibus test did
+      not move), so a redraw that changes the labels means something else broke.
+
 - [ ] **`figureS_state_composition`** (S11) — was fitted on 47 donors and
       reported as 93; now 89 donors with `(1 | study)`. **A fourth disease group
       (COPD, *n* = 1) now exists** and drives cluster 5 to BH = 0.0005 on its
@@ -62,6 +77,11 @@ Ordered by how badly the current version misleads.
       P1-8: computed on 5 donors via the deprecated label-based selection.)
 - [ ] **`figureS_sensitivity`** — reads `niche_index_per_donor`; the stability
       arm is now a 2-component composite over 89 donors instead of 1 over 46.
+      **Panel D's x-axis label also changed** (P1-11, 2026-09-07): the refits drop
+      *datasets*, not studies. The script now prints refits / positive /
+      significant / estimate range / most-influential drop for all four
+      responses — **write the caption from that block**, which is what the
+      13-of-16 defect existed for.
 - [ ] **`figureS_balance_by_state`** — same script as `figure_mechanism_main`.
 
 ### Tier 3 — regenerate for consistency; content likely unchanged
@@ -70,8 +90,8 @@ Ordered by how badly the current version misleads.
       2026-09-02, but *before* the continuum re-root. Re-run to pick up
       `bm_continuum_summary`.
 - [ ] **`figureS_receiver_robustness`** — reads `bm_vs_*`.
-- [ ] **`figure_disease_main`**, **`figureS_disease_robustness`** — read
-      `agtr1_copd_*`, re-exported with corrected signs.
+- [ ] **`figureS_disease_robustness`** — reads `agtr1_copd_*`, re-exported with
+      corrected signs.
 - [ ] Emitted as side effects of the above scripts, no known content change:
       `figureS_acta2_control`, `figureS_alluvial`, `figureS_crossspecies_mouse`,
       `figureS_program_category`, `figure_ccc_nichenet`, `figureS_bm_copd`,
@@ -119,8 +139,16 @@ These are hand-curated and do **not** come out of `step_figures.sh`:
       COPD marked non-estimable.
 - [ ] `figure_basement_membrane` panel G: `rho_bm` no longer starred.
 - [ ] `figureS_sensitivity`: stability arm labelled as 2-component.
+- [ ] `figure_disease_main` panel C: x-axis reads **Δ marginal *R*²**, and the
+      top row of the fibroblast block is **peribronchial**, not alveolar.
+- [ ] `figureS_sensitivity` panel D: x-axis reads "dataset left out"; exactly
+      **one** point is coloured `p < 0.05` in the injury-stromal facet and one in
+      the `AGTR1_pos_frac` facet (both are the `Lafyatis_2019` refit in the
+      latter case).
 - [ ] Legends in `mechanism/README.md` match the redrawn panels — S11 and S17
-      legends were rewritten on 2026-09-02 and describe the *new* numbers.
+      legends were rewritten on 2026-09-02 and describe the *new* numbers; the
+      S12 panel-D, S16 min-cells and main-figure panel-C legends were rewritten
+      on 2026-09-07.
 
 ---
 
