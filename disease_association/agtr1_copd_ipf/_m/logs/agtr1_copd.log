@@ -1,37 +1,37 @@
-2026-07-28 11:52:31 - **** Job starts ****
+2026-09-07 12:57:07 - **** Job starts ****
 User: kbenjamin
-Job id: 42756315
-Hostname: r021
+Job id: 45445331
+Hostname: r026
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-28 11:52:32 - **** Donor x compartment RAS-panel pseudobulk (GSE136831) ****
-2026-07-28 11:55:18,466 [INFO] Opened ../../ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
-2026-07-28 11:55:18,794 [INFO] Cells in mapped compartments: 19999
-2026-07-28 11:55:39,490 [INFO]   40000/312928 cells (4422 in map)
-2026-07-28 11:55:56,336 [INFO]   80000/312928 cells (2924 in map)
-2026-07-28 11:56:13,260 [INFO]   120000/312928 cells (4118 in map)
-2026-07-28 11:56:26,777 [INFO]   160000/312928 cells (1449 in map)
-2026-07-28 11:56:43,667 [INFO]   200000/312928 cells (934 in map)
-2026-07-28 11:56:57,621 [INFO]   240000/312928 cells (940 in map)
-2026-07-28 11:57:14,296 [INFO]   280000/312928 cells (2861 in map)
-2026-07-28 11:57:30,492 [INFO]   312928/312928 cells (2351 in map)
-2026-07-28 11:57:31,245 [INFO] built named pass
-2026-07-28 11:57:46,446 [INFO]   40000/312928 cells (525 in map)
-2026-07-28 11:58:00,000 [INFO]   80000/312928 cells (137 in map)
-2026-07-28 11:58:15,967 [INFO]   120000/312928 cells (109 in map)
-2026-07-28 11:58:30,430 [INFO]   160000/312928 cells (51 in map)
-2026-07-28 11:58:46,813 [INFO]   200000/312928 cells (7 in map)
-2026-07-28 11:59:00,933 [INFO]   240000/312928 cells (59 in map)
-2026-07-28 11:59:17,504 [INFO]   280000/312928 cells (350 in map)
-2026-07-28 11:59:31,791 [INFO]   312928/312928 cells (138 in map)
-2026-07-28 11:59:32,600 [INFO] built mural pass
-2026-07-28 11:59:33,431 [INFO] demographics matched for 536/536 units
-2026-07-28 11:59:33,809 [INFO] Wrote gse136831_ras_pseudobulk.tsv.gz: (536, 20)
-2026-07-28 11:59:34,001 [INFO] 
+2026-09-07 12:57:11 - **** Donor x compartment RAS-panel pseudobulk (GSE136831) ****
+2026-09-07 12:57:23,893 [INFO] Opened ../../ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
+2026-09-07 12:57:24,098 [INFO] Cells in mapped compartments: 19999
+2026-09-07 12:57:43,395 [INFO]   40000/312928 cells (4422 in map)
+2026-09-07 12:58:05,325 [INFO]   80000/312928 cells (2924 in map)
+2026-09-07 12:58:22,237 [INFO]   120000/312928 cells (4118 in map)
+2026-09-07 12:58:37,060 [INFO]   160000/312928 cells (1449 in map)
+2026-09-07 12:58:54,115 [INFO]   200000/312928 cells (934 in map)
+2026-09-07 12:59:09,615 [INFO]   240000/312928 cells (940 in map)
+2026-09-07 12:59:27,723 [INFO]   280000/312928 cells (2861 in map)
+2026-09-07 12:59:43,351 [INFO]   312928/312928 cells (2351 in map)
+2026-09-07 12:59:43,531 [INFO] built named pass
+2026-09-07 12:59:59,393 [INFO]   40000/312928 cells (525 in map)
+2026-09-07 13:00:15,655 [INFO]   80000/312928 cells (137 in map)
+2026-09-07 13:00:32,797 [INFO]   120000/312928 cells (109 in map)
+2026-09-07 13:00:49,410 [INFO]   160000/312928 cells (51 in map)
+2026-09-07 13:01:06,006 [INFO]   200000/312928 cells (7 in map)
+2026-09-07 13:01:21,841 [INFO]   240000/312928 cells (59 in map)
+2026-09-07 13:01:37,186 [INFO]   280000/312928 cells (350 in map)
+2026-09-07 13:01:53,253 [INFO]   312928/312928 cells (138 in map)
+2026-09-07 13:01:53,262 [INFO] built mural pass
+2026-09-07 13:01:53,350 [INFO] demographics matched for 536/536 units
+2026-09-07 13:01:53,456 [INFO] Wrote gse136831_ras_pseudobulk.tsv.gz: (536, 20)
+2026-09-07 13:01:53,573 [INFO] 
 Donors per compartment at >=5 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -43,7 +43,7 @@ Mural             9        6   21
 Myofibroblast    14       12   28
 Pericyte          6        1   15
 SMC               7        5   16
-2026-07-28 11:59:34,037 [INFO] 
+2026-09-07 13:01:53,615 [INFO] 
 Donors per compartment at >=10 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -55,7 +55,7 @@ Mural             7        2   15
 Myofibroblast    10        9   24
 Pericyte          2        0   11
 SMC               3        2   11
-2026-07-28 11:59:34,040 [INFO] 
+2026-09-07 13:01:53,620 [INFO] 
 Donors per compartment at >=20 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -76,8 +76,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-28 11:59
-2026-07-28 12:00:11 - **** Independent AGTR1 COPD/IPF evaluation ****
+Session information updated at 2026-09-07 13:01
+2026-09-07 13:01:55 - **** Independent AGTR1 COPD/IPF evaluation ****
 genes in pseudobulk: ACE, ACE2, AGT, AGTR1, AGTR2 
 
 == donors per compartment (>= 5  cells) ==
@@ -98,19 +98,40 @@ powered for IPF  vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibro
 
 NOTE: Pericyte is NOT powered here -- descriptive only, no p-value.
 
-== PRIMARY family: AGTR1 in fibroblast-lineage compartments ==
+== PRIMARY family: AGTR1 in fibroblast-lineage compartments (nominal alpha) ==
      compartment contrast    estimate       ci_lo       ci_hi    p.value
           <char>   <char>       <num>       <num>       <num>      <num>
 1: Myofibroblast      IPF -0.17297264 -0.32261416 -0.02333111 0.02812504
 2: Myofibroblast     COPD -0.18147284 -0.34696562 -0.01598007 0.03679419
 3:    Fibroblast     COPD -0.08698425 -0.21080994  0.03684143 0.17434758
 4:    Fibroblast      IPF  0.02707634 -0.07671824  0.13087093 0.61126820
-         p_BH n_donors
-        <num>    <int>
-1: 0.07358838       54
-2: 0.07358838       54
-3: 0.23246344       60
-4: 0.61126820       60
+   p_BH_reference n_donors
+            <num>    <int>
+1:     0.07358838       54
+2:     0.07358838       54
+3:     0.23246344       60
+4:     0.61126820       60
+
+== direction concordance across disease arms ==
+Key: <compartment>
+     compartment        COPD         IPF same_direction
+          <char>       <num>       <num>         <lgcl>
+1:    Fibroblast -0.08698425  0.02707634          FALSE
+2: Myofibroblast -0.18147284 -0.17297264           TRUE
+
+== cross-cohort SIGN comparison vs HLCA (magnitudes are NOT comparable) ==
+   gse_compartment gse_contrast gse_sign hlca_sign hlca_is_null
+            <char>       <char>   <char>    <char>       <lgcl>
+1:   Myofibroblast          IPF        -         +         TRUE
+2:   Myofibroblast         COPD        -      <NA>           NA
+3:      Fibroblast          IPF        +         -        FALSE
+4:      Fibroblast         COPD        -      <NA>           NA
+                                                                                   agreement
+                                                                                      <char>
+1:        OPPOSITE sign (against a non-significant HLCA estimate -- no finding to replicate)
+2: NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
+3:        OPPOSITE sign (against a non-significant HLCA estimate -- no finding to replicate)
+4: NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
 
 == AGTR1, every compartment (exploratory beyond the primary family) ==
       compartment contrast estimable      estimate        ci_lo        ci_hi
@@ -218,7 +239,7 @@ NOTE: Pericyte is NOT powered here -- descriptive only, no p-value.
 16:      TRUE
 
 Reproducibility information:
-[1] "2026-07-28 12:00:14 EDT"
+[1] "2026-09-07 13:02:11 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -229,7 +250,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-28
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -266,4 +287,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-28 12:00:15 - **** Job ends ****
+2026-09-07 13:02:14 - **** Job ends ****

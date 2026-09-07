@@ -7,6 +7,14 @@
 ## COPD arm alongside Control and IPF, and it is fully independent of HLCA, so it
 ## is the natural place to ask whether that fibroblast pattern reproduces.
 ##
+## This is an INDEPENDENT EVALUATION, not a replication, and the word matters.
+## Nothing in the HLCA cell-type analysis is significant (min BH 0.199 on the
+## contrasts, 0.332 on the omnibus), so there is no directional finding to
+## replicate: the correct statement of a disagreement is "no directional finding
+## to replicate", never "the replication failed". The cross-cohort sign table
+## emitted below reports signs only, with the scale difference stated, and never
+## differences the two estimates.
+##
 ## WHAT IT CANNOT DO, stated first because it bounds every claim below. At a
 ## 5-cell-per-donor floor GSE136831 has exactly ONE Control donor with >= 5
 ## pericytes (against 6 COPD and 15 IPF). A pericyte-specific contrast is
@@ -21,8 +29,25 @@
 ##               CP10K, log1p) from basement_membrane/_h/05.bm_copd.py run
 ##               against the RAS gene panel.
 ##   PRIMARY   : AGTR1, Control-vs-COPD and Control-vs-IPF, in the FIBROBLAST
-##               and MYOFIBROBLAST compartments -- the fibroblast-lineage
-##               compartments named by the HLCA result.
+##               and MYOFIBROBLAST compartments.
+##
+##               ** HOW THE FAMILY WAS ACTUALLY CHOSEN (corrected 2026-09-07,
+##               defect P1-19). ** This header used to say the two compartments
+##               were "named by the HLCA result". That is true of FIBROBLAST and
+##               false of MYOFIBROBLAST, and the distinction matters because
+##               myofibroblast is the compartment carrying both significant
+##               results. Timeline: the family was fixed here on 2026-07-28; the
+##               HLCA analysis (disease_association/_h/05) was rebuilt on
+##               2026-07-30, when the `age > 20` gate was fixed and myofibroblasts
+##               were admitted to it for the first time (1 -> 10 fibrotic donors).
+##               So when this family was pre-specified, HLCA had NO myofibroblast
+##               estimate to name.
+##
+##               Myofibroblast was chosen on LINEAGE grounds -- a perfectly good
+##               pre-specification, and the nominal-alpha argument below still
+##               holds, because the family was still fixed before these data were
+##               touched. But it is a different pre-specification from the one
+##               previously claimed, and it must be described as the one it is.
 ##
 ##               REPORTED AT NOMINAL ALPHA, NOT BH-CORRECTED (changed
 ##               2026-07-28). This is a directional REPLICATION test of a
@@ -61,7 +86,11 @@ POWERED_MIN_DONORS  <- 5L
 opt <- parse_args(OptionParser(option_list = list(
     make_option("--pseudobulk", type = "character"),
     make_option("--outdir", type = "character", default = "stats_data"),
-    make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells")
+    make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells"),
+    ## The HLCA side of the comparison. Optional: if absent the cross-cohort block
+    ## is skipped with a message rather than failing the job.
+    make_option("--hlca-effects", type = "character", dest = "hlca",
+                default = "../../_m/mean_expr/agtr1_celltype_disease_effects.tsv")
 )))
 dir.create(opt$outdir, showWarnings = FALSE, recursive = TRUE)
 wt <- function(x, f) fwrite(as.data.table(x), file.path(opt$outdir, f), sep = "\t")
@@ -169,6 +198,90 @@ conc <- dcast(res[family == "primary"], compartment ~ contrast, value.var = "est
 if (all(c("COPD", "IPF") %in% names(conc)))
     conc[, same_direction := sign(COPD) == sign(IPF)]
 cat("\n== direction concordance across disease arms ==\n"); print(conc)
+## ------------------------------------------------- cross-cohort sign table ----
+## The computation this module was missing (defect P1-19). The in-script
+## concordance check above compares GSE136831's COPD arm to its own IPF arm and
+## never touches HLCA -- so a module described as a replication had no comparison
+## to the thing it was replicating.
+##
+## THREE RULES, enforced here rather than left to a caption:
+##  1. SIGNS ONLY. HLCA estimates are in within-cell-type SD units; these are in
+##     log1p CP10K. The two are never differenced, and no ratio is formed.
+##  2. HLCA HAS NO COPD ARM. `05.agtr1_celltype_disease.R` excludes COPD outright
+##     (its TRI_LEVELS are Healthy / Fibrotic_ILD / Other), and its "Other" group
+##     is a COVID-dominated grab-bag, NOT a COPD arm. So the GSE136831 COPD
+##     contrast has nothing to compare against, and the row says so instead of
+##     silently borrowing "Other".
+##  3. NEITHER HLCA ESTIMATE IS SIGNIFICANT. `agreement` therefore reports sign
+##     agreement against a NULL reference, and `hlca_is_null` marks it.
+##
+## Population correspondence is ASSERTED, NOT ESTABLISHED: HLCA
+## `ann_finest_level` "Myofibroblasts" and GSE136831 `Manuscript_Identity`
+## "Myofibroblast" are not mapped to each other anywhere in this repository, and
+## HLCA splits fibroblasts into three subtypes where GSE136831 has one coarse
+## class. `mapping_confidence` records that.
+XCOHORT_MAP <- list(
+    list(gse = "Myofibroblast", hlca = "Myofibroblasts",
+         conf = "name-matched only; populations not established as equivalent"),
+    list(gse = "Fibroblast",
+         hlca = c("Alveolar fibroblasts", "Adventitial fibroblasts",
+                  "Peribronchial fibroblasts"),
+         conf = "one GSE136831 class vs three HLCA subtypes; range reported, not a mean"))
+
+if (file.exists(opt$hlca)) {
+    hl <- fread(opt$hlca)
+    hl <- hl[response == "z_AGTR1" & contrast == "Fibrotic_ILD - Healthy"]
+    xc <- rbindlist(lapply(XCOHORT_MAP, function(m) {
+        rbindlist(lapply(c("IPF", "COPD"), function(arm) {
+            g <- res[family == "primary" & compartment == m$gse & contrast == arm]
+            if (nrow(g) != 1) return(NULL)
+            h <- hl[cell_type %in% m$hlca]
+            has_h <- arm == "IPF" && nrow(h) > 0
+            data.table(
+                gse_compartment  = m$gse,
+                gse_contrast     = arm,
+                gse_estimate_log1p_cp10k = g$estimate,
+                gse_p            = g$p.value,
+                gse_sign         = if (g$estimate > 0) "+" else "-",
+                hlca_cell_types  = if (has_h) paste(h$cell_type, collapse = "; ") else NA_character_,
+                hlca_contrast    = if (has_h) "Fibrotic_ILD - Healthy" else NA_character_,
+                hlca_estimate_sd_units = if (has_h) paste(sprintf("%+.3f", h$estimate), collapse = "; ") else NA_character_,
+                hlca_p           = if (has_h) paste(sprintf("%.3f", h$p.value), collapse = "; ") else NA_character_,
+                hlca_sign        = if (!has_h) NA_character_
+                                   else if (all(h$estimate > 0)) "+"
+                                   else if (all(h$estimate < 0)) "-" else "mixed",
+                hlca_is_null     = if (has_h) all(h$p.value >= 0.05) else NA,
+                agreement = if (!has_h) {
+                        "NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD"
+                    } else {
+                        hs <- if (all(h$estimate > 0)) "+" else if (all(h$estimate < 0)) "-" else "mixed"
+                        gs <- if (g$estimate > 0) "+" else "-"
+                        ## The qualifier tracks `hlca_is_null` rather than being
+                        ## asserted: one HLCA fibroblast subtype is nominally
+                        ## significant (peribronchial, p = 0.030) even though
+                        ## nothing in that analysis survives BH (min 0.199).
+                        q <- if (all(h$p.value >= 0.05))
+                                 "against a NON-SIGNIFICANT HLCA estimate -- no directional finding to replicate"
+                             else
+                                 "against an HLCA estimate significant at nominal alpha but NOT after BH (min BH in that analysis is 0.199)"
+                        if (hs == "mixed")
+                            paste0("HLCA subtypes disagree in sign among themselves (", 
+                                   paste(sprintf("%+.3f", h$estimate), collapse = ", "), ")")
+                        else if (hs == gs) paste0("same sign, ", q)
+                        else paste0("OPPOSITE sign, ", q)
+                    },
+                mapping_confidence = m$conf,
+                scale_note = "NOT COMPARABLE IN MAGNITUDE: HLCA is within-cell-type SD, GSE136831 is log1p CP10K. Signs only.")
+        }))
+    }))
+    wt(xc, "agtr1_cross_cohort_signs.tsv")
+    cat("\n== cross-cohort SIGN comparison vs HLCA (magnitudes are NOT comparable) ==\n")
+    print(xc[, .(gse_compartment, gse_contrast, gse_sign, hlca_sign, hlca_is_null, agreement)])
+} else {
+    cat("\n== cross-cohort sign table SKIPPED: no HLCA effects file at ", opt$hlca,
+        " ==\n", sep = "")
+}
+
 cat("\n== AGTR1, every compartment (exploratory beyond the primary family) ==\n")
 print(res[gene == PRIMARY_GENE,
           .(compartment, contrast, estimable, estimate, ci_lo, ci_hi, p.value, n_donors)])

@@ -9,7 +9,8 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=logs/agtr1_copd_signfix.log
 
-## Re-export of the R step ONLY, for the contrast sign fix.
+## Re-export of the R step ONLY. Used for the 2026-07 contrast sign fix and again
+## on 2026-09-07 for the P1-19 cross-cohort sign table.
 ##
 ## step_1.sh rebuilds gse136831_ras_pseudobulk.tsv.gz from ipf_dataset.h5ad
 ## first. The sign fix changes no gene, no model and no input, so that rebuild
@@ -28,15 +29,20 @@ if [ ! -f ./gse136831_ras_pseudobulk.tsv.gz ]; then
     exit 1
 fi
 
+## The batch shell does not source the login profile, so `module` and `conda` must
+## be bootstrapped here rather than inherited from the submitting shell.
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
+eval "$(conda shell.bash hook)"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
 log_message "**** Independent AGTR1 COPD/IPF evaluation ****"
 Rscript ../_h/01.agtr1_copd_stats.R \
         --pseudobulk ./gse136831_ras_pseudobulk.tsv.gz \
         --outdir ./stats_data \
-        --min-cells 5
+        --min-cells 5 \
+        --hlca-effects ../../_m/mean_expr/agtr1_celltype_disease_effects.tsv
 if [ $? -ne 0 ]; then log_message "Error: Rscript execution failed"; exit 1; fi
 
 conda deactivate

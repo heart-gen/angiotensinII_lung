@@ -1,8 +1,8 @@
-2026-09-02 20:12:44 - **** Job starts ****
+2026-09-07 13:05:15 - **** Job starts ****
 User: kbenjamin
-Job id: 45107336
-Hostname: r037
-2026-09-02 20:12:55 - **** Independent AGTR1 COPD/IPF evaluation ****
+Job id: 45445585
+Hostname: r359
+2026-09-07 13:05:25 - **** Independent AGTR1 COPD/IPF evaluation ****
 genes in pseudobulk: ACE, ACE2, AGT, AGTR1, AGTR2 
 
 == donors per compartment (>= 5  cells) ==
@@ -43,6 +43,20 @@ Key: <compartment>
           <char>       <num>       <num>         <lgcl>
 1:    Fibroblast -0.08698425  0.02707634          FALSE
 2: Myofibroblast -0.18147284 -0.17297264           TRUE
+
+== cross-cohort SIGN comparison vs HLCA (magnitudes are NOT comparable) ==
+   gse_compartment gse_contrast gse_sign hlca_sign hlca_is_null
+            <char>       <char>   <char>    <char>       <lgcl>
+1:   Myofibroblast          IPF        -         +         TRUE
+2:   Myofibroblast         COPD        -      <NA>           NA
+3:      Fibroblast          IPF        +         -        FALSE
+4:      Fibroblast         COPD        -      <NA>           NA
+                                                                                                                  agreement
+                                                                                                                     <char>
+1:                            OPPOSITE sign, against a NON-SIGNIFICANT HLCA estimate -- no directional finding to replicate
+2:                                NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
+3: OPPOSITE sign, against an HLCA estimate significant at nominal alpha but NOT after BH (min BH in that analysis is 0.199)
+4:                                NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
 
 == AGTR1, every compartment (exploratory beyond the primary family) ==
       compartment contrast estimable      estimate        ci_lo        ci_hi
@@ -150,7 +164,7 @@ Key: <compartment>
 16:      TRUE
 
 Reproducibility information:
-[1] "2026-09-02 20:13:03 EDT"
+[1] "2026-09-07 13:05:29 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -161,7 +175,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -198,4 +212,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-02 20:13:04 - **** Job ends ****
+2026-09-07 13:05:30 - **** Job ends ****
