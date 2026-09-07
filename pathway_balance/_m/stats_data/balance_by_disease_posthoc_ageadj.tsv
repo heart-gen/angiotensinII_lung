@@ -1,0 +1,4 @@
+contrast	estimate	SE	df	t.ratio	p.value	arm	n_donors	n_donors_group
+Healthy - Fibrotic_ILD	-0.0875783877934579	0.0834708929328565	13.379470762632	-1.04920870876397	0.468998451798604	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3
+Healthy - Other	-0.166124273656644	0.0979464031458134	6.45104970510904	-1.69607324333629	0.411986822650622	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3
+Fibrotic_ILD - Other	-0.0785458858631857	0.119318764012951	8.05842495481776	-0.658286117132928	0.528708726209074	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3

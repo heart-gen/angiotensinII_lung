@@ -109,6 +109,12 @@ cat(sprintf("\n(B) injury selection: %d of %d cells above the median composite "
             sum(df$injury_score > inj_cut, na.rm = TRUE), nrow(df)),
     sprintf("injury score (cols: %s)\n", paste(inj_cols, collapse = ", ")))
 
+## `age` is deliberately NOT required here (changed 2026-09-07). It was, and that
+## made this the SEVENTH instance of the `+ age` study filter -- age missingness in
+## the HLCA is a study property, so `drop_na(age)` silently restricted the donor set
+## to age-reporting cohorts and did it unevenly across disease groups. See the
+## rationale block in `pericyte_states/_h/01.state_stats.R` and P1-2/P1-10. The
+## age-restricted fit is still produced below, labelled as a cohort restriction.
 donor_inj <- df |>
     filter(injury_score > inj_cut) |>
     group_by(donor_id) |>
@@ -117,17 +123,61 @@ donor_inj <- df |>
               disease_group = first(disease_group), sex = first(sex),
               dataset = if (has_ds) first(dataset) else NA_character_,
               age = mean(age, na.rm = TRUE), n_cells = n(), .groups = "drop") |>
-    filter(n_cells >= 10) |> drop_na(balance, age, sex) |>
+    filter(n_cells >= 10) |> drop_na(balance, sex) |>
     mutate(disease_group = relevel(droplevels(disease_group), "Healthy"))
 cat("\n(B) disease-balance donors by group (note small diseased n):\n"); print(table(donor_inj$disease_group))
+cat("(B) age-complete subset would be", sum(!is.na(donor_inj$age)), "of", nrow(donor_inj),
+    "donors:\n"); print(table(donor_inj$disease_group[!is.na(donor_inj$age)]))
+
+## THE donor table this module models, written out so that figures never re-derive
+## the selection. `figures/_h/manuscript_mechanism_figure.R` used to rebuild it from
+## `state_program %in% INJURY` -- the label set this module abandoned -- and landed
+## on 220 cells / 5 donors while the module used 5,840 / 59 (defect P1-8). A figure
+## that recomputes an upstream selection will drift from it; this file removes the
+## opportunity.
+write_tsv_safe(donor_inj, file.path(outdir, "balance_donor_injury_selected.tsv"))
 if (has_ds && dplyr::n_distinct(donor_inj$dataset) > 1) {
     fit_dx <- suppressMessages(lmerTest::lmer(
-        balance ~ disease_group + age + sex + (1 | dataset), data = donor_inj))
+        balance ~ disease_group + sex + (1 | dataset), data = donor_inj))
 } else {
-    fit_dx <- lm(balance ~ disease_group + age + sex, data = donor_inj)
+    fit_dx <- lm(balance ~ disease_group + sex, data = donor_inj)
 }
-write_tsv_safe(as.data.frame(emmeans(fit_dx, ~ disease_group)), file.path(outdir, "balance_by_disease_emmeans.tsv"))
-write_tsv_safe(as.data.frame(pairs(emmeans(fit_dx, ~ disease_group), adjust = "BH")), file.path(outdir, "balance_by_disease_posthoc.tsv"))
+tag_arm <- function(x, arm, n) as.data.frame(x) |>
+    dplyr::mutate(arm = arm, n_donors = n,
+                  n_donors_group = paste(names(table(donor_inj$disease_group)),
+                                         as.integer(table(donor_inj$disease_group)),
+                                         sep = "=", collapse = ";"))
+write_tsv_safe(tag_arm(emmeans(fit_dx, ~ disease_group), "primary", nrow(donor_inj)),
+               file.path(outdir, "balance_by_disease_emmeans.tsv"))
+write_tsv_safe(tag_arm(pairs(emmeans(fit_dx, ~ disease_group), adjust = "BH"), "primary", nrow(donor_inj)),
+               file.path(outdir, "balance_by_disease_posthoc.tsv"))
+
+## Age-restricted companion, written with an `_ageadj` suffix and an `arm` column
+## so it can never be mistaken for the primary. This is a RESTRICTION TO
+## AGE-REPORTING COHORTS, not an age adjustment.
+d_age <- tidyr::drop_na(donor_inj, age) |>
+    dplyr::mutate(disease_group = droplevels(disease_group))
+if (nlevels(d_age$disease_group) >= 2 &&
+    (!has_ds || dplyr::n_distinct(d_age$dataset) > 1)) {
+    fit_age <- if (has_ds && dplyr::n_distinct(d_age$dataset) > 1)
+        suppressMessages(lmerTest::lmer(balance ~ disease_group + age + sex + (1 | dataset), data = d_age))
+    else lm(balance ~ disease_group + age + sex, data = d_age)
+    ea <- as.data.frame(emmeans(fit_age, ~ disease_group))
+    pa <- as.data.frame(pairs(emmeans(fit_age, ~ disease_group), adjust = "BH"))
+    for (x in list(list(ea, "balance_by_disease_emmeans_ageadj.tsv"),
+                   list(pa, "balance_by_disease_posthoc_ageadj.tsv"))) {
+        d <- x[[1]]; d$arm <- "_ageadj -- RESTRICTED to age-reporting cohorts"
+        d$n_donors <- nrow(d_age)
+        d$n_donors_group <- paste(names(table(d_age$disease_group)),
+                                  as.integer(table(d_age$disease_group)),
+                                  sep = "=", collapse = ";")
+        write_tsv_safe(d, file.path(outdir, x[[2]]))
+    }
+    cat("\n(B) age-restricted arm: ", nrow(d_age), " of ", nrow(donor_inj),
+        " donors\n", sep = "")
+} else {
+    cat("\n(B) age-restricted arm NOT estimable (groups collapse); no _ageadj files written\n")
+}
 p2 <- ggboxplot(donor_inj, x = "disease_group", y = "balance", add = "jitter",
                 fill = "disease_group", palette = "jco", legend = "none",
                 xlab = "", ylab = "AT1R - AT2R balance\n(injury pericytes)",
@@ -188,9 +238,11 @@ if (file.exists(ni_file)) {
             }
             o
         }
+        ## `age` dropped from these rhs on 2026-09-07 for the reason given at the
+        ## donor_inj block: it was a cohort filter, not a covariate.
         out <- dplyr::bind_rows(
-            fit_pair(c("disease_group", "age", "sex"), "unadjusted"),
-            fit_pair(c("disease_group", "injury_stromal_score", "age", "sex"),
+            fit_pair(c("disease_group", "sex"), "unadjusted"),
+            fit_pair(c("disease_group", "injury_stromal_score", "sex"),
                      "injury_adjusted"))
         out <- out[grepl("disease|injury", out$term), ]
         ## P1-20(b). The `injury_stromal_score` row is a score-on-score
@@ -210,9 +262,14 @@ if (file.exists(ni_file)) {
                 "      GUARDED row is the one to report (P1-9):\n", sep = "")
             print(cmp, row.names = FALSE)
         }
-        ## Report what the adjustment actually did rather than asserting it: under the
-        ## continuous injury selection the disease term does NOT collapse, which is the
-        ## opposite of what the earlier label-based selection showed.
+        ## Report what the adjustment actually did rather than asserting it. This
+        ## has now flipped twice and must be read from the run, never quoted from
+        ## memory: under the label-based selection the disease term collapsed;
+        ## under the continuous selection PLUS the `+ age` filter it did not; with
+        ## age removed (2026-09-07, 59 donors instead of 30) it collapses again --
+        ## Fibrotic/ILD 0.145 (P = 0.0038) -> 0.064 (P = 0.194) once
+        ## `injury_stromal_score` enters. So the balance is a COROLLARY of injury
+        ## intensity, which is what MECHANISM_ANALYSES claimed all along.
         cat("  (compare the unadjusted vs injury_adjusted disease terms below;\n",
             "   the covariate absorbs the disease effect only if they shrink)\n", sep = "")
         print(out[, c("study_guard", "model", "term", "Estimate", "p_value")],
@@ -222,7 +279,7 @@ if (file.exists(ni_file)) {
         ## AT1R Fibrotic row was previously reported at P = 0.030 from the
         ## unguarded fit alone.
         arm <- dplyr::bind_rows(lapply(c("AT1R", "AT2R"), function(v) {
-            r <- fit_pair(c("disease_group", "age", "sex"), v, resp = v)
+            r <- fit_pair(c("disease_group", "sex"), v, resp = v)
             r[grepl("disease", r$term), ] }))
         write_tsv_safe(arm, file.path(outdir, "balance_arm_decomposition.tsv"))
         cat("\n  arm decomposition (AT1R vs AT2R ~ disease):\n")

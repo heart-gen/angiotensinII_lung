@@ -1,49 +1,87 @@
-2026-07-22 08:31:15 - **** Job starts ****
-Job id: 42529923
+2026-09-07 12:53:12 - **** Job starts ****
+Job id: 45445324
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-22 08:31:31 - **** AT1R/AT2R balance statistics ****
+2026-09-07 12:53:25 - **** AT1R/AT2R balance statistics ****
 
 (B) injury selection: 5840 of 11680 cells above the median composite  injury score (cols: inflammatory_score, fibroblast_like_score, activated_migratory_score)
 
 (B) disease-balance donors by group (note small diseased n):
 
      Healthy Fibrotic_ILD        Other 
+          26           19           14 
+(B) age-complete subset would be 30 of 59 donors:
+
+     Healthy Fibrotic_ILD        Other 
           23            4            3 
 
-(C) injury-adjusted: 28 donors; cor(balance, injury_stromal)=0.421
-  (disease effect collapses once injury-stromal score is included)
-                                     model                      term
-disease_groupFibrotic_ILD       unadjusted disease_groupFibrotic_ILD
-disease_groupOther              unadjusted        disease_groupOther
-disease_groupFibrotic_ILD1 injury_adjusted disease_groupFibrotic_ILD
-disease_groupOther1        injury_adjusted        disease_groupOther
-injury_stromal_score       injury_adjusted      injury_stromal_score
-                              Estimate   Pr(>|t|)
-disease_groupFibrotic_ILD  0.092562962 0.11213472
-disease_groupOther         0.187517253 0.00795909
-disease_groupFibrotic_ILD1 0.088582946 0.17862144
-disease_groupOther1        0.180615132 0.03823574
-injury_stromal_score       0.007587623 0.88837500
+(B) age-restricted arm: 30 of 59 donors
+
+(C) injury-adjusted: 59 donors; cor(balance, injury_stromal)=0.477
+
+  (C) study guard on / off, same donors -- if these disagree, the
+      GUARDED row is the one to report (P1-9):
+                            study_guard                      term   Estimate
+               (1 | dataset) -- PRIMARY disease_groupFibrotic_ILD 0.14520791
+               (1 | dataset) -- PRIMARY        disease_groupOther 0.08863613
+ none -- UNGUARDED, for comparison only disease_groupFibrotic_ILD 0.11907698
+ none -- UNGUARDED, for comparison only        disease_groupOther 0.08753318
+     p_value
+ 0.003835158
+ 0.119438825
+ 0.011502541
+ 0.048082050
+  (compare the unadjusted vs injury_adjusted disease terms below;
+   the covariate absorbs the disease effect only if they shrink)
+                            study_guard           model
+               (1 | dataset) -- PRIMARY      unadjusted
+               (1 | dataset) -- PRIMARY      unadjusted
+ none -- UNGUARDED, for comparison only      unadjusted
+ none -- UNGUARDED, for comparison only      unadjusted
+               (1 | dataset) -- PRIMARY injury_adjusted
+               (1 | dataset) -- PRIMARY injury_adjusted
+               (1 | dataset) -- PRIMARY injury_adjusted
+ none -- UNGUARDED, for comparison only injury_adjusted
+ none -- UNGUARDED, for comparison only injury_adjusted
+ none -- UNGUARDED, for comparison only injury_adjusted
+                      term   Estimate     p_value
+ disease_groupFibrotic_ILD 0.14520791 0.003835158
+        disease_groupOther 0.08863613 0.119438825
+ disease_groupFibrotic_ILD 0.11907698 0.011502541
+        disease_groupOther 0.08753318 0.048082050
+ disease_groupFibrotic_ILD 0.06443566 0.193830010
+        disease_groupOther 0.06235441 0.193882973
+      injury_stromal_score 0.09696517 0.003213613
+ disease_groupFibrotic_ILD 0.04806461 0.309968284
+        disease_groupOther 0.06632420 0.105095135
+      injury_stromal_score 0.10080364 0.001568622
 
   arm decomposition (AT1R vs AT2R ~ disease):
-                           model                      term   Estimate
-disease_groupFibrotic_ILD   AT1R disease_groupFibrotic_ILD 0.14657846
-disease_groupOther          AT1R        disease_groupOther 0.22212518
-disease_groupFibrotic_ILD1  AT2R disease_groupFibrotic_ILD 0.05401550
-disease_groupOther1         AT2R        disease_groupOther 0.03460793
-                              Pr(>|t|)
-disease_groupFibrotic_ILD  0.030300315
-disease_groupOther         0.005845298
-disease_groupFibrotic_ILD1 0.164111380
-disease_groupOther1        0.432100729
+                            study_guard model                      term
+               (1 | dataset) -- PRIMARY  AT1R disease_groupFibrotic_ILD
+               (1 | dataset) -- PRIMARY  AT1R        disease_groupOther
+ none -- UNGUARDED, for comparison only  AT1R disease_groupFibrotic_ILD
+ none -- UNGUARDED, for comparison only  AT1R        disease_groupOther
+               (1 | dataset) -- PRIMARY  AT2R disease_groupFibrotic_ILD
+               (1 | dataset) -- PRIMARY  AT2R        disease_groupOther
+ none -- UNGUARDED, for comparison only  AT2R disease_groupFibrotic_ILD
+ none -- UNGUARDED, for comparison only  AT2R        disease_groupOther
+    Estimate     p_value
+  0.18598653 0.000955143
+  0.05765751 0.357315289
+  0.16653608 0.001815029
+  0.04557887 0.349182679
+  0.02308279 0.294911575
+ -0.02329802 0.506818976
+  0.04745910 0.039088095
+ -0.04195431 0.054455692
 
 Reproducibility information:
-[1] "2026-07-22 08:32:02 EDT"
+[1] "2026-09-07 12:53:43 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -54,7 +92,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-22
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -126,4 +164,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-22 08:32:07 - **** Job ends ****
+2026-09-07 12:53:44 - **** Job ends ****

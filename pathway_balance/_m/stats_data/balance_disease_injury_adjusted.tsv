@@ -1,11 +1,11 @@
 Estimate	SE	df	t	p_value	term	model	study_guard	dataset_sd	singular	readout
-0.0875783877934579	0.0764449250273158	14.6782287949112	1.14564031244931	0.270279675828767	disease_groupFibrotic_ILD	unadjusted	(1 | dataset) -- PRIMARY	0.0661728788672197	FALSE	disease contrast -- interpretable
-0.166124273656644	0.0972578411911208	7.5120243702264	1.70808103102138	0.128449722143991	disease_groupOther	unadjusted	(1 | dataset) -- PRIMARY	0.0661728788672197	FALSE	disease contrast -- interpretable
-0.0880431517160926	0.0669259544556061	NA	1.31553075981149	0.20026931821747	disease_groupFibrotic_ILD	unadjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
-0.185171893813753	0.0775275161915329	NA	2.38846673942557	0.0247886347171494	disease_groupOther	unadjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
-0.0562032882697023	0.0772039391288434	14.0024411885895	0.727984723368924	0.478620671481917	disease_groupFibrotic_ILD	injury_adjusted	(1 | dataset) -- PRIMARY	0.0574633959519742	FALSE	disease contrast -- interpretable
-0.116814663349966	0.10069153168842	9.77317927924953	1.1601240083569	0.273553842363569	disease_groupOther	injury_adjusted	(1 | dataset) -- PRIMARY	0.0574633959519742	FALSE	disease contrast -- interpretable
-0.0626459486226497	0.0508368526969825	23.9785707192168	1.232294001284	0.229786326118608	injury_stromal_score	injury_adjusted	(1 | dataset) -- PRIMARY	0.0574633959519742	FALSE	nuisance covariate -- score-on-score, non-zero null, NOT an effect size
-0.0550931616173257	0.0693415674217538	NA	0.794518550211513	0.43468037500036	disease_groupFibrotic_ILD	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
-0.120113921359732	0.0881782504173793	NA	1.36217174633415	0.185792411054707	disease_groupOther	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
-0.0757765426639084	0.0523193616635049	NA	1.44834608555184	0.160459840200317	injury_stromal_score	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	nuisance covariate -- score-on-score, non-zero null, NOT an effect size
+0.145207909089503	0.0475678715615974	44.1027005822221	3.0526467618268	0.00383515760550776	disease_groupFibrotic_ILD	unadjusted	(1 | dataset) -- PRIMARY	0.0565659589798191	FALSE	disease contrast -- interpretable
+0.0886361296103131	0.0532637305785678	13.3140872303553	1.66409916555823	0.119438824757046	disease_groupOther	unadjusted	(1 | dataset) -- PRIMARY	0.0565659589798191	FALSE	disease contrast -- interpretable
+0.119076979941242	0.0455131517664794	NA	2.61632023535103	0.0115025407285736	disease_groupFibrotic_ILD	unadjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
+0.0875331755897598	0.0432782592830884	NA	2.02256692019877	0.0480820502939919	disease_groupOther	unadjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
+0.0644356637380763	0.0487826205564493	41.2200780995195	1.32087335618868	0.193830010122545	disease_groupFibrotic_ILD	injury_adjusted	(1 | dataset) -- PRIMARY	0.0383971205847503	FALSE	disease contrast -- interpretable
+0.0623544128762178	0.0459279481189037	15.6044007225617	1.35765727471184	0.19388297273662	disease_groupOther	injury_adjusted	(1 | dataset) -- PRIMARY	0.0383971205847503	FALSE	disease contrast -- interpretable
+0.096965171616007	0.031189345864698	46.1260400955728	3.10891969445753	0.0032136130769231	injury_stromal_score	injury_adjusted	(1 | dataset) -- PRIMARY	0.0383971205847503	FALSE	nuisance covariate -- score-on-score, non-zero null, NOT an effect size
+0.0480646076348123	0.0468873510783752	NA	1.02510819078837	0.309968284312387	disease_groupFibrotic_ILD	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
+0.0663241997408496	0.040224631984911	NA	1.64884540810042	0.105095135296903	disease_groupOther	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	disease contrast -- interpretable
+0.100803641820563	0.0302375186636803	NA	3.3337273121436	0.00156862191810697	injury_stromal_score	injury_adjusted	none -- UNGUARDED, for comparison only	NA	NA	nuisance covariate -- score-on-score, non-zero null, NOT an effect size

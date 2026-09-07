@@ -1,0 +1,4 @@
+disease_group	emmean	SE	df	lower.CL	upper.CL	arm	n_donors	n_donors_group
+Healthy	0.198962645312411	0.0342584120976855	9.6398632308559	0.122241829095297	0.275683461529525	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3
+Fibrotic_ILD	0.286541033105869	0.0772715160704415	12.2900472320577	0.118620487558393	0.454461578653344	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3
+Other	0.365086918969054	0.0906779989034783	5.99016751094536	0.143117534896108	0.587056303042	_ageadj -- RESTRICTED to age-reporting cohorts	30	Healthy=23;Fibrotic_ILD=4;Other=3

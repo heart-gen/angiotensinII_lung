@@ -69,12 +69,44 @@ niche <- fread(P("niche_index", "_m", "niche_index_per_donor.tsv.gz")) %>%
 ## stable `pericyte_state` clusters collapse onto three programs); balance panels
 ## key on `state_program`.
 bal_cell <- fread(P("pathway_balance", "_m", "pathway_balance_metadata.tsv.gz"))
-INJURY <- c("inflammatory", "fibroblast_like", "activated_migratory")
-bal_donor <- bal_cell %>%
-    filter(state_program %in% INJURY) %>%
-    group_by(donor_id, lung_condition) %>%
-    summarise(balance = mean(AT1R_AT2R_balance, na.rm = TRUE), n = n(), .groups = "drop") %>%
-    filter(n >= 10) %>% mutate(disease_group = dx_factor(lung_condition))
+
+## PANEL C DONOR SET -- READ, NEVER RE-DERIVED (defect P1-8, fixed 2026-09-07).
+##
+## This block used to rebuild the selection here as
+## `filter(state_program %in% c("inflammatory","fibroblast_like","activated_migratory"))`.
+## `pathway_balance/_h/01.balance_stats.R` ABANDONED that label set when the
+## basement-membrane panel landed -- `fibroblast_like` stops winning any cluster,
+## so only 220 cells (1.9%) carry an injury-program label -- and switched to a
+## continuous median split on the injury scores. The figure was never updated, so
+## panel C was drawn on 220 cells / **5 donors** (4 Healthy, 1 IPF), with a Wilcoxon
+## bracket computed on 4 versus 1, while the statistics module used 5,840 cells /
+## 59 donors.
+##
+## The fix is not to re-implement the median split here -- that is how the drift
+## happened. The module now writes the exact donor table it models, and this reads
+## it. If the file is missing the figure FAILS rather than falling back to a
+## selection the statistics no longer use.
+bal_f <- P("pathway_balance", "_m", "stats_data", "balance_donor_injury_selected.tsv")
+if (!file.exists(bal_f))
+    stop("missing ", bal_f, " -- re-run pathway_balance/_h/step_1.sh. Do NOT ",
+         "reconstruct the injury selection in this script: the label-based set it ",
+         "used to rebuild collapses to 5 donors (defect P1-8).")
+## The module already emits `disease_group` with the same regex this figure uses,
+## so it is re-levelled, not re-derived. `DISEASE_LEVELS` (not `dx_factor`, which
+## droplevels against a single value) keeps the panel's group order shared with
+## panels A and B.
+bal_donor <- fread(bal_f) %>%
+    mutate(disease_group = droplevels(factor(as.character(disease_group),
+                                             levels = DISEASE_LEVELS))) %>%
+    filter(!is.na(disease_group))
+message(sprintf("panel C: %d donors from the pathway_balance selection (%s)",
+                nrow(bal_donor),
+                paste(sprintf("%s=%d", names(table(bal_donor$disease_group)),
+                              as.integer(table(bal_donor$disease_group))),
+                      collapse = ", ")))
+if (nrow(bal_donor) < 20)
+    stop("panel C has only ", nrow(bal_donor), " donors -- that is the P1-8 ",
+         "signature, not a plausible donor set. Check the pathway_balance run.")
 bal_state <- bal_cell %>%
     group_by(donor_id, state_program) %>%
     summarise(balance = mean(AT1R_AT2R_balance, na.rm = TRUE), n = n(), .groups = "drop") %>%
