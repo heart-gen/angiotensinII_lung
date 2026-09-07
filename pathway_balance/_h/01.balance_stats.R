@@ -6,7 +6,15 @@
 ## NicheNet program (TGFB1, CCN2, COL1A1, FN1, ACTA2, IL6, ...), so this balance
 ## partly re-measures injury intensity and is NOT a receptor-specific AT1R readout
 ## (AGTR1 itself is not disease-associated). Result: program contrasts NS (smallest
-## p = 0.067); the shift is disease-level (Healthy vs Other p = 0.040).
+## p = 0.067).
+##
+## THE DISEASE-LEVEL RESULT IS REPORTED FROM THE STUDY-GUARDED FIT. This header
+## used to read "the shift is disease-level (Healthy vs Other p = 0.040)", which
+## was the plain-`lm` value from section (C). Section (B) fits the same donors
+## with `(1 | dataset)` -- the guard this script exists to apply -- and it
+## reverses the answer. Sections (C) and the arm decomposition now fit both and
+## label them with a `study_guard` column; quote the row marked PRIMARY. See
+## P1-9 in writings/TODO.md.
 ##
 ## States are now the NVU-pattern model: the stable Leiden clusters live in
 ## `pericyte_state` (numeric), annotated to an interpretable program in
@@ -140,26 +148,86 @@ if (file.exists(ni_file)) {
     if (nrow(adj) >= 10 && "injury_stromal_score" %in% names(adj)) {
         cat(sprintf("\n(C) injury-adjusted: %d donors; cor(balance, injury_stromal)=%.3f\n",
                     nrow(adj), cor(adj$balance, adj$injury_stromal_score, use = "complete")))
-        f_un  <- lm(balance ~ disease_group + age + sex, data = adj)
-        f_adj <- lm(balance ~ disease_group + injury_stromal_score + age + sex, data = adj)
-        rows <- function(fit, tag) { co <- as.data.frame(summary(fit)$coefficients)
-            co$term <- rownames(co); co$model <- tag; co }
-        out <- rbind(rows(f_un, "unadjusted"), rows(f_adj, "injury_adjusted"))
+        ## P1-9. Section (B) guards against disease-STUDY confounding in the HLCA
+        ## with a `(1 | dataset)` random intercept -- this script's own comment
+        ## says that is why it is there. Section (C) and the arm decomposition
+        ## were plain `lm` with no such term, and the header quoted the UNGUARDED
+        ## number. The guard is not cosmetic here: on the same donors it reverses
+        ## both the sign and the verdict of the Healthy-vs-Other effect. Both
+        ## fits are therefore run and both are written, distinguished by a
+        ## `study_guard` column, with the GUARDED fit designated primary.
+        guarded <- has_ds && dplyr::n_distinct(adj$dataset) > 1
+        rows <- function(fit, tag, guard) {
+            co <- as.data.frame(summary(fit)$coefficients)
+            names(co)[names(co) == "Std. Error"] <- "SE"
+            names(co)[names(co) == "Pr(>|t|)"]   <- "p_value"
+            names(co)[names(co) == "t value"]    <- "t"
+            co <- co[, intersect(c("Estimate", "SE", "df", "t", "p_value"), names(co)),
+                     drop = FALSE]
+            co$term <- rownames(co); co$model <- tag; co$study_guard <- guard
+            co
+        }
+        GUARD_P <- "(1 | dataset) -- PRIMARY"
+        GUARD_N <- "none -- UNGUARDED, for comparison only"
+        fit_pair <- function(rhs, tag, resp = "balance") {
+            o <- rows(lm(reformulate(rhs, resp), data = adj), tag, GUARD_N)
+            if (guarded) {
+                g  <- suppressMessages(lmerTest::lmer(
+                          reformulate(c(rhs, "(1 | dataset)"), resp), data = adj))
+                vc <- as.data.frame(lme4::VarCorr(g))
+                gr <- rows(g, tag, GUARD_P)
+                ## When the between-dataset SD is estimated at 0 the fit is
+                ## singular and the guarded estimate EQUALS the unguarded one.
+                ## That is a result, not a failure: it says this response carries
+                ## no between-dataset variance for the guard to absorb, so the
+                ## unguarded number was safe FOR THAT RESPONSE. Record it rather
+                ## than leaving two identical rows unexplained.
+                gr$dataset_sd <- vc$sdcor[vc$grp == "dataset"][1]
+                gr$singular   <- lme4::isSingular(g)
+                o  <- dplyr::bind_rows(gr, o)
+            }
+            o
+        }
+        out <- dplyr::bind_rows(
+            fit_pair(c("disease_group", "age", "sex"), "unadjusted"),
+            fit_pair(c("disease_group", "injury_stromal_score", "age", "sex"),
+                     "injury_adjusted"))
         out <- out[grepl("disease|injury", out$term), ]
+        ## P1-20(b). The `injury_stromal_score` row is a score-on-score
+        ## coefficient: both sides are `score_genes` panels, which have a
+        ## non-zero null, so its magnitude is not an effect size. It is kept
+        ## because the module's conclusion depends on whether the DISEASE term
+        ## shrinks when it is added -- that comparison is categorical and is
+        ## unaffected -- but it must not be quoted on its own.
+        out$readout <- ifelse(grepl("injury_stromal_score", out$term),
+                              "nuisance covariate -- score-on-score, non-zero null, NOT an effect size",
+                              "disease contrast -- interpretable")
         write_tsv_safe(out, file.path(outdir, "balance_disease_injury_adjusted.tsv"))
+        if (guarded) {
+            cmp <- out[out$model == "unadjusted" & grepl("disease", out$term),
+                       c("study_guard", "term", "Estimate", "p_value")]
+            cat("\n  (C) study guard on / off, same donors -- if these disagree, the\n",
+                "      GUARDED row is the one to report (P1-9):\n", sep = "")
+            print(cmp, row.names = FALSE)
+        }
         ## Report what the adjustment actually did rather than asserting it: under the
         ## continuous injury selection the disease term does NOT collapse, which is the
         ## opposite of what the earlier label-based selection showed.
         cat("  (compare the unadjusted vs injury_adjusted disease terms below;\n",
             "   the covariate absorbs the disease effect only if they shrink)\n", sep = "")
-        print(out[, c("model", "term", "Estimate", "Pr(>|t|)")])
+        print(out[, c("study_guard", "model", "term", "Estimate", "p_value")],
+              row.names = FALSE)
         ## arm decomposition: which arm (AT1R up vs AT2R down) drives the shift?
-        arm <- do.call(rbind, lapply(c("AT1R", "AT2R"), function(v) {
-            fit <- lm(reformulate(c("disease_group", "age", "sex"), v), data = adj)
-            r <- rows(fit, v); r[grepl("disease", r$term), ] }))
+        ## Guarded and unguarded, same convention as above (P1-9): this table's
+        ## AT1R Fibrotic row was previously reported at P = 0.030 from the
+        ## unguarded fit alone.
+        arm <- dplyr::bind_rows(lapply(c("AT1R", "AT2R"), function(v) {
+            r <- fit_pair(c("disease_group", "age", "sex"), v, resp = v)
+            r[grepl("disease", r$term), ] }))
         write_tsv_safe(arm, file.path(outdir, "balance_arm_decomposition.tsv"))
         cat("\n  arm decomposition (AT1R vs AT2R ~ disease):\n")
-        print(arm[, c("model", "term", "Estimate", "Pr(>|t|)")])
+        print(arm[, c("study_guard", "model", "term", "Estimate", "p_value")],
+              row.names = FALSE)
     }
 }
 
