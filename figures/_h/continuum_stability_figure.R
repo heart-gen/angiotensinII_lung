@@ -10,7 +10,8 @@
 ##
 ##   A  donor-level rho for each feature across the 18 parameter settings
 ##   B  the spread of those 18 estimates per feature, with sign consistency
-##   C  donor-level rho after re-rooting at each alternative cluster / latent root
+##   C  donor-level rho after re-rooting at each alternative program / cluster /
+##      latent root
 ##   D  |rho| under the canonical root vs |rho| under each alternative root
 ##
 ## The distinction A/B vs C/D matters: parameters should leave sign AND magnitude
@@ -34,17 +35,21 @@ LEVEL <- "donor"
 FEAT_ORDER <- c("vascular_stabilizing_score", "basement_membrane_score",
                 "inflammatory_score", "synthetic_contractile_score",
                 "activated_migratory_score", "fibroblast_like_score",
-                "AGTR1_expr")
+                "AGTR1_expr", "AGTR1_scvi")
 FEAT_LABS <- c(vascular_stabilizing_score = "Vascular-stabilizing",
                basement_membrane_score    = "Basement-membrane",
                inflammatory_score         = "Inflammatory",
                synthetic_contractile_score = "Synthetic/contractile",
                activated_migratory_score  = "Activated/migratory",
                fibroblast_like_score      = "Fibroblast-like",
-               AGTR1_expr                 = "AGTR1")
+               AGTR1_expr                 = "AGTR1 (raw)",
+               AGTR1_scvi                 = "AGTR1 (denoised)")
 feat_factor <- function(x) factor(x, levels = rev(FEAT_ORDER))
 
-ROOT_LABS <- c(pc1min = "PC1 min", pc1max = "PC1 max")
+ROOT_LABS <- c(pc1min = "PC1 min", pc1max = "PC1 max",
+               vascular_stabilizing = "Vascular-stabilizing (program)",
+               basement_membrane    = "Basement-membrane (program)",
+               activated_migratory  = "Activated/migratory (program)")
 root_lab <- function(x) ifelse(x %in% names(ROOT_LABS), ROOT_LABS[x],
                                ifelse(grepl("^[0-9]+$", x), paste0("Cluster ", x), x))
 

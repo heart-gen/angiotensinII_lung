@@ -1,59 +1,137 @@
-2026-09-01 19:45:28 - **** Job starts ****
-Job id: 45016796
-Hostname: r178
+2026-09-07 10:17:04 - **** Job starts ****
+Job id: 45434590
+Hostname: r030
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-01 19:45:29 - **** DPT continuum root/resolution sensitivity ****
-2026-09-01 19:47:03,985 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=1.0 seed=13
-2026-09-01 19:47:43.091607: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+2026-09-07 10:17:06 - **** DPT continuum root/resolution sensitivity ****
+2026-09-07 10:17:12,736 [INFO] Denoised AGTR1 (Pericyte-only-trained): 11680/11680 cells (100.0%)
+2026-09-07 10:17:12,741 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:17:12,744 [INFO] Canonical root OK: 'vascular_stabilizing' matched on obs['state_program'], root cell 10492, program vascular_stabilizing
+2026-09-07 10:17:12,744 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=1.0 seed=13
+2026-09-07 10:17:13,168 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:17:13,170 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:37.729308: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-09-01 19:48:22,635 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=13
-2026-09-01 19:48:25,517 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=7
-2026-09-01 19:48:28,181 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=1.0 seed=13
-2026-09-01 19:48:31,023 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=13
-2026-09-01 19:48:33,711 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=7
-2026-09-01 19:48:36,423 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=1.0 seed=13
-2026-09-01 19:48:40,510 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=13
-2026-09-01 19:48:44,116 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=7
-2026-09-01 19:48:47,711 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=1.0 seed=13
-2026-09-01 19:48:51,727 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=13
-2026-09-01 19:48:55,324 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=7
-2026-09-01 19:48:58,904 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=1.0 seed=13
-2026-09-01 19:49:05,260 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=13
-2026-09-01 19:49:10,637 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=7
-2026-09-01 19:49:16,003 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=1.0 seed=13
-2026-09-01 19:49:22,301 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=13
-2026-09-01 19:49:27,712 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=7
-2026-09-01 19:49:33,106 [INFO] [root] root=1 (default params)
-2026-09-01 19:49:37,153 [INFO] [root] root=0 (default params)
-2026-09-01 19:49:41,173 [INFO] [root] root=2 (default params)
-2026-09-01 19:49:45,206 [INFO] [root] root=3 (default params)
-2026-09-01 19:49:49,259 [INFO] [root] root=4 (default params)
-2026-09-01 19:49:53,350 [INFO] [root] root=5 (default params)
-2026-09-01 19:49:57,448 [INFO] [root] root=pc1min (default params)
-2026-09-01 19:50:01,512 [INFO] [root] root=pc1max (default params)
+2026-09-07 10:17:43,418 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=13
+2026-09-07 10:17:43,942 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:17:43,944 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:46,239 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=10 frac=0.8 seed=7
+2026-09-07 10:17:46,728 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:17:46,730 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:48,982 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=1.0 seed=13
+2026-09-07 10:17:49,392 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:17:49,394 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:51,911 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=13
+2026-09-07 10:17:52,400 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:17:52,402 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:54,625 [INFO] [param] root=vascular_stabilizing nbr=15 n_dcs=15 frac=0.8 seed=7
+2026-09-07 10:17:55,116 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:17:55,118 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:17:57,464 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=1.0 seed=13
+2026-09-07 10:17:57,877 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:17:57,880 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:01,542 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=13
+2026-09-07 10:18:02,023 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:18:02,024 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:05,063 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=10 frac=0.8 seed=7
+2026-09-07 10:18:05,548 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:18:05,549 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:08,650 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=1.0 seed=13
+2026-09-07 10:18:09,066 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:18:09,068 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:12,605 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=13
+2026-09-07 10:18:13,102 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:18:13,104 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:16,150 [INFO] [param] root=vascular_stabilizing nbr=30 n_dcs=15 frac=0.8 seed=7
+2026-09-07 10:18:16,640 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:18:16,642 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:19,701 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=1.0 seed=13
+2026-09-07 10:18:20,116 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:18:20,117 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:25,913 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=13
+2026-09-07 10:18:26,397 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:18:26,398 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:31,170 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=10 frac=0.8 seed=7
+2026-09-07 10:18:31,658 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:18:31,660 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:36,484 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=1.0 seed=13
+2026-09-07 10:18:36,889 [INFO] Root state 'vascular_stabilizing' matched 7260 cells in obs['state_program']
+2026-09-07 10:18:36,890 [INFO]     root 'vascular_stabilizing' -> cell 10492 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:42,709 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=13
+2026-09-07 10:18:43,203 [INFO] Root state 'vascular_stabilizing' matched 5823 cells in obs['state_program']
+2026-09-07 10:18:43,204 [INFO]     root 'vascular_stabilizing' -> cell 8417 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:47,984 [INFO] [param] root=vascular_stabilizing nbr=50 n_dcs=15 frac=0.8 seed=7
+2026-09-07 10:18:48,475 [INFO] Root state 'vascular_stabilizing' matched 5838 cells in obs['state_program']
+2026-09-07 10:18:48,477 [INFO]     root 'vascular_stabilizing' -> cell 8412 (matched_on=state_program, root cell program=vascular_stabilizing)
+2026-09-07 10:18:53,227 [INFO] [root] root=basement_membrane (default params)
+2026-09-07 10:18:53,639 [INFO] Root state 'basement_membrane' matched 4200 cells in obs['state_program']
+2026-09-07 10:18:53,641 [INFO]     root 'basement_membrane' -> cell 620 (matched_on=state_program, root cell program=basement_membrane)
+2026-09-07 10:18:57,201 [INFO] [root] root=activated_migratory (default params)
+2026-09-07 10:18:57,618 [INFO] Root state 'activated_migratory' matched 220 cells in obs['state_program']
+2026-09-07 10:18:57,619 [INFO]     root 'activated_migratory' -> cell 9848 (matched_on=state_program, root cell program=activated_migratory)
+2026-09-07 10:19:01,231 [INFO] [root] root=1 (default params)
+2026-09-07 10:19:01,634 [INFO] Root state '1' matched 3630 cells in obs['pericyte_state']
+2026-09-07 10:19:01,635 [INFO]     root '1' -> cell 620 (matched_on=pericyte_state, root cell program=basement_membrane)
+2026-09-07 10:19:05,229 [INFO] [root] root=0 (default params)
+2026-09-07 10:19:05,641 [INFO] Root state '0' matched 5864 cells in obs['pericyte_state']
+2026-09-07 10:19:05,643 [INFO]     root '0' -> cell 10492 (matched_on=pericyte_state, root cell program=vascular_stabilizing)
+2026-09-07 10:19:09,332 [INFO] [root] root=2 (default params)
+2026-09-07 10:19:09,734 [INFO] Root state '2' matched 1396 cells in obs['pericyte_state']
+2026-09-07 10:19:09,736 [INFO]     root '2' -> cell 10351 (matched_on=pericyte_state, root cell program=vascular_stabilizing)
+2026-09-07 10:19:13,254 [INFO] [root] root=3 (default params)
+2026-09-07 10:19:13,658 [INFO] Root state '3' matched 457 cells in obs['pericyte_state']
+2026-09-07 10:19:13,659 [INFO]     root '3' -> cell 1272 (matched_on=pericyte_state, root cell program=basement_membrane)
+2026-09-07 10:19:17,195 [INFO] [root] root=4 (default params)
+2026-09-07 10:19:17,598 [INFO] Root state '4' matched 220 cells in obs['pericyte_state']
+2026-09-07 10:19:17,599 [INFO]     root '4' -> cell 9848 (matched_on=pericyte_state, root cell program=activated_migratory)
+2026-09-07 10:19:21,109 [INFO] [root] root=5 (default params)
+2026-09-07 10:19:21,514 [INFO] Root state '5' matched 113 cells in obs['pericyte_state']
+2026-09-07 10:19:21,516 [INFO]     root '5' -> cell 479 (matched_on=pericyte_state, root cell program=basement_membrane)
+2026-09-07 10:19:25,052 [INFO] [root] root=pc1min (default params)
+2026-09-07 10:19:25,732 [INFO]     root 'pc1min' -> cell 11135 (matched_on=PC1MIN_PSEUDOROOT, root cell program=basement_membrane)
+2026-09-07 10:19:29,449 [INFO] [root] root=pc1max (default params)
+2026-09-07 10:19:29,857 [INFO]     root 'pc1max' -> cell 8673 (matched_on=PC1MAX_PSEUDOROOT, root cell program=vascular_stabilizing)
+
+== Root audit (requested -> cell actually used) ==
+block                 root   root_matched_on    root_cell_program  root_cell_index  is_canonical
+param vascular_stabilizing     state_program vascular_stabilizing            10492          True
+param vascular_stabilizing     state_program vascular_stabilizing             8417          True
+param vascular_stabilizing     state_program vascular_stabilizing             8412          True
+ root                    0    pericyte_state vascular_stabilizing            10492         False
+ root                    1    pericyte_state    basement_membrane              620         False
+ root                    2    pericyte_state vascular_stabilizing            10351         False
+ root                    3    pericyte_state    basement_membrane             1272         False
+ root                    4    pericyte_state  activated_migratory             9848         False
+ root                    5    pericyte_state    basement_membrane              479         False
+ root  activated_migratory     state_program  activated_migratory             9848         False
+ root    basement_membrane     state_program    basement_membrane              620         False
+ root               pc1max PC1MAX_PSEUDOROOT vascular_stabilizing             8673         False
+ root               pc1min PC1MIN_PSEUDOROOT    basement_membrane            11135         False
 
 == Canonical-root parameter robustness (Spearman rho vs DPT) ==
-                    feature level  n_settings  mean_rho   sd_rho   min_rho   max_rho  sign_consistency
-                 AGTR1_expr  cell          18  0.117792 0.004254  0.109518  0.122972               1.0
-                 AGTR1_expr donor          18  0.259793 0.010704  0.242939  0.274777               1.0
-  activated_migratory_score  cell          18  0.411009 0.006569  0.399366  0.419150               1.0
-  activated_migratory_score donor          18  0.480339 0.017754  0.465004  0.506334               1.0
-    basement_membrane_score  cell          18 -0.324712 0.001567 -0.326992 -0.321989               1.0
-    basement_membrane_score donor          18 -0.183112 0.031171 -0.226576 -0.141764               1.0
-      fibroblast_like_score  cell          18  0.218874 0.004908  0.211883  0.227334               1.0
-      fibroblast_like_score donor          18  0.273731 0.031251  0.238192  0.315267               1.0
-         inflammatory_score  cell          18  0.478343 0.003959  0.470997  0.484638               1.0
-         inflammatory_score donor          18  0.466200 0.016359  0.442386  0.483269               1.0
-synthetic_contractile_score  cell          18  0.430228 0.004479  0.422540  0.436820               1.0
-synthetic_contractile_score donor          18  0.486468 0.025490  0.450703  0.523271               1.0
- vascular_stabilizing_score  cell          18  0.450372 0.001084  0.448461  0.452328               1.0
- vascular_stabilizing_score donor          18  0.517506 0.016216  0.486126  0.540450               1.0
+                    feature level  n_settings  mean_rho   sd_rho   min_rho   max_rho  sign_consistency                 root root_matched_on    root_cell_program
+                 AGTR1_expr  cell          18 -0.134154 0.004905 -0.140929 -0.123714               1.0 vascular_stabilizing   state_program vascular_stabilizing
+                 AGTR1_expr donor          18 -0.309186 0.013420 -0.327107 -0.284409               1.0 vascular_stabilizing   state_program vascular_stabilizing
+                 AGTR1_scvi  cell          18 -0.307862 0.007359 -0.318988 -0.292953               1.0 vascular_stabilizing   state_program vascular_stabilizing
+                 AGTR1_scvi donor          18 -0.378687 0.008599 -0.393803 -0.369756               1.0 vascular_stabilizing   state_program vascular_stabilizing
+  activated_migratory_score  cell          18 -0.389954 0.002874 -0.395149 -0.385182               1.0 vascular_stabilizing   state_program vascular_stabilizing
+  activated_migratory_score donor          18 -0.451012 0.013764 -0.472640 -0.436422               1.0 vascular_stabilizing   state_program vascular_stabilizing
+    basement_membrane_score  cell          18  0.323157 0.002049  0.319729  0.326131               1.0 vascular_stabilizing   state_program vascular_stabilizing
+    basement_membrane_score donor          18  0.152243 0.034489  0.109108  0.204126               1.0 vascular_stabilizing   state_program vascular_stabilizing
+      fibroblast_like_score  cell          18 -0.224981 0.003812 -0.232180 -0.218418               1.0 vascular_stabilizing   state_program vascular_stabilizing
+      fibroblast_like_score donor          18 -0.289460 0.032602 -0.333494 -0.249175               1.0 vascular_stabilizing   state_program vascular_stabilizing
+         inflammatory_score  cell          18 -0.455365 0.003101 -0.461299 -0.452106               1.0 vascular_stabilizing   state_program vascular_stabilizing
+         inflammatory_score donor          18 -0.482953 0.016280 -0.498405 -0.457194               1.0 vascular_stabilizing   state_program vascular_stabilizing
+synthetic_contractile_score  cell          18 -0.447738 0.004516 -0.454447 -0.440690               1.0 vascular_stabilizing   state_program vascular_stabilizing
+synthetic_contractile_score donor          18 -0.495982 0.021744 -0.521782 -0.465873               1.0 vascular_stabilizing   state_program vascular_stabilizing
+ vascular_stabilizing_score  cell          18 -0.485487 0.004921 -0.492585 -0.477031               1.0 vascular_stabilizing   state_program vascular_stabilizing
+ vascular_stabilizing_score donor          18 -0.571319 0.015436 -0.594799 -0.543322               1.0 vascular_stabilizing   state_program vascular_stabilizing
 -----
+continuum_dpt       NA
 matplotlib          3.10.5
 numpy               2.1.3
 pandas              2.3.2
@@ -65,5 +143,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-01 19:50
-2026-09-01 19:50:22 - **** Job ends ****
+Session information updated at 2026-09-07 10:19
+2026-09-07 10:19:37 - **** Job ends ****

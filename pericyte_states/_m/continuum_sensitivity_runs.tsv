@@ -1,365 +1,449 @@
-feature	level	spearman_rho	p_value	n	block	root	neighbors	n_dcs	frac	seed
-vascular_stabilizing_score	cell	0.45139714058878194	0.0	11680	param	vascular_stabilizing	15	10	1.0	13
-inflammatory_score	cell	0.4712525691078288	0.0	11680	param	vascular_stabilizing	15	10	1.0	13
-synthetic_contractile_score	cell	0.427241190710562	0.0	11680	param	vascular_stabilizing	15	10	1.0	13
-activated_migratory_score	cell	0.4052308723263868	0.0	11680	param	vascular_stabilizing	15	10	1.0	13
-fibroblast_like_score	cell	0.2144424620698203	1.4370942032194e-121	11680	param	vascular_stabilizing	15	10	1.0	13
-basement_membrane_score	cell	-0.3248269596538896	3.96574270522885e-285	11680	param	vascular_stabilizing	15	10	1.0	13
-AGTR1_expr	cell	0.11009464102563027	7.92781970597196e-33	11680	param	vascular_stabilizing	15	10	1.0	13
-vascular_stabilizing_score	donor	0.5104436400093683	2.888890008506458e-14	194	param	vascular_stabilizing	15	10	1.0	13
-inflammatory_score	donor	0.47105882739662985	4.15636534400503e-12	194	param	vascular_stabilizing	15	10	1.0	13
-synthetic_contractile_score	donor	0.45143298558180234	3.938612669362096e-11	194	param	vascular_stabilizing	15	10	1.0	13
-activated_migratory_score	donor	0.4688761695011361	5.375584522981448e-12	194	param	vascular_stabilizing	15	10	1.0	13
-fibroblast_like_score	donor	0.2671627501818197	0.00016602998150422855	194	param	vascular_stabilizing	15	10	1.0	13
-basement_membrane_score	donor	-0.17642630858805206	0.013863241974138917	194	param	vascular_stabilizing	15	10	1.0	13
-AGTR1_expr	donor	0.24559923869609268	0.0005570354063393856	194	param	vascular_stabilizing	15	10	1.0	13
-vascular_stabilizing_score	cell	0.4499486393003148	0.0	9344	param	vascular_stabilizing	15	10	0.8	13
-inflammatory_score	cell	0.4771549591682328	0.0	9344	param	vascular_stabilizing	15	10	0.8	13
-synthetic_contractile_score	cell	0.4233583351662997	0.0	9344	param	vascular_stabilizing	15	10	0.8	13
-activated_migratory_score	cell	0.4036218084285868	0.0	9344	param	vascular_stabilizing	15	10	0.8	13
-fibroblast_like_score	cell	0.2118831134821212	2.5678172477479074e-95	9344	param	vascular_stabilizing	15	10	0.8	13
-basement_membrane_score	cell	-0.32564797997936235	9.893736970614267e-230	9344	param	vascular_stabilizing	15	10	0.8	13
-AGTR1_expr	cell	0.11725715813900671	5.74394795403389e-30	9344	param	vascular_stabilizing	15	10	0.8	13
-vascular_stabilizing_score	donor	0.4883377318872686	2.0355105667946204e-12	184	param	vascular_stabilizing	15	10	0.8	13
-inflammatory_score	donor	0.47319643235537745	1.1754050150261683e-11	184	param	vascular_stabilizing	15	10	0.8	13
-synthetic_contractile_score	donor	0.5079385871973184	1.8434112167236556e-13	184	param	vascular_stabilizing	15	10	0.8	13
-activated_migratory_score	donor	0.4650035637918746	2.9304073742437236e-11	184	param	vascular_stabilizing	15	10	0.8	13
-fibroblast_like_score	donor	0.23973146346631732	0.0010467735682800614	184	param	vascular_stabilizing	15	10	0.8	13
-basement_membrane_score	donor	-0.22531833330122708	0.002103749928685776	184	param	vascular_stabilizing	15	10	0.8	13
-AGTR1_expr	donor	0.25650284019900266	0.00044033361375304887	184	param	vascular_stabilizing	15	10	0.8	13
-vascular_stabilizing_score	cell	0.4510466930008428	0.0	9344	param	vascular_stabilizing	15	10	0.8	7
-inflammatory_score	cell	0.4750128496315131	0.0	9344	param	vascular_stabilizing	15	10	0.8	7
-synthetic_contractile_score	cell	0.42547195452087816	0.0	9344	param	vascular_stabilizing	15	10	0.8	7
-activated_migratory_score	cell	0.39936566021688846	0.0	9344	param	vascular_stabilizing	15	10	0.8	7
-fibroblast_like_score	cell	0.2226158620161431	2.878817891157763e-105	9344	param	vascular_stabilizing	15	10	0.8	7
-basement_membrane_score	cell	-0.3248300328801417	1.597541725699089e-228	9344	param	vascular_stabilizing	15	10	0.8	7
-AGTR1_expr	cell	0.12202976570271967	2.4647978291027926e-32	9344	param	vascular_stabilizing	15	10	0.8	7
-vascular_stabilizing_score	donor	0.5228236789890389	2.67782088942386e-14	184	param	vascular_stabilizing	15	10	0.8	7
-inflammatory_score	donor	0.4423860068193639	3.2290204747606125e-10	184	param	vascular_stabilizing	15	10	0.8	7
-synthetic_contractile_score	donor	0.479990753404866	5.408693838456391e-12	184	param	vascular_stabilizing	15	10	0.8	7
-activated_migratory_score	donor	0.5041705996802219	2.96026979295348e-13	184	param	vascular_stabilizing	15	10	0.8	7
-fibroblast_like_score	donor	0.3107587987131821	1.7596175021630736e-05	184	param	vascular_stabilizing	15	10	0.8	7
-basement_membrane_score	donor	-0.16059409373735817	0.02942737492526877	184	param	vascular_stabilizing	15	10	0.8	7
-AGTR1_expr	donor	0.27477746114149426	0.00016014705834347645	184	param	vascular_stabilizing	15	10	0.8	7
-vascular_stabilizing_score	cell	0.45004861952685393	0.0	11680	param	vascular_stabilizing	15	15	1.0	13
-inflammatory_score	cell	0.47099715161672945	0.0	11680	param	vascular_stabilizing	15	15	1.0	13
-synthetic_contractile_score	cell	0.42639850172237115	0.0	11680	param	vascular_stabilizing	15	15	1.0	13
-activated_migratory_score	cell	0.4057942515500928	0.0	11680	param	vascular_stabilizing	15	15	1.0	13
-fibroblast_like_score	cell	0.21536417943723926	1.2658596885957793e-122	11680	param	vascular_stabilizing	15	15	1.0	13
-basement_membrane_score	cell	-0.32507667762974135	1.3735826591723968e-285	11680	param	vascular_stabilizing	15	15	1.0	13
-AGTR1_expr	cell	0.10951789541730798	1.6846713821881592e-32	11680	param	vascular_stabilizing	15	15	1.0	13
-vascular_stabilizing_score	donor	0.5075049409753752	4.280275645779448e-14	194	param	vascular_stabilizing	15	15	1.0	13
-inflammatory_score	donor	0.4699691420165753	4.726987133412442e-12	194	param	vascular_stabilizing	15	15	1.0	13
-synthetic_contractile_score	donor	0.45070324152638125	4.27042942729825e-11	194	param	vascular_stabilizing	15	15	1.0	13
-activated_migratory_score	donor	0.47324477242750834	3.206551277816145e-12	194	param	vascular_stabilizing	15	15	1.0	13
-fibroblast_like_score	donor	0.2681702571772547	0.00015649881962723233	194	param	vascular_stabilizing	15	15	1.0	13
-basement_membrane_score	donor	-0.1748698499833589	0.014738739502172814	194	param	vascular_stabilizing	15	15	1.0	13
-AGTR1_expr	donor	0.24293868162350696	0.0006421542435068172	194	param	vascular_stabilizing	15	15	1.0	13
-vascular_stabilizing_score	cell	0.4484609436668517	0.0	9344	param	vascular_stabilizing	15	15	0.8	13
-inflammatory_score	cell	0.477482111461913	0.0	9344	param	vascular_stabilizing	15	15	0.8	13
-synthetic_contractile_score	cell	0.4225404667271026	0.0	9344	param	vascular_stabilizing	15	15	0.8	13
-activated_migratory_score	cell	0.404485116019808	0.0	9344	param	vascular_stabilizing	15	15	0.8	13
-fibroblast_like_score	cell	0.213092029500261	2.0683116798676187e-96	9344	param	vascular_stabilizing	15	15	0.8	13
-basement_membrane_score	cell	-0.32578631765823585	6.175431924549659e-230	9344	param	vascular_stabilizing	15	15	0.8	13
-AGTR1_expr	cell	0.11646239217073759	1.3936444467293646e-29	9344	param	vascular_stabilizing	15	15	0.8	13
-vascular_stabilizing_score	donor	0.4861262545510585	2.643876843632481e-12	184	param	vascular_stabilizing	15	15	0.8	13
-inflammatory_score	donor	0.4736780258519389	1.11310761240575e-11	184	param	vascular_stabilizing	15	15	0.8	13
-synthetic_contractile_score	donor	0.5061451330161237	2.3112604074652823e-13	184	param	vascular_stabilizing	15	15	0.8	13
-activated_migratory_score	donor	0.46543892431276607	2.7932472084820295e-11	184	param	vascular_stabilizing	15	15	0.8	13
-fibroblast_like_score	donor	0.24007243166188286	0.0010291040947116533	184	param	vascular_stabilizing	15	15	0.8	13
-basement_membrane_score	donor	-0.2265762555142455	0.0019827209159401153	184	param	vascular_stabilizing	15	15	0.8	13
-AGTR1_expr	donor	0.2569649442416863	0.00042959330570928295	184	param	vascular_stabilizing	15	15	0.8	13
-vascular_stabilizing_score	cell	0.4502638362140408	0.0	9344	param	vascular_stabilizing	15	15	0.8	7
-inflammatory_score	cell	0.4748804043077921	0.0	9344	param	vascular_stabilizing	15	15	0.8	7
-synthetic_contractile_score	cell	0.42504951133499025	0.0	9344	param	vascular_stabilizing	15	15	0.8	7
-activated_migratory_score	cell	0.39983469303727454	0.0	9344	param	vascular_stabilizing	15	15	0.8	7
-fibroblast_like_score	cell	0.22299879759405503	1.2423007727659813e-105	9344	param	vascular_stabilizing	15	15	0.8	7
-basement_membrane_score	cell	-0.3246683013925766	2.7661929242741954e-228	9344	param	vascular_stabilizing	15	15	0.8	7
-AGTR1_expr	cell	0.12166202697941945	3.7809878119788315e-32	9344	param	vascular_stabilizing	15	15	0.8	7
-vascular_stabilizing_score	donor	0.5219645161911733	3.000954517139658e-14	184	param	vascular_stabilizing	15	15	0.8	7
-inflammatory_score	donor	0.4434821136175377	2.8860815004879903e-10	184	param	vascular_stabilizing	15	15	0.8	7
-synthetic_contractile_score	donor	0.480562886478781	5.062514510225606e-12	184	param	vascular_stabilizing	15	15	0.8	7
-activated_migratory_score	donor	0.5063339176667758	2.2570243831809837e-13	184	param	vascular_stabilizing	15	15	0.8	7
-fibroblast_like_score	donor	0.3109206141280268	1.7410528858091923e-05	184	param	vascular_stabilizing	15	15	0.8	7
-basement_membrane_score	donor	-0.1606384003390418	0.029382056367684217	184	param	vascular_stabilizing	15	15	0.8	7
-AGTR1_expr	donor	0.27371601695603864	0.00017017374039322267	184	param	vascular_stabilizing	15	15	0.8	7
-vascular_stabilizing_score	cell	0.4523276373411141	0.0	11680	param	vascular_stabilizing	30	10	1.0	13
-inflammatory_score	cell	0.4757035606726627	0.0	11680	param	vascular_stabilizing	30	10	1.0	13
-synthetic_contractile_score	cell	0.43603304983380486	0.0	11680	param	vascular_stabilizing	30	10	1.0	13
-activated_migratory_score	cell	0.41279432200123606	0.0	11680	param	vascular_stabilizing	30	10	1.0	13
-fibroblast_like_score	cell	0.21656290200722894	5.281889301052519e-124	11680	param	vascular_stabilizing	30	10	1.0	13
-basement_membrane_score	cell	-0.324096066671479	8.781169300300392e-284	11680	param	vascular_stabilizing	30	10	1.0	13
-AGTR1_expr	cell	0.11401427344153053	4.2489171584123315e-35	11680	param	vascular_stabilizing	30	10	1.0	13
-vascular_stabilizing_score	donor	0.5204957000160247	7.313671101766977e-15	194	param	vascular_stabilizing	30	10	1.0	13
-inflammatory_score	donor	0.4766107990615228	2.1427190581547187e-12	194	param	vascular_stabilizing	30	10	1.0	13
-synthetic_contractile_score	donor	0.4594568830560497	1.5979128864961557e-11	194	param	vascular_stabilizing	30	10	1.0	13
-activated_migratory_score	donor	0.46591117338406474	7.601826754413824e-12	194	param	vascular_stabilizing	30	10	1.0	13
-fibroblast_like_score	donor	0.2704400241604451	0.00013686672164622918	194	param	vascular_stabilizing	30	10	1.0	13
-basement_membrane_score	donor	-0.17739436995886973	0.013341993513439176	194	param	vascular_stabilizing	30	10	1.0	13
-AGTR1_expr	donor	0.24867129081998002	0.0004717763310682076	194	param	vascular_stabilizing	30	10	1.0	13
-vascular_stabilizing_score	cell	0.4502597637802279	0.0	9344	param	vascular_stabilizing	30	10	0.8	13
-inflammatory_score	cell	0.48172211767272766	0.0	9344	param	vascular_stabilizing	30	10	0.8	13
-synthetic_contractile_score	cell	0.4298083814000324	0.0	9344	param	vascular_stabilizing	30	10	0.8	13
-activated_migratory_score	cell	0.4130052873098754	0.0	9344	param	vascular_stabilizing	30	10	0.8	13
-fibroblast_like_score	cell	0.2147060197515564	6.990889435009068e-98	9344	param	vascular_stabilizing	30	10	0.8	13
-basement_membrane_score	cell	-0.32655140620102063	4.5358032452123926e-231	9344	param	vascular_stabilizing	30	10	0.8	13
-AGTR1_expr	cell	0.11851959001650043	1.387729281242167e-30	9344	param	vascular_stabilizing	30	10	0.8	13
-vascular_stabilizing_score	donor	0.5069888848220994	2.0783013018018721e-13	184	param	vascular_stabilizing	30	10	0.8	13
-inflammatory_score	donor	0.4805378436169598	5.0772058058199365e-12	184	param	vascular_stabilizing	30	10	0.8	13
-synthetic_contractile_score	donor	0.522557839378937	2.7739953328143142e-14	184	param	vascular_stabilizing	30	10	0.8	13
-activated_migratory_score	donor	0.46908940301670166	1.8637450139408624e-11	184	param	vascular_stabilizing	30	10	0.8	13
-fibroblast_like_score	donor	0.23930188206738454	0.001069431341729168	184	param	vascular_stabilizing	30	10	0.8	13
-basement_membrane_score	donor	-0.22242491957388602	0.0024080338692069898	184	param	vascular_stabilizing	30	10	0.8	13
-AGTR1_expr	donor	0.2598818541482465	0.00036720503204423484	184	param	vascular_stabilizing	30	10	0.8	13
-vascular_stabilizing_score	cell	0.45099993885891876	0.0	9344	param	vascular_stabilizing	30	10	0.8	7
-inflammatory_score	cell	0.4787969334680419	0.0	9344	param	vascular_stabilizing	30	10	0.8	7
-synthetic_contractile_score	cell	0.4318698966863869	0.0	9344	param	vascular_stabilizing	30	10	0.8	7
-activated_migratory_score	cell	0.4097623791012856	0.0	9344	param	vascular_stabilizing	30	10	0.8	7
-fibroblast_like_score	cell	0.22499658020237	1.5096499675444235e-107	9344	param	vascular_stabilizing	30	10	0.8	7
-basement_membrane_score	cell	-0.32217137803629387	1.271677319513035e-224	9344	param	vascular_stabilizing	30	10	0.8	7
-AGTR1_expr	cell	0.12289265153589181	8.984909130136052e-33	9344	param	vascular_stabilizing	30	10	0.8	7
-vascular_stabilizing_score	donor	0.5397796228159735	2.6433125357786833e-15	184	param	vascular_stabilizing	30	10	0.8	7
-inflammatory_score	donor	0.44328177072296815	2.9460095858616597e-10	184	param	vascular_stabilizing	30	10	0.8	7
-synthetic_contractile_score	donor	0.48738610313806324	2.278468451974674e-12	184	param	vascular_stabilizing	30	10	0.8	7
-activated_migratory_score	donor	0.5043863535666814	2.881512365969867e-13	184	param	vascular_stabilizing	30	10	0.8	7
-fibroblast_like_score	donor	0.314278283986053	1.3951540284689449e-05	184	param	vascular_stabilizing	30	10	0.8	7
-basement_membrane_score	donor	-0.14254396948623604	0.05357562609287127	184	param	vascular_stabilizing	30	10	0.8	7
-AGTR1_expr	donor	0.26831123682053853	0.00023095473074907875	184	param	vascular_stabilizing	30	10	0.8	7
-vascular_stabilizing_score	cell	0.4515090058109152	0.0	11680	param	vascular_stabilizing	30	15	1.0	13
-inflammatory_score	cell	0.47585845631809565	0.0	11680	param	vascular_stabilizing	30	15	1.0	13
-synthetic_contractile_score	cell	0.4354426788404894	0.0	11680	param	vascular_stabilizing	30	15	1.0	13
-activated_migratory_score	cell	0.41318806952470727	0.0	11680	param	vascular_stabilizing	30	15	1.0	13
-fibroblast_like_score	cell	0.21706817551054336	1.3764620451993524e-124	11680	param	vascular_stabilizing	30	15	1.0	13
-basement_membrane_score	cell	-0.3241966710489038	5.736000474230897e-284	11680	param	vascular_stabilizing	30	15	1.0	13
-AGTR1_expr	cell	0.11372671456222311	6.274981318239503e-35	11680	param	vascular_stabilizing	30	15	1.0	13
-vascular_stabilizing_score	donor	0.5186696963097797	9.418347519487094e-15	194	param	vascular_stabilizing	30	15	1.0	13
-inflammatory_score	donor	0.4768343242676878	2.085794300921238e-12	194	param	vascular_stabilizing	30	15	1.0	13
-synthetic_contractile_score	donor	0.4588520501452502	1.7117589714843762e-11	194	param	vascular_stabilizing	30	15	1.0	13
-activated_migratory_score	donor	0.46917529882115105	5.1899417727114495e-12	194	param	vascular_stabilizing	30	15	1.0	13
-fibroblast_like_score	donor	0.27033154869274734	0.00013775001295730652	194	param	vascular_stabilizing	30	15	1.0	13
-basement_membrane_score	donor	-0.1766794180126801	0.013725262115648233	194	param	vascular_stabilizing	30	15	1.0	13
-AGTR1_expr	donor	0.24717941301252822	0.0005115466036784577	194	param	vascular_stabilizing	30	15	1.0	13
-vascular_stabilizing_score	cell	0.4490009676451083	0.0	9344	param	vascular_stabilizing	30	15	0.8	13
-inflammatory_score	cell	0.482620531468422	0.0	9344	param	vascular_stabilizing	30	15	0.8	13
-synthetic_contractile_score	cell	0.42870102681753397	0.0	9344	param	vascular_stabilizing	30	15	0.8	13
-activated_migratory_score	cell	0.4135532948313275	0.0	9344	param	vascular_stabilizing	30	15	0.8	13
-fibroblast_like_score	cell	0.21573127557957927	8.012331123576788e-99	9344	param	vascular_stabilizing	30	15	0.8	13
-basement_membrane_score	cell	-0.326992331519081	1.00373945681328e-231	9344	param	vascular_stabilizing	30	15	0.8	13
-AGTR1_expr	cell	0.11768864906162207	3.540863164725019e-30	9344	param	vascular_stabilizing	30	15	0.8	13
-vascular_stabilizing_score	donor	0.5047080580223845	2.7678563683090866e-13	184	param	vascular_stabilizing	30	15	0.8	13
-inflammatory_score	donor	0.47877328504555866	6.22362029561794e-12	184	param	vascular_stabilizing	30	15	0.8	13
-synthetic_contractile_score	donor	0.5204157115062318	3.682149240015015e-14	184	param	vascular_stabilizing	30	15	0.8	13
-activated_migratory_score	donor	0.46858661940629154	1.971117346724785e-11	184	param	vascular_stabilizing	30	15	0.8	13
-fibroblast_like_score	donor	0.23820577526921075	0.0011292979119276595	184	param	vascular_stabilizing	30	15	0.8	13
-basement_membrane_score	donor	-0.22345167690855502	0.0022957592472508392	184	param	vascular_stabilizing	30	15	0.8	13
-AGTR1_expr	donor	0.2597005221821301	0.00037082419782846505	184	param	vascular_stabilizing	30	15	0.8	13
-vascular_stabilizing_score	cell	0.4503919937981194	0.0	9344	param	vascular_stabilizing	30	15	0.8	7
-inflammatory_score	cell	0.47887473179126944	0.0	9344	param	vascular_stabilizing	30	15	0.8	7
-synthetic_contractile_score	cell	0.43153669181248355	0.0	9344	param	vascular_stabilizing	30	15	0.8	7
-activated_migratory_score	cell	0.4102326533807178	0.0	9344	param	vascular_stabilizing	30	15	0.8	7
-fibroblast_like_score	cell	0.22530541717327118	7.605053983949635e-108	9344	param	vascular_stabilizing	30	15	0.8	7
-basement_membrane_score	cell	-0.3219893591244707	2.3442411139799392e-224	9344	param	vascular_stabilizing	30	15	0.8	7
-AGTR1_expr	cell	0.12268884673062365	1.141067215612906e-32	9344	param	vascular_stabilizing	30	15	0.8	7
-vascular_stabilizing_score	donor	0.539101539172815	2.907060189335289e-15	184	param	vascular_stabilizing	30	15	0.8	7
-inflammatory_score	donor	0.4441890928704899	2.6838931565464923e-10	184	param	vascular_stabilizing	30	15	0.8	7
-synthetic_contractile_score	donor	0.4874496734796093	2.2613952556220955e-12	184	param	vascular_stabilizing	30	15	0.8	7
-activated_migratory_score	donor	0.5062587890813123	2.278457941720656e-13	184	param	vascular_stabilizing	30	15	0.8	7
-fibroblast_like_score	donor	0.3152665138409971	1.3064402378842616e-05	184	param	vascular_stabilizing	30	15	0.8	7
-basement_membrane_score	donor	-0.14176378802180653	0.054911117859421335	184	param	vascular_stabilizing	30	15	0.8	7
-AGTR1_expr	donor	0.26805758287916126	0.00023425226829818148	184	param	vascular_stabilizing	30	15	0.8	7
-vascular_stabilizing_score	cell	0.4518889473689532	0.0	11680	param	vascular_stabilizing	50	10	1.0	13
-inflammatory_score	cell	0.4786748500007628	0.0	11680	param	vascular_stabilizing	50	10	1.0	13
-synthetic_contractile_score	cell	0.43681951254721635	0.0	11680	param	vascular_stabilizing	50	10	1.0	13
-activated_migratory_score	cell	0.4186725246250732	0.0	11680	param	vascular_stabilizing	50	10	1.0	13
-fibroblast_like_score	cell	0.21814193565467313	7.810821842374825e-126	11680	param	vascular_stabilizing	50	10	1.0	13
-basement_membrane_score	cell	-0.32438959316460414	2.5337180615630857e-284	11680	param	vascular_stabilizing	50	10	1.0	13
-AGTR1_expr	cell	0.11564976907817495	4.5388059081171014e-36	11680	param	vascular_stabilizing	50	10	1.0	13
-vascular_stabilizing_score	donor	0.524729530391621	4.0449383683725974e-15	194	param	vascular_stabilizing	50	10	1.0	13
-inflammatory_score	donor	0.4826377617895164	1.0296188133734134e-12	194	param	vascular_stabilizing	50	10	1.0	13
-synthetic_contractile_score	donor	0.4640342190793555	9.450178902238818e-12	194	param	vascular_stabilizing	50	10	1.0	13
-activated_migratory_score	donor	0.4703652418304413	4.511264556814557e-12	194	param	vascular_stabilizing	50	10	1.0	13
-fibroblast_like_score	donor	0.2699354488788814	0.00014102081311036216	194	param	vascular_stabilizing	50	10	1.0	13
-basement_membrane_score	donor	-0.17495860263874793	0.014687546980981882	194	param	vascular_stabilizing	50	10	1.0	13
-AGTR1_expr	donor	0.25086537576963275	0.00041846150590281185	194	param	vascular_stabilizing	50	10	1.0	13
-vascular_stabilizing_score	cell	0.44994926820180486	0.0	9344	param	vascular_stabilizing	50	10	0.8	13
-inflammatory_score	cell	0.4836225590928822	0.0	9344	param	vascular_stabilizing	50	10	0.8	13
-synthetic_contractile_score	cell	0.431614910021218	0.0	9344	param	vascular_stabilizing	50	10	0.8	13
-activated_migratory_score	cell	0.4186877302326637	0.0	9344	param	vascular_stabilizing	50	10	0.8	13
-fibroblast_like_score	cell	0.21639107138331157	1.975787323303396e-99	9344	param	vascular_stabilizing	50	10	0.8	13
-basement_membrane_score	cell	-0.32664309387924484	3.3153864712953174e-231	9344	param	vascular_stabilizing	50	10	0.8	13
-AGTR1_expr	cell	0.11878800842965152	1.0239410804334648e-30	9344	param	vascular_stabilizing	50	10	0.8	13
-vascular_stabilizing_score	donor	0.5112846988114272	1.204520606785283e-13	184	param	vascular_stabilizing	50	10	0.8	13
-inflammatory_score	donor	0.4797884841363102	5.5365007332313346e-12	184	param	vascular_stabilizing	50	10	0.8	13
-synthetic_contractile_score	donor	0.5232705977538479	2.5234166316830393e-14	184	param	vascular_stabilizing	50	10	0.8	13
-activated_migratory_score	donor	0.46549671553235344	2.7755153392554205e-11	184	param	vascular_stabilizing	50	10	0.8	13
-fibroblast_like_score	donor	0.23826549286278434	0.0011259587519119188	184	param	vascular_stabilizing	50	10	0.8	13
-basement_membrane_score	donor	-0.2199052223998767	0.002704985896703136	184	param	vascular_stabilizing	50	10	0.8	13
-AGTR1_expr	donor	0.26351044327666123	0.0003013232642532037	184	param	vascular_stabilizing	50	10	0.8	13
-vascular_stabilizing_score	cell	0.4495462911774084	0.0	9344	param	vascular_stabilizing	50	10	0.8	7
-inflammatory_score	cell	0.48173291036042143	0.0	9344	param	vascular_stabilizing	50	10	0.8	7
-synthetic_contractile_score	cell	0.43270441149474576	0.0	9344	param	vascular_stabilizing	50	10	0.8	7
-activated_migratory_score	cell	0.41584007105097526	0.0	9344	param	vascular_stabilizing	50	10	0.8	7
-fibroblast_like_score	cell	0.22718510436140274	1.1455841213039485e-109	9344	param	vascular_stabilizing	50	10	0.8	7
-basement_membrane_score	cell	-0.3227683706599353	1.7055826299491455e-225	9344	param	vascular_stabilizing	50	10	0.8	7
-AGTR1_expr	cell	0.12297183795537535	8.187227944225981e-33	9344	param	vascular_stabilizing	50	10	0.8	7
-vascular_stabilizing_score	donor	0.540450000963187	2.4055873077881285e-15	184	param	vascular_stabilizing	50	10	0.8	7
-inflammatory_score	donor	0.4462560921577315	2.1683304685969752e-10	184	param	vascular_stabilizing	50	10	0.8	7
-synthetic_contractile_score	donor	0.4864556645027065	2.5431755590530087e-12	184	param	vascular_stabilizing	50	10	0.8	7
-activated_migratory_score	donor	0.5017029146038412	4.02429807361824e-13	184	param	vascular_stabilizing	50	10	0.8	7
-fibroblast_like_score	donor	0.3119049912349984	1.6320453098795536e-05	184	param	vascular_stabilizing	50	10	0.8	7
-basement_membrane_score	donor	-0.14918032786885244	0.04326796634801058	184	param	vascular_stabilizing	50	10	0.8	7
-AGTR1_expr	donor	0.2733638282143572	0.00017362795238002875	184	param	vascular_stabilizing	50	10	0.8	7
-vascular_stabilizing_score	cell	0.451353155556608	0.0	11680	param	vascular_stabilizing	50	15	1.0	13
-inflammatory_score	cell	0.4790687893874152	0.0	11680	param	vascular_stabilizing	50	15	1.0	13
-synthetic_contractile_score	cell	0.4363500435407259	0.0	11680	param	vascular_stabilizing	50	15	1.0	13
-activated_migratory_score	cell	0.41888288600563983	0.0	11680	param	vascular_stabilizing	50	15	1.0	13
-fibroblast_like_score	cell	0.21849476157145123	3.032362813464542e-126	11680	param	vascular_stabilizing	50	15	1.0	13
-basement_membrane_score	cell	-0.3244898535552987	1.6566917627824586e-284	11680	param	vascular_stabilizing	50	15	1.0	13
-AGTR1_expr	cell	0.11543839390830665	6.07112176220054e-36	11680	param	vascular_stabilizing	50	15	1.0	13
-vascular_stabilizing_score	donor	0.5233012700669343	4.944073851258023e-15	194	param	vascular_stabilizing	50	15	1.0	13
-inflammatory_score	donor	0.48326889178339416	9.527621923946322e-13	194	param	vascular_stabilizing	50	15	1.0	13
-synthetic_contractile_score	donor	0.46276045411775335	1.0946089103877604e-11	194	param	vascular_stabilizing	50	15	1.0	13
-activated_migratory_score	donor	0.4728864746705674	3.3462746594194816e-12	194	param	vascular_stabilizing	50	15	1.0	13
-fibroblast_like_score	donor	0.26998475590965304	0.0001406097409434885	194	param	vascular_stabilizing	50	15	1.0	13
-basement_membrane_score	donor	-0.17479424586950892	0.014782470942285002	194	param	vascular_stabilizing	50	15	1.0	13
-AGTR1_expr	donor	0.24890119493771126	0.00046590847037395036	194	param	vascular_stabilizing	50	15	1.0	13
-vascular_stabilizing_score	cell	0.4490467418318401	0.0	9344	param	vascular_stabilizing	50	15	0.8	13
-inflammatory_score	cell	0.48463785953325395	0.0	9344	param	vascular_stabilizing	50	15	0.8	13
-synthetic_contractile_score	cell	0.43075988589039726	0.0	9344	param	vascular_stabilizing	50	15	0.8	13
-activated_migratory_score	cell	0.41914972474858375	0.0	9344	param	vascular_stabilizing	50	15	0.8	13
-fibroblast_like_score	cell	0.21741805673555212	2.214650622518557e-100	9344	param	vascular_stabilizing	50	15	0.8	13
-basement_membrane_score	cell	-0.32693600133063117	1.2172095686848813e-231	9344	param	vascular_stabilizing	50	15	0.8	13
-AGTR1_expr	cell	0.1179942231151757	2.510997265556565e-30	9344	param	vascular_stabilizing	50	15	0.8	13
-vascular_stabilizing_score	donor	0.5092176995241856	1.5675236096375043e-13	184	param	vascular_stabilizing	50	15	0.8	13
-inflammatory_score	donor	0.47958428849376816	5.668500428862114e-12	184	param	vascular_stabilizing	50	15	0.8	13
-synthetic_contractile_score	donor	0.52173527768681	3.093409168614665e-14	184	param	vascular_stabilizing	50	15	0.8	13
-activated_migratory_score	donor	0.46508254512531066	2.9050482319304712e-11	184	param	vascular_stabilizing	50	15	0.8	13
-fibroblast_like_score	donor	0.23819229065130704	0.0011300531711924534	184	param	vascular_stabilizing	50	15	0.8	13
-basement_membrane_score	donor	-0.21944481901716395	0.002762701206720958	184	param	vascular_stabilizing	50	15	0.8	13
-AGTR1_expr	donor	0.2638048639958394	0.0002964906722884264	184	param	vascular_stabilizing	50	15	0.8	13
-vascular_stabilizing_score	cell	0.44926376327482315	0.0	9344	param	vascular_stabilizing	50	15	0.8	7
-inflammatory_score	cell	0.4820843480889552	0.0	9344	param	vascular_stabilizing	50	15	0.8	7
-synthetic_contractile_score	cell	0.43239971268519295	0.0	9344	param	vascular_stabilizing	50	15	0.8	7
-activated_migratory_score	cell	0.416059420983097	0.0	9344	param	vascular_stabilizing	50	15	0.8	7
-fibroblast_like_score	cell	0.22733358372306445	8.210810993412763e-110	9344	param	vascular_stabilizing	50	15	0.8	7
-basement_membrane_score	cell	-0.32275083377988695	1.8093860145575015e-225	9344	param	vascular_stabilizing	50	15	0.8	7
-AGTR1_expr	cell	0.12285123886844933	9.432336650538463e-33	9344	param	vascular_stabilizing	50	15	0.8	7
-vascular_stabilizing_score	donor	0.5391862996282099	2.8727372384328875e-15	184	param	vascular_stabilizing	50	15	0.8	7
-inflammatory_score	donor	0.44606152838512064	2.212442734677721e-10	184	param	vascular_stabilizing	50	15	0.8	7
-synthetic_contractile_score	donor	0.48528250274508283	2.9198255472658118e-12	184	param	vascular_stabilizing	50	15	0.8	7
-activated_migratory_score	donor	0.5040839128508409	2.9925003601755737e-13	184	param	vascular_stabilizing	50	15	0.8	7
-fibroblast_like_score	donor	0.3142301246363969	1.3996197079132325e-05	184	param	vascular_stabilizing	50	15	0.8	7
-basement_membrane_score	donor	-0.14905703993373273	0.04344309150714727	184	param	vascular_stabilizing	50	15	0.8	7
-AGTR1_expr	donor	0.27353455682874567	0.0001719453868694511	184	param	vascular_stabilizing	50	15	0.8	7
-vascular_stabilizing_score	cell	0.4457158205828025	0.0	11680	root	1	30	10	1.0	13
-inflammatory_score	cell	0.4731779470728726	0.0	11680	root	1	30	10	1.0	13
-synthetic_contractile_score	cell	0.42902174988555714	0.0	11680	root	1	30	10	1.0	13
-activated_migratory_score	cell	0.4070894354020359	0.0	11680	root	1	30	10	1.0	13
-fibroblast_like_score	cell	0.21385962163491068	6.639218557636772e-121	11680	root	1	30	10	1.0	13
-basement_membrane_score	cell	-0.32396501763542435	1.5288203055676969e-283	11680	root	1	30	10	1.0	13
-AGTR1_expr	cell	0.1125180120306641	3.196250635254397e-34	11680	root	1	30	10	1.0	13
-vascular_stabilizing_score	donor	0.5120132471556006	2.338093263142586e-14	194	root	1	30	10	1.0	13
-inflammatory_score	donor	0.46780949406877503	6.091621662121706e-12	194	root	1	30	10	1.0	13
-synthetic_contractile_score	donor	0.4517962140418205	3.7829204081162425e-11	194	root	1	30	10	1.0	13
-activated_migratory_score	donor	0.4621375419623376	1.1759061045765595e-11	194	root	1	30	10	1.0	13
-fibroblast_like_score	donor	0.26271361243852026	0.0002149646690165528	194	root	1	30	10	1.0	13
-basement_membrane_score	donor	-0.1881630254794081	0.008604478946932228	194	root	1	30	10	1.0	13
-AGTR1_expr	donor	0.238094868418408	0.0008286175046959974	194	root	1	30	10	1.0	13
-vascular_stabilizing_score	cell	-0.4875080831892521	0.0	11680	root	0	30	10	1.0	13
-inflammatory_score	cell	-0.4521057771122824	0.0	11680	root	0	30	10	1.0	13
-synthetic_contractile_score	cell	-0.4511965294713147	0.0	11680	root	0	30	10	1.0	13
-activated_migratory_score	cell	-0.391652413203937	0.0	11680	root	0	30	10	1.0	13
-fibroblast_like_score	cell	-0.22243913229394519	6.89188470550996e-131	11680	root	0	30	10	1.0	13
-basement_membrane_score	cell	0.32151837206904454	4.5507651464529195e-279	11680	root	0	30	10	1.0	13
-AGTR1_expr	cell	-0.1304477163363678	1.6898105904396327e-45	11680	root	0	30	10	1.0	13
-vascular_stabilizing_score	donor	-0.5728745588047975	2.58910854933358e-18	194	root	0	30	10	1.0	13
-inflammatory_score	donor	-0.4906485107222247	3.800740086984487e-13	194	root	0	30	10	1.0	13
-synthetic_contractile_score	donor	-0.4682959901057225	5.7542329460405064e-12	194	root	0	30	10	1.0	13
-activated_migratory_score	donor	-0.44072842920126715	1.265843790908942e-10	194	root	0	30	10	1.0	13
-fibroblast_like_score	donor	-0.2909418875553163	3.862608442225132e-05	194	root	0	30	10	1.0	13
-basement_membrane_score	donor	0.13815090416767678	0.05473099527498804	194	root	0	30	10	1.0	13
-AGTR1_expr	donor	-0.2972718551280621	2.5614789131832293e-05	194	root	0	30	10	1.0	13
-vascular_stabilizing_score	cell	-0.4853052586156541	0.0	11680	root	2	30	10	1.0	13
-inflammatory_score	cell	-0.4302467359960479	0.0	11680	root	2	30	10	1.0	13
-synthetic_contractile_score	cell	-0.3799646442600325	0.0	11680	root	2	30	10	1.0	13
-activated_migratory_score	cell	-0.2823369490613374	5.780269532328842e-213	11680	root	2	30	10	1.0	13
-fibroblast_like_score	cell	-0.16236569906528897	8.088495487494275e-70	11680	root	2	30	10	1.0	13
-basement_membrane_score	cell	0.408186112236164	0.0	11680	root	2	30	10	1.0	13
-AGTR1_expr	cell	-0.07280686235741334	3.3227244921028307e-15	11680	root	2	30	10	1.0	13
-vascular_stabilizing_score	donor	-0.5152066991819141	1.5152597666911513e-14	194	root	2	30	10	1.0	13
-inflammatory_score	donor	-0.5319891688889071	1.4369299216016254e-15	194	root	2	30	10	1.0	13
-synthetic_contractile_score	donor	-0.3904993569541403	1.8128251446844445e-08	194	root	2	30	10	1.0	13
-activated_migratory_score	donor	-0.3963981214021276	1.0550089802776603e-08	194	root	2	30	10	1.0	13
-fibroblast_like_score	donor	-0.20133128983083576	0.004878008233638439	194	root	2	30	10	1.0	13
-basement_membrane_score	donor	0.21710460897470135	0.002360075950739595	194	root	2	30	10	1.0	13
-AGTR1_expr	donor	-0.2841406648674981	5.941606482911937e-05	194	root	2	30	10	1.0	13
-vascular_stabilizing_score	cell	-0.4974466418121014	0.0	11680	root	3	30	10	1.0	13
-inflammatory_score	cell	-0.35645312934017276	0.0	11680	root	3	30	10	1.0	13
-synthetic_contractile_score	cell	-0.4279167762744328	0.0	11680	root	3	30	10	1.0	13
-activated_migratory_score	cell	-0.2830526017122334	4.4225158453424355e-214	11680	root	3	30	10	1.0	13
-fibroblast_like_score	cell	-0.2234096923186668	4.805640777751523e-132	11680	root	3	30	10	1.0	13
-basement_membrane_score	cell	0.25989594732274707	1.2813910292176565e-179	11680	root	3	30	10	1.0	13
-AGTR1_expr	cell	-0.12606788734240074	1.3778198387102347e-42	11680	root	3	30	10	1.0	13
-vascular_stabilizing_score	donor	-0.5604015235872508	1.9523080774255976e-17	194	root	3	30	10	1.0	13
-inflammatory_score	donor	-0.4177792935124274	1.3539578467435728e-09	194	root	3	30	10	1.0	13
-synthetic_contractile_score	donor	-0.4355216067517761	2.2014053420916873e-10	194	root	3	30	10	1.0	13
-activated_migratory_score	donor	-0.35007580955981144	5.62325232375031e-07	194	root	3	30	10	1.0	13
-fibroblast_like_score	donor	-0.2544579719196459	0.0003430664403870528	194	root	3	30	10	1.0	13
-basement_membrane_score	donor	0.03551667604869891	0.6229679990409814	194	root	3	30	10	1.0	13
-AGTR1_expr	donor	-0.3346137815547826	1.854221190760814e-06	194	root	3	30	10	1.0	13
-vascular_stabilizing_score	cell	-0.45458881878521784	0.0	11680	root	4	30	10	1.0	13
-inflammatory_score	cell	-0.37471816650395845	0.0	11680	root	4	30	10	1.0	13
-synthetic_contractile_score	cell	-0.339558796979804	0.0	11680	root	4	30	10	1.0	13
-activated_migratory_score	cell	-0.2784432018292117	5.991951128028646e-207	11680	root	4	30	10	1.0	13
-fibroblast_like_score	cell	-0.20025805644420264	5.951783955224699e-106	11680	root	4	30	10	1.0	13
-basement_membrane_score	cell	0.3024166185423738	1.4787234673095767e-245	11680	root	4	30	10	1.0	13
-AGTR1_expr	cell	-0.06249270766921153	1.382544460289767e-11	11680	root	4	30	10	1.0	13
-vascular_stabilizing_score	donor	-0.5205154228283334	7.29365889620205e-15	194	root	4	30	10	1.0	13
-inflammatory_score	donor	-0.4782970995139148	1.7479801903839596e-12	194	root	4	30	10	1.0	13
-synthetic_contractile_score	donor	-0.3521877940445324	4.7536707758087115e-07	194	root	4	30	10	1.0	13
-activated_migratory_score	donor	-0.325935087293989	3.523297104427733e-06	194	root	4	30	10	1.0	13
-fibroblast_like_score	donor	-0.16800631129993876	0.01920110200210305	194	root	4	30	10	1.0	13
-basement_membrane_score	donor	0.1394263126969713	0.05251170835726825	194	root	4	30	10	1.0	13
-AGTR1_expr	donor	-0.2770369608239755	9.208211014658771e-05	194	root	4	30	10	1.0	13
-vascular_stabilizing_score	cell	0.389873041223467	0.0	11680	root	5	30	10	1.0	13
-inflammatory_score	cell	0.447668918252109	0.0	11680	root	5	30	10	1.0	13
-synthetic_contractile_score	cell	0.3707104398386947	0.0	11680	root	5	30	10	1.0	13
-activated_migratory_score	cell	0.3632362679962531	0.0	11680	root	5	30	10	1.0	13
-fibroblast_like_score	cell	0.1743486200692681	2.2211252110455407e-80	11680	root	5	30	10	1.0	13
-basement_membrane_score	cell	-0.3249995461916537	1.9060252289425305e-285	11680	root	5	30	10	1.0	13
-AGTR1_expr	cell	0.10729133115054178	2.978665107137848e-31	11680	root	5	30	10	1.0	13
-vascular_stabilizing_score	donor	0.4949579452116709	2.1995515194323952e-13	194	root	5	30	10	1.0	13
-inflammatory_score	donor	0.4620882349315659	1.1825861391952555e-11	194	root	5	30	10	1.0	13
-synthetic_contractile_score	donor	0.4455605182168934	7.510762635559812e-11	194	root	5	30	10	1.0	13
-activated_migratory_score	donor	0.45112235128794065	4.076680736337021e-11	194	root	5	30	10	1.0	13
-fibroblast_like_score	donor	0.24405254485912573	0.0006051545150083726	194	root	5	30	10	1.0	13
-basement_membrane_score	donor	-0.1933123230596656	0.006920392403405832	194	root	5	30	10	1.0	13
-AGTR1_expr	donor	0.23078708282110227	0.0012056632517730942	194	root	5	30	10	1.0	13
-vascular_stabilizing_score	cell	0.4523276373411141	0.0	11680	root	pc1min	30	10	1.0	13
-inflammatory_score	cell	0.4757035606726627	0.0	11680	root	pc1min	30	10	1.0	13
-synthetic_contractile_score	cell	0.43603304983380486	0.0	11680	root	pc1min	30	10	1.0	13
-activated_migratory_score	cell	0.41279432200123606	0.0	11680	root	pc1min	30	10	1.0	13
-fibroblast_like_score	cell	0.21656290200722894	5.281889301052519e-124	11680	root	pc1min	30	10	1.0	13
-basement_membrane_score	cell	-0.324096066671479	8.781169300300392e-284	11680	root	pc1min	30	10	1.0	13
-AGTR1_expr	cell	0.11401427344153053	4.2489171584123315e-35	11680	root	pc1min	30	10	1.0	13
-vascular_stabilizing_score	donor	0.5204957000160247	7.313671101766977e-15	194	root	pc1min	30	10	1.0	13
-inflammatory_score	donor	0.4766107990615228	2.1427190581547187e-12	194	root	pc1min	30	10	1.0	13
-synthetic_contractile_score	donor	0.4594568830560497	1.5979128864961557e-11	194	root	pc1min	30	10	1.0	13
-activated_migratory_score	donor	0.46591117338406474	7.601826754413824e-12	194	root	pc1min	30	10	1.0	13
-fibroblast_like_score	donor	0.2704400241604451	0.00013686672164622918	194	root	pc1min	30	10	1.0	13
-basement_membrane_score	donor	-0.17739436995886973	0.013341993513439176	194	root	pc1min	30	10	1.0	13
-AGTR1_expr	donor	0.24867129081998002	0.0004717763310682076	194	root	pc1min	30	10	1.0	13
-vascular_stabilizing_score	cell	-0.4883734780132267	0.0	11680	root	pc1max	30	10	1.0	13
-inflammatory_score	cell	-0.45065530152001476	0.0	11680	root	pc1max	30	10	1.0	13
-synthetic_contractile_score	cell	-0.4548130841109248	0.0	11680	root	pc1max	30	10	1.0	13
-activated_migratory_score	cell	-0.3784711468214358	0.0	11680	root	pc1max	30	10	1.0	13
-fibroblast_like_score	cell	-0.21968865000895177	1.218780054567578e-127	11680	root	pc1max	30	10	1.0	13
-basement_membrane_score	cell	0.32547429787927723	2.533713114726792e-286	11680	root	pc1max	30	10	1.0	13
-AGTR1_expr	cell	-0.12843840885512026	3.7678477875376044e-44	11680	root	pc1max	30	10	1.0	13
-vascular_stabilizing_score	donor	-0.5654012565075007	8.775737674456894e-18	194	root	pc1max	30	10	1.0	13
-inflammatory_score	donor	-0.49038718345913473	3.9279476188404797e-13	194	root	pc1max	30	10	1.0	13
-synthetic_contractile_score	donor	-0.4675892559979948	6.250610530460365e-12	194	root	pc1max	30	10	1.0	13
-activated_migratory_score	donor	-0.44168662916593043	1.1421132247682978e-10	194	root	pc1max	30	10	1.0	13
-fibroblast_like_score	donor	-0.2783225748131469	8.51375126176317e-05	194	root	pc1max	30	10	1.0	13
-basement_membrane_score	donor	0.15949591778874403	0.026323576175319906	194	root	pc1max	30	10	1.0	13
-AGTR1_expr	donor	-0.2876758571705832	4.756509849753828e-05	194	root	pc1max	30	10	1.0	13
+feature	level	spearman_rho	p_value	n	root_matched_on	root_cell_program	root_cell_index	block	root	neighbors	n_dcs	frac	seed
+vascular_stabilizing_score	cell	-0.47769028284625265	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+inflammatory_score	cell	-0.4574766870373084	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+synthetic_contractile_score	cell	-0.44138489005598247	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+activated_migratory_score	cell	-0.3951489978590262	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+fibroblast_like_score	cell	-0.22204821580618647	2.007314425623307e-130	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+basement_membrane_score	cell	0.3197292729113267	8.000337966374597e-276	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+AGTR1_expr	cell	-0.12371430201904612	4.588758469204825e-41	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+AGTR1_scvi	cell	-0.29295320887045734	7.258577384631234e-230	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+vascular_stabilizing_score	donor	-0.5632087372058526	1.2482145737667318e-17	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+inflammatory_score	donor	-0.4856224807188965	7.124119516559729e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+synthetic_contractile_score	donor	-0.4689698528596023	5.316759933795326e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+activated_migratory_score	donor	-0.44907610951091537	5.1109192011159064e-11	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+fibroblast_like_score	donor	-0.2814404227256105	7.028063865797758e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+basement_membrane_score	donor	0.14432250085260073	0.04467385125849581	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+AGTR1_expr	donor	-0.28440888633818456	5.8427673028162845e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+AGTR1_scvi	donor	-0.37426748242409796	7.61897951903472e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	10	1.0	13
+vascular_stabilizing_score	cell	-0.4793409768715158	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+inflammatory_score	cell	-0.45985393169981725	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+synthetic_contractile_score	cell	-0.4406900445260383	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+activated_migratory_score	cell	-0.3902769071279288	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+fibroblast_like_score	cell	-0.22023233530585218	5.194294070650331e-103	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+basement_membrane_score	cell	0.3220913631324791	1.6640549896218282e-224	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+AGTR1_expr	cell	-0.13196486929703305	1.4292475970755058e-37	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+AGTR1_scvi	cell	-0.30318274997804406	6.803912368822734e-198	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+vascular_stabilizing_score	donor	-0.5433222245766793	1.6026379964559961e-15	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+inflammatory_score	donor	-0.49597387836874646	8.132090017171921e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+synthetic_contractile_score	donor	-0.5165167305580706	6.134340174118364e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+activated_migratory_score	donor	-0.44640057020669993	2.1361262865033526e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+fibroblast_like_score	donor	-0.25541792683631603	0.00046653362281640965	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+basement_membrane_score	donor	0.20412629307853827	0.0054466160221462384	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+AGTR1_expr	donor	-0.30009855450433587	3.4913534273410285e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+AGTR1_scvi	donor	-0.3863265974456281	6.079389510731358e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	10	0.8	13
+vascular_stabilizing_score	cell	-0.47703115826143516	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+inflammatory_score	cell	-0.46080342426538096	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+synthetic_contractile_score	cell	-0.44138339116608893	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+activated_migratory_score	cell	-0.387504223259033	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+fibroblast_like_score	cell	-0.22736586969260955	7.636966927939718e-110	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+basement_membrane_score	cell	0.32353145405476025	1.2993676893950827e-226	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+AGTR1_expr	cell	-0.13647647519382336	4.3527455382851684e-40	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+AGTR1_scvi	cell	-0.2968450473912615	2.0862443831102155e-189	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+vascular_stabilizing_score	donor	-0.5749263161950261	1.405932204525427e-17	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+inflammatory_score	donor	-0.46187898518618403	4.125579314162427e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+synthetic_contractile_score	donor	-0.49791758972086836	6.41486009071397e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+activated_migratory_score	donor	-0.4726397102733525	1.2516458347670829e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+fibroblast_like_score	donor	-0.3278919689468513	5.527960103989178e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+basement_membrane_score	donor	0.12784188322320894	0.08373443426552679	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+AGTR1_expr	donor	-0.3181630166299105	1.0761571166896573e-05	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+AGTR1_scvi	donor	-0.3697559284159426	2.395571724321551e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	10	0.8	7
+vascular_stabilizing_score	cell	-0.48143795095570796	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+inflammatory_score	cell	-0.45690521397696	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+synthetic_contractile_score	cell	-0.4435983005559536	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+activated_migratory_score	cell	-0.3928340245507943	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+fibroblast_like_score	cell	-0.22197791391685162	2.4322885229387203e-130	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+basement_membrane_score	cell	0.3225094545211255	7.094220742765227e-281	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+AGTR1_expr	cell	-0.12413248032546308	2.473550974933857e-41	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+AGTR1_scvi	cell	-0.2968367115675111	3.11655296183156e-236	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+vascular_stabilizing_score	donor	-0.5701906127631249	4.027986579729952e-18	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+inflammatory_score	donor	-0.48762763330361203	5.551435304650125e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+synthetic_contractile_score	donor	-0.4711475800520189	4.112959745183162e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+activated_migratory_score	donor	-0.4487112374832047	5.32034206325825e-11	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+fibroblast_like_score	donor	-0.28145850197022676	7.020206234092778e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+basement_membrane_score	donor	0.14736967535429155	0.04030916413321721	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+AGTR1_expr	donor	-0.28471542516182624	5.731700512825862e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+AGTR1_scvi	donor	-0.37324025261635435	8.321964221537001e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	15	15	1.0	13
+vascular_stabilizing_score	cell	-0.48380053511723314	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+inflammatory_score	cell	-0.45816212326320793	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+synthetic_contractile_score	cell	-0.4433347394653894	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+activated_migratory_score	cell	-0.38662332953212614	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+fibroblast_like_score	cell	-0.21841776591830311	2.602437839320975e-101	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+basement_membrane_score	cell	0.3261311377444272	1.905383968773569e-230	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+AGTR1_expr	cell	-0.13320601284344746	2.961446635715069e-38	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+AGTR1_scvi	cell	-0.310543663473308	5.072181419021424e-208	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+vascular_stabilizing_score	donor	-0.5502648764231088	5.908356447657083e-16	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+inflammatory_score	donor	-0.49600662672651263	8.099755830186034e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+synthetic_contractile_score	donor	-0.5205948642869527	3.596233997582311e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+activated_migratory_score	donor	-0.4432124212594633	2.967033309118704e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+fibroblast_like_score	donor	-0.2510932172371944	0.0005859632002094963	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+basement_membrane_score	donor	0.20319392806919537	0.005668025112809166	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+AGTR1_expr	donor	-0.300556758934845	3.391875521396385e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+AGTR1_scvi	donor	-0.38961684421413567	4.588092627967291e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	15	15	0.8	13
+vascular_stabilizing_score	cell	-0.47902861101909694	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+inflammatory_score	cell	-0.4612988492976356	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+synthetic_contractile_score	cell	-0.44265664054692627	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+activated_migratory_score	cell	-0.3851821617848481	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+fibroblast_like_score	cell	-0.22699782529859402	1.7430735203028596e-109	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+basement_membrane_score	cell	0.32604862085869724	2.524947114720046e-230	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+AGTR1_expr	cell	-0.13641485415484064	4.717553183263164e-40	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+AGTR1_scvi	cell	-0.2994616725550144	6.942192644567879e-193	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+vascular_stabilizing_score	donor	-0.5794648533066209	6.825676078682018e-18	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+inflammatory_score	donor	-0.46781799618577946	2.1469602960925466e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+synthetic_contractile_score	donor	-0.49573693436843824	8.369809302657506e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+activated_migratory_score	donor	-0.4715108551174125	1.4212615787023722e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+fibroblast_like_score	donor	-0.3232012482903431	7.643657770715919e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+basement_membrane_score	donor	0.13417387451599852	0.06939500969088899	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+AGTR1_expr	donor	-0.32231903890016866	8.119136924821666e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+AGTR1_scvi	donor	-0.3709425747914699	2.176979468359136e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	15	15	0.8	7
+vascular_stabilizing_score	cell	-0.4875080831892521	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+inflammatory_score	cell	-0.4521057771122824	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+synthetic_contractile_score	cell	-0.4511965294713147	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+activated_migratory_score	cell	-0.391652413203937	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+fibroblast_like_score	cell	-0.22243913229394519	6.89188470550996e-131	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+basement_membrane_score	cell	0.32151837206904454	4.5507651464529195e-279	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+AGTR1_expr	cell	-0.1304477163363678	1.6898105904396327e-45	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+AGTR1_scvi	cell	-0.30824418742833143	1.619872722917354e-255	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5728745588047975	2.58910854933358e-18	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+inflammatory_score	donor	-0.4906485107222247	3.800740086984487e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+synthetic_contractile_score	donor	-0.4682959901057225	5.7542329460405064e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+activated_migratory_score	donor	-0.44072842920126715	1.265843790908942e-10	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+fibroblast_like_score	donor	-0.2909418875553163	3.862608442225132e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+basement_membrane_score	donor	0.13815090416767678	0.05473099527498804	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+AGTR1_expr	donor	-0.2972718551280621	2.5614789131832293e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+AGTR1_scvi	donor	-0.3742231060964034	7.648131840525977e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.48627987820523183	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+inflammatory_score	cell	-0.45341440244994546	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+synthetic_contractile_score	cell	-0.44701593139208834	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+activated_migratory_score	cell	-0.3908450981889074	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+fibroblast_like_score	cell	-0.22434320784011774	6.41741508897487e-107	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+basement_membrane_score	cell	0.3211074040943563	4.512864975106095e-223	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+AGTR1_expr	cell	-0.13519726885944586	2.2964090148678266e-39	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+AGTR1_scvi	cell	-0.31319673846673685	9.612604684868987e-212	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+vascular_stabilizing_score	donor	-0.5553697674866598	2.794823259945383e-16	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+inflammatory_score	donor	-0.49665774113386363	7.482250267939124e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+synthetic_contractile_score	donor	-0.5201055652944462	3.835639207576532e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+activated_migratory_score	donor	-0.4401764558571401	4.0442733774642093e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+fibroblast_like_score	donor	-0.25396158810271424	0.0005039735703138456	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+basement_membrane_score	donor	0.19151624896457398	0.00920618648695373	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+AGTR1_expr	donor	-0.3145817141205985	1.3673262722679697e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+AGTR1_scvi	donor	-0.3913101269480457	3.9646609845164103e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	10	0.8	13
+vascular_stabilizing_score	cell	-0.4833576074614308	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+inflammatory_score	cell	-0.45618669949907376	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+synthetic_contractile_score	cell	-0.4467994230458585	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+activated_migratory_score	cell	-0.3888915941193888	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+fibroblast_like_score	cell	-0.23000931134137279	1.9494557451626369e-112	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+basement_membrane_score	cell	0.32018962005673846	9.693735222503312e-222	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+AGTR1_expr	cell	-0.13894825476118092	1.6722921727753634e-41	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+AGTR1_scvi	cell	-0.305245531788515	1.0572415563525893e-200	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+vascular_stabilizing_score	donor	-0.5870335766985803	1.9945418532347786e-18	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+inflammatory_score	donor	-0.4586908362389474	5.828042986954725e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+synthetic_contractile_score	donor	-0.5000019263739863	4.96584896448391e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+activated_migratory_score	donor	-0.4682302402188361	2.0508366360343542e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+fibroblast_like_score	donor	-0.3334938644988538	3.727439346639159e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+basement_membrane_score	donor	0.10910789620696962	0.14039258762937165	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+AGTR1_expr	donor	-0.31870544582762494	1.0375467208040271e-05	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+AGTR1_scvi	donor	-0.37063050220569815	2.2325379226341413e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	10	0.8	7
+vascular_stabilizing_score	cell	-0.49048838674251066	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+inflammatory_score	cell	-0.4524791896578311	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+synthetic_contractile_score	cell	-0.4536769993403398	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+activated_migratory_score	cell	-0.38975542581663425	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+fibroblast_like_score	cell	-0.22234374949436242	8.947539075436462e-131	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+basement_membrane_score	cell	0.3247386736828286	5.7678737665832846e-285	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+AGTR1_expr	cell	-0.13008003860946288	2.993326317772186e-45	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+AGTR1_scvi	cell	-0.3107968801673349	5.9445820900202375e-260	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+vascular_stabilizing_score	donor	-0.5780813812542887	1.0858226251926771e-18	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+inflammatory_score	donor	-0.49633361137020127	1.844184986616043e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+synthetic_contractile_score	donor	-0.46587337132713985	7.635321605568717e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+activated_migratory_score	donor	-0.43998553660430695	1.3706223281935175e-10	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+fibroblast_like_score	donor	-0.2897453702752565	4.169944255590084e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+basement_membrane_score	donor	0.1421727143109548	0.04798556484175948	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+AGTR1_expr	donor	-0.3001314958388281	2.1208902234453883e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+AGTR1_scvi	donor	-0.3732057376948141	8.346634486164551e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	30	15	1.0	13
+vascular_stabilizing_score	cell	-0.4892979930279945	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+inflammatory_score	cell	-0.4531200304584523	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+synthetic_contractile_score	cell	-0.4495482095836336	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+activated_migratory_score	cell	-0.38847691915018484	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+fibroblast_like_score	cell	-0.2235665955013324	3.562629671443379e-106	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+basement_membrane_score	cell	0.32524193053386985	3.940544934494556e-229	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+AGTR1_expr	cell	-0.13489676718884985	3.38618767338103e-39	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+AGTR1_scvi	cell	-0.31751225563674684	7.00883801225282e-218	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+vascular_stabilizing_score	donor	-0.5586330450193601	1.7202831413243367e-16	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+inflammatory_score	donor	-0.4984049623393886	6.043028620573296e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+synthetic_contractile_score	donor	-0.5217815106624799	3.074541977249025e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+activated_migratory_score	donor	-0.43804203348037984	5.019053324615399e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+fibroblast_like_score	donor	-0.25078307102540887	0.0005955299835038815	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+basement_membrane_score	donor	0.19392036369940857	0.008348915529934728	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+AGTR1_expr	donor	-0.31730364341843137	1.1401252394290631e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+AGTR1_scvi	donor	-0.39380285488624767	3.192886752421881e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	30	15	0.8	13
+vascular_stabilizing_score	cell	-0.4860294713069689	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+inflammatory_score	cell	-0.4564207836138078	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+synthetic_contractile_score	cell	-0.4492475008267635	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+activated_migratory_score	cell	-0.3860399212299219	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+fibroblast_like_score	cell	-0.22937162986705306	8.288277510648281e-112	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+basement_membrane_score	cell	0.32341253115012497	1.9417925073875883e-226	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+AGTR1_expr	cell	-0.13885268230493072	1.8990071965829586e-41	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+AGTR1_scvi	cell	-0.30889898423238404	9.851027636992951e-206	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+vascular_stabilizing_score	donor	-0.5928531525110284	7.576152515961502e-19	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+inflammatory_score	donor	-0.4618616478203078	4.133377328824345e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+synthetic_contractile_score	donor	-0.4997669087476643	5.111740394183617e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+activated_migratory_score	donor	-0.46745969062433773	2.2340484431310995e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+fibroblast_like_score	donor	-0.32931363294870064	5.005504027581235e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+basement_membrane_score	donor	0.11521835449134095	0.11936645581242733	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+AGTR1_expr	donor	-0.3240663243194251	7.203138505697996e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+AGTR1_scvi	donor	-0.37381094565698986	1.7247196976593296e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	30	15	0.8	7
+vascular_stabilizing_score	cell	-0.49003315477346027	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+inflammatory_score	cell	-0.4522614309936612	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+synthetic_contractile_score	cell	-0.45212140059068745	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+activated_migratory_score	cell	-0.39405065074508777	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+fibroblast_like_score	cell	-0.22367130148862172	2.339109721169487e-132	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+basement_membrane_score	cell	0.3224581098671548	8.804337007233961e-281	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+AGTR1_expr	cell	-0.13280246260630343	4.1733827800515123e-47	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+AGTR1_scvi	cell	-0.3103542792552186	3.518228025445677e-259	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+vascular_stabilizing_score	donor	-0.5756061683095495	1.6443631127445888e-18	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+inflammatory_score	donor	-0.49166423555612165	3.3433453391632037e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+synthetic_contractile_score	donor	-0.47031429123197727	4.538466931157418e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+activated_migratory_score	donor	-0.441663619218237	1.1449420576665404e-10	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+fibroblast_like_score	donor	-0.2898916477998792	4.131173010869579e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+basement_membrane_score	donor	0.13506921474444578	0.06041501145824787	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+AGTR1_expr	donor	-0.29913191271825734	2.2660525731656946e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+AGTR1_scvi	donor	-0.3758913273041792	6.62269750155145e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	10	1.0	13
+vascular_stabilizing_score	cell	-0.4891304724475678	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+inflammatory_score	cell	-0.45311515635381033	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+synthetic_contractile_score	cell	-0.44949525815499836	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+activated_migratory_score	cell	-0.3931934927137529	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+fibroblast_like_score	cell	-0.22602820902969198	1.522091676584419e-108	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+basement_membrane_score	cell	0.3220877565562616	1.684344943473168e-224	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+AGTR1_expr	cell	-0.1366028450615583	3.6900422265374e-40	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+AGTR1_scvi	cell	-0.3128140698002226	3.3274437901161576e-211	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+vascular_stabilizing_score	donor	-0.5546030706401341	3.129948535755418e-16	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+inflammatory_score	donor	-0.49484117046483395	9.33115310153874e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+synthetic_contractile_score	donor	-0.5205158829535166	3.633866933077005e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+activated_migratory_score	donor	-0.43792259829323255	5.079843196185304e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+fibroblast_like_score	donor	-0.2523395812062954	0.0005489310449425923	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+basement_membrane_score	donor	0.19220589085164994	0.00895263753403343	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+AGTR1_expr	donor	-0.3153343392702858	1.300551479905084e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+AGTR1_scvi	donor	-0.38817591647242394	5.191887364851229e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	10	0.8	13
+vascular_stabilizing_score	cell	-0.4859136223848307	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+inflammatory_score	cell	-0.45374099278878854	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+synthetic_contractile_score	cell	-0.4496758031760526	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+activated_migratory_score	cell	-0.3895383698038507	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+fibroblast_like_score	cell	-0.23218020481979518	1.3664674572681188e-114	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+basement_membrane_score	cell	0.32119287471044744	3.3897301566659674e-223	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+AGTR1_expr	cell	-0.14070383328571504	1.592641373228097e-42	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+AGTR1_scvi	cell	-0.3087764451581413	1.4567508834070374e-205	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+vascular_stabilizing_score	donor	-0.5919997688351216	8.742302935308323e-19	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+inflammatory_score	donor	-0.4571940436516345	6.84590337487125e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+synthetic_contractile_score	donor	-0.5013272716765232	4.215963999250977e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+activated_migratory_score	donor	-0.469617229488933	1.7571394163672367e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+fibroblast_like_score	donor	-0.33335709194583035	3.763826736870061e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+basement_membrane_score	donor	0.11016354915143224	0.13657104459267394	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+AGTR1_expr	donor	-0.3227970790204566	7.858116608703372e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+AGTR1_scvi	donor	-0.37099651326308486	2.167512054229576e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	10	0.8	7
+vascular_stabilizing_score	cell	-0.49258466775294485	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+inflammatory_score	cell	-0.4524819472544426	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+synthetic_contractile_score	cell	-0.4544469543227537	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+activated_migratory_score	cell	-0.39205991999642986	0.0	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+fibroblast_like_score	cell	-0.22329039212925547	6.67139479249921e-132	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+basement_membrane_score	cell	0.3253649727299078	4.03373153586185e-286	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+AGTR1_expr	cell	-0.13256974717249675	6.034668387407206e-47	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+AGTR1_scvi	cell	-0.3132141091434937	3.413740483216705e-264	11680	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+vascular_stabilizing_score	donor	-0.5808343571390417	6.815471295973686e-19	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+inflammatory_score	donor	-0.4947130536255049	2.2694563144729455e-13	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+synthetic_contractile_score	donor	-0.46846034687496146	5.644411301484858e-12	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+activated_migratory_score	donor	-0.44028137878893714	1.327925953828602e-10	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+fibroblast_like_score	donor	-0.2888414080444421	4.4172451010945147e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+basement_membrane_score	donor	0.1392011439231139	0.052897998334213374	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+AGTR1_expr	donor	-0.30031142080053086	2.0957120611770086e-05	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+AGTR1_scvi	donor	-0.37519116746722103	7.03587019741858e-08	194	state_program	vascular_stabilizing	10492	param	vascular_stabilizing	50	15	1.0	13
+vascular_stabilizing_score	cell	-0.4919157210061231	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+inflammatory_score	cell	-0.4527959523965302	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+synthetic_contractile_score	cell	-0.45187710270135223	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+activated_migratory_score	cell	-0.39041832681360045	0.0	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+fibroblast_like_score	cell	-0.22441000754707682	5.536017017233041e-107	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+basement_membrane_score	cell	0.32591531838485727	3.9782591364849636e-230	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+AGTR1_expr	cell	-0.1368266684810333	2.753049670789365e-40	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+AGTR1_scvi	cell	-0.3189876415709653	5.295798459517173e-220	9344	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+vascular_stabilizing_score	donor	-0.5596694342239602	1.4729301539859763e-16	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+inflammatory_score	donor	-0.49742829072836203	6.81053028742735e-13	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+synthetic_contractile_score	donor	-0.5215657567760205	3.1635597550710344e-14	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+activated_migratory_score	donor	-0.4364219529579472	5.907056783614174e-10	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+fibroblast_like_score	donor	-0.2491745487468937	0.0006475009177581689	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+basement_membrane_score	donor	0.19660958178420757	0.007474551461103971	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+AGTR1_expr	donor	-0.31834873948120956	1.0627866181448138e-05	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+AGTR1_scvi	donor	-0.39159137755003753	3.869336724564386e-08	184	state_program	vascular_stabilizing	8417	param	vascular_stabilizing	50	15	0.8	13
+vascular_stabilizing_score	cell	-0.4878963278220149	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+inflammatory_score	cell	-0.45394285804939305	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+synthetic_contractile_score	cell	-0.4511330860006661	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+activated_migratory_score	cell	-0.38667920047614607	0.0	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+fibroblast_like_score	cell	-0.23096792829856638	2.1947452770140424e-113	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+basement_membrane_score	cell	0.32356417425975514	1.1633614687968118e-226	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+AGTR1_expr	cell	-0.14092857144572266	1.1760831399160436e-42	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+AGTR1_scvi	cell	-0.3136543499720374	2.1722371712956214e-212	9344	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+vascular_stabilizing_score	donor	-0.5947987902371366	5.457588397256788e-19	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+inflammatory_score	donor	-0.4597927221590799	5.174184229950424e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+synthetic_contractile_score	donor	-0.4987806052667064	5.770840382576822e-13	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+activated_migratory_score	donor	-0.4661381980697732	2.5858844674461423e-11	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+fibroblast_like_score	donor	-0.327936275548535	5.510923770240012e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+basement_membrane_score	donor	0.11600816782570167	0.11683752670668654	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+AGTR1_expr	donor	-0.32710724483970555	5.838106633307792e-06	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+AGTR1_scvi	donor	-0.3733871433800158	1.7853481774189583e-07	184	state_program	vascular_stabilizing	8412	param	vascular_stabilizing	50	15	0.8	7
+vascular_stabilizing_score	cell	0.4457158205828025	0.0	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+inflammatory_score	cell	0.4731779470728726	0.0	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+synthetic_contractile_score	cell	0.42902174988555714	0.0	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+activated_migratory_score	cell	0.4070894354020359	0.0	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+fibroblast_like_score	cell	0.21385962163491068	6.639218557636772e-121	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+basement_membrane_score	cell	-0.32396501763542435	1.5288203055676969e-283	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+AGTR1_expr	cell	0.1125180120306641	3.196250635254397e-34	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+AGTR1_scvi	cell	0.2470217776543377	6.545967901685119e-162	11680	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+vascular_stabilizing_score	donor	0.5120132471556006	2.338093263142586e-14	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+inflammatory_score	donor	0.46780949406877503	6.091621662121706e-12	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+synthetic_contractile_score	donor	0.4517962140418205	3.7829204081162425e-11	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+activated_migratory_score	donor	0.4621375419623376	1.1759061045765595e-11	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+fibroblast_like_score	donor	0.26271361243852026	0.0002149646690165528	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+basement_membrane_score	donor	-0.1881630254794081	0.008604478946932228	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+AGTR1_expr	donor	0.238094868418408	0.0008286175046959974	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+AGTR1_scvi	donor	0.32147115744145816	4.8645360598319255e-06	194	state_program	basement_membrane	620	root	basement_membrane	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.45458881878521784	0.0	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+inflammatory_score	cell	-0.37471816650395845	0.0	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+synthetic_contractile_score	cell	-0.339558796979804	0.0	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+activated_migratory_score	cell	-0.2784432018292117	5.991951128028646e-207	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+fibroblast_like_score	cell	-0.20025805644420264	5.951783955224699e-106	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+basement_membrane_score	cell	0.3024166185423738	1.4787234673095767e-245	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+AGTR1_expr	cell	-0.06249270766921153	1.382544460289767e-11	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+AGTR1_scvi	cell	-0.2774912067578521	1.7120702015707816e-205	11680	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5205154228283334	7.29365889620205e-15	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+inflammatory_score	donor	-0.4782970995139148	1.7479801903839596e-12	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+synthetic_contractile_score	donor	-0.3521877940445324	4.7536707758087115e-07	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+activated_migratory_score	donor	-0.325935087293989	3.523297104427733e-06	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+fibroblast_like_score	donor	-0.16800631129993876	0.01920110200210305	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+basement_membrane_score	donor	0.1394263126969713	0.05251170835726825	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+AGTR1_expr	donor	-0.2770369608239755	9.208211014658771e-05	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+AGTR1_scvi	donor	-0.40670493440110445	3.992793154362468e-09	194	state_program	activated_migratory	9848	root	activated_migratory	30	10	1.0	13
+vascular_stabilizing_score	cell	0.4457158205828025	0.0	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+inflammatory_score	cell	0.4731779470728726	0.0	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+synthetic_contractile_score	cell	0.42902174988555714	0.0	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+activated_migratory_score	cell	0.4070894354020359	0.0	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+fibroblast_like_score	cell	0.21385962163491068	6.639218557636772e-121	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+basement_membrane_score	cell	-0.32396501763542435	1.5288203055676969e-283	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+AGTR1_expr	cell	0.1125180120306641	3.196250635254397e-34	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+AGTR1_scvi	cell	0.2470217776543377	6.545967901685119e-162	11680	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+vascular_stabilizing_score	donor	0.5120132471556006	2.338093263142586e-14	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+inflammatory_score	donor	0.46780949406877503	6.091621662121706e-12	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+synthetic_contractile_score	donor	0.4517962140418205	3.7829204081162425e-11	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+activated_migratory_score	donor	0.4621375419623376	1.1759061045765595e-11	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+fibroblast_like_score	donor	0.26271361243852026	0.0002149646690165528	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+basement_membrane_score	donor	-0.1881630254794081	0.008604478946932228	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+AGTR1_expr	donor	0.238094868418408	0.0008286175046959974	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+AGTR1_scvi	donor	0.32147115744145816	4.8645360598319255e-06	194	pericyte_state	basement_membrane	620	root	1	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.4875080831892521	0.0	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+inflammatory_score	cell	-0.4521057771122824	0.0	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+synthetic_contractile_score	cell	-0.4511965294713147	0.0	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+activated_migratory_score	cell	-0.391652413203937	0.0	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+fibroblast_like_score	cell	-0.22243913229394519	6.89188470550996e-131	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+basement_membrane_score	cell	0.32151837206904454	4.5507651464529195e-279	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+AGTR1_expr	cell	-0.1304477163363678	1.6898105904396327e-45	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+AGTR1_scvi	cell	-0.30824418742833143	1.619872722917354e-255	11680	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5728745588047975	2.58910854933358e-18	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+inflammatory_score	donor	-0.4906485107222247	3.800740086984487e-13	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+synthetic_contractile_score	donor	-0.4682959901057225	5.7542329460405064e-12	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+activated_migratory_score	donor	-0.44072842920126715	1.265843790908942e-10	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+fibroblast_like_score	donor	-0.2909418875553163	3.862608442225132e-05	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+basement_membrane_score	donor	0.13815090416767678	0.05473099527498804	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+AGTR1_expr	donor	-0.2972718551280621	2.5614789131832293e-05	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+AGTR1_scvi	donor	-0.3742231060964034	7.648131840525977e-08	194	pericyte_state	vascular_stabilizing	10492	root	0	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.4853052586156541	0.0	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+inflammatory_score	cell	-0.4302467359960479	0.0	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+synthetic_contractile_score	cell	-0.3799646442600325	0.0	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+activated_migratory_score	cell	-0.2823369490613374	5.780269532328842e-213	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+fibroblast_like_score	cell	-0.16236569906528897	8.088495487494275e-70	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+basement_membrane_score	cell	0.408186112236164	0.0	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+AGTR1_expr	cell	-0.07280686235741334	3.3227244921028307e-15	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+AGTR1_scvi	cell	-0.2922016785569514	1.2065052225358075e-228	11680	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5152066991819141	1.5152597666911513e-14	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+inflammatory_score	donor	-0.5319891688889071	1.4369299216016254e-15	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+synthetic_contractile_score	donor	-0.3904993569541403	1.8128251446844445e-08	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+activated_migratory_score	donor	-0.3963981214021276	1.0550089802776603e-08	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+fibroblast_like_score	donor	-0.20133128983083576	0.004878008233638439	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+basement_membrane_score	donor	0.21710460897470135	0.002360075950739595	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+AGTR1_expr	donor	-0.2841406648674981	5.941606482911937e-05	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+AGTR1_scvi	donor	-0.3531312018999642	4.4082608406029667e-07	194	pericyte_state	vascular_stabilizing	10351	root	2	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.4974466418121014	0.0	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+inflammatory_score	cell	-0.35645312934017276	0.0	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+synthetic_contractile_score	cell	-0.4279167762744328	0.0	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+activated_migratory_score	cell	-0.2830526017122334	4.4225158453424355e-214	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+fibroblast_like_score	cell	-0.2234096923186668	4.805640777751523e-132	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+basement_membrane_score	cell	0.25989594732274707	1.2813910292176565e-179	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+AGTR1_expr	cell	-0.12606788734240074	1.3778198387102347e-42	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+AGTR1_scvi	cell	-0.3666936590711202	0.0	11680	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5604015235872508	1.9523080774255976e-17	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+inflammatory_score	donor	-0.4177792935124274	1.3539578467435728e-09	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+synthetic_contractile_score	donor	-0.4355216067517761	2.2014053420916873e-10	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+activated_migratory_score	donor	-0.35007580955981144	5.62325232375031e-07	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+fibroblast_like_score	donor	-0.2544579719196459	0.0003430664403870528	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+basement_membrane_score	donor	0.03551667604869891	0.6229679990409814	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+AGTR1_expr	donor	-0.3346137815547826	1.854221190760814e-06	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+AGTR1_scvi	donor	-0.43089825083308336	3.5702600228921203e-10	194	pericyte_state	basement_membrane	1272	root	3	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.45458881878521784	0.0	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+inflammatory_score	cell	-0.37471816650395845	0.0	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+synthetic_contractile_score	cell	-0.339558796979804	0.0	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+activated_migratory_score	cell	-0.2784432018292117	5.991951128028646e-207	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+fibroblast_like_score	cell	-0.20025805644420264	5.951783955224699e-106	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+basement_membrane_score	cell	0.3024166185423738	1.4787234673095767e-245	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+AGTR1_expr	cell	-0.06249270766921153	1.382544460289767e-11	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+AGTR1_scvi	cell	-0.2774912067578521	1.7120702015707816e-205	11680	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5205154228283334	7.29365889620205e-15	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+inflammatory_score	donor	-0.4782970995139148	1.7479801903839596e-12	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+synthetic_contractile_score	donor	-0.3521877940445324	4.7536707758087115e-07	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+activated_migratory_score	donor	-0.325935087293989	3.523297104427733e-06	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+fibroblast_like_score	donor	-0.16800631129993876	0.01920110200210305	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+basement_membrane_score	donor	0.1394263126969713	0.05251170835726825	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+AGTR1_expr	donor	-0.2770369608239755	9.208211014658771e-05	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+AGTR1_scvi	donor	-0.40670493440110445	3.992793154362468e-09	194	pericyte_state	activated_migratory	9848	root	4	30	10	1.0	13
+vascular_stabilizing_score	cell	0.389873041223467	0.0	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+inflammatory_score	cell	0.447668918252109	0.0	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+synthetic_contractile_score	cell	0.3707104398386947	0.0	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+activated_migratory_score	cell	0.3632362679962531	0.0	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+fibroblast_like_score	cell	0.1743486200692681	2.2211252110455407e-80	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+basement_membrane_score	cell	-0.3249995461916537	1.9060252289425305e-285	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+AGTR1_expr	cell	0.10729133115054178	2.978665107137848e-31	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+AGTR1_scvi	cell	0.2073768659127036	1.2072090327663118e-113	11680	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+vascular_stabilizing_score	donor	0.4949579452116709	2.1995515194323952e-13	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+inflammatory_score	donor	0.4620882349315659	1.1825861391952555e-11	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+synthetic_contractile_score	donor	0.4455605182168934	7.510762635559812e-11	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+activated_migratory_score	donor	0.45112235128794065	4.076680736337021e-11	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+fibroblast_like_score	donor	0.24405254485912573	0.0006051545150083726	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+basement_membrane_score	donor	-0.1933123230596656	0.006920392403405832	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+AGTR1_expr	donor	0.23078708282110227	0.0012056632517730942	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+AGTR1_scvi	donor	0.30127828477275626	1.965176561657271e-05	194	pericyte_state	basement_membrane	479	root	5	30	10	1.0	13
+vascular_stabilizing_score	cell	0.4523276373411141	0.0	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+inflammatory_score	cell	0.4757035606726627	0.0	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+synthetic_contractile_score	cell	0.43603304983380486	0.0	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+activated_migratory_score	cell	0.41279432200123606	0.0	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+fibroblast_like_score	cell	0.21656290200722894	5.281889301052519e-124	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+basement_membrane_score	cell	-0.324096066671479	8.781169300300392e-284	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+AGTR1_expr	cell	0.11401427344153053	4.2489171584123315e-35	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+AGTR1_scvi	cell	0.2521457563017706	7.76553743997229e-169	11680	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+vascular_stabilizing_score	donor	0.5204957000160247	7.313671101766977e-15	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+inflammatory_score	donor	0.4766107990615228	2.1427190581547187e-12	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+synthetic_contractile_score	donor	0.4594568830560497	1.5979128864961557e-11	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+activated_migratory_score	donor	0.46591117338406474	7.601826754413824e-12	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+fibroblast_like_score	donor	0.2704400241604451	0.00013686672164622918	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+basement_membrane_score	donor	-0.17739436995886973	0.013341993513439176	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+AGTR1_expr	donor	0.24867129081998002	0.0004717763310682076	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+AGTR1_scvi	donor	0.33511769999137125	1.7852982565624901e-06	194	PC1MIN_PSEUDOROOT	basement_membrane	11135	root	pc1min	30	10	1.0	13
+vascular_stabilizing_score	cell	-0.4883734780132267	0.0	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+inflammatory_score	cell	-0.45065530152001476	0.0	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+synthetic_contractile_score	cell	-0.4548130841109248	0.0	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+activated_migratory_score	cell	-0.3784711468214358	0.0	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+fibroblast_like_score	cell	-0.21968865000895177	1.218780054567578e-127	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+basement_membrane_score	cell	0.32547429787927723	2.533713114726792e-286	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+AGTR1_expr	cell	-0.12843840885512026	3.7678477875376044e-44	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+AGTR1_scvi	cell	-0.30691264596788803	3.202769671243624e-253	11680	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+vascular_stabilizing_score	donor	-0.5654012565075007	8.775737674456894e-18	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+inflammatory_score	donor	-0.49038718345913473	3.9279476188404797e-13	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+synthetic_contractile_score	donor	-0.4675892559979948	6.250610530460365e-12	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+activated_migratory_score	donor	-0.44168662916593043	1.1421132247682978e-10	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+fibroblast_like_score	donor	-0.2783225748131469	8.51375126176317e-05	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+basement_membrane_score	donor	0.15949591778874403	0.026323576175319906	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+AGTR1_expr	donor	-0.2876758571705832	4.756509849753828e-05	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13
+AGTR1_scvi	donor	-0.3691674918746122	1.177310440211254e-07	194	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	root	pc1max	30	10	1.0	13

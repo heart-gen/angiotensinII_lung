@@ -35,10 +35,19 @@ Ordered by how badly the current version misleads.
       continuum running the wrong way.**
       *Also check:* the panel-F guard added for `AGTR1_scvi` still fires.
 - [ ] **`figureS_pericyte_layer`** — same script, same continuum inputs.
+- [ ] **`figureS_continuum_stability`** (S7) — the `02b` sweep was **re-run under
+      the corrected root on 2026-09-07**, so every ρ in panels A–C has flipped and
+      the input now carries two extra roots (the `basement_membrane` and
+      `activated_migratory` programs) and an eighth feature (`AGTR1_scvi`). The
+      script was taught both on 2026-09-07; the figure itself has not been redrawn.
+      *Also check:* `AGTR1_scvi` lands on OKABE position 8 (grey) — the denoised
+      lens is the readout, so grey is probably the wrong colour for it.
 - [ ] **`figure_basement_membrane`** — panel G is per-donor continuum ρ by
-      metric. `rho_bm` is now a **null** (−0.014, BH = 0.715, was −0.177 at
-      *P* = 0.013) and `rho_switch` is **n.s.** (BH = 0.061, was 0.013). Panels
-      that annotate significance must be re-checked, not just redrawn.
+      metric. `rho_switch` is now **n.s.** (−0.055 at BH = 0.014 → +0.024 at
+      BH = 0.061); the tracer (−0.196 → +0.203) and TGF-β (+0.133 → −0.131)
+      invert. `rho_bm` is a null (−0.014, BH = 0.715) but **was already one
+      before the re-root** (−0.021, BH = 0.624) — do not annotate it as a change.
+      Panels that annotate significance must be re-checked, not just redrawn.
 
 ### Tier 2 — data moved substantially
 
@@ -70,9 +79,7 @@ Ordered by how badly the current version misleads.
 
 ### Not affected
 `figureS_state_annotation`, `figureS_agtr1_dropout`, `figureS_cogaps_validation`,
-`figureS_continuum_stability`, `figureS_nichenet_specificity` — their inputs did
-not change. (`figureS_continuum_stability` reads the sensitivity sweep, which was
-**not** re-run under the new root — see Open questions.)
+`figureS_nichenet_specificity` — their inputs did not change.
 
 ---
 
@@ -125,8 +132,15 @@ These are hand-curated and do **not** come out of `step_figures.sh`:
    **every** program except BM falls, which is equally consistent with an overall
    score-magnitude gradient. Any axis label asserting "injury" is currently
    unsupported. **Resolve before finalising Figure 2F's axis title.**
-2. **The continuum sensitivity sweep (`02b`) has not been re-run under the new
-   root**, so `figureS_continuum_stability` reports stability across 8 roots that
-   were all evaluated against the old rooting logic.
+2. ~~**The continuum sensitivity sweep (`02b`) has not been re-run under the new
+   root.**~~ **RESOLVED 2026-09-07** — re-run, and it bears directly on question 1
+   above. The axis is bipolar with **`vascular_stabilizing` and
+   `activated_migratory` at the SAME end** and `basement_membrane` at the other:
+   rooting at `activated_migratory` reproduces the canonical signs, rooting at
+   `basement_membrane` reverses all 8 features together. So the axis is not
+   stabilizing ↔ injury; the injury pole is not a pole. Parameter robustness is
+   clean (sign consistency 1.00 for all 8 features over 18 settings, sd ρ ≤ 0.035)
+   and |ρ| survives every re-rooting (Spearman of |ρ| ≥ 0.88, = 1.00 for the
+   cluster-0 and PC1-max roots).
 3. **`niche_stability_score` is now a real 2-component composite** — any legend
    describing it as vascular-stabilizing alone is stale.

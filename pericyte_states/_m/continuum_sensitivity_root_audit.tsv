@@ -1,0 +1,14 @@
+block	root	root_matched_on	root_cell_program	root_cell_index	is_canonical
+param	vascular_stabilizing	state_program	vascular_stabilizing	10492	True
+param	vascular_stabilizing	state_program	vascular_stabilizing	8417	True
+param	vascular_stabilizing	state_program	vascular_stabilizing	8412	True
+root	0	pericyte_state	vascular_stabilizing	10492	False
+root	1	pericyte_state	basement_membrane	620	False
+root	2	pericyte_state	vascular_stabilizing	10351	False
+root	3	pericyte_state	basement_membrane	1272	False
+root	4	pericyte_state	activated_migratory	9848	False
+root	5	pericyte_state	basement_membrane	479	False
+root	activated_migratory	state_program	activated_migratory	9848	False
+root	basement_membrane	state_program	basement_membrane	620	False
+root	pc1max	PC1MAX_PSEUDOROOT	vascular_stabilizing	8673	False
+root	pc1min	PC1MIN_PSEUDOROOT	basement_membrane	11135	False

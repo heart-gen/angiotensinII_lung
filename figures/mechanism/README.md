@@ -720,17 +720,32 @@ Source data: `pericyte_cogaps/_m/cogaps_nP_selection.tsv`, `cogaps_seed_stabilit
 > **inverted**. Re-rooted correctly, **all 16 of 16 trend correlations flip sign**
 > with magnitudes essentially unchanged.
 >
-> | Endpoint (donor level) | Published | Re-rooted |
-> | --- | ---: | ---: |
-> | BM vs pseudotime | −0.177 (*P* = 0.013, sig.) | **−0.014 (BH = 0.715, null)** |
-> | Ambient tracer | −0.196 (BH = 3.6 × 10⁻¹⁰) | **+0.203 (BH = 7.9 × 10⁻⁹)** |
-> | TGF-β response | +0.134 (BH = 2.5 × 10⁻⁵) | **−0.131 (BH = 0.0011)** |
-> | BM − fibrillar switch | −0.063 (BH = 0.013, sig.) | **+0.024 (BH = 0.061, n.s.)** |
+> | Endpoint | Source table | Published | Re-rooted |
+> | --- | --- | ---: | ---: |
+> | BM vs pseudotime, donor-mean ρ | `pericyte_states` | −0.177 (*P* = 0.013, sig.) | **+0.138 (*P* = 0.055, n.s.)** |
+> | BM vs pseudotime, per-donor median ρ | `basement_membrane` | −0.021 (BH = 0.624, null) | −0.014 (BH = 0.715, null) |
+> | Ambient tracer | `basement_membrane` | −0.196 (BH = 6.4 × 10⁻¹⁰) | **+0.203 (BH = 7.9 × 10⁻⁹)** |
+> | TGF-β response | `basement_membrane` | +0.133 (BH = 2.5 × 10⁻⁵) | **−0.131 (BH = 0.0011)** |
+> | BM − fibrillar switch | `basement_membrane` | −0.055 (BH = 0.014, sig.) | **+0.024 (BH = 0.061, n.s.)** |
 >
-> **Two claims do not survive as stated.** The BM-versus-pseudotime association
-> becomes a **null** (−0.014, BH = 0.715), so "the BM score falls along the
-> continuum" should not be replaced by "rises" — it should be dropped. And the
-> switch index loses significance (BH 0.013 → 0.061).
+> **CORRECTED 2026-09-07.** An earlier version of this block put −0.177
+> (*P* = 0.013) and −0.014 (BH = 0.715) in one row as a before/after pair. They are
+> **two different statistics from two different tables** — the “before” is
+> `pericyte_states`' Spearman across per-donor mean pseudotime (194 donors), the
+> “after” is `basement_membrane`'s median of per-donor within-donor ρ (69 donors).
+> The recovered pre-re-root file (`git show 08071bf~1:basement_membrane/_m/
+> stats_data/bm_continuum_summary.tsv`) settles it. Two further numbers were wrong
+> in that block: the tracer's published BH was 6.4 × 10⁻¹⁰, not 3.6 × 10⁻¹⁰, and
+> the switch's published value was −0.055 at BH = 0.014, not −0.063 at BH = 0.013
+> (−0.063/0.0127 is `rho_switch_collagen`, a different row).
+>
+> **One claim changes status, not two.** On the `pericyte_states` axis the BM
+> association genuinely **reverses and loses significance** (−0.177 sig. → +0.138
+> n.s.), so “the BM score falls along the continuum” is not supported — and should
+> be dropped rather than replaced by “rises”. In the `basement_membrane` module the
+> switch index loses significance (BH 0.014 → 0.061). But `rho_bm` itself was
+> **already a null before the re-root** (−0.021, BH = 0.624): the re-root did not
+> create that null, and saying it “becomes” one overstated what the fix changed.
 >
 > **⚠️ The "injury continuum" framing itself needs re-examination.** Rooted at the
 > stabilizing pole, the injury programs *decrease* along the axis (inflammatory
