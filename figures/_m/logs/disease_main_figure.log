@@ -1,3 +1,11 @@
+2026-09-07 14:17:39 - **** Job starts ****
+Job id: 45449433
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -18,7 +26,7 @@ panel D: dropping 2 Pericyte row(s); mural lineage shown as pooled Mural
 wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism/figure_disease_main.{pdf,svg,png} 
 
 Reproducibility information:
-[1] "2026-08-07 14:49:04 EDT"
+[1] "2026-09-07 14:18:08 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -29,7 +37,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-08-07
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -68,3 +76,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
+2026-09-07 14:18:22 - **** Job ends ****

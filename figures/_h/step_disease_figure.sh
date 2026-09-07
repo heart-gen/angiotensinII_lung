@@ -21,9 +21,13 @@
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }
 log_message "**** Job starts ****"; echo "Job id: ${SLURM_JOBID}"
 
+## The batch shell does not source the login profile, so `module` and `conda` must
+## be bootstrapped here rather than inherited from the submitting shell.
+source /etc/profile.d/modules.sh
 module purge
 module load anaconda3/2024.10-1
 module list
+eval "$(conda shell.bash hook)"
 
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 
