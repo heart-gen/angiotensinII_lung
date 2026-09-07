@@ -207,3 +207,62 @@ Two things to verify after the redraw, because they are new failure modes:
 2. **`leave_one_study_out.tsv` gained columns** (`n_studies`, `singular`, `model`)
    and grew from 68 to 92 rows. `sensitivity_robustness_figure.R` should be checked
    for anything that assumed the old width or the old 17-row-per-response shape.
+
+---
+
+## Added 2026-09-07 (second batch) — P1-6, P1-8, P1-19
+
+### `figure_mechanism_main` panel C — the donor set changes from 5 to 59
+
+The panel used a label-based injury selection that `pathway_balance` abandoned
+(P1-8). It now reads `pathway_balance/_m/stats_data/balance_donor_injury_selected.tsv`
+and **stops** if that file is missing or if the donor count comes back under 20.
+
+| | On disk | After regeneration |
+| - | --- | --- |
+| donors | **5** (4 Healthy, 1 IPF) | **59** (26 H / 19 F / 14 O) |
+| Wilcoxon bracket | computed on 4 vs 1 | 26 vs 19 |
+
+The underlying statistics also moved when the module's `+ age` filter was dropped:
+Healthy vs Fibrotic/ILD balance +0.145 (*P* = 0.0038) and the **AT1R arm** +0.186
+(*P* = 9.6 × 10⁻⁴), against AT2R flat. Verify the panel's message matches its
+"(corollary)" label — the disease term now **does** collapse under
+injury-adjustment (0.145 → 0.064, *P* = 0.194), which is what the corollary framing
+claims.
+
+### Figure S12 panel D legend — no wording change needed, but check the axis
+
+Already covered in the first batch. No new action.
+
+### Panel D of `figure_disease_main` — legend wording (P1-19)
+
+Drop "replication" for "independent evaluation". Replacement text is drafted in
+`writings/pi_briefings/README_AUDIT.md` Defect 11. Two facts the legend must carry
+and currently does not:
+
+- **The COPD arm has no HLCA comparator at all.** `disease_association/_h/05`
+  excludes COPD, and its "Other" group is COVID-dominated. Half the panel is
+  therefore not a cross-cohort comparison of any kind.
+- Neither HLCA estimate is significant, so the honest phrase is *"no directional
+  finding to replicate"*, never *"the replication failed"*.
+
+New supporting file: `agtr1_cross_cohort_signs.tsv`.
+
+### NicheNet ligand ordering (P1-6) — any figure that ranks ligands
+
+`nichenet_specificity_Pericytes.tsv` now carries `rank_by_z`, `rank_by_aupr`,
+`p_emp_at_floor` and `rank_note`. **Order by `z`.** The two orderings disagree at
+the top (TGFB1 leads on *z*, TGFB2 on AUPR), and the permutation *p* cannot break
+the tie because it is floored.
+
+Permutations were raised 1,000 → 10,000, so **every *z* and every empirical *p* in
+the current figures is from the old run** and must be refreshed. Check
+`nichenet_specificity_figure.R` for anything that plots `p_emp` or assumes the old
+floor.
+
+### `donor_validation_results.tsv` gained rows and a column
+
+Two new predictors (`receiver_TGFB_SMAD`, `receiver_TGFB_IEG`) and a `role`
+column. `donor_validation_scatter.pdf` is regenerated. If a supplementary panel
+shows the donor-validation predictors as a fixed set, it will need the two new rows
+— and the IEG row must be drawn as a **control**, not as a result.
