@@ -169,8 +169,18 @@ if ("disease" %in% names(donor)) {
     warning("no `disease` column -- carcinoma donors NOT excluded")
 }
 
+## P1-15. Keep the UNFILTERED donor table. The min-cells sweep at the foot of
+## this script re-thresholds donors, and it used to read `donor` -- which by then
+## had already been cut at MIN_CELLS, so the sweep could only ever move upward.
+## Its `min_cells_5` row was byte-identical to `min_cells_10` (same 66 donors,
+## same 0.727854809057206), and that identity was then explained in the S16 legend
+## as "no donor has 5-9 pericytes", which is false: 16 donors do in the metadata,
+## 13 of them inside this script's Healthy + Fibrotic/ILD analysis set (7 Healthy,
+## 6 Fibrotic/ILD; the other 3 are 2 adenocarcinoma and 1 COPD).
+donor_all <- copy(donor)
 donor <- donor[n_cells >= MIN_CELLS]
-cat(sprintf("\nAfter min-cells >= %d: %d donors\n", MIN_CELLS, nrow(donor)))
+cat(sprintf("\nAfter min-cells >= %d: %d donors (%d retained below it for the sweep)\n",
+            MIN_CELLS, nrow(donor), nrow(donor_all) - nrow(donor)))
 print(table(donor$disease_group))
 attr_flt <- dcast(donor, dataset ~ disease_group, fun.aggregate = length, value.var = "donor_id")
 wt(attr_flt, "attrition_dataset_by_disease_FILTERED.tsv")
@@ -496,8 +506,20 @@ writeLines(smoke_note, file.path(OUTDIR, "smoking_sensitivity_NOTE.txt"))
 ## ===========================================================================
 ## min-cells threshold sensitivity (attrition robustness)
 ## ===========================================================================
-sweep <- rbindlist(lapply(c(5, 10, 15, 20, 30), function(mc) {
-    d <- donor[n_cells >= mc & disease_group %in% c("Healthy", "Fibrotic_ILD")]
+## Reads `donor_all`, NOT `donor`: see the P1-15 note where donor_all is taken.
+## The rungs below MIN_CELLS are the whole point of the sweep -- they are the ones
+## that ADD donors, and therefore the ones that stress the result rather than
+## re-confirming it on a subset.
+SWEEP_RUNGS <- c(5, 10, 15, 20, 30)
+dsw <- donor_all[disease_group %in% c("Healthy", "Fibrotic_ILD")]
+cat("\n== donors available at each sweep rung (Healthy + Fibrotic/ILD) ==\n")
+print(data.table(
+    min_cells  = SWEEP_RUNGS,
+    n_donors   = sapply(SWEEP_RUNGS, function(mc) dsw[n_cells >= mc, .N]),
+    n_healthy  = sapply(SWEEP_RUNGS, function(mc) dsw[n_cells >= mc & disease_group == "Healthy", .N]),
+    n_fibrotic = sapply(SWEEP_RUNGS, function(mc) dsw[n_cells >= mc & disease_group == "Fibrotic_ILD", .N])))
+sweep <- rbindlist(lapply(SWEEP_RUNGS, function(mc) {
+    d <- donor_all[n_cells >= mc & disease_group %in% c("Healthy", "Fibrotic_ILD")]
     d[, disease_group := droplevels(disease_group)]
     if (d[, uniqueN(disease_group)] < 2) return(NULL)
     for (p in names(INJ_COLS)) d[[paste0("z_", p)]] <- z(d[[paste0("m_", p)]])
@@ -505,6 +527,24 @@ sweep <- rbindlist(lapply(c(5, 10, 15, 20, 30), function(mc) {
     r <- summ_disease(fit_lmm("injury_program_score", d), sprintf("min_cells_%d", mc))
     r[, min_cells := mc][]
 }), fill = TRUE)
+## The guard that makes P1-15 impossible to repeat silently. A rung below
+## MIN_CELLS must admit strictly more donors than MIN_CELLS does, unless the
+## cohort genuinely has no donor in that band -- in which case say so, rather than
+## letting a duplicated row be read as robustness.
+low <- SWEEP_RUNGS[SWEEP_RUNGS < MIN_CELLS]
+if (length(low) > 0) {
+    band <- donor_all[disease_group %in% c("Healthy", "Fibrotic_ILD") &
+                      n_cells >= min(low) & n_cells < MIN_CELLS, .N]
+    n_lo <- sweep[min_cells == min(low), n]
+    n_at <- sweep[min_cells == MIN_CELLS, n]
+    if (band > 0 && length(n_lo) && length(n_at) && n_lo <= n_at)
+        stop("min-cells sweep: rung ", min(low), " admits no more donors than rung ",
+             MIN_CELLS, " (", n_lo, " vs ", n_at, ") although ", band, " donors sit ",
+             "in the band. The sweep is reading an already-filtered table -- this ",
+             "is defect P1-15.")
+    cat(sprintf("\n[min-cells sweep] %d donors sit in the %d-%d band and are ADMITTED by the low rung (n %d -> %d).\n",
+                band, min(low), MIN_CELLS - 1L, n_at, n_lo))
+}
 wt(sweep, "mincells_sensitivity.tsv")
 cat("\n== min-cells threshold sweep (primary endpoint) ==\n"); print(sweep)
 

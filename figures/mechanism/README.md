@@ -355,8 +355,13 @@ compartment and gene exploratory.
   COVID/carcinoma/etc., not COPD.
 - **Donor gates differ between the HLCA panels and D, because the datasets differ.** A–B:
   **≥ 10 pericytes per donor** (`03 --min-cells 10`), and ≥ 2 donors per group for a study to
-  enter S16B; the endpoint is insensitive to this — the effect holds across min-cells 5–30
-  (all *P* < 0.005), and 5 and 10 give identical donor sets because no donor has 5–9 pericytes.
+  enter S16B; the endpoint is insensitive to this — the effect holds in direction and
+  significance across min-cells 5–30 (*P* = 0.033 to 0.0010), though not in size: it declines
+  monotonically as the floor is lowered, from 0.929 at ≥30 cells to **0.526 at ≥5**, where the
+  cohort is largest (79 donors, 30 fibrotic). Corrected 2026-09-07 (P1-15) — the sweep previously
+  read an already-filtered donor table, so its `min_cells_5` row was a duplicate of `min_cells_10`
+  and the legend explained that duplicate as "no donor has 5–9 pericytes". Sixteen donors do; 13 of
+  them are in this analysis set, and admitting them is what moves the estimate.
   C: **≥ 10 cells per donor per cell type** (from `01.disease_association.R`), ≥ 3 donors per
   cell type, plus **≥ 3 donors in both Healthy and Fibrotic/ILD** for a cell type to be tested
   at all — 3 being the smallest group that admits a within-group SD, i.e. the point at which the
