@@ -176,10 +176,84 @@ fit_one <- function(gene, comp) {
     ctr[]
 }
 
+## ---- COVARIATE BALANCE + UNADJUSTED CONTRAST (P2-27, added 2026-09-07) ----
+## The header presents `ever_smoker` as this module's advantage over HLCA, and
+## having it IS better than not having it. But it is close to a perfect separator
+## of the COPD arm, so the COPD coefficient is not "COPD adjusted for smoking" --
+## it is COPD identified through a smoking slope borrowed from the IPF arm, under
+## an untested no-interaction assumption. Two things are needed to let a reader
+## see that, and neither existed: the balance itself, and the same contrast
+## without the covariate.
+balance_one <- function(comp) {
+    d <- pb[compartment == comp & !is.na(disease)]
+    if (!nrow(d)) return(NULL)
+    d[, disease := droplevels(disease)]
+    d[, .(n_donors = .N,
+          n_ever_smoker = sum(tolower(as.character(ever_smoker)) %in%
+                                  c("1", "true", "y", "yes"), na.rm = TRUE),
+          pct_ever_smoker = 100 * mean(tolower(as.character(ever_smoker)) %in%
+                                           c("1", "true", "y", "yes"), na.rm = TRUE),
+          n_female = sum(tolower(as.character(sex)) %in% c("f", "female"), na.rm = TRUE),
+          age_median = suppressWarnings(median(as.numeric(as.character(age)), na.rm = TRUE)),
+          mean_log10_counts = mean(mean_log10_counts, na.rm = TRUE)),
+      by = disease][, compartment := comp][]
+}
+balance <- rbindlist(lapply(unique(pb$compartment), balance_one), fill = TRUE)
+if (nrow(balance)) {
+    ## A covariate that takes one value inside an arm cannot be adjusted for
+    ## within it. Flag it explicitly rather than leaving it to be noticed.
+    balance[, ever_smoker_constant_in_arm := pct_ever_smoker %in% c(0, 100)]
+    wt(balance[order(compartment, disease)], "agtr1_copd_covariate_balance.tsv")
+    cat("\n== covariate balance by compartment and arm (P2-27) ==\n")
+    print(balance[order(compartment, disease)])
+}
+
+## Same contrast under three covariate sets, so the adjustment's effect is
+## visible instead of assumed. `adjusted` is the shipped primary; the other two
+## are diagnostics and are written to their own file.
+fit_arms <- function(gene, comp) {
+    col <- paste0(gene, "__expr")
+    d <- pb[compartment == comp & !is.na(get(col)) & !is.na(disease)]
+    d[, y := get(col)]; d[, disease := droplevels(disease)]
+    if (uniqueN(d$disease) < 2) return(NULL)
+    keep <- function(cc) cc %in% names(d) && sum(!is.na(d[[cc]])) == nrow(d) &&
+        uniqueN(d[[cc]]) > 1
+    full <- Filter(keep, c("mean_log10_counts", "sex", "age", "ever_smoker"))
+    sets <- list(adjusted   = full,
+                 no_smoking = setdiff(full, "ever_smoker"),
+                 unadjusted = character(0))
+    rbindlist(lapply(names(sets), function(nm) {
+        f <- try(lm(reformulate(c("disease", sets[[nm]]), "y"), data = d), silent = TRUE)
+        if (inherits(f, "try-error")) return(NULL)
+        ct <- as.data.table(as.data.frame(pairs(emmeans(f, specs = "disease"),
+                                                adjust = "none")))
+        ct <- ct[grepl("Control", contrast)]
+        setnames(ct, "SE", "se")
+        tstat <- intersect(c("t.ratio", "z.ratio"), names(ct))
+        if (length(tstat)) ct[, (tstat) := lapply(.SD, function(x) -x), .SDcols = tstat]
+        ct[, `:=`(contrast = sub("^Control - ", "", contrast), estimate = -estimate)]
+        ct[, `:=`(gene = gene, compartment = comp, model_arm = nm,
+                  covariates = if (length(sets[[nm]])) paste(sets[[nm]], collapse = "+") else "none",
+                  n_model_donors = nrow(d),
+                  ci_lo = estimate - 1.96 * se, ci_hi = estimate + 1.96 * se)]
+        ct[]
+    }), fill = TRUE)
+}
+
 comps_all <- power$compartment
 grid <- CJ(gene = genes, compartment = comps_all, sorted = FALSE)
 res <- rbindlist(lapply(seq_len(nrow(grid)), function(i)
     fit_one(grid$gene[i], grid$compartment[i])), fill = TRUE)
+
+arms <- rbindlist(lapply(seq_len(nrow(grid)), function(i)
+    fit_arms(grid$gene[i], grid$compartment[i])), fill = TRUE)
+if (nrow(arms)) {
+    wt(arms[order(gene, compartment, contrast, model_arm)],
+       "agtr1_copd_model_arms.tsv")
+    cat("\n== same contrast, three covariate sets (P2-27) ==\n")
+    print(dcast(arms[gene == "AGTR1"], compartment + contrast ~ model_arm,
+                value.var = "estimate"))
+}
 
 ## A contrast is only reported as a TEST where both arms clear the donor floor.
 res <- merge(res, melt(power, id.vars = "compartment", variable.name = "disease",

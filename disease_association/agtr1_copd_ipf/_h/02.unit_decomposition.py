@@ -15,9 +15,19 @@ flip, which is all this is for.
 X in the h5ad is stored gene-major (indptr spans genes), so a single gene is one
 contiguous slice -- no need to touch the other 45k rows.
 """
+import argparse
+
 import h5py
 import numpy as np
 import pandas as pd
+
+# --outfile added 2026-09-07 (P2-33 -> P2-28). This wrote `unit_decomp.tsv` into
+# whatever the CWD happened to be and was in no step_*.sh, so a full module rerun
+# never produced it and the table it backs in AGTR1_DISEASE_DIRECTION.md could not
+# be regenerated from anything on disk.
+_ap = argparse.ArgumentParser(description=__doc__)
+_ap.add_argument("--outfile", default="./unit_decomp.tsv")
+_args = _ap.parse_args()
 
 H5 = ("/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung"
       "/disease_association/ipf_analysis/_m/ipf_dataset.h5ad")
@@ -119,4 +129,5 @@ det = (d.groupby(["compartment", "disease"])
         .reset_index())
 print(det.to_string(index=False, float_format=lambda x: f"{x:8.2f}"))
 
-res.to_csv("unit_decomp.tsv", sep="\t", index=False)
+res.to_csv(_args.outfile, sep="\t", index=False)
+print(f"\nwrote {_args.outfile}")

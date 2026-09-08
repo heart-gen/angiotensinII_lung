@@ -45,6 +45,31 @@ Rscript ../_h/01.agtr1_copd_stats.R \
         --min-cells 5 \
         --hlca-effects ../../_m/mean_expr/agtr1_celltype_disease_effects.tsv
 if [ $? -ne 0 ]; then log_message "Error: Rscript execution failed"; exit 1; fi
+
+## Cell-floor sensitivity (P2-28, added 2026-09-07). These two refits are quoted
+## in writings/AGTR1_DISEASE_DIRECTION.md but were previously run by hand with
+## `--outdir /tmp/mc3`, so nothing on disk reproduced them. The floor matters
+## here: at >=5 cells the Control arm collapses to one donor in some
+## compartments, and the >=3 / >=2 rungs are what show whether the direction is
+## a floor artifact.
+for MC in 3 2; do
+    log_message "**** Cell-floor sensitivity: >= ${MC} cells ****"
+    Rscript ../_h/01.agtr1_copd_stats.R \
+            --pseudobulk ./gse136831_ras_pseudobulk.tsv.gz \
+            --outdir ./stats_data/sensitivity_floor${MC} \
+            --min-cells ${MC} \
+            --hlca-effects ../../_m/mean_expr/agtr1_celltype_disease_effects.tsv
+    if [ $? -ne 0 ]; then log_message "Error: floor-${MC} refit failed"; exit 1; fi
+done
+conda deactivate
+
+## Old-vs-new unit decomposition (P2-28). Explains the fibroblast/myofibroblast
+## sign flip between ipf_analysis/_h/01 (per-cell mean, no floor) and this module
+## (donor x compartment pseudobulk). Was in no step script at all.
+log_message "**** Unit decomposition: per-cell vs pseudobulk ****"
+conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
+python ../_h/02.unit_decomposition.py --outfile ./stats_data/unit_decomp.tsv
+if [ $? -ne 0 ]; then log_message "Error: unit decomposition failed"; exit 1; fi
 conda deactivate
 
 log_message "**** Job ends ****"
