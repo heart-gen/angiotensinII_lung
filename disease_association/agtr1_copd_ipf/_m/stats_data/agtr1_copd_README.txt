@@ -15,7 +15,12 @@ and agtr1_copd_mde.tsv. Only one Control donor clears the cell floor, so no
 pericyte contrast is reported and none should be inferred. This dataset
 evaluates the FIBROBLAST half of the HLCA result only.
 
-Powered for COPD vs Control: 
+Meets the >=5-donor floor for COPD vs Control: 
 ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC
-Powered for IPF vs Control: 
+Meets the >=5-donor floor for IPF vs Control: 
 ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC
+
+NOTE: that list is a DONOR-COUNT GATE, not a power calculation. Four of the
+compartments it admits have AGTR1 identically zero in a whole arm (ATI COPD
+and IPF; ATII Control; Endothelial COPD; SMC Control). For actual
+sensitivity read agtr1_copd_mde.tsv.

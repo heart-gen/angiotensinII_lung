@@ -1,4 +1,4 @@
-gene	compartment	contrast	family	estimable	estimate	se	ci_lo	ci_hi	df	t.ratio	p.value	p_BH_reference	n_donors	covariates	n_control	n_donors_arm	n_control_donors
+gene	compartment	contrast	family	estimable	estimate	se	ci_lo	ci_hi	df	t.ratio	p.value	p_BH_reference	n_model_donors	covariates	n_control	n_donors_arm	n_control_donors
 AGTR1	Mural	IPF	exploratory	TRUE	0.252943769738731	0.122197439769815	0.0134367877898939	0.492450751687567	29	2.0699596506703	0.0474663754305178		36	mean_log10_counts+sex+age+ever_smoker	6	21	6
 AGTR1	Pericyte	COPD	exploratory	FALSE	0.526630161148451	0.316373943281137	-0.0934627676825779	1.14672308997948	15	1.66458133589237	0.11674012567133		22	mean_log10_counts+sex+age+ever_smoker	1	6	1
 AGTR1	SMC	IPF	exploratory	TRUE	0.114128532907997	0.0712476993824282	-0.0255169578815621	0.253774023697556	21	1.60185569354882	0.124123948445446		28	mean_log10_counts+sex+age+ever_smoker	5	16	5

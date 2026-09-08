@@ -1,37 +1,37 @@
-2026-09-07 12:57:07 - **** Job starts ****
+2026-09-07 18:07:38 - **** Job starts ****
 User: kbenjamin
-Job id: 45445331
-Hostname: r026
+Job id: 45461843
+Hostname: r269
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-07 12:57:11 - **** Donor x compartment RAS-panel pseudobulk (GSE136831) ****
-2026-09-07 12:57:23,893 [INFO] Opened ../../ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
-2026-09-07 12:57:24,098 [INFO] Cells in mapped compartments: 19999
-2026-09-07 12:57:43,395 [INFO]   40000/312928 cells (4422 in map)
-2026-09-07 12:58:05,325 [INFO]   80000/312928 cells (2924 in map)
-2026-09-07 12:58:22,237 [INFO]   120000/312928 cells (4118 in map)
-2026-09-07 12:58:37,060 [INFO]   160000/312928 cells (1449 in map)
-2026-09-07 12:58:54,115 [INFO]   200000/312928 cells (934 in map)
-2026-09-07 12:59:09,615 [INFO]   240000/312928 cells (940 in map)
-2026-09-07 12:59:27,723 [INFO]   280000/312928 cells (2861 in map)
-2026-09-07 12:59:43,351 [INFO]   312928/312928 cells (2351 in map)
-2026-09-07 12:59:43,531 [INFO] built named pass
-2026-09-07 12:59:59,393 [INFO]   40000/312928 cells (525 in map)
-2026-09-07 13:00:15,655 [INFO]   80000/312928 cells (137 in map)
-2026-09-07 13:00:32,797 [INFO]   120000/312928 cells (109 in map)
-2026-09-07 13:00:49,410 [INFO]   160000/312928 cells (51 in map)
-2026-09-07 13:01:06,006 [INFO]   200000/312928 cells (7 in map)
-2026-09-07 13:01:21,841 [INFO]   240000/312928 cells (59 in map)
-2026-09-07 13:01:37,186 [INFO]   280000/312928 cells (350 in map)
-2026-09-07 13:01:53,253 [INFO]   312928/312928 cells (138 in map)
-2026-09-07 13:01:53,262 [INFO] built mural pass
-2026-09-07 13:01:53,350 [INFO] demographics matched for 536/536 units
-2026-09-07 13:01:53,456 [INFO] Wrote gse136831_ras_pseudobulk.tsv.gz: (536, 20)
-2026-09-07 13:01:53,573 [INFO] 
+2026-09-07 18:07:40 - **** Donor x compartment RAS-panel pseudobulk (GSE136831) ****
+2026-09-07 18:10:06,429 [INFO] Opened ../../ipf_analysis/_m/ipf_dataset.h5ad (312928 x 45947)
+2026-09-07 18:10:06,809 [INFO] Cells in mapped compartments: 19999
+2026-09-07 18:10:26,229 [INFO]   40000/312928 cells (4422 in map)
+2026-09-07 18:10:47,156 [INFO]   80000/312928 cells (2924 in map)
+2026-09-07 18:11:04,313 [INFO]   120000/312928 cells (4118 in map)
+2026-09-07 18:11:18,459 [INFO]   160000/312928 cells (1449 in map)
+2026-09-07 18:11:36,587 [INFO]   200000/312928 cells (934 in map)
+2026-09-07 18:11:51,032 [INFO]   240000/312928 cells (940 in map)
+2026-09-07 18:12:05,978 [INFO]   280000/312928 cells (2861 in map)
+2026-09-07 18:12:20,424 [INFO]   312928/312928 cells (2351 in map)
+2026-09-07 18:12:21,183 [INFO] built named pass
+2026-09-07 18:12:35,803 [INFO]   40000/312928 cells (525 in map)
+2026-09-07 18:12:49,457 [INFO]   80000/312928 cells (137 in map)
+2026-09-07 18:13:06,595 [INFO]   120000/312928 cells (109 in map)
+2026-09-07 18:13:24,973 [INFO]   160000/312928 cells (51 in map)
+2026-09-07 18:13:42,549 [INFO]   200000/312928 cells (7 in map)
+2026-09-07 18:14:01,722 [INFO]   240000/312928 cells (59 in map)
+2026-09-07 18:14:19,425 [INFO]   280000/312928 cells (350 in map)
+2026-09-07 18:14:34,779 [INFO]   312928/312928 cells (138 in map)
+2026-09-07 18:14:35,285 [INFO] built mural pass
+2026-09-07 18:14:36,035 [INFO] demographics matched for 536/536 units
+2026-09-07 18:14:36,564 [INFO] Wrote gse136831_ras_pseudobulk.tsv.gz: (536, 20)
+2026-09-07 18:14:36,715 [INFO] 
 Donors per compartment at >=5 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -43,7 +43,7 @@ Mural             9        6   21
 Myofibroblast    14       12   28
 Pericyte          6        1   15
 SMC               7        5   16
-2026-09-07 13:01:53,615 [INFO] 
+2026-09-07 18:14:36,744 [INFO] 
 Donors per compartment at >=10 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -55,7 +55,7 @@ Mural             7        2   15
 Myofibroblast    10        9   24
 Pericyte          2        0   11
 SMC               3        2   11
-2026-09-07 13:01:53,620 [INFO] 
+2026-09-07 18:14:36,749 [INFO] 
 Donors per compartment at >=20 cells:
 disease        COPD  Control  IPF
 compartment                      
@@ -76,8 +76,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-07 13:01
-2026-09-07 13:01:55 - **** Independent AGTR1 COPD/IPF evaluation ****
+Session information updated at 2026-09-07 18:14
+2026-09-07 18:15:07 - **** Independent AGTR1 COPD/IPF evaluation ****
 genes in pseudobulk: ACE, ACE2, AGT, AGTR1, AGTR2 
 
 == donors per compartment (>= 5  cells) ==
@@ -93,10 +93,11 @@ Key: <compartment>
 7:      Pericyte       1     6    15
 8:           SMC       5     7    16
 
-powered for COPD vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
-powered for IPF  vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
+meets the >= 5 -donor floor, COPD vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
+meets the >= 5 -donor floor, IPF  vs Control: ATI, ATII, Endothelial, Fibroblast, Mural, Myofibroblast, SMC 
+  (a donor-count gate, NOT a power calculation -- see agtr1_copd_mde.tsv)
 
-NOTE: Pericyte is NOT powered here -- descriptive only, no p-value.
+NOTE: Pericyte does NOT meet the donor floor -- descriptive only, no p-value.
 
 == PRIMARY family: AGTR1 in fibroblast-lineage compartments (nominal alpha) ==
      compartment contrast    estimate       ci_lo       ci_hi    p.value
@@ -105,12 +106,12 @@ NOTE: Pericyte is NOT powered here -- descriptive only, no p-value.
 2: Myofibroblast     COPD -0.18147284 -0.34696562 -0.01598007 0.03679419
 3:    Fibroblast     COPD -0.08698425 -0.21080994  0.03684143 0.17434758
 4:    Fibroblast      IPF  0.02707634 -0.07671824  0.13087093 0.61126820
-   p_BH_reference n_donors
-            <num>    <int>
-1:     0.07358838       54
-2:     0.07358838       54
-3:     0.23246344       60
-4:     0.61126820       60
+   p_BH_reference n_model_donors
+            <num>          <int>
+1:     0.07358838             54
+2:     0.07358838             54
+3:     0.23246344             60
+4:     0.61126820             60
 
 == direction concordance across disease arms ==
 Key: <compartment>
@@ -126,12 +127,12 @@ Key: <compartment>
 2:   Myofibroblast         COPD        -      <NA>           NA
 3:      Fibroblast          IPF        +         -        FALSE
 4:      Fibroblast         COPD        -      <NA>           NA
-                                                                                   agreement
-                                                                                      <char>
-1:        OPPOSITE sign (against a non-significant HLCA estimate -- no finding to replicate)
-2: NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
-3:        OPPOSITE sign (against a non-significant HLCA estimate -- no finding to replicate)
-4: NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
+                                                                                                                  agreement
+                                                                                                                     <char>
+1:                            OPPOSITE sign, against a NON-SIGNIFICANT HLCA estimate -- no directional finding to replicate
+2:                                NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
+3: OPPOSITE sign, against an HLCA estimate significant at nominal alpha but NOT after BH (min BH in that analysis is 0.199)
+4:                                NO HLCA COMPARATOR -- HLCA/05 excludes COPD; its 'Other' arm is COVID-dominated, not COPD
 
 == AGTR1, every compartment (exploratory beyond the primary family) ==
       compartment contrast estimable      estimate        ci_lo        ci_hi
@@ -152,24 +153,24 @@ Key: <compartment>
 14: Myofibroblast     COPD      TRUE -0.1814728432 -0.346965618 -0.015980068
 15:    Fibroblast     COPD      TRUE -0.0869842543 -0.210809936  0.036841427
 16:    Fibroblast      IPF      TRUE  0.0270763439 -0.076718240  0.130870928
-       p.value n_donors
-         <num>    <int>
- 1: 0.04746638       36
- 2: 0.11674013       22
- 3: 0.12412395       28
- 4: 0.12828201       36
- 5: 0.16774405       46
- 6: 0.38628786       22
- 7: 0.40779346       46
- 8: 0.55793278       73
- 9: 0.56454980       39
-10: 0.58736979       28
-11: 0.65476392       73
-12: 0.94209469       39
-13: 0.02812504       54
-14: 0.03679419       54
-15: 0.17434758       60
-16: 0.61126820       60
+       p.value n_model_donors
+         <num>          <int>
+ 1: 0.04746638             36
+ 2: 0.11674013             22
+ 3: 0.12412395             28
+ 4: 0.12828201             36
+ 5: 0.16774405             46
+ 6: 0.38628786             22
+ 7: 0.40779346             46
+ 8: 0.55793278             73
+ 9: 0.56454980             39
+10: 0.58736979             28
+11: 0.65476392             73
+12: 0.94209469             39
+13: 0.02812504             54
+14: 0.03679419             54
+15: 0.17434758             60
+16: 0.61126820             60
 
 == descriptive AGTR1 by compartment x disease ==
       compartment disease n_donors n_cells  mean_AGTR1    sd_AGTR1 detect_AGTR1
@@ -239,7 +240,7 @@ Key: <compartment>
 16:      TRUE
 
 Reproducibility information:
-[1] "2026-09-07 13:02:11 EDT"
+[1] "2026-09-07 18:15:27 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -287,4 +288,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 13:02:14 - **** Job ends ****
+2026-09-07 18:15:31 - **** Job ends ****

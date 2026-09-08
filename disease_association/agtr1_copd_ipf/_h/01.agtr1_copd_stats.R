@@ -110,12 +110,24 @@ power <- dcast(pb[, .(n_donors = uniqueN(donor_id)), by = .(compartment, disease
 wt(power, "agtr1_copd_power_inventory.tsv")
 cat("\n== donors per compartment (>=", opt$min_cells, " cells) ==\n"); print(power)
 
-powered_copd <- power[Control >= POWERED_MIN_DONORS & COPD >= POWERED_MIN_DONORS, compartment]
-powered_ipf  <- power[Control >= POWERED_MIN_DONORS & IPF  >= POWERED_MIN_DONORS, compartment]
-cat("\npowered for COPD vs Control:", paste(powered_copd, collapse = ", "), "\n")
-cat("powered for IPF  vs Control:", paste(powered_ipf,  collapse = ", "), "\n")
-if (!"Pericyte" %in% powered_copd)
-    cat("\nNOTE: Pericyte is NOT powered here -- descriptive only, no p-value.\n")
+## THESE ARE DONOR-COUNT GATES, NOT POWER CALCULATIONS (renamed 2026-09-07, P3-14).
+## They were called `powered_*`, and the log and generated README announced
+## "Powered for COPD vs Control: ...". That word is not earned: the criterion is
+## `>= POWERED_MIN_DONORS` donors in each arm and nothing else. In four of the
+## compartments it admits, AGTR1 is IDENTICALLY ZERO in a whole arm
+## (agtr1_copd_descriptive.tsv: ATI COPD 0 and IPF 0; ATII Control 0;
+## Endothelial COPD 0; SMC Control 0), with minimum detectable effects of
+## 0.007-0.015 log units in a gene whose fibroblast group means are 0.17-0.24.
+## Real power lives in agtr1_copd_mde.tsv; this is a floor.
+has_donor_floor_copd <- power[Control >= POWERED_MIN_DONORS & COPD >= POWERED_MIN_DONORS, compartment]
+has_donor_floor_ipf  <- power[Control >= POWERED_MIN_DONORS & IPF  >= POWERED_MIN_DONORS, compartment]
+cat("\nmeets the >=", POWERED_MIN_DONORS, "-donor floor, COPD vs Control:",
+    paste(has_donor_floor_copd, collapse = ", "), "\n")
+cat("meets the >=", POWERED_MIN_DONORS, "-donor floor, IPF  vs Control:",
+    paste(has_donor_floor_ipf,  collapse = ", "), "\n")
+cat("  (a donor-count gate, NOT a power calculation -- see agtr1_copd_mde.tsv)\n")
+if (!"Pericyte" %in% has_donor_floor_copd)
+    cat("\nNOTE: Pericyte does NOT meet the donor floor -- descriptive only, no p-value.\n")
 
 ## ------------------------------------------------------------- modelling ----
 fit_one <- function(gene, comp) {
@@ -151,7 +163,12 @@ fit_one <- function(gene, comp) {
                            .SDcols = tstat]
     ctr[, `:=`(contrast = sub("^Control - ", "", contrast),
                estimate = -estimate)]
-    ctr[, `:=`(gene = gene, compartment = comp, n_donors = nrow(d),
+    ## `n_model_donors`, not `n_donors` (renamed 2026-09-07, P3-16): this is the
+    ## FULL model's donor count -- all three arms -- sitting beside a two-group
+    ## contrast label like "IPF". The per-arm counts are `n_donors_arm` and
+    ## `n_control_donors`, added below. Not a wrong number; a naming hazard, in
+    ## the table most likely to be read directly.
+    ctr[, `:=`(gene = gene, compartment = comp, n_model_donors = nrow(d),
                ci_lo = estimate - 1.96 * se, ci_hi = estimate + 1.96 * se,
                covariates = paste(covs, collapse = "+"))]
     ns <- d[, .N, by = disease]
@@ -189,7 +206,7 @@ wt(res[family == "primary"], "agtr1_copd_primary.tsv")
 cat("\n== PRIMARY family: AGTR1 in fibroblast-lineage compartments (nominal alpha) ==\n")
 print(res[family == "primary",
           .(compartment, contrast, estimate, ci_lo, ci_hi, p.value, p_BH_reference,
-            n_donors)])
+            n_model_donors)])
 ## Concordance across the two disease arms is the replication evidence that a
 ## per-test p-value does not capture: an effect present in COPD AND IPF, in the
 ## same compartment and the same direction, is a stronger signal than either
@@ -284,12 +301,21 @@ if (file.exists(opt$hlca)) {
 
 cat("\n== AGTR1, every compartment (exploratory beyond the primary family) ==\n")
 print(res[gene == PRIMARY_GENE,
-          .(compartment, contrast, estimable, estimate, ci_lo, ci_hi, p.value, n_donors)])
+          .(compartment, contrast, estimable, estimate, ci_lo, ci_hi, p.value,
+            n_model_donors)])
 
 ## ------------------------------------------- descriptive pericyte report ----
 ## No p-value. Group means, donor counts, and the effect this dataset COULD have
-## detected at 80% power given its actual n and residual SD, so "we saw nothing"
-## is separable from "we could not have seen anything".
+## detected at 80% power given its actual n, so "we saw nothing" is separable
+## from "we could not have seen anything".
+##
+## THE SD IS MARGINAL, NOT RESIDUAL (label corrected 2026-09-07, P3-15). This
+## header used to say "residual SD". `mde_80pct` below is built from
+## `sd(AGTR1__expr)` across all donors in the compartment, before any model, so
+## it includes between-group variance. Marginal >= residual, so the true MDE is
+## SMALLER than reported and this table UNDER-claims the module's sensitivity --
+## the approximation is conservative in the direction that matters. The column is
+## named `sd_log1p_cp10k` and says so.
 desc <- pb[, .(n_donors = uniqueN(donor_id), n_cells = sum(n_cells),
                mean_AGTR1 = mean(AGTR1__expr, na.rm = TRUE),
                sd_AGTR1 = sd(AGTR1__expr, na.rm = TRUE),
@@ -332,8 +358,15 @@ readme <- c(
     "pericyte contrast is reported and none should be inferred. This dataset",
     "evaluates the FIBROBLAST half of the HLCA result only.",
     "",
-    "Powered for COPD vs Control: " , paste(powered_copd, collapse = ", "),
-    "Powered for IPF vs Control: "  , paste(powered_ipf,  collapse = ", "))
+    paste0("Meets the >=", POWERED_MIN_DONORS,
+           "-donor floor for COPD vs Control: "), paste(has_donor_floor_copd, collapse = ", "),
+    paste0("Meets the >=", POWERED_MIN_DONORS,
+           "-donor floor for IPF vs Control: "),  paste(has_donor_floor_ipf,  collapse = ", "),
+    "",
+    "NOTE: that list is a DONOR-COUNT GATE, not a power calculation. Four of the",
+    "compartments it admits have AGTR1 identically zero in a whole arm (ATI COPD",
+    "and IPF; ATII Control; Endothelial COPD; SMC Control). For actual",
+    "sensitivity read agtr1_copd_mde.tsv.")
 writeLines(readme, file.path(opt$outdir, "agtr1_copd_README.txt"))
 
 cat("\nReproducibility information:\n"); Sys.time(); options(width = 120); sessioninfo::session_info()
