@@ -1,4 +1,6 @@
-test	dataset_id	n_pericyte	n_smc	detect_pericyte	detect_smc	p_value	p_BH	p_formatted
-fisher_exact_detection	48b37086-25f7-4ecd-be66-f5bb378e3aea	25	43	0.64	0	1.39018671268435e-09	1.39018671268435e-09	1.39e-09
-fisher_exact_detection	98e5ea9f-16d6-47ec-a529-686e76515e39	16	44	0.9375	0	3.0078529857016e-13	4.5117794785524e-13	3.01e-13
-mantel_haenszel_detection_stratified_by_dataset	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	41	87	0.75609756097561	0	8.38909705946658e-20	2.51672911783997e-19	<2.2e-16
+test	unit	dataset_id	n_pericyte	n_smc	detect_pericyte	detect_smc	p_value	note	p_BH	p_formatted
+fisher_exact_detection	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea	25	43	0.64	0	1.39018671268435e-09		2.31697785447392e-09	1.39e-09
+fisher_exact_detection	cell	98e5ea9f-16d6-47ec-a529-686e76515e39	16	44	0.9375	0	3.0078529857016e-13		7.519632464254e-13	3.01e-13
+mantel_haenszel_detection_stratified_by_dataset	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	41	87	0.75609756097561	0	8.38909705946658e-20		4.19454852973329e-19	<2.2e-16
+fisher_exact_detection_DONOR	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	18	22	0.833333333333333	0	2.02857178444088e-08	donors with >=1 Agtr1a+ cell; 13 donor(s) contribute to both arms and are counted in each -- see mcnemar_within_donor for the paired version	2.5357147305511e-08	2.03e-08
+mcnemar_within_donor	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	13	13	0.846153846153846	0	0.0009765625	paired over 13 donors with both cell types; discordant b=11 (pericyte+ only), c=0 (SMC+ only); exact binomial	0.0009765625	9.77e-04

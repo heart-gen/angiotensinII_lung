@@ -217,56 +217,56 @@ nP	block	pattern	program	score	rho	n_markers	panel_size	overlap	jaccard	hypergeo
 8	pattern vs program score (Spearman)	Pattern_1		synthetic_contractile_score	0.207738774373605						
 8	pattern vs program score (Spearman)	Pattern_1		activated_migratory_score	0.348550197554864						
 8	pattern vs program score (Spearman)	Pattern_1		fibroblast_like_score	0.106437293402765						
-8	pattern vs program score (Spearman)	Pattern_1		basement_membrane_score	-0.350318965785276						
+8	pattern vs program score (Spearman)	Pattern_1		basement_membrane_score	-0.382290523522678						
 8	pattern vs program score (Spearman)	Pattern_2		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_2		vascular_stabilizing_score	-0.444699273801069						
 8	pattern vs program score (Spearman)	Pattern_2		inflammatory_score	-0.447500244281373						
 8	pattern vs program score (Spearman)	Pattern_2		synthetic_contractile_score	-0.406818607908344						
 8	pattern vs program score (Spearman)	Pattern_2		activated_migratory_score	-0.400294226787595						
 8	pattern vs program score (Spearman)	Pattern_2		fibroblast_like_score	-0.378539589494732						
-8	pattern vs program score (Spearman)	Pattern_2		basement_membrane_score	0.247134516766657						
+8	pattern vs program score (Spearman)	Pattern_2		basement_membrane_score	0.343816838013262						
 8	pattern vs program score (Spearman)	Pattern_3		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_3		vascular_stabilizing_score	0.32906944415222						
 8	pattern vs program score (Spearman)	Pattern_3		inflammatory_score	0.450776650205611						
 8	pattern vs program score (Spearman)	Pattern_3		synthetic_contractile_score	0.2842652422513						
 8	pattern vs program score (Spearman)	Pattern_3		activated_migratory_score	0.417854034292747						
 8	pattern vs program score (Spearman)	Pattern_3		fibroblast_like_score	0.230672826007219						
-8	pattern vs program score (Spearman)	Pattern_3		basement_membrane_score	-0.185245986682686						
+8	pattern vs program score (Spearman)	Pattern_3		basement_membrane_score	-0.25087076337684						
 8	pattern vs program score (Spearman)	Pattern_4		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_4		vascular_stabilizing_score	0.367045892337133						
 8	pattern vs program score (Spearman)	Pattern_4		inflammatory_score	0.205938616342033						
 8	pattern vs program score (Spearman)	Pattern_4		synthetic_contractile_score	0.268349303854988						
 8	pattern vs program score (Spearman)	Pattern_4		activated_migratory_score	0.26285077032433						
 8	pattern vs program score (Spearman)	Pattern_4		fibroblast_like_score	0.418422130707207						
-8	pattern vs program score (Spearman)	Pattern_4		basement_membrane_score	0.244165554060497						
+8	pattern vs program score (Spearman)	Pattern_4		basement_membrane_score	0.190983418099029						
 8	pattern vs program score (Spearman)	Pattern_5		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_5		vascular_stabilizing_score	0.104341578906929						
 8	pattern vs program score (Spearman)	Pattern_5		inflammatory_score	0.0156391773935434						
 8	pattern vs program score (Spearman)	Pattern_5		synthetic_contractile_score	0.623094967160414						
 8	pattern vs program score (Spearman)	Pattern_5		activated_migratory_score	0.073315957738161						
 8	pattern vs program score (Spearman)	Pattern_5		fibroblast_like_score	0.0200552068827279						
-8	pattern vs program score (Spearman)	Pattern_5		basement_membrane_score	0.265001997385571						
+8	pattern vs program score (Spearman)	Pattern_5		basement_membrane_score	0.257906878398108						
 8	pattern vs program score (Spearman)	Pattern_6		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_6		vascular_stabilizing_score	0.101031872268965						
 8	pattern vs program score (Spearman)	Pattern_6		inflammatory_score	0.105658545367125						
 8	pattern vs program score (Spearman)	Pattern_6		synthetic_contractile_score	-0.0851812429702872						
 8	pattern vs program score (Spearman)	Pattern_6		activated_migratory_score	0.296595222184762						
 8	pattern vs program score (Spearman)	Pattern_6		fibroblast_like_score	0.37501173263624						
-8	pattern vs program score (Spearman)	Pattern_6		basement_membrane_score	0.0995514101539794						
+8	pattern vs program score (Spearman)	Pattern_6		basement_membrane_score	0.0678965449823781						
 8	pattern vs program score (Spearman)	Pattern_7		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_7		vascular_stabilizing_score	0.582123802900492						
 8	pattern vs program score (Spearman)	Pattern_7		inflammatory_score	0.389065087176085						
 8	pattern vs program score (Spearman)	Pattern_7		synthetic_contractile_score	0.471555431855777						
 8	pattern vs program score (Spearman)	Pattern_7		activated_migratory_score	0.273675459670893						
 8	pattern vs program score (Spearman)	Pattern_7		fibroblast_like_score	0.19090797890812						
-8	pattern vs program score (Spearman)	Pattern_7		basement_membrane_score	-0.330004395889152						
+8	pattern vs program score (Spearman)	Pattern_7		basement_membrane_score	-0.339568435426692						
 8	pattern vs program score (Spearman)	Pattern_8		anatomical_region_ccf_score							
 8	pattern vs program score (Spearman)	Pattern_8		vascular_stabilizing_score	-0.465206062162736						
 8	pattern vs program score (Spearman)	Pattern_8		inflammatory_score	-0.462300879852629						
 8	pattern vs program score (Spearman)	Pattern_8		synthetic_contractile_score	-0.427950177316196						
 8	pattern vs program score (Spearman)	Pattern_8		activated_migratory_score	-0.195402907751173						
 8	pattern vs program score (Spearman)	Pattern_8		fibroblast_like_score	-0.044947294726632						
-8	pattern vs program score (Spearman)	Pattern_8		basement_membrane_score	0.394150131626993						
+8	pattern vs program score (Spearman)	Pattern_8		basement_membrane_score	0.421256095523574						
 9	PatternMarker x panel overlap	Pattern_1	vascular_stabilizing			50	11	0	0	1	1
 9	PatternMarker x panel overlap	Pattern_1	inflammatory			50	16	0	0	1	1
 9	PatternMarker x panel overlap	Pattern_1	synthetic_contractile			50	8	0	0	1	1
@@ -336,60 +336,60 @@ nP	block	pattern	program	score	rho	n_markers	panel_size	overlap	jaccard	hypergeo
 9	pattern vs program score (Spearman)	Pattern_1		synthetic_contractile_score	-0.354729804057705						
 9	pattern vs program score (Spearman)	Pattern_1		activated_migratory_score	-0.39653957356624						
 9	pattern vs program score (Spearman)	Pattern_1		fibroblast_like_score	-0.38205583794581						
-9	pattern vs program score (Spearman)	Pattern_1		basement_membrane_score	0.276942420780561						
+9	pattern vs program score (Spearman)	Pattern_1		basement_membrane_score	0.373908166359535						
 9	pattern vs program score (Spearman)	Pattern_2		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_2		vascular_stabilizing_score	0.290936982169139						
 9	pattern vs program score (Spearman)	Pattern_2		inflammatory_score	0.460351526353786						
 9	pattern vs program score (Spearman)	Pattern_2		synthetic_contractile_score	0.259327424243543						
 9	pattern vs program score (Spearman)	Pattern_2		activated_migratory_score	0.398320327951301						
 9	pattern vs program score (Spearman)	Pattern_2		fibroblast_like_score	0.186704430151309						
-9	pattern vs program score (Spearman)	Pattern_2		basement_membrane_score	-0.208096799856196						
+9	pattern vs program score (Spearman)	Pattern_2		basement_membrane_score	-0.267037304796393						
 9	pattern vs program score (Spearman)	Pattern_3		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_3		vascular_stabilizing_score	0.257970393791913						
 9	pattern vs program score (Spearman)	Pattern_3		inflammatory_score	0.396018499391872						
 9	pattern vs program score (Spearman)	Pattern_3		synthetic_contractile_score	0.193812742969141						
 9	pattern vs program score (Spearman)	Pattern_3		activated_migratory_score	0.345383592856736						
 9	pattern vs program score (Spearman)	Pattern_3		fibroblast_like_score	0.105448697494633						
-9	pattern vs program score (Spearman)	Pattern_3		basement_membrane_score	-0.34673476976778						
+9	pattern vs program score (Spearman)	Pattern_3		basement_membrane_score	-0.377860169590236						
 9	pattern vs program score (Spearman)	Pattern_4		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_4		vascular_stabilizing_score	-0.150022665809937						
 9	pattern vs program score (Spearman)	Pattern_4		inflammatory_score	-0.0137694191042252						
 9	pattern vs program score (Spearman)	Pattern_4		synthetic_contractile_score	-0.131793686714808						
 9	pattern vs program score (Spearman)	Pattern_4		activated_migratory_score	0.0460274980317337						
 9	pattern vs program score (Spearman)	Pattern_4		fibroblast_like_score	-0.0200981303515011						
-9	pattern vs program score (Spearman)	Pattern_4		basement_membrane_score	0.156735289336151						
+9	pattern vs program score (Spearman)	Pattern_4		basement_membrane_score	0.180572097932184						
 9	pattern vs program score (Spearman)	Pattern_5		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_5		vascular_stabilizing_score	0.142006409016121						
 9	pattern vs program score (Spearman)	Pattern_5		inflammatory_score	0.0776158356173592						
 9	pattern vs program score (Spearman)	Pattern_5		synthetic_contractile_score	0.728469689095728						
 9	pattern vs program score (Spearman)	Pattern_5		activated_migratory_score	0.103452937204269						
 9	pattern vs program score (Spearman)	Pattern_5		fibroblast_like_score	0.0496866517753352						
-9	pattern vs program score (Spearman)	Pattern_5		basement_membrane_score	0.133904575132447						
+9	pattern vs program score (Spearman)	Pattern_5		basement_membrane_score	0.119552615183139						
 9	pattern vs program score (Spearman)	Pattern_6		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_6		vascular_stabilizing_score	0.261813954266931						
 9	pattern vs program score (Spearman)	Pattern_6		inflammatory_score	0.123331400141139						
 9	pattern vs program score (Spearman)	Pattern_6		synthetic_contractile_score	0.0293744775617632						
 9	pattern vs program score (Spearman)	Pattern_6		activated_migratory_score	0.311588381463153						
 9	pattern vs program score (Spearman)	Pattern_6		fibroblast_like_score	0.430332211876917						
-9	pattern vs program score (Spearman)	Pattern_6		basement_membrane_score	-0.00115881697286803						
+9	pattern vs program score (Spearman)	Pattern_6		basement_membrane_score	-0.0605123457169004						
 9	pattern vs program score (Spearman)	Pattern_7		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_7		vascular_stabilizing_score	0.327998679440115						
 9	pattern vs program score (Spearman)	Pattern_7		inflammatory_score	0.160155570242922						
 9	pattern vs program score (Spearman)	Pattern_7		synthetic_contractile_score	0.238100021446593						
 9	pattern vs program score (Spearman)	Pattern_7		activated_migratory_score	0.234325260980141						
 9	pattern vs program score (Spearman)	Pattern_7		fibroblast_like_score	0.389004681080461						
-9	pattern vs program score (Spearman)	Pattern_7		basement_membrane_score	0.303823976164781						
+9	pattern vs program score (Spearman)	Pattern_7		basement_membrane_score	0.255972780455984						
 9	pattern vs program score (Spearman)	Pattern_8		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_8		vascular_stabilizing_score	0.583327136727593						
 9	pattern vs program score (Spearman)	Pattern_8		inflammatory_score	0.386507970823512						
 9	pattern vs program score (Spearman)	Pattern_8		synthetic_contractile_score	0.443101183707603						
 9	pattern vs program score (Spearman)	Pattern_8		activated_migratory_score	0.261283634933096						
 9	pattern vs program score (Spearman)	Pattern_8		fibroblast_like_score	0.174043228801384						
-9	pattern vs program score (Spearman)	Pattern_8		basement_membrane_score	-0.338119259087602						
+9	pattern vs program score (Spearman)	Pattern_8		basement_membrane_score	-0.345022262654944						
 9	pattern vs program score (Spearman)	Pattern_9		anatomical_region_ccf_score							
 9	pattern vs program score (Spearman)	Pattern_9		vascular_stabilizing_score	-0.481498518731289						
 9	pattern vs program score (Spearman)	Pattern_9		inflammatory_score	-0.475102541805249						
 9	pattern vs program score (Spearman)	Pattern_9		synthetic_contractile_score	-0.42238107179229						
 9	pattern vs program score (Spearman)	Pattern_9		activated_migratory_score	-0.207845621313117						
 9	pattern vs program score (Spearman)	Pattern_9		fibroblast_like_score	-0.066328361413633						
-9	pattern vs program score (Spearman)	Pattern_9		basement_membrane_score	0.397308093521693						
+9	pattern vs program score (Spearman)	Pattern_9		basement_membrane_score	0.43229449343566						

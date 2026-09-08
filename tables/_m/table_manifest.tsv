@@ -1,7 +1,7 @@
 part	title	supports	n_rows	n_cols	status	file	sources
 01	Cohort and dataset characteristics	Methods; all analyses	37	26	complete	tableS01.tsv	pericyte_states/_m/pericytes_states_metadata.tsv.gz; cross_species/_m/stats_data/species_comparability_summary.tsv; disease_association/ipf_analysis/_h/sample_demo.csv; inputs/gtex/_m/gtex_v11_lung_sample_data.tsv; inputs/lungmap/_m/GSE161382_metadata.txt.gz; localization/lungmap_replication/_m/annotated_clusters_filtering_summary.tsv
 02A	Mouse lung mural-cell composition and dataset comparability	Figure S2	50	3	complete	tableS02A.tsv	cross_species/_m/stats_data/species_comparability_summary.tsv; ..._celltype_by_dataset.tsv; ..._state_by_celltype.tsv; ..._pericyte_by_donor.tsv
-02B	Within-dataset Agtr1a detection tests (pericytes vs smooth muscle)	Figure S2	3	9	complete	tableS02B.tsv	cross_species/_m/stats_data/species_comparability_agtr1a_tests.tsv
+02B	Within-dataset Agtr1a detection tests (pericytes vs smooth muscle)	Figure S2	5	11	complete	tableS02B.tsv	cross_species/_m/stats_data/species_comparability_agtr1a_tests.tsv
 02C1	Sequencing-depth dependence of raw Agtr1a detection in mouse pericytes	Figure S2; Results (cross-species)	6	12	complete	tableS02C1.tsv	cross_species/_m/stats_data/species_comparability_pericyte_cells.tsv
 02C2	Receptor specificity of the mouse mural signal (Agtr1a/Agtr1b/Agtr2, raw vs scVI)	Figure S2	18	6	complete	tableS02C2.tsv	cross_species/_m/stats_data/species_comparability_agtr1a_by_layer.tsv
 03	Curated pericyte program gene sets	Figure 2; Figure 3; Methods	157	12	complete	tableS03.tsv	pericyte_states/_h/00.state_discovery.py (STATE_PANELS); basement_membrane/_h/bm_panels.py; pericyte_states/_m/pericyte_states.h5ad
@@ -25,22 +25,22 @@ part	title	supports	n_rows	n_cols	status	file	sources
 09D	Subpanel robustness of the basement-membrane program assignment	Figure 3H	37	24	complete	tableS09D.tsv	basement_membrane/_m/state_gate_robustness.tsv; basement_membrane/_m/state_gate_{crosstab,relenrich,summary}.tsv
 09E	Associations of the two matrix programs with AGTR1 and TGF-beta signalling	Figure S17B; Figure S17C	48	22	complete	tableS09E.tsv	basement_membrane/_m/stats_data/bm_vs_agtr1_{models,within_donor}.tsv; basement_membrane/_m/stats_data/bm_vs_tgfb_{models,within_donor}.tsv
 10A	NicheNet ligand prioritization for the pericyte injury program	Figure 4	321	15	complete	tableS10A.tsv	cell_communication/_m/nichenet/ligand_activities_Pericytes.tsv; cell_communication/_m/expressed_fraction_per_group.tsv.gz; cell_communication/_m/liana_into_receivers_main.tsv.gz
-10B	Matched-gene-set specificity of the prioritized ligands (injury target set)	Figure S8A-B	25	12	complete	tableS10B.tsv	cell_communication/_m/nichenet/nichenet_specificity_Pericytes.tsv
-10C	Donor-level validation of the predicted sender-to-pericyte association	Figure 4D; Figure S8C	6	15	complete	tableS10C.tsv	cell_communication/_m/donor_validation/donor_validation_results.tsv
-10D	Robustness of ligand prioritization to the definition of the receiver population	Figure S9A-C	2879	17	complete	tableS10D.tsv	cell_communication/_m/receiver_concordance/*.tsv
+10B	Matched-gene-set specificity of the prioritized ligands (injury target set)	Figure S8A-B	25	16	complete	tableS10B.tsv	cell_communication/_m/nichenet/nichenet_specificity_Pericytes.tsv
+10C	Donor-level validation of the predicted sender-to-pericyte association	Figure 4D; Figure S8C	10	16	complete	tableS10C.tsv	cell_communication/_m/donor_validation/donor_validation_results.tsv
+10D	Robustness of ligand prioritization to the definition of the receiver population	Figure S9A-C	3273	19	complete	tableS10D.tsv	cell_communication/_m/receiver_concordance/*.tsv
 11A	Ligand prioritization against the basement-membrane target set	Figure S9D	321	19	complete	tableS11A.tsv	basement_membrane/_m/nichenet_bm/ligand_activities_BM_Pericytes.tsv; basement_membrane/_m/nichenet_bm/bm_vs_frozen_ligand_ranking.tsv
 11B	Comparison of basement-membrane and injury-program ligand rankings	Figure S9D	7	2	complete	tableS11B.tsv	basement_membrane/_m/nichenet_bm/bm_vs_frozen_ligand_ranking.tsv
 11C	Full ligand-to-basement-membrane-target regulatory-potential matrix	Figure S9D	3852	11	complete	tableS11C.tsv	basement_membrane/_m/nichenet_bm/ligand_target_matrix_BM_Pericytes.tsv; basement_membrane/_m/nichenet_bm/ligand_target_links_BM_Pericytes.tsv
 11D	Ligand prioritization toward basement-membrane versus fibrillar-collagen targets	Figure S17C	321	13	complete	tableS11D.tsv	basement_membrane/_m/nichenet_bm/ligand_activities_BM_Pericytes.tsv; basement_membrane/_m/nichenet_fibrillar/ligand_activities_FIB_Pericytes.tsv
 12A	Cell-type expression landscape of the local lung renin-angiotensin machinery	Figure S10	396	17	complete	tableS12A.tsv	agt_axis/_m/stats_data/ras_celltype_profile.tsv; agt_axis/_h/ras_panel.tsv; agt_axis/_m/ras_pseudobulk_celltype.tsv.gz
 12B	Circuit-role classification: completeness of the angiotensin II axis per cell type	Figure S10	22	16	complete	tableS12B.tsv	agt_axis/_m/stats_data/ras_circuit_completeness.tsv
-12C	AGT rank stability, ligand coexpression, and predicted-target overlap	Results (local RAS); cited in place of Figure S10	114	33	complete	tableS12C.tsv	agt_axis/_m/stats_data/agt_ligand_rank_bootstrap.tsv; agt_axis/_m/stats_data/agt_ligand_coexpression.tsv; agt_axis/_m/stats_data/agt_target_overlap.tsv
+12C	AGT rank stability, ligand coexpression, and predicted-target overlap	Results (local RAS); cited in place of Figure S10	114	38	complete	tableS12C.tsv	agt_axis/_m/stats_data/agt_ligand_rank_bootstrap.tsv; agt_axis/_m/stats_data/agt_ligand_coexpression.tsv; agt_axis/_m/stats_data/agt_target_overlap.tsv
 13A	Analysis cohorts and denominators for the disease models	Figure 5; Figure S11	6	21	complete	tableS13A.tsv	pericyte_states/_m/pericytes_states_metadata.tsv.gz; disease_association/_m/mixed_model_forest/smoking_availability_by_disease.tsv
 13B	Six stable cluster fractions by disease group	Figure S11	108	26	complete	tableS13B.tsv	pericyte_states/_m/stats_data/composition_state_*
 13C	Three dominant-program fractions by disease group	Figure S11	54	26	complete	tableS13C.tsv	pericyte_states/_m/stats_data/composition_program_*
-13D	Grouped injury-associated state fraction by disease group	Figure S11	16	21	complete	tableS13D.tsv	pericyte_states/_m/stats_data/injury_fraction_*
+13D	Grouped injury-associated state fraction by disease group	Figure S11	16	26	complete	tableS13D.tsv	pericyte_states/_m/stats_data/injury_fraction_*
 13E	Primary injury-stromal disease model	Figure 5A	31	35	complete	tableS13E.tsv	niche_index/_m/stats_data/injury_stromal_score_*
 13F	Receptor-inclusive sensitivity composite (injury-stromal score + AGTR1+ fraction)	Figure S12	31	35	complete	tableS13F.tsv	niche_index/_m/stats_data/injury_stromal_score_sens_agtr1_*
-14A	Leave-one-dataset-out robustness of the donor-level disease effects	Figure S12	96	19	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
+14A	Leave-one-dataset-out robustness of the donor-level disease effects	Figure S12	76	22	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
 14B	Net niche-stability index by disease group	Figure S12	62	35	complete	tableS14B.tsv	niche_index/_m/stats_data/niche_index_*
-14C	Smoking-data availability and covariate robustness	Figure S12	68	17	complete	tableS14C.tsv	sensitivity/_m/stats_data/*.tsv
+14C	Smoking-data availability and covariate robustness	Figure S12	68	21	complete	tableS14C.tsv	sensitivity/_m/stats_data/*.tsv
