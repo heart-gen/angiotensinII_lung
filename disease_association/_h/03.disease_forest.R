@@ -139,8 +139,13 @@ cat("non-injury (tested, not composited) score columns:\n"); print(CTRL_COLS)
 cat("excluded by design: basement_membrane (own disease arm in basement_membrane/)\n")
 
 ## `disease` is carried so the carcinoma exclusion below can be applied here too.
-need <- c("donor_id", "dataset", "lung_condition", "age", "sex", "smoking_status",
-          "disease")
+## `study` is carried for the leave-one-STUDY-out arm (P2-8, added 2026-09-07):
+## 5 of the 25 studies span more than one dataset (Sun_2020 x4, Regev_2021 x3,
+## Meyer_2021 / Thienpont_2018 / Lafyatis_Rojas_2019 x2), so a dataset drop
+## cannot remove those cohorts. The random effect stays `(1 | dataset)`; only the
+## leave-one-out grouping gains a study-level arm.
+need <- c("donor_id", "dataset", "study", "lung_condition", "age", "sex",
+          "smoking_status", "disease")
 have <- intersect(need, names(meta))
 first_ok <- function(x) { y <- x[!is.na(x)]; if (length(y)) y[[1]] else x[NA_integer_] }
 
@@ -159,6 +164,7 @@ donor[, disease_group := relevel(factor(map_disease_group(lung_condition)), "Hea
 donor[, sex := factor(sex)]
 donor[, age := suppressWarnings(as.numeric(age))]
 donor[, dataset := factor(dataset)]
+if ("study" %in% names(donor)) donor[, study := factor(study)]
 
 ## ---- attrition + confounding tables (report BEFORE filtering) ---------------
 attr_all <- dcast(donor, dataset ~ disease_group, fun.aggregate = length, value.var = "donor_id")
@@ -426,22 +432,39 @@ cat("\n== THREE-GROUP component effects (each program separately) ==\n"); print(
 ## changes the study random effect and the Other arm, so they are legitimate
 ## refits). The z columns are held FIXED at their full-set values so every refit
 ## is on one scale.
-loso <- rbindlist(lapply(levels(droplevels(tri$dataset)), function(ds) {
-    d <- tri[dataset != ds]
+## GROUPING FIXED 2026-09-07 (P2-8). This looped over `dataset` while writing
+## `leave_one_study_out_3group.tsv`. Five studies span more than one dataset, so
+## dropping a dataset leaves the rest of its study in the fit and cannot answer
+## "is this carried by one cohort?". Both arms are now emitted under names that
+## say what they drop; the study-level arm is the primary.
+## factor() rather than droplevels(): `dataset` is coerced to a factor upstream
+## but `study` is not, and droplevels() has no character method.
+loso_by <- function(by) rbindlist(lapply(levels(droplevels(factor(tri[[by]]))), function(g) {
+    d <- tri[get(by) != g]
     d[, disease_group := droplevels(disease_group)]
     if (!all(c("Healthy", "Fibrotic_ILD") %in% levels(d$disease_group))) return(NULL)
     if (d[disease_group == "Healthy", .N] < 3 || d[disease_group == "Fibrotic_ILD", .N] < 3)
         return(NULL)
     r <- summ_tri(fit_tri("injury_program_score", d), "injury_program_score")$contrasts
     r <- r[grepl("Fibrotic", contrast)]
-    r[, `:=`(dropped_dataset = ds,
-             n_dropped = tri[dataset == ds, .N])][]
+    r[, `:=`(dropped = g, dropped_level = by, n_dropped = tri[get(by) == g, .N],
+             n_studies_left = uniqueN(d$dataset), n_left = nrow(d))]
+    setnames(r, "dropped", paste0("dropped_", by))
+    r[]
 }), fill = TRUE)
-setcolorder(loso, c("dropped_dataset", "n_dropped", "contrast", "estimate", "se",
+
+loso        <- loso_by("study")
+loso_datset <- loso_by("dataset")
+setcolorder(loso, c("dropped_study", "n_dropped", "contrast", "estimate", "se",
                     "ci_lo", "ci_hi"))
+setcolorder(loso_datset, c("dropped_dataset", "n_dropped", "contrast", "estimate", "se",
+                           "ci_lo", "ci_hi"))
 wt(loso, "leave_one_study_out_3group.tsv")
-cat(sprintf("\n== LOSO (three-group model, Fibrotic - Healthy): %d refits, %d with P < 0.05 ==\n",
+wt(loso_datset, "leave_one_dataset_out_3group.tsv")
+cat(sprintf("\n== LOSO (three-group, Fibrotic - Healthy): %d STUDY-level refits, %d with P < 0.05 ==\n",
             nrow(loso), sum(loso$p.value < 0.05)))
+cat(sprintf("   (dataset-level arm: %d refits, %d with P < 0.05 -> leave_one_dataset_out_3group.tsv)\n",
+            nrow(loso_datset), sum(loso_datset$p.value < 0.05)))
 cat(sprintf("   estimate range %.3f to %.3f (full-data %.3f)\n",
             min(loso$estimate), max(loso$estimate),
             r_tri$contrasts[grepl("Fibrotic", contrast), estimate]))

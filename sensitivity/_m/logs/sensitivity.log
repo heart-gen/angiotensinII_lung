@@ -1,16 +1,28 @@
-2026-09-07 21:57:21 - **** Job starts ****
-Job id: 45478166
+2026-09-07 23:19:30 - **** Job starts ****
+Job id: 45484846
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-07 21:57:31 - **** Confounder sensitivity analyses ****
+2026-09-07 23:19:34 - **** Confounder sensitivity analyses ****
 donors: 89 | studies: 18 | datasets: 23 
 
      Healthy         COPD Fibrotic_ILD        Other 
           42            1           24           22 
+WITHHELD injury_frac/base: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD injury_frac/smoking: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD injury_frac/comorbid: 2 of 2 marginal means (arm cannot estimate Healthy vs Fibrotic_ILD (Healthy=14;Other=1))
+WITHHELD niche_index/base: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD niche_index/smoking: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD niche_index/comorbid: 2 of 2 marginal means (arm cannot estimate Healthy vs Fibrotic_ILD (Healthy=14;Other=1))
+WITHHELD injury_stromal_score/base: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD injury_stromal_score/smoking: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD injury_stromal_score/comorbid: 2 of 2 marginal means (arm cannot estimate Healthy vs Fibrotic_ILD (Healthy=14;Other=1))
+WITHHELD AGTR1_pos_frac/base: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD AGTR1_pos_frac/smoking: 1 of 4 marginal means (group has 1 donor(s), floor is 3)
+WITHHELD AGTR1_pos_frac/comorbid: 2 of 2 marginal means (arm cannot estimate Healthy vs Fibrotic_ILD (Healthy=14;Other=1))
 
 == smoking main effect: pairwise contrasts (P2-10) ==
  contrast          estimate        SE    df t.ratio p.value
@@ -56,8 +68,10 @@ donors: 89 | studies: 18 | datasets: 23
 Results are averaged over the levels of: sex 
 Degrees-of-freedom method: kenward-roger 
 
+LOSO refits (P2-8): 72 study-level over 18 studies, 92 dataset-level over 23 datasets
+
 Reproducibility information:
-[1] "2026-09-07 21:57:47 EDT"
+[1] "2026-09-07 23:19:45 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -128,4 +142,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 21:57:48 - **** Job ends ****
+2026-09-07 23:19:46 - **** Job ends ****

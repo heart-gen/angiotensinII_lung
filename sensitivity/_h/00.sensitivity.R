@@ -116,13 +116,67 @@ covariate_robustness <- function(resp) {
         e <- as.data.frame(emmeans(fit, ~ disease_group))
         e$model <- m; e$response <- resp; e$n <- nrow(dm)
         e$n_dropped_vs_base <- n_base - nrow(dm); e$restriction <- a$note
-        e$n_donors_group <- paste(names(table(dm$disease_group)),
-                                  as.integer(table(dm$disease_group)),
+        grp_n <- table(dm$disease_group)
+        e$n_donors_group <- paste(names(grp_n), as.integer(grp_n),
                                   sep = "=", collapse = ";")
+
+        ## ---- NON-ESTIMABLE GUARD (P2-9, added 2026-09-07) -----------------
+        ## Announcing a restriction in a `restriction` column was not enough: the
+        ## `+BMI` arm still printed an "Other" marginal mean of 2.023 from ONE
+        ## donor, and a number on the page is what gets quoted. Values that
+        ## cannot support quotation are now blanked to NA and the reason is
+        ## carried in the row, so a reader cannot reach the estimate at all.
+        e$n_group <- as.integer(grp_n[as.character(e$disease_group)])
+        reason <- rep(NA_character_, nrow(e))
+
+        ## (a) row-level: a marginal mean from < MIN_GROUP donors is not a result.
+        reason[e$n_group < MIN_GROUP_DONORS] <-
+            sprintf("group has %d donor(s), floor is %d",
+                    e$n_group[e$n_group < MIN_GROUP_DONORS], MIN_GROUP_DONORS)
+
+        ## (b) arm-level: this block exists to re-estimate the Healthy-vs-Fibrotic
+        ## contrast under extra covariates. An arm that cannot see both arms of
+        ## that contrast is not a robustness check of it, whatever its other
+        ## groups look like, so the whole arm is withheld.
+        ok_contrast <- all(c("Healthy", "Fibrotic_ILD") %in% names(grp_n)) &&
+            all(grp_n[c("Healthy", "Fibrotic_ILD")] >= MIN_GROUP_DONORS)
+        if (!ok_contrast)
+            reason <- sprintf("arm cannot estimate Healthy vs Fibrotic_ILD (%s)",
+                              e$n_donors_group)
+
+        ## (c) identification: if only ONE level of an added covariate contains
+        ## more than one disease group, the disease contrast is identified inside
+        ## that level alone rather than adjusted for the covariate. Computed, not
+        ## assumed, so it keeps reporting the truth if the metadata changes.
+        cov_extra <- setdiff(a$terms, c("disease_group", "sex", "(1 | study)"))
+        ## dm may be a data.table, where dm[chr] is a join rather than a column
+        ## subset -- select one column at a time.
+        cov_extra <- cov_extra[cov_extra %in% names(dm)]
+        cov_extra <- cov_extra[!vapply(cov_extra, function(cv) is.numeric(dm[[cv]]), logical(1))]
+        ident <- vapply(cov_extra, function(cv) {
+            tb <- table(dm[[cv]], dm$disease_group) > 0
+            sum(rowSums(tb) > 1) <= 1
+        }, logical(1))
+        e$identified_within_one_level <- if (length(ident)) paste(
+            names(ident)[ident], collapse = ",") else NA_character_
+        e$identified_within_one_level[!nzchar(e$identified_within_one_level)] <- NA
+
+        e$non_estimable <- !is.na(reason)
+        e$non_estimable_reason <- reason
+        for (cl in intersect(c("emmean", "SE", "df", "lower.CL", "upper.CL",
+                               "asymp.LCL", "asymp.UCL"), names(e)))
+            e[[cl]][e$non_estimable] <- NA_real_
+        if (any(e$non_estimable))
+            cat(sprintf("WITHHELD %s/%s: %d of %d marginal means (%s)\n", resp, m,
+                        sum(e$non_estimable), nrow(e), reason[which(e$non_estimable)[1]]))
         e
     })
     bind_rows(rows)
 }
+## Floor for quoting a marginal mean. Three donors is not a defensible estimate
+## either, but it is the point below which the mean IS the donor.
+MIN_GROUP_DONORS <- 3L
+
 cov_res <- bind_rows(lapply(RESPONSES, covariate_robustness))
 write_tsv_safe(cov_res, file.path(outdir, "covariate_robustness_emmeans.tsv"))
 
@@ -208,18 +262,33 @@ write_tsv_safe(smk_main_ct, file.path(outdir, "smoking_main_effect_contrasts.tsv
 cat("\n== smoking main effect: pairwise contrasts (P2-10) ==\n")
 print(smk_main_ct)
 
-## ---- (3) leave-one-study-out (LOSO) -------------------------------------
-## Refits the PRIMARY model with one dataset removed. `age` is deliberately NOT a
-## drop_na target here: requiring it would silently make every LOSO refit a
-## different, age-restricted analysis than the effect being tested.
-loso <- function(resp = "injury_stromal_score") {
+## ---- (3) leave-one-out refits ------------------------------------------
+## GROUPING FIXED 2026-09-07 (P2-8). This block looped over `dataset` while
+## writing `leave_one_study_out.tsv` -- a filename that contradicted the column
+## inside it. The distinction is not cosmetic: 18 studies are split across 23
+## datasets here, and five studies (Sun_2020, Thienpont_2018, Lafyatis_Rojas_2019,
+## Meyer_2021, Regev_2021) contribute more than one. Dropping one dataset leaves
+## the rest of its study in the fit, so for those five the analysis could not
+## test the objection it exists to answer -- "is this effect carried by one
+## cohort?" -- no matter how many refits it ran.
+##
+## Both groupings are now emitted, because they answer different questions:
+##   study-level   -> leave_one_study_out.tsv   (cohort robustness; the PRIMARY)
+##   dataset-level -> leave_one_dataset_out.tsv (batch robustness; the old arm)
+##
+## `age` is deliberately NOT a drop_na target here: requiring it would silently
+## make every refit a different, age-restricted analysis than the effect tested.
+loso <- function(resp = "injury_stromal_score", by = "study") {
     d <- donor |> tidyr::drop_na(all_of(resp), sex, dataset, study) |>
         mutate(disease_group = droplevels(disease_group))
     if (!"Fibrotic_ILD" %in% levels(d$disease_group)) return(NULL)
-    out <- lapply(levels(droplevels(d$dataset)), function(ds) {
-        sub <- d |> filter(dataset != ds) |>
+    out <- lapply(levels(droplevels(d[[by]])), function(g) {
+        sub <- d |> filter(.data[[by]] != g) |>
             mutate(disease_group = droplevels(disease_group), study = droplevels(study))
         if (!all(c("Healthy", "Fibrotic_ILD") %in% levels(sub$disease_group))) return(NULL)
+        ## A study random effect needs >= 2 remaining studies. Dropping a whole
+        ## study can take the fit below that where dropping a dataset would not,
+        ## so this guard bites harder on the study-level arm -- by design.
         if (dplyr::n_distinct(sub$study) < 2) return(NULL)
         fit <- try(suppressMessages(lmerTest::lmer(
             reformulate(c("disease_group", "sex", "(1 | study)"), resp), data = sub)),
@@ -228,16 +297,28 @@ loso <- function(resp = "injury_stromal_score") {
         ct   <- summary(fit)$coefficients
         term <- grep("Fibrotic_ILD", rownames(ct), value = TRUE)[1]
         if (is.na(term)) return(NULL)
-        data.frame(dropped_dataset = ds, response = resp, n = nrow(sub),
-                   n_studies = dplyr::n_distinct(sub$study),
-                   estimate = ct[term, "Estimate"], se = ct[term, "Std. Error"],
-                   p = ct[term, ncol(ct)],
-                   singular = lme4::isSingular(fit),
-                   model = "lmer(~ disease_group + sex + (1 | study))")
+        r <- data.frame(dropped = g, dropped_level = by, response = resp,
+                        n = nrow(sub), n_dropped = sum(d[[by]] == g, na.rm = TRUE),
+                        n_studies = dplyr::n_distinct(sub$study),
+                        n_datasets = dplyr::n_distinct(sub$dataset),
+                        estimate = ct[term, "Estimate"], se = ct[term, "Std. Error"],
+                        p = ct[term, ncol(ct)],
+                        singular = lme4::isSingular(fit),
+                        model = "lmer(~ disease_group + sex + (1 | study))")
+        ## Keep the historical column name on each arm so downstream readers bind
+        ## to something that says what was actually dropped.
+        names(r)[names(r) == "dropped"] <- paste0("dropped_", by)
+        r
     })
     bind_rows(out)
 }
-write_tsv_safe(bind_rows(lapply(RESPONSES, loso)), file.path(outdir, "leave_one_study_out.tsv"))
+loso_study   <- bind_rows(lapply(RESPONSES, loso, by = "study"))
+loso_dataset <- bind_rows(lapply(RESPONSES, loso, by = "dataset"))
+write_tsv_safe(loso_study,   file.path(outdir, "leave_one_study_out.tsv"))
+write_tsv_safe(loso_dataset, file.path(outdir, "leave_one_dataset_out.tsv"))
+cat(sprintf("\nLOSO refits (P2-8): %d study-level over %d studies, %d dataset-level over %d datasets\n",
+            nrow(loso_study), dplyr::n_distinct(donor$study),
+            nrow(loso_dataset), dplyr::n_distinct(donor$dataset)))
 
 writeLines(c(
     "Sensitivity summary:",
@@ -251,7 +332,12 @@ writeLines(c(
             if (length(estimable_strata)) paste(estimable_strata, collapse = ",") else "none"),
     "  donors that carry a smoking label (smoking_main_effect_healthy.tsv); smoking_stratified_injury.tsv",
     "  is expected to be empty under the current metadata.",
-    "- Leave-one-study-out stability of the Fibrotic_ILD effect in leave_one_study_out.tsv.",
+    "- Leave-one-STUDY-out stability of the Fibrotic_ILD effect in leave_one_study_out.tsv",
+    "  (column `dropped_study`). This is the cohort-robustness arm and is PRIMARY.",
+    "- Leave-one-DATASET-out in leave_one_dataset_out.tsv (column `dropped_dataset`).",
+    "  Batch robustness only: 5 studies span >1 dataset, so a dataset drop leaves the",
+    "  rest of that study in the fit and cannot remove a cohort. Changed 2026-09-07 (P2-8);",
+    "  before that date the dataset-level arm was written under the study-level filename.",
     "- LIMITATION: HLCA lacks medication metadata; ARB/ACEi use cannot be adjusted for here."),
     file.path(outdir, "sensitivity_README.txt"))
 

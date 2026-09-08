@@ -8,5 +8,10 @@ Sensitivity summary:
   (estimable strata: none). The smoking signal is instead summarized as a main effect among
   donors that carry a smoking label (smoking_main_effect_healthy.tsv); smoking_stratified_injury.tsv
   is expected to be empty under the current metadata.
-- Leave-one-study-out stability of the Fibrotic_ILD effect in leave_one_study_out.tsv.
+- Leave-one-STUDY-out stability of the Fibrotic_ILD effect in leave_one_study_out.tsv
+  (column `dropped_study`). This is the cohort-robustness arm and is PRIMARY.
+- Leave-one-DATASET-out in leave_one_dataset_out.tsv (column `dropped_dataset`).
+  Batch robustness only: 5 studies span >1 dataset, so a dataset drop leaves the
+  rest of that study in the fit and cannot remove a cohort. Changed 2026-09-07 (P2-8);
+  before that date the dataset-level arm was written under the study-level filename.
 - LIMITATION: HLCA lacks medication metadata; ARB/ACEi use cannot be adjusted for here.

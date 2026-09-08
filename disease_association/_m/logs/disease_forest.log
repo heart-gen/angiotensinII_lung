@@ -1,6 +1,6 @@
-2026-09-07 21:56:46 - **** Job starts ****
-Job id: 45478154
-Hostname: r227
+2026-09-07 23:17:20 - **** Job starts ****
+Job id: 45484778
+Hostname: r234
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -171,83 +171,66 @@ In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
  9: LMM (1|dataset)
 10: LMM (1|dataset)
 
-== LOSO (three-group model, Fibrotic - Healthy): 22 refits, 21 with P < 0.05 ==
+== LOSO (three-group, Fibrotic - Healthy): 17 STUDY-level refits, 16 with P < 0.05 ==
+   (dataset-level arm: 22 refits, 21 with P < 0.05 -> leave_one_dataset_out_3group.tsv)
    estimate range 0.562 to 1.040 (full-data 0.751)
-          dropped_dataset n_dropped               contrast  estimate        se
+            dropped_study n_dropped               contrast  estimate        se
                    <char>     <int>                 <char>     <num>     <num>
  1:         Sheppard_2020         8 Fibrotic_ILD - Healthy 0.5624613 0.3060759
  2:         Budinger_2020         3 Fibrotic_ILD - Healthy 0.6643478 0.2166969
- 3: Banovich_Kropski_2020        15 Fibrotic_ILD - Healthy 0.6773869 0.2343690
- 4:         Lafyatis_2019         4 Fibrotic_ILD - Healthy 0.7222225 0.2210505
- 5:     Regev_2021_Nuclei        12 Fibrotic_ILD - Healthy 0.7278755 0.2234471
+ 3:            Regev_2021        14 Fibrotic_ILD - Healthy 0.6700150 0.2285416
+ 4: Banovich_Kropski_2020        15 Fibrotic_ILD - Healthy 0.6773869 0.2343690
+ 5:         Lafyatis_2019         4 Fibrotic_ILD - Healthy 0.7222225 0.2210505
  6:    Peer_Massague_2020         1 Fibrotic_ILD - Healthy 0.7284911 0.2243741
- 7:       Sun_2020_batch4         3 Fibrotic_ILD - Healthy 0.7413368 0.2166141
- 8:     Meyer_2021_5prime         4 Fibrotic_ILD - Healthy 0.7450472 0.2154115
- 9:       Regev_2021_Cryo         2 Fibrotic_ILD - Healthy 0.7463138 0.2205237
-10:         Misharin_2021         2 Fibrotic_ILD - Healthy 0.7467664 0.2161895
-11:         Schiller_2021         2 Fibrotic_ILD - Healthy 0.7476128 0.2193458
-12:     Meyer_2021_3prime         1 Fibrotic_ILD - Healthy 0.7482967 0.2178879
-13:             Eils_2020         3 Fibrotic_ILD - Healthy 0.7489840 0.2210265
-14:       Sun_2020_batch2         2 Fibrotic_ILD - Healthy 0.7493725 0.2145622
-15:       Sun_2020_batch3         3 Fibrotic_ILD - Healthy 0.7506608 0.2144398
-16:           Tata_unpubl         1 Fibrotic_ILD - Healthy 0.7516519 0.2170115
-17:       Sun_2020_batch1         1 Fibrotic_ILD - Healthy 0.7541717 0.2151173
-18:          Krasnow_2020         3 Fibrotic_ILD - Healthy 0.7554461 0.2203851
-19:            Meyer_2019         1 Fibrotic_ILD - Healthy 0.7574258 0.2157894
-20:  Duong_lungMAP_unpubl         1 Fibrotic_ILD - Healthy 0.7608270 0.2142908
-21:         Kaminski_2020         6 Fibrotic_ILD - Healthy 0.7648141 0.2230776
-22:         Schiller_2020         5 Fibrotic_ILD - Healthy 1.0404132 0.2529188
-          dropped_dataset n_dropped               contrast  estimate        se
+ 7:            Meyer_2021         5 Fibrotic_ILD - Healthy 0.7421092 0.2164181
+ 8:              Sun_2020         9 Fibrotic_ILD - Healthy 0.7463084 0.2090001
+ 9:         Misharin_2021         2 Fibrotic_ILD - Healthy 0.7467664 0.2161895
+10:         Schiller_2021         2 Fibrotic_ILD - Healthy 0.7476128 0.2193458
+11:             Eils_2020         3 Fibrotic_ILD - Healthy 0.7489840 0.2210265
+12:           Tata_unpubl         1 Fibrotic_ILD - Healthy 0.7516519 0.2170115
+13:          Krasnow_2020         3 Fibrotic_ILD - Healthy 0.7554461 0.2203851
+14:            Meyer_2019         1 Fibrotic_ILD - Healthy 0.7574258 0.2157894
+15:  Duong_lungMAP_unpubl         1 Fibrotic_ILD - Healthy 0.7608270 0.2142908
+16:         Kaminski_2020         6 Fibrotic_ILD - Healthy 0.7648141 0.2230776
+17:         Schiller_2020         5 Fibrotic_ILD - Healthy 1.0404132 0.2529188
           ci_lo    ci_hi       df  t.ratio      p.value             response
           <num>    <num>    <num>    <num>        <num>               <char>
  1: -0.03744751 1.162370 66.97437 1.837653 0.0705495856 injury_program_score
  2:  0.23962193 1.089074 74.07880 3.065793 0.0030289267 injury_program_score
- 3:  0.21802356 1.136750 58.98715 2.890257 0.0053790274 injury_program_score
- 4:  0.28896357 1.155482 67.24676 3.267229 0.0017120154 injury_program_score
- 5:  0.28991911 1.165832 65.44567 3.257484 0.0017834659 injury_program_score
+ 3:  0.22207355 1.117956 63.32867 2.931699 0.0046859147 injury_program_score
+ 4:  0.21802356 1.136750 58.98715 2.890257 0.0053790274 injury_program_score
+ 5:  0.28896357 1.155482 67.24676 3.267229 0.0017120154 injury_program_score
  6:  0.28871782 1.168264 74.19017 3.246770 0.0017534089 injury_program_score
- 7:  0.31677307 1.165901 73.68874 3.422384 0.0010163964 injury_program_score
- 8:  0.32284063 1.167254 72.77299 3.458716 0.0009108176 injury_program_score
- 9:  0.31408748 1.178540 74.80855 3.384280 0.0011389958 injury_program_score
-10:  0.32303495 1.170498 74.92748 3.454221 0.0009115763 injury_program_score
-11:  0.31769501 1.177531 74.97844 3.408375 0.0010544166 injury_program_score
-12:  0.32123653 1.175357 76.03275 3.434321 0.0009649947 injury_program_score
-13:  0.31577194 1.182196 74.00523 3.388661 0.0011285909 injury_program_score
-14:  0.32883065 1.169914 74.99452 3.492566 0.0008058119 injury_program_score
-15:  0.33035879 1.170963 74.21062 3.500567 0.0007892884 injury_program_score
-16:  0.32630934 1.176994 76.21993 3.463650 0.0008776169 injury_program_score
-17:  0.33254180 1.175802 76.63172 3.505863 0.0007641608 injury_program_score
-18:  0.32349127 1.187401 74.25494 3.427845 0.0009955161 injury_program_score
-19:  0.33447863 1.180373 76.44816 3.510024 0.0007548006 injury_program_score
-20:  0.34081703 1.180837 76.75863 3.550442 0.0006606813 injury_program_score
-21:  0.32758200 1.202046 71.07559 3.428467 0.0010135975 injury_program_score
-22:  0.54469239 1.536134 72.99813 4.113626 0.0001010443 injury_program_score
-          ci_lo    ci_hi       df  t.ratio      p.value             response
-        n covars           model
-    <int> <char>          <char>
- 1:    75    sex LMM (1|dataset)
- 2:    80    sex LMM (1|dataset)
- 3:    68    sex LMM (1|dataset)
- 4:    79    sex LMM (1|dataset)
- 5:    71    sex LMM (1|dataset)
- 6:    82    sex LMM (1|dataset)
- 7:    80    sex LMM (1|dataset)
- 8:    79    sex LMM (1|dataset)
- 9:    81    sex LMM (1|dataset)
-10:    81    sex LMM (1|dataset)
-11:    81    sex LMM (1|dataset)
-12:    82    sex LMM (1|dataset)
-13:    80    sex LMM (1|dataset)
-14:    81    sex LMM (1|dataset)
-15:    80    sex LMM (1|dataset)
-16:    82    sex LMM (1|dataset)
-17:    82    sex LMM (1|dataset)
-18:    80    sex LMM (1|dataset)
-19:    82    sex LMM (1|dataset)
-20:    82    sex LMM (1|dataset)
-21:    77    sex LMM (1|dataset)
-22:    78    sex LMM (1|dataset)
-        n covars           model
+ 7:  0.31792976 1.166289 71.86037 3.429053 0.0010065934 injury_program_score
+ 8:  0.33666819 1.155949 68.84997 3.570852 0.0006542436 injury_program_score
+ 9:  0.32303495 1.170498 74.92748 3.454221 0.0009115763 injury_program_score
+10:  0.31769501 1.177531 74.97844 3.408375 0.0010544166 injury_program_score
+11:  0.31577194 1.182196 74.00523 3.388661 0.0011285909 injury_program_score
+12:  0.32630934 1.176994 76.21993 3.463650 0.0008776169 injury_program_score
+13:  0.32349127 1.187401 74.25494 3.427845 0.0009955161 injury_program_score
+14:  0.33447863 1.180373 76.44816 3.510024 0.0007548006 injury_program_score
+15:  0.34081703 1.180837 76.75863 3.550442 0.0006606813 injury_program_score
+16:  0.32758200 1.202046 71.07559 3.428467 0.0010135975 injury_program_score
+17:  0.54469239 1.536134 72.99813 4.113626 0.0001010443 injury_program_score
+        n covars           model dropped_level n_studies_left n_left
+    <int> <char>          <char>        <char>          <int>  <int>
+ 1:    75    sex LMM (1|dataset)         study             21     75
+ 2:    80    sex LMM (1|dataset)         study             21     80
+ 3:    69    sex LMM (1|dataset)         study             20     69
+ 4:    68    sex LMM (1|dataset)         study             21     68
+ 5:    79    sex LMM (1|dataset)         study             21     79
+ 6:    82    sex LMM (1|dataset)         study             21     82
+ 7:    78    sex LMM (1|dataset)         study             20     78
+ 8:    74    sex LMM (1|dataset)         study             18     74
+ 9:    81    sex LMM (1|dataset)         study             21     81
+10:    81    sex LMM (1|dataset)         study             21     81
+11:    80    sex LMM (1|dataset)         study             21     80
+12:    82    sex LMM (1|dataset)         study             21     82
+13:    80    sex LMM (1|dataset)         study             21     80
+14:    82    sex LMM (1|dataset)         study             21     82
+15:    82    sex LMM (1|dataset)         study             21     82
+16:    77    sex LMM (1|dataset)         study             21     77
+17:    78    sex LMM (1|dataset)         study             21     78
 
 == smoking availability by disease group ==
    disease_group     n n_known n_never n_ever
@@ -315,7 +298,7 @@ Index: <min_cells>
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-09-07 21:57:28 EDT"
+[1] "2026-09-07 23:17:51 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -390,4 +373,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 21:57:32 - **** Job ends ****
+2026-09-07 23:17:53 - **** Job ends ****
