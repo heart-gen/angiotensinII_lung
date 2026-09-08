@@ -14,6 +14,8 @@
 ## The defensible cross-species claim is compartment-level and lives in
 ## 04.species_comparability.py. This file and its `_m/stats_data/mouse_Agtr1a_*`
 ## outputs are kept for provenance only; step_3.sh no longer invokes it.
+## Those outputs were moved to _m/stats_data/_superseded/ on 2026-09-07 (P2-15);
+## re-running this file would write them back beside the live tables.
 ##
 ## ---------------------------------------------------------------------------
 ## Cross-species conservation statistics (on integrated mouse data).
@@ -61,7 +63,9 @@ write_tsv(as.data.frame.matrix(prop.table(table(mural$dataset_id, mural$pericyte
           file.path(outdir, "mouse_state_composition_by_dataset.tsv"), TRUE)
 write_tsv(mural |> count(pericyte_state) |> mutate(frac = n / sum(n)),
           file.path(outdir, "mouse_mural_state_composition.tsv"))
-## per-state Agtr1a summary (consumed by the manuscript supplement figure)
+## per-state Agtr1a summary. NOT consumed by any figure -- the earlier claim that
+## it fed the manuscript supplement was wrong (P2-15, corrected 2026-09-07); the
+## live figure reads species_comparability_{mural_cells,agtr1a_tests}.tsv only.
 write_tsv(mural |> group_by(pericyte_state) |>
               summarise(n = n(), Agtr1a_mean = mean(Agtr1a_expr, na.rm = TRUE),
                         Agtr1a_detect = mean(Agtr1a_expr > 0, na.rm = TRUE),
