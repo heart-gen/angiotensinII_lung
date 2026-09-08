@@ -26,8 +26,16 @@ correct arithmetic under a label that no longer exists.
 - `state_score_*.tsv`
 - `injury_score_*.{tsv,pdf,png}`
 
-The current script writes only `composition_state_*`, `composition_program_*` and
-`injury_fraction_*`. It contains no per-program *score*-by-disease analysis at all,
+The current script writes `composition_state_*`, `composition_program_*`,
+`injury_fraction_*` **and `AGTR1_by_{state,program}_*`** (`01.state_stats.R:149`;
+7 files on disk: anova / emmeans / posthoc for each of state and program, plus
+`AGTR1_by_state_robust_coefs.tsv`). The inventory previously said "only" the
+first three, which was incomplete — the quarantine logic is unaffected.
+
+⚠️ Note that `AGTR1_by_*` is a **dropout diagnostic, not a state-marker claim**:
+the script's own header (line 24) says "do NOT cite `AGTR1_by_*` as a
+state-marker claim". *AGTR1* labels the pericyte compartment, and the raw
+enrichment reverses under denoising and under the no-imputation count model. It contains no per-program *score*-by-disease analysis at all,
 so `state_score_*` has no generating code in the repository. These files date from
 2026-06-15/16 and cannot be regenerated as-is.
 

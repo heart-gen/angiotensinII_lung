@@ -1,5 +1,11 @@
 # HLCA version 2
 
+> **Version note.** "Version 2" refers to the **cellxgene HLCA release** (the
+> `.h5ad`/`.rds` files below). The Zenodo assets fetched by the same script —
+> `HLCA_full_v1.1_emb.h5ad` and `HLCA_reference_model.zip` — are **v1.1**, which
+> is the current published embedding/reference-model pair and is *not* a mismatch.
+> The two numbering schemes belong to different artifacts.
+
 This directory has the scripts for downloading the
 HLCA version 2 data.
 
