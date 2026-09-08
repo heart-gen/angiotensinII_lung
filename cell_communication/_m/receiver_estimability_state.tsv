@@ -1,0 +1,21 @@
+disease_group	target	receiver_n_cells	receiver_n_donors	receiver_estimable	not_estimable_reason
+COPD	AT2_AGTR2det	36	9	False	receiver has 36 cells / 9 donors; floors are 200 cells / 5 donors
+Other	AT2_AGTR2det	174	21	False	receiver has 174 cells / 21 donors; floors are 200 cells / 5 donors
+Fibrotic_ILD	AT2_AGTR2det	899	41	True	
+Healthy	AT2_AGTR2det	2233	106	True	
+COPD	AT2_AGTR2undet	721	18	True	
+Other	AT2_AGTR2undet	6209	68	True	
+Fibrotic_ILD	AT2_AGTR2undet	7104	73	True	
+Healthy	AT2_AGTR2undet	26705	170	True	
+COPD	Pericyte_activated_migratory	2	2	False	receiver has 2 cells / 2 donors; floors are 200 cells / 5 donors
+Fibrotic_ILD	Pericyte_activated_migratory	42	16	False	receiver has 42 cells / 16 donors; floors are 200 cells / 5 donors
+Other	Pericyte_activated_migratory	42	17	False	receiver has 42 cells / 17 donors; floors are 200 cells / 5 donors
+Healthy	Pericyte_activated_migratory	93	28	False	receiver has 93 cells / 28 donors; floors are 200 cells / 5 donors
+COPD	Pericyte_basement_membrane	21	7	False	receiver has 21 cells / 7 donors; floors are 200 cells / 5 donors
+Fibrotic_ILD	Pericyte_basement_membrane	330	38	True	
+Other	Pericyte_basement_membrane	1123	27	True	
+Healthy	Pericyte_basement_membrane	1625	62	True	
+COPD	Pericyte_vascular_stabilizing	18	12	False	receiver has 18 cells / 12 donors; floors are 200 cells / 5 donors
+Other	Pericyte_vascular_stabilizing	696	23	True	
+Fibrotic_ILD	Pericyte_vascular_stabilizing	1552	50	True	
+Healthy	Pericyte_vascular_stabilizing	2803	71	True	

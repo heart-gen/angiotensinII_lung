@@ -1,14 +1,14 @@
-2026-07-21 22:21:44 - **** Job starts ****
-Job id: 42501988
-Hostname: r196
+2026-09-08 11:25:25 - **** Job starts ****
+Job id: 45536046
+Hostname: r038
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-21 22:21:45 - **** Loading mamba environment ****
-2026-07-21 22:21:46 - **** Disease-stratified liana CCC ****
+2026-09-08 11:25:26 - **** Loading mamba environment ****
+2026-09-08 11:25:27 - **** Disease-stratified liana CCC ****
 Niche: (423007, 55329)
 ==== scheme=main (group_key=ccc_group) ====
 Saved expressed fractions -> expressed_fraction_main.tsv.gz: (19225, 22)
@@ -38,6 +38,9 @@ Saved expressed fractions -> expressed_fraction_per_group.tsv.gz: (19225, 22)
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
 [main] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericytes']
+[main] NOT ESTIMABLE: AT2_AGTR2det in COPD -- receiver has 36 cells / 9 donors; floors are 200 cells / 5 donors
+[main] NOT ESTIMABLE: AT2_AGTR2det in Other -- receiver has 174 cells / 21 donors; floors are 200 cells / 5 donors
+[main] NOT ESTIMABLE: Pericytes in COPD -- receiver has 41 cells / 12 donors; floors are 200 cells / 5 donors
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
@@ -77,6 +80,14 @@ Saved expressed fractions -> expressed_fraction_state.tsv.gz: (19454, 24)
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
 [state] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_vascular_stabilizing', 'Pericyte_basement_membrane', 'Pericyte_activated_migratory']
+[state] NOT ESTIMABLE: AT2_AGTR2det in COPD -- receiver has 36 cells / 9 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: AT2_AGTR2det in Other -- receiver has 174 cells / 21 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_activated_migratory in COPD -- receiver has 2 cells / 2 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_activated_migratory in Fibrotic_ILD -- receiver has 42 cells / 16 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_activated_migratory in Other -- receiver has 42 cells / 17 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_activated_migratory in Healthy -- receiver has 93 cells / 28 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_basement_membrane in COPD -- receiver has 21 cells / 7 donors; floors are 200 cells / 5 donors
+[state] NOT ESTIMABLE: Pericyte_vascular_stabilizing in COPD -- receiver has 18 cells / 12 donors; floors are 200 cells / 5 donors
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
@@ -124,6 +135,10 @@ Saved expressed fractions -> expressed_fraction_receptor.tsv.gz: (19243, 23)
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/functools.py:889: UserWarning: zero-centering a sparse array/matrix densifies it.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/liana/method/sc/_liana_pipe.py:288: ImplicitModificationWarning: Setting element `.layers['scaled']` of view, initializing view as actual.
 [receptor] receivers: ['AT2_AGTR2det', 'AT2_AGTR2undet', 'Pericyte_AGTR1undet', 'Pericyte_AGTR1det']
+[receptor] NOT ESTIMABLE: AT2_AGTR2det in COPD -- receiver has 36 cells / 9 donors; floors are 200 cells / 5 donors
+[receptor] NOT ESTIMABLE: AT2_AGTR2det in Other -- receiver has 174 cells / 21 donors; floors are 200 cells / 5 donors
+[receptor] NOT ESTIMABLE: Pericyte_AGTR1det in COPD -- receiver has 9 cells / 6 donors; floors are 200 cells / 5 donors
+[receptor] NOT ESTIMABLE: Pericyte_AGTR1undet in COPD -- receiver has 32 cells / 11 donors; floors are 200 cells / 5 donors
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:624: PlotnineWarning: Filename: figures/dotplot_into_AT2_AGTR2det.pdf
 /ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/plotnine/ggplot.py:623: PlotnineWarning: Saving 9 x 8 in image.
@@ -150,5 +165,5 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-07-21 23:09
-2026-07-21 23:09:27 - **** Job ends ****
+Session information updated at 2026-09-08 12:07
+2026-09-08 12:07:39 - **** Job ends ****

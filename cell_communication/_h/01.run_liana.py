@@ -140,6 +140,52 @@ def run_scheme(adata, scheme, group_key, args, fig_dir):
     logging.info(f"[{scheme}] receivers: {receivers}")
     into = res[res["target"].isin(receivers)].copy()
     into = into.sort_values(["disease_group", "target", "magnitude_rank"])
+
+    # ---- RECEIVER ESTIMABILITY (P2-5, added 2026-09-08) -------------------
+    # The gates above are `dsub.n_obs < 200` (cells in the whole disease subset)
+    # and `--min-cells 10` (cells in a group). Neither asks how many RECEIVER
+    # cells the stratum holds, so a disease arm with a well-populated atlas but
+    # almost no pericytes still produces a full pericyte-directed LR table. That
+    # is exactly what COPD does: 41 pericytes from 12 donors yielded 3,884
+    # pericyte-directed rows, against 1,861-4,521 pericytes in every other arm --
+    # a 45-110x gap with nothing in the output to show it.
+    #
+    # `basement_membrane` already handles this correctly: it flags pericytes
+    # NOT ESTIMABLE for COPD in advance, reports descriptively without a p-value,
+    # and ships a minimum-detectable-effect inventory. This adopts that pattern.
+    #
+    # Rows are MARKED, not deleted. LIANA's scores are still the honest output of
+    # the cells that were there, and a reader comparing arms needs to see that
+    # the arm exists and why it cannot carry weight. The floor reuses the 200-cell
+    # number already used for the disease subset, so the script applies one
+    # standard rather than two.
+    RECEIVER_MIN_CELLS = 200
+    RECEIVER_MIN_DONORS = 5
+    obs = adata.obs
+    counts = (obs.assign(_g=obs[group_key].astype(str),
+                         _d=obs[args.disease_key].astype(str))
+                 .groupby(["_d", "_g"], observed=True)
+                 .agg(receiver_n_cells=("_g", "size"),
+                      receiver_n_donors=("donor_id", "nunique"))
+                 .reset_index()
+                 .rename(columns={"_d": "disease_group", "_g": "target"}))
+    counts["receiver_estimable"] = (
+        (counts.receiver_n_cells >= RECEIVER_MIN_CELLS)
+        & (counts.receiver_n_donors >= RECEIVER_MIN_DONORS))
+    counts["not_estimable_reason"] = np.where(
+        counts.receiver_estimable, "",
+        ("receiver has " + counts.receiver_n_cells.astype(str) + " cells / "
+         + counts.receiver_n_donors.astype(str) + " donors; floors are "
+         + f"{RECEIVER_MIN_CELLS} cells / {RECEIVER_MIN_DONORS} donors"))
+    inv = counts[counts.target.isin(receivers)].sort_values(
+        ["target", "receiver_n_cells"])
+    inv.to_csv(args.outdir / f"receiver_estimability_{scheme}.tsv",
+               sep="\t", index=False)
+    for _, r in inv[~inv.receiver_estimable].iterrows():
+        logging.warning(f"[{scheme}] NOT ESTIMABLE: {r.target} in "
+                        f"{r.disease_group} -- {r.not_estimable_reason}")
+
+    into = into.merge(counts, on=["disease_group", "target"], how="left")
     into.to_csv(args.outdir / f"liana_into_receivers_{scheme}.tsv.gz", sep="\t", index=False)
     panel = into[into["ligand_complex"].isin(LIGAND_PANEL)].copy()
     panel.to_csv(args.outdir / f"ligand_panel_into_receivers_{scheme}.tsv.gz",

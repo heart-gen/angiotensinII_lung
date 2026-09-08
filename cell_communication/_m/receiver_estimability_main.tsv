@@ -1,0 +1,13 @@
+disease_group	target	receiver_n_cells	receiver_n_donors	receiver_estimable	not_estimable_reason
+COPD	AT2_AGTR2det	36	9	False	receiver has 36 cells / 9 donors; floors are 200 cells / 5 donors
+Other	AT2_AGTR2det	174	21	False	receiver has 174 cells / 21 donors; floors are 200 cells / 5 donors
+Fibrotic_ILD	AT2_AGTR2det	899	41	True	
+Healthy	AT2_AGTR2det	2233	106	True	
+COPD	AT2_AGTR2undet	721	18	True	
+Other	AT2_AGTR2undet	6209	68	True	
+Fibrotic_ILD	AT2_AGTR2undet	7104	73	True	
+Healthy	AT2_AGTR2undet	26705	170	True	
+COPD	Pericytes	41	12	False	receiver has 41 cells / 12 donors; floors are 200 cells / 5 donors
+Other	Pericytes	1861	35	True	
+Fibrotic_ILD	Pericytes	1924	57	True	
+Healthy	Pericytes	4521	91	True	
