@@ -175,12 +175,38 @@ smk_main <- function(resp) {
     if (dplyr::n_distinct(d$study) > 1) terms <- c(terms, "(1 | study)")
     fit <- try(fit_model(reformulate(terms, resp), d), silent = TRUE)
     if (inherits(fit, "try-error")) return(NULL)
-    e <- as.data.frame(emmeans(fit, ~ smoking)); e$response <- resp; e$n <- nrow(d)
+    emm <- emmeans(fit, ~ smoking)
+    e <- as.data.frame(emm); e$response <- resp; e$n <- nrow(d)
     e$model <- paste(terms, collapse = " + ")
-    e
+    ## PAIRWISE CONTRASTS (P2-10, added 2026-09-07). The block used to write the
+    ## marginal means and stop, which left the module's ONLY estimable smoking
+    ## question untested -- and the means are not flat: active smokers separate
+    ## from never/former on all four endpoints. Reporting means whose separation
+    ## a reader can see but cannot test is the defect. `n_smoking` records the
+    ## donors per level, because these strata are small and the contrast is only
+    ## as good as the smaller arm.
+    ct <- as.data.frame(pairs(emm, adjust = "none"))
+    ct$response <- resp; ct$n <- nrow(d)
+    ct$model <- paste(terms, collapse = " + ")
+    ct$n_smoking <- paste(sprintf("%s=%d", levels(d$smoking),
+                                  as.integer(table(d$smoking))), collapse = ";")
+    list(emmeans = e, contrasts = ct)
 }
-smk_main_res <- bind_rows(lapply(RESPONSES, smk_main))
+smk_main_all  <- lapply(RESPONSES, smk_main)
+smk_main_res  <- bind_rows(lapply(smk_main_all, `[[`, "emmeans"))
+smk_main_ct   <- bind_rows(lapply(smk_main_all, `[[`, "contrasts"))
 write_tsv_safe(smk_main_res, file.path(outdir, "smoking_main_effect_healthy.tsv"))
+## BH across every contrast this block writes (3 pairs x 4 responses), declared
+## as one family so the adjustment is not silently per-response.
+if (nrow(smk_main_ct)) {
+    smk_main_ct$p_BH <- p.adjust(smk_main_ct$p.value, method = "BH")
+    smk_main_ct$bh_family <- sprintf("smoking main effect: %d contrasts x %d responses",
+                                     nrow(smk_main_ct) / max(1L, dplyr::n_distinct(smk_main_ct$response)),
+                                     dplyr::n_distinct(smk_main_ct$response))
+}
+write_tsv_safe(smk_main_ct, file.path(outdir, "smoking_main_effect_contrasts.tsv"))
+cat("\n== smoking main effect: pairwise contrasts (P2-10) ==\n")
+print(smk_main_ct)
 
 ## ---- (3) leave-one-study-out (LOSO) -------------------------------------
 ## Refits the PRIMARY model with one dataset removed. `age` is deliberately NOT a
