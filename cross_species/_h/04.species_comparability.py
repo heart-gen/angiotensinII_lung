@@ -168,7 +168,8 @@ def main():
                             [int(smc.sum()), int((1 - smc).sum())]])
             tables.append(tab)
             _, p = stats.fisher_exact(tab)
-            tests.append({"test": "fisher_exact_detection", "dataset_id": ds,
+            tests.append({"test": "fisher_exact_detection", "unit": "cell",
+                          "dataset_id": ds,
                           "n_pericyte": int(per.size), "n_smc": int(smc.size),
                           "detect_pericyte": float(per.mean()),
                           "detect_smc": float(smc.mean()), "p_value": float(p)})
@@ -185,13 +186,15 @@ def main():
             n_p = sum(int(t[0].sum()) for t in tables)
             n_s = sum(int(t[1].sum()) for t in tables)
             tests.append({"test": "mantel_haenszel_detection_stratified_by_dataset",
+                          "unit": "cell",
                           "dataset_id": "|".join(informative),
                           "n_pericyte": n_p, "n_smc": n_s,
                           "detect_pericyte": sum(int(t[0, 0]) for t in tables) / n_p,
                           "detect_smc": sum(int(t[1, 0]) for t in tables) / n_s,
                           "p_value": float(stats.chi2.sf(chi, 1))})
-    write_tsv(pd.DataFrame(tests),
-              args.outdir / "species_comparability_agtr1a_tests.tsv")
+    # NOTE: this table is written AFTER the donor-level tests are appended (see
+    # 5c). It used to be written here, which is why the file shipped cell-level
+    # p-values with no donor-level row beside them (P2-14).
 
     # ---- 5b. Cell-level view of every mouse pericyte ----------------------
     # n is small enough (tens of cells) to inspect exhaustively rather than
@@ -230,6 +233,84 @@ def main():
         write_tsv(donor, args.outdir / "species_comparability_pericyte_by_donor.tsv")
         logging.info(f"donors with >=1 Agtr1a+ pericyte: "
                      f"{int(donor.any_pos.sum())} of {len(donor)}")
+
+    # ---- 5c. DONOR-LEVEL test (P2-14) ------------------------------------
+    # The Fisher and Mantel-Haenszel tests above treat all 128 mural cells as
+    # independent. They are not: the 41 pericytes come from 18 donors, very
+    # unevenly -- one donor contributes 10 cells and eleven contribute 1 -- so
+    # the cell-level n is a count of observations, not of independent units, and
+    # P = 8.4e-20 from 41 vs 87 cells overstates the evidence by a wide margin.
+    # Donor is the unit of inference everywhere else in this repository.
+    #
+    # The conclusion does not depend on the mistake -- which is exactly why the
+    # honest number is the one to publish. The module already logged "donors with
+    # >=1 Agtr1a+ pericyte: 15 of 18" and then never tested it.
+    #
+    # Two donor-level readouts, because they answer different objections:
+    #
+    #   fisher_exact_detection_DONOR  -- unpaired 2x2 over donors, restricted to
+    #       the same informative datasets as the cell-level test. Directly
+    #       comparable to the cell-level row it sits beside.
+    #   mcnemar_within_donor          -- the paired version over donors that
+    #       contribute BOTH a pericyte and an SMC. A donor appearing in both arms
+    #       of the unpaired table is counted twice there, so the paired test is
+    #       the one that is strictly free of that dependency. It is also the
+    #       within-donor contrast, which removes donor-level depth and batch.
+    if ("Agtr1a_lognorm" in allc.columns and "donor_id" in allc.columns
+            and "dataset_id" in allc.columns):
+        dl = allc[allc.dataset_id.isin(informative)].copy()
+        dl["cls"] = np.where(dl.cell_type == PERICYTE, "pericyte", "smc")
+        dl["det"] = (dl["Agtr1a_lognorm"] > 0).astype(int)
+        per_donor = (dl.groupby(["cls", "donor_id"])["det"]
+                     .agg(n_cells="size", n_pos="sum").reset_index())
+        per_donor["any_pos"] = per_donor["n_pos"] > 0
+        write_tsv(per_donor,
+                  args.outdir / "species_comparability_donor_detection_by_class.tsv")
+
+        pv = per_donor[per_donor.cls == "pericyte"]
+        sv = per_donor[per_donor.cls == "smc"]
+        if len(pv) and len(sv):
+            tab = np.array([[int(pv.any_pos.sum()), int((~pv.any_pos).sum())],
+                            [int(sv.any_pos.sum()), int((~sv.any_pos).sum())]])
+            _, p_d = stats.fisher_exact(tab)
+            both = set(pv.donor_id) & set(sv.donor_id)
+            tests.append({
+                "test": "fisher_exact_detection_DONOR", "unit": "donor",
+                "dataset_id": "|".join(informative),
+                "n_pericyte": int(len(pv)), "n_smc": int(len(sv)),
+                "detect_pericyte": float(pv.any_pos.mean()),
+                "detect_smc": float(sv.any_pos.mean()), "p_value": float(p_d),
+                "note": (f"donors with >=1 Agtr1a+ cell; {len(both)} donor(s) "
+                         f"contribute to both arms and are counted in each -- "
+                         f"see mcnemar_within_donor for the paired version")})
+            logging.info(f"DONOR-level Fisher: pericyte {tab[0,0]}/{tab[0].sum()} "
+                         f"vs SMC {tab[1,0]}/{tab[1].sum()}, P = {p_d:.3g}")
+
+            # Paired: discordant donors only. b = pericyte+ / SMC-, c = the
+            # reverse. Exact binomial rather than the chi-square approximation,
+            # because the discordant count here is small.
+            if both:
+                pmap = dict(zip(pv.donor_id, pv.any_pos))
+                smap = dict(zip(sv.donor_id, sv.any_pos))
+                b = sum(1 for d in both if pmap[d] and not smap[d])
+                c = sum(1 for d in both if smap[d] and not pmap[d])
+                p_mc = (float(stats.binomtest(b, b + c, 0.5).pvalue)
+                        if (b + c) > 0 else float("nan"))
+                tests.append({
+                    "test": "mcnemar_within_donor", "unit": "donor",
+                    "dataset_id": "|".join(informative),
+                    "n_pericyte": int(len(both)), "n_smc": int(len(both)),
+                    "detect_pericyte": float(np.mean([pmap[d] for d in both])),
+                    "detect_smc": float(np.mean([smap[d] for d in both])),
+                    "p_value": p_mc,
+                    "note": (f"paired over {len(both)} donors with both cell "
+                             f"types; discordant b={b} (pericyte+ only), "
+                             f"c={c} (SMC+ only); exact binomial")})
+                logging.info(f"WITHIN-donor McNemar: {len(both)} paired donors, "
+                             f"b={b}, c={c}, P = {p_mc:.3g}")
+
+    write_tsv(pd.DataFrame(tests),
+              args.outdir / "species_comparability_agtr1a_tests.tsv")
 
     # ---- 6. Headline summary ---------------------------------------------
     n_per = int((mural.cell_type == PERICYTE).sum())
