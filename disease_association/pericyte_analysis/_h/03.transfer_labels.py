@@ -97,7 +97,19 @@ def load_data(input_path):
     query_hvg = load_anndata(Path("query_hvg.h5ad"), "query HVG")
     query_hvg.obs["subcluster"] = "unknown"
     query_full = process_query_data(input_path)
-    query_full.X = query_full.layers["counts"]
+    # X REPLACEMENT REMOVED 2026-09-07 (P2-22). This line was
+    #     query_full.X = query_full.layers["counts"]
+    # which overwrote the log1p matrix with un-logged normalised counts while
+    # leaving `uns["log1p"]` in place from the earlier log1p call -- so the
+    # shipped clustered_data.h5ad advertised itself as log-normalised while its
+    # X ran 0.15 to 1290.76 (a log1p CP10K matrix cannot exceed log1p(1e4) =
+    # 9.21). 04.pericytes_disease_analysis.R then read it into a variable named
+    # `AGTR1_logcounts`. Rank-based tests (Kruskal-Wallis, Dunn) were unaffected,
+    # but every mean, every "Normalized Expression (AGTR1)" axis label, and any
+    # comparison against the log-normalised AGTR1 values used elsewhere in this
+    # project (HLCA pericytes, 0.78) were not.
+    # X stays as process_query_data left it: log1p CP10K. Anything needing counts
+    # reads layers["counts"] explicitly.
     query_full = align_query_objects(query_hvg, query_full)
     return ref_hvg, query_hvg, query_full
 

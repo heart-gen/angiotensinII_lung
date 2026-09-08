@@ -1,3 +1,28 @@
+## RETIRED 2026-09-07 (P2-24) -- DO NOT RUN, DO NOT CITE ITS OUTPUTS.
+##
+## Superseded twice over:
+##   * `pericyte_states/` replaced `leiden_pericytes` subclusters with the
+##     functional state model, and
+##   * `05.agtr1_celltype_disease.R` replaced this per-subcluster AGTR1 analysis
+##     with a per-cell-type one on a donor-aware model.
+## Nothing reads its outputs: `_m/pericyte_subclusters/` (2026-01-05) is cited by
+## `DISEASE_SUMMARY.md` and by no figure, table or script.
+##
+## It also still carries the defect that `01.disease_association.R` fixed on
+## 2026-07-30 and never had backported here: `filter(age > 20)` at line ~57.
+## `dplyr::filter` drops NA, and HLCA reports no age for 89% of Fibrotic/ILD
+## stroma cells, so that gate is a cohort filter, not an age restriction -- the
+## same defect family as P1-2. It is left in place deliberately: fixing a retired
+## script would imply its outputs are usable, and they are not.
+##
+## Its input, `localization/pericyte_analysis/_m/pericyte_with_embeddings.h5ad`,
+## comes from the 2024-preprint-era module that P1-17 marked "do not cite".
+##
+## `step_2.sh` is deliberately absent from `submit_pipeline.sh` for this reason
+## (P2-1, 2026-09-07).
+##
+## ---------------------------------------------------------------------------
+
 suppressPackageStartupMessages({
     library(dplyr)
     library(ggpubr)

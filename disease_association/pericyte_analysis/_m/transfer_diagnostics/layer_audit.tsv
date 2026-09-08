@@ -1,0 +1,10 @@
+object	matrix	n_sampled	sampled_min	sampled_median	sampled_max	integers_in_sample	consistent_with_log1p_cp10k
+ipf_dataset (upstream input)	X	300000	1.0	1.0	58.0	True	False
+ref_hvg (scANVI training reference)	X	300000	0.10625149309635162	2.267718553543091	4.632133960723877	False	True
+ref_hvg (scANVI training reference)	layers/counts	300000	0.0020707871299237013	0.9995512962341309	908.7053833007812	False	False
+ref_hvg (scANVI training reference)	layers/logcounts	300000	0.10625149309635162	2.267718553543091	4.632133960723877	False	True
+ref_hvg (scANVI training reference)	layers/soupX	300000	0.0020707871299237013	0.9995512962341309	908.7053833007812	False	False
+query_hvg (scANVI query)	X	299973	0.4925649689736555	1.9936768899905315	25.884358211089566	False	False
+query_hvg (scANVI query)	layers/counts	299973	0.10857924119858722	1.5022660098522167	1290.7609302325582	False	False
+clustered_data (shipped output)	X	300000	0.14984276729559748	0.9860320744956026	844.1071710007881	False	False
+clustered_data (shipped output)	layers/counts	300000	0.14984276729559748	0.9860320744956026	844.1071710007881	False	False

@@ -33,9 +33,22 @@ def subset_data(subset_key: str = "cell_type",
 
 
 def check_data(adata, outdir: Path = Path("qc_plots")):
-    # Preprocess and dimensionality reduction
-    sc.pp.normalize_total(adata, layer="counts")
-    sc.pp.log1p(adata)
+    # NORMALISATION FIXED 2026-09-07 (P2-23). This was:
+    #     sc.pp.normalize_total(adata, layer="counts")
+    #     sc.pp.log1p(adata)
+    # `layer="counts"` normalises the COUNTS LAYER IN PLACE and leaves `X`
+    # untouched, so the pipeline did the opposite of its intent on both matrices:
+    #   * `layers["counts"]` became CP10K-normalised and non-integer -- which is
+    #     what scANVI is then set up on (`02.train_model.py`, layer="counts"),
+    #     producing "does not contain unnormalized count data" and a
+    #     negative-binomial likelihood evaluated off its support on nearly every
+    #     epoch; and
+    #   * `X` was log1p'd while still RAW, so every HVG call, PCA and neighbour
+    #     graph downstream ran on log1p(raw counts) with no depth normalisation.
+    # Verified: the upstream ipf_dataset.h5ad `X` is raw integers (1-58), so the
+    # counts this needs do exist -- they were destroyed here, not missing.
+    sc.pp.normalize_total(adata)   # acts on X; leaves layers["counts"] raw
+    sc.pp.log1p(adata)             # X := log1p CP10K; counts stays integer
     sc.pp.highly_variable_genes(adata, n_top_genes=2000)
     sc.pp.scale(adata, zero_center=False)
     sc.tl.pca(adata, n_comps=50, use_highly_variable=True, svd_solver="arpack")
@@ -120,6 +133,21 @@ def main():
     # Load data
     query_adata = process_query_data()
     ref_adata = load_reference()
+    # ⚠️ REFERENCE HAS NO RAW COUNTS (P2-23, established 2026-09-07). This guard
+    # only fires when the reference lacks a `counts` layer -- and it does have
+    # one, so this line has never run. The problem is what that layer HOLDS:
+    # audited in _m/transfer_diagnostics/layer_audit.tsv, ref_hvg
+    # `layers/counts` is bit-identical in range to `layers/soupX`
+    # (0.0021 - 908.71, non-integer). The reference's "counts" IS the soupX
+    # ambient-corrected matrix.
+    #
+    # scANVI's negative-binomial likelihood needs integer counts. Fixing the
+    # query side (above) is necessary but NOT sufficient: no raw count matrix for
+    # this reference exists anywhere in the repository, so the model still cannot
+    # be trained correctly from artifacts on disk. Rebuilding this module
+    # requires regenerating the reference from its original count matrices.
+    # Until then the transfer is not repairable -- see the retirement note in
+    # _m/pericyte_subclusters/_FAILED.
     if "counts" not in ref_adata.layers:
         ref_adata.layers["counts"] = ref_adata.X.copy()
 
