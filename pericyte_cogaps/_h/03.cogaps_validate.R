@@ -14,6 +14,7 @@
 ## magnitude); this data-driven check does not depend on that annotation.
 suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(tidyr); library(ggplot2)
+    library(lme4); library(lmerTest)
 })
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -140,26 +141,100 @@ if ("AGTR1_expr" %in% names(df)) {
     fwrite(agtr1, file.path(OUTDIR, "pattern_AGTR1_spearman.tsv.gz"), sep = "\t")
 }
 
-## donor-level mean pattern weight ~ disease (OLS, BH across patterns)
+## donor-level mean pattern weight ~ disease
+##
+## WHY THIS MODEL NO LONGER CARRIES `+ age`, AND WHY IT GAINED `(1 | study)`
+## (changed 2026-09-07, defect P2-16 in writings/TODO.md)
+##
+## This fit used to be `lm(pattern ~ disease_group + age + sex)`. Both halves of
+## that were wrong, and fixing either alone would have been worse than fixing
+## neither -- the lesson recorded in pericyte_states/_h/01.state_stats.R (P1-2).
+##
+##   1. `+ age` was never a covariate adjustment. Age missingness in the HLCA is
+##      a STUDY property (17 of 18 studies are all-or-nothing), so requiring it
+##      deleted whole cohorts and did so unevenly across disease groups:
+##      69 donors -> 36, Fibrotic/ILD 17 -> 4, Other 20 -> 3. The survivors were
+##      concentrated in single studies (3 of 4 fibrotic from Lafyatis_2019; all 3
+##      "Other" from Budinger_2020, which contributes no Healthy donor here), so
+##      the disease contrast was confounded with study by construction.
+##
+##   2. There was no study term. Dropping `age` restores study-clustered donors,
+##      and without a guard those donors can MANUFACTURE an effect --
+##      pericyte_states saw exactly that at P = 0.0015.
+##
+## niche_index is the precedent for what to expect: its Healthy-vs-Other contrast
+## was P = 0.018 on this design (3 donors, one study) and P = 0.25 once both
+## halves were fixed.
+##
+## Three arms are written, labelled in an `arm` column. Quote `primary`.
 donor <- df[, c(lapply(.SD, mean, na.rm = TRUE),
-                .(disease_group = first(disease_group),
-                  sex = first(sex), age = mean(age, na.rm = TRUE), n = .N)),
+                .(disease_group = first(disease_group), sex = first(sex),
+                  study = first(study), age = mean(age, na.rm = TRUE), n = .N)),
             by = donor_id, .SDcols = pcols]
 donor <- donor[n >= 20]
 donor[, disease_group := relevel(droplevels(factor(disease_group)), "Healthy")]
-dis_res <- rbindlist(lapply(pcols, function(p) {
-    sub <- donor[is.finite(get(p)) & !is.na(age) & !is.na(sex)]
-    if (nlevels(droplevels(sub$disease_group)) < 2) return(NULL)
-    fit <- lm(reformulate(c("disease_group", "age", "sex"), p), data = sub)
-    co <- as.data.frame(summary(fit)$coefficients)
-    co <- co[grepl("disease_group", rownames(co)), , drop = FALSE]
-    if (!nrow(co)) return(NULL)
-    data.table(pattern = p, term = rownames(co),
-               estimate = co[, 1], p_value = co[, 4])
-}), fill = TRUE)
+donor[, study := factor(study)]
+
+cat(sprintf("\n(D) disease donors (>=20 cells): %d across %d studies\n",
+            nrow(donor), nlevels(droplevels(donor$study))))
+print(table(donor$disease_group))
+cat(sprintf("(D) age-complete subset would be %d of %d donors:\n",
+            sum(!is.na(donor$age)), nrow(donor)))
+print(table(donor$disease_group[!is.na(donor$age)]))
+
+## Fit one arm and return tidy disease-term rows. `guard` adds (1 | study);
+## `ageadj` restricts to age-reporting donors and adds age as a covariate.
+fit_arm <- function(p, arm, guard, ageadj) {
+    sub <- donor[is.finite(get(p)) & !is.na(sex)]
+    if (ageadj) sub <- sub[!is.na(age)]
+    sub <- sub[, disease_group := droplevels(disease_group)]
+    if (nlevels(sub$disease_group) < 2) return(NULL)
+    terms <- c("disease_group", "sex", if (ageadj) "age")
+    n_stud <- dplyr::n_distinct(sub$study)
+    ## A random intercept needs >= 2 levels; fall back and say so if it does not.
+    use_guard <- guard && n_stud > 1
+    if (use_guard) {
+        fit <- suppressMessages(lmerTest::lmer(
+            reformulate(c(terms, "(1 | study)"), p), data = sub))
+        co <- as.data.frame(summary(fit)$coefficients)
+        est <- co[, "Estimate"]; pv <- co[, "Pr(>|t|)"]
+        sd_study <- as.data.frame(lme4::VarCorr(fit))$sdcor[1]
+        sing <- lme4::isSingular(fit)
+    } else {
+        fit <- lm(reformulate(terms, p), data = sub)
+        co <- as.data.frame(summary(fit)$coefficients)
+        est <- co[, 1]; pv <- co[, 4]
+        sd_study <- NA_real_; sing <- NA
+    }
+    keep <- grepl("disease_group", rownames(co))
+    if (!any(keep)) return(NULL)
+    data.table(pattern = p, term = rownames(co)[keep],
+               estimate = est[keep], p_value = pv[keep],
+               arm = arm, n_donors = nrow(sub), n_studies = n_stud,
+               study_sd = sd_study, singular = sing,
+               n_donors_group = paste(names(table(sub$disease_group)),
+                                      as.integer(table(sub$disease_group)),
+                                      sep = "=", collapse = ";"),
+               model = if (use_guard)
+                   paste0("lmer(", paste(terms, collapse = " + "), " + (1 | study))")
+               else paste0("lm(", paste(terms, collapse = " + "), ")"))
+}
+
+ARMS <- list(
+    list(arm = "primary", guard = TRUE,  ageadj = FALSE),
+    list(arm = "unguarded -- comparison only", guard = FALSE, ageadj = FALSE),
+    list(arm = "_ageadj -- RESTRICTED to age-reporting cohorts, not an age adjustment",
+         guard = TRUE, ageadj = TRUE))
+dis_res <- rbindlist(lapply(ARMS, function(a)
+    rbindlist(lapply(pcols, fit_arm, arm = a$arm, guard = a$guard,
+                     ageadj = a$ageadj), fill = TRUE)), fill = TRUE)
 if (nrow(dis_res)) {
-    dis_res[, padj := p.adjust(p_value, "BH")]
+    ## BH within arm -- the three arms are not one family.
+    dis_res[, padj := p.adjust(p_value, "BH"), by = arm]
     fwrite(dis_res, file.path(OUTDIR, "pattern_disease_ols.tsv.gz"), sep = "\t")
+    cat("\n(D) disease terms by arm (quote `primary`):\n")
+    print(dis_res[padj < 0.05, .(pattern, term, estimate, p_value, padj, arm)])
+    if (!nrow(dis_res[padj < 0.05])) cat("  none reach BH < 0.05 in any arm\n")
 }
 
 cat("\n---- sessionInfo ----\n")
