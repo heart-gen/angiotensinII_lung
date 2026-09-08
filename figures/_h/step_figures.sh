@@ -6,7 +6,7 @@
 #SBATCH --mail-user=kj.benjamin90@gmail.com
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --time=00:30:00
+#SBATCH --time=00:45:00
 #SBATCH --output=logs/assemble_figures.log
 
 log_message() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"; }
@@ -68,6 +68,15 @@ if [ $? -ne 0 ]; then log_message "Error: state composition figure failed"; exit
 log_message "**** Manuscript figures (main + CCC/NicheNet + supplements) ****"
 Rscript ../_h/manuscript_mechanism_figure.R
 if [ $? -ne 0 ]; then log_message "Error: manuscript figures failed"; exit 1; fi
+
+## Disease main figure + S16 (figureS_disease_robustness). Folded in 2026-09-07
+## (P2-1): this ran only from step_disease_figure.sh, which submit_pipeline.sh
+## never submitted, so a full pipeline run produced neither the disease main
+## figure nor S16 -- and the manifest below, which records what exists on disk,
+## reported S16 missing. Must stay ABOVE the manifest step for that reason.
+log_message "**** Disease main figure + S16 ****"
+Rscript ../_h/disease_main_figure.R
+if [ $? -ne 0 ]; then log_message "Error: disease main figure failed"; exit 1; fi
 
 ## Manifest last: it records which supplements actually exist on disk.
 log_message "**** Panel manifest ****"
