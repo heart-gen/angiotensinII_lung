@@ -365,8 +365,143 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
     invisible(comp)
 }
 
+## Attach the injury clusters' bootstrap reproducibility to any table that
+## carries an injury-fraction estimate. Silent no-op when stability is
+## unavailable, so the endpoint still runs -- but the columns are then absent,
+## which is itself the signal that provenance was not established.
+add_stability_cols <- function(x, stab) {
+    if (is.null(stab) || !nrow(stab)) return(x)
+    dplyr::mutate(x,
+        backing_clusters        = paste(stab$cluster, collapse = "+"),
+        backing_jaccard_median  = min(stab$jaccard_median, na.rm = TRUE),
+        backing_jaccard_lo      = min(stab$jaccard_lo, na.rm = TRUE),
+        backing_jaccard_hi      = max(stab$jaccard_hi, na.rm = TRUE),
+        backing_stability_verdict = paste(unique(stab$verdict), collapse = "; "))
+}
+
+## ----- (C0) Stability provenance for the injury endpoint (P2-2) -----------
+## The injury fraction is a DISCRETE endpoint: it counts cells whose cluster was
+## annotated to an injury program. Its trustworthiness is therefore bounded by
+## the reproducibility of those clusters, and that number lives in a different
+## directory, in a file nothing downstream reads.
+##
+## For the shipped solution the bound is severe. `INJURY_PROGRAMS` is
+## `activated_migratory`, which is backed by exactly ONE cluster -- cluster 4,
+## 220 cells, 1.9% of pericytes -- and cluster 4 is the LEAST reproducible
+## cluster in the solution:
+##
+##   cluster 4  median Jaccard 0.518   min 0.106   bootstrap CI [0.125, 0.978]
+##
+## against a whole-solution median of 0.966. A median of 0.518 means the cluster
+## re-forms with about half its membership under resampling; the CI spans almost
+## the entire possible range. So every disease contrast on `injury_frac` inherits
+## an uncertainty that its own standard error does not contain, because the SE is
+## computed conditional on the labels being correct.
+##
+## This function attaches that number to the endpoint's own outputs so a claim
+## cannot be quoted without it. It does NOT change any estimate -- the fix for a
+## fragile discrete endpoint is either to report the fragility or to use the
+## continuous score instead, and which of those to do is a scientific decision,
+## not one this script should take silently. The continuous alternative is
+## measured alongside it (see `injury_endpoint_comparison.tsv`) so the decision
+## can be made on evidence.
+injury_endpoint_stability <- function(df, outdir,
+                                      stability_file = "stability/cluster_bootstrap_jaccard.tsv") {
+    if (!file.exists(stability_file)) {
+        warning("stability file not found: ", stability_file,
+                " -- injury endpoint ships WITHOUT its cluster-stability provenance",
+                call. = FALSE)
+        return(NULL)
+    }
+    jac <- data.table::fread(stability_file)
+    ## Which clusters actually carry the injury programs, read off the data
+    ## rather than hardcoded, so a relabel cannot silently break the link.
+    map <- unique(data.table::as.data.table(df)[, .(pericyte_state = as.character(pericyte_state),
+                                                    state_program = as.character(state_program))])
+    inj_states <- map[state_program %in% INJURY_PROGRAMS, unique(pericyte_state)]
+    jac[, cluster := as.character(cluster)]
+    st <- jac[cluster %in% inj_states]
+    if (!nrow(st)) {
+        warning("no stability rows matched the injury clusters (", 
+                paste(inj_states, collapse = ", "), ")", call. = FALSE)
+        return(NULL)
+    }
+    n_by_state <- data.table::as.data.table(df)[, .N, by = .(pericyte_state = as.character(pericyte_state))]
+    st <- merge(st, n_by_state, by.x = "cluster", by.y = "pericyte_state", all.x = TRUE)
+    st[, `:=`(injury_programs = paste(INJURY_PROGRAMS, collapse = "+"),
+              pct_of_pericytes = round(100 * N / nrow(df), 2),
+              solution_median_jaccard = median(jac$jaccard_median, na.rm = TRUE))]
+    st[, verdict := data.table::fifelse(
+        jaccard_median >= 0.75, "reproducible",
+        data.table::fifelse(jaccard_median >= 0.5,
+                            "FRAGILE -- quote the interval with any claim",
+                            "NOT REPRODUCIBLE -- do not anchor a claim here"))]
+    write_tsv_safe(st, file.path(outdir, "injury_fraction_stability.tsv"))
+    cat("
+== injury-endpoint cluster stability (P2-2) ==
+")
+    print(st[, .(cluster, n_cells = N, pct_of_pericytes, jaccard_median,
+                 jaccard_min, jaccard_lo, jaccard_hi, verdict)])
+    if (any(st$jaccard_median < 0.75))
+        cat(sprintf(paste0("  WARNING: the injury fraction rests on cluster(s) %s with median
+",
+                           "  Jaccard %s (solution median %.3f). Any disease contrast on
+",
+                           "  `injury_frac` must be reported with this interval.
+"),
+                    paste(st$cluster, collapse = ", "),
+                    paste(sprintf("%.3f", st$jaccard_median), collapse = ", "),
+                    st$solution_median_jaccard[1]))
+    st[]
+}
+
+## ----- (C0b) Discrete vs continuous injury endpoint (P2-2) ----------------
+## The entry asks whether the continuous injury score should replace the discrete
+## fraction. That is answerable rather than arguable: both are donor-level, so
+## measure their agreement and their disease signal on the SAME donors.
+##
+## The continuous score does not depend on the cluster assignment at all -- it is
+## a per-cell program score averaged over the donor's pericytes -- so it is
+## immune to the fragility above. If the two endpoints agree, the continuous one
+## is strictly preferable; if they disagree, the disagreement is the finding.
+injury_endpoint_comparison <- function(df, outdir, min_cells_per_donor = 10) {
+    score_col <- intersect(paste0(INJURY_PROGRAMS, "_score"), names(df))
+    if (!length(score_col)) return(NULL)
+    d <- data.table::as.data.table(df)
+    keep <- d[, .N, by = donor_id][N >= min_cells_per_donor, donor_id]
+    d <- d[donor_id %in% keep]
+    per_donor <- d[, c(.(n_total = .N,
+                         injury_frac = mean(as.character(state_program) %in% INJURY_PROGRAMS),
+                         disease_group = first(as.character(disease_group))),
+                       lapply(.SD, mean, na.rm = TRUE)),
+                   by = donor_id, .SDcols = score_col]
+    data.table::setnames(per_donor, score_col, "continuous_score")
+    ct_p <- suppressWarnings(cor.test(per_donor$injury_frac, per_donor$continuous_score,
+                                      method = "pearson"))
+    ct_s <- suppressWarnings(cor.test(per_donor$injury_frac, per_donor$continuous_score,
+                                      method = "spearman"))
+    out <- data.table::data.table(
+        n_donors = nrow(per_donor), min_cells = min_cells_per_donor,
+        injury_programs = paste(INJURY_PROGRAMS, collapse = "+"),
+        continuous_column = score_col[1],
+        pearson_r = unname(ct_p$estimate), pearson_p = ct_p$p.value,
+        spearman_rho = unname(ct_s$estimate), spearman_p = ct_s$p.value,
+        pct_donors_zero_injury_frac = round(100 * mean(per_donor$injury_frac == 0), 1),
+        note = paste("injury_frac is a proportion of a 1.9% cluster, so it is",
+                     "zero-inflated and its variance is dominated by whether the",
+                     "donor has ANY cell in cluster 4; the continuous score uses",
+                     "every cell and does not depend on the cluster assignment"))
+    write_tsv_safe(out, file.path(outdir, "injury_endpoint_comparison.tsv"))
+    write_tsv_safe(per_donor, file.path(outdir, "injury_endpoint_by_donor.tsv"))
+    cat("
+== discrete vs continuous injury endpoint (P2-2) ==
+"); print(out)
+    out
+}
+
 ## ----- (C) Injury-program fraction vs disease (headline) ------------------
-injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx = "") {
+injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx = "",
+                                       stab = NULL) {
     ## Hard fail if a named injury program is absent from the data. Silently
     ## matching nothing is exactly how this endpoint drifted from three programs to
     ## one without any output changing shape.
@@ -440,6 +575,10 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx
                    n_fibrotic = sum(dat$disease_group %in% fibro_lvl, na.rm = TRUE),
                    estimable = n_donors_group >= 3,
                    injury_programs = paste(INJURY_PROGRAMS, collapse = "+"))
+        ## P2-2: the backing cluster's bootstrap reproducibility travels with the
+        ## estimate. The SE beside it is conditional on the labels being right;
+        ## these columns say how much that condition is worth.
+        emm_df <- add_stability_cols(emm_df, stab)
         write_tsv_safe(emm_df, file.path(outdir, paste0("injury_fraction_emmeans",
                                                         sfx, arm_sfx, ".tsv")))
         ## Same for contrasts: flag any comparison touching a <3-donor group.
@@ -448,6 +587,7 @@ injury_fraction_by_disease <- function(df, outdir, min_cells_per_donor = 10, sfx
             mutate(min_cells = min_cells_per_donor, arm = arm_sfx, n_donors = n_fit,
                    touches_small_group = Reduce(`|`, lapply(small, function(g)
                        grepl(g, contrast, fixed = TRUE)), FALSE))
+        ph <- add_stability_cols(ph, stab)
         write_tsv_safe(ph, file.path(outdir, paste0("injury_fraction_posthoc", sfx,
                                                     arm_sfx, ".tsv")))
         if (length(small))
@@ -488,6 +628,10 @@ agtr1_by_group(df, "state_program", outdir, "program")
 agtr1_by_group(df, "pericyte_state", outdir, "state")
 ## Primary threshold first (canonical, unsuffixed filenames); the rest are
 ## sensitivity fits written alongside with a `_mincells<N>` suffix.
+## P2-2: establish the injury endpoint's cluster-stability provenance BEFORE
+## fitting anything on it, so every fit below can carry it.
+stab <- injury_endpoint_stability(df, outdir)
+
 for (i in seq_along(MIN_CELLS)) {
     mc  <- MIN_CELLS[i]
     sfx <- if (i == 1L) "" else paste0("_mincells", mc)
@@ -495,8 +639,11 @@ for (i in seq_along(MIN_CELLS)) {
         if (i == 1L) "(PRIMARY)" else "(sensitivity)", "=====\n")
     composition_by_disease(df, "pericyte_state", outdir, "state", mc, sfx)
     composition_by_disease(df, "state_program", outdir, "program", mc, sfx)
-    injury_fraction_by_disease(df, outdir, mc, sfx)
+    injury_fraction_by_disease(df, outdir, mc, sfx, stab = stab)
 }
+
+## Discrete vs continuous, at the primary threshold only.
+invisible(injury_endpoint_comparison(df, outdir, MIN_CELLS[1]))
 
 cat("\nReproducibility information:\n")
 Sys.time(); proc.time()

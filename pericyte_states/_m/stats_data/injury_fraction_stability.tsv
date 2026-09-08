@@ -1,0 +1,2 @@
+cluster	cluster_key	n_boot	jaccard_mean	jaccard_median	jaccard_min	jaccard_lo	jaccard_hi	pericyte_state	N	injury_programs	pct_of_pericytes	solution_median_jaccard	verdict
+4	leiden_n30_r0.5	30	0.588630855568714	0.51844894026975	0.10634328358209	0.125031586529378	0.978006535947712	4	220	activated_migratory	1.88	0.96535202148341	FRAGILE -- quote the interval with any claim

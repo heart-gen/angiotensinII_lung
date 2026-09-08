@@ -1,5 +1,5 @@
-2026-09-06 03:47:26 - **** Job starts ****
-Job id: 45321856
+2026-09-08 09:06:59 - **** Job starts ****
+Job id: 45532029
 Hostname: r001
 
 Currently Loaded Modules:
@@ -7,8 +7,8 @@ Currently Loaded Modules:
 
  
 
-2026-09-06 03:47:27 - **** Loading mamba environment ****
-2026-09-06 03:47:28 - **** Donor-aware pericyte-state statistics ****
+2026-09-08 09:07:00 - **** Loading mamba environment ****
+2026-09-08 09:07:08 - **** Donor-aware pericyte-state statistics ****
 cells: 11680  donors: 194 
 stable states:
 
@@ -21,6 +21,18 @@ programs:
 
         COPD Fibrotic_ILD      Healthy        Other 
           41         2516         7262         1861 
+
+== injury-endpoint cluster stability (P2-2) ==
+Key: <cluster>
+   cluster n_cells pct_of_pericytes jaccard_median jaccard_min jaccard_lo
+    <char>   <int>            <num>          <num>       <num>      <num>
+1:       4     220             1.88      0.5184489   0.1063433  0.1250316
+   jaccard_hi                                      verdict
+        <num>                                       <char>
+1:  0.9780065 FRAGILE -- quote the interval with any claim
+  WARNING: the injury fraction rests on cluster(s) 4 with median
+  Jaccard 0.518 (solution median 0.965). Any disease contrast on
+  `injury_frac` must be reported with this interval.
 
 ===== donor filter: >= 10 pericytes (PRIMARY) =====
   [state] primary n=89 | age-restricted sensitivity n=47
@@ -38,10 +50,21 @@ injury programs: activated_migratory | min_cells = 20
   injury_fraction[_ageadj]: n=36 donors, 4 fibrotic
 There were 16 warnings (use warnings() to see them)
 
+== discrete vs continuous injury endpoint (P2-2) ==
+   n_donors min_cells     injury_programs         continuous_column pearson_r
+      <int>     <int>              <char>                    <char>     <num>
+1:       89        10 activated_migratory activated_migratory_score 0.1947136
+    pearson_p spearman_rho spearman_p pct_donors_zero_injury_frac
+        <num>        <num>      <num>                       <num>
+1: 0.06747449    0.1395428  0.1921568                        38.2
+                                                                                                                                                                                                                                     note
+                                                                                                                                                                                                                                   <char>
+1: injury_frac is a proportion of a 1.9% cluster, so it is zero-inflated and its variance is dominated by whether the donor has ANY cell in cluster 4; the continuous score uses every cell and does not depend on the cluster assignment
+
 Reproducibility information:
-[1] "2026-09-06 03:47:45 EDT"
+[1] "2026-09-08 09:07:39 EDT"
    user  system elapsed 
- 16.150   0.420  16.392 
+ 16.396   0.563  30.867 
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -52,7 +75,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-06
+ date     2026-09-08
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -124,4 +147,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-06 03:47:45 - **** Job ends ****
+2026-09-08 09:07:43 - **** Job ends ****

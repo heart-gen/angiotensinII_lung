@@ -1,0 +1,2 @@
+n_donors	min_cells	injury_programs	continuous_column	pearson_r	pearson_p	spearman_rho	spearman_p	pct_donors_zero_injury_frac	note
+89	10	activated_migratory	activated_migratory_score	0.194713643676589	0.0674744918371808	0.139542771016441	0.192156794565875	38.2	injury_frac is a proportion of a 1.9% cluster, so it is zero-inflated and its variance is dominated by whether the donor has ANY cell in cluster 4; the continuous score uses every cell and does not depend on the cluster assignment
