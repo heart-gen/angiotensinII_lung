@@ -201,6 +201,73 @@ write_tsv_safe(comp_wide, file.path(opt$outdir, "ras_circuit_completeness.tsv"))
 n_auto <- sum(comp_wide$autonomous_circuit, na.rm = TRUE)
 renin_max <- det_by_group[gene == "REN", max(detect, na.rm = TRUE)]
 
+## ---- THRESHOLD SWEEP for the autonomy claim (P2-19, added 2026-09-08) -------
+## `--detect-thr` defaults to 0.05 and no launcher ever overrode it, so a single
+## unjustified default decided a headline: "no cell type holds an autonomous
+## AGT->AngII->AT1R circuit". AGT_SUMMARY.md called that conclusion "robust to
+## modest changes in that threshold", which is true UPWARD and false DOWNWARD --
+## at 0.02 one cell type qualifies and at 0.01 three do.
+##
+## The sweep is reported rather than the default alone. IT DOES NOT RESCUE THE
+## CLAIM, and the first version of this note wrongly said it did -- the finding
+## is worth stating plainly:
+##
+##   detect_thr   n_autonomous   max_steps_held (of 3)
+##   0.01         3              3   (adventitial, peribronchial, subpleural fib.)
+##   0.02         1              3   (adventitial fibroblasts)
+##   0.05 default 0              1
+##   0.10         0              1   (and nothing has detectable AGT at all)
+##   0.20         0              1
+##
+## `max_steps_held` is the largest number of the three requirements -- substrate,
+## Ang II-generating protease, AT1R -- that any single cell type holds. At the
+## default it is 1: not one cell type in the atlas holds even two of the three,
+## which is a strong statement. But it goes to 3 as soon as the threshold drops
+## below ~0.03, so DISJOINTNESS IS ALSO THRESHOLD-DEPENDENT. There is no
+## reformulation of the autonomy claim that survives the sweep unchanged.
+##
+## What follows for prose:
+##
+##   * Never quote "no cell type is autonomous" as a bare fact. It is a
+##     statement at a threshold, and the threshold must be given with it.
+##   * The 0.05 default is now a CHOICE THAT MUST BE DEFENDED, not a default that
+##     happens to be in an optparse list. Defend it on what detection means at
+##     these depths -- below ~0.02 a "positive" cell type is a handful of cells
+##     with one transcript -- not on robustness, which the sweep denies.
+##   * Do NOT reach for renin as the threshold-free escape either. REN's maximum
+##     detection anywhere in the atlas is 0.0229, which clears the 0.01 and 0.02
+##     rungs and fails the default -- so "renin is absent" is a statement at
+##     >= 0.05 too, not a fact about the atlas.
+##
+## The one formulation that carries no threshold is the NUMBER itself: the
+## highest REN detection in any lung cell type is 2.3% of cells, against
+## substantially higher ACE and chymase. State the value and let the reader draw
+## the line; that is the only version of this result that a different threshold
+## cannot move.
+THR_SWEEP <- c(0.01, 0.02, 0.05, 0.10, 0.20)
+sweep_rows <- rbindlist(lapply(THR_SWEEP, function(th) {
+    hs <- comp_wide$substrate >= th
+    hp <- (comp_wide$renin_step >= th) | (comp_wide$ace_step >= th) |
+          (comp_wide$chymase_step >= th)
+    hr <- comp_wide$receptor_AT1 >= th
+    n_held <- as.integer(hs) + as.integer(hp) + as.integer(hr)
+    auto <- hs & hp & hr
+    data.table(
+        detect_thr = th,
+        is_default = th == opt$detect_thr,
+        n_autonomous = sum(auto, na.rm = TRUE),
+        autonomous_types = paste(comp_wide$ccc_group[which(auto)], collapse = "|"),
+        n_with_substrate = sum(hs, na.rm = TRUE),
+        n_with_protease  = sum(hp, na.rm = TRUE),
+        n_with_receptor  = sum(hr, na.rm = TRUE),
+        max_steps_held = max(n_held, na.rm = TRUE),
+        n_types_at_max = sum(n_held == max(n_held, na.rm = TRUE), na.rm = TRUE),
+        any_detectable_agt = sum(comp_wide$substrate >= th, na.rm = TRUE) > 0)
+}))
+write_tsv_safe(sweep_rows, file.path(opt$outdir, "ras_autonomy_threshold_sweep.tsv"))
+message("\n== autonomy threshold sweep (P2-19) ==")
+print(sweep_rows)
+
 readme <- c(
     "Local RAS landscape -- generated summary",
     sprintf("Units (>=%d cells): %d; cell types: %d; donors: %d",
@@ -214,6 +281,13 @@ readme <- c(
            vapply(CIRCULAR_UNITS, paste, character(1), collapse = ", ")),
     "",
     sprintf("Cell types with an autonomous AGT->AngII->AT1R circuit: %d", n_auto),
+    "  ^ THRESHOLD-DEPENDENT -- never quote this count without the threshold.",
+    "    See ras_autonomy_threshold_sweep.tsv (P2-19). Disjointness is ALSO",
+    "    threshold-dependent, so there is no safer reformulation:",
+    paste0("    max of the 3 requirements held by any one cell type, by thr: ",
+           paste(sprintf("%.2f:%d", sweep_rows$detect_thr, sweep_rows$max_steps_held),
+                 collapse = "  ")),
+    "    Nothing here is threshold-free; quote the REN value, not a crossing.",
     sprintf("Maximum REN (renin) detection across all cell types: %.4f", renin_max),
     "",
     "Top 3 cell types per gene:",

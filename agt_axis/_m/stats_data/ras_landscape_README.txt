@@ -8,6 +8,11 @@ circular_by_construction in ras_celltype_profile.tsv):
   AGTR2: AT2_AGTR2det, AT2_AGTR2undet
 
 Cell types with an autonomous AGT->AngII->AT1R circuit: 0
+  ^ THRESHOLD-DEPENDENT -- never quote this count without the threshold.
+    See ras_autonomy_threshold_sweep.tsv (P2-19). Disjointness is ALSO
+    threshold-dependent, so there is no safer reformulation:
+    max of the 3 requirements held by any one cell type, by thr: 0.01:3  0.02:3  0.05:1  0.10:1  0.20:1
+    Nothing here is threshold-free; quote the REN value, not a crossing.
 Maximum REN (renin) detection across all cell types: 0.0229
 
 Top 3 cell types per gene:

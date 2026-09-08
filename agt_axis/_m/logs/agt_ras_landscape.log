@@ -1,41 +1,41 @@
-2026-09-07 19:03:24 - **** Job starts ****
+2026-09-08 11:49:37 - **** Job starts ****
 User: kbenjamin
-Job id: 45464760
-Hostname: r028
+Job id: 45538004
+Hostname: r290
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-07 19:03:25 - **** Donor x cell-type pseudobulk for the local RAS panel ****
-2026-09-07 19:05:59,784 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
-2026-09-07 19:06:13,808 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
-2026-09-07 19:06:13,814 [INFO] Aggregating 18/18 genes
-2026-09-07 19:06:15,466 [INFO]   aggregated 20000/423007 cells
-2026-09-07 19:06:16,468 [INFO]   aggregated 40000/423007 cells
-2026-09-07 19:06:17,334 [INFO]   aggregated 60000/423007 cells
-2026-09-07 19:06:18,415 [INFO]   aggregated 80000/423007 cells
-2026-09-07 19:06:19,358 [INFO]   aggregated 100000/423007 cells
-2026-09-07 19:06:20,196 [INFO]   aggregated 120000/423007 cells
-2026-09-07 19:06:21,330 [INFO]   aggregated 140000/423007 cells
-2026-09-07 19:06:22,183 [INFO]   aggregated 160000/423007 cells
-2026-09-07 19:06:23,039 [INFO]   aggregated 180000/423007 cells
-2026-09-07 19:06:23,820 [INFO]   aggregated 200000/423007 cells
-2026-09-07 19:06:25,022 [INFO]   aggregated 220000/423007 cells
-2026-09-07 19:06:25,774 [INFO]   aggregated 240000/423007 cells
-2026-09-07 19:06:26,659 [INFO]   aggregated 260000/423007 cells
-2026-09-07 19:06:27,937 [INFO]   aggregated 280000/423007 cells
-2026-09-07 19:06:29,334 [INFO]   aggregated 300000/423007 cells
-2026-09-07 19:06:30,408 [INFO]   aggregated 320000/423007 cells
-2026-09-07 19:06:31,333 [INFO]   aggregated 340000/423007 cells
-2026-09-07 19:06:32,605 [INFO]   aggregated 360000/423007 cells
-2026-09-07 19:06:33,722 [INFO]   aggregated 380000/423007 cells
-2026-09-07 19:06:34,500 [INFO]   aggregated 400000/423007 cells
-2026-09-07 19:06:35,310 [INFO]   aggregated 420000/423007 cells
-2026-09-07 19:06:35,511 [INFO]   aggregated 423007/423007 cells
-2026-09-07 19:06:36,748 [INFO] Wrote ras_pseudobulk_celltype.tsv.gz: 5811 units x 43 cols
-2026-09-07 19:06:37,051 [INFO] Units per group (n_cells >= 5):
+2026-09-08 11:49:38 - **** Donor x cell-type pseudobulk for the local RAS panel ****
+2026-09-08 11:52:32,253 [INFO] Opened ../../cell_communication/_m/ccc_niche.h5ad (423007 x 55329)
+2026-09-08 11:52:46,640 [INFO] Normalization check passed (median expm1 row-sum 10000.00)
+2026-09-08 11:52:46,644 [INFO] Aggregating 18/18 genes
+2026-09-08 11:52:48,546 [INFO]   aggregated 20000/423007 cells
+2026-09-08 11:52:49,915 [INFO]   aggregated 40000/423007 cells
+2026-09-08 11:52:50,842 [INFO]   aggregated 60000/423007 cells
+2026-09-08 11:52:51,911 [INFO]   aggregated 80000/423007 cells
+2026-09-08 11:52:53,195 [INFO]   aggregated 100000/423007 cells
+2026-09-08 11:52:54,459 [INFO]   aggregated 120000/423007 cells
+2026-09-08 11:52:55,334 [INFO]   aggregated 140000/423007 cells
+2026-09-08 11:52:56,661 [INFO]   aggregated 160000/423007 cells
+2026-09-08 11:52:57,491 [INFO]   aggregated 180000/423007 cells
+2026-09-08 11:52:58,629 [INFO]   aggregated 200000/423007 cells
+2026-09-08 11:52:59,554 [INFO]   aggregated 220000/423007 cells
+2026-09-08 11:53:00,444 [INFO]   aggregated 240000/423007 cells
+2026-09-08 11:53:01,566 [INFO]   aggregated 260000/423007 cells
+2026-09-08 11:53:02,407 [INFO]   aggregated 280000/423007 cells
+2026-09-08 11:53:03,266 [INFO]   aggregated 300000/423007 cells
+2026-09-08 11:53:04,419 [INFO]   aggregated 320000/423007 cells
+2026-09-08 11:53:05,220 [INFO]   aggregated 340000/423007 cells
+2026-09-08 11:53:06,064 [INFO]   aggregated 360000/423007 cells
+2026-09-08 11:53:07,011 [INFO]   aggregated 380000/423007 cells
+2026-09-08 11:53:07,934 [INFO]   aggregated 400000/423007 cells
+2026-09-08 11:53:09,131 [INFO]   aggregated 420000/423007 cells
+2026-09-08 11:53:09,382 [INFO]   aggregated 423007/423007 cells
+2026-09-08 11:53:10,709 [INFO] Wrote ras_pseudobulk_celltype.tsv.gz: 5811 units x 43 cols
+2026-09-08 11:53:10,972 [INFO] Units per group (n_cells >= 5):
 ccc_group
 DC2                          353
 Interstitial macrophages     344
@@ -68,8 +68,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-07 19:06
-2026-09-07 19:06:56 - **** RAS source / receiver landscape and circuit completeness ****
+Session information updated at 2026-09-08 11:53
+2026-09-08 11:53:33 - **** RAS source / receiver landscape and circuit completeness ****
 Units: 4376; cell types: 22; donors: 417
 Modelling 18 RAS/comparator genes
   AGTR2: excluding 2 unit(s) defined by this gene (AT2_AGTR2det, AT2_AGTR2undet)
@@ -88,6 +88,36 @@ Warning message:
 Model failed to converge with 1 negative eigenvalue: -3.9e+02 
 Warning message:
 Model failed to converge with 1 negative eigenvalue: -1.6e+04 
+
+== autonomy threshold sweep (P2-19) ==
+   detect_thr is_default n_autonomous
+        <num>     <lgcl>        <int>
+1:       0.01      FALSE            3
+2:       0.02      FALSE            1
+3:       0.05       TRUE            0
+4:       0.10      FALSE            0
+5:       0.20      FALSE            0
+                                                           autonomous_types
+                                                                     <char>
+1: Adventitial fibroblasts|Peribronchial fibroblasts|Subpleural fibroblasts
+2:                                                  Adventitial fibroblasts
+3:                                                                         
+4:                                                                         
+5:                                                                         
+   n_with_substrate n_with_protease n_with_receptor max_steps_held
+              <int>           <int>           <int>          <int>
+1:                7              15               7              3
+2:                3              12               6              3
+3:                1               6               3              1
+4:                0               6               3              1
+5:                0               1               1              1
+   n_types_at_max any_detectable_agt
+            <int>             <lgcl>
+1:              3               TRUE
+2:              1               TRUE
+3:             10               TRUE
+4:              9              FALSE
+5:              2              FALSE
 Local RAS landscape -- generated summary
 Units (>=5 cells): 4376; cell types: 22; donors: 417
 Detection threshold for 'step present': 0.05
@@ -98,6 +128,11 @@ circular_by_construction in ras_celltype_profile.tsv):
   AGTR2: AT2_AGTR2det, AT2_AGTR2undet
 
 Cell types with an autonomous AGT->AngII->AT1R circuit: 0
+  ^ THRESHOLD-DEPENDENT -- never quote this count without the threshold.
+    See ras_autonomy_threshold_sweep.tsv (P2-19). Disjointness is ALSO
+    threshold-dependent, so there is no safer reformulation:
+    max of the 3 requirements held by any one cell type, by thr: 0.01:3  0.02:3  0.05:1  0.10:1  0.20:1
+    Nothing here is threshold-free; quote the REN value, not a crossing.
 Maximum REN (renin) detection across all cell types: 0.0229
 
 Top 3 cell types per gene:
@@ -245,7 +280,7 @@ Circuit completeness by cell type:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-07
+ date     2026-09-08
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -306,4 +341,4 @@ Circuit completeness by cell type:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-07 19:09:49 - **** Job ends ****
+2026-09-08 11:56:55 - **** Job ends ****
