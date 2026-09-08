@@ -1,5 +1,5 @@
-2026-09-08 09:12:38 - **** Job starts ****
-Job id: 45532592
+2026-09-08 12:27:52 - **** Job starts ****
+Job id: 45541759
 Hostname: r183
 
 Currently Loaded Modules:
@@ -355,25 +355,44 @@ In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
 15:  0.34081703 1.180837 76.75863 3.550442 0.0006606813 injury_program_score
 16:  0.32758200 1.202046 71.07559 3.428467 0.0010135975 injury_program_score
 17:  0.54469239 1.536134 72.99813 4.113626 0.0001010443 injury_program_score
-        n covars           model dropped_level n_studies_left n_left
-    <int> <char>          <char>        <char>          <int>  <int>
- 1:    75    sex LMM (1|dataset)         study             21     75
- 2:    80    sex LMM (1|dataset)         study             21     80
- 3:    69    sex LMM (1|dataset)         study             20     69
- 4:    68    sex LMM (1|dataset)         study             21     68
- 5:    79    sex LMM (1|dataset)         study             21     79
- 6:    82    sex LMM (1|dataset)         study             21     82
- 7:    78    sex LMM (1|dataset)         study             20     78
- 8:    74    sex LMM (1|dataset)         study             18     74
- 9:    81    sex LMM (1|dataset)         study             21     81
-10:    81    sex LMM (1|dataset)         study             21     81
-11:    80    sex LMM (1|dataset)         study             21     80
-12:    82    sex LMM (1|dataset)         study             21     82
-13:    80    sex LMM (1|dataset)         study             21     80
-14:    82    sex LMM (1|dataset)         study             21     82
-15:    82    sex LMM (1|dataset)         study             21     82
-16:    77    sex LMM (1|dataset)         study             21     77
-17:    78    sex LMM (1|dataset)         study             21     78
+        n covars           model         dropped_level loso_by n_studies_left
+    <int> <char>          <char>                <char>  <char>          <int>
+ 1:    75    sex LMM (1|dataset)         Sheppard_2020   study             21
+ 2:    80    sex LMM (1|dataset)         Budinger_2020   study             21
+ 3:    69    sex LMM (1|dataset)            Regev_2021   study             20
+ 4:    68    sex LMM (1|dataset) Banovich_Kropski_2020   study             21
+ 5:    79    sex LMM (1|dataset)         Lafyatis_2019   study             21
+ 6:    82    sex LMM (1|dataset)    Peer_Massague_2020   study             21
+ 7:    78    sex LMM (1|dataset)            Meyer_2021   study             20
+ 8:    74    sex LMM (1|dataset)              Sun_2020   study             18
+ 9:    81    sex LMM (1|dataset)         Misharin_2021   study             21
+10:    81    sex LMM (1|dataset)         Schiller_2021   study             21
+11:    80    sex LMM (1|dataset)             Eils_2020   study             21
+12:    82    sex LMM (1|dataset)           Tata_unpubl   study             21
+13:    80    sex LMM (1|dataset)          Krasnow_2020   study             21
+14:    82    sex LMM (1|dataset)            Meyer_2019   study             21
+15:    82    sex LMM (1|dataset)  Duong_lungMAP_unpubl   study             21
+16:    77    sex LMM (1|dataset)         Kaminski_2020   study             21
+17:    78    sex LMM (1|dataset)         Schiller_2020   study             21
+    n_left
+     <int>
+ 1:     75
+ 2:     80
+ 3:     69
+ 4:     68
+ 5:     79
+ 6:     82
+ 7:     78
+ 8:     74
+ 9:     81
+10:     81
+11:     80
+12:     82
+13:     80
+14:     82
+15:     82
+16:     77
+17:     78
 
 == smoking availability by disease group ==
    disease_group     n n_known n_never n_ever
@@ -441,7 +460,7 @@ Index: <min_cells>
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-09-08 09:13:38 EDT"
+[1] "2026-09-08 12:29:45 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -516,4 +535,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-08 09:13:44 - **** Job ends ****
+2026-09-08 12:30:36 - **** Job ends ****

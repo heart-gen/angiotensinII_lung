@@ -128,11 +128,30 @@ pA <- ggplot(donor, aes(dx, injury_program_score)) +
 ## ===========================================================================
 ## Panel B -- which continuous programs carry the score (both contrasts)
 ## ===========================================================================
+## ALL SIX PANEL SCORES (P2-34, 2026-09-08). This whitelist held four programs
+## while `component_effects_3group.tsv` grew to six -- `synthetic_contractile`
+## (P2-33) and `basement_membrane` were dropped silently, so neither fix reached
+## the figure. The panel's stated job is to show WHICH programs carry the score,
+## and that cannot be judged without the ones that do not: three risers beside
+## three flat programs is the argument, where three risers alone is an assertion.
+## The two added rows are the negative controls, and showing a negative control
+## is the only thing that makes running it worth anything.
+##
+## `basement_membrane` is plotted here but is still NOT part of the composite --
+## that exclusion rests on the composite's definition, not on a missing test.
 nice_prog <- c(z_fibroblast_like = "Fibrillar\nfibroblast-like",
                z_activated_migratory = "Activated/\nmigratory",
                z_inflammatory = "Inflammatory",
-               z_vascular_stabilizing = "Vascular-\nstabilizing")
+               z_vascular_stabilizing = "Vascular-\nstabilizing",
+               z_synthetic_contractile = "Synthetic/\ncontractile",
+               z_basement_membrane = "Basement\nmembrane")
 comp <- fread(file.path(SD, "component_effects_3group.tsv"))
+missing_prog <- setdiff(comp$response, names(nice_prog))
+if (length(missing_prog))
+    stop("component_effects_3group.tsv carries programs absent from `nice_prog`: ",
+         paste(missing_prog, collapse = ", "),
+         "\nAdd them deliberately -- a silent whitelist is how this panel fell ",
+         "two programs behind its own table (P2-34).")
 comp <- comp[response %in% names(nice_prog)]
 ## order by the Fibrotic/ILD effect: the panel's job is to show WHICH programme
 ## dominates, so the dominant one belongs at the top.
@@ -349,10 +368,20 @@ pD <- ggplot(est, aes(estimate, cmp, colour = ctr)) +
 ## title names its own standardisation set and no cross-panel annotation is drawn.
 
 ## ---- S16A: leave-one-study-out ---------------------------------------------
+## Reads the STUDY-level file (P2-8): 5 of 25 studies span more than one dataset,
+## so dropping a dataset cannot remove those cohorts and a dataset-level LOSO
+## overstates robustness to cohort removal.
+##
+## The label column is `dropped_level`, which BOTH leave-one-out files carry.
+## This line used to name `dropped_dataset`, which exists only in the
+## dataset-level file -- so when P2-8 split the two arms this panel broke, and it
+## broke SILENTLY because the figure was not rebuilt at the time. Use the generic
+## column so the panel cannot be tied to one arm's column name again.
 loso <- fread(file.path(SD, "leave_one_study_out_3group.tsv"))
 loso <- loso[grepl("Fibrotic", contrast)]
-loso[, lab := factor(short_study(dropped_dataset),
-                     levels = short_study(dropped_dataset)[order(estimate)])]
+stopifnot("dropped_level" %in% names(loso))
+loso[, lab := factor(short_study(dropped_level),
+                     levels = short_study(dropped_level)[order(estimate)])]
 full_est <- eff["Fibrotic_ILD - Healthy", estimate]
 n_sig <- loso[p.value < 0.05, .N]
 

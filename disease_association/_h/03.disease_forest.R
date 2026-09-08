@@ -640,7 +640,15 @@ loso_by <- function(by) rbindlist(lapply(levels(droplevels(factor(tri[[by]]))), 
         return(NULL)
     r <- summ_tri(fit_tri("injury_program_score", d), "injury_program_score")$contrasts
     r <- r[grepl("Fibrotic", contrast)]
-    r[, `:=`(dropped = g, dropped_level = by, n_dropped = tri[get(by) == g, .N],
+    ## `dropped_level` holds the VALUE that was dropped, and `loso_by` names the
+    ## grouping it came from. The first version of this had `dropped_level = by`,
+    ## i.e. the constant string "study" -- a column whose name promised the level
+    ## and delivered the level's TYPE. It broke the S16A figure panel, which
+    ## reasonably read `dropped_level` for a label and got 17 identical values.
+    ## Keep both: `dropped_level` is the arm-independent column a consumer should
+    ## read, and `dropped_<by>` stays for back-compatibility.
+    r[, `:=`(dropped = g, dropped_level = g, loso_by = by,
+             n_dropped = tri[get(by) == g, .N],
              n_studies_left = uniqueN(d$dataset), n_left = nrow(d))]
     setnames(r, "dropped", paste0("dropped_", by))
     r[]
