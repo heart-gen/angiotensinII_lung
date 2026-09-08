@@ -17,6 +17,19 @@
 ##     18 F) and Kaminski_2020 (~8 H / 23 F). That within-study signal is the
 ##     asset the pooled model wasted.
 ##
+##     CAVEAT ON THAT SECOND EXAMPLE (P2-25, added 2026-09-08). The counts above
+##     are cell-level and describe the cohort BEFORE the >= MIN_CELLS pericyte
+##     filter. Kaminski_2020 does not survive it on the Healthy side: its Healthy
+##     donors are wiped out entirely while its fibrotic donors largely survive,
+##     so the study contributes no within-study contrast and does NOT enter the
+##     forest. The forest is built from the studies that did qualify, and the
+##     within-study argument stands on those -- but the header's own motivating
+##     example is not among them, which a reader deserves to be told rather than
+##     left to discover from the attrition table. `forest_eligibility_audit.tsv`
+##     now states, per dataset, exactly which arm failed and by how much, and
+##     `forest_floor_sensitivity.tsv` rebuilds the forest at lower floors to show
+##     what a fourth study would do to the pooled estimate.
+##
 ## Design:
 ##   PRIMARY endpoint  : donor-level mean pericyte injury-program score =
 ##                       mean of the z-standardised donor means of the
@@ -25,6 +38,26 @@
 ##                       no AGTR1, no basement-membrane -- BM is vascular-support).
 ##   PRIMARY contrast  : Healthy vs Fibrotic/ILD only. COPD/"Other" kept for
 ##                       description, excluded from the primary estimand.
+##
+##   WHAT "HEALTHY" MEANS HERE (P2-26, stated 2026-09-08). The Healthy arm is 42
+##   donors, of which 12 (29%) are `Healthy (tumor adjacent)` -- histologically
+##   normal lung resected alongside a tumour. This is deliberate and is standard
+##   practice for the HLCA: tumour-adjacent normal lung is the largest source of
+##   non-diseased human lung tissue in existence, and excluding it would cut the
+##   reference arm by nearly a third for a distinction the `disease` field itself
+##   does not draw (all 42 are coded `normal`). Note the interaction with the
+##   carcinoma exclusion below: that filter operates on `disease`, so it removes
+##   carcinoma CASES from "Other" while correctly leaving tumour-adjacent
+##   CONTROLS in "Healthy". The two are not in conflict -- they are different
+##   tissue.
+##
+##   The convention was previously stated in no script, legend or summary, which
+##   is the actual defect. It is now stated here, flagged per donor in the
+##   endpoint tables (`healthy_tumor_adjacent`), and backed by a labelled
+##   sensitivity refit on the 30 unambiguous controls
+##   (`primary_effect_tumor_adjacent_SENS.tsv`) so the reader can see the
+##   convention is not load-bearing. The PRIMARY model is unchanged and keeps all
+##   42.
 ##   PRIMARY model     : donor-level LMM  endpoint ~ disease + age + sex + (1|dataset)
 ##                       (study-adjusted pooled effect, Satterthwaite df).
 ##   HEADLINE FIGURE   : random-effects META-ANALYSIS forest across the studies
@@ -170,6 +203,12 @@ covar <- meta[, lapply(.SD, first_ok), by = donor_id,
 donor <- merge(donor, covar, by = "donor_id")
 
 donor[, disease_group := relevel(factor(map_disease_group(lung_condition)), "Healthy")]
+## P2-26: mark the tumour-adjacent controls. They REMAIN Healthy (see header);
+## the flag exists so the composition of the reference arm is visible in every
+## donor-level table instead of being recoverable only from `lung_condition`.
+donor[, healthy_tumor_adjacent :=
+          grepl("tumor|tumour", as.character(lung_condition), ignore.case = TRUE) &
+          disease_group == "Healthy"]
 donor[, sex := factor(sex)]
 donor[, age := suppressWarnings(as.numeric(age))]
 donor[, dataset := factor(dataset)]
@@ -282,6 +321,43 @@ res_prim_age <- summ_disease(fit_lmm("injury_program_score", prim, covars = c("a
 wt(res_prim_age, "primary_effect_age_adjusted_SENS.tsv")
 cat("\n== SENSITIVITY: same endpoint, +age (age-complete subset) ==\n"); print(res_prim_age)
 
+## ---- SENSITIVITY: drop the tumour-adjacent controls (P2-26) ----------------
+## The convention -- tumour-adjacent normal lung counts as Healthy -- is a
+## deliberate design decision and the primary model above keeps all 42 controls.
+## This arm exists to show the decision is not carrying the result: if the
+## contrast holds on the 30 unambiguous controls, the objection closes for good.
+## Reported as a labelled sensitivity, never as a replacement estimand.
+n_ta <- prim[healthy_tumor_adjacent == TRUE, .N]
+if (n_ta > 0) {
+    prim_nota <- prim[healthy_tumor_adjacent == FALSE]
+    prim_nota[, disease_group := droplevels(disease_group)]
+    grp_ok <- all(c("Healthy", "Fibrotic_ILD") %in% levels(prim_nota$disease_group)) &&
+        min(table(prim_nota$disease_group)) >= 3L
+    if (grp_ok) {
+        ## NOTE THE SCALE. `injury_program_score` was z-standardised over the FULL
+        ## primary set, and those columns are reused here rather than recomputed,
+        ## so this estimate is on the SAME SD scale as the primary and the two are
+        ## directly comparable. Re-standardising over the reduced set would change
+        ## the unit and make the comparison meaningless -- that is the scale trap
+        ## this file warns about elsewhere.
+        res_nota <- summ_disease(fit_lmm("injury_program_score", prim_nota),
+                                 "injury_program_score")
+        res_nota[, `:=`(arm = "excl_tumor_adjacent_controls",
+                        n_dropped = n_ta,
+                        scale_note = "z from the FULL primary set; comparable to primary_effect.tsv")]
+        wt(res_nota, "primary_effect_tumor_adjacent_SENS.tsv")
+        cat(sprintf("\n== SENSITIVITY: primary contrast excluding %d tumour-adjacent controls ==\n", n_ta))
+        print(res_nota)
+    } else {
+        wt(data.table(arm = "excl_tumor_adjacent_controls", estimable = FALSE,
+                      reason = "a group falls below 3 donors after the exclusion"),
+           "primary_effect_tumor_adjacent_SENS.tsv")
+    }
+}
+## Composition of the reference arm, so the 29% is a number in a file.
+wt(prim[, .(n_donors = .N), by = .(disease_group, healthy_tumor_adjacent)],
+   "healthy_arm_composition.tsv")
+
 ## component decomposition (was the composite driven by ONE program?)
 comp_rows <- rbindlist(lapply(names(INJ_COLS), function(p) {
     prim2 <- copy(prim); prim2[, tmp := get(paste0("z_", p))]
@@ -307,6 +383,38 @@ per_study <- prim[, .(nH = sum(disease_group == "Healthy"),
                       nH >= MIN_GRP & nF >= MIN_GRP]
 cat(sprintf("\nForest: %d studies sampled BOTH groups (>= %d each)\n", nrow(per_study), MIN_GRP))
 print(per_study)
+
+## ---- WHY EACH DATASET DID OR DID NOT ENTER THE FOREST (P2-25) --------------
+## The forest is a minority of the primary donors, and until now nothing said so.
+## This table names, per dataset, the donors available BEFORE the min-cells
+## filter, the donors surviving it, and which arm failed -- so an attrition that
+## wipes one arm of a cohort is visible instead of being inferable only by
+## comparing two other tables. It is a diagnostic: nothing downstream reads it.
+elig_pre <- donor_all[disease_group %in% c("Healthy", "Fibrotic_ILD"),
+                      .(nH_pre = sum(disease_group == "Healthy"),
+                        nF_pre = sum(disease_group == "Fibrotic_ILD")), by = dataset]
+elig_post <- prim[, .(nH_post = sum(disease_group == "Healthy"),
+                      nF_post = sum(disease_group == "Fibrotic_ILD")), by = dataset]
+elig <- merge(elig_pre, elig_post, by = "dataset", all = TRUE)
+for (cc in c("nH_pre", "nF_pre", "nH_post", "nF_post"))
+    elig[!is.finite(get(cc)), (cc) := 0L]
+elig[, in_forest := nH_post >= MIN_GRP & nF_post >= MIN_GRP]
+elig[, reason := fifelse(
+    in_forest, "enters the forest",
+    fifelse(nH_pre < MIN_GRP & nF_pre < MIN_GRP,
+            sprintf("never sampled both arms (%d H / %d F before the filter)", nH_pre, nF_pre),
+    fifelse(nH_post < MIN_GRP & nH_pre >= MIN_GRP,
+            sprintf("Healthy arm lost to the >=%d-pericyte filter (%d -> %d)", MIN_CELLS, nH_pre, nH_post),
+    fifelse(nF_post < MIN_GRP & nF_pre >= MIN_GRP,
+            sprintf("Fibrotic arm lost to the >=%d-pericyte filter (%d -> %d)", MIN_CELLS, nF_pre, nF_post),
+            sprintf("below %d donors in an arm (%d H / %d F)", MIN_GRP, nH_post, nF_post)))))]
+setorder(elig, -in_forest, -nF_post)
+wt(elig, "forest_eligibility_audit.tsv")
+cat("\n== forest eligibility, per dataset (P2-25) ==\n"); print(elig)
+cat(sprintf("Forest covers %d of %d primary donors (%.0f%%) across %d of %d datasets.\n",
+            prim[dataset %in% per_study$dataset, .N], nrow(prim),
+            100 * prim[dataset %in% per_study$dataset, .N] / nrow(prim),
+            nrow(per_study), uniqueN(prim$dataset)))
 
 study_eff <- rbindlist(lapply(per_study$dataset, function(ds) {
     d <- prim[dataset == ds]; d[, disease_group := droplevels(disease_group)]
@@ -344,6 +452,82 @@ pool_row <- data.table(estimate = pool$estimate, se = pool$se, ci_lo = pool$ci_l
                        p_pooled = 2 * pnorm(-abs(pool$estimate / pool$se)))
 wt(pool_row, "forest_pooled_RE.tsv")
 cat("\n== random-effects pooled Fibrotic - Healthy (SD units) ==\n"); print(pool_row)
+
+## ---- FOREST-FLOOR SENSITIVITY (P2-25) --------------------------------------
+## The forest's membership is set by MIN_CELLS, a threshold chosen for the
+## stability of a donor MEAN -- not for meta-analytic coverage. A cohort can be
+## excluded from the forest for having few pericytes per donor even when it holds
+## the largest fibrotic sample in the study. So: rebuild the whole forest at
+## lower floors and report what enters and what the pooled estimate does.
+##
+## This is a SENSITIVITY, not a proposal to lower the primary floor. A lower
+## floor buys studies at the cost of noisier donor means, and the trade is only
+## worth making if the pooled estimate is stable across it -- which is exactly
+## what this table lets a reader check. The primary forest remains MIN_CELLS.
+##
+## SCALE: `z` is recomputed within each rung's own Healthy+Fibrotic set, the same
+## convention `mincells_sensitivity.tsv` uses, so each row is in that rung's SD
+## units. Rows are comparable in DIRECTION and in study membership; treat the
+## magnitudes as within-rung.
+FOREST_RUNGS <- sort(unique(c(MIN_CELLS, 5L, 3L, 2L)), decreasing = TRUE)
+fs_ps <- data.table()
+forest_sens <- rbindlist(lapply(FOREST_RUNGS, function(mc) {
+    dd <- donor_all[n_cells >= mc & disease_group %in% c("Healthy", "Fibrotic_ILD")]
+    dd[, disease_group := droplevels(disease_group)]
+    if (uniqueN(dd$disease_group) < 2L) return(NULL)
+    for (pp in names(INJ_COLS)) dd[[paste0("z_", pp)]] <- z(dd[[paste0("m_", pp)]])
+    dd[, injury_program_score :=
+           rowMeans(as.matrix(dd[, paste0("z_", names(INJ_COLS)), with = FALSE]))]
+    ps <- dd[, .(nH = sum(disease_group == "Healthy"),
+                 nF = sum(disease_group == "Fibrotic_ILD")), by = dataset][
+                 nH >= MIN_GRP & nF >= MIN_GRP]
+    if (!nrow(ps)) return(data.table(min_cells = mc, n_studies = 0L, n_donors_forest = 0L,
+                                     n_donors_primary = nrow(dd), estimate = NA_real_,
+                                     se = NA_real_, ci_lo = NA_real_, ci_hi = NA_real_,
+                                     I2 = NA_real_, p_pooled = NA_real_,
+                                     studies = "", new_vs_primary = ""))
+    se_dt <- rbindlist(lapply(ps$dataset, function(ds) {
+        d <- dd[dataset == ds]; d[, disease_group := droplevels(disease_group)]
+        f <- lm(injury_program_score ~ disease_group, data = d)
+        co <- summary(f)$coefficients
+        r <- grep("Fibrotic", rownames(co), value = TRUE)[1]
+        data.table(dataset = as.character(ds), yi = co[r, "Estimate"], sei = co[r, "Std. Error"])
+    }))
+    se_dt <- se_dt[is.finite(yi) & is.finite(sei) & sei > 0]
+    if (nrow(se_dt) < 2L) return(NULL)
+    ## Per-study rows at every rung, with the MEDIAN PERICYTE COUNT per arm.
+    ## Without that column a rung looks like it simply added a study, when what
+    ## it actually added may be donor means estimated from a handful of cells --
+    ## which is the thing MIN_CELLS exists to prevent, so it has to be visible.
+    fs_ps <<- rbind(fs_ps, merge(se_dt, dd[, .(
+        nH = sum(disease_group == "Healthy"), nF = sum(disease_group == "Fibrotic_ILD"),
+        med_cells_H = as.numeric(median(n_cells[disease_group == "Healthy"])),
+        med_cells_F = as.numeric(median(n_cells[disease_group == "Fibrotic_ILD"]))),
+        by = dataset][, dataset := as.character(dataset)],
+        by = "dataset")[, min_cells := mc][], fill = TRUE)
+    pl <- dl_pool(se_dt$yi, se_dt$sei)
+    data.table(min_cells = mc, n_studies = nrow(se_dt),
+               n_donors_forest = dd[dataset %in% se_dt$dataset, .N],
+               n_donors_primary = nrow(dd),
+               estimate = pl$estimate, se = pl$se, ci_lo = pl$ci_lo, ci_hi = pl$ci_hi,
+               I2 = pl$I2, p_pooled = 2 * pnorm(-abs(pl$estimate / pl$se)),
+               studies = paste(sort(se_dt$dataset), collapse = "|"),
+               new_vs_primary = paste(sort(setdiff(se_dt$dataset,
+                                                   study_eff$dataset)), collapse = "|"))
+}), fill = TRUE)
+if (nrow(fs_ps)) {
+    setcolorder(fs_ps, c("min_cells", "dataset", "nH", "nF",
+                         "med_cells_H", "med_cells_F", "yi", "sei"))
+    setorder(fs_ps, -min_cells, dataset)
+    wt(fs_ps, "forest_floor_per_study.tsv")
+    cat("\n== per-study effects at each forest floor (P2-25) ==\n"); print(fs_ps)
+}
+if (nrow(forest_sens)) {
+    wt(forest_sens, "forest_floor_sensitivity.tsv")
+    cat("\n== forest rebuilt at lower pericyte floors (P2-25) ==\n")
+    print(forest_sens[, .(min_cells, n_studies, n_donors_forest, estimate,
+                          ci_lo, ci_hi, I2, p_pooled, new_vs_primary)])
+}
 
 ## ---- forest plot (manuscript style: no title, direct labels) ----------------
 study_lab <- sprintf("%s  (%d H / %d F)", study_eff$dataset, study_eff$nH, study_eff$nF)

@@ -1,6 +1,6 @@
-2026-09-07 23:57:34 - **** Job starts ****
-Job id: 45486614
-Hostname: r373
+2026-09-08 09:12:38 - **** Job starts ****
+Job id: 45532592
+Hostname: r183
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -62,6 +62,20 @@ In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  
             <char>
 1: LMM (1|dataset)
 
+== SENSITIVITY: primary contrast excluding 12 tumour-adjacent controls ==
+               response     n n_healthy n_fibrotic beta_fib_minus_healthy
+                 <char> <int>     <int>      <int>                  <num>
+1: injury_program_score    54        30         24              0.9422083
+          se       df        t           p contrast_estimate  contrast_p covars
+       <num>    <num>    <num>       <num>             <num>       <num> <char>
+1: 0.2952045 49.76207 3.191714 0.002451247        -0.9422083 0.003628412    sex
+             model                          arm n_dropped
+            <char>                       <char>     <int>
+1: LMM (1|dataset) excl_tumor_adjacent_controls        12
+                                                      scale_note
+                                                          <char>
+1: z from the FULL primary set; comparable to primary_effect.tsv
+
 == component effects (each program separately) ==
                   response     n n_healthy n_fibrotic beta_fib_minus_healthy
                     <char> <int>     <int>      <int>                  <num>
@@ -95,6 +109,67 @@ Forest: 3 studies sampled BOTH groups (>= 2 each)
 2: Banovich_Kropski_2020     8     7
 3:         Schiller_2020     3     2
 
+== forest eligibility, per dataset (P2-25) ==
+                      dataset nH_pre nF_pre nH_post nF_post in_forest
+                       <fctr>  <int>  <int>   <int>   <int>    <lgcl>
+ 1:     Banovich_Kropski_2020     21     18       8       7      TRUE
+ 2:             Sheppard_2020      3      5       3       5      TRUE
+ 3:             Schiller_2020      7      3       3       2      TRUE
+ 4:             Kaminski_2020      8     23       0       6     FALSE
+ 5:             Lafyatis_2019      0      4       0       4     FALSE
+ 6:      Duong_lungMAP_unpubl      1      0       1       0     FALSE
+ 7:                 Eils_2020      7      0       3       0     FALSE
+ 8:         Gomperts_2021_CFF      1      0       0       0     FALSE
+ 9:              Krasnow_2020      3      0       3       0     FALSE
+10: Lafyatis_Rojas_2019_10Xv1      1      0       0       0     FALSE
+11: Lafyatis_Rojas_2019_10Xv2      3      0       0       0     FALSE
+12:                Meyer_2019      2      0       1       0     FALSE
+13:         Meyer_2021_3prime      2      0       1       0     FALSE
+14:         Meyer_2021_5prime      4      0       4       0     FALSE
+15:             Misharin_2021      2      0       2       0     FALSE
+16:    Misharin_Budinger_2018      1      2       0       0     FALSE
+17:               Nawijn_2021      3      0       0       0     FALSE
+18:        Peer_Massague_2020      2      0       1       0     FALSE
+19:             Schiller_2021      6      0       2       0     FALSE
+20:           Sun_2020_batch1      1      0       1       0     FALSE
+21:           Sun_2020_batch2      2      0       2       0     FALSE
+22:           Sun_2020_batch3      3      0       3       0     FALSE
+23:           Sun_2020_batch4      3      0       3       0     FALSE
+24:               Tata_unpubl      3      0       1       0     FALSE
+25:      Teichmann_Meyer_2019      2      0       0       0     FALSE
+26:            Xu_2020_LAM1_3      0      2       0       0     FALSE
+                      dataset nH_pre nF_pre nH_post nF_post in_forest
+                                                    reason
+                                                    <char>
+ 1:                                      enters the forest
+ 2:                                      enters the forest
+ 3:                                      enters the forest
+ 4:  Healthy arm lost to the >=10-pericyte filter (8 -> 0)
+ 5:                   below 2 donors in an arm (0 H / 4 F)
+ 6:  never sampled both arms (1 H / 0 F before the filter)
+ 7:                   below 2 donors in an arm (3 H / 0 F)
+ 8:  never sampled both arms (1 H / 0 F before the filter)
+ 9:                   below 2 donors in an arm (3 H / 0 F)
+10:  never sampled both arms (1 H / 0 F before the filter)
+11:  Healthy arm lost to the >=10-pericyte filter (3 -> 0)
+12:  Healthy arm lost to the >=10-pericyte filter (2 -> 1)
+13:  Healthy arm lost to the >=10-pericyte filter (2 -> 1)
+14:                   below 2 donors in an arm (4 H / 0 F)
+15:                   below 2 donors in an arm (2 H / 0 F)
+16: Fibrotic arm lost to the >=10-pericyte filter (2 -> 0)
+17:  Healthy arm lost to the >=10-pericyte filter (3 -> 0)
+18:  Healthy arm lost to the >=10-pericyte filter (2 -> 1)
+19:                   below 2 donors in an arm (2 H / 0 F)
+20:  never sampled both arms (1 H / 0 F before the filter)
+21:                   below 2 donors in an arm (2 H / 0 F)
+22:                   below 2 donors in an arm (3 H / 0 F)
+23:                   below 2 donors in an arm (3 H / 0 F)
+24:  Healthy arm lost to the >=10-pericyte filter (3 -> 1)
+25:  Healthy arm lost to the >=10-pericyte filter (2 -> 0)
+26: Fibrotic arm lost to the >=10-pericyte filter (2 -> 0)
+                                                    reason
+Forest covers 28 of 66 primary donors (42%) across 3 of 19 datasets.
+
 == random-effects pooled Fibrotic - Healthy (SD units) ==
     estimate        se     ci_lo    ci_hi       tau2        Q    df    p_Q
        <num>     <num>     <num>    <num>      <num>    <num> <num>  <num>
@@ -102,6 +177,63 @@ Forest: 3 studies sampled BOTH groups (>= 2 each)
          I2     p_pooled
       <num>        <num>
 1: 24.95671 4.477045e-05
+Warning messages:
+1: In `[.data.table`(dd, , `:=`(injury_program_score, rowMeans(as.matrix(dd[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+2: In `[.data.table`(dd, , `:=`(injury_program_score, rowMeans(as.matrix(dd[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+3: In `[.data.table`(dd, , `:=`(injury_program_score, rowMeans(as.matrix(dd[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+4: In `[.data.table`(dd, , `:=`(injury_program_score, rowMeans(as.matrix(dd[,  :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+
+== per-study effects at each forest floor (P2-25) ==
+    min_cells               dataset    nH    nF med_cells_H med_cells_F
+        <int>                <char> <int> <int>       <num>       <num>
+ 1:        10 Banovich_Kropski_2020     8     7          49          19
+ 2:        10         Schiller_2020     3     2          25          56
+ 3:        10         Sheppard_2020     3     5         381         196
+ 4:         5 Banovich_Kropski_2020     9     7          43          19
+ 5:         5         Schiller_2020     4     3          23          14
+ 6:         5         Sheppard_2020     3     5         381         196
+ 7:         3 Banovich_Kropski_2020    13     9          17          15
+ 8:         3         Kaminski_2020     3    14           3           8
+ 9:         3         Schiller_2020     4     3          23          14
+10:         3         Sheppard_2020     3     5         381         196
+11:         2 Banovich_Kropski_2020    15    13          15          10
+12:         2         Kaminski_2020     4    15           3           7
+13:         2         Schiller_2020     4     3          23          14
+14:         2         Sheppard_2020     3     5         381         196
+             yi       sei
+          <num>     <num>
+ 1:  1.02774038 0.1960886
+ 2:  0.04145928 0.5794017
+ 3:  1.03335817 0.3752194
+ 4:  0.88527675 0.1963651
+ 5: -0.17193943 0.5283041
+ 6:  0.96749231 0.3515599
+ 7:  0.80001674 0.1717799
+ 8: -0.12533034 0.2836017
+ 9: -0.17976979 0.5246121
+10:  0.96940625 0.3512175
+11:  0.81355738 0.1658137
+12:  0.08416723 0.2787276
+13: -0.18485054 0.5127935
+14:  0.91050924 0.3305154
+
+== forest rebuilt at lower pericyte floors (P2-25) ==
+   min_cells n_studies n_donors_forest  estimate       ci_lo    ci_hi       I2
+       <int>     <int>           <int>     <num>       <num>    <num>    <num>
+1:        10         3              28 0.9018583  0.46875838 1.334958 24.95671
+2:         5         3              31 0.7152223  0.19452020 1.235924 47.36860
+3:         3         4              54 0.4252241 -0.14997935 1.000428 73.06540
+4:         2         4              62 0.4933985  0.01416599 0.972631 63.82623
+       p_pooled new_vs_primary
+          <num>         <char>
+1: 4.477045e-05               
+2: 7.098174e-03               
+3: 1.473524e-01  Kaminski_2020
+4: 4.359781e-02  Kaminski_2020
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -309,7 +441,7 @@ Index: <min_cells>
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-09-07 23:59:26 EDT"
+[1] "2026-09-08 09:13:38 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -320,7 +452,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-07
+ date     2026-09-08
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -384,4 +516,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 23:59:33 - **** Job ends ****
+2026-09-08 09:13:44 - **** Job ends ****

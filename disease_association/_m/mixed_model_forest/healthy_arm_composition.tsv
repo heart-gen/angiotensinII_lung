@@ -1,0 +1,4 @@
+disease_group	healthy_tumor_adjacent	n_donors
+Fibrotic_ILD	FALSE	24
+Healthy	TRUE	12
+Healthy	FALSE	30

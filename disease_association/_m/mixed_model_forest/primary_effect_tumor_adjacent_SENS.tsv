@@ -1,0 +1,2 @@
+response	n	n_healthy	n_fibrotic	beta_fib_minus_healthy	se	df	t	p	contrast_estimate	contrast_p	covars	model	arm	n_dropped	scale_note
+injury_program_score	54	30	24	0.942208313278462	0.295204461639606	49.7620656711507	3.19171433942871	0.00245124669543026	-0.942208313278462	0.00362841237079382	sex	LMM (1|dataset)	excl_tumor_adjacent_controls	12	z from the FULL primary set; comparable to primary_effect.tsv
