@@ -32,7 +32,12 @@
 ##                       diamond + I^2. This is the direct answer to the
 ##                       "disease is confounded with batch" objection.
 ##   SENSITIVITY       : (a) each of the 3 injury components separately (was the
-##                       composite driven by one program?); (b) min-cells/donor
+##                       composite driven by one program?), plus the 2 non-injury
+##                       programs -- `vascular_stabilizing` and, since 2026-09-07,
+##                       `synthetic_contractile` (P2-33) -- as negative controls
+##                       that are reported but never composited. The sixth panel
+##                       score, `basement_membrane`, is excluded by design and
+##                       tested in its own module; (b) min-cells/donor
 ##                       threshold sweep; (c) SMOKING -- adaptive: adjust the
 ##                       disease contrast for smoking only if estimable, else fall
 ##                       back to a within-Healthy smoking effect and a
@@ -111,10 +116,27 @@ pick_col <- function(prog) {
 }
 INJURY   <- c("inflammatory", "activated_migratory", "fibroblast_like")
 INJ_COLS <- setNames(vapply(INJURY, pick_col, ""), INJURY)
-STAB_COL <- pick_col("vascular_stabilizing")
+
+## NON-INJURY PROGRAMS, TESTED BUT NOT COMPOSITED (P2-33, added 2026-09-07).
+## These are reported alongside the injury components and are NOT part of
+## `injury_program_score`. Until 2026-09-07 only `vascular_stabilizing` was here,
+## which left `synthetic_contractile` -- a named program of the state model --
+## with no donor-level disease test anywhere in the repository. That is the P1-4
+## hazard: an untested program acquires a "flat" label by association with the
+## programs that were tested. It is now tested, and may be described only from
+## `component_effects*.tsv`.
+##
+## `basement_membrane` is the sixth panel score and is EXCLUDED BY DESIGN, not
+## untested: it is a matrix-stabilizing vascular function rather than an injury
+## program, and the basement_membrane module owns its own disease arm (GSE136831
+## COPD). It is named here so a reader does not infer it was tested and null.
+CONTROL   <- c("vascular_stabilizing", "synthetic_contractile")
+CTRL_COLS <- setNames(vapply(CONTROL, pick_col, ""), CONTROL)
+CTRL_COLS <- CTRL_COLS[!is.na(CTRL_COLS) & nzchar(CTRL_COLS)]
 stopifnot(!anyNA(INJ_COLS))
 cat("injury score columns:\n"); print(INJ_COLS)
-cat("stability score column:", STAB_COL, "\n")
+cat("non-injury (tested, not composited) score columns:\n"); print(CTRL_COLS)
+cat("excluded by design: basement_membrane (own disease arm in basement_membrane/)\n")
 
 ## `disease` is carried so the carcinoma exclusion below can be applied here too.
 need <- c("donor_id", "dataset", "lung_condition", "age", "sex", "smoking_status",
@@ -125,9 +147,9 @@ first_ok <- function(x) { y <- x[!is.na(x)]; if (length(y)) y[[1]] else x[NA_int
 donor <- meta[, c(
     .(n_cells = .N),
     lapply(.SD, function(v) mean(v, na.rm = TRUE))
-), by = donor_id, .SDcols = c(unname(INJ_COLS), if (!is.na(STAB_COL)) STAB_COL)]
+), by = donor_id, .SDcols = c(unname(INJ_COLS), unname(CTRL_COLS))]
 setnames(donor, unname(INJ_COLS), paste0("m_", names(INJ_COLS)))
-if (!is.na(STAB_COL)) setnames(donor, STAB_COL, "m_vascular_stabilizing")
+if (length(CTRL_COLS)) setnames(donor, unname(CTRL_COLS), paste0("m_", names(CTRL_COLS)))
 
 covar <- meta[, lapply(.SD, first_ok), by = donor_id,
               .SDcols = setdiff(have, "donor_id")]
@@ -191,7 +213,8 @@ prim <- donor[disease_group %in% c("Healthy", "Fibrotic_ILD")]
 prim[, disease_group := droplevels(disease_group)]
 for (p in names(INJ_COLS)) prim[[paste0("z_", p)]] <- z(prim[[paste0("m_", p)]])
 prim[, injury_program_score := rowMeans(as.matrix(prim[, paste0("z_", names(INJ_COLS)), with = FALSE]))]
-if ("m_vascular_stabilizing" %in% names(prim)) prim[, z_vascular_stabilizing := z(m_vascular_stabilizing)]
+for (p in names(CTRL_COLS))
+    if (paste0("m_", p) %in% names(prim)) prim[[paste0("z_", p)]] <- z(prim[[paste0("m_", p)]])
 wt(prim, "donor_endpoint_table.tsv")
 
 ## ===========================================================================
@@ -249,9 +272,11 @@ comp_rows <- rbindlist(lapply(names(INJ_COLS), function(p) {
     prim2 <- copy(prim); prim2[, tmp := get(paste0("z_", p))]
     summ_disease(fit_lmm("tmp", prim2), paste0("z_", p))
 }))
-if ("z_vascular_stabilizing" %in% names(prim)) {
-    prim2 <- copy(prim); prim2[, tmp := z_vascular_stabilizing]
-    comp_rows <- rbind(comp_rows, summ_disease(fit_lmm("tmp", prim2), "z_vascular_stabilizing"))
+for (p in names(CTRL_COLS)) {
+    zc <- paste0("z_", p)
+    if (!zc %in% names(prim)) next
+    prim2 <- copy(prim); prim2[, tmp := get(zc)]
+    comp_rows <- rbind(comp_rows, summ_disease(fit_lmm("tmp", prim2), zc))
 }
 wt(comp_rows, "component_effects.tsv")
 cat("\n== component effects (each program separately) ==\n"); print(comp_rows)
@@ -339,7 +364,8 @@ tri <- donor[disease_group %in% TRI_LEVELS]
 tri[, disease_group := factor(as.character(disease_group), levels = TRI_LEVELS)]
 ## z ONCE over the three-group set; every model below reads these fixed columns.
 for (p in names(INJ_COLS)) tri[[paste0("z_", p)]] <- z(tri[[paste0("m_", p)]])
-if ("m_vascular_stabilizing" %in% names(tri)) tri[, z_vascular_stabilizing := z(m_vascular_stabilizing)]
+for (p in names(CTRL_COLS))
+    if (paste0("m_", p) %in% names(tri)) tri[[paste0("z_", p)]] <- z(tri[[paste0("m_", p)]])
 tri[, injury_program_score := rowMeans(as.matrix(tri[, paste0("z_", names(INJ_COLS)), with = FALSE]))]
 wt(tri, "donor_endpoint_table_3group.tsv")
 cat("\n== THREE-GROUP set (COPD excluded) ==\n"); print(table(tri$disease_group))
@@ -385,7 +411,7 @@ cat("\n-- adjusted marginal means --\n"); print(r_tri$emmeans)
 
 ## component decomposition on the SAME three-group model
 comp_tri <- rbindlist(lapply(c(names(INJ_COLS),
-                               if ("z_vascular_stabilizing" %in% names(tri)) "vascular_stabilizing"),
+                               names(CTRL_COLS)[paste0("z_", names(CTRL_COLS)) %in% names(tri)]),
                              function(p) {
     t2 <- copy(tri); t2[, tmp := get(paste0("z_", p))]
     summ_tri(fit_tri("tmp", t2), paste0("z_", p))$contrasts

@@ -1,6 +1,6 @@
-2026-07-30 09:27:20 - **** Job starts ****
-Job id: 42848114
-Hostname: r183
+2026-09-07 21:56:46 - **** Job starts ****
+Job id: 45478154
+Hostname: r227
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -12,7 +12,10 @@ injury score columns:
        "inflammatory_score" "activated_migratory_score" 
             fibroblast_like 
     "fibroblast_like_score" 
-stability score column: vascular_stabilizing_score 
+non-injury (tested, not composited) score columns:
+         vascular_stabilizing         synthetic_contractile 
+ "vascular_stabilizing_score" "synthetic_contractile_score" 
+excluded by design: basement_membrane (own disease arm in basement_membrane/)
 
 All donors with pericytes: 194
 
@@ -27,7 +30,7 @@ Excluding 11 carcinoma donors (by `disease`):
      Healthy         COPD Fibrotic_ILD        Other 
           91           12           57           23 
 
-After min-cells >= 10: 84 donors
+After min-cells >= 10: 84 donors (99 retained below it for the sweep)
 
      Healthy         COPD Fibrotic_ILD        Other 
           42            1           24           17 
@@ -58,24 +61,27 @@ In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  
 1: LMM (1|dataset)
 
 == component effects (each program separately) ==
-                 response     n n_healthy n_fibrotic beta_fib_minus_healthy
-                   <char> <int>     <int>      <int>                  <num>
-1:         z_inflammatory    66        42         24             0.45680150
-2:  z_activated_migratory    66        42         24             0.73666952
-3:      z_fibroblast_like    66        42         24             1.00378450
-4: z_vascular_stabilizing    66        42         24             0.07624466
-          se       df         t           p contrast_estimate  contrast_p
-       <num>    <num>     <num>       <num>             <num>       <num>
-1: 0.2860027 60.73793 1.5971927 0.115412907       -0.45680150 0.124896847
-2: 0.3215686 61.99910 2.2908630 0.025383395       -0.73666952 0.030184881
-3: 0.3288070 41.14690 3.0528078 0.003962522       -1.00378450 0.005471802
-4: 0.2348867 52.40177 0.3246019 0.746774693       -0.07624466 0.750046222
+                  response     n n_healthy n_fibrotic beta_fib_minus_healthy
+                    <char> <int>     <int>      <int>                  <num>
+1:          z_inflammatory    66        42         24             0.45680150
+2:   z_activated_migratory    66        42         24             0.73666952
+3:       z_fibroblast_like    66        42         24             1.00378450
+4:  z_vascular_stabilizing    66        42         24             0.07624466
+5: z_synthetic_contractile    66        42         24            -0.21584445
+          se       df          t           p contrast_estimate  contrast_p
+       <num>    <num>      <num>       <num>             <num>       <num>
+1: 0.2860027 60.73793  1.5971927 0.115412907       -0.45680150 0.124896847
+2: 0.3215686 61.99910  2.2908630 0.025383395       -0.73666952 0.030184881
+3: 0.3288070 41.14690  3.0528078 0.003962522       -1.00378450 0.005471802
+4: 0.2348867 52.40177  0.3246019 0.746774693       -0.07624466 0.750046222
+5: 0.2687856 56.97025 -0.8030356 0.425291806        0.21584445 0.434247612
    covars           model
    <char>          <char>
 1:    sex LMM (1|dataset)
 2:    sex LMM (1|dataset)
 3:    sex LMM (1|dataset)
 4:    sex LMM (1|dataset)
+5:    sex LMM (1|dataset)
 
 Forest: 3 studies sampled BOTH groups (>= 2 each)
                  dataset    nH    nF
@@ -97,7 +103,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Warning message:
-In `[.data.table`(tri, , `:=`(z_vascular_stabilizing, z(m_vascular_stabilizing))) :
+In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
   A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
 
 == THREE-GROUP set (COPD excluded) ==
@@ -128,26 +134,42 @@ In `[.data.table`(tri, , `:=`(z_vascular_stabilizing, z(m_vascular_stabilizing))
 3: injury_program_score
 
 == THREE-GROUP component effects (each program separately) ==
-                 contrast   estimate        se       df    t.ratio      p.value
-                   <char>      <num>     <num>    <num>      <num>        <num>
-1: Fibrotic_ILD - Healthy  0.4856707 0.2516605 77.58597  1.9298645 0.0572789167
-2:        Other - Healthy -0.5024398 0.5366441 20.50868 -0.9362627 0.3600329290
-3: Fibrotic_ILD - Healthy  0.8325390 0.3111942 77.68576  2.6753037 0.0091010127
-4:        Other - Healthy  0.4509483 0.5836645 20.00451  0.7726156 0.4487827412
-5: Fibrotic_ILD - Healthy  1.1011243 0.3202614 75.90935  3.4382048 0.0009537961
-6:        Other - Healthy  0.8980445 0.5551214 19.50005  1.6177444 0.1217797894
-7: Fibrotic_ILD - Healthy  0.1257752 0.2131839 70.89537  0.5899844 0.5570769092
-8:        Other - Healthy -0.3539451 0.6419081 20.77732 -0.5513953 0.5872443203
-                 response     n        ci_lo     ci_hi covars           model
-                   <char> <int>        <num>     <num> <char>          <char>
-1:         z_inflammatory    83 -0.007583928 0.9789254    sex LMM (1|dataset)
-2:         z_inflammatory    83 -1.554262251 0.5493826    sex LMM (1|dataset)
-3:  z_activated_migratory    83  0.222598348 1.4424796    sex LMM (1|dataset)
-4:  z_activated_migratory    83 -0.693034079 1.5949307    sex LMM (1|dataset)
-5:      z_fibroblast_like    83  0.473411935 1.7288366    sex LMM (1|dataset)
-6:      z_fibroblast_like    83 -0.189993419 1.9860825    sex LMM (1|dataset)
-7: z_vascular_stabilizing    83 -0.292065277 0.5436156    sex LMM (1|dataset)
-8: z_vascular_stabilizing    83 -1.612085015 0.9041948    sex LMM (1|dataset)
+                  contrast   estimate        se       df    t.ratio
+                    <char>      <num>     <num>    <num>      <num>
+ 1: Fibrotic_ILD - Healthy  0.4856707 0.2516605 77.58597  1.9298645
+ 2:        Other - Healthy -0.5024398 0.5366441 20.50868 -0.9362627
+ 3: Fibrotic_ILD - Healthy  0.8325390 0.3111942 77.68576  2.6753037
+ 4:        Other - Healthy  0.4509483 0.5836645 20.00451  0.7726156
+ 5: Fibrotic_ILD - Healthy  1.1011243 0.3202614 75.90935  3.4382048
+ 6:        Other - Healthy  0.8980445 0.5551214 19.50005  1.6177444
+ 7: Fibrotic_ILD - Healthy  0.1257752 0.2131839 70.89537  0.5899844
+ 8:        Other - Healthy -0.3539451 0.6419081 20.77732 -0.5513953
+ 9: Fibrotic_ILD - Healthy -0.1477874 0.2502383 75.40448 -0.5905869
+10:        Other - Healthy -0.3915148 0.6101026 20.74304 -0.6417196
+         p.value                response     n        ci_lo     ci_hi covars
+           <num>                  <char> <int>        <num>     <num> <char>
+ 1: 0.0572789167          z_inflammatory    83 -0.007583928 0.9789254    sex
+ 2: 0.3600329290          z_inflammatory    83 -1.554262251 0.5493826    sex
+ 3: 0.0091010127   z_activated_migratory    83  0.222598348 1.4424796    sex
+ 4: 0.4487827412   z_activated_migratory    83 -0.693034079 1.5949307    sex
+ 5: 0.0009537961       z_fibroblast_like    83  0.473411935 1.7288366    sex
+ 6: 0.1217797894       z_fibroblast_like    83 -0.189993419 1.9860825    sex
+ 7: 0.5570769092  z_vascular_stabilizing    83 -0.292065277 0.5436156    sex
+ 8: 0.5872443203  z_vascular_stabilizing    83 -1.612085015 0.9041948    sex
+ 9: 0.5565632385 z_synthetic_contractile    83 -0.638254439 0.3426796    sex
+10: 0.5280835887 z_synthetic_contractile    83 -1.587315919 0.8042863    sex
+              model
+             <char>
+ 1: LMM (1|dataset)
+ 2: LMM (1|dataset)
+ 3: LMM (1|dataset)
+ 4: LMM (1|dataset)
+ 5: LMM (1|dataset)
+ 6: LMM (1|dataset)
+ 7: LMM (1|dataset)
+ 8: LMM (1|dataset)
+ 9: LMM (1|dataset)
+10: LMM (1|dataset)
 
 == LOSO (three-group model, Fibrotic - Healthy): 22 refits, 21 with P < 0.05 ==
    estimate range 0.562 to 1.040 (full-data 0.751)
@@ -242,6 +264,18 @@ smoking-adjusted disease contrast NOT estimable given availability above.
            p
        <num>
 1: 0.4837318
+Warning message:
+In `[.data.table`(prim, , `:=`(smoke, norm_smoke(smoking_status))) :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+
+== donors available at each sweep rung (Healthy + Fibrotic/ILD) ==
+   min_cells n_donors n_healthy n_fibrotic
+       <num>    <int>     <int>      <int>
+1:         5       79        49         30
+2:        10       66        42         24
+3:        15       55        36         19
+4:        20       49        32         17
+5:        30       43        28         15
 Warning messages:
 1: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
   A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
@@ -254,17 +288,20 @@ Warning messages:
 5: In `[.data.table`(d, , `:=`(injury_program_score, rowMeans(as.matrix(d[,  :
   A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
 
+[min-cells sweep] 13 donors sit in the 5-9 band and are ADMITTED by the low rung (n 66 -> 79).
+
 == min-cells threshold sweep (primary endpoint) ==
+Index: <min_cells>
        response     n n_healthy n_fibrotic beta_fib_minus_healthy        se
          <char> <int>     <int>      <int>                  <num>     <num>
-1:  min_cells_5    66        42         24              0.7278548 0.2378431
+1:  min_cells_5    79        49         30              0.5255603 0.2424607
 2: min_cells_10    66        42         24              0.7278548 0.2378431
 3: min_cells_15    55        36         19              0.8615856 0.2535775
 4: min_cells_20    49        32         17              0.8449930 0.2598310
 5: min_cells_30    43        28         15              0.9289587 0.2576661
          df        t           p contrast_estimate  contrast_p covars
       <num>    <num>       <num>             <num>       <num> <char>
-1: 61.13803 3.060231 0.003282522        -0.7278548 0.004167837    sex
+1: 74.91238 2.167610 0.033365744        -0.5255603 0.037823528    sex
 2: 61.13803 3.060231 0.003282522        -0.7278548 0.004167837    sex
 3: 43.21930 3.397721 0.001469481        -0.8615856 0.001806001    sex
 4: 38.52945 3.252087 0.002384416        -0.8449930 0.003020529    sex
@@ -278,7 +315,7 @@ Warning messages:
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-07-30 09:28:44 EDT"
+[1] "2026-09-07 21:57:28 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -289,7 +326,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-30
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -353,4 +390,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-30 09:28:50 - **** Job ends ****
+2026-09-07 21:57:32 - **** Job ends ****
