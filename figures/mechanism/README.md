@@ -435,6 +435,35 @@ compartment and gene exploratory.
   is 3.6× lower than stated, and the per-cell-type donor counts are 25–127, not 6 — the
   2026-07-30 age fix is what changed them. The ranking statistic also changed on 2026-09-07 from
   partial η² to **Δ marginal *R*²** (P1-16), which is what panel C now plots.)*
+- **Which arm carries the ordering (P2-20, added 2026-09-08).** C's statistic is an **omnibus**
+  over three groups, so a high Δ*R*² says only that *AGTR1* varies with disease group — not that
+  it varies with **fibrosis**. Split by contrast, the top three rows do not tell the same story:
+
+  | Rank | Cell type | Δ*R*² | Fibrotic − Healthy | *P* | Other − Healthy | *P* | Carried by |
+  | ---: | --------- | ----: | -----------------: | --: | --------------: | --: | ---------- |
+  | 1 | Peribronchial fibroblasts | 0.088 | **−0.654** | **0.030** | −0.583 | 0.17 | fibrosis |
+  | 2 | Adventitial fibroblasts | 0.078 | −0.107 | 0.61 | **−0.862** | **0.034** | "Other" |
+  | 3 | Alveolar fibroblasts | 0.069 | −0.152 | 0.50 | −0.760 | 0.057 | "Other" |
+  | 4 | Vascular smooth muscle | 0.039 | −0.029 | 0.90 | −0.562 | 0.18 | "Other" |
+  | 6 | Pericytes | 0.004 | −0.152 | 0.56 | −0.088 | 0.87 | neither |
+
+  **"Other" here is overwhelmingly COVID-19**: 18 of 18 donors for alveolar fibroblasts, 16 of 18
+  for adventitial, 16 of 19 for vascular smooth muscle, 13 of 19 for peribronchial (remainder
+  chronic rhinitis; COPD is excluded from this model). So the ordering that ranks fibroblasts
+  above mural populations is, for **rows 2–4, an acute-COVID signal**, and their fibrotic
+  contrasts sit within ±0.16 SD of zero.
+
+  This matters because C sits beside **D**, an IPF/COPD replication, and the two are read
+  together for directional consistency. That argument must not be made between a
+  **COVID-carried omnibus** and an **IPF/COPD contrast**. The one row whose Δ*R*² *is*
+  fibrosis-driven is **peribronchial fibroblasts** — which is the cell type this same document
+  warns against two bullets below, because in the superseded Kruskal–Wallis analysis all 6 of
+  its fibrotic donors had donor-mean *AGTR1* of exactly zero and came from two datasets.
+
+  Read C as an **effect-size ordering of disease-associated *AGTR1* variance**, nothing more.
+  It is a null panel by every multiplicity-corrected measure (above), and the arm carrying each
+  row differs, so no row of it may be quoted as a fibrosis-specific finding. Per-arm estimates
+  and CIs: `disease_association/_m/mean_expr/agtr1_celltype_disease_effects.tsv`.
 - **C supersedes the earlier Kruskal–Wallis *AGTR1*-by-cell-type analysis**
   (`disease_agtr1_kruskal_by_celltype.tsv`, from `01.disease_association.R`), which reported
   peribronchial fibroblasts as significant (KW *P* = 0.0014, FDR = 0.0068). That test used the
