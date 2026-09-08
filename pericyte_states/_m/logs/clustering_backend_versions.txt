@@ -1,0 +1,53 @@
+Clustering backend versions for the shipped pericyte state model
+================================================================
+Written 2026-09-08 for defect P2-7 (writings/TODO.md).
+
+THIS IS A RECONSTRUCTION, NOT A CAPTURED LOG. Read the caveat below before
+citing it.
+
+  igraph     0.11.9
+  leidenalg  0.10.2
+  call       sc.tl.leiden(..., flavor="leidenalg", random_state=seed)
+             (00.state_discovery.py:182-183)
+
+WHY IT IS NOT IN state_discovery.log
+------------------------------------
+`session_info.show()` reports modules present in the running process's
+namespace. Leiden is invoked through scanpy, which imports igraph and leidenalg
+internally, so neither was ever in that namespace and neither has ever appeared
+in any pericyte_states log -- while every other dependency did. The central
+method of the state model was the one component whose version went unrecorded.
+
+`00.state_discovery.py` now logs both explicitly (added 2026-09-08), so every
+FUTURE run captures them at the source. This file exists because the SHIPPED
+model was produced before that change, and re-running the module to obtain a log
+line would re-derive the state model itself -- an unacceptable side effect for a
+provenance fix.
+
+HOW GOOD IS THIS RECONSTRUCTION
+-------------------------------
+The versions above were read from the conda environment the module runs in,
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env, on 2026-09-08.
+
+Supporting evidence that this environment is the one that produced the shipped
+model: the versions it reports today for the packages that WERE captured match
+state_discovery.log exactly --
+
+  python   3.10.18   (matches)
+  scanpy   1.11.4    (matches)
+  anndata  0.11.4    (matches)
+
+A shared environment can be updated without notice, so this is strong
+circumstantial evidence, not proof. Treat the two versions above as
+"the environment's versions, which the captured packages show to be unchanged
+since the 2026-09-01 run" -- and treat the next run's log line, not this file,
+as the authoritative record.
+
+RELEVANT KNOWN BEHAVIOUR
+------------------------
+scanpy emits a FutureWarning on every call in the shipped log: the default
+Leiden backend becomes igraph rather than leidenalg in a future release, which
+also requires n_iterations=2 and directed=False. Those flavours do not return
+identical partitions. The flavour is pinned explicitly in the call, so the
+change cannot move the state model silently -- but if it is ever switched
+deliberately, the cluster bootstrap (see stability/) must be re-run alongside it.

@@ -534,6 +534,30 @@ def main():
             adata.var.index.name = None
     adata.write(outdir / "pericyte_states.h5ad")
 
+    # CLUSTERING BACKEND VERSIONS (P2-13 -> P2-7, added 2026-09-08).
+    #
+    # `session_info.show()` reports only modules imported in this process's
+    # namespace. Leiden is called through `sc.tl.leiden(..., flavor="leidenalg")`,
+    # so scanpy imports igraph and leidenalg internally and neither ever appeared
+    # in any log -- while every other dependency did (python, scanpy, anndata,
+    # numpy, scvi-tools). The central method of the state model was the one
+    # component whose version was unrecorded, and Leiden results are known to
+    # move between leidenalg releases and between the leidenalg/igraph flavours.
+    #
+    # Logged explicitly, and BEFORE session_info so it cannot be lost in the
+    # tail. `leidenalg.version` is a plain string, not a `__version__`.
+    for _name in ("igraph", "leidenalg"):
+        try:
+            _m = __import__(_name)
+            _v = getattr(_m, "__version__", None) or getattr(_m, "version", None)
+            logging.info(f"clustering backend: {_name} {_v}")
+        except Exception as _e:                     # never fail a run over a log line
+            logging.warning(f"clustering backend: {_name} version unavailable ({_e})")
+    logging.info("clustering call: sc.tl.leiden(flavor='leidenalg'); note scanpy's "
+                 "FutureWarning that the default backend becomes igraph -- the "
+                 "flavour is pinned here precisely so that change cannot move the "
+                 "state model silently")
+
     session_info.show()
 
 

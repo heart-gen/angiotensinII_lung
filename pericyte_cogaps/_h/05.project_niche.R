@@ -81,6 +81,26 @@ pat_cols <- colnames(L)
 fwrite(df, file.path(OUTDIR, sprintf("projected_patterns_per_sample_np%d.tsv", NP)), sep = "\t")
 
 ## ---- (A) which cell types load each pattern (mean + donor-aware emmeans) ------
+## WHICH OF THE TWO IS CANONICAL (P2-17, settled 2026-09-08).
+##
+## This section writes two cell-type rankings and they disagree. The DONOR-AWARE
+## emmeans table is canonical; the plain mean is descriptive only and must not be
+## the source of a quoted rank.
+##
+## The projection has ~3,605 pseudobulk samples from ~409 donors. A plain mean
+## over samples treats those as 3,605 independent observations and so weights a
+## donor in proportion to how often it was sampled -- which is a property of the
+## atlas, not of the biology. `lmer(w ~ cell_type + (1|donor))` gives each donor
+## one voice.
+##
+## It matters: pericytes move 18th -> 17th on Pattern 6, 8th -> 7th on Pattern 3,
+## and 2nd -> 1st on Pattern 4. Every projection number in CoGAPS_SUMMARY.md used
+## to trace to the raw table; it now quotes this one.
+##
+## Read the emmeans INTERVALS, not just the order. On Pattern 4 the top two
+## (pericytes 1.237 [1.164, 1.310], mast cells 1.151 [1.087, 1.214]) overlap, so
+## the rank is a point estimate; on Pattern 6 the top and the pericyte row are
+## disjoint, so that ordering can be claimed.
 by_ct <- df |>
     group_by(cell_type) |>
     summarise(across(all_of(pat_cols), \(x) mean(x, na.rm = TRUE)), .groups = "drop")
