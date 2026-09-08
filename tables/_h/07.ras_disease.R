@@ -19,6 +19,39 @@ suppressPackageStartupMessages({
 })
 source("../_h/_tab_common.R")
 
+## P2-35. Both `write_part` calls below used to HARDCODE the model into their
+## `notes` string, and both strings outlived the models they described: they
+## still named `lm(... ~ disease_group + age + sex)` after P1-1/P1-2 moved `age`
+## into a labelled `_ageadj` arm and added `(1 | study)`, and after P1-10 refit
+## the >=20 arms. S13E even shipped a `model` column contradicting its own note,
+## while S13B/S13C had no model column at all -- so the wrong note was their
+## ONLY record of provenance.
+##
+## Derive it from the rows instead. Every source now carries `model` (added to
+## the composition outputs in `pericyte_states/_h/01.state_stats.R` for this
+## purpose), so the sentence cannot drift from the fit again.
+model_sentence <- function(x) {
+    if (!"model" %in% names(x)) return("Model: NOT RECORDED by the source script.")
+    m <- unique(stats::na.omit(x$model)); m <- m[nzchar(m)]
+    if (!length(m)) return("Model: NOT RECORDED by the source script.")
+    if (!"arm" %in% names(x)) return(paste0("Model: ", paste(m, collapse = "; "), "."))
+    ## Name the arm each formula belongs to; an unlabelled arm is the primary.
+    ## A part can legitimately carry more than one model per arm -- S13E ships the
+    ## guarded lmer alongside an HC3 comparison fit -- so name the blocks too,
+    ## otherwise the sentence reads "primary = X; primary = Y" with no way to tell
+    ## which rows are which.
+    keys <- c("arm", "model", if ("block" %in% names(x)) "block")
+    a <- unique(x[!is.na(model) & nzchar(model), ..keys])
+    a[, arm_lab := fifelse(is.na(arm) | !nzchar(arm), "primary", sub("^_", "", arm))]
+    a <- if ("block" %in% names(a))
+        a[, .(blocks = paste(sort(unique(block)), collapse = "/")), by = .(arm_lab, model)]
+        else a[, .(blocks = NA_character_), by = .(arm_lab, model)]
+    paste0("Model (derived from the `model` column, not asserted): ",
+           paste(sprintf("%s%s = %s", a$arm_lab,
+                         fifelse(is.na(a$blocks), "", paste0(" [", a$blocks, "]")),
+                         a$model), collapse = "; "), ".")
+}
+
 AG  <- function(...) P("agt_axis", "_m", ...)
 PSS <- function(f) P("pericyte_states", "_m", "stats_data", f)
 NI  <- function(f) P("niche_index", "_m", "stats_data", f)
@@ -298,7 +331,12 @@ for (tag in c("state", "program")) {
             supports = "Figure S11",
             sources = paste0("pericyte_states/_m/stats_data/composition_", tag, "_*"),
             status = st(),
-            notes = paste("Donor-level ANCOVA frac ~ disease_group + age + sex.",
+            notes = paste(model_sentence(rbindlist(all_bits, fill = TRUE)),
+                          "Donor-level fractions. Only the PRIMARY arm is",
+                          "assembled here; the age-complete `_ageadj` sensitivity",
+                          "sits beside it in the source directory and is not",
+                          "included, because `+ age` was a cohort filter on this",
+                          "endpoint (P1-2), not a covariate.",
                           "`p_BH` in the omnibus block is BH across levels;",
                           "contrast P values are already BH-adjusted within level",
                           "by the source script and are NOT re-adjusted here."))
@@ -356,11 +394,14 @@ for (resp in c("injury_stromal_score", "injury_stromal_score_sens_agtr1")) {
             supports = if (grepl("sens", resp)) "Figure S12" else "Figure 5A",
             sources = paste0("niche_index/_m/stats_data/", resp, "_*"),
             status = st(),
-            notes = paste0("Model: lm(", resp, " ~ disease_group + age + sex). ",
-                           "Components: ", comp_txt, ". ",
-                           "The >=20 rows reproduce the previously published fit ",
-                           "(F(2,31) = 5.97, P = 0.0064 for the primary score); ",
-                           "the >=10 rows are the new primary analysis."))
+            notes = paste0(model_sentence(rbindlist(bits, fill = TRUE)), " ",
+                           "Response: ", resp, ". Components: ", comp_txt, ". ",
+                           "The >=10 rows are the primary analysis and the >=20 rows ",
+                           "the sensitivity. NOTE: the >=20 rows no longer reproduce ",
+                           "the originally published F(2,31) = 5.97 -- P1-10 refit ",
+                           "that arm age-free with a (1 | study) guard, and the ",
+                           "anchor in 08.assemble_tables.R asserts the current ",
+                           "value. This note used to claim otherwise (P2-35)."))
 }
 
 ## =========================================================================

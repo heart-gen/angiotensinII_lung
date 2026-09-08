@@ -1,4 +1,4 @@
-level	n_donors	arm	Df	F.value	Pr..F.	p_excl_small_groups	small_groups	p_BH	min_cells
-activated_migratory	36	_ageadj	2	1.10828700266089	0.426127948965451	NA		0.455719220693348	20
-basement_membrane	36	_ageadj	2	1.28786827413299	0.307484188763298	NA		0.455719220693348	20
-vascular_stabilizing	36	_ageadj	2	0.833316649730717	0.455719220693348	NA		0.455719220693348	20
+level	n_donors	arm	model	Df	F.value	Pr..F.	p_excl_small_groups	small_groups	p_BH	min_cells
+activated_migratory	36	_ageadj	lmer(disease_group + sex + age + (1 | study))	2	1.10828700266089	0.426127948965451	NA		0.455719220693348	20
+basement_membrane	36	_ageadj	lmer(disease_group + sex + age + (1 | study))	2	1.28786827413299	0.307484188763298	NA		0.455719220693348	20
+vascular_stabilizing	36	_ageadj	lmer(disease_group + sex + age + (1 | study))	2	0.833316649730717	0.455719220693348	NA		0.455719220693348	20

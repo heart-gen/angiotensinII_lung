@@ -1,4 +1,4 @@
-level	n_donors	arm	Df	F.value	Pr..F.	p_excl_small_groups	small_groups	p_BH	min_cells
-activated_migratory	69		2	1.016964801905	0.367460456584078	NA		0.788049784037135	20
-basement_membrane	69		2	0.47014916711223	0.630306908110329	NA		0.788049784037135	20
-vascular_stabilizing	69		2	0.240510865095671	0.788049784037135	NA		0.788049784037135	20
+level	n_donors	arm	model	Df	F.value	Pr..F.	p_excl_small_groups	small_groups	p_BH	min_cells
+activated_migratory	69		lmer(disease_group + sex + (1 | study))	2	1.016964801905	0.367460456584078	NA		0.788049784037135	20
+basement_membrane	69		lmer(disease_group + sex + (1 | study))	2	0.47014916711223	0.630306908110329	NA		0.788049784037135	20
+vascular_stabilizing	69		lmer(disease_group + sex + (1 | study))	2	0.240510865095671	0.788049784037135	NA		0.788049784037135	20

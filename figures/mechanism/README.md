@@ -910,40 +910,30 @@ pole.** This is the evidence on which the "injury continuum" name was dropped re
 
 ### Figure S11 — `figureS_state_composition` — Discrete pericyte-state composition does not differ across disease groups
 
-**⚠️ Re-fitted 2026-09-02 — the null holds and is now well powered; this legend's numbers and its
-model are superseded.** `+ age` was a study filter, not a covariate: it deleted five whole studies
-and left the null resting on **6 fibrotic donors** while the tables reported 93. The primary model
-now drops age (kept as an `_ageadj` sensitivity), adds **`(1 | study)`**, and fits **89 donors, 24
-fibrotic** — cluster fractions all BH ≥ 0.199, programs all BH ≥ 0.201, injury fraction Healthy vs
-Fibrotic/ILD *P* = 0.58. Two things a reader of the new tables must use: **COPD is *n* = 1** and
-alone drives cluster 5 to BH = 0.0005 (*P* = 0.51 excluding it — read `p_excl_small_groups`), and
-**`(1 | study)` is load-bearing** (without it, basement-membrane *P* = 0.0015 and
-vascular-stabilizing *P* = 0.0018 appear, both gone at 0.797/0.912 with study modelled). **This
-figure needs regenerating against the new tables.**
-
 **Figure S11.** A deliberate null that bounds what the discrete state model can be asked to do.
-Donor-level ANCOVA (fraction ~ disease group + age + sex) on donors with ≥ 20 pericytes; boxes and
-points are donors, diamonds are age/sex-adjusted marginal means ±95% CI. **(A)** Fractions of the
-six stable pericyte clusters and **(B)** of the three dominant programs, by disease group.
-**(C)** The grouped injury-associated state fraction (Healthy 0.019, Fibrotic/ILD 0.034, Other
-0.034). **(D)** Forest of every disease contrast against Healthy across all six clusters, the three
-programs and the grouped fraction. **No contrast is significant after Benjamini–Hochberg
-correction** (all BH *P* ≥ 0.47 for the grouped fraction; ≥ 0.65 for programs; ≥ 0.87 for
-clusters), and every interval crosses zero. Intervals are nominal 95% while *P* values are
+Donor-level mixed model `lmer(fraction ~ disease group + sex + (1 | study))` on donors with ≥ 10
+pericytes (**89 donors, 24 fibrotic**, 18 studies); boxes and points are donors, diamonds are
+sex-adjusted marginal means ±95% CI. An age-complete `_ageadj` arm exists as a sensitivity and is
+**not** the primary — `+ age` was a cohort filter on this endpoint, not a covariate (P1-2).
+**(A)** Fractions of the six stable pericyte clusters and **(B)** of the three dominant programs,
+by disease group. **(C)** The grouped injury-associated state fraction (Healthy 0.020,
+Fibrotic/ILD 0.029, Other 0.024, COPD 0.107). **(D)** Forest of every disease contrast against
+Healthy across all six clusters, the three programs and the grouped fraction.
+
+**The null holds on every contrast that is estimable, and the two exceptions are both COPD.**
+Programs are all BH ≥ 0.201; the grouped injury fraction is Healthy vs Fibrotic/ILD BH = 0.58 and
+vs Other BH = 0.69. Two cluster omnibus tests fall below 0.05 nominally — cluster 5 (BH = 0.0005)
+and cluster 3 (*P* = 0.029, BH = 0.086) — and **`COPD` is *n* = 1 in this cohort**: excluding it
+takes cluster 5 to *P* = 0.51 and cluster 3 to *P* = 0.90 (read `p_excl_small_groups`, and
+`touches_small_group` on the contrast rows). Every COPD contrast in panel D is that one donor.
+**`(1 | study)` is load-bearing**: without it, basement-membrane *P* = 0.0015 and
+vascular-stabilizing *P* = 0.0018 appear, both gone at 0.797/0.912 with study modelled. Intervals are nominal 95% while *P* values are
 BH-adjusted, so the two need not agree exactly at the 0.05 boundary. The disease signal in this
 study is therefore carried by the **continuous** injury-program score (disease main figure), not by
 a shift in how many pericytes fall into each discrete cluster — the continuous result is not a
 relabelled abundance change.
 
 ### Figure S12 — `figureS_sensitivity` — Robustness and limitations of the disease-associated injury-stromal signal
-
-> **⚠️ LEGEND UPDATED 2026-09-07 (P1-10); THE FIGURE HAS NOT BEEN REDRAWN.** The
-> `sensitivity/` and `niche_index/` models changed — `+ age` dropped from the
-> primary (it was a study filter deleting 42 of 89 donors and three-quarters of
-> the fibrotic arm) and `(1 | study)` added — and every panel below now describes
-> the new run. **Panels B, C and D on disk still plot the old one**, including a
-> stability arm drawn as rising and a LOSO panel showing 17 refits with one
-> significant. Re-run before use; tracked in `figures/FIGURE_REGEN_TASKS.md`.
 
 **Figure S12.** What the donor-level disease association does and does not survive. **(A)** The
 injury-stromal score by disease group under the primary composite (*AGTR1* excluded) and under a

@@ -224,6 +224,16 @@ fit_model <- function(covars, response, data) {
         suppressMessages(lmerTest::lmer(f, data = data))
     else lm(f, data = data)
 }
+## P2-35. These outputs used to record no formula at all, so the ONLY statement
+## of how they were fitted was a hardcoded `notes` string in
+## `tables/_h/07.ras_disease.R` -- which still named `lm(frac ~ disease_group +
+## age + sex)` long after P1-1/P1-2 moved `age` into a labelled `_ageadj` arm and
+## added `(1 | study)`. Ship the formula next to the numbers so the supplement
+## can derive its methods sentence instead of asserting one.
+model_label <- function(covars, response) {
+    f <- reformulate(covars, response)
+    paste0(if (any(grepl("\\|", covars))) "lmer(" else "lm(", deparse(f[[3]]), ")")
+}
 disease_omnibus <- function(fit) {
     if (inherits(fit, "merMod")) {
         a <- as.data.frame(anova(fit))
@@ -312,11 +322,13 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
                                left_join(grp_n, by = "disease_group") |>
                                mutate(min_cells = min_cells_per_donor,
                                       n_donors = fit_n(fit), arm = arm_sfx,
+                                      model = model_label(covars, "frac"),
                                       estimable = n_donors_group >= 3),
                            file.path(outdir, paste0("composition_", tag, "_", key,
                                                     "_emmeans", sfx, arm_sfx, ".tsv")))
             write_tsv_safe(posthoc_with_ci(emm) |>
                                mutate(min_cells = min_cells_per_donor, arm = arm_sfx,
+                                      model = model_label(covars, "frac"),
                                       touches_small_group = Reduce(`|`,
                                           lapply(small, function(x)
                                               grepl(x, contrast, fixed = TRUE)), FALSE)),
@@ -335,6 +347,7 @@ composition_by_disease <- function(df, group, outdir, tag, min_cells_per_donor =
             }
             results[[g]] <- data.frame(
                 level = g, n_donors = fit_n(fit), arm = arm_sfx,
+                model = model_label(covars, "frac"),
                 disease_omnibus(fit),
                 p_excl_small_groups = p_nosmall,
                 small_groups = paste(small, collapse = ","))
