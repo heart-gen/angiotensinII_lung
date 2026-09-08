@@ -32,15 +32,15 @@ part	title	supports	n_rows	n_cols	status	file	sources
 11B	Comparison of basement-membrane and injury-program ligand rankings	Figure S9D	7	2	complete	tableS11B.tsv	basement_membrane/_m/nichenet_bm/bm_vs_frozen_ligand_ranking.tsv
 11C	Full ligand-to-basement-membrane-target regulatory-potential matrix	Figure S9D	3852	11	complete	tableS11C.tsv	basement_membrane/_m/nichenet_bm/ligand_target_matrix_BM_Pericytes.tsv; basement_membrane/_m/nichenet_bm/ligand_target_links_BM_Pericytes.tsv
 11D	Ligand prioritization toward basement-membrane versus fibrillar-collagen targets	Figure S17C	321	13	complete	tableS11D.tsv	basement_membrane/_m/nichenet_bm/ligand_activities_BM_Pericytes.tsv; basement_membrane/_m/nichenet_fibrillar/ligand_activities_FIB_Pericytes.tsv
-12A	Cell-type expression landscape of the local lung renin-angiotensin machinery	Figure S10	396	16	complete	tableS12A.tsv	agt_axis/_m/stats_data/ras_celltype_profile.tsv; agt_axis/_h/ras_panel.tsv; agt_axis/_m/ras_pseudobulk_celltype.tsv.gz
+12A	Cell-type expression landscape of the local lung renin-angiotensin machinery	Figure S10	396	17	complete	tableS12A.tsv	agt_axis/_m/stats_data/ras_celltype_profile.tsv; agt_axis/_h/ras_panel.tsv; agt_axis/_m/ras_pseudobulk_celltype.tsv.gz
 12B	Circuit-role classification: completeness of the angiotensin II axis per cell type	Figure S10	22	16	complete	tableS12B.tsv	agt_axis/_m/stats_data/ras_circuit_completeness.tsv
-12C	AGT rank stability, ligand coexpression, and predicted-target overlap	Results (local RAS); cited in place of Figure S10	114	23	complete	tableS12C.tsv	agt_axis/_m/stats_data/agt_ligand_rank_bootstrap.tsv; agt_axis/_m/stats_data/agt_ligand_coexpression.tsv; agt_axis/_m/stats_data/agt_target_overlap.tsv
+12C	AGT rank stability, ligand coexpression, and predicted-target overlap	Results (local RAS); cited in place of Figure S10	114	33	complete	tableS12C.tsv	agt_axis/_m/stats_data/agt_ligand_rank_bootstrap.tsv; agt_axis/_m/stats_data/agt_ligand_coexpression.tsv; agt_axis/_m/stats_data/agt_target_overlap.tsv
 13A	Analysis cohorts and denominators for the disease models	Figure 5; Figure S11	6	21	complete	tableS13A.tsv	pericyte_states/_m/pericytes_states_metadata.tsv.gz; disease_association/_m/mixed_model_forest/smoking_availability_by_disease.tsv
 13B	Six stable cluster fractions by disease group	Figure S11	108	26	complete	tableS13B.tsv	pericyte_states/_m/stats_data/composition_state_*
 13C	Three dominant-program fractions by disease group	Figure S11	54	26	complete	tableS13C.tsv	pericyte_states/_m/stats_data/composition_program_*
 13D	Grouped injury-associated state fraction by disease group	Figure S11	16	21	complete	tableS13D.tsv	pericyte_states/_m/stats_data/injury_fraction_*
-13E	Primary injury-stromal disease model	Figure 5A	30	25	complete	tableS13E.tsv	niche_index/_m/stats_data/injury_stromal_score_*
-13F	Receptor-inclusive sensitivity composite (injury-stromal score + AGTR1+ fraction)	Figure S12	30	25	complete	tableS13F.tsv	niche_index/_m/stats_data/injury_stromal_score_sens_agtr1_*
-14A	Leave-one-dataset-out robustness of the donor-level disease effects	Figure S12	72	16	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
-14B	Net niche-stability index by disease group	Figure S12	60	25	complete	tableS14B.tsv	niche_index/_m/stats_data/niche_index_*
-14C	Smoking-data availability and covariate robustness	Figure S12	48	14	complete	tableS14C.tsv	sensitivity/_m/stats_data/*.tsv
+13E	Primary injury-stromal disease model	Figure 5A	31	35	complete	tableS13E.tsv	niche_index/_m/stats_data/injury_stromal_score_*
+13F	Receptor-inclusive sensitivity composite (injury-stromal score + AGTR1+ fraction)	Figure S12	31	35	complete	tableS13F.tsv	niche_index/_m/stats_data/injury_stromal_score_sens_agtr1_*
+14A	Leave-one-dataset-out robustness of the donor-level disease effects	Figure S12	96	19	complete	tableS14A.tsv	sensitivity/_m/stats_data/leave_one_study_out.tsv
+14B	Net niche-stability index by disease group	Figure S12	62	35	complete	tableS14B.tsv	niche_index/_m/stats_data/niche_index_*
+14C	Smoking-data availability and covariate robustness	Figure S12	68	17	complete	tableS14C.tsv	sensitivity/_m/stats_data/*.tsv

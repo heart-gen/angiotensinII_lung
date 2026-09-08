@@ -106,8 +106,20 @@ chk("S02C1 detection-vs-depth rho (pooled)",
 ##    structurally instead (below).
 ##
 ##    The premise here used to be "the previously published >=20 values still
-##    apply". That holds for S13E and S14B, whose models did not change, but NOT
-##    for S13D: `injury_fraction` is the one endpoint whose >=20 arm was ALSO
+##    apply". As of 2026-09-07 it holds for NONE of them. It was already false
+##    for S13D (below), and P1-10 (`77171c6`, 12:25) then refit the >=20 arms of
+##    S13E and S14B too -- age-free, with a `(1 | study)` guard, on 69 donors /
+##    17 studies: `lmer(disease_group + sex + (1 | study))`. The workbook had
+##    last been built at 12:00, 25 min before that commit, so these four anchors
+##    were still asserting pre-refit values and the shipped tables were stale.
+##    Re-pointed 2026-09-07 to the current fit. Superseded values, for the
+##    record: S13E F 5.96555, Healthy -0.164118, Fibrotic_ILD 0.564861;
+##    S14B niche index F 3.41048. None of the four is quoted in any prose --
+##    verified by grep across *.md/*.tex/*.txt -- so this re-point carries no
+##    manuscript-text consequence.
+##
+##    S13D was re-pointed earlier for a related but distinct reason: it is the
+##    one endpoint whose >=20 arm was ALSO
 ##    case-deleted by `+ age`. Because age missingness in the HLCA is
 ##    study-structured, `+ age` acted as a cohort filter (P1-2), and the >=20 fit
 ##    ran on 36 donors (29 H / 4 F / 3 O), not 69 (32 / 17 / 20). Its published
@@ -121,11 +133,11 @@ ge20 <- function(d) if (is.null(d) || !"analysis_role" %in% names(d)) NULL else
 
 x <- ge20(tsv("13E"))
 chk("S13E (>=20) F statistic",
-    maybe(x, x[block == "anova" & term == "disease_group", `F value`]), 5.96555, tol = 1e-3, TRUE)
+    maybe(x, x[block == "anova" & term == "disease_group", `F value`]), 6.86873, tol = 1e-3, TRUE)
 chk("S13E (>=20) Healthy marginal mean",
-    maybe(x, x[block == "emmeans" & disease_group == "Healthy", emmean]), -0.164118, tol = 1e-4, TRUE)
+    maybe(x, x[block == "emmeans" & disease_group == "Healthy", emmean]), -0.269672, tol = 1e-4, TRUE)
 chk("S13E (>=20) Fibrotic_ILD marginal mean",
-    maybe(x, x[block == "emmeans" & disease_group == "Fibrotic_ILD", emmean]), 0.564861, tol = 1e-4, TRUE)
+    maybe(x, x[block == "emmeans" & disease_group == "Fibrotic_ILD", emmean]), 0.604326, tol = 1e-4, TRUE)
 
 x <- ge20(tsv("13D"))
 chk("S13D (>=20) Healthy injury fraction",
@@ -134,7 +146,7 @@ chk("S13D (>=20) Healthy injury fraction",
 x <- ge20(tsv("14B"))
 chk("S14B (>=20) niche index F",
     maybe(x, x[response == "niche_index" & block == "anova" &
-                   term == "disease_group", `F value`]), 3.41048, tol = 1e-3, TRUE)
+                   term == "disease_group", `F value`]), 4.03972, tol = 1e-3, TRUE)
 
 checks <- rbindlist(CHECKS)
 cat("\n==== anchor checks ====\n"); print(checks)

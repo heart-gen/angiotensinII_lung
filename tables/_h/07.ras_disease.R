@@ -44,7 +44,12 @@ if (!is.null(prof)) {
         s12a[, functional_category := CATEGORY[panel]]
     }
     ## Full within-gene ranking: ras_top_celltypes.tsv keeps only the top 3.
-    s12a[, within_gene_rank := frank(-emmean, ties.method = "min"), by = gene]
+    ## Strata defined by the gene being scored carry no emmean and take no rank
+    ## slot -- see CIRCULAR_UNITS in agt_axis/_h/01.ras_landscape_stats.R. Rank
+    ## them with the rest and frank() would hand the artifact a position.
+    s12a[, within_gene_rank := NA_integer_]
+    s12a[!is.na(emmean),
+         within_gene_rank := frank(-emmean, ties.method = "min"), by = gene]
     if (!is.null(rpbk)) {
         ## Per-cell-type denominators under the model's own filter
         ## (01.ras_landscape_stats.R: n_cells >= 5, then min_donors >= 5).
@@ -66,8 +71,16 @@ if (!is.null(prof)) {
         notes = paste("`detect` is the donor-level detection fraction and",
                       "`emmean` the depth-adjusted marginal expression with donor",
                       "and study random effects. Within-gene ranks are computed",
-                      "here for all 22 populations; the stored",
-                      "ras_top_celltypes.tsv keeps only the top 3."))
+                      "here for all populations the model could score; the stored",
+                      "ras_top_celltypes.tsv keeps only the top 3.",
+                      "Rows with circular_by_construction = TRUE are strata",
+                      "DEFINED by the gene in that row -- the AT2 groups are split",
+                      "on AGTR2 detectability, so their AGTR2 detection is 1.000",
+                      "and 0.000 by construction. They are excluded before the",
+                      "within-dataset standardization (the det stratum's raw AGTR2",
+                      "is 117x the next cell type and would otherwise set the",
+                      "scale for the whole gene), carry emmean = NA, and take no",
+                      "rank. Their `detect` and `expr_raw` remain descriptive."))
 }
 
 ## ---- S12B: circuit-role classification ----------------------------------
@@ -136,7 +149,20 @@ if (length(c_bits))
                       "(DC2, monocyte and macrophage populations). AGT_SUMMARY.md",
                       "flags these as technical artifacts; they are retained for",
                       "completeness and must not be read as coexpression",
-                      "evidence."))
+                      "evidence.",
+                      "CAVEAT on the rank block: `rank_median` is the centre of",
+                      "the m-gene subsample distribution, NOT a bias-corrected",
+                      "version of `rank_point`; read it against `rank_size_ref`,",
+                      "the size-matched benchmark, and report the interval.",
+                      "CAVEAT on the overlap block: `hyper_p_MISCALIBRATED`",
+                      "assumes each ligand draws targets uniformly from the",
+                      "24-gene shortlist, which is badly violated -- six targets",
+                      "are used by 26-28 of the 30 ligands. Read `pair_pctile`",
+                      "(rank among all ligand pairs in the same table) and",
+                      "`degree_p` (degree-preserving permutation). The overlap",
+                      "block is derived entirely from the curated NicheNet prior",
+                      "and is not independent evidence from the coexpression",
+                      "block."))
 
 ## =========================================================================
 ## S13 -- disease associations
