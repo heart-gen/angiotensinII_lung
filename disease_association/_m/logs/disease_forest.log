@@ -1,6 +1,6 @@
-2026-09-07 23:17:20 - **** Job starts ****
-Job id: 45484778
-Hostname: r234
+2026-09-07 23:57:34 - **** Job starts ****
+Job id: 45486614
+Hostname: r373
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
@@ -15,7 +15,9 @@ injury score columns:
 non-injury (tested, not composited) score columns:
          vascular_stabilizing         synthetic_contractile 
  "vascular_stabilizing_score" "synthetic_contractile_score" 
-excluded by design: basement_membrane (own disease arm in basement_membrane/)
+            basement_membrane 
+    "basement_membrane_score" 
+all six panel scores tested; only the 3 injury scores are composited
 
 All donors with pericytes: 194
 
@@ -68,6 +70,7 @@ In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  
 3:       z_fibroblast_like    66        42         24             1.00378450
 4:  z_vascular_stabilizing    66        42         24             0.07624466
 5: z_synthetic_contractile    66        42         24            -0.21584445
+6:     z_basement_membrane    66        42         24            -0.06072986
           se       df          t           p contrast_estimate  contrast_p
        <num>    <num>      <num>       <num>             <num>       <num>
 1: 0.2860027 60.73793  1.5971927 0.115412907       -0.45680150 0.124896847
@@ -75,6 +78,7 @@ In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  
 3: 0.3288070 41.14690  3.0528078 0.003962522       -1.00378450 0.005471802
 4: 0.2348867 52.40177  0.3246019 0.746774693       -0.07624466 0.750046222
 5: 0.2687856 56.97025 -0.8030356 0.425291806        0.21584445 0.434247612
+6: 0.3403477 61.00439 -0.1784348 0.858972798        0.06072986 0.862762210
    covars           model
    <char>          <char>
 1:    sex LMM (1|dataset)
@@ -82,6 +86,7 @@ In `[.data.table`(prim, , `:=`(injury_program_score, rowMeans(as.matrix(prim[,  
 3:    sex LMM (1|dataset)
 4:    sex LMM (1|dataset)
 5:    sex LMM (1|dataset)
+6:    sex LMM (1|dataset)
 
 Forest: 3 studies sampled BOTH groups (>= 2 each)
                  dataset    nH    nF
@@ -134,18 +139,20 @@ In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
 3: injury_program_score
 
 == THREE-GROUP component effects (each program separately) ==
-                  contrast   estimate        se       df    t.ratio
-                    <char>      <num>     <num>    <num>      <num>
- 1: Fibrotic_ILD - Healthy  0.4856707 0.2516605 77.58597  1.9298645
- 2:        Other - Healthy -0.5024398 0.5366441 20.50868 -0.9362627
- 3: Fibrotic_ILD - Healthy  0.8325390 0.3111942 77.68576  2.6753037
- 4:        Other - Healthy  0.4509483 0.5836645 20.00451  0.7726156
- 5: Fibrotic_ILD - Healthy  1.1011243 0.3202614 75.90935  3.4382048
- 6:        Other - Healthy  0.8980445 0.5551214 19.50005  1.6177444
- 7: Fibrotic_ILD - Healthy  0.1257752 0.2131839 70.89537  0.5899844
- 8:        Other - Healthy -0.3539451 0.6419081 20.77732 -0.5513953
- 9: Fibrotic_ILD - Healthy -0.1477874 0.2502383 75.40448 -0.5905869
-10:        Other - Healthy -0.3915148 0.6101026 20.74304 -0.6417196
+                  contrast    estimate        se       df    t.ratio
+                    <char>       <num>     <num>    <num>      <num>
+ 1: Fibrotic_ILD - Healthy  0.48567073 0.2516605 77.58597  1.9298645
+ 2:        Other - Healthy -0.50243984 0.5366441 20.50868 -0.9362627
+ 3: Fibrotic_ILD - Healthy  0.83253897 0.3111942 77.68576  2.6753037
+ 4:        Other - Healthy  0.45094830 0.5836645 20.00451  0.7726156
+ 5: Fibrotic_ILD - Healthy  1.10112426 0.3202614 75.90935  3.4382048
+ 6:        Other - Healthy  0.89804453 0.5551214 19.50005  1.6177444
+ 7: Fibrotic_ILD - Healthy  0.12577518 0.2131839 70.89537  0.5899844
+ 8:        Other - Healthy -0.35394511 0.6419081 20.77732 -0.5513953
+ 9: Fibrotic_ILD - Healthy -0.14778744 0.2502383 75.40448 -0.5905869
+10:        Other - Healthy -0.39151480 0.6101026 20.74304 -0.6417196
+11: Fibrotic_ILD - Healthy -0.05133341 0.3344160 76.87872 -0.1535017
+12:        Other - Healthy  0.50716971 0.5992716 19.73436  0.8463103
          p.value                response     n        ci_lo     ci_hi covars
            <num>                  <char> <int>        <num>     <num> <char>
  1: 0.0572789167          z_inflammatory    83 -0.007583928 0.9789254    sex
@@ -158,6 +165,8 @@ In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
  8: 0.5872443203  z_vascular_stabilizing    83 -1.612085015 0.9041948    sex
  9: 0.5565632385 z_synthetic_contractile    83 -0.638254439 0.3426796    sex
 10: 0.5280835887 z_synthetic_contractile    83 -1.587315919 0.8042863    sex
+11: 0.8784048753     z_basement_membrane    83 -0.706788725 0.6041219    sex
+12: 0.4075254076     z_basement_membrane    83 -0.667402569 1.6817420    sex
               model
              <char>
  1: LMM (1|dataset)
@@ -170,6 +179,8 @@ In `[.data.table`(tri, , `:=`(injury_program_score, rowMeans(as.matrix(tri[,  :
  8: LMM (1|dataset)
  9: LMM (1|dataset)
 10: LMM (1|dataset)
+11: LMM (1|dataset)
+12: LMM (1|dataset)
 
 == LOSO (three-group, Fibrotic - Healthy): 17 STUDY-level refits, 16 with P < 0.05 ==
    (dataset-level arm: 22 refits, 21 with P < 0.05 -> leave_one_dataset_out_3group.tsv)
@@ -298,7 +309,7 @@ Index: <min_cells>
 5: LMM (1|dataset)        30
 
 Reproducibility information:
-[1] "2026-09-07 23:17:51 EDT"
+[1] "2026-09-07 23:59:26 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -373,4 +384,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 23:17:53 - **** Job ends ****
+2026-09-07 23:59:33 - **** Job ends ****

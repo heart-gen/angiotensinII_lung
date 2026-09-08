@@ -32,12 +32,12 @@
 ##                       diamond + I^2. This is the direct answer to the
 ##                       "disease is confounded with batch" objection.
 ##   SENSITIVITY       : (a) each of the 3 injury components separately (was the
-##                       composite driven by one program?), plus the 2 non-injury
+##                       composite driven by one program?), plus the 3 non-injury
 ##                       programs -- `vascular_stabilizing` and, since 2026-09-07,
-##                       `synthetic_contractile` (P2-33) -- as negative controls
-##                       that are reported but never composited. The sixth panel
-##                       score, `basement_membrane`, is excluded by design and
-##                       tested in its own module; (b) min-cells/donor
+##                       `synthetic_contractile` and `basement_membrane` (P2-33)
+##                       -- as negative controls that are reported but never
+##                       composited. All SIX panel scores are now tested on
+##                       identical footing; (b) min-cells/donor
 ##                       threshold sweep; (c) SMOKING -- adaptive: adjust the
 ##                       disease contrast for smoking only if estimable, else fall
 ##                       back to a within-Healthy smoking effect and a
@@ -126,17 +126,26 @@ INJ_COLS <- setNames(vapply(INJURY, pick_col, ""), INJURY)
 ## programs that were tested. It is now tested, and may be described only from
 ## `component_effects*.tsv`.
 ##
-## `basement_membrane` is the sixth panel score and is EXCLUDED BY DESIGN, not
-## untested: it is a matrix-stabilizing vascular function rather than an injury
-## program, and the basement_membrane module owns its own disease arm (GSE136831
-## COPD). It is named here so a reader does not infer it was tested and null.
-CONTROL   <- c("vascular_stabilizing", "synthetic_contractile")
+## `basement_membrane` joined them the same day. It had been excluded by design
+## -- a matrix-stabilizing vascular function rather than an injury program, with
+## its own disease arm in `basement_membrane/` (GSE136831 COPD) -- but a
+## design-level exclusion is indistinguishable, in the output tables, from the
+## P1-4 hazard above: a reader cannot tell an untested program from a null one.
+## It is therefore tested HERE too, on the same HLCA donors and the same LMM as
+## the other five, so the exclusion from `injury_program_score` rests on the
+## composite alone and not on a missing test. Its own module's GSE136831 arm is
+## a DIFFERENT question (cohort, disease, and direction) and is unaffected.
+##
+## All six scores are pre-specified single contrasts reported with their own P;
+## as elsewhere in this script there is no across-program multiplicity
+## adjustment, so read `component_effects*.tsv` as six descriptive arms.
+CONTROL   <- c("vascular_stabilizing", "synthetic_contractile", "basement_membrane")
 CTRL_COLS <- setNames(vapply(CONTROL, pick_col, ""), CONTROL)
 CTRL_COLS <- CTRL_COLS[!is.na(CTRL_COLS) & nzchar(CTRL_COLS)]
 stopifnot(!anyNA(INJ_COLS))
 cat("injury score columns:\n"); print(INJ_COLS)
 cat("non-injury (tested, not composited) score columns:\n"); print(CTRL_COLS)
-cat("excluded by design: basement_membrane (own disease arm in basement_membrane/)\n")
+cat("all six panel scores tested; only the 3 injury scores are composited\n")
 
 ## `disease` is carried so the carcinoma exclusion below can be applied here too.
 ## `study` is carried for the leave-one-STUDY-out arm (P2-8, added 2026-09-07):
