@@ -48,7 +48,12 @@ opt <- parse_args(OptionParser(option_list = list(
     make_option("--subsample-frac", type = "double", default = 0.8,
                 dest = "subsample_frac"),
     make_option("--seed", type = "integer", default = 13L),
-    make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells")
+    make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells"),
+    ## Sender AGT detection floor for the co-expression arm (P2-18). See the long
+    ## note at (B). 0.01 keeps every group with genuine AGT expression and drops
+    ## the near-zero-detection groups whose correlations are dropout structure.
+    make_option("--min-agt-detect", type = "double", default = 0.01,
+                dest = "min_agt_detect")
 )))
 dir.create(opt$outdir, showWarnings = FALSE, recursive = TRUE)
 set.seed(opt$seed)
@@ -178,6 +183,49 @@ if (!is.na(opt$priors) && dir.exists(opt$priors) && !is.na(opt$frac_file) &&
 ## ------------------------------------------------------- (B) co-expression ----
 ## Donor-level, within sender cell type. If AGT and TGF-beta were the same axis,
 ## donors high in one would be high in the other.
+##
+## THE EXPRESSION FLOOR (P2-18, added 2026-09-08).
+##
+## `partial_cor` requires 6 FINITE observations, not 6 donors in which AGT is
+## actually detected. A donor pseudobulk of a cell type that essentially never
+## expresses AGT is still a finite number -- it is a number near zero whose
+## variation is dropout and depth, not transcription. Correlating that against a
+## partner gene measures how the two genes' zeros co-occur across donors, which
+## is a library-composition statistic wearing a co-expression label.
+##
+## The consequence was not subtle. Ranked by BH, the top of the old output was:
+##
+##   Non-classical monocytes  AGT detection 0.00034   |rho| 0.809   BH ~ 0
+##   DC2                                    0.00059         0.774        ~ 0
+##   Mast cells                             0.00038         0.769        ~ 0
+##   Classical monocytes                    0.00009         0.766        ~ 0
+##   Vascular smooth muscle                 0.101           0.144         0.144
+##
+## -- 35 of 42 BH-significant rows came from cell types detecting AGT in under
+## 1% of cells, and the file is `setorder`ed by `p_BH`, so those rows were the
+## first thing a reader saw. The ONE sender with real AGT expression ranked last.
+## `AGT_SUMMARY.md` caught this and refused to report it, but the file itself
+## carried no marker, so the refusal lived only in prose.
+##
+## The floor is applied to the sender's AGT detection, computed cell-weighted
+## over exactly the donors that enter the test (not over the whole cohort), so
+## the number printed beside a row describes that row's own fit. At the default
+## 0.01 seven groups qualify:
+##
+##   Vascular smooth muscle 0.101, Adventitial fib. 0.045, Peribronchial fib.
+##   0.033, Myofibroblasts 0.022, Pericytes 0.018, Alveolar fib. 0.017,
+##   AT2_AGTR2det 0.011
+##
+## and BH tightens from 110 tests to 35, which STRENGTHENS the rows that matter
+## rather than weakening them -- the artifact rows were consuming the correction.
+##
+## Rows below the floor are still WRITTEN, with `tested = FALSE` and a reason, so
+## the exclusion is visible in the output instead of being a silent filter. They
+## are excluded from the BH family. Two smaller defects close with the same
+## change: the lone NA row (Subpleural fibroblasts x PDGFB, 12 donors, no
+## variance) no longer inflates the BH denominator -- `p.adjust` takes `n` at
+## call time, so an NA had been counted as a test -- and that group sits at
+## detection 0.0099, below the floor, so it leaves on its own terms too.
 pb <- fread(opt$pseudobulk)
 pb <- pb[n_cells >= opt$min_cells]
 partial_cor <- function(x, y, z) {
@@ -189,6 +237,12 @@ partial_cor <- function(x, y, z) {
 }
 partners <- intersect(c("TGFB1__expr", "TGFB2__expr", "TGFB3__expr",
                         "CCN2__expr", "PDGFB__expr"), names(pb))
+
+## Cell-weighted sender AGT detection over the donors that survive --min-cells.
+agt_det <- if ("AGT__detect" %in% names(pb))
+    pb[, .(agt_detect_group = sum(AGT__detect * n_cells) / sum(n_cells),
+           n_cells_group = sum(n_cells)), by = ccc_group] else NULL
+
 coex <- rbindlist(lapply(unique(pb$ccc_group), function(g) {
     d <- pb[ccc_group == g]
     if (nrow(d) < 6 || !"AGT__expr" %in% names(d)) return(NULL)
@@ -198,12 +252,56 @@ coex <- rbindlist(lapply(unique(pb$ccc_group), function(g) {
                    partial_rho = v[1], p_value = v[2], n_donors = v[3])
     }), fill = TRUE)
 }), fill = TRUE)
+
 if (nrow(coex)) {
-    coex[, p_BH := p.adjust(p_value, method = "BH")]
-    setorder(coex, p_BH)
+    if (!is.null(agt_det)) coex <- merge(coex, agt_det, by = "ccc_group", all.x = TRUE)
+    else coex[, `:=`(agt_detect_group = NA_real_, n_cells_group = NA_integer_)]
+
+    ## Spearman P underflows to a literal 0 at these sample sizes, which is not a
+    ## representable P and reads as certainty. Flag it and clamp to the double
+    ## epsilon so BH sees a number rather than a zero. Every underflow row in the
+    ## previous run was an artifact row, so this is bookkeeping, not a rescue.
+    coex[, p_underflow := is.finite(p_value) & p_value <= 0]
+    coex[p_underflow == TRUE, p_value := .Machine$double.eps]
+
+    coex[, tested := is.finite(p_value) &
+             is.finite(agt_detect_group) & agt_detect_group >= opt$min_agt_detect]
+    coex[, excluded_reason := fifelse(
+        tested, "",
+        fifelse(!is.finite(p_value), "no variance in one arm (P not estimable)",
+                sprintf("sender AGT detection %.4g < floor %.4g",
+                        agt_detect_group, opt$min_agt_detect)))]
+
+    ## BH over the tested rows ONLY. `p.adjust` evaluates `n` at call time, so
+    ## passing the full column would keep the excluded rows in the denominator.
+    coex[, p_BH := NA_real_]
+    coex[tested == TRUE, p_BH := p.adjust(p_value, method = "BH")]
+    setorder(coex, -tested, p_BH, na.last = TRUE)
     write_tsv_safe(coex, file.path(opt$outdir, "agt_ligand_coexpression.tsv"))
-    message("Top AGT/partner co-expression:")
-    print(head(coex, 10))
+
+    ## The floor is a judgement call, so record what other floors would have
+    ## done. A reader can then see whether a claim depends on where it was set.
+    if (!is.null(agt_det)) {
+        sweep <- rbindlist(lapply(c(0.005, 0.01, 0.02, 0.05), function(f) {
+            k <- coex[is.finite(p_value) & agt_detect_group >= f]
+            if (!nrow(k)) return(data.table(floor = f, n_groups = 0L, n_tests = 0L,
+                                            n_BH_sig = 0L, min_BH = NA_real_))
+            bh <- p.adjust(k$p_value, method = "BH")
+            data.table(floor = f, n_groups = uniqueN(k$ccc_group), n_tests = nrow(k),
+                       n_BH_sig = sum(bh < 0.05), min_BH = min(bh))
+        }))
+        write_tsv_safe(sweep, file.path(opt$outdir, "agt_coexpression_floor_sweep.tsv"))
+        message("AGT detection floor sweep:"); print(sweep)
+    }
+
+    message(sprintf(paste("Co-expression: %d of %d rows tested (sender AGT",
+                          "detection >= %.4g); %d excluded by the floor,",
+                          "%d not estimable"),
+                    sum(coex$tested), nrow(coex), opt$min_agt_detect,
+                    sum(!coex$tested & is.finite(coex$p_value)),
+                    sum(!is.finite(coex$p_value))))
+    message("Top AGT/partner co-expression (tested rows only):")
+    print(head(coex[tested == TRUE], 10))
 }
 
 ## -------------------------------------------------- (C) target convergence ----

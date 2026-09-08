@@ -24,15 +24,39 @@ target draws, which this 24-gene shortlist badly violates.
 2:           0.793175394   0.9993000              0.793175394
 3:           0.001664475   0.6124194              0.004993425
 
-                   ccc_group partner partial_rho p_value n_donors  p_BH
-                      <char>  <char>       <num>   <num>    <num> <num>
- 1:   Subpleural fibroblasts   PDGFB          NA      NA       12    NA
- 2:    EC aerocyte capillary   TGFB3  -0.6788461       0      137     0
- 3:      Classical monocytes   TGFB3   0.7281710       0      339     0
- 4:      Classical monocytes   PDGFB  -0.7663005       0      339     0
- 5:                      DC2   TGFB3   0.7744921       0      353     0
- 6:                      DC2    CCN2   0.4490036       0      353     0
- 7: Interstitial macrophages   TGFB3  -0.5544078       0      344     0
- 8: Interstitial macrophages    CCN2  -0.4364656       0      344     0
- 9:               Mast cells   TGFB2  -0.7244475       0      238     0
-10:               Mast cells   TGFB3  -0.6656859       0      238     0
+                    ccc_group partner partial_rho      p_value n_donors
+                       <char>  <char>       <num>        <num>    <num>
+ 1:      Alveolar fibroblasts   PDGFB   0.4498635 5.589890e-10      176
+ 2:              AT2_AGTR2det   PDGFB  -0.5212166 2.273468e-09      118
+ 3: Peribronchial fibroblasts   PDGFB   0.4159109 8.175108e-07      133
+ 4:              AT2_AGTR2det   TGFB3  -0.3683273 4.601250e-05      118
+ 5:            Myofibroblasts   PDGFB  -0.4462189 3.591181e-04       61
+ 6:   Adventitial fibroblasts   TGFB3   0.2566701 4.545572e-04      184
+ 7:              AT2_AGTR2det   TGFB2  -0.2332599 1.116944e-02      118
+ 8:   Adventitial fibroblasts   PDGFB   0.1836778 1.266302e-02      184
+ 9:      Alveolar fibroblasts    CCN2   0.1879045 1.261309e-02      176
+10:                 Pericytes    CCN2   0.2490151 1.058561e-02      105
+    agt_detect_group n_cells_group p_underflow tested excluded_reason
+               <num>         <int>      <lgcl> <lgcl>          <char>
+ 1:       0.01711990         16180       FALSE   TRUE                
+ 2:       0.01119751          3215       FALSE   TRUE                
+ 3:       0.03343166          6102       FALSE   TRUE                
+ 4:       0.01119751          3215       FALSE   TRUE                
+ 5:       0.02192982          1824       FALSE   TRUE                
+ 6:       0.04461756         12708       FALSE   TRUE                
+ 7:       0.01119751          3215       FALSE   TRUE                
+ 8:       0.04461756         12708       FALSE   TRUE                
+ 9:       0.01711990         16180       FALSE   TRUE                
+10:       0.01846417          8178       FALSE   TRUE                
+            p_BH
+           <num>
+ 1: 1.956462e-08
+ 2: 3.978570e-08
+ 3: 9.537626e-06
+ 4: 4.026094e-04
+ 5: 2.513827e-03
+ 6: 2.651583e-03
+ 7: 4.432058e-02
+ 8: 4.432058e-02
+ 9: 4.432058e-02
+10: 4.432058e-02
