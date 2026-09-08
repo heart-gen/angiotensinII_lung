@@ -1,0 +1,18 @@
+2026-09-08 11:16:38 - **** Mouse lung Census download ****
+Job id: 45535901
+Hostname: r024
+2026-09-08 11:20:28,080 [INFO] Niche cells available: 143955
+/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/cross_species/_m/../_h/00.download_mouse_lung.py:102: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  .apply(lambda d: d.sample(max(1, int(round(len(d) * frac))),
+2026-09-08 11:20:29,525 [INFO] Subsampled to 60002 cells (mural exempt and taken whole: 2745 cells across 3 types; frac applied to the rest: 0.405460)
+2026-09-08 11:20:29,534 [INFO]   exempt pericyte: 99 cells / 26 donors
+2026-09-08 11:20:29,541 [INFO]   exempt smooth muscle cell of the pulmonary artery: 209 cells / 25 donors
+2026-09-08 11:20:29,550 [INFO]   exempt vascular associated smooth muscle cell: 2437 cells / 26 donors
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/aligned_df.py:68: ImplicitModificationWarning: Transforming to str index.
+  warnings.warn("Transforming to str index.", ImplicitModificationWarning)
+/ocean/projects/bio250020p/shared/opt/env/scRNA_env/lib/python3.10/site-packages/anndata/_core/aligned_df.py:68: ImplicitModificationWarning: Transforming to str index.
+  warnings.warn("Transforming to str index.", ImplicitModificationWarning)
+... storing 'feature_name' as categorical
+... storing 'feature_type' as categorical
+2026-09-08 11:21:05,182 [INFO] Wrote mouse_lung.h5ad: (60002, 53384)
+2026-09-08 11:21:24 - **** Done ****

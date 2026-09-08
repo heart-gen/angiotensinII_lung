@@ -1,6 +1,6 @@
 test	unit	dataset_id	n_pericyte	n_smc	detect_pericyte	detect_smc	p_value	note
-fisher_exact_detection	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea	25	43	0.64	0.0	1.3901867126843545e-09	
-fisher_exact_detection	cell	98e5ea9f-16d6-47ec-a529-686e76515e39	16	44	0.9375	0.0	3.007852985701599e-13	
-mantel_haenszel_detection_stratified_by_dataset	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	41	87	0.7560975609756098	0.0	8.389097059466576e-20	
-fisher_exact_detection_DONOR	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	18	22	0.8333333333333334	0.0	2.0285717844408786e-08	donors with >=1 Agtr1a+ cell; 13 donor(s) contribute to both arms and are counted in each -- see mcnemar_within_donor for the paired version
-mcnemar_within_donor	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	13	13	0.8461538461538461	0.0	0.0009765625	paired over 13 donors with both cell types; discordant b=11 (pericyte+ only), c=0 (SMC+ only); exact binomial
+fisher_exact_detection	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea	61	98	0.6557377049180327	0.0	1.8794774349633332e-22	
+fisher_exact_detection	cell	98e5ea9f-16d6-47ec-a529-686e76515e39	38	111	0.9210526315789473	0.009009009009009009	2.0419991712484922e-29	
+mantel_haenszel_detection_stratified_by_dataset	cell	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	99	209	0.7575757575757576	0.004784688995215311	6.657948901987306e-46	
+fisher_exact_detection_DONOR	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	26	25	0.8846153846153846	0.04	3.1860878249640766e-10	donors with >=1 Agtr1a+ cell; 22 donor(s) contribute to both arms and are counted in each -- see mcnemar_within_donor for the paired version
+mcnemar_within_donor	donor	48b37086-25f7-4ecd-be66-f5bb378e3aea|98e5ea9f-16d6-47ec-a529-686e76515e39	22	22	0.9090909090909091	0.045454545454545456	3.814697265625e-06	paired over 22 donors with both cell types; discordant b=19 (pericyte+ only), c=0 (SMC+ only); exact binomial
