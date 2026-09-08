@@ -6,19 +6,26 @@
 ## a bare ordering invites over-reading, so this script asks three questions with
 ## uncertainty attached:
 ##
-##   (A) RANK STABILITY. Bootstrap the target gene set and re-score, giving a
-##       confidence interval on AGT's AUPR and rank. Answers "is AGT reliably
-##       mid-tier, or could it be top-5 / bottom-30 depending on which targets
-##       happen to be in the set?"
+##   (A) RANK STABILITY. Subsample the target gene set at fixed size and
+##       re-score, giving a confidence interval on AGT's AUPR and rank. Answers
+##       "is AGT reliably mid-tier, or could it be top-5 / bottom-30 depending
+##       on which targets happen to be in the set?" The INTERVAL is the result;
+##       the median is not a bias-corrected rank (see the scheme note below).
 ##   (B) CO-EXPRESSION. Across donors, within each sender cell type, does AGT
 ##       track TGF-beta -- i.e. are these the same axis or independent inputs?
 ##       Uses donor pseudobulk, partialling out depth.
-##   (C) TARGET CONVERGENCE. Do AGT and TGF-beta act on overlapping target genes?
-##       Jaccard plus a hypergeometric test on the NicheNet ligand-target links.
+##   (C) TARGET OVERLAP. Do AGT and TGF-beta act on overlapping target genes?
+##       Jaccard on the NicheNet ligand-target links, read against the overlap
+##       of every other ligand pair in the same table and against a
+##       degree-preserving null. The hypergeometric test this block used to
+##       report is retained but flagged: see the note above section (C).
 ##
 ## Prior-network caveat, stated in the output: NicheNet regulatory potential is
-## derived from a curated prior, not estimated per donor. (A) and (C) inherit that
-## prior; only (B) is a measurement from this dataset.
+## derived from a curated prior, not estimated per donor. (A) and (C) inherit
+## that prior; only (B) is a measurement from this dataset. (B) and (C) are
+## therefore NOT two independent lines of evidence, and must not be written up
+## as though they were -- (C) is a consistency check on the prior that produced
+## the ranking in (A), not a second observation of the same biology.
 
 suppressPackageStartupMessages({
     .libPaths(c("/ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/.Rlib",
@@ -38,6 +45,8 @@ opt <- parse_args(OptionParser(option_list = list(
     make_option("--outdir", type = "character"),
     make_option("--receiver", type = "character", default = "Pericytes"),
     make_option("--nboot", type = "integer", default = 500L),
+    make_option("--subsample-frac", type = "double", default = 0.8,
+                dest = "subsample_frac"),
     make_option("--seed", type = "integer", default = 13L),
     make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells")
 )))
@@ -85,11 +94,34 @@ if (!is.na(opt$priors) && dir.exists(opt$priors) && !is.na(opt$frac_file) &&
         "IL6","CXCL1","CXCL2","CXCL8","CXCL10","CCL2","ICAM1","VCAM1","NFKBIA",
         "SOD2","CCL20","MKI67","PCNA","TOP2A","CCND1","CCNB1","BIRC5")
     geneset <- intersect(TARGET_PROGRAM, background)
-    message("Bootstrapping ", opt$nboot, " target-set resamples over ",
-            length(geneset), " genes")
 
-    boot <- vapply(seq_len(opt$nboot), function(i) {
-        gs <- unique(sample(geneset, length(geneset), replace = TRUE))
+    ## RESAMPLING SCHEME. This previously drew
+    ##   unique(sample(geneset, length(geneset), replace = TRUE))
+    ## which is a multiset bootstrap collapsed back to a set. A target program
+    ## is a SET -- a gene counted twice contributes nothing to an AUPR -- so the
+    ## duplicates are discarded and each replicate scores a smaller program
+    ## than the real one: with 30 genes, 19.1 +/- 1.7 (95% range 16-22). Two
+    ## consequences, and they pull in different directions:
+    ##
+    ##   (i)  the ~36% shrinkage is systematic, so `rank_median` is not a
+    ##        bias-corrected version of `rank_point`; the 11 -> 18 gap is part
+    ##        instability and part arithmetic, and nothing in the old output
+    ##        let a reader tell which;
+    ##   (ii) the replicate SIZE also varies, adding a nuisance variance that
+    ##        widened the interval on top of shifting it.
+    ##
+    ## Fixed-size subsampling without replacement removes both: every replicate
+    ## scores exactly `m` genes, so the spread is set-membership uncertainty
+    ## alone. `size_ref` then scores the SAME m on the real program's top-m
+    ## by prior weight -- a size-matched reference that says what rank an
+    ## m-gene set costs on its own, so the shrinkage is measurable rather than
+    ## silently mixed into the interval.
+    m <- max(5L, round(opt$subsample_frac * length(geneset)))
+    message(sprintf(paste("Subsampling %d replicates of m = %d of %d target",
+                          "genes (fixed size, without replacement)"),
+                    opt$nboot, m, length(geneset)))
+
+    score_set <- function(gs) {
         if (length(gs) < 5) return(c(NA_real_, NA_real_))
         a <- suppressMessages(predict_ligand_activities(
             geneset = gs, background_expressed_genes = background,
@@ -98,20 +130,46 @@ if (!is.na(opt$priors) && dir.exists(opt$priors) && !is.na(opt$frac_file) &&
         r <- which(a$test_ligand == "AGT")[1]
         v <- a$aupr_corrected[a$test_ligand == "AGT"][1]
         c(if (length(r)) r else NA_real_, if (length(v)) v else NA_real_)
-    }, numeric(2))
+    }
 
+    boot <- vapply(seq_len(opt$nboot), function(i)
+        score_set(sample(geneset, m, replace = FALSE)), numeric(2))
     rk <- boot[1, ]; au <- boot[2, ]
+
+    ## Per-replicate draws. Without these the bias in a resampling scheme is
+    ## not diagnosable after the fact -- the previous run wrote quantiles only.
+    write_tsv_safe(data.table(replicate = seq_len(opt$nboot), m = m,
+                              rank = rk, aupr_corrected = au),
+                   file.path(opt$outdir, "agt_ligand_rank_bootstrap_draws.tsv"))
+
+    ## Size-matched reference: the m highest-weight genes of the real program.
+    ## Deterministic, so it isolates the cost of scoring m genes instead of n.
+    agt_w <- if ("AGT" %in% colnames(ltm))
+        ltm[intersect(geneset, rownames(ltm)), "AGT"] else NULL
+    size_ref <- if (!is.null(agt_w) && length(agt_w) >= m)
+        score_set(names(sort(agt_w, decreasing = TRUE))[seq_len(m)]) else
+            c(NA_real_, NA_real_)
+
     res <- data.table(
         ligand = "AGT", n_boot = sum(is.finite(rk)),
+        n_geneset = length(geneset), m_subsample = m,
+        scheme = "fixed-size subsample without replacement",
         rank_point = agt_rank,
+        ## Reported for completeness. NOT a corrected point estimate: it is the
+        ## centre of an m-gene distribution, and `rank_size_ref` is the
+        ## size-matched benchmark it must be read against.
         rank_median = median(rk, na.rm = TRUE),
+        rank_size_ref = size_ref[1],
         rank_lo = quantile(rk, 0.025, na.rm = TRUE),
         rank_hi = quantile(rk, 0.975, na.rm = TRUE),
         aupr_point = act[test_ligand == "AGT", aupr_corrected],
+        aupr_size_ref = size_ref[2],
         aupr_lo = quantile(au, 0.025, na.rm = TRUE),
         aupr_hi = quantile(au, 0.975, na.rm = TRUE))
     write_tsv_safe(res, file.path(opt$outdir, "agt_ligand_rank_bootstrap.tsv"))
-    message("AGT bootstrap rank 95% CI: ", res$rank_lo, " - ", res$rank_hi)
+    message("AGT subsample rank 95% CI: ", res$rank_lo, " - ", res$rank_hi,
+            "; median ", res$rank_median, "; size-matched reference ",
+            res$rank_size_ref)
     boot_done <- TRUE
 } else {
     message("priors/fraction table unavailable; skipping rank bootstrap")
@@ -149,13 +207,59 @@ if (nrow(coex)) {
 }
 
 ## -------------------------------------------------- (C) target convergence ----
+## THE HYPERGEOMETRIC NULL HERE IS WRONG, and it is kept only so the published
+## value stays traceable. It assumes each ligand draws its targets uniformly
+## from the universe. That universe is the shortlisted link table -- 24 genes
+## over 30 ligands -- and the targets are wildly unequal in popularity:
+## SERPINE1, CCN2, FN1, MMP2, NFKBIA and THBS1 are each hit by 26-28 of the 30
+## ligands. Any two ligands share those almost automatically, and six of the ten
+## genes AGT shares with CCN2 are exactly those six. Under the uniform null the
+## overlap looks extraordinary (P = 1.7e-3); against a null that preserves how
+## often each target is used it is ordinary (P ~ 0.20).
+##
+## So two calibrated readouts are reported alongside it:
+##
+##   pair_pctile  -- where this pair's Jaccard falls among ALL ligand pairs in
+##                   the same table. Model-free, and the honest framing: the
+##                   median pair here already shares Jaccard ~0.58, so "shares
+##                   most of its targets" is the norm, not a finding.
+##   degree_p     -- permutation P against a degree-preserving null (targets
+##                   drawn with probability proportional to their usage across
+##                   ligands, at the observed set sizes).
+##
+## This is (C) in the header's caveat: entirely inherited from the curated
+## prior. No donor data enters it, so it cannot be a line of evidence
+## independent of the NicheNet run -- only a consistency check on that prior.
 if (file.exists(opt$links)) {
     lk <- fread(opt$links)
     lig_col <- intersect(c("ligand", "from"), names(lk))[1]
     tgt_col <- intersect(c("target", "to"), names(lk))[1]
     tg <- function(l) unique(lk[[tgt_col]][lk[[lig_col]] == l])
-    universe <- length(unique(lk[[tgt_col]]))
+    all_targets <- unique(lk[[tgt_col]])
+    universe <- length(all_targets)
     agt_t <- tg("AGT")
+
+    ## Background: the Jaccard of every ligand pair in this table.
+    all_ligs <- unique(lk[[lig_col]])
+    tsets <- setNames(lapply(all_ligs, tg), all_ligs)
+    jac_of <- function(a, b)
+        length(intersect(a, b)) / max(1L, length(union(a, b)))
+    pair_bg <- if (length(all_ligs) >= 3) combn(all_ligs, 2, function(p)
+        jac_of(tsets[[p[1]]], tsets[[p[2]]])) else numeric(0)
+
+    ## Degree-preserving null: target usage across ligands sets the draw weights.
+    deg <- as.numeric(table(factor(lk[[tgt_col]], levels = all_targets)))
+    NPERM <- 20000L
+    degree_p <- function(na, nb, obs) {
+        if (!na || !nb) return(NA_real_)
+        hits <- sum(vapply(seq_len(NPERM), function(i) {
+            a <- sample(all_targets, na, prob = deg)
+            b <- sample(all_targets, nb, prob = deg)
+            length(intersect(a, b)) >= obs
+        }, logical(1)))
+        (hits + 1) / (NPERM + 1)
+    }
+
     conv <- rbindlist(lapply(c("TGFB1", "TGFB2", "TGFB3", "CCN2"), function(l) {
         o <- tg(l)
         if (!length(agt_t) || !length(o)) return(NULL)
@@ -165,12 +269,19 @@ if (file.exists(opt$links)) {
                      length(agt_t), lower.tail = FALSE)
         data.table(ligand = l, n_agt_targets = length(agt_t),
                    n_other_targets = length(o), n_shared = inter,
-                   jaccard = jac, hyper_p = ph, universe = universe)
+                   jaccard = jac, universe = universe,
+                   n_ligand_pairs = length(pair_bg),
+                   jaccard_median_all_pairs = median(pair_bg),
+                   pair_pctile = 100 * mean(pair_bg < jac),
+                   degree_p = degree_p(length(agt_t), length(o), inter),
+                   hyper_p_MISCALIBRATED = ph)
     }), fill = TRUE)
     if (nrow(conv)) {
-        conv[, hyper_p_BH := p.adjust(hyper_p, method = "BH")]
+        conv[, degree_p_BH := p.adjust(degree_p, method = "BH")]
+        conv[, hyper_p_MISCALIBRATED_BH := p.adjust(hyper_p_MISCALIBRATED,
+                                                    method = "BH")]
         write_tsv_safe(conv, file.path(opt$outdir, "agt_target_overlap.tsv"))
-        message("AGT vs TGF-beta target convergence:")
+        message("AGT vs TGF-beta target overlap (prior-derived, not independent):")
         print(conv)
     }
 }
@@ -181,8 +292,11 @@ readme <- c(
             ifelse(length(agt_rank), agt_rank, "NA")),
     sprintf("Rank bootstrap run: %s", boot_done),
     "",
-    "NOTE: (A) rank and (C) target convergence inherit the NicheNet prior network",
-    "and are hypothesis-generating. (B) co-expression is measured in this dataset.",
+    "NOTE: (A) rank and (C) target overlap inherit the NicheNet prior network and",
+    "are hypothesis-generating. (B) co-expression is the only block measured in",
+    "this dataset, so (B) and (C) are NOT two independent lines of evidence.",
+    "In (C), read pair_pctile and degree_p; hyper_p_MISCALIBRATED assumes uniform",
+    "target draws, which this 24-gene shortlist badly violates.",
     "",
     if (exists("conv") && is.data.frame(conv) && nrow(conv))
         paste(utils::capture.output(print(conv)), collapse = "\n") else "",

@@ -1,20 +1,20 @@
-2026-07-21 17:22:51 - **** Job starts ****
+2026-09-07 19:03:24 - **** Job starts ****
 User: kbenjamin
-Job id: 42496123
-Hostname: r216
+Job id: 45464761
+Hostname: r030
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-21 17:22:52 - **** AGT versus the other pericyte ligands ****
+2026-09-07 19:03:25 - **** AGT versus the other pericyte ligands ****
 AGT point-estimate rank: 11
 Registered S3 method overwritten by 'pROC':
   method   from            
   plot.roc spatstat.explore
-Bootstrapping 300 target-set resamples over 30 genes
-AGT bootstrap rank 95% CI: 6 - 63.05
+Subsampling 300 replicates of m = 24 of 30 target genes (fixed size, without replacement)
+AGT subsample rank 95% CI: 6 - 34.05; median 16; size-matched reference 8
 Warning message:
 replacing previous import 'e1071::element' by 'ggplot2::element' when loading 'nichenetr' 
 Top AGT/partner co-expression:
@@ -30,17 +30,22 @@ Top AGT/partner co-expression:
  8: Interstitial macrophages    CCN2  -0.4364656       0      344     0
  9:               Mast cells   TGFB2  -0.7244475       0      238     0
 10:               Mast cells   TGFB3  -0.6656859       0      238     0
-AGT vs TGF-beta target convergence:
-   ligand n_agt_targets n_other_targets n_shared   jaccard     hyper_p universe
-   <char>         <int>           <int>    <int>     <num>       <num>    <int>
-1:  TGFB1            12              13        6 0.3157895 0.793175394       24
-2:  TGFB2            12              11        5 0.2777778 0.793175394       24
-3:   CCN2            12              12       10 0.7142857 0.001664475       24
-    hyper_p_BH
-         <num>
-1: 0.793175394
-2: 0.793175394
-3: 0.004993425
+AGT vs TGF-beta target overlap (prior-derived, not independent):
+   ligand n_agt_targets n_other_targets n_shared   jaccard universe
+   <char>         <int>           <int>    <int>     <num>    <int>
+1:  TGFB1            12              13        6 0.3157895       24
+2:  TGFB2            12              11        5 0.2777778       24
+3:   CCN2            12              12       10 0.7142857       24
+   n_ligand_pairs jaccard_median_all_pairs pair_pctile  degree_p
+            <int>                    <num>       <num>     <num>
+1:            435                0.5833333    24.13793 0.9993000
+2:            435                0.5833333    18.62069 0.9989501
+3:            435                0.5833333    75.17241 0.2041398
+   hyper_p_MISCALIBRATED degree_p_BH hyper_p_MISCALIBRATED_BH
+                   <num>       <num>                    <num>
+1:           0.793175394   0.9993000              0.793175394
+2:           0.793175394   0.9993000              0.793175394
+3:           0.001664475   0.6124194              0.004993425
 - Session info ---------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -51,7 +56,7 @@ AGT vs TGF-beta target convergence:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-21
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/ (via rmarkdown)
  quarto   NA
 
@@ -236,4 +241,4 @@ AGT vs TGF-beta target convergence:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-21 18:41:53 - **** Job ends ****
+2026-09-07 20:38:33 - **** Job ends ****

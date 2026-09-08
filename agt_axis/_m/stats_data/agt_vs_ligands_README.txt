@@ -2,19 +2,27 @@ AGT versus other pericyte ligands -- generated summary
 AGT point-estimate rank in the frozen NicheNet run: 11
 Rank bootstrap run: TRUE
 
-NOTE: (A) rank and (C) target convergence inherit the NicheNet prior network
-and are hypothesis-generating. (B) co-expression is measured in this dataset.
+NOTE: (A) rank and (C) target overlap inherit the NicheNet prior network and
+are hypothesis-generating. (B) co-expression is the only block measured in
+this dataset, so (B) and (C) are NOT two independent lines of evidence.
+In (C), read pair_pctile and degree_p; hyper_p_MISCALIBRATED assumes uniform
+target draws, which this 24-gene shortlist badly violates.
 
-   ligand n_agt_targets n_other_targets n_shared   jaccard     hyper_p universe
-   <char>         <int>           <int>    <int>     <num>       <num>    <int>
-1:  TGFB1            12              13        6 0.3157895 0.793175394       24
-2:  TGFB2            12              11        5 0.2777778 0.793175394       24
-3:   CCN2            12              12       10 0.7142857 0.001664475       24
-    hyper_p_BH
-         <num>
-1: 0.793175394
-2: 0.793175394
-3: 0.004993425
+   ligand n_agt_targets n_other_targets n_shared   jaccard universe
+   <char>         <int>           <int>    <int>     <num>    <int>
+1:  TGFB1            12              13        6 0.3157895       24
+2:  TGFB2            12              11        5 0.2777778       24
+3:   CCN2            12              12       10 0.7142857       24
+   n_ligand_pairs jaccard_median_all_pairs pair_pctile  degree_p
+            <int>                    <num>       <num>     <num>
+1:            435                0.5833333    24.13793 0.9993000
+2:            435                0.5833333    18.62069 0.9989501
+3:            435                0.5833333    75.17241 0.2041398
+   hyper_p_MISCALIBRATED degree_p_BH hyper_p_MISCALIBRATED_BH
+                   <num>       <num>                    <num>
+1:           0.793175394   0.9993000              0.793175394
+2:           0.793175394   0.9993000              0.793175394
+3:           0.001664475   0.6124194              0.004993425
 
                    ccc_group partner partial_rho p_value n_donors  p_BH
                       <char>  <char>       <num>   <num>    <num> <num>
