@@ -60,24 +60,87 @@ df <- data.table::fread("pathway_balance_metadata.tsv.gz") |>
 
 outdir <- "stats_data"; if (!dir.exists(outdir)) dir.create(outdir)
 
-## Donor x program aggregation
+## Donor x program aggregation.
+##
+## `age` is deliberately NOT a drop_na target (changed 2026-09-07, defect P1-22).
+## It was, and that made section (A) the EIGHTH instance of the `+ age` study
+## filter -- P1-8 removed it from section (B) sixty lines below and stopped here.
+## Age missingness in the HLCA is a study property, so `drop_na(age)` is a cohort
+## filter: at this module's own >=5-cell threshold it cut 97 donors to 51, and it
+## cut them unevenly -- Healthy 46->42 (91%), Fibrotic/ILD 24->6 (25%),
+## Other 27->3 (11%). `age` was also P = 0.715 in the model it restricted.
+## The age-restricted fit is still produced below, labelled as a restriction.
 agg <- df |>
     group_by(donor_id, state_program) |>
     summarise(balance = mean(AT1R_AT2R_balance, na.rm = TRUE),
               AT1R = mean(AT1R_score, na.rm = TRUE), AT2R = mean(AT2R_score, na.rm = TRUE),
               n_cells = n(), disease_group = first(disease_group),
-              sex = first(sex), age = mean(age, na.rm = TRUE), .groups = "drop") |>
-    filter(n_cells >= 5) |> drop_na(balance, age, sex) |>
-    mutate(across(c(state_program, sex, disease_group), droplevels))
+              sex = first(sex), study = first(study),
+              age = mean(age, na.rm = TRUE), .groups = "drop") |>
+    filter(n_cells >= 5) |> drop_na(balance, sex) |>
+    mutate(study = factor(study),
+           across(c(state_program, sex, disease_group, study), droplevels))
+
+cat(sprintf("\n(A) program donors: %d (%d donor x program rows) across %d studies\n",
+            dplyr::n_distinct(agg$donor_id), nrow(agg),
+            dplyr::n_distinct(agg$study)))
+print(table(unique(agg[, c("donor_id", "disease_group")])$disease_group))
+cat(sprintf("(A) age-complete subset would be %d of %d donors\n",
+            dplyr::n_distinct(agg$donor_id[!is.na(agg$age)]),
+            dplyr::n_distinct(agg$donor_id)))
 
 ## (A) balance across programs -- donor x program pseudobulk with donor random
 ## intercept (accounts for within-donor correlation across programs).
-fit_state <- suppressMessages(lmerTest::lmer(
-    balance ~ state_program + disease_group + age + sex + (1 | donor_id), data = agg))
-emm_state <- emmeans(fit_state, ~ state_program)
-write_tsv_safe(as.data.frame(anova(fit_state)), file.path(outdir, "balance_by_state_anova.tsv"), TRUE)
-write_tsv_safe(as.data.frame(emm_state), file.path(outdir, "balance_by_state_emmeans.tsv"))
-write_tsv_safe(as.data.frame(pairs(emm_state, adjust = "BH")), file.path(outdir, "balance_by_state_posthoc.tsv"))
+##
+## `(1 | study)` is added alongside `(1 | donor_id)` for the reason recorded in
+## pericyte_states/_h/01.state_stats.R: dropping the age filter restores donors
+## that are study-clustered, and without a study term those donors can manufacture
+## an effect. The endpoint here (state_program) is a WITHIN-donor contrast, which
+## the donor intercept already absorbs, so the guard is expected to be inert for
+## it -- but `disease_group` is in the same model and is a between-donor term, so
+## the guard is not optional. If the study variance is estimated at zero the fit
+## is singular and `study_sd` records it.
+run_state_arm <- function(d, arm, ageadj) {
+    terms <- c("state_program", "disease_group", if (ageadj) "age", "sex",
+               "(1 | donor_id)", "(1 | study)")
+    fit <- suppressMessages(lmerTest::lmer(reformulate(terms, "balance"), data = d))
+    vc <- as.data.frame(lme4::VarCorr(fit))
+    tag <- function(x) as.data.frame(x) |>
+        dplyr::mutate(arm = arm, n_donors = dplyr::n_distinct(d$donor_id),
+                      n_rows = nrow(d), n_studies = dplyr::n_distinct(d$study),
+                      study_sd = vc$sdcor[vc$grp == "study"][1],
+                      singular = lme4::isSingular(fit),
+                      model = paste0("lmer(", paste(terms, collapse = " + "), ")"))
+    emm <- emmeans(fit, ~ state_program)
+    list(fit = fit, emm = emm, anova = tag(anova(fit)), emmeans = tag(emm),
+         posthoc = tag(pairs(emm, adjust = "BH")))
+}
+
+state_primary <- run_state_arm(agg, "primary", FALSE)
+write_tsv_safe(state_primary$anova, file.path(outdir, "balance_by_state_anova.tsv"), TRUE)
+write_tsv_safe(state_primary$emmeans, file.path(outdir, "balance_by_state_emmeans.tsv"))
+write_tsv_safe(state_primary$posthoc, file.path(outdir, "balance_by_state_posthoc.tsv"))
+
+## Age-restricted arm, shipped as a labelled cohort restriction (never primary).
+agg_age <- agg |> tidyr::drop_na(age) |>
+    mutate(study = factor(study),
+           across(c(state_program, sex, disease_group, study), droplevels))
+if (dplyr::n_distinct(agg_age$study) > 1 &&
+    nlevels(agg_age$state_program) > 1) {
+    state_age <- run_state_arm(
+        agg_age, "_ageadj -- RESTRICTED to age-reporting cohorts, not an age adjustment", TRUE)
+    write_tsv_safe(state_age$anova, file.path(outdir, "balance_by_state_anova_ageadj.tsv"), TRUE)
+    write_tsv_safe(state_age$emmeans, file.path(outdir, "balance_by_state_emmeans_ageadj.tsv"))
+    write_tsv_safe(state_age$posthoc, file.path(outdir, "balance_by_state_posthoc_ageadj.tsv"))
+    cat("\n(A) program contrast, primary vs age-restricted (smallest BH p):\n")
+    cat(sprintf("    primary  n=%d donors, smallest BH p = %.4g\n",
+                dplyr::n_distinct(agg$donor_id),
+                min(state_primary$posthoc$p.value, na.rm = TRUE)))
+    cat(sprintf("    _ageadj  n=%d donors, smallest BH p = %.4g\n",
+                dplyr::n_distinct(agg_age$donor_id),
+                min(state_age$posthoc$p.value, na.rm = TRUE)))
+}
+emm_state <- state_primary$emm   # reuse the primary fit; do not refit
 
 p1 <- ggboxplot(agg, x = "state_program", y = "balance", add = "jitter",
                 fill = "state_program", palette = "npg", legend = "none",

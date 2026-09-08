@@ -1,12 +1,22 @@
-2026-09-07 12:53:12 - **** Job starts ****
-Job id: 45445324
+2026-09-07 16:42:12 - **** Job starts ****
+Job id: 45458158
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-07 12:53:25 - **** AT1R/AT2R balance statistics ****
+2026-09-07 16:42:16 - **** AT1R/AT2R balance statistics ****
+
+(A) program donors: 97 (154 donor x program rows) across 19 studies
+
+        COPD Fibrotic_ILD      Healthy        Other 
+           2           26           46           23 
+(A) age-complete subset would be 51 of 97 donors
+
+(A) program contrast, primary vs age-restricted (smallest BH p):
+    primary  n=97 donors, smallest BH p = 0.02577
+    _ageadj  n=51 donors, smallest BH p = 0.0672
 
 (B) injury selection: 5840 of 11680 cells above the median composite  injury score (cols: inflammatory_score, fibroblast_like_score, activated_migratory_score)
 
@@ -81,7 +91,7 @@ Currently Loaded Modules:
  -0.04195431 0.054455692
 
 Reproducibility information:
-[1] "2026-09-07 12:53:43 EDT"
+[1] "2026-09-07 16:42:24 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -164,4 +174,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-07 12:53:44 - **** Job ends ****
+2026-09-07 16:42:25 - **** Job ends ****
