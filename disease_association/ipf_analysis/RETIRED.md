@@ -116,3 +116,31 @@ All three logs carry a complete `session_info()`.
   `_m/summary.log` — but do not *delete* them: they are the only surviving record
   of the preprint numbers.
 - See also `../copd/RETIRED.md`, which has no exemptions.
+
+---
+
+## Cluster of origin — these launchers were never meant to run on Bridges-2
+
+Added 2026-09-07 (**P3-17**). Every `step_*.sh` here except the exempt
+`ipf_analysis/_h/step_2.sh` carries JHPCE settings:
+
+| Setting | Value | On Bridges-2 |
+| ------- | ----- | ------------ |
+| `--partition` | `bluejay,shared` | does not exist |
+| `--mail-user` | `jbenja13@jh.edu` | superseded |
+| `module load R` | bare `R` module | not provided |
+
+The runs were on **JHPCE** (Rocky Linux 9.2, R 4.3.1, user `jbenjami`),
+April–May 2024. **Do not debug these as if they were broken Bridges-2 jobs** —
+they are correct for the cluster they were written on and are retired here.
+
+`--account=bio260021p` is *not* in that list: it is a valid allocation for this
+user, so it is a billing choice rather than a defect. Changing it is a
+**repo-wide** decision (27 `step_*.sh` still carry it) and should not be done
+module by module.
+
+**The one exception is `_h/step_2.sh`**, which was ported to Bridges-2
+(`--partition=RM-shared`, current mail address, conda prefix fixed under P1-18)
+and **is live**. Its failure message was corrected from "Python execution failed"
+to "Rscript execution failed" in the same fix.
+

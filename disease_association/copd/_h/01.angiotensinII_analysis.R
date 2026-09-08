@@ -113,6 +113,17 @@ plot_box_stats <- function(dt, xlab, outdir){
     save_ggplots(tolower(outfile), bxp, 6, 6)
 }
 
+## TWO HAND-PICKED FOUR-TYPE PANELS, FROM 39 ANNOTATED CELL TYPES.
+## Documented 2026-09-07 (P3-18). There is no stated selection rule for either
+## set, and the all-cell-type view below (`plot_box_stats_celltype_all`) is
+## disabled in `generate_boxplots`. The `ipf_analysis` sibling keeps its
+## all-cell-type call and its subset is a coherent stromal/epithelial set; this
+## one is not reconstructible from the code.
+##
+## No conclusion depends on it: every comparison in this module is null
+## (all extractable t-tests 0.092-0.95, see ../RETIRED.md). It is recorded because
+## "ship a hand-picked subset and disable the complete view" is a pattern worth
+## not repeating, not because it produced a wrong result.
 plot_box_stats_celltype <- function(dt, outdir){
     mycomps <- list(c("Control", "COPD")); xlab = "Disease"
     celltypes1 <- c("AT2 A", "AT2 B", "Pericytes", "SMC")
@@ -166,7 +177,19 @@ generate_boxplots <- function(df, outdir){
                                         # Statistics
     plot_box_stats(df, "Disease", outdir)
     plot_box_stats_celltype(df, outdir)
-    ##plot_box_stats_celltype_all(dt, outdir)
+    ## The all-cell-type panel is DISABLED, and was shipped that way (P3-18).
+    ## `plot_box_stats_celltype_all` is defined above and never called, so the
+    ## figures in _m/ show only the two hand-picked four-type panels.
+    ##
+    ## The call was commented out as `plot_box_stats_celltype_all(dt, outdir)`,
+    ## which passes `dt` -- not in scope here, this function's argument is `df`.
+    ## Uncommenting it as written would have errored. Corrected to `df` below so
+    ## the line is at least runnable if anyone re-enables it.
+    ##
+    ## NOTE: this module is RETIRED and cannot currently be re-run -- its input
+    ## `normalized_expression.tsv` is no longer on disk (P2-30). Re-enabling this
+    ## line requires regenerating that input first. See ../RETIRED.md.
+    ## plot_box_stats_celltype_all(df, outdir)
 }
 
 ### Main script section

@@ -151,7 +151,7 @@ cat(sprintf("\nAll donors with pericytes: %d\n", nrow(donor))); print(table(dono
 ## cohorts "Other". The exclusion is applied with the same patterns as 01 so the
 ## groups are now defined identically everywhere.
 ##
-## SCOPE OF THE CHANGE, checked rather than assumed: all 12 carcinoma donors fall
+## SCOPE OF THE CHANGE, checked rather than assumed: all 11 carcinoma donors fall
 ## in "Other" (0 in Healthy, 0 in Fibrotic/ILD), so the primary Fibrotic-vs-Healthy
 ## comparison keeps every donor it had. What does move is the SD of the three-group
 ## endpoint, which is standardised over Healthy + Fibrotic + Other -- dropping 12
