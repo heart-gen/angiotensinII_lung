@@ -121,8 +121,19 @@ manifest <- tibble::tribble(
 ##                                PA-SMCs, zero pericytes) and it was drawn on the dense
 ##                                scvi_corrected layer. Superseded by S2 (raw counts).
 manifest$exists <- file.exists(manifest$source)
-write.table(manifest, file.path(outdir, "figure_panel_manifest.tsv"),
-            sep = "\t", quote = FALSE, row.names = FALSE)
+## MANIFEST FILE REMOVED 2026-09-08 (P1-21b), by decision.
+##
+## `figure_panel_manifest.tsv` used to be written here and sat alongside the
+## hand-maintained `figures/supplementary/` folder as a SECOND numbering
+## authority. The two disagreed on four numbers -- S01, S07, S08 and, worst,
+## S13, where the same number named two different figures -- and nothing
+## reconciled them, because no script reads or writes `figures/supplementary/`.
+##
+## The folder is now the single authority for supplement numbering. The table
+## below is retained ONLY to drive the existence check that follows; it is no
+## longer persisted and must not be treated as the numbering of record. If a
+## supplement is renumbered, renumber the folder -- and expect this table to be
+## stale until someone syncs it by hand.
 
 supp <- manifest[manifest$figure == "Supp", ]
 cat("Panels present:", sum(manifest$exists), "/", nrow(manifest), "\n")

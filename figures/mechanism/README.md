@@ -29,12 +29,22 @@ The narrative arc the figures deliver:
 |---|---|---|
 | `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the three-lens reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
-| `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in `figure_panel_manifest.tsv`. | `manuscript_mechanism_figure.R` |
+| `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in the `manifest` table inside `assemble_mechanism_figures.R`. | `manuscript_mechanism_figure.R` |
 | `figure_disease_main.{pdf,svg,png}` | **Main Fig — disease association (continuous injury).** Graded injury-program engagement across disease groups, the programs that carry it, *AGTR1* disease effects across stromal cell types, and the independent COPD/IPF evaluation. Study-level robustness moved to S16 on 2026-07-29. Self-contained. | `disease_main_figure.R` |
 
 **Supplements — S1–S17.** Filenames stay semantic so scripts and cross-references do not
-churn; the manuscript number is carried by the `supp_number` column of
-`figure_panel_manifest.tsv` and by the legend headings below.
+churn; the manuscript number is carried by **`figures/supplementary/`**, whose `.SNN.` filename
+suffix is the numbering of record, and by the legend headings below.
+
+> **Numbering authority changed 2026-09-08 (P1-21b).** `figure_panel_manifest.tsv` used to be a
+> second, script-generated numbering that disagreed with the curated folder on **S01, S07, S08 and
+> S13** — with S13 naming two different figures depending on which you read. It has been removed,
+> and the curated folder is now the single authority. Two consequences to know: the folder stops at
+> **S13**, so **S14–S17** (`figureS_balance_by_state`, `figureS_bm_copd`,
+> `figureS_disease_robustness`, `figureS_bm_associations`) have no curated counterpart and are
+> numbered only by the legend headings below; and the folder ships `.svg`/`.png` while the built
+> PDFs live in `figures/mechanism/`. The `manifest` table inside `assemble_mechanism_figures.R`
+> survives only to drive its existence check and **is not** the numbering of record.
 
 | # | File | Built by |
 |---|---|---|
@@ -88,13 +98,15 @@ when a new figure claims a slot:
 
 **Supporting files (not figures):**
 - `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control` (S5).
-- `figure_panel_manifest.tsv` — two kinds of row. `figure = A|B` are the per-module PDFs
-  (liana dotplots, NicheNet heatmap, state/DPT/PAGA UMAPs) assembled into the main figures
-  in a vector editor; `figure = Supp` are the finished supplements keyed by `supp_number`.
-  `exists` flags whether each has been generated.
+- ~~`figure_panel_manifest.tsv`~~ — **removed 2026-09-08 (P1-21b)**; see the numbering note
+  above. The per-module image panels it listed (liana dotplots, NicheNet heatmap, state/DPT/PAGA
+  UMAPs) are still enumerated in the `manifest` table inside
+  `figures/_h/assemble_mechanism_figures.R`, which prints them and their `exists` status to the
+  log on every run.
 - `figureB_states_continuum_niche.{pdf,png}` — **working draft only** (legacy
   `assemble_mechanism_figures.R`, `theme_bw`, in-panel titles). Superseded for submission by
-  `figure_mechanism_main` + the manifest image panels; kept for quick QC, not for the manuscript.
+  `figure_mechanism_main` + the image panels listed in `assemble_mechanism_figures.R`; kept for
+  quick QC, not for the manuscript.
 
 **State-model key (applies to every panel that mentions programs).** Six stable pericyte
 Leiden subclusters collapse onto three discrete dominant programs
@@ -252,7 +264,7 @@ The ordering reflects transcriptional similarity along a vascular-stabilizing �
 and activated/migratory scores all *decline* along the axis (donor ρ ≈ −0.44 to −0.57,
 *P* < 1×10⁻¹⁰); the **basement-membrane score is the lone riser** (donor ρ = +0.14, *P* = 0.055,
 n.s.); *AGTR1* declines under both lenses (raw ρ = −0.30, denoised ρ = −0.37). Assemble with the state UMAP,
-DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`.
+DPT-pseudotime UMAP, and PAGA panels enumerated in `assemble_mechanism_figures.R`.
 
 **Donor counts differ by panel and are not interchangeable** (corrected 2026-09-07, P3-5 —
 the legend previously gave a single "*n* = 32 donors (donor-level mixed-model marginal means;
