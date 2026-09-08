@@ -1,14 +1,14 @@
-2026-07-27 12:19:53 - **** Job starts ****
-Job id: 42710625
-Hostname: r001
+2026-09-07 16:43:23 - **** Job starts ****
+Job id: 45458246
+Hostname: r002
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-07-27 12:19:54 - **** Loading mamba environment ****
-2026-07-27 12:20:10 - **** NicheNet: CoGAPS-defined pericyte receivers (nP=8) ****
+2026-09-07 16:43:24 - **** Loading mamba environment ****
+2026-09-07 16:43:26 - **** NicheNet: CoGAPS-defined pericyte receivers (nP=8) ****
 Warning message:
 replacing previous import 'e1071::element' by 'ggplot2::element' when loading 'nichenetr' 
 === NicheNet receiver: Pericyte_cg_vascular_stabilizing ===
@@ -37,7 +37,7 @@ i The deprecated feature was likely used in the nichenetr package.
   Please report the issue at <https://github.com/saeyslab/nichenetr/issues>. 
 
 Reproducibility information:
-[1] "2026-07-27 12:22:29 EDT"
+[1] "2026-09-07 16:45:19 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -48,7 +48,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-27
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/ (via rmarkdown)
  quarto   NA
 
@@ -234,8 +234,8 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-07-27 12:22:29 - **** Cross-receiver ligand concordance ****
-receiver definitions: Pericyte_activated_migratory, Pericyte_basement_membrane, Pericyte_cg_basement_membrane, Pericyte_cg_fibroblast_like, Pericyte_cg_inflammatory, Pericyte_cg_synthetic_contractile, Pericyte_cg_vascular_stabilizing, Pericyte_vascular_stabilizing, Pericytes
+2026-09-07 16:45:20 - **** Cross-receiver ligand concordance ****
+receiver definitions: AT2_AGTR2det, Pericyte_activated_migratory, Pericyte_basement_membrane, Pericyte_cg_basement_membrane, Pericyte_cg_fibroblast_like, Pericyte_cg_inflammatory, Pericyte_cg_synthetic_contractile, Pericyte_cg_vascular_stabilizing, Pericyte_vascular_stabilizing, Pericytes
 
 == Pairwise rank concordance across receiver definitions ==
                         receiver_a                        receiver_b
@@ -275,6 +275,15 @@ receiver definitions: Pericyte_activated_migratory, Pericyte_basement_membrane, 
       Pericyte_activated_migratory     Pericyte_cg_basement_membrane
       Pericyte_activated_migratory        Pericyte_basement_membrane
         Pericyte_basement_membrane          Pericyte_cg_inflammatory
+                      AT2_AGTR2det          Pericyte_cg_inflammatory
+                      AT2_AGTR2det      Pericyte_activated_migratory
+                      AT2_AGTR2det     Pericyte_vascular_stabilizing
+                      AT2_AGTR2det  Pericyte_cg_vascular_stabilizing
+                      AT2_AGTR2det     Pericyte_cg_basement_membrane
+                      AT2_AGTR2det                         Pericytes
+                      AT2_AGTR2det       Pericyte_cg_fibroblast_like
+                      AT2_AGTR2det Pericyte_cg_synthetic_contractile
+                      AT2_AGTR2det        Pericyte_basement_membrane
  n_shared_ligands spearman_rho p_value pearson_aupr p_BH
               307    0.9976207       0    0.9967161    0
               326    0.9866522       0    0.9782585    0
@@ -312,6 +321,61 @@ receiver definitions: Pericyte_activated_migratory, Pericyte_basement_membrane, 
               301    0.7918334       0    0.7871265    0
               297    0.7812507       0    0.7725190    0
               261    0.7710936       0    0.7612085    0
+              245    0.7324319       0    0.7164762    0
+              276    0.7265444       0    0.7050055    0
+              280    0.6856175       0    0.6456557    0
+              241    0.5940271       0    0.4984327    0
+              297    0.5771363       0    0.4248330    0
+              282    0.5696286       0    0.4381141    0
+              277    0.5606074       0    0.4329539    0
+              292    0.5566017       0    0.3869434    0
+              289    0.5371669       0    0.3784007    0
+                                                   comparison
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+ within-pericyte -- receiver DEFINITION differs, cells do not
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
+                      NEGATIVE CONTROL -- different cell type
 
 == Top-20 overlap ==
                         receiver_a                        receiver_b  k
@@ -350,44 +414,71 @@ receiver definitions: Pericyte_activated_migratory, Pericyte_basement_membrane, 
       Pericyte_activated_migratory        Pericyte_basement_membrane 20
       Pericyte_activated_migratory     Pericyte_cg_basement_membrane 20
         Pericyte_basement_membrane  Pericyte_cg_vascular_stabilizing 20
+                      AT2_AGTR2det      Pericyte_activated_migratory 20
+                      AT2_AGTR2det          Pericyte_cg_inflammatory 20
      Pericyte_cg_basement_membrane  Pericyte_cg_vascular_stabilizing 20
- n_shared   jaccard
-       19 0.9047619
-       18 0.8181818
-       18 0.8181818
-       17 0.7391304
-       16 0.6666667
-       16 0.6666667
-       16 0.6666667
-       15 0.6000000
-       15 0.6000000
-       15 0.6000000
-       14 0.5384615
-       14 0.5384615
-       14 0.5384615
-       13 0.4814815
-       13 0.4814815
-       13 0.4814815
-       13 0.4814815
-       13 0.4814815
-       13 0.4814815
-       13 0.4814815
-       12 0.4285714
-       12 0.4285714
-       12 0.4285714
-       12 0.4285714
-       12 0.4285714
-       11 0.3793103
-       11 0.3793103
-       11 0.3793103
-       11 0.3793103
-       10 0.3333333
-        9 0.2903226
-        9 0.2903226
-        8 0.2500000
-        8 0.2500000
-        8 0.2500000
-        7 0.2121212
+                      AT2_AGTR2det  Pericyte_cg_vascular_stabilizing 20
+                      AT2_AGTR2det     Pericyte_vascular_stabilizing 20
+                      AT2_AGTR2det       Pericyte_cg_fibroblast_like 20
+                      AT2_AGTR2det Pericyte_cg_synthetic_contractile 20
+                      AT2_AGTR2det                         Pericytes 20
+                      AT2_AGTR2det        Pericyte_basement_membrane 20
+                      AT2_AGTR2det     Pericyte_cg_basement_membrane 20
+ n_shared    jaccard
+       19 0.90476190
+       18 0.81818182
+       18 0.81818182
+       17 0.73913043
+       16 0.66666667
+       16 0.66666667
+       16 0.66666667
+       15 0.60000000
+       15 0.60000000
+       15 0.60000000
+       14 0.53846154
+       14 0.53846154
+       14 0.53846154
+       13 0.48148148
+       13 0.48148148
+       13 0.48148148
+       13 0.48148148
+       13 0.48148148
+       13 0.48148148
+       13 0.48148148
+       12 0.42857143
+       12 0.42857143
+       12 0.42857143
+       12 0.42857143
+       12 0.42857143
+       11 0.37931034
+       11 0.37931034
+       11 0.37931034
+       11 0.37931034
+       10 0.33333333
+        9 0.29032258
+        9 0.29032258
+        8 0.25000000
+        8 0.25000000
+        8 0.25000000
+        7 0.21212121
+        7 0.21212121
+        7 0.21212121
+        5 0.14285714
+        5 0.14285714
+        4 0.11111111
+        4 0.11111111
+        4 0.11111111
+        3 0.08108108
+        2 0.05263158
+
+== P2-3 NEGATIVE-RECEIVER CONTROL ==
+  within-pericyte  rho: min 0.771  median 0.849  max 0.998  (36 pairs)
+  pericyte vs AT2  rho: min 0.537  median 0.577  max 0.732  (9 pairs)
+  tail gap    (min within - max control): 0.039
+  central gap (median - median):          0.272  (Wilcoxon p = 2.26e-09)
+  within-pericyte pairs below rho 0.96:   32 of 36
+
+  SEPARATES CENTRALLY, OVERLAPS AT THE TAILS: within-pericyte median 0.849 vs pericyte-vs-AT2 median 0.577 (difference 0.272, Wilcoxon p = 2.26e-09) -- so the ranking DOES respond to receiver identity and this is not a pure method floor. BUT the lowest within-pericyte pair (0.771) is only 0.039 above the highest cross-cell-type pair (0.732), so the MOST discordant pericyte pairs are barely more concordant than a different cell type. Read the aggregate prioritization as receiver-responsive; do NOT read any INDIVIDUAL state-stratified pair as resolved.
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -400,7 +491,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-07-27
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -429,4 +520,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-07-27 12:22:31 - **** Job ends ****
+2026-09-07 16:45:22 - **** Job ends ****

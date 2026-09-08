@@ -34,4 +34,13 @@ Pericyte_cg_basement_membrane	Pericyte_cg_inflammatory	20	9	0.290322580645161	AG
 Pericyte_activated_migratory	Pericyte_basement_membrane	20	8	0.25	AGT,CCN2,COL4A1,COPA,MMP14,TGFB1,TGFB2,TIMP2
 Pericyte_activated_migratory	Pericyte_cg_basement_membrane	20	8	0.25	AGT,CCN2,COL4A1,COPA,MMP14,TGFB1,TGFB2,TIMP2
 Pericyte_basement_membrane	Pericyte_cg_vascular_stabilizing	20	8	0.25	AGT,CCN2,COPA,FN1,TGFB1,TGFB2,TGM2,TIMP2
+AT2_AGTR2det	Pericyte_activated_migratory	20	7	0.212121212121212	ANXA1,C4BPA,CCN2,EDN1,IL1RN,TIMP2,VTN
+AT2_AGTR2det	Pericyte_cg_inflammatory	20	7	0.212121212121212	C4BPA,CCN2,EDN1,IL1RN,TGFBI,TIMP2,VTN
 Pericyte_cg_basement_membrane	Pericyte_cg_vascular_stabilizing	20	7	0.212121212121212	AGT,CCN2,COPA,FN1,TGFB1,TGFB2,TIMP2
+AT2_AGTR2det	Pericyte_cg_vascular_stabilizing	20	5	0.142857142857143	C4BPA,CCN2,TGM2,TIMP2,VTN
+AT2_AGTR2det	Pericyte_vascular_stabilizing	20	5	0.142857142857143	ANXA1,CCN2,EDN1,TIMP2,VTN
+AT2_AGTR2det	Pericyte_cg_fibroblast_like	20	4	0.111111111111111	CCN2,TGM2,TIMP2,VTN
+AT2_AGTR2det	Pericyte_cg_synthetic_contractile	20	4	0.111111111111111	CCN2,TGM2,TIMP2,VTN
+AT2_AGTR2det	Pericytes	20	4	0.111111111111111	CCN2,TGM2,TIMP2,VTN
+AT2_AGTR2det	Pericyte_basement_membrane	20	3	0.0810810810810811	CCN2,TGM2,TIMP2
+AT2_AGTR2det	Pericyte_cg_basement_membrane	20	2	0.0526315789473684	CCN2,TIMP2
