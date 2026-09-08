@@ -18,7 +18,7 @@ S12B AGTR1 detection in pericytes	0.3418	0.341761789254222	TRUE	FALSE
 S12B complete autonomous circuits	0	0	TRUE	FALSE
 S12B max core roles	1	1	TRUE	FALSE
 S09B BM-score contrasts at BH<0.05	10	10	TRUE	FALSE
-S02C1 detection-vs-depth rho (pooled)	0.432	0.432013824663587	TRUE	FALSE
+S02C1 detection-vs-depth rho (pooled)	0.3559018	0.355901804713658	TRUE	FALSE
 S13E (>=20) F statistic	6.86873	6.86872874862773	TRUE	TRUE
 S13E (>=20) Healthy marginal mean	-0.269672	-0.26967155826154	TRUE	TRUE
 S13E (>=20) Fibrotic_ILD marginal mean	0.604326	0.604326036731725	TRUE	TRUE

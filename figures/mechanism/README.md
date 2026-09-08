@@ -961,28 +961,40 @@ sensitivity is noted as a limitation/future-cohort question (see Methods).
 cross-species comparison; *Agtr1a* is genuinely transcribed by mouse pericytes in raw counts.
 **(A)** Composition of the mouse mural compartment across the four integrated datasets (M1–M4);
 point area is proportional to cell number, with counts labeled. Two structural features preclude
-a state-level comparison with the human analysis: the compartment contains only **41 pericytes**
-(3.6% of 1,144 mural cells; the remainder are 1,016 vascular-associated and 87 pulmonary-artery
+a state-level comparison with the human analysis: the compartment contains only **99 pericytes**
+(3.6% of 2,745 mural cells; the remainder are 2,437 vascular-associated and 209 pulmonary-artery
 smooth muscle cells, against 11,680 human pericytes), and cell type is almost perfectly aliased
 with dataset — M3/M4 contribute vSMC only, M1/M2 pericytes and PA-SMC only — so the
 pericyte-versus-vSMC contrast is absorbed by any dataset term and only pericyte-versus-PA-SMC is
 estimable within dataset. **(B)** *Agtr1a* in raw log-normalized counts for every pericyte and
 PA-SMC in the two datasets containing both (all cells shown; bars are medians; labels give the
-detected fraction and *n*). Detection is 64% (16/25) and 94% (15/16) in pericytes versus **0/43
-and 0/44** in PA-SMC (Fisher exact *P* = 1.4 × 10⁻⁹ and 3.0 × 10⁻¹³; Mantel–Haenszel stratified
-by dataset *P* = 8.4 × 10⁻²⁰), so the contrast is not a batch effect. Across both datasets, 31 of
-41 pericytes (75.6%) spanning 15 of 18 donors carry ≥1 *Agtr1a* UMI. **(C)** The undetected
-pericytes reflect sequencing depth, not absence: the two datasets differ ~360-fold in depth
-(median 291 versus 104,973 UMI per pericyte) and detection tracks depth across cells (Spearman
-ρ = 0.43, *P* = 0.005); at full depth detection is 15/16 with a median of 928 *Agtr1a* UMI per
+detected percentage and *k*/*n*). Detection is 66% (40/61) and 92% (35/38) in pericytes versus
+**0/98 and 1/111** in PA-SMC (Fisher exact *P* = 1.9 × 10⁻²² and 2.0 × 10⁻²⁹; Mantel–Haenszel
+stratified by dataset *P* = 6.7 × 10⁻⁴⁶), so the contrast is not a batch effect. Across both
+datasets, 75 of 99 pericytes (75.8%) spanning 23 of 26 donors carry ≥1 *Agtr1a* UMI. **The
+defensible test is at donor level**, since the cell-level *P*s treat cells from one donor as
+independent: 23/26 pericyte donors versus 1/25 SMC donors (Fisher exact *P* = 3.2 × 10⁻¹⁰), and
+an exact McNemar over the 19 discordant donors among the 22 contributing both cell types — all 19
+in the pericyte direction — *P* = 3.8 × 10⁻⁶. **(C)** The undetected
+pericytes reflect sequencing depth, not absence: the two datasets differ ~410-fold in depth
+(median 328 versus 134,864 UMI per pericyte) and detection tracks depth across cells (Spearman
+ρ = 0.36, *P* = 3.0 × 10⁻⁴); at full depth detection is 35/38 with a median of 766 *Agtr1a* UMI per
 positive cell. Open circles denote cells with no *Agtr1a* UMI. **(D)** Fraction of *Agtr1a*-positive
 cells computed on raw counts versus the dense scVI-denoised layer. Denoising reconstructs every
-cell as non-zero, converting 0% detection in PA-SMC to 100%; detection fractions and correlations
+cell as non-zero, converting 0.5% detection in PA-SMC to 100%; detection fractions and correlations
 computed on that layer are therefore uninformative, which is why all claims here use raw counts.
-*Agtr1b* and *Agtr2* are absent from mouse pericytes entirely (0/41 cells, maximum 0 UMI), making
-*Agtr1a* the sole angiotensin II receptor transcribed in this compartment. Note that all 41
+*Agtr1b* and *Agtr2* are absent from mouse pericytes entirely (0/99 cells, maximum 0 UMI), making
+*Agtr1a* the sole angiotensin II receptor transcribed in this compartment. Note that all 99
 pericytes derive from healthy animals, so these data do not test the injury-associated pericyte
-loss or its losartan rescue. Source: `cross_species/_h/04.species_comparability.py`.
+loss or its losartan rescue.
+
+> **Every number in this legend was updated 2026-09-08 (P2-13).** The mural
+> exemption raised the pericyte set from 41 cells to 99 and PA-SMC from 87 to 209.
+> **One claim changed rather than merely moving:** PA-SMC were a clean 0/87 and are
+> now 1/209, so panel D's raw PA-SMC point is near-zero, not zero, and the panel
+> labels carry *k*/*n* for exactly that reason. Do not restore "absent" for PA-SMC.
+
+Source: `cross_species/_h/04.species_comparability.py`.
 
 ### `figure_basement_membrane` — Pericytes build basement membrane, not interstitial collagen
 

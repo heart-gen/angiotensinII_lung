@@ -299,15 +299,41 @@ if (length(a_bits))
 tests <- read_src(SP("agtr1a_tests.tsv"))
 within <- read_src(SP("agtr1a_within_dataset.tsv"))
 if (!is.null(tests)) {
-    tests[, p_BH := bh(p_value)]
+    ## BH FAMILY. This table holds five rows, but they are not five independent
+    ## tests -- they are five presentations of ONE hypothesis (Agtr1a in
+    ## pericytes vs pulmonary-artery SMC). Only the two within-dataset Fisher
+    ## tests are mutually independent: the Mantel-Haenszel row POOLS those same
+    ## two strata, and the two `unit == "donor"` rows restate the same cells at a
+    ## coarser unit. Adjusting across all five would inflate the denominator with
+    ## copies of the same data, so BH is computed over the independent Fisher
+    ## rows only and every other row carries NA with a stated reason.
+    ##
+    ## `p.adjust` evaluates its n at call time, so the family must be SUBSET
+    ## before adjusting rather than adjusted and then filtered.
+    tests[, in_bh_family := test == "fisher_exact_detection" & unit == "cell"]
+    tests[, bh_excluded_reason := fifelse(
+        in_bh_family, "",
+        fifelse(grepl("mantel_haenszel", test),
+                "pools the same two strata as the Fisher rows",
+                "restates the same cells at donor level"))]
+    tests[, p_BH := NA_real_]
+    tests[in_bh_family == TRUE, p_BH := bh(p_value)]
     tests[, p_formatted := fmt_p(p_value)]
     write_part(tests, "02B",
         "Within-dataset Agtr1a detection tests (pericytes vs smooth muscle)",
         supports = "Figure S2",
         sources = "cross_species/_m/stats_data/species_comparability_agtr1a_tests.tsv",
         notes = paste("Raw counts. Fisher exact within each dataset that contains",
-                      "both cell types, plus a Mantel-Haenszel test stratified by",
-                      "dataset. BH is across the two Fisher tests."))
+                      "both cell types, a Mantel-Haenszel test stratified by",
+                      "dataset, and the same comparison at DONOR level (Fisher on",
+                      "donors with >=1 Agtr1a+ cell, and an exact McNemar over",
+                      "donors contributing both cell types).",
+                      "BH is over the two independent within-dataset Fisher rows",
+                      "ONLY; the Mantel-Haenszel and donor rows are the same data",
+                      "re-presented and carry NA with a reason in",
+                      "`bh_excluded_reason`.",
+                      "QUOTE THE DONOR-LEVEL ROWS: the cell-level tests treat",
+                      "cells from one donor as independent."))
 }
 
 ## ---- Part C1: depth dependence (RECOMPUTED -- no prior source file) ------
@@ -345,6 +371,16 @@ if (!is.null(pc)) {
         list(depth_stats(pc, "ALL DATASETS POOLED"))), fill = TRUE)
     setorder(depth, measure, dataset_id)
     depth[, p_formatted := fmt_p(spearman_p)]
+    ## The note below used to ASSERT "rho = 0.432, P = 0.0048, n = 41". Those were
+    ## the pre-P2-13 subsampled values and they went stale the moment the mural
+    ## exemption landed, without anything failing. Derive the sentence from the
+    ## row it describes so it cannot drift again.
+    pooled <- depth[dataset_id == "ALL DATASETS POOLED" &
+                    measure == "Agtr1a detection (0/1) ~ total UMI"]
+    pooled_txt <- if (nrow(pooled) == 1)
+        sprintf("(rho = %.3f, P = %s, n = %d)", pooled$spearman_rho,
+                fmt_p(pooled$spearman_p), pooled$n_pericytes) else
+        "(pooled row not found)"
     write_part(depth, "02C1",
         "Sequencing-depth dependence of raw Agtr1a detection in mouse pericytes",
         supports = "Figure S2; Results (cross-species)",
@@ -353,7 +389,7 @@ if (!is.null(pc)) {
                       "writings/SPECIES_SUMMARY.md and MECHANISM_ANALYSES.md but",
                       "were never written to any output file. The reported",
                       "'detection tracks depth' result is the pooled",
-                      "detection-vs-UMI row (rho = 0.432, P = 0.0048, n = 41);",
+                      paste0("detection-vs-UMI row ", pooled_txt, ";"),
                       "the counts-vs-UMI rows are a different, stronger",
                       "relationship and must not be quoted in its place."))
 }

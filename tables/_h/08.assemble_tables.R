@@ -96,10 +96,21 @@ x <- tsv("09B")
 chk("S09B BM-score contrasts at BH<0.05",
     maybe(x, sum(x[score == "basement_membrane_score_z", p_BH_within_score] < 0.05)), 10, tol = 0)
 
+## RE-POINTED 2026-09-08 after P2-13. The mural exemption in
+## `cross_species/_h/00.download_mouse_lung.py` raised the mouse pericyte set
+## from 41 cells to 99, so this correlation is now computed on 2.4x the data:
+## rho 0.432 -> 0.35590180, P 0.0048 -> 3.0e-04, n 41 -> 99. The coefficient is
+## SMALLER and the p-value four orders of magnitude smaller -- the old rho was a
+## 41-cell estimate, not a more favourable result.
+##
+## Unlike the four >=20 re-points above, this one DID have a manuscript-text
+## consequence: rho = 0.43 / P = 0.005 was quoted in three places
+## (SPECIES_SUMMARY.md, MECHANISM_ANALYSES.md, figures/mechanism/README.md).
+## All three were corrected in the same pass. This anchor is what caught it.
 x <- tsv("02C1")
 chk("S02C1 detection-vs-depth rho (pooled)",
     maybe(x, x[dataset_id == "ALL DATASETS POOLED" &
-                   grepl("^Agtr1a detection", measure), spearman_rho]), 0.432, tol = 1e-3)
+                   grepl("^Agtr1a detection", measure), spearman_rho]), 0.3559018, tol = 1e-3)
 
 ## -- threshold-dependent: assert against the >=20 SENSITIVITY rows. The >=10
 ##    primary fit is new and has no prior value to check, so it is validated

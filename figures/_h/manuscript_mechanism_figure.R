@@ -526,6 +526,16 @@ if (file.exists(mural_f)) {
     ds_labs <- setNames(paste0("M", seq_along(ds_order)), ds_order)
     mm[, ds := factor(ds_labs[dataset_id], levels = unname(ds_labs))]
     mm[, detected := Agtr1a_counts > 0]
+    ## PERCENT LABELS MUST DISTINGUISH ZERO FROM NEAR-ZERO. Before P2-13 the
+    ## PA-SMC arm was a true 0/87 and "%.0f%%" was safe. With the full 209 cells
+    ## it is 1/209 = 0.48%, which "%.0f%%" renders as "0%" -- the figure would
+    ## assert a categorical absence the data no longer support. Show a decimal
+    ## below 1%, and carry the k/n so the reader can see the single cell.
+    pct_lab <- function(k, n) {
+        p <- 100 * k / n
+        ifelse(k == 0, "0%",
+        ifelse(p < 1, sprintf("%.1f%%", p), sprintf("%.0f%%", p)))
+    }
 
     ## -- A: composition grid. Empty cells ARE the result: cell type is aliased
     ##       with dataset, so pericyte-vs-vSMC is not estimable within dataset.
@@ -545,12 +555,13 @@ if (file.exists(mural_f)) {
         theme_ms() + theme(panel.grid.major.y = element_line(linewidth = 0.2))
 
     ## -- B: the claim, in raw counts, within the two datasets that contain both
-    ##       cell types. Every cell is shown (n = 41 pericytes, 87 PA-SMC).
+    ##       cell types. Every cell is shown (n = 99 pericytes, 209 PA-SMC after
+    ##       the P2-13 mural exemption; it was 41 and 87 under the subsample).
     info_ds <- mm[, .(k = uniqueN(ct)), by = ds][k > 1, ds]
     bd <- mm[ds %in% info_ds & ct %in% c("Pericyte", "PA-SMC")]
     bd[, ct := droplevels(ct)]
-    lab_b <- bd[, .(det = mean(detected), n = .N), by = .(ds, ct)][
-        , lab := sprintf("%.0f%%\n(n=%d)", 100 * det, n)][]
+    lab_b <- bd[, .(k = sum(detected), n = .N), by = .(ds, ct)][
+        , lab := sprintf("%s\n(%d/%d)", pct_lab(k, n), k, n)][]
     pRaw <- ggplot(bd, aes(ct, Agtr1a_lognorm, colour = ct)) +
         geom_jitter(width = 0.18, height = 0, size = 0.9, alpha = 0.75) +
         stat_summary(fun = median, geom = "crossbar", width = 0.45,
@@ -592,21 +603,28 @@ if (file.exists(mural_f)) {
     ##       every cell as non-zero, so denoised detection is 100% regardless of
     ##       whether a single molecule was observed.
     dd <- rbind(
-        mm[, .(frac = mean(Agtr1a_counts > 0), layer = "Raw counts"), by = ct],
-        mm[, .(frac = mean(Agtr1a_scvi_corrected > 0), layer = "scVI-denoised"), by = ct])
+        mm[, .(frac = mean(Agtr1a_counts > 0), k = sum(Agtr1a_counts > 0), n = .N,
+               layer = "Raw counts"), by = ct],
+        mm[, .(frac = mean(Agtr1a_scvi_corrected > 0), k = sum(Agtr1a_scvi_corrected > 0),
+               n = .N, layer = "scVI-denoised"), by = ct])
     dd[, layer := factor(layer, levels = c("Raw counts", "scVI-denoised"))]
     pDenoise <- ggplot(dd, aes(layer, frac, group = ct, colour = ct)) +
         geom_line(linewidth = 0.6) +
         geom_point(size = 2) +
         geom_text(data = dd[layer == "Raw counts"],
-                  aes(label = sprintf("%.0f%%", 100 * frac)), hjust = 1.35,
+                  aes(label = sprintf("%s (%d/%d)", pct_lab(k, n), k, n)), hjust = 1.12,
                   size = 2.1, show.legend = FALSE) +
+        ## Derived, not asserted: the denoised layer is dense, so this reads 100%,
+        ## but let the data say so rather than hardcoding the string.
         geom_text(data = dd[layer == "scVI-denoised" & ct == "Pericyte"],
-                  aes(label = "100%"), hjust = -0.45, size = 2.1, show.legend = FALSE) +
+                  aes(label = pct_lab(k, n)), hjust = -0.45, size = 2.1,
+                  show.legend = FALSE) +
         scale_colour_manual(values = CT_COL, name = NULL) +
         scale_y_continuous(labels = function(x) paste0(100 * x, "%"),
                            limits = c(0, 1.08), expand = expansion(mult = c(0.02, 0))) +
-        expand_limits(x = c(0.55, 2.5)) +
+        ## Wider left margin than the pre-P2-13 version: the raw-count labels now
+        ## carry a k/n ("0.5% (1/209)") where they used to carry two characters.
+        expand_limits(x = c(0.05, 2.6)) +
         labs(x = NULL, y = expression(italic("Agtr1a") * "-positive cells")) +
         theme_ms() +
         theme(legend.position = "inside", legend.position.inside = c(0.02, 0.62),

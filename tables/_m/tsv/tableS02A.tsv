@@ -1,51 +1,62 @@
 block	key	value
-headline metric	n_mural_cells	1144
-headline metric	n_pericytes	41
-headline metric	pct_mural_that_are_pericytes	3.58
-headline metric	n_pericyte_donors	18
+headline metric	n_mural_cells	2745
+headline metric	n_pericytes	99
+headline metric	pct_mural_that_are_pericytes	3.61
+headline metric	n_pericyte_donors	26
 headline metric	n_pericyte_datasets	2
 headline metric	n_datasets_supporting_pericyte_vs_smc	2
-headline metric	pct_mural_in_single_largest_whole_lung_cluster	86.98
+headline metric	pct_mural_in_single_largest_whole_lung_cluster	63.61
 headline metric	n_human_pericytes_for_comparison	11680
 cells by dataset	pericyte | 047d57f2-4d14-45de-aa98-336c6f583750	0
 cells by dataset	smooth muscle cell of the pulmonary artery | 047d57f2-4d14-45de-aa98-336c6f583750	0
-cells by dataset	vascular associated smooth muscle cell | 047d57f2-4d14-45de-aa98-336c6f583750	509
-cells by dataset	pericyte | 48b37086-25f7-4ecd-be66-f5bb378e3aea	25
-cells by dataset	smooth muscle cell of the pulmonary artery | 48b37086-25f7-4ecd-be66-f5bb378e3aea	43
+cells by dataset	vascular associated smooth muscle cell | 047d57f2-4d14-45de-aa98-336c6f583750	1196
+cells by dataset	pericyte | 48b37086-25f7-4ecd-be66-f5bb378e3aea	61
+cells by dataset	smooth muscle cell of the pulmonary artery | 48b37086-25f7-4ecd-be66-f5bb378e3aea	98
 cells by dataset	vascular associated smooth muscle cell | 48b37086-25f7-4ecd-be66-f5bb378e3aea	0
 cells by dataset	pericyte | 89840cec-5734-455d-b68e-34d27650e148	0
 cells by dataset	smooth muscle cell of the pulmonary artery | 89840cec-5734-455d-b68e-34d27650e148	0
-cells by dataset	vascular associated smooth muscle cell | 89840cec-5734-455d-b68e-34d27650e148	507
-cells by dataset	pericyte | 98e5ea9f-16d6-47ec-a529-686e76515e39	16
-cells by dataset	smooth muscle cell of the pulmonary artery | 98e5ea9f-16d6-47ec-a529-686e76515e39	44
+cells by dataset	vascular associated smooth muscle cell | 89840cec-5734-455d-b68e-34d27650e148	1241
+cells by dataset	pericyte | 98e5ea9f-16d6-47ec-a529-686e76515e39	38
+cells by dataset	smooth muscle cell of the pulmonary artery | 98e5ea9f-16d6-47ec-a529-686e76515e39	111
 cells by dataset	vascular associated smooth muscle cell | 98e5ea9f-16d6-47ec-a529-686e76515e39	0
-human-program label by mouse cell type	basement_membrane | pericyte	0
+human-program label by mouse cell type	basement_membrane | pericyte	2
 human-program label by mouse cell type	fibroblast_like | pericyte	0
 human-program label by mouse cell type	inflammatory | pericyte	0
-human-program label by mouse cell type	synthetic_contractile | pericyte	41
-human-program label by mouse cell type	basement_membrane | smooth muscle cell of the pulmonary artery	84
+human-program label by mouse cell type	synthetic_contractile | pericyte	1
+human-program label by mouse cell type	vascular_stabilizing | pericyte	96
+human-program label by mouse cell type	basement_membrane | smooth muscle cell of the pulmonary artery	208
 human-program label by mouse cell type	fibroblast_like | smooth muscle cell of the pulmonary artery	0
 human-program label by mouse cell type	inflammatory | smooth muscle cell of the pulmonary artery	1
-human-program label by mouse cell type	synthetic_contractile | smooth muscle cell of the pulmonary artery	2
-human-program label by mouse cell type	basement_membrane | vascular associated smooth muscle cell	5
-human-program label by mouse cell type	fibroblast_like | vascular associated smooth muscle cell	52
-human-program label by mouse cell type	inflammatory | vascular associated smooth muscle cell	7
-human-program label by mouse cell type	synthetic_contractile | vascular associated smooth muscle cell	952
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 1-M-62	3 pericytes, 2 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-F-50	1 pericytes, 0 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-F-51	1 pericytes, 1 Agtr1a+
+human-program label by mouse cell type	synthetic_contractile | smooth muscle cell of the pulmonary artery	0
+human-program label by mouse cell type	vascular_stabilizing | smooth muscle cell of the pulmonary artery	0
+human-program label by mouse cell type	basement_membrane | vascular associated smooth muscle cell	8
+human-program label by mouse cell type	fibroblast_like | vascular associated smooth muscle cell	250
+human-program label by mouse cell type	inflammatory | vascular associated smooth muscle cell	24
+human-program label by mouse cell type	synthetic_contractile | vascular associated smooth muscle cell	1748
+human-program label by mouse cell type	vascular_stabilizing | vascular associated smooth muscle cell	407
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 1-M-62	8 pericytes, 4 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 1-M-63	3 pericytes, 3 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-F-50	2 pericytes, 1 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-F-51	2 pericytes, 1 Agtr1a+
 pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-M-52	3 pericytes, 3 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-F-56	1 pericytes, 0 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-F-57	3 pericytes, 3 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-M-5/6	1 pericytes, 1 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-M-7/8	10 pericytes, 4 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 30-M-3	1 pericytes, 1 Agtr1a+
-pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 30-M-4	1 pericytes, 1 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 18_46_F	4 pericytes, 4 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 18_47_F	4 pericytes, 4 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 18-M-53	1 pericytes, 1 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 21-F-55	1 pericytes, 1 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-F-56	2 pericytes, 1 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-F-57	5 pericytes, 5 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-M-5/6	7 pericytes, 4 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 3-M-7/8	19 pericytes, 10 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 30-M-3	3 pericytes, 3 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 30-M-4	4 pericytes, 3 Agtr1a+
+pericytes per donor	48b37086-25f7-4ecd-be66-f5bb378e3aea | 30-M-5	1 pericytes, 0 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 18_46_F	10 pericytes, 10 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 18_47_F	8 pericytes, 8 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 18_53_M	1 pericytes, 1 Agtr1a+
 pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 24_58_M	1 pericytes, 0 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 24_60_M	2 pericytes, 2 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 24_61_M	1 pericytes, 0 Agtr1a+
 pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_10_M	1 pericytes, 1 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_11_M	1 pericytes, 1 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_39_F	2 pericytes, 2 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_8_M	2 pericytes, 2 Agtr1a+
-pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_9_M	1 pericytes, 1 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_11_M	2 pericytes, 2 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_38_F	2 pericytes, 2 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_39_F	3 pericytes, 3 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_8_M	3 pericytes, 3 Agtr1a+
+pericytes per donor	98e5ea9f-16d6-47ec-a529-686e76515e39 | 3_9_M	4 pericytes, 3 Agtr1a+
