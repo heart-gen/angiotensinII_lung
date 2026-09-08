@@ -86,9 +86,39 @@ genes <- intersect(panel$gene,
 message("Modelling ", length(genes), " RAS/comparator genes")
 
 ## ------------------------------------------------- per-gene cell-type map ----
+## A stratum defined by a gene cannot be scored for that gene. The AT2 groups
+## are split on AGTR2 detectability
+## (cell_communication/_h/00.prepare_ccc_input.py:164,
+## `np.where(agtr2 > 0, "AT2_AGTR2det", "AT2_AGTR2undet")`), so their AGTR2
+## detection is 1.000 and 0.000 by construction, not by measurement.
+##
+## Suppressing the two ROWS afterwards is not enough, which is why the filter
+## sits here rather than at the write step. Expression is z-scored within
+## dataset across every unit BEFORE the model is fit, and the det stratum's raw
+## AGTR2 (1.746) is 117x the next-highest cell type (peribronchial fibroblasts,
+## 0.015). It therefore dominated the standardizing SD and squeezed all 21
+## genuine populations into a 0.19-z band -- the scale the within-gene ranking
+## is read off was set by the artifact. The circular units have to leave before
+## z_within_dataset(), not after emmeans().
+##
+## The rows are kept, not deleted: `detect` and `expr_raw` are still the honest
+## description of those strata, and a reader who does not know how the groups
+## were built needs to see why the model declined to score them. `emmean` and
+## its interval are NA, and `circular_by_construction` says so.
+CIRCULAR_UNITS <- list(AGTR2 = c("AT2_AGTR2det", "AT2_AGTR2undet"))
+
 profile <- rbindlist(lapply(genes, function(g) {
     ecol <- paste0(g, "__expr"); dcol <- paste0(g, "__detect")
+    circ <- intersect(CIRCULAR_UNITS[[g]], unique(pb$ccc_group))
     d <- copy(pb)
+    det <- d[, .(detect = mean(get(dcol), na.rm = TRUE),
+                 expr_raw = mean(get(ecol), na.rm = TRUE)), by = ccc_group]
+    if (length(circ)) {
+        message(sprintf("  %s: excluding %d unit(s) defined by this gene (%s)",
+                        g, length(circ), paste(circ, collapse = ", ")))
+        d <- d[!ccc_group %in% circ]
+        d[, ccc_group := droplevels(factor(ccc_group))]
+    }
     d[, y := get(ecol)]
     d[, y_z := z_within_dataset(y, dataset)]
     fit <- try(suppressMessages(lmer(
@@ -96,17 +126,21 @@ profile <- rbindlist(lapply(genes, function(g) {
         data = d)), silent = TRUE)
     if (inherits(fit, "try-error")) return(NULL)
     e <- as.data.frame(emmeans(fit, specs = "ccc_group"))
-    det <- d[, .(detect = mean(get(dcol), na.rm = TRUE),
-                 expr_raw = mean(get(ecol), na.rm = TRUE)), by = ccc_group]
-    m <- merge(as.data.table(e), det, by = "ccc_group")
-    m[, gene := g][]
+    ## merge = all.y keeps the circular strata with NA model columns.
+    m <- merge(as.data.table(e), det, by = "ccc_group", all.y = TRUE)
+    m[, gene := g]
+    m[, circular_by_construction := ccc_group %in% circ][]
 }), fill = TRUE)
+stopifnot(!any(profile$circular_by_construction & !is.na(profile$emmean)))
 write_tsv_safe(profile, file.path(opt$outdir, "ras_celltype_profile.tsv"))
 
 ## Rank each cell type per gene -- the readable "who makes what" table.
-profile[, rank_in_gene := frank(-emmean, ties.method = "min"), by = gene]
-top <- profile[rank_in_gene <= 3][order(gene, rank_in_gene),
-                                  .(gene, ccc_group, emmean, detect, rank_in_gene)]
+## Circular strata carry no emmean, so they rank NA and cannot take a slot.
+profile[, rank_in_gene := NA_integer_]
+profile[!is.na(emmean),
+        rank_in_gene := frank(-emmean, ties.method = "min"), by = gene]
+top <- profile[!is.na(rank_in_gene) & rank_in_gene <= 3][
+    order(gene, rank_in_gene), .(gene, ccc_group, emmean, detect, rank_in_gene)]
 write_tsv_safe(top, file.path(opt$outdir, "ras_top_celltypes.tsv"))
 
 ## --------------------------------- AGT source and AGTR1 receiver contrasts ----
@@ -172,6 +206,12 @@ readme <- c(
     sprintf("Units (>=%d cells): %d; cell types: %d; donors: %d",
             opt$min_cells, nrow(pb), uniqueN(pb$ccc_group), uniqueN(pb$donor_id)),
     sprintf("Detection threshold for 'step present': %.2f", opt$detect_thr),
+    "",
+    "Circular units (stratum defined by the gene being scored; excluded before",
+    "within-dataset standardization, retained with emmean = NA and the flag",
+    "circular_by_construction in ras_celltype_profile.tsv):",
+    paste0("  ", names(CIRCULAR_UNITS), ": ",
+           vapply(CIRCULAR_UNITS, paste, character(1), collapse = ", ")),
     "",
     sprintf("Cell types with an autonomous AGT->AngII->AT1R circuit: %d", n_auto),
     sprintf("Maximum REN (renin) detection across all cell types: %.4f", renin_max),

@@ -2,67 +2,72 @@ Local RAS landscape -- generated summary
 Units (>=5 cells): 4376; cell types: 22; donors: 417
 Detection threshold for 'step present': 0.05
 
+Circular units (stratum defined by the gene being scored; excluded before
+within-dataset standardization, retained with emmean = NA and the flag
+circular_by_construction in ras_celltype_profile.tsv):
+  AGTR2: AT2_AGTR2det, AT2_AGTR2undet
+
 Cell types with an autonomous AGT->AngII->AT1R circuit: 0
 Maximum REN (renin) detection across all cell types: 0.0229
 
 Top 3 cell types per gene:
-      gene                 ccc_group       emmean       detect rank_in_gene
-    <char>                    <char>        <num>        <num>        <int>
- 1:    ACE     EC aerocyte capillary  2.958625789 0.3513218905            1
- 2:    ACE      EC general capillary  1.361865887 0.1441277232            2
- 3:    ACE      Alveolar macrophages  0.727031692 0.1962545959            3
- 4:   ACE2                 Pericytes  1.612451608 0.0301495177            1
- 5:   ACE2              AT2_AGTR2det  0.775698857 0.0219937545            2
- 6:   ACE2            AT2_AGTR2undet  0.587971504 0.0105319370            3
- 7:    AGT    Vascular smooth muscle  2.626414835 0.0857823871            1
- 8:    AGT   Adventitial fibroblasts  0.711620495 0.0358629683            2
- 9:    AGT      Alveolar fibroblasts  0.365734710 0.0166316298            3
-10:  AGTR1                 Pericytes  3.810335726 0.3417617893            1
-11:  AGTR1      Alveolar fibroblasts  1.333288581 0.1007838401            2
-12:  AGTR1   Adventitial fibroblasts  1.033254839 0.1068614963            3
-13:  AGTR2              AT2_AGTR2det  5.112942917 1.0000000000            1
-14:  AGTR2 Peribronchial fibroblasts  0.001709014 0.0034689508            2
-15:  AGTR2   Adventitial fibroblasts -0.075343297 0.0015104041            3
-16:   CCN2            Myofibroblasts  1.782250179 0.6383848922            1
-17:   CCN2      Alveolar fibroblasts  1.736431799 0.5830725836            2
-18:   CCN2 Peribronchial fibroblasts  1.283822462 0.4803280636            3
-19:   CMA1                Mast cells  1.768977749 0.0250321021            1
-20:   CMA1            AT2_AGTR2undet -0.057502132 0.0003600370            2
-21:   CMA1    Vascular smooth muscle -0.066972321 0.0001860119            3
-22:   CTSD      Alveolar macrophages  0.997918121 0.6057259661            1
-23:   CTSD  Interstitial macrophages  0.919647356 0.6041899030            2
-24:   CTSD                Mast cells  0.624502415 0.4758130500            3
-25:   CTSG                Mast cells  2.494976613 0.1086125990            1
-26:   CTSG      Alveolar macrophages -0.062574261 0.0086254041            2
-27:   CTSG       Classical monocytes -0.077170600 0.0024572255            3
-28:  ENPEP      Alveolar fibroblasts  2.414028327 0.1648242110            1
-29:  ENPEP                 Pericytes  1.499103515 0.0940872105            2
-30:  ENPEP    Vascular smooth muscle  1.257681605 0.0750275171            3
-31:   LRP2              AT2_AGTR2det  2.665918674 0.3225349827            1
-32:   LRP2            AT2_AGTR2undet  2.402542071 0.1938776190            2
-33:   LRP2     Transitional Club-AT2  0.062473447 0.0311507345            3
-34:   MAS1              AT2_AGTR2det  0.181017236 0.0025843932            1
-35:   MAS1            AT2_AGTR2undet  0.143394232 0.0017090188            2
-36:   MAS1  Interstitial macrophages  0.100493954 0.0026780139            3
-37:    MME      Alveolar macrophages  2.148010365 0.4215318953            1
-38:    MME      Alveolar fibroblasts  1.411375733 0.1643649794            2
-39:    MME     Transitional Club-AT2  0.597563103 0.1251539200            3
-40:  PDGFB     EC aerocyte capillary  2.482679833 0.2172802656            1
-41:  PDGFB      EC general capillary  2.011534711 0.1589581563            2
-42:  PDGFB        EC venous systemic  0.772336174 0.1204479730            3
-43:    REN              AT2_AGTR2det  1.219044245 0.0229086378            1
-44:    REN            AT2_AGTR2undet  1.043495071 0.0149797768            2
-45:    REN      Alveolar fibroblasts  0.095983774 0.0058137364            3
-46:  TGFB1       Classical monocytes  0.897853232 0.2987569945            1
-47:  TGFB1                       DC2  0.716837030 0.4297263797            2
-48:  TGFB1  Interstitial macrophages  0.716136167 0.4492535917            3
-49:  TGFB2                       AT1  1.413170032 0.1697745601            1
-50:  TGFB2            Myofibroblasts  1.208921824 0.1418318244            2
-51:  TGFB2                 Pericytes  1.134572274 0.1213685610            3
-52:  TGFB3 Peribronchial fibroblasts  2.077586040 0.2060123126            1
-53:  TGFB3   Adventitial fibroblasts  1.279958478 0.1328849157            2
-54:  TGFB3    Vascular smooth muscle  1.123310635 0.0846411316            3
-      gene                 ccc_group       emmean       detect rank_in_gene
+      gene                 ccc_group      emmean       detect rank_in_gene
+    <char>                    <char>       <num>        <num>        <int>
+ 1:    ACE     EC aerocyte capillary  2.95862579 0.3513218905            1
+ 2:    ACE      EC general capillary  1.36186589 0.1441277232            2
+ 3:    ACE      Alveolar macrophages  0.72703169 0.1962545959            3
+ 4:   ACE2                 Pericytes  1.61245161 0.0301495177            1
+ 5:   ACE2              AT2_AGTR2det  0.77569886 0.0219937545            2
+ 6:   ACE2            AT2_AGTR2undet  0.58797150 0.0105319370            3
+ 7:    AGT    Vascular smooth muscle  2.62641483 0.0857823871            1
+ 8:    AGT   Adventitial fibroblasts  0.71162049 0.0358629683            2
+ 9:    AGT      Alveolar fibroblasts  0.36573471 0.0166316298            3
+10:  AGTR1                 Pericytes  3.81033573 0.3417617893            1
+11:  AGTR1      Alveolar fibroblasts  1.33328858 0.1007838401            2
+12:  AGTR1   Adventitial fibroblasts  1.03325484 0.1068614963            3
+13:  AGTR2 Peribronchial fibroblasts  0.58860920 0.0034689508            1
+14:  AGTR2   Adventitial fibroblasts  0.14072422 0.0015104041            2
+15:  AGTR2      EC general capillary  0.12824954 0.0007253343            3
+16:   CCN2            Myofibroblasts  1.78225018 0.6383848922            1
+17:   CCN2      Alveolar fibroblasts  1.73643180 0.5830725836            2
+18:   CCN2 Peribronchial fibroblasts  1.28382246 0.4803280636            3
+19:   CMA1                Mast cells  1.76897775 0.0250321021            1
+20:   CMA1            AT2_AGTR2undet -0.05750213 0.0003600370            2
+21:   CMA1    Vascular smooth muscle -0.06697232 0.0001860119            3
+22:   CTSD      Alveolar macrophages  0.99791812 0.6057259661            1
+23:   CTSD  Interstitial macrophages  0.91964736 0.6041899030            2
+24:   CTSD                Mast cells  0.62450242 0.4758130500            3
+25:   CTSG                Mast cells  2.49497661 0.1086125990            1
+26:   CTSG      Alveolar macrophages -0.06257426 0.0086254041            2
+27:   CTSG       Classical monocytes -0.07717060 0.0024572255            3
+28:  ENPEP      Alveolar fibroblasts  2.41402833 0.1648242110            1
+29:  ENPEP                 Pericytes  1.49910352 0.0940872105            2
+30:  ENPEP    Vascular smooth muscle  1.25768160 0.0750275171            3
+31:   LRP2              AT2_AGTR2det  2.66591867 0.3225349827            1
+32:   LRP2            AT2_AGTR2undet  2.40254207 0.1938776190            2
+33:   LRP2     Transitional Club-AT2  0.06247345 0.0311507345            3
+34:   MAS1              AT2_AGTR2det  0.18101724 0.0025843932            1
+35:   MAS1            AT2_AGTR2undet  0.14339423 0.0017090188            2
+36:   MAS1  Interstitial macrophages  0.10049395 0.0026780139            3
+37:    MME      Alveolar macrophages  2.14801037 0.4215318953            1
+38:    MME      Alveolar fibroblasts  1.41137573 0.1643649794            2
+39:    MME     Transitional Club-AT2  0.59756310 0.1251539200            3
+40:  PDGFB     EC aerocyte capillary  2.48267983 0.2172802656            1
+41:  PDGFB      EC general capillary  2.01153471 0.1589581563            2
+42:  PDGFB        EC venous systemic  0.77233617 0.1204479730            3
+43:    REN              AT2_AGTR2det  1.21904424 0.0229086378            1
+44:    REN            AT2_AGTR2undet  1.04349507 0.0149797768            2
+45:    REN      Alveolar fibroblasts  0.09598377 0.0058137364            3
+46:  TGFB1       Classical monocytes  0.89785323 0.2987569945            1
+47:  TGFB1                       DC2  0.71683703 0.4297263797            2
+48:  TGFB1  Interstitial macrophages  0.71613617 0.4492535917            3
+49:  TGFB2                       AT1  1.41317003 0.1697745601            1
+50:  TGFB2            Myofibroblasts  1.20892182 0.1418318244            2
+51:  TGFB2                 Pericytes  1.13457227 0.1213685610            3
+52:  TGFB3 Peribronchial fibroblasts  2.07758604 0.2060123126            1
+53:  TGFB3   Adventitial fibroblasts  1.27995848 0.1328849157            2
+54:  TGFB3    Vascular smooth muscle  1.12331064 0.0846411316            3
+      gene                 ccc_group      emmean       detect rank_in_gene
 
 Circuit completeness by cell type:
                     ccc_group     ace_step chymase_step receptor_AT1

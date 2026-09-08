@@ -431,14 +431,30 @@ if (!is.null(ras)) {
     RAS_ORDER <- c("AGT", "REN", "ACE", "ACE2", "CMA1", "CTSG", "CTSD", "ENPEP",
                    "MME", "AGTR1", "AGTR2", "LRP2", "MAS1", "TGFB1", "TGFB2")
     d <- as.data.table(ras)[gene %in% RAS_ORDER]
+    ## The AT2 groups are split on AGTR2 detectability, so the AGTR2 tiles for
+    ## those two strata are 1.000 and 0.000 BY CONSTRUCTION. Left in, 1.000 is
+    ## the maximum of the whole heatmap -- the artifact renders as the single
+    ## darkest tile in the panel and reads as the strongest result in it. Blanked
+    ## to the na.value grey and called out in the caption instead of dropped, so
+    ## the reader sees that the cell was withheld rather than measured low.
+    n_circ <- 0L
+    if ("circular_by_construction" %in% names(d)) {
+        n_circ <- sum(d$circular_by_construction, na.rm = TRUE)
+        d[circular_by_construction == TRUE, detect := NA_real_]
+    }
     d[, gene := factor(gene, levels = rev(RAS_ORDER))]
     ord <- d[gene == "AGT"][order(-detect), ccc_group]
     d[, ccc_group := factor(ccc_group, levels = ord)]
     s1 <- ggplot(d, aes(ccc_group, gene, fill = detect)) +
         geom_tile(colour = "white", linewidth = 0.3) +
         scale_fill_viridis_c(option = "magma", direction = -1,
-                             name = "Detected\nfraction", trans = "sqrt") +
-        labs(x = NULL, y = NULL) +
+                             name = "Detected\nfraction", trans = "sqrt",
+                             na.value = "grey85") +
+        labs(x = NULL, y = NULL,
+             caption = if (n_circ)
+                 paste("Grey: stratum defined by the gene in that row",
+                       "(AT2 groups are split on AGTR2 detectability),",
+                       "so the value is circular and is withheld.") else NULL) +
         theme_ms(7) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
               legend.position = "right", legend.key.size = unit(0.3, "cm"),
