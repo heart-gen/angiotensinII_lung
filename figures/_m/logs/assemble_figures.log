@@ -1,13 +1,13 @@
-2026-09-02 21:05:23 - **** Job starts ****
-Job id: 45108199
+2026-09-07 17:45:58 - **** Job starts ****
+Job id: 45460430
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-02 21:05:25 - **** Export pericyte UMAP coords (scRNA_env) ****
-2026-09-02 21:08:18,035 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
+2026-09-07 17:46:00 - **** Export pericyte UMAP coords (scRNA_env) ****
+2026-09-07 17:48:27,359 [INFO] wrote pericyte_umap_coords.tsv.gz (11680 cells, cols=['barcode', 'UMAP1', 'UMAP2'])
 -----
 pandas              2.3.2
 scanpy              1.11.4
@@ -16,8 +16,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-02 21:08
-2026-09-02 21:08:41 - **** Integrated pericyte-layer figure (main + supplement) ****
+Session information updated at 2026-09-07 17:48
+2026-09-07 17:48:54 - **** Integrated pericyte-layer figure (main + supplement) ****
 pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 - Session info ---------------------------------------------------------------
  setting  value
@@ -29,7 +29,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -74,7 +74,7 @@ pericyte-layer figures written to /ocean/projects/bio260021p/kbenjamin/projects/
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:09:14 - **** S3: pericyte-state stability + annotation ****
+2026-09-07 17:49:23 - **** S3: pericyte-state stability + annotation ****
 Wrote figureS_state_annotation to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -88,7 +88,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -129,7 +129,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:09:21 - **** S4: AGTR1 dropout vs distinct population ****
+2026-09-07 17:49:30 - **** S4: AGTR1 dropout vs distinct population ****
 Wrote figureS_agtr1_dropout to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -143,7 +143,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -189,7 +189,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:09:28 - **** S6: unsupervised CoGAPS validation of the programs ****
+2026-09-07 17:49:38 - **** S6: unsupervised CoGAPS validation of the programs ****
 Wrote figureS_cogaps_validation to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -203,7 +203,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -245,7 +245,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:09:34 - **** S12: sensitivity / robustness ****
+2026-09-07 17:49:44 - **** S12: sensitivity / robustness ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -253,7 +253,11 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Wrote figureS_sensitivity to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
-  LOSO injury_stromal_score: 17 refits, 17 positive, 1 with p < 0.05
+  LOSO (rows are datasets, not studies):
+    injury_frac            23 refits | 23 positive | 0 with p < 0.05 | est 0.006-0.011 | lowest est 0.006 (drop Kaminski_2020, p = 0.564)
+    injury_stromal_score   23 refits | 23 positive | 23 with p < 0.05 | est 0.643-0.920 | lowest est 0.643 (drop Banovich_Kropski_2020, p = 0.009)
+    niche_index            23 refits |  0 positive | 22 with p < 0.05 | est -0.980--0.709 | lowest est -0.980 (drop Lafyatis_2019, p = 0.001)
+    AGTR1_pos_frac         23 refits |  0 positive | 0 with p < 0.05 | est -0.090--0.017 | lowest est -0.090 (drop Lafyatis_2019, p = 0.226)
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -266,7 +270,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -310,7 +314,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:09:44 - **** Basement-membrane figure + S10, S15 ****
+2026-09-07 17:49:54 - **** Basement-membrane figure + S10, S15 ****
 wrote figure_basement_membrane (8 panels)
 wrote figureS_ras_landscape
 wrote figureS_bm_copd
@@ -331,7 +335,7 @@ wrote figureS_bm_associations (5 panels)
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -376,7 +380,7 @@ wrote figureS_bm_associations (5 panels)
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:10:03 - **** S7: pericyte continuum stability ****
+2026-09-07 17:50:12 - **** S7: pericyte continuum stability ****
 Wrote figureS_continuum_stability to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
 
 Reproducibility information:
@@ -390,7 +394,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -431,7 +435,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:10:12 - **** S8: NicheNet specificity + donor validation ****
+2026-09-07 17:50:16 - **** S8: NicheNet specificity + donor validation ****
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -451,7 +455,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -499,16 +503,16 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:10:21 - **** S9: receiver robustness + BM-restricted signaling ****
+2026-09-07 17:50:21 - **** S9: receiver robustness + BM-restricted signaling ****
 Warning messages:
-1: Removed 3 rows containing missing values or values outside the scale range
+1: Removed 22 rows containing missing values or values outside the scale range
 (`geom_text()`). 
-2: Removed 3 rows containing missing values or values outside the scale range
+2: Removed 22 rows containing missing values or values outside the scale range
 (`geom_text()`). 
-3: Removed 3 rows containing missing values or values outside the scale range
+3: Removed 22 rows containing missing values or values outside the scale range
 (`geom_text()`). 
 Wrote figureS_receiver_robustness to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
-  panel A: 20 ligands x 9 receivers; min pairwise rho = 0.771
+  panel A: 24 ligands x 10 receivers; min pairwise rho = 0.537
   panel D: 321 BM candidates, rho vs injury ranking = 0.227, 8/20 shared
 
 Reproducibility information:
@@ -522,7 +526,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -567,7 +571,12 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:10:29 - **** S11: discrete state composition by disease ****
+2026-09-07 17:50:28 - **** S11: discrete state composition by disease ****
+donors per disease group:
+     Healthy         COPD Fibrotic_ILD        Other 
+          42            1           24           22 
+  NOTE: COPD below n = 3 -- drawn, flagged, never contrasted
+panel D: dropped 10 Healthy-vs-COPD contrasts (n = 1 donor, not estimable)
 Warning message:
 `geom_errobarh()` was deprecated in ggplot2 4.0.0.
 i Please use the `orientation` argument of `geom_errorbar()` instead. 
@@ -575,7 +584,7 @@ i Please use the `orientation` argument of `geom_errorbar()` instead.
 `height` was translated to `width`.
 `height` was translated to `width`.
 Wrote figureS_state_composition to /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/figures/mechanism 
-  donors: 47; contrasts in forest: 20; any BH p < 0.05: FALSE
+  donors: 89; contrasts in forest: 20; any BH p < 0.05: FALSE
 
 Reproducibility information:
 - Session info ---------------------------------------------------------------
@@ -588,7 +597,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -629,7 +638,10 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:10:40 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+2026-09-07 17:50:36 - **** Manuscript figures (main + CCC/NicheNet + supplements) ****
+panel C: 59 donors from the pathway_balance selection (Healthy=26, Fibrotic_ILD=19, Other=14)
+  niche_index: no bracket for COPD (n = 1, below 3)
+  injury_stromal_score: no bracket for COPD (n = 1, below 3)
 `height` was translated to `width`.
 `height` was translated to `width`.
 `height` was translated to `width`.
@@ -684,7 +696,7 @@ Reproducibility information:
  collate  C
  ctype    C
  tz       America/New_York
- date     2026-09-02
+ date     2026-09-07
  pandoc   3.6.4 @ /ocean/projects/bio250020p/shared/opt/env/R_env/bin/pandoc
  quarto   NA
 
@@ -743,7 +755,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ------------------------------------------------------------------------------
-2026-09-02 21:11:00 - **** Panel manifest ****
+2026-09-07 17:50:55 - **** Panel manifest ****
 Panels present: 24 / 24 
 Supplements present: 17 / 17 
 # A tibble: 24 x 4
@@ -760,4 +772,4 @@ Supplements present: 17 / 17
  9 Supp   "S2"        Agtr1a marks the mouse pericyte compartment         TRUE  
 10 Supp   "S3"        Stability and annotation of human lung pericyte st~ TRUE  
 # i 14 more rows
-2026-09-02 21:11:03 - **** Job ends ****
+2026-09-07 17:50:59 - **** Job ends ****

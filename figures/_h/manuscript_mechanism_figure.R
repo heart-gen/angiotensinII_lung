@@ -41,20 +41,40 @@ STATE_COL <- c(vascular_stabilizing = "#0072B2", synthetic_contractile = "#009E7
 theme_ms <- function(base = 8) .theme_ms(base = base, grid_x = FALSE)
 
 
-## key contrast vs Healthy for the box panels
-dx_comparisons <- function(levs)
-    Filter(function(p) all(p %in% levs),
-           list(c("Healthy", "Fibrotic_ILD"), c("Healthy", "COPD")))
+## Key contrast vs Healthy for the box panels.
+##
+## A group with one or two donors cannot support a rank-sum bracket. COPD is
+## n = 1 in the >=10-pericyte set, and until 2026-09-07 this drew a Wilcoxon
+## bracket against that single donor (P3-5). The stats tables have carried
+## `small_groups` / `p_excl_small_groups` for exactly this reason since P1-1;
+## the figure now respects the same floor.
+MIN_BRACKET_N <- 3L
+dx_comparisons <- function(levs, counts = NULL) {
+    cand <- list(c("Healthy", "Fibrotic_ILD"), c("Healthy", "COPD"))
+    ok <- function(p) {
+        if (!all(p %in% levs)) return(FALSE)
+        if (is.null(counts)) return(TRUE)
+        n <- counts[p]; n[is.na(n)] <- 0L
+        all(n >= MIN_BRACKET_N)
+    }
+    Filter(ok, cand)
+}
 
 box_by_disease <- function(df, yvar, ylab) {
     df <- df %>% filter(!is.na(.data[[yvar]]), !is.na(disease_group))
     levs <- levels(droplevels(df$disease_group))
+    counts <- table(droplevels(df$disease_group))
+    dropped <- setdiff(levs, names(counts)[counts >= MIN_BRACKET_N])
+    if (length(dropped))
+        message(sprintf("  %s: no bracket for %s (n = %s, below %d)", yvar,
+                        paste(dropped, collapse = ", "),
+                        paste(counts[dropped], collapse = ", "), MIN_BRACKET_N))
     ggplot(df, aes(disease_group, .data[[yvar]], fill = disease_group)) +
         geom_boxplot(width = 0.6, outlier.shape = NA, alpha = 0.85, linewidth = 0.3) +
         geom_jitter(width = 0.12, size = 0.5, alpha = 0.5, colour = "grey20") +
         stat_summary(fun = mean, geom = "point", shape = 23, size = 1.6,
                      fill = "white", stroke = 0.4) +
-        stat_compare_means(comparisons = dx_comparisons(levs), method = "wilcox.test",
+        stat_compare_means(comparisons = dx_comparisons(levs, counts), method = "wilcox.test",
                            size = 2.4, tip.length = 0.01, bracket.size = 0.25) +
         scale_fill_manual(values = DISEASE_COL) +
         scale_x_discrete(labels = DISEASE_LABS) +

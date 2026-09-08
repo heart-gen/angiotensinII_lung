@@ -14,7 +14,10 @@
 ##      grouped fraction, with BH-adjusted significance
 ##
 ## Panel D is the efficient statement of the null; A-C show the donor-level spread
-## behind it. Models are donor-level ANCOVA (frac ~ disease_group + age + sex) fit by
+## behind it. Models are donor-level `frac ~ disease_group + sex + (1 | study)` fit by
+## (`+ age` was removed 2026-09-02, P1-2: age missingness in the HLCA is a study
+## property, so it acted as a cohort filter deleting three-quarters of the
+## diseased donors). Formerly described here as ANCOVA with age; fit by
 ## pericyte_states/_h/01.state_stats.R; only donors with >= 20 pericytes are included.
 ##
 ## No in-panel titles; interpretation belongs in the caption.
@@ -27,7 +30,17 @@ suppressPackageStartupMessages({
 source("../_h/_fig_common.R")
 
 SD <- P("pericyte_states", "_m", "stats_data")
-GRP_LEVELS <- c("Healthy", "Fibrotic_ILD", "Other")
+## COPD was absent from this vector until 2026-09-07. That was correct while the
+## composition models carried `+ age`, which deleted the single COPD donor -- but
+## P1-2 dropped that filter and restored it, and `factor(x, levels = ...)` then
+## silently mapped COPD to NA, so the donor was drawn as an unlabelled fourth
+## "NA" column. Adding it here is the fix; marking it non-estimable is the point.
+##
+## MIN_ESTIMABLE mirrors `small_groups` / `p_excl_small_groups` in the source
+## tables: COPD is n = 1 and alone drives cluster 5 to BH = 0.0005 (P = 0.51
+## excluding it), so it is shown but must never be read as a contrast.
+GRP_LEVELS <- c("Healthy", "COPD", "Fibrotic_ILD", "Other")
+MIN_ESTIMABLE <- 3L
 
 PROG_NICE <- c(vascular_stabilizing = "Vascular-stabilizing",
                basement_membrane = "Basement-membrane",
@@ -41,13 +54,38 @@ CLUST_PROG <- c(`0` = "vascular_stabilizing", `2` = "vascular_stabilizing",
                 `5` = "basement_membrane", `4` = "activated_migratory")
 CLUST_ORDER <- c("0", "2", "1", "3", "5", "4")
 
-dx <- function(x) factor(x, levels = GRP_LEVELS)
+dx <- function(x) {
+    f <- factor(x, levels = GRP_LEVELS)
+    ## A value that does not match a level is a coding error, not a category --
+    ## fail loudly rather than drawing it as an unlabelled NA column (P1-21).
+    if (any(is.na(f) & !is.na(x)))
+        stop("disease_group values outside GRP_LEVELS: ",
+             paste(unique(x[is.na(f) & !is.na(x)]), collapse = ", "),
+             " -- add them to GRP_LEVELS or filter them upstream")
+    f
+}
 
 ## ---- donor-level composition (written by 01.state_stats.R) ---------------
 st <- fread(file.path(SD, "composition_state_by_donor.tsv"))[, level := as.character(level)]
 pg <- fread(file.path(SD, "composition_program_by_donor.tsv"))[, level := as.character(level)]
 ij <- fread(file.path(SD, "injury_fraction_by_donor.tsv"))
 for (d in list(st, pg, ij)) d[, disease_group := dx(disease_group)]
+
+## Per-group donor N, taken from the donor table the models were fitted on, and
+## carried into the axis labels so the reader never has to look it up. Groups
+## below MIN_ESTIMABLE are flagged in the label itself.
+grp_n <- unique(st[, .(donor_id, disease_group)])[, .N, by = disease_group]
+GRP_N <- setNames(grp_n$N, as.character(grp_n$disease_group))
+grp_lab <- function(g) {
+    n <- GRP_N[g]; n[is.na(n)] <- 0L
+    lab <- sprintf("%s\n(n = %d)", DISEASE_LABS[g], n)
+    ifelse(n < MIN_ESTIMABLE, paste0(lab, "\nnot estimable"), lab)
+}
+cat("donors per disease group:\n"); print(GRP_N)
+if (any(GRP_N < MIN_ESTIMABLE))
+    cat(sprintf("  NOTE: %s below n = %d -- drawn, flagged, never contrasted\n",
+                paste(names(GRP_N)[GRP_N < MIN_ESTIMABLE], collapse = ", "),
+                MIN_ESTIMABLE))
 
 st <- st[level %chin% CLUST_ORDER]
 st[, level := factor(level, levels = CLUST_ORDER)]
@@ -58,8 +96,8 @@ pg <- pg[level %chin% PROG_ORDER]
 pg[, facet := factor(PROG_NICE[level], levels = unname(PROG_NICE))]
 
 ## ---- shared box + jitter + marginal mean ---------------------------------
-## Boxes show the donor spread; the white diamond is the age/sex-adjusted marginal
-## mean with its 95% CI, i.e. the quantity the ANCOVA actually compares.
+## Boxes show the donor spread; the white diamond is the sex-adjusted,
+## study-guarded marginal mean with its 95% CI -- the quantity the model compares.
 comp_panel <- function(d, yvar, emm, ylab, ncol) {
     ggplot(d, aes(disease_group, .data[[yvar]])) +
         geom_boxplot(aes(fill = disease_group), width = 0.62, outlier.shape = NA,
@@ -74,7 +112,7 @@ comp_panel <- function(d, yvar, emm, ylab, ncol) {
                             fill = "white", stroke = 0.35))} +
         facet_wrap(~ facet, ncol = ncol, scales = "free_y") +
         scale_fill_manual(values = DISEASE_COL) +
-        scale_x_discrete(labels = DISEASE_LABS) +
+        scale_x_discrete(labels = grp_lab) +
         labs(x = NULL, y = ylab) +
         theme_ms() +
         theme(axis.text.x = element_text(angle = 30, hjust = 1, size = 5.8),
@@ -120,7 +158,7 @@ pC <- ggplot(ij, aes(disease_group, injury_frac)) +
     geom_point(data = emm_ij, aes(x = disease_group, y = emmean), inherit.aes = FALSE,
                shape = 23, size = 1.6, fill = "white", stroke = 0.4) +
     scale_fill_manual(values = DISEASE_COL) +
-    scale_x_discrete(labels = DISEASE_LABS) +
+    scale_x_discrete(labels = grp_lab) +
     labs(x = NULL, y = "Injury-associated state fraction\n(per donor)") +
     theme_ms() +
     theme(axis.text.x = element_text(angle = 30, hjust = 1, size = 6.5))
@@ -151,11 +189,25 @@ fo <- rbindlist(list(
 ## Only the contrasts against Healthy; the Fibrotic-vs-Other contrast is not a
 ## question this figure asks.
 fo <- fo[grepl("^Healthy - ", contrast)]
+## COPD is n = 1 (see MIN_ESTIMABLE above). Its contrast is emitted by the models
+## and is not estimable in any useful sense -- it alone drives cluster 5 to
+## BH = 0.0005, against P = 0.51 excluding it. Drop it from the forest rather
+## than drawing a contrast the module's own `p_excl_small_groups` column exists
+## to warn against. Until 2026-09-07 it was neither dropped nor labelled: the
+## factor() below had no COPD level, so it was drawn as an unlabelled "NA"
+## series in the legend (P1-21).
+n_copd_contrasts <- sum(grepl("^Healthy - COPD$", fo$contrast))
+fo <- fo[!grepl("^Healthy - COPD$", contrast)]
+if (n_copd_contrasts)
+    cat(sprintf("panel D: dropped %d Healthy-vs-COPD contrasts (n = %d donor, not estimable)\n",
+                n_copd_contrasts, GRP_N[["COPD"]]))
 ## Report the effect as (group - Healthy) so a positive value means "higher in
 ## disease", which is how the caption reads.
 fo[, `:=`(estimate = -estimate, lo = -upper.CL, hi = -lower.CL,
           comparison = sub("^Healthy - ", "", contrast))]
 fo[, comparison := factor(DISEASE_LABS[comparison], levels = DISEASE_LABS[c("Fibrotic_ILD", "Other")])]
+## Any unmatched comparison would silently become an unlabelled NA series.
+stopifnot(!anyNA(fo$comparison))
 fo[, family := factor(family, levels = c("Stable cluster", "Dominant program", "Grouped"))]
 resp_order <- unique(fo[order(family, match(key, c(CLUST_ORDER, PROG_ORDER, "injury"))), response])
 fo[, response := factor(response, levels = rev(resp_order))]
@@ -169,7 +221,9 @@ pD <- ggplot(fo, aes(estimate, response, colour = comparison, shape = sig)) +
     facet_grid(family ~ ., scales = "free_y", space = "free_y") +
     scale_colour_manual(values = unname(DISEASE_COL[c("Fibrotic_ILD", "Other")]), name = NULL) +
     scale_shape_manual(values = c(`BH p < 0.05` = 16, `n.s.` = 1), name = NULL) +
-    labs(x = "Difference in donor fraction vs Healthy\n(age/sex-adjusted, 95% CI)", y = NULL) +
+    labs(x = paste0("Difference in donor fraction vs Healthy\n",
+                    "(sex-adjusted, study-guarded, 95% CI; COPD n = 1 not shown)"),
+         y = NULL) +
     theme_ms() +
     theme(axis.text.y = element_text(size = 6),
           strip.text.y = element_text(size = 5.6, face = "bold", angle = 0),

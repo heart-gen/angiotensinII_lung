@@ -87,7 +87,7 @@ when a new figure claims a slot:
   correspondence. The two do not overlap.
 
 **Supporting files (not figures):**
-- `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control` (S4).
+- `tableS_acta2_control.tsv` — source-data values underlying `figureS_acta2_control` (S5).
 - `figure_panel_manifest.tsv` — two kinds of row. `figure = A|B` are the per-module PDFs
   (liana dotplots, NicheNet heatmap, state/DPT/PAGA UMAPs) assembled into the main figures
   in a vector editor; `figure = Supp` are the finished supplements keyed by `supp_number`.
@@ -252,8 +252,18 @@ The ordering reflects transcriptional similarity along a vascular-stabilizing �
 and activated/migratory scores all *decline* along the axis (donor ρ ≈ −0.44 to −0.57,
 *P* < 1×10⁻¹⁰); the **basement-membrane score is the lone riser** (donor ρ = +0.14, *P* = 0.055,
 n.s.); *AGTR1* declines under both lenses (raw ρ = −0.30, denoised ρ = −0.37). Assemble with the state UMAP,
-DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`. *n* = 32 donors (donor-level
-mixed-model marginal means; df = 31).
+DPT-pseudotime UMAP, and PAGA panels in `figure_panel_manifest.tsv`.
+
+**Donor counts differ by panel and are not interchangeable** (corrected 2026-09-07, P3-5 —
+the legend previously gave a single "*n* = 32 donors (donor-level mixed-model marginal means;
+df = 31)", which matched no panel): **A, B, D** plot all **89** donors passing the
+≥10-pericyte filter; **C** plots the **59** donors in the module's own injury selection
+(`balance_donor_injury_selected.tsv`); **E** plots donor-level Spearman correlations over
+**194** donors. Brackets in **A–B** are unadjusted `wilcox.test` on raw donor values, *not*
+the model contrasts in the supplementary tables — the two will not agree, and the tables are
+the inferential statement. **COPD (n = 1) is plotted but carries no bracket**, since a
+rank-sum test against one donor is not a comparison; the panel respects the same
+`small_groups` floor the stats tables use.
 
 ### `figure_disease_main` — Disease is associated with graded pericyte injury-program engagement, while *AGTR1* dysregulation sits in fibroblasts
 
@@ -384,9 +394,12 @@ compartment and gene exploratory.
   cell type, plus **≥ 3 donors in both Healthy and Fibrotic/ILD** for a cell type to be tested
   at all — 3 being the smallest group that admits a within-group SD, i.e. the point at which the
   contrast stops being estimable rather than a power preference. This gate is **not binding**:
-  the three excluded stromal populations have 1, 1 and 0 fibrotic donors (mesothelium,
-  myofibroblasts, subpleural fibroblasts), so the tested set is the same five cell types at any
-  threshold from 2 to 6. D: **≥ 5 cells per donor per compartment** and ≥ 5 donors per arm — a lower floor
+  the excluded stromal population — **subpleural fibroblasts, 0 fibrotic donors** — is excluded
+  at any threshold from 2 to 6, so the tested set is the same **seven** cell types throughout:
+  peribronchial, adventitial and alveolar fibroblasts, vascular smooth muscle, myofibroblasts,
+  pericytes and mesothelium. *(Corrected 2026-09-07, P3-10: this read "the same five cell types"
+  and listed mesothelium and myofibroblasts among the excluded, which is a pre-fix leftover — the
+  2026-07-30 age fix admitted both, as the paragraph two above already states.)* D: **≥ 5 cells per donor per compartment** and ≥ 5 donors per arm — a lower floor
   because GSE136831 is a smaller, disease-enriched cohort, which is precisely why the pericyte
   compartment still fails it.
 - **Panel D shows Mural, not Pericyte, and still gives only qualified support.** GSE136831 has
@@ -410,11 +423,18 @@ compartment and gene exploratory.
   `writings/AGTR1_DISEASE_DIRECTION.md`: 2–4-cell pseudobulk units are near-zero by
   construction and land disproportionately in the small Control arm. **Floor 5 is the reporting
   floor for D.**
-- **Nothing in C reaches significance** (all BH ≥ 0.71), and the fibrotic groups are small
-  (6 donors per cell type). C supports an **ordering** — disease-associated *AGTR1* variation is
-  larger in fibroblasts than in pericytes — not a positive fibroblast finding. Directional
-  contrast estimates and CIs are in
-  `disease_association/_m/mean_expr/agtr1_celltype_disease_effects.tsv`.
+- **Nothing in C reaches significance**, on **7** cell types spanning **25–127 donors** each:
+  the smallest omnibus *P* is **0.083** (peribronchial fibroblasts) and the smallest BH-adjusted
+  value is **0.332** across the omnibus family and **0.207** across the contrasts. C supports an
+  **ordering** — disease-associated *AGTR1* variation is larger in fibroblasts than in
+  pericytes — not a positive fibroblast finding. Directional contrast estimates and CIs are in
+  `disease_association/_m/mean_expr/agtr1_celltype_disease_{ranking,omnibus,effects}.tsv`.
+
+  *(Corrected 2026-09-07, P3-10. This read "all BH ≥ 0.71" and "6 donors per cell type". Both
+  were pre-fix leftovers, contradicted by the same legend two paragraphs earlier: the BH floor
+  is 3.6× lower than stated, and the per-cell-type donor counts are 25–127, not 6 — the
+  2026-07-30 age fix is what changed them. The ranking statistic also changed on 2026-09-07 from
+  partial η² to **Δ marginal *R*²** (P1-16), which is what panel C now plots.)*
 - **C supersedes the earlier Kruskal–Wallis *AGTR1*-by-cell-type analysis**
   (`disease_agtr1_kruskal_by_celltype.tsv`, from `01.disease_association.R`), which reported
   peribronchial fibroblasts as significant (KW *P* = 0.0014, FDR = 0.0068). That test used the
