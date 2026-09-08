@@ -712,9 +712,25 @@ unchanged; the evidence for it moved from panel B to panel A.
 ### Figure S14 — `figureS_balance_by_state` — AT1R–AT2R balance by pericyte program
 
 **Figure S.** Donor-level AT1R–AT2R pathway balance across pericyte programs (box = median/IQR,
-points = donors). Differences among programs are **not significant** (smallest pairwise
-*P* = 0.067); this panel documents that the AT1R/AT2R skew tracks continuous injury intensity and
-disease rather than discrete program identity, justifying its demotion from the main figure.
+points = donors). Differences among programs **are** significant: *F*₂,₆₀.₆ = 4.76, *P* = 0.012 on
+**97 donors** across 19 studies, with activated/migratory above basement-membrane by **+0.057**
+(BH = 0.026) and basement-membrane below vascular-stabilizing at BH = 0.051. **Read the effect size
+before the *P*:** 0.057 against program means of 0.22–0.26 is roughly 20 % of the between-program
+spread — a small difference that 97 donors can resolve and 51 could not. It does not make the
+balance a marker of program identity, and the panel stays in the supplement.
+
+> ⚠️ **This legend asserted the opposite until 2026-09-08, and the figure title did too.**
+> It read *"not significant (smallest pairwise P = 0.067)"*. That was the pre-P1-22 fit, which
+> carried the `+ age` cohort filter and ran on **51** donors; the `_ageadj` arm still reproduces
+> those numbers exactly, which is how we know the null *was* the restriction rather than a
+> property of the data. Removing the filter and adding `(1 | study)` took the omnibus from
+> *P* = 0.054 to 0.012 and the leading contrast across 0.05.
+>
+> The figure title was a **hardcoded string**, so it kept asserting the null after its own source
+> table stopped supporting it and nothing failed. It is now derived from
+> `balance_by_state_anova.tsv` and `balance_by_state_posthoc.tsv` at render time, behind a
+> `stopifnot` that the rows are the `primary` arm — see P2-35 for the same defect class in the
+> supplementary-table notes.
 
 ### Figure S6 — `figureS_cogaps_validation` — Unsupervised CoGAPS validation of pericyte programs
 

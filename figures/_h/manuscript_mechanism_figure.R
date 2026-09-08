@@ -169,16 +169,43 @@ pD <- ggplot(comp, aes(disease_group, frac, fill = state)) +
                        legend.key.size = unit(2.6, "mm"),
                        axis.text.x = element_text(angle = 30, hjust = 1))
 
-## (SUPPLEMENT) AT1R-AT2R balance across pericyte states -- program differences are
-## NOT significant (smallest pairwise p = 0.067); demoted out of the main figure.
+## (SUPPLEMENT) AT1R-AT2R balance across pericyte states.
+##
+## The title used to be the hardcoded string "n.s., smallest p = 0.067". That was
+## the pre-P1-22 fit, which carried the `+ age` cohort filter and ran on 51
+## donors; removing it took the model to 97 and the program null REVERSED
+## (omnibus P 0.054 -> 0.012, leading contrast to BH 0.026). The figure kept
+## asserting the null for a day after its own source table stopped supporting it,
+## because a hardcoded string cannot go stale loudly.
+##
+## Derive it from the tables instead. Both are the `primary` arm -- the `_ageadj`
+## files beside them reproduce the old numbers exactly and must not be used here.
+bs_anova <- fread(P("pathway_balance", "_m", "stats_data", "balance_by_state_anova.tsv"))
+bs_post  <- fread(P("pathway_balance", "_m", "stats_data", "balance_by_state_posthoc.tsv"))
+stopifnot(all(bs_anova$arm == "primary"), all(bs_post$arm == "primary"))
+## The anova file is written with row names and no header cell for them, so fread
+## names that column V1. Assert rather than assume, so a fixed writer does not
+## silently select the wrong row.
+stopifnot("V1" %in% names(bs_anova), "state_program" %in% bs_anova$V1)
+bs_om  <- bs_anova[V1 == "state_program"][1]
+bs_min <- bs_post[which.min(p.value)]
+bs_ttl <- sprintf("AT1R-AT2R balance by pericyte program (F(%g,%.1f) = %.2f, P = %s;\n%s BH = %s, n = %d donors)",
+                  bs_om$NumDF, bs_om$DenDF, bs_om$`F value`,
+                  format.pval(bs_om$`Pr(>F)`, digits = 2),
+                  ## Use the same labels as the axis rather than a blanket gsub,
+                  ## which turned "basement_membrane" into "basement/membrane".
+                  paste(STATE_LABS1[trimws(strsplit(bs_min$contrast, " - ",
+                        fixed = TRUE)[[1]])], collapse = " - "),
+                  format.pval(bs_min$p.value, digits = 2), bs_min$n_donors)
+message("panel E title derived: ", bs_ttl)
+
 pE <- ggplot(bal_state, aes(pericyte_state, balance, fill = pericyte_state)) +
     geom_boxplot(width = 0.6, outlier.shape = NA, alpha = 0.85, linewidth = 0.3) +
     geom_jitter(width = 0.12, size = 0.4, alpha = 0.4, colour = "grey20") +
     scale_fill_manual(values = STATE_COL) +
     scale_x_discrete(limits = rev(STATE_LEVELS), labels = STATE_LABS1) +
-    labs(x = NULL, y = "AT1R-AT2R balance",
-         title = "AT1R-AT2R balance by pericyte program (n.s., smallest p = 0.067)") +
-    coord_flip() + theme_ms() + theme(plot.title = element_text(size = 7))
+    labs(x = NULL, y = "AT1R-AT2R balance", title = bs_ttl) +
+    coord_flip() + theme_ms() + theme(plot.title = element_text(size = 6))
 save_fig("figureS_balance_by_state", pE, 4.2, 3.2)
 
 ## ---- Supplement: ACTA2 contractile-identity control --------------------
