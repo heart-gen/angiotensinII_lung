@@ -30,7 +30,7 @@ The narrative arc the figures deliver:
 | `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the three-lens reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in the `manifest` table inside `assemble_mechanism_figures.R`. | `manuscript_mechanism_figure.R` |
-| `figure_disease_main.{pdf,svg,png}` | **Main Fig — disease association (continuous injury).** Graded injury-program engagement across disease groups, the programs that carry it, *AGTR1* disease effects across stromal cell types, and the independent COPD/IPF evaluation. Study-level robustness moved to S16 on 2026-07-29. Self-contained. | `disease_main_figure.R` |
+| `figure_disease_main.{pdf,svg,png}` | **Main Fig — disease association (continuous injury).** Graded injury-program engagement across disease groups, the programs that carry it, *AGTR1* disease effects across stromal cell types, and the semi-independent COPD/IPF evaluation (GSE136831 = HLCA study `Kaminski_2020`; see panel D). Study-level robustness moved to S16 on 2026-07-29. Self-contained. | `disease_main_figure.R` |
 
 **Supplements — S1–S17.** Filenames stay semantic so scripts and cross-references do not
 churn; the manuscript number is carried by **`figures/supplementary/`**, whose `.SNN.` filename
@@ -361,14 +361,26 @@ have absorbed part of the disease contrast — study structure is still carried 
 up from 1), is tested and reported in `agtr1_celltype_disease_ranking.tsv` and table S13 but
 **held out of this panel** — it is neither fibroblast nor mural, and it is the lowest of
 anything tested (Δ*R*² = 0.0037, *P* = 0.96).
-**(D)** Independent evaluation in **GSE136831** (Adams/Kaminski), the only dataset here with a
-real COPD arm (`disease_association/agtr1_copd_ipf/`). Donor × compartment pseudobulk *AGTR1*,
+**(D)** **Semi-independent** evaluation in **GSE136831** (Adams/Kaminski), the only dataset here
+with a real COPD arm (`disease_association/agtr1_copd_ipf/`). ⚠️ **GSE136831 is not independent
+of the HLCA analysis in A–C: it *is* HLCA study stratum `Kaminski_2020`.** `Kaminski_2020`
+contributes 7 of the 89 HLCA pericyte donors at the ≥ 10-cell floor, and GSE136831 yields 22
+donor units at its own ≥ 5-cell floor, so **the two sets share up to ~7 of 22 units (~30 %)**.
+HLCA's anonymised `sikkemalisa_*` donor IDs cannot be joined to GSE136831's, so the overlap can
+be bounded but not matched donor-for-donor. The evaluation is retained because the remaining
+~70 % is disjoint and processed through a different pipeline — but it is **not** an independent
+replication and must not be described as one. Donor × compartment pseudobulk *AGTR1*,
 disease minus Control, adjusted for depth, sex, age and **ever-smoker** status (which the HLCA
 metadata does not permit). Filled points are the pre-specified fibroblast-lineage family, open
 points exploratory. *AGTR1* is **lower in myofibroblasts in both arms** (COPD **−0.18,
-*P* = 0.037**; IPF **−0.17, *P* = 0.028**) — the same compartment, the same direction, in two
-independent disease arms — directionally consistent with the negative fibroblast contrasts in
-**C**; bulk fibroblasts are null (COPD −0.09, *P* = 0.17; IPF +0.03, *P* = 0.61). The mural
+*P* = 0.037**; IPF **−0.17, *P* = 0.028**) — the same compartment and the same direction in two
+disease arms. **HLCA supplies no directional comparison for this compartment**, so this is not a
+reproduction of a panel-**C** effect: HLCA's myofibroblast contrasts are **+0.298**
+(*P* = 0.505) and **+0.359** (*P* = 0.574) on 34 donors — the *opposite* sign — and
+myofibroblasts rank lowest of the four fibroblast populations in **C** (Δ*R*² = 0.024,
+omnibus *P* = 0.717). There is no significant HLCA finding here to reproduce or contradict, and
+**no directional-consistency claim should be drawn between C and D.** Bulk fibroblasts are null
+(COPD −0.09, *P* = 0.17; IPF +0.03, *P* = 0.61). The mural
 lineage is shown as the pooled **Mural** compartment (pericytes + smooth muscle), matching the
 "Mural" lineage block of **C** and replacing the permanently-not-estimable pericyte row that this
 panel carried until 2026-08-07 (see the limitations below); it moves in the **opposite direction**
@@ -376,10 +388,10 @@ to the fibroblast lineage (IPF **+0.25**, 95 % CI 0.01–0.49, *P* = 0.047; COPD
 *P* = 0.13), as does the smooth-muscle half on its own (IPF +0.11, *P* = 0.12), so the pooled
 estimate is not a smooth-muscle artifact. Both are **exploratory** — one uncorrected test in a
 compartment with 6 Control donors — and should be read as a direction, not a result. The primary
-family is reported at **nominal alpha**: these two compartments were fixed by the independent
-HLCA analysis in **C** before GSE136831 was touched, so this is a directional replication rather
-than a screen, and the two myofibroblast tests are the same compartment against a shared Control
-arm (correlated, not independent looks). A BH value is carried in the source table
+family is reported at **nominal alpha**: these two compartments were fixed by the HLCA analysis
+in **C** before GSE136831 was touched, so this is a pre-specified directional **evaluation**
+rather than a screen, and the two myofibroblast tests are the same compartment against a shared
+Control arm (correlated, not independent looks). A BH value is carried in the source table
 (`p_BH_reference` = 0.074) for readers who want it, but it is not the reporting gate; the guard
 against fishing is the pre-specification plus the `family` column, which labels every other
 compartment and gene exploratory.
@@ -389,10 +401,24 @@ compartment and gene exploratory.
   over the three-group donor set, so they are mutually comparable, as is **S16A**. They are
   **not** on the same scale as the two-group primary contrast in **S16B** and must not be quoted
   interchangeably.
-- **COPD is excluded from A–B.** All 12 HLCA COPD donors come from a single study
-  (Kaminski_2020), so a COPD estimate there is inseparable from that study. COPD is evaluated
-  instead in **D**, where it is a real independent arm. "Other disease" in A–B is
-  COVID/carcinoma/etc., not COPD.
+- **COPD is excluded from A–B.** All **12** HLCA COPD pericyte donors come from a single study
+  (Kaminski_2020), so a COPD estimate there is inseparable from that study — disease and study
+  are fully confounded. COPD is evaluated instead in **D**.
+  ⚠️ **Panel D is *not* an independent source of COPD donors: `Kaminski_2020` is GSE136831**, so
+  D's COPD arm is drawn from the same cohort A–B excludes. What D changes is the *comparison*,
+  not the cohort — COPD there is contrasted against **GSE136831's own Control donors** under one
+  pipeline, so the disease-versus-study confound is removed by making the comparison
+  **within-study**, which is the property that makes it interpretable. It is not removed by
+  independence, and D must not be described as an independent COPD replication of A–B.
+  ⚠️ **The COPD arm is also 93–100 % ever-smokers** against a ~17 % Control arm (myofibroblast
+  13/14 vs 2/12; mural 9/9 vs 1/6), and in the mural model `ever_smoker` is a **perfect
+  separator**, so its coefficient is identified through a smoking slope borrowed from the IPF arm
+  under an untested no-interaction assumption. Consequently **both COPD estimates change
+  significance with the covariate set** (mural COPD *P* = 0.027 unadjusted → 0.128 adjusted;
+  myofibroblast COPD *P* = 0.069 unadjusted → 0.037 adjusted), while **both IPF estimates are
+  significant in all three arms**. **Scope the primary claim to the IPF arm and read COPD as
+  corroborative** (`agtr1_copd_{model_arms,covariate_balance}.tsv`).
+  "Other disease" in A–B is COVID/carcinoma/etc., not COPD.
 - **Donor gates differ between the HLCA panels and D, because the datasets differ.** A–B:
   **≥ 10 pericytes per donor** (`03 --min-cells 10`), and ≥ 2 donors per group for a study to
   enter S16B; the endpoint is insensitive to this — the effect holds in direction and
@@ -1327,10 +1353,10 @@ fraction of the local renin–angiotensin machinery — substrate (*AGT*), prote
 TGF-β comparators — across cell types, ordered by *AGT*. Colour is the detection fraction on a
 square-root scale. The steps segregate by compartment: *AGT* is perivascular-stromal (vascular
 smooth muscle 0.086, adventitial fibroblasts 0.036), *AGTR1* is overwhelmingly pericyte (0.342,
-an order of magnitude above the next cell type), *ACE* is capillary-endothelial and myeloid
-(aerocyte capillary 0.351, general capillary 0.144, alveolar macrophages 0.196), and the
-renin-independent chymase route is mast-cell restricted (*CTSG* 0.109, *CMA1* 0.025). Renin is
-effectively absent everywhere (maximum 0.023). **(B)** Number of circuit steps present per cell
+**three-fold** above the next cell type and the only compartment above 0.11), *ACE* is
+capillary-endothelial and myeloid (aerocyte capillary 0.351, general capillary 0.144, alveolar
+macrophages 0.196), and the renin-independent chymase route is mast-cell restricted (*CTSG*
+0.109, *CMA1* 0.025). Renin does not exceed **2.3 % of cells** in any of the 22 types. **(B)** Number of circuit steps present per cell
 type at a 0.05 donor-level detection threshold; fill marks whether a cell type carries a complete
 autonomous circuit (substrate + an angiotensin II–generating protease + AT1R). **Zero of 22 cell
 types** qualify, and no cell type carries more than **one** of the three requirements — the
