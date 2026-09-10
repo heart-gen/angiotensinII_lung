@@ -208,5 +208,77 @@ if (!is.null(lens_top)) {
         notes = "The three-row summary of the lens reversal.")
 }
 
+## =========================================================================
+## S5D -- the SUBCLUSTER version, which is what Figure 2D now plots
+## =========================================================================
+## S5C above stays because figureS_acta2_control panel A is still keyed on
+## programs (that is the axis ACTA2 is benchmarked on). Figure 2D moved to the
+## Leiden subclusters on 2026-09-10 for two reasons written into
+## basement_membrane/_h/19.agtr1_lens_by_cluster.R: the subclusters are built
+## from HVGs that exclude AGTR1, so the grouping is independent of the readout;
+## and S5C's fits are CELL-level with only (1|donor), which understates their
+## error bars by ~2x relative to the count-model arbiter drawn beside them.
+## These two parts carry the unit-matched refits.
+BM <- function(f) P("basement_membrane", "_m", "stats_data", f)
+clus_emm <- read_src(BM("agtr1_lens_by_cluster_emmeans.tsv"))
+clus_ph  <- read_src(BM("agtr1_lens_by_cluster_posthoc.tsv"))
+
+if (!is.null(clus_emm)) {
+    write_part(clus_emm, "05D1",
+        "AGTR1 by pericyte subcluster under three measurement lenses, refit at the count model's unit: marginal means",
+        supports = "Figure 2",
+        sources = "basement_membrane/_m/stats_data/agtr1_lens_by_cluster_emmeans.tsv",
+        notes = paste("214 donor x subcluster pseudobulks from 95 donors,",
+                      "~ subcluster + mean log10 depth + (1|study) + (1|donor),",
+                      "the same unit as the count-model arbiter in S05D3 so",
+                      "the SEs are comparable. The denoised lens is reported on",
+                      "the LOG rate scale (delta method) for that reason; the raw",
+                      "and detection lenses are not rates and keep their own",
+                      "scale. `underpowered` flags subclusters under 20 donors",
+                      "(P4, P5), which support no contrast."))
+}
+if (!is.null(clus_ph)) {
+    clus_ph[, p_formatted := fmt_p(p.value)]
+    write_part(clus_ph, "05D2",
+        "AGTR1 by pericyte subcluster under three lenses: pairwise contrasts",
+        supports = "Figure 2",
+        sources = "basement_membrane/_m/stats_data/agtr1_lens_by_cluster_posthoc.tsv",
+        notes = paste("P values are BH-adjusted within each lens by the source",
+                      "script. At this unit neither the raw nor the detection",
+                      "lens separates any basement-membrane subcluster from any",
+                      "vascular-stabilizing one."))
+}
+
+## The fourth series in Figure 2D had no source-data table at all before
+## 2026-09-10 -- it was cited in the legend and never tabulated.
+cnt_emm <- read_src(BM("agtr1_count_by_cluster.tsv"))
+cnt_ph  <- read_src(BM("agtr1_count_by_cluster_posthoc.tsv"))
+if (!is.null(cnt_emm)) {
+    write_part(cnt_emm, "05D3",
+        "AGTR1 abundance by pericyte subcluster from the count model (no imputation): marginal means",
+        supports = "Figure 2",
+        sources = "basement_membrane/_m/stats_data/agtr1_count_by_cluster.tsv",
+        notes = paste("AGTR1 integer counts from raw/X as an NB-GLMM response",
+                      "with offset(log(library size)) and (1|study) + (1|donor).",
+                      "FIVE specifications are tabulated; Figure 2D plots",
+                      "level = pseudobulk, spec = with_offset, the concentration",
+                      "estimand whose units match the denoised lens. `spec =",
+                      "depth_covar` drops the offset for a per-cell abundance --",
+                      "divergence between the two is interpretable, not an error.",
+                      "A row with converged = FALSE is not a result."))
+}
+if (!is.null(cnt_ph)) {
+    cnt_ph[, p_formatted := fmt_p(p.value)]
+    write_part(cnt_ph, "05D4",
+        "AGTR1 abundance by pericyte subcluster from the count model: pairwise contrasts",
+        supports = "Figure 2",
+        sources = "basement_membrane/_m/stats_data/agtr1_count_by_cluster_posthoc.tsv",
+        notes = paste("BH-adjusted within (spec, level).",
+                      "`involves_underpowered` marks any contrast touching P4",
+                      "(13 donors) or P5 (4 donors); those are excluded from the",
+                      "four basement-membrane-versus-vascular-stabilizing",
+                      "contrasts quoted in the Figure 2D legend."))
+}
+
 cat("\nReproducibility information:\n")
 Sys.time(); options(width = 120); sessioninfo::session_info()

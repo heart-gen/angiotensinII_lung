@@ -319,3 +319,51 @@ Two new predictors (`receiver_TGFB_SMAD`, `receiver_TGFB_IEG`) and a `role`
 column. `donor_validation_scatter.pdf` is regenerated. If a supplementary panel
 shows the donor-validation predictors as a fixed set, it will need the two new rows
 — and the IEG row must be drawn as a **control**, not as a result.
+
+---
+
+## Done 2026-09-10 — `figure_pericyte_layer` panel D rebuilt on the count-model arbiter
+
+Panel D drew three lenses and *cited* the count model in its legend. It now draws
+four, and all four are fit at one unit.
+
+**What was wrong.** The denoised series came from `03.agtr1_lenses.R`, a CELL-level
+`lmer(y ~ state_program + (1|donor_id))` on 11,680 cells — no study term, no depth
+covariate, no propagation of imputation uncertainty. The count-model arbiter it was
+being compared against is 214 donor × cluster pseudobulks with `(1|study) +
+(1|donor_id)` and a library-size offset. On a common `log(AGTR1 per 10⁴)` scale
+that is SE 0.061–0.076 against 0.131–0.204 — a 2.0–2.7× gap that reads as the
+denoiser being the more precise measurement. It is not: refit at the shared unit
+the same denoised lens gives 0.110–0.221, within 5–43 % of the count model.
+The denoised 95 % interval on basement-membrane − vascular-stabilizing
+(1.112 [1.078, 1.147]) also **excludes** the no-imputation estimate (1.255), which
+is what over-tight bars look like from the outside.
+
+**What changed.**
+
+- New producer `basement_membrane/_h/19.agtr1_lens_by_cluster.R` (+ `step_10.sh`,
+  runs after `step_6.sh`). It refits raw / detection / denoised at the count
+  model's own pseudobulk unit and hard-stops if the unit count ever stops matching
+  `agtr1_count_by_cluster.tsv`.
+- It also **replaces an orphan**: `agtr1_lens_by_cluster_emmeans.tsv` was on disk
+  with no producing script anywhere in the repo and carried a superseded
+  `denoised OLD (invalid)` series from the scVI model that failed its validity
+  gate. An orphan table must not feed a main figure.
+- Panel D's x-axis moved from `state_program` to the Leiden subclusters P0–P5.
+  The subclusters exclude AGTR1 from the 2,000 HVGs that define them, so the
+  grouping is independent of the readout; `state_program` is a marker-panel argmax.
+  It is also where the evidence is — at program level only 1 of 5 count-model
+  specs separates BM from VS, at subcluster level all twelve pseudobulk BM-vs-VS
+  contrasts agree in sign with 10 of 12 significant.
+- New source-data parts S05D1–S05D4. **S05D3/S05D4 are the count model's first
+  appearance in the supplement at all** — before this it was quoted in legends and
+  never tabulated. S05C1–C3 stay, because `figureS_acta2_control` panel A is still
+  keyed on programs.
+
+**Still open — the same defect in `figureS_acta2_control` panel A (S5).** That
+panel draws the denoised series from the cell-level program fits and the count
+series from pseudobulk, side by side on one axis, exactly the mismatch fixed here.
+Closing it needs a program-level analogue of `19.agtr1_lens_by_cluster.R`
+(`~ state_program + depth + (1|study) + (1|donor)` on the 154 donor × program
+pseudobulks). The panel's conclusion is not at risk — ACTA2 and AGTR1 are still not
+co-ordered — but the relative bar widths in it are not currently meaningful.

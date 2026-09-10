@@ -27,7 +27,7 @@ The narrative arc the figures deliver:
 
 | File | Role | Built by |
 |---|---|---|
-| `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the three-lens reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
+| `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the four-lens subcluster reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
 | `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in the `manifest` table inside `assemble_mechanism_figures.R`. | `manuscript_mechanism_figure.R` |
 
@@ -132,15 +132,26 @@ program. **(B)** *AGTR1* expression (log) on the same embedding; *AGTR1* is dete
 across the pericyte compartment rather than confined to one subcluster, supporting a
 compartment-label rather than sub-state-marker interpretation. **(C)** Same embedding colored by
 dominant state-program (vascular-stabilizing, basement-membrane, activated/migratory). **(D)**
-*AGTR1* across programs under three measurement lenses — raw expression, binary detection, and
-scVI-denoised — as donor-aware marginal means centered within lens (±SE). The raw and detection
-lenses share a vascular-stabilizing–high pattern that **reverses** under denoising (denoised
-*AGTR1* is highest on the basement-membrane program, +1.074 over vascular-stabilizing,
-*P* = 7.8 × 10⁻¹¹). The reversal is adjudicated by a fourth measurement that imputes nothing — an
-NB GLMM on *AGTR1* integer counts with a library-size offset — which sides with the denoised
-ordering (basement-membrane Leiden clusters above vascular-stabilizing ones, BH = 0.0031–0.024).
-The raw enrichment is therefore a transcript-capture/dropout effect, and *AGTR1* is not a
-vascular-stabilizing state marker. **(E)** Diffusion
+*AGTR1* across the six stable subclusters of (A) under **four** measurement lenses — raw
+expression, binary detection, scVI-denoised, and a count model that imputes nothing (*AGTR1*
+integer counts as an NB-GLMM response with a library-size offset) — as marginal means centered
+within lens (±SE). **All four series are fit at one unit** (214 donor × subcluster pseudobulks,
+95 donors; `~ subcluster + mean log₁₀ depth + (1|study) + (1|donor)`), so the error bars are
+directly comparable: 0.110–0.221 for the denoised lens against 0.145–0.242 for the count model on
+the shared log-rate axis. Facets separate the two scales; series in different facets are not
+comparable in magnitude. The x-axis is the Leiden subcluster, not the state-program, because
+*AGTR1* is absent from the 2,000 HVGs that define these subclusters — the grouping is provably
+independent of the readout compared across it, which `state_program` (a marker-panel argmax) is
+not. **Upper facet:** the raw and detection lenses are flat at this unit; not one of the four
+non-underpowered basement-membrane-versus-vascular-stabilizing subcluster contrasts reaches
+significance (raw \|Δ\| ≤ 0.192, BH ≥ 0.63; detection \|Δ\| ≤ 0.087, BH ≥ 0.31). The
+vascular-stabilizing–high raw ordering is therefore a transcript-capture/dropout effect.
+**Lower facet:** both dropout-aware lenses peak on the basement-membrane subclusters P1/P3.
+Denoised P3 − P0 = +0.211 (BH = 0.0062) and P3 − P2 = +0.404 (BH = 4.2 × 10⁻⁶); the count model
+agrees and is the stronger of the two, with all four contrasts positive — P3 − P0 = +0.284
+(BH = 0.0020), P3 − P2 = +0.270 (BH = 0.026), P1 − P2 = +0.189 (BH = 0.038), P1 − P0 = +0.203
+(BH = 0.056). *AGTR1* is a compartment label, not a vascular-stabilizing state marker.
+*P4 and P5 (asterisked) are 13 and 4 donors and support no contrast.* **(E)** Diffusion
 pseudotime on the same embedding, ordering cells along a vascular-stabilizing ↔ basement-membrane
 axis (ordering reflects transcriptional similarity, not time). **(F)** Donor-level Spearman
 correlation between each of the six program scores and *AGTR1* under **both** measurement lenses
@@ -150,8 +161,8 @@ ring (blue = raw, orange = denoised). The five mural/injury scores *decline* alo
 (donor ρ = +0.14, *P* = 0.055, n.s.; cell-level ρ = +0.32). Raw *AGTR1* declines
 (ρ = −0.30), as does the denoised lens (ρ = −0.37); the scVI-denoised lens is plotted
 beside it because raw *AGTR1* and every module score share a sequencing-depth gradient, and panel
-D, corroborated by the count-model arbiter, has already shown that this gradient is what
-manufactures *AGTR1*'s apparent program bias. The
+D — where the count-model arbiter is now drawn rather than cited — has already shown that this
+gradient is what manufactures *AGTR1*'s apparent program bias. The
 raw row alone would invite exactly the reading D refutes. Together: where *AGTR1* sits (A–C), why
 it is a compartment label not a state marker (D), and how the compartment is organized along the
 basement-membrane axis (E–F).
@@ -388,7 +399,8 @@ synthetic/contractile, activated/migratory, inflammatory, fibroblast-like, basem
 showing the spatial organization of each of the six programs across the embedding. **(B)** *ACTA2* expression (log), the canonical
 contractile-mural benchmark, which mirrors the raw *AGTR1* vascular-stabilizing–high pattern.
 **(C)** Binary *AGTR1* detection, visualizing the dropout structure that drives the raw
-enrichment reversed in `figure_pericyte_layer` panel D. **(D)** Donor-mean *AGTR1* versus *ACTA2*
+enrichment which `figure_pericyte_layer` panel D shows does not survive a donor × subcluster
+pseudobulk fit. **(D)** Donor-mean *AGTR1* versus *ACTA2*
 expression by stable subcluster (donor × subcluster means, subclusters with ≥5 cells; box =
 median/IQR, whiskers = 1.5×IQR), comparing the two markers' subcluster profiles.
 

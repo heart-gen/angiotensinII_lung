@@ -4,16 +4,20 @@
 ## pericyte_states reused unchanged). No in-panel titles; captions carry meaning.
 ##
 ## Main  (figure_pericyte_layer): A subcluster UMAP, B AGTR1 expr UMAP, C dominant
-##   state-program UMAP, D AGTR1 three-lens reversal (raw/detection/denoised; the
-##   linchpin that AGTR1 is a compartment label, not a state marker), E DPT
-##   pseudotime UMAP, F donor-level continuum trends.
+##   state-program UMAP, D AGTR1 four-lens reversal across the six subclusters
+##   (raw/detection/denoised/count-model arbiter; the linchpin that AGTR1 is a
+##   compartment label, not a state marker), E DPT pseudotime UMAP, F donor-level
+##   continuum trends.
 ## Supp  (figureS_pericyte_layer): per-program score UMAPs, ACTA2 expr + AGTR1
 ##   detection overlays (the contractile benchmark / dropout visual), and AGTR1 vs
 ##   ACTA2 donor-mean by subcluster.
 ##
 ## Reads: figures/_m/pericyte_umap_coords.tsv.gz (00.export_pericyte_umap.py),
 ##   pericyte_states/_m/pericytes_states_metadata.tsv.gz, continuum_metadata.tsv.gz,
-##   stats_data/agtr1_lenses_by_program_emmeans.tsv, pseudotime_trend_correlations.tsv.
+##   pericyte_states/_m/stats_data/pseudotime_trend_correlations.tsv,
+##   basement_membrane/_m/stats_data/agtr1_lens_by_cluster_emmeans.tsv
+##     (19.agtr1_lens_by_cluster.R) and agtr1_count_by_cluster.tsv
+##     (10.agtr1_count_models.R) -- panel D's four series, all at one unit.
 
 suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(tidyr)
@@ -94,38 +98,120 @@ pC <- umap_base(df) +
     theme(legend.position = "right", legend.key.size = unit(3, "mm"),
           legend.text = element_text(size = 6))
 
-## D: AGTR1 three-lens reversal across programs (LINCHPIN). Centered within lens so
-## the across-program PATTERN is comparable despite different native scales.
-LENS_LABS <- c(AGTR1_expr = "AGTR1 (raw)", AGTR1_detect = "AGTR1 (detection)",
-               AGTR1_scvi = "AGTR1 (denoised)")
+## D: AGTR1 across the six stable subclusters under FOUR measurement lenses
+## (LINCHPIN). Centered within lens so the across-cluster PATTERN is comparable
+## despite different native scales.
+##
+## REBUILT 2026-09-10. Two changes, both about comparing like with like.
+##
+## (1) FOUR lenses, not three -- the count-model arbiter is now drawn, not merely
+##     cited in the legend. It is the only readout that imputes nothing: AGTR1
+##     integer counts as an NB-GLMM response with a library-size offset
+##     (10.agtr1_count_models.R). The standing rule since 2026-09-02 is that the
+##     count model, not the denoiser, arbitrates group contrasts, and a panel
+##     whose whole claim is "the raw ordering is a dropout artifact" should show
+##     the arbiter rather than assert it.
+##
+## (2) The x-axis is `pericyte_state` (P0-P5), NOT `state_program`. Programs are
+##     assigned by a marker-panel argmax; the Leiden clusters come from 2,000 HVGs
+##     that exclude AGTR1 (highly_variable = FALSE), so the grouping is provably
+##     independent of the readout being compared across it. The count model's own
+##     README names the by-cluster table as "the arbiter for any AGTR1-across-
+##     clusters claim" for that reason. It is also where the evidence is: at
+##     program level only 1 of 5 count-model specs separates basement-membrane
+##     from vascular-stabilizing; at cluster level all twelve pseudobulk BM-vs-VS
+##     contrasts across the three pseudobulk specs agree in sign, 10 of 12
+##     significant. The cluster axis additionally ties D back to panel A.
+##
+## ALL FOUR SERIES ARE FIT AT THE SAME UNIT (214 donor x cluster pseudobulks,
+## 95 donors, (1|study) + (1|donor_id) + depth covariate). That is the point of
+## 19.agtr1_lens_by_cluster.R. The previous panel drew the denoised lens from a
+## CELL-level lmer on 11,680 cells with only (1|donor) -- its SEs were 0.061-0.076
+## on the log-rate scale against the count model's 0.131-0.204, a 2.0-2.7x gap
+## that was entirely unit-of-analysis and would have read as the denoiser being
+## the more precise measurement. Refit at the shared unit the same lens gives
+## 0.110-0.221 and the two are within 5-43% of each other.
+##
+## TWO FACETS, because two of the four series are not on the log-rate scale and
+## must never be read against the ones that are. Facet labels name the units.
+LENS_LABS <- c(`raw AGTR1_expr` = "AGTR1 (raw)",
+               `AGTR1_detect` = "AGTR1 (detection)",
+               `denoised (retrained)` = "AGTR1 (denoised)",
+               `AGTR1_count` = "AGTR1 (count model)")
 LENS_COL  <- c("AGTR1 (raw)" = "#56B4E9", "AGTR1 (detection)" = "#999999",
-               "AGTR1 (denoised)" = "#D55E00")
-## bm_relabel/require_programs: this table is written by pericyte_states/_h/
-## 03.agtr1_lenses.R, which was NOT wired into any step_*.sh until step_3.sh was
-## added -- so it sat at its 2026-06-17 hand-run state, still keyed on
-## `fibroblast_like`, while every sibling table was regenerated on 2026-07-24.
-## The old filter dropped that row without a word and panel D plotted two of the
-## three programs, losing precisely the basement-membrane vs vascular-stabilizing
-## denoised contrast (BH p = 3.5e-9) that the panel exists to show.
-emm <- fread(P("pericyte_states", "_m", "stats_data", "agtr1_lenses_by_program_emmeans.tsv")) %>%
-    bm_relabel(src = "agtr1_lenses_by_program_emmeans.tsv") %>%
-    filter(lens %in% names(LENS_LABS), state_program %in% PROG_ORDER)
-require_programs(emm$state_program, PROG_ORDER, "figure_pericyte_layer panel D")
+               "AGTR1 (denoised)" = "#D55E00", "AGTR1 (count model)" = "#000000")
+## Strip text names the UNITS so a reader cannot compare two series that are not
+## comparable. Kept short: at this panel width (3 in) anything longer is clipped
+## mid-word by the strip, which is worse than a terse label.
+## "10k", not "10\u2074". The glyph itself is fine -- figureS_acta2_control renders
+## it -- but that panel is 3.5 in wide and this one is 3.0, and at 3.0 the strip
+## clipped mid-label to "log AGTR1 / 10... transcripts". Spelling the unit out is
+## cheaper than widening the panel, which would squeeze E and F.
+SCALE_OF  <- c("AGTR1 (raw)" = "log expr / detected fraction",
+               "AGTR1 (detection)" = "log expr / detected fraction",
+               "AGTR1 (denoised)" = "log AGTR1 per 10k transcripts",
+               "AGTR1 (count model)" = "log AGTR1 per 10k transcripts")
+SCALE_LEVELS <- c("log expr / detected fraction",
+                  "log AGTR1 per 10k transcripts")
+
+lens_dt <- norm_ci(fread(P("basement_membrane", "_m", "stats_data",
+                           "agtr1_lens_by_cluster_emmeans.tsv")))[
+    , .(cl = as.character(cl), lens, emmean, SE, n_units, underpowered)]
+
+## The count arbiter: `spec = with_offset` is the concentration estimand (AGTR1
+## per transcript sampled), the one whose units match the denoised lens. An
+## unconverged fit is not a result and must not be drawn as one.
+cnt_dt <- fread(P("basement_membrane", "_m", "stats_data",
+                  "agtr1_count_by_cluster.tsv"))[
+    level == "pseudobulk" & spec == "with_offset"]
+if (nrow(cnt_dt) && !all(cnt_dt$converged)) {
+    warning("figure_pericyte_layer panel D: dropping ", sum(!cnt_dt$converged),
+            " unconverged count-model row(s)")
+    cnt_dt <- cnt_dt[converged == TRUE]
+}
+## estimate is log(AGTR1 per transcript); + log(1e4) puts it on the per-10^4
+## scale. Centering removes the constant anyway, but it keeps the facet honest.
+cnt_dt <- cnt_dt[, .(cl = as.character(pericyte_state), lens = "AGTR1_count",
+                     emmean = estimate + log(1e4), SE, n_units,
+                     underpowered = as.logical(underpowered))]
+
+emm <- rbind(lens_dt, cnt_dt, fill = TRUE) %>%
+    mutate(readout = factor(LENS_LABS[lens], levels = LENS_LABS),
+           cluster = factor(paste0("P", cl), levels = CLUST_ORDER),
+           scale_grp = factor(SCALE_OF[as.character(readout)], levels = SCALE_LEVELS))
+## Same failure mode the bm_relabel guard was written for: a lens or a cluster
+## that vanished during the join must error, not be plotted around silently.
+require_programs(emm$readout, unname(LENS_LABS), "figure_pericyte_layer panel D")
+require_programs(emm$cluster, CLUST_ORDER, "figure_pericyte_layer panel D (clusters)")
 emm <- emm %>%
-    mutate(lens = factor(LENS_LABS[lens], levels = LENS_LABS),
-           program = factor(state_program, levels = PROG_ORDER)) %>%
-    group_by(lens) %>% mutate(centered = emmean - mean(emmean)) %>% ungroup()
-pD <- ggplot(emm, aes(program, centered, colour = lens, group = lens)) +
+    group_by(readout) %>% mutate(centered = emmean - mean(emmean)) %>% ungroup()
+
+## P4 (13 donors, 134 cells) and P5 (4 donors, 44 cells) carry the count model's
+## `underpowered` flag. Marked from the DATA rather than hardcoded, so a change
+## upstream cannot leave the mark on the wrong cluster. A plain asterisk, not a
+## dagger: the dagger widened the tick label past the axis clip, so P5/P4 rendered
+## as "P5..."/"P4...".
+low <- emm %>% filter(underpowered) %>% pull(cluster) %>% unique() %>% as.character()
+clust_lab <- setNames(ifelse(CLUST_ORDER %in% low, paste0(CLUST_ORDER, "*"),
+                            CLUST_ORDER), CLUST_ORDER)
+
+pD <- ggplot(emm, aes(cluster, centered, colour = readout, group = readout)) +
     geom_hline(yintercept = 0, colour = "grey80", linewidth = 0.3) +
     geom_line(linewidth = 0.6) +
-    geom_errorbar(aes(ymin = centered - SE, ymax = centered + SE), width = 0.12, linewidth = 0.4) +
+    geom_errorbar(aes(ymin = centered - SE, ymax = centered + SE), width = 0.12,
+                  linewidth = 0.4) +
     geom_point(size = 1.9) +
+    facet_wrap(~ scale_grp, ncol = 1, scales = "free_y") +
     scale_colour_manual(values = LENS_COL, name = NULL) +
-    scale_x_discrete(labels = STATE_LABS1[PROG_ORDER]) +
-    labs(x = NULL, y = "Centered donor-aware emmean") +
-    theme_ms() + theme(legend.position = c(0.5, 0.13), legend.background = element_blank(),
-                       legend.text = element_text(size = 6), legend.key.size = unit(3, "mm"),
-                       axis.text.x = element_text(angle = 20, hjust = 1))
+    ## Four readouts on one row overflow the panel width and clip the leading key
+    ## glyph; two rows fit.
+    guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +
+    scale_x_discrete(labels = clust_lab) +
+    labs(x = NULL, y = "Centered pseudobulk marginal mean") +
+    theme_ms() + theme(legend.position = "bottom", legend.background = element_blank(),
+                       legend.text = element_text(size = 6),
+                       legend.key.size = unit(3, "mm"), legend.margin = margin(t = -4),
+                       strip.text = element_text(size = 6))
 
 ## E: DPT pseudotime on the SAME embedding (WHY -- stabilizing<->basement-membrane axis)
 pE <- umap_cont(df, "dpt_pseudotime", "Pseudotime", option = "magma", dir = -1)
