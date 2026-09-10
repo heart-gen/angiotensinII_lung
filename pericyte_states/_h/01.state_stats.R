@@ -49,7 +49,8 @@ parse_arg <- function(flag, default) {
 }
 ## Donor cell-count thresholds. The FIRST is primary and writes the canonical
 ## unsuffixed filenames; the rest are sensitivity analyses and are suffixed
-## `_mincells<N>`. >=10 matches disease_association/_h/03.disease_forest.R, which
+## `_mincells<N>`. >=10 matches disease_association/_h/03.disease_forest.R (moved
+## to heart-gen/lung-pericyte-analysis on 2026-09-10), which
 ## has always used 10 -- the modules previously disagreed (10 vs 20) with nothing
 ## in the outputs revealing it, so two incompatible donor denominators were being
 ## reported side by side.
@@ -197,7 +198,8 @@ agtr1_by_group <- function(df, group, outdir, tag, min_cells = 5) {
 ## would extrapolate across studies -- and study is confounded with disease, so it
 ## would fabricate the very structure under test.
 ##
-## `disease_association/_h/03.disease_forest.R` already dropped age for exactly
+## `disease_association/_h/03.disease_forest.R` (now in
+## heart-gen/lung-pericyte-analysis) already dropped age for exactly
 ## this reason. Matching it here also ends the state of two modules reporting
 ## disease results on incompatible donor sets.
 ##
@@ -226,7 +228,8 @@ fit_model <- function(covars, response, data) {
 }
 ## P2-35. These outputs used to record no formula at all, so the ONLY statement
 ## of how they were fitted was a hardcoded `notes` string in
-## `tables/_h/07.ras_disease.R` -- which still named `lm(frac ~ disease_group +
+## `tables/_h/07.ras_disease.R` (since split into `07.ras.R` here and
+## `07.disease.R` in heart-gen/lung-pericyte-analysis) -- which still named `lm(frac ~ disease_group +
 ## age + sex)` long after P1-1/P1-2 moved `age` into a labelled `_ageadj` arm and
 ## added `(1 | study)`. Ship the formula next to the numbers so the supplement
 ## can derive its methods sentence instead of asserting one.

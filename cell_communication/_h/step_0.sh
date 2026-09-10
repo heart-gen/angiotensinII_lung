@@ -29,7 +29,7 @@ conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 log_message "**** Build CCC niche from full disease object ****"
 python ../_h/00.prepare_ccc_input.py \
-       --adata ../../disease_association/_m/hlca_full.dataset.h5ad \
+       --adata ../../inputs/hlca/_m/hlca_full.dataset.h5ad \
        --pericyte-states ../../pericyte_states/_m/pericytes_states_metadata.tsv.gz \
        --outdir "./"
 

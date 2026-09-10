@@ -1,9 +1,0 @@
-{
-  "n_cells": 670,
-  "n_leiden": 4,
-  "n_transferred": 6,
-  "adjusted_rand_index": 0.3688923111771125,
-  "normalized_mutual_info": 0.4656030695117889,
-  "median_confidence": 0.6276997327804565,
-  "frac_below_half": 0.31343283582089554
-}

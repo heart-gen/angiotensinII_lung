@@ -18,7 +18,8 @@ module list
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 
 ## Two donor cell-count thresholds. >=10 is PRIMARY (matches
-## disease_association/_h/03.disease_forest.R and pericyte_states/_h/01.state_stats.R)
+## disease_association/_h/03.disease_forest.R -- now in heart-gen/lung-pericyte-analysis --
+## and pericyte_states/_h/01.state_stats.R)
 ## and writes the canonical unsuffixed filenames; >=20 is the sensitivity run.
 log_message "**** Build donor-level niche index (PRIMARY, >=10 pericytes) ****"
 python ../_h/00.niche_index.py \

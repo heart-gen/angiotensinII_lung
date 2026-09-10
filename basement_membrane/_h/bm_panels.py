@@ -43,7 +43,7 @@ known cost of adopting the full structural list, and it is why the gate in
 
 All genes below were verified present in pericyte_states/_m/pericyte_states.h5ad
 (55,329 genes), cell_communication/_m/ccc_niche.h5ad (55,329) and
-disease_association/ipf_analysis/_m/ipf_dataset.h5ad (45,947) on 2026-09-01.
+inputs/ipf/_m/ipf_dataset.h5ad (45,947) on 2026-09-01.
 Note CCN2/CCN1 are the current HGNC symbols; the CTGF/CYR61 aliases are absent
 from all three objects.
 """

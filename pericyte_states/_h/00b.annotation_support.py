@@ -5,7 +5,8 @@ Marker dot-plot table for the state stability / annotation supplement (Figure S3
 plot also needs the per-cluster mean expression and detection rate, which it never
 persists. This script recovers those WITHOUT re-running discovery: a full re-run
 would rewrite pericyte_states.h5ad and the `pericyte_state` labels that
-cell_communication, basement_membrane, niche_index and disease_association all key
+cell_communication, basement_membrane, niche_index and disease_association (the
+last now in heart-gen/lung-pericyte-analysis) all key
 on. Nothing downstream should move because a supplementary panel needed a number.
 
 Scope note: the OTHER quantity that figure needs -- per-cluster bootstrap Jaccard

@@ -30,7 +30,8 @@ study is handled once at clustering -- the scores are not additionally batch-
 standardized). Each component is z-scored across donors so stability and injury
 terms combine on a common scale; the composite scores are the mean of their
 z-scored components, and niche_index = stability - injury. Tests of the disease
-effect live in 01.niche_disease_stats.R.
+effect live in `niche_index/_h/01.niche_disease_stats.R` in heart-gen/lung-pericyte-analysis, which is
+where the disease tests moved on 2026-09-10. This script builds the index only.
 
 Inputs (all light): pericytes_states_metadata.tsv.gz (Module 2),
 airspace_donor_summary.csv (existing airspace analysis).
@@ -50,7 +51,8 @@ def parse_args():
     p.add_argument("--airspace-summary", required=True, type=Path,
                    help="airspace_donor_summary.csv")
     p.add_argument("--outdir", required=True, type=Path)
-    # >=10 matches disease_association/_h/03.disease_forest.R and
+    # >=10 matches disease_association/_h/03.disease_forest.R (moved to heart-gen/lung-pericyte-analysis
+    # on 2026-09-10) and
     # pericyte_states/_h/01.state_stats.R. This defaulted to 20 while
     # disease_association used 10, so the project reported two incompatible donor
     # denominators with nothing in the outputs revealing the difference.
@@ -90,7 +92,8 @@ def main():
     # donors contribute cells to two `dataset` values, so `dataset` here is a
     # first-of and `study` is the column to model on.
     # `dataset` and `study` are carried so the donor-level models downstream can
-    # fit a study random intercept. Without them 01.niche_disease_stats.R had no
+    # fit a study random intercept. Without them 01.niche_disease_stats.R (now in
+    # heart-gen/lung-pericyte-analysis) had no
     # way to guard against the between-study confounding this compartment is
     # known to carry, and fitted a plain `lm` (defect P1-10).
     meta = g.agg(disease=("disease", "first"),

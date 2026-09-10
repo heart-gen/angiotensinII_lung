@@ -9,7 +9,7 @@
 #SBATCH --time=02:00:00
 #SBATCH --output=logs/supp_tables.log
 
-## Builds supplementary Tables S1-S14 into tables/_m/tsv/*.tsv and
+## Builds supplementary Tables S1-S13 into tables/_m/tsv/*.tsv and
 ## tables/_m/supplementary_tables.xlsx. Submit from tables/_m:
 ##     sbatch -D tables/_m tables/_h/step_tables.sh
 ##
@@ -19,8 +19,6 @@
 ##   sbatch -D pericyte_states/_m    pericyte_states/_h/step_1.sh   # both donor thresholds
 ##   sbatch -D cell_communication/_m cell_communication/_h/step_4.sh # Fig 4D lm + TGFB2
 ##   sbatch -D niche_index/_m        niche_index/_h/step_0.sh
-##   sbatch -D niche_index/_m        niche_index/_h/step_1.sh
-##   sbatch -D sensitivity/_m        sensitivity/_h/step_0.sh
 ## Plus the full ligand x BM-target matrix for S11C, which runs in seconds and
 ## needs no SLURM job because --links-only skips the permutation null entirely:
 ##   (cd basement_membrane/_m && Rscript ../_h/07.bm_nichenet_targets.R --links-only)
@@ -67,9 +65,12 @@ log_message "**** S10, S11: NicheNet injury and BM target sets ****"
 Rscript ../_h/06.nichenet.R
 if [ $? -ne 0 ]; then log_message "Error: NicheNet tables failed"; exit 1; fi
 
-log_message "**** S12, S13, S14: local RAS, disease, robustness ****"
-Rscript ../_h/07.ras_disease.R
-if [ $? -ne 0 ]; then log_message "Error: RAS/disease tables failed"; exit 1; fi
+## S13A, S13E/F and all of S14 are NOT built here: they moved to
+## heart-gen/lung-pericyte-analysis with the disease analyses on 2026-09-10. The
+## gaps in the numbering are deliberate -- see ../_h/07.ras.R.
+log_message "**** S12, S13B-D: local RAS and pericyte composition by disease ****"
+Rscript ../_h/07.ras.R
+if [ $? -ne 0 ]; then log_message "Error: RAS/composition tables failed"; exit 1; fi
 
 ## Manifest and workbook last: it verifies every registered part exists and that
 ## the tables still reproduce the manuscript's quoted values.

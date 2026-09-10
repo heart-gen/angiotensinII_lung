@@ -78,7 +78,7 @@ if (!is.null(meta)) {
         "age; sex; smoking status; BMI; ethnicity; lung condition (disease group)")]
 
     ## Donors at each analysis threshold. These two denominators were previously
-    ## produced by different modules (>=10 in disease_association, >=20 in
+    ## produced by different modules (>=10 in the disease models, >=20 in
     ## pericyte_states) and never reported side by side, so which donors an
     ## analysis actually used was not auditable.
     thr <- donor[, .(cohort = "HLCA (pericytes)", dataset = "ALL DATASETS",
@@ -109,7 +109,7 @@ if (!is.null(sp)) {
                       "| donor_id is 'pooled' in 2 of 4 datasets"))
 }
 
-ipf <- read_src(P("disease_association", "ipf_analysis", "_h", "sample_demo.csv"))
+ipf <- read_src(P("inputs", "ipf", "_h", "sample_demo.csv"))
 if (!is.null(ipf)) {
     nm <- names(ipf)
     sexc <- grep("^Sex$", nm, value = TRUE, ignore.case = TRUE)
@@ -235,7 +235,7 @@ if (!is.null(s1)) {
         supports = "Methods; all analyses",
         sources = c("pericyte_states/_m/pericytes_states_metadata.tsv.gz",
                     "cross_species/_m/stats_data/species_comparability_summary.tsv",
-                    "disease_association/ipf_analysis/_h/sample_demo.csv",
+                    "inputs/ipf/_h/sample_demo.csv",
                     "inputs/gtex/_m/gtex_v11_lung_sample_data.tsv",
                     "inputs/lungmap/_m/GSE161382_metadata.txt.gz",
                     "localization/lungmap_replication/_m/annotated_clusters_filtering_summary.tsv"),

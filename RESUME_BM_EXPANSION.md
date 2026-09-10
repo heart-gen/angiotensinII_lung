@@ -1,5 +1,13 @@
 # Resume notes — basement-membrane + AGT-axis expansion
 
+> **Partly superseded, 2026-09-10.** The disease analyses -- `disease_association/`,
+> `sensitivity/`, the niche-index disease test and the disease figures/tables --
+> moved to **heart-gen/lung-pericyte-analysis**. Statements below about those
+> paths describe this repository as it was, not as it is. The `bio260021p`
+> account audit in particular no longer applies to the `disease_association/`
+> trees, which are gone from here.
+
+
 > ## ⚠️ HISTORICAL. Refreshed 2026-09-07 — read this box first.
 >
 > This file was written on **2026-07-21** to hand a paused session back to

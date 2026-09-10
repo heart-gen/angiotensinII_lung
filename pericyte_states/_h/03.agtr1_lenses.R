@@ -189,7 +189,8 @@ mark_citable <- function(ph) {
                 "CONCORDANT SENSITIVITY -- a raw-scale lens agrees; still not the arbiter",
                 paste("NOT CITABLE as evidence: the denoised lens is the ONLY lens that",
                       "moves. Raw expression and detection are both null on this contrast,",
-                      "and the count model (disease_association mean_expr, z_AGTR1 in",
+                      "and the count model (disease_association mean_expr -- that module is",
+                      "now in heart-gen/lung-pericyte-analysis -- z_AGTR1 in",
                       "Pericytes, 77 donors) is a well-powered null: -0.152, BH = 0.85.",
                       "A denoiser-only result is the signature the standing rule exists",
                       "to catch.")))]

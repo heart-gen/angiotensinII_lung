@@ -41,10 +41,6 @@ log_message "**** S6: unsupervised CoGAPS validation of the programs ****"
 Rscript ../_h/cogaps_validation_figure.R
 if [ $? -ne 0 ]; then log_message "Error: CoGAPS validation figure failed"; exit 1; fi
 
-log_message "**** S12: sensitivity / robustness ****"
-Rscript ../_h/sensitivity_robustness_figure.R
-if [ $? -ne 0 ]; then log_message "Error: sensitivity figure failed"; exit 1; fi
-
 log_message "**** Basement-membrane figure + S10, S15 ****"
 Rscript ../_h/basement_membrane_figure.R
 if [ $? -ne 0 ]; then log_message "Error: basement-membrane figure failed"; exit 1; fi
@@ -69,14 +65,11 @@ log_message "**** Manuscript figures (main + CCC/NicheNet + supplements) ****"
 Rscript ../_h/manuscript_mechanism_figure.R
 if [ $? -ne 0 ]; then log_message "Error: manuscript figures failed"; exit 1; fi
 
-## Disease main figure + S16 (figureS_disease_robustness). Folded in 2026-09-07
-## (P2-1): this ran only from step_disease_figure.sh, which submit_pipeline.sh
-## never submitted, so a full pipeline run produced neither the disease main
-## figure nor S16 -- and the manifest below, which records what exists on disk,
-## reported S16 missing. Must stay ABOVE the manifest step for that reason.
-log_message "**** Disease main figure + S16 ****"
-Rscript ../_h/disease_main_figure.R
-if [ $? -ne 0 ]; then log_message "Error: disease main figure failed"; exit 1; fi
+## The disease main figure, S16 (figureS_disease_robustness) and S12
+## (figureS_sensitivity) used to be built here. They moved to
+## heart-gen/lung-pericyte-analysis on 2026-09-10 with the disease analyses, and
+## are built there by `figures/_h/step_figures.sh`. The gaps at S12 and S16 in
+## the manifest below are deliberate; it reports what exists on disk.
 
 ## Manifest last: it records which supplements actually exist on disk.
 log_message "**** Panel manifest ****"

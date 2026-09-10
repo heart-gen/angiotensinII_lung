@@ -1,5 +1,14 @@
 # Figure regeneration after the P1 fixes (opened 2026-09-02)
 
+> **Superseded in part, 2026-09-10 — the disease analyses left this repository.**
+> `disease_association/`, `sensitivity/`, `niche_index/_h/01.niche_disease_stats.R`
+> and the disease figures and tables moved to **heart-gen/lung-pericyte-analysis**.
+> Entries below that name `figure_disease_main`, `figureS_sensitivity`,
+> `figureS_disease_robustness`, S12, S16, Tables S13A/S13E/S13F or S14 refer to
+> work that is no longer built here. They are left in place because this is a
+> record of what was done, not a list of what to do; do not act on them here.
+
+
 Seven P1 defects were fixed on 2026-09-02 and each changed tables that figures
 read. **No figure in `figures/mechanism/` has been regenerated since.** Until
 that happens, several figures plot superseded numbers, and two plot a

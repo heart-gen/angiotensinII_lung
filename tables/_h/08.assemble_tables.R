@@ -117,17 +117,17 @@ chk("S02C1 detection-vs-depth rho (pooled)",
 ##    structurally instead (below).
 ##
 ##    The premise here used to be "the previously published >=20 values still
-##    apply". As of 2026-09-07 it holds for NONE of them. It was already false
-##    for S13D (below), and P1-10 (`77171c6`, 12:25) then refit the >=20 arms of
-##    S13E and S14B too -- age-free, with a `(1 | study)` guard, on 69 donors /
-##    17 studies: `lmer(disease_group + sex + (1 | study))`. The workbook had
-##    last been built at 12:00, 25 min before that commit, so these four anchors
-##    were still asserting pre-refit values and the shipped tables were stale.
-##    Re-pointed 2026-09-07 to the current fit. Superseded values, for the
-##    record: S13E F 5.96555, Healthy -0.164118, Fibrotic_ILD 0.564861;
-##    S14B niche index F 3.41048. None of the four is quoted in any prose --
-##    verified by grep across *.md/*.tex/*.txt -- so this re-point carries no
-##    manuscript-text consequence.
+##    apply". As of 2026-09-07 it held for NONE of them, and the anchors were
+##    re-pointed to the current fits.
+##
+##    NARROWED 2026-09-10. The S13E and S14B anchors, and the structural check on
+##    the S13E primary fit, are gone: those parts are no longer built here. They
+##    moved to heart-gen/lung-pericyte-analysis with `disease_association/`,
+##    `sensitivity/` and `niche_index/_h/01`. Nothing verifies them there yet --
+##    the anchor machinery covers S1-S13 as a set and did not split cleanly --
+##    which is recorded in that repository's `disease_association/README.md`.
+##    Superseded values, for the record: S13E F 6.86873, Healthy -0.269672,
+##    Fibrotic_ILD 0.604326; S14B niche index F 4.03972.
 ##
 ##    S13D was re-pointed earlier for a related but distinct reason: it is the
 ##    one endpoint whose >=20 arm was ALSO
@@ -142,47 +142,16 @@ chk("S02C1 detection-vs-depth rho (pooled)",
 ge20 <- function(d) if (is.null(d) || !"analysis_role" %in% names(d)) NULL else
     d[grepl(">=20", analysis_role)]
 
-x <- ge20(tsv("13E"))
-chk("S13E (>=20) F statistic",
-    maybe(x, x[block == "anova" & term == "disease_group", `F value`]), 6.86873, tol = 1e-3, TRUE)
-chk("S13E (>=20) Healthy marginal mean",
-    maybe(x, x[block == "emmeans" & disease_group == "Healthy", emmean]), -0.269672, tol = 1e-4, TRUE)
-chk("S13E (>=20) Fibrotic_ILD marginal mean",
-    maybe(x, x[block == "emmeans" & disease_group == "Fibrotic_ILD", emmean]), 0.604326, tol = 1e-4, TRUE)
-
 x <- ge20(tsv("13D"))
 chk("S13D (>=20) Healthy injury fraction",
     maybe(x, x[block == "marginal means" & disease_group == "Healthy", emmean]), 0.0158929, tol = 1e-4, TRUE)
 
-x <- ge20(tsv("14B"))
-chk("S14B (>=20) niche index F",
-    maybe(x, x[response == "niche_index" & block == "anova" &
-                   term == "disease_group", `F value`]), 4.03972, tol = 1e-3, TRUE)
-
 checks <- rbindlist(CHECKS)
 cat("\n==== anchor checks ====\n"); print(checks)
 
-## Structural check on the new primary fit: it must include strictly more donors
-## than the sensitivity fit and keep the direction of the Healthy->Fibrotic effect.
+## The structural check on the S13E primary fit was removed 2026-09-10 with that
+## part -- see the note above the anchors.
 struct_ok <- TRUE
-e13 <- tsv("13E")
-if (!is.null(e13) && "analysis_role" %in% names(e13) &&
-    any(grepl("PRIMARY", e13$analysis_role)) && any(grepl(">=20", e13$analysis_role))) {
-    nd <- e13[block == "emmeans", .(n = max(n_donors, na.rm = TRUE)),
-              by = .(primary = grepl("PRIMARY", analysis_role))]
-    if (nrow(nd) == 2 && nd[primary == TRUE, n] <= nd[primary == FALSE, n]) {
-        struct_ok <- FALSE
-        cat("FAIL: the >=10 primary fit does not have more donors than the >=20 fit\n")
-    }
-    mm <- e13[block == "emmeans" & disease_group %in% c("Healthy", "Fibrotic_ILD")]
-    d <- mm[, .(diff = emmean[disease_group == "Fibrotic_ILD"] -
-                    emmean[disease_group == "Healthy"]),
-            by = .(primary = grepl("PRIMARY", analysis_role))]
-    if (nrow(d) == 2 && prod(sign(d$diff)) < 0) {
-        struct_ok <- FALSE
-        cat("FAIL: Healthy->Fibrotic effect changes sign between thresholds\n")
-    }
-}
 
 failed <- checks[passed == FALSE]
 if (nrow(failed) || !struct_ok) {

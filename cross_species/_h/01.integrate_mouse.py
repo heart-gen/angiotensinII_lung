@@ -7,7 +7,8 @@ state assignment is confounded with batch. This step removes dataset batch
 effects with scVI (matching the human-side scVI/SCANVI workflow used in this
 repo) so that state assignment can be made on an integrated representation.
 
-Pipeline (mirrors disease_association/pericyte_analysis/_h/02.train_model.py and
+Pipeline (mirrors disease_association/pericyte_analysis/_h/02.train_model.py, now
+in heart-gen/lung-pericyte-analysis, and
 the nvu-neuroimmune-reference 02_integration scVI utilities):
   raw counts -> batch-aware seurat_v3 HVG (force-include state markers) ->
   scVI(batch_key=dataset_id, n_latent=30, n_layers=2) -> latent + Leiden + UMAP +

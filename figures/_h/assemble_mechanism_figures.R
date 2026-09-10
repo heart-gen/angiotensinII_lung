@@ -2,8 +2,11 @@
 ##
 ## Figure A (CCC + NicheNet + alluvial): liana edges into AGTR1+/AGTR2+
 ##   receivers, NicheNet ligand->target heatmap, cluster->category->role alluvial.
-## Figure B (states + continuum + niche index): state UMAP, state-by-disease,
-##   DPT continuum trend, donor-level niche index by disease.
+## Figure B (states + continuum): state UMAP, state-by-disease, DPT continuum
+##   trend. The donor-level "niche index by disease" panel was DROPPED 2026-09-10
+##   -- niche_index/_h/01.niche_disease_stats.R moved to
+##   heart-gen/lung-pericyte-analysis with the rest of the disease layer, so its
+##   emmeans table is not built here any more.
 ##
 ## Run AFTER the production module jobs (cell_communication, pericyte_states,
 ## niche_index) have written their _m outputs. Panels are combined from the
@@ -18,20 +21,25 @@ ROOT <- normalizePath(file.path(getwd(), "..", ".."))
 P <- function(...) file.path(ROOT, ...)
 outdir <- file.path(ROOT, "figures", "mechanism"); dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
-read_if <- function(path) if (file.exists(path)) data.table::fread(path) else NULL
+## Require rather than skip. `read_if` used to return NULL for a missing file and
+## the panel simply vanished from the figure -- which is how the niche panel
+## disappeared unannounced on 2026-09-10 when its module moved, leaving a
+## three-panel figure silently rebuilt with two. A missing input is now an error.
+read_req <- function(path) {
+    if (!file.exists(path))
+        stop("missing input: ", path, "\n  Run the producing module first. If this ",
+             "input moved to another repository, remove its panel here rather than ",
+             "letting the figure quietly lose it.", call. = FALSE)
+    data.table::fread(path)
+}
 
 ## ---- Figure B statistical panels (rebuildable from light tables) --------
-niche <- read_if(P("niche_index", "_m", "stats_data", "niche_index_emmeans.tsv"))
-injury <- read_if(P("pericyte_states", "_m", "stats_data", "injury_fraction_emmeans.tsv"))
-trend <- read_if(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv"))
+## No niche panel: see the header. It was `niche_index/_m/stats_data/
+## niche_index_emmeans.tsv`, which this repository no longer builds.
+injury <- read_req(P("pericyte_states", "_m", "stats_data", "injury_fraction_emmeans.tsv"))
+trend <- read_req(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv"))
 
 panels <- list()
-if (!is.null(niche)) {
-    panels$niche <- ggplot(niche, aes(disease_group, emmean)) +
-        geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL)) +
-        labs(x = "", y = "Niche-stability index", title = "Niche index by disease") +
-        theme_bw(base_size = 12) + theme(axis.text.x = element_text(angle = 30, hjust = 1))
-}
 if (!is.null(injury)) {
     panels$injury <- ggplot(injury, aes(disease_group, emmean)) +
         geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL), color = "#B2182B") +
@@ -88,7 +96,6 @@ manifest <- tibble::tribble(
     "Supp", "S9",  "Robustness to receiver definition; BM-restricted signaling", SF("figureS_receiver_robustness"),
     "Supp", "S10", "The lung renin-angiotensin axis is distributed across cell types", SF("figureS_ras_landscape"),
     "Supp", "S11", "Discrete state composition does not differ across disease", SF("figureS_state_composition"),
-    "Supp", "S12", "Robustness and limitations of the disease-associated signal", SF("figureS_sensitivity"),
     ## The tail of this list is where displaced figures land. Each was appended
     ## rather than shifting the block above, so the numbering above stays stable
     ## when a new figure claims a slot:
@@ -102,14 +109,16 @@ manifest <- tibble::tribble(
     "Supp", "S13", "Program x protein-category enrichment",               SF("figureS_program_category"),
     "Supp", "S14", "AT1R-AT2R balance by pericyte program",               SF("figureS_balance_by_state"),
     "Supp", "S15", "Basement-membrane remodeling in IPF but not COPD",    SF("figureS_bm_copd"),
-    ##   S16 was already in use by the disease-robustness figure (README
-    ##       heading, 2026-07-29) but had never been registered here, which is how
-    ##       the 2026-09-01 addition below nearly collided with it. Registered now.
+    ##   S12 and S16 are now UNUSED. Both were disease supplements -- covariate
+    ##       robustness and the study-level robustness of the injury-program
+    ##       effect -- and both moved to heart-gen/lung-pericyte-analysis on
+    ##       2026-09-10 with the disease analyses. Per the append-only rule above
+    ##       the numbers are left vacant rather than reclaimed, so that the
+    ##       supplements below keep the numbers they already hold.
     ##   S17 is the 2026-09-01 companion to Figure 3: what the two matrix
     ##       categories are ASSOCIATED with (cluster, AGTR1 before/after
     ##       denoising, TGF-beta), plus the audit of the 13 -> 20 gene BM panel
     ##       expansion. Appended at the tail per the rule above.
-    "Supp", "S16", "Study-level robustness of the injury-program disease effect", SF("figureS_disease_robustness"),
     "Supp", "S17", "Matrix-program associations with cluster, AGTR1 and TGF-b", SF("figureS_bm_associations")
 )
 ## NOT numbered supplements, deliberately:

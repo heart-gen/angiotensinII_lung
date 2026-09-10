@@ -23,9 +23,9 @@ module list
 log_message "**** Donor x compartment pseudobulk (GSE136831) ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/scRNA_env
 python ../_h/05.bm_copd.py \
-       --adata ../../disease_association/ipf_analysis/_m/ipf_dataset.h5ad \
+       --adata ../../inputs/ipf/_m/ipf_dataset.h5ad \
        --genes ./bm_panel_genes.tsv \
-       --demo ../../disease_association/ipf_analysis/_h/sample_demo.csv \
+       --demo ../../inputs/ipf/_h/sample_demo.csv \
        --outfile ./gse136831_bm_pseudobulk.tsv.gz
 if [ $? -ne 0 ]; then log_message "Error: pseudobulk failed"; exit 1; fi
 conda deactivate

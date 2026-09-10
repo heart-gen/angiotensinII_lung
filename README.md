@@ -19,9 +19,9 @@ position rather than inferring it.
 | Preprint claim | Current position |
 | -------------- | ---------------- |
 | *AGTR1* localizes to pericytes | **Held.** Confirmed and extended: *AGTR1* labels the pericyte/mural **compartment**. |
-| *AGTR1* marks a distinct fibroblast population upregulated in COPD | ⚠️ **Not supported by the current analyses.** Six of seven stromal cell types show *negative* Fibrotic−Healthy estimates in the HLCA, nothing survives BH correction, and the independent GSE136831 evaluation disagrees in sign against an HLCA estimate that is itself null. See [`writings/AGTR1_DISEASE_DIRECTION.md`](writings/AGTR1_DISEASE_DIRECTION.md), which is the document that reconciles the two. |
+| *AGTR1* marks a distinct fibroblast population upregulated in COPD | ⚠️ **Not supported.** Six of seven stromal cell types show *negative* Fibrotic−Healthy estimates in the HLCA, nothing survives BH correction, and the independent GSE136831 evaluation disagrees in sign against an HLCA estimate that is itself null. **The analyses behind this now live in [`heart-gen/lung-pericyte-analysis`](https://github.com/heart-gen/lung-pericyte-analysis)** — see `writings/AGTR1_DISEASE_DIRECTION.md` there, which is the document that reconciles the two. |
 | — | **New:** *AGTR1* is a **compartment label, not a state marker**. The raw enrichment reverses under denoising and under a no-imputation negative-binomial count model. |
-| — | **New:** disease acts on pericytes through **continuous injury-program intensity**, not through discrete state composition. |
+| — | **New:** disease acts on pericytes through **continuous injury-program intensity**, not through discrete state composition. Established in [`heart-gen/lung-pericyte-analysis`](https://github.com/heart-gen/lung-pericyte-analysis), not here. |
 
 ### Repository map
 
@@ -36,20 +36,28 @@ position rather than inferring it.
 | `pathway_balance/` | AT1R/AT2R transcriptional balance. |
 | `pericyte_cogaps/` | Unsupervised NMF (CoGAPS) validation of the state model. |
 | `agt_axis/` | Whether the AGT→AGTR1 edge is coherent (it is a three-cell relay). |
-| `disease_association/` | The project's direct disease test, plus the GSE136831 evaluation. |
-| `sensitivity/` | Confounder and leave-one-cohort-out robustness. |
 | `cross_species/` | Mouse lung mural comparison. |
 | `localization/airspace_analysis/` | Airspace proximity and the *AGTR1* dropout audit. ⚠️ Current work, not legacy. |
 
-**Support**: `inputs/` (data acquisition), `figures/` (assembly), `tables/`
-(supplementary tables), `writings/` (manuscript-voice summaries and the defect
-ledger — **not tracked**, see below).
+**Support**: `inputs/` (data acquisition and the shared HLCA/GEO object builders),
+`figures/` (assembly), `tables/` (supplementary tables), `writings/`
+(manuscript-voice summaries and the defect ledger — **not tracked**, see below).
 
-**Legacy (2024 preprint)**: `localization/{pericyte_analysis,lungmap_replication,enrichment_analysis}/`,
-and `disease_association/{copd,ipf_analysis}/` — both of the latter carry a
-`RETIRED.md`. ⚠️ **`disease_association/ipf_analysis/_h/02.generate_ipf_data.R` is
-exempt from that retirement**: it builds an 8.4 GB object four current modules
-read. Its `RETIRED.md` says so at the top.
+**Not here (moved 2026-09-10)**: the disease layer — `disease_association/`,
+`sensitivity/`, the niche-index disease test, Figure 5, supplements S12/S16 and
+Tables S13A/S13E/S13F/S14 — is in
+[`heart-gen/lung-pericyte-analysis`](https://github.com/heart-gen/lung-pericyte-analysis).
+**This repository makes no disease claims.** Two shared builders that lived under
+`disease_association/` despite not being disease analyses stayed and were
+relocated: `inputs/hlca/_h/02.preprocess_reference.py` (read by
+`cell_communication/`) and `inputs/ipf/_h/01.generate_ipf_data.R` (read by the
+`basement_membrane/` COPD arm). See `disease_association/MOVED.md`.
+
+**Legacy (2024 preprint)**: `localization/{pericyte_analysis,lungmap_replication,enrichment_analysis}/`.
+The retired 2024 disease cohorts (`copd/`, `ipf_analysis/`) went to the disease
+repository with the rest of `disease_association/`; the one script that was
+exempt from their retirement, the GSE136831 h5ad builder, is now
+`inputs/ipf/_h/01.generate_ipf_data.R`.
 
 ### Running it
 
@@ -59,9 +67,10 @@ bash submit_pipeline.sh          # submits the module DAG to SLURM (Bridges-2)
 
 Each module is also independently runnable as `cd <module>/_m && sbatch ../_h/step_N.sh`.
 
-⚠️ `submit_pipeline.sh` does **not** currently regenerate `figure_disease_main`
-or S16 — `disease_main_figure.R` runs only from its own launcher. Tracked as
-P2-1.
+⚠️ `inputs/hlca/_h/step_2.sh` builds the all-cell HLCA object
+`cell_communication/` reads. It is a 12-hour EM job and is **not** in
+`submit_pipeline.sh`'s dependency chain — run it once, first, if
+`inputs/hlca/_m/hlca_full.dataset.h5ad` is absent.
 
 ### A note on `writings/`
 
