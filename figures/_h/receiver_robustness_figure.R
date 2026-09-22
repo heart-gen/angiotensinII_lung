@@ -51,7 +51,10 @@ rec_scheme <- function(x) fifelse(x == "Pericytes", "All",
 rank_mat <- fread(file.path(CCC, "receiver_concordance", "ligand_rank_matrix.tsv"))
 conc     <- fread(file.path(CCC, "receiver_concordance", "receiver_rank_correlation.tsv"))
 
-keep_ligands <- unique(rank_mat[rank <= TOP_PER_RECEIVER, test_ligand])
+## Non-ligands (COPA, MMP14, SIRPB2; _fig_common.R) are excluded before the union so
+## each receiver still contributes TOP_PER_RECEIVER real ligands.
+keep_ligands <- unique(rank_mat[rank <= TOP_PER_RECEIVER & !test_ligand %in% NON_LIGANDS,
+                                test_ligand])
 ra <- rank_mat[test_ligand %in% keep_ligands]
 ## A ligand absent from a receiver's candidate set (its receptor is not expressed
 ## there) is shown as missing rather than as a bad rank -- those are different claims.

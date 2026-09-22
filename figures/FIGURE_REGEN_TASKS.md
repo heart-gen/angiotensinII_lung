@@ -81,9 +81,8 @@ Ordered by how badly the current version misleads.
       own. The figure must show per-group N and must not present the COPD
       contrast as a finding — use `p_excl_small_groups`.
       *Its legend in `mechanism/README.md` is already flagged as superseded.*
-- [ ] **`figure_mechanism_main`** — reads `pseudotime_trend_*` and
-      `niche_index_per_donor`. Both changed. (Panel C separately has open defect
-      P1-8: computed on 5 donors via the deprecated label-based selection.)
+- [x] ~~**`figure_mechanism_main`**~~ — **retired 2026-09-22** (disease phenotype; this
+      repository makes no disease claims). Nothing to regenerate.
 - [ ] **`figureS_sensitivity`** — reads `niche_index_per_donor`; the stability
       arm is now a 2-component composite over 89 donors instead of 1 over 46.
       **Panel D's x-axis label also changed** (P1-11, 2026-09-07): the refits drop
@@ -91,7 +90,8 @@ Ordered by how badly the current version misleads.
       significant / estimate range / most-influential drop for all four
       responses — **write the caption from that block**, which is what the
       13-of-16 defect existed for.
-- [ ] **`figureS_balance_by_state`** — same script as `figure_mechanism_main`.
+- [ ] **`figureS_balance_by_state`** — `manuscript_mechanism_figure.R` (the script that
+      used to build `figure_mechanism_main`).
 
 ### Tier 3 — regenerate for consistency; content likely unchanged
 
@@ -214,7 +214,7 @@ a significance the script derives.
    sweep (question 2) then showed the poles are basement-membrane versus everything
    else, with `activated_migratory` on the *same* end as `vascular_stabilizing`.
    **Axis titles should read "vascular-stabilizing ↔ basement-membrane", never
-   "injury".** Applies to Figure 2E/2F, `figure_mechanism_main` panel E, and S7.
+   "injury".** Applies to Figure 2E/2F and S7 (`figure_mechanism_main` panel E is retired).
 
    Still open, and unaffected: **every** program except BM falls, which is equally
    consistent with an overall score-magnitude gradient. Depth-adjusted partials
@@ -265,7 +265,7 @@ Two things to verify after the redraw, because they are new failure modes:
 
 ## Added 2026-09-07 (second batch) — P1-6, P1-8, P1-19
 
-### `figure_mechanism_main` panel C — the donor set changes from 5 to 59
+### `figure_mechanism_main` panel C — the donor set changes from 5 to 59 (figure retired 2026-09-22; kept as record)
 
 The panel used a label-based injury selection that `pathway_balance` abandoned
 (P1-8). It now reads `pathway_balance/_m/stats_data/balance_donor_injury_selected.tsv`

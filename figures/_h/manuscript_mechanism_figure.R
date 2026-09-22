@@ -1,9 +1,18 @@
 ## Manuscript-quality mechanistic figures (Circ Research revision).
 ##
-## Main figure: donor-level disease effects (niche-stability index, injury-stromal
-## score, AT1R-AT2R balance) + state composition + state-resolved balance +
-## continuum trends. Supplements: alluvial (cluster->category->role) and mouse
-## cross-species. No in-panel titles; interpretation belongs in the caption.
+## Builds the CCC/NicheNet main figure (figure_ccc_nichenet, Figure 4) and the
+## supplements this script owns: state-resolved AT1R-AT2R balance (S14), the ACTA2
+## contractile-identity control (S5), program x protein-category enrichment (S13),
+## the alluvial grant figure and the mouse cross-species supplement (S2).
+##
+## `figure_mechanism_main` (donor-level disease phenotype: niche-stability index,
+## injury-stromal score and AT1R-AT2R balance by disease group, state composition
+## by disease, plus a continuum-trend panel) was RETIRED here on 2026-09-22. The
+## disease layer left this repository on 2026-09-10 for
+## heart-gen/lung-pericyte-analysis and this repository makes no disease claims;
+## the continuum panel is Figure 2F (pericyte_layer_figure.R). Its main-figure slot
+## is taken by figure_ras_circuit (Figure 5, figures/_h/ras_circuit_figure.R).
+## No in-panel titles; interpretation belongs in the caption.
 
 suppressPackageStartupMessages({
     library(data.table); library(dplyr); library(tidyr)
@@ -41,133 +50,18 @@ STATE_COL <- c(vascular_stabilizing = "#0072B2", synthetic_contractile = "#009E7
 theme_ms <- function(base = 8) .theme_ms(base = base, grid_x = FALSE)
 
 
-## Key contrast vs Healthy for the box panels.
-##
-## A group with one or two donors cannot support a rank-sum bracket. COPD is
-## n = 1 in the >=10-pericyte set, and until 2026-09-07 this drew a Wilcoxon
-## bracket against that single donor (P3-5). The stats tables have carried
-## `small_groups` / `p_excl_small_groups` for exactly this reason since P1-1;
-## the figure now respects the same floor.
-MIN_BRACKET_N <- 3L
-dx_comparisons <- function(levs, counts = NULL) {
-    cand <- list(c("Healthy", "Fibrotic_ILD"), c("Healthy", "COPD"))
-    ok <- function(p) {
-        if (!all(p %in% levs)) return(FALSE)
-        if (is.null(counts)) return(TRUE)
-        n <- counts[p]; n[is.na(n)] <- 0L
-        all(n >= MIN_BRACKET_N)
-    }
-    Filter(ok, cand)
-}
-
-box_by_disease <- function(df, yvar, ylab) {
-    df <- df %>% filter(!is.na(.data[[yvar]]), !is.na(disease_group))
-    levs <- levels(droplevels(df$disease_group))
-    counts <- table(droplevels(df$disease_group))
-    dropped <- setdiff(levs, names(counts)[counts >= MIN_BRACKET_N])
-    if (length(dropped))
-        message(sprintf("  %s: no bracket for %s (n = %s, below %d)", yvar,
-                        paste(dropped, collapse = ", "),
-                        paste(counts[dropped], collapse = ", "), MIN_BRACKET_N))
-    ggplot(df, aes(disease_group, .data[[yvar]], fill = disease_group)) +
-        geom_boxplot(width = 0.6, outlier.shape = NA, alpha = 0.85, linewidth = 0.3) +
-        geom_jitter(width = 0.12, size = 0.5, alpha = 0.5, colour = "grey20") +
-        stat_summary(fun = mean, geom = "point", shape = 23, size = 1.6,
-                     fill = "white", stroke = 0.4) +
-        stat_compare_means(comparisons = dx_comparisons(levs, counts), method = "wilcox.test",
-                           size = 2.4, tip.length = 0.01, bracket.size = 0.25) +
-        scale_fill_manual(values = DISEASE_COL) +
-        scale_x_discrete(labels = DISEASE_LABS) +
-        labs(x = NULL, y = ylab) + theme_ms()
-}
-
-## ---- load donor-level data ---------------------------------------------
-niche <- fread(P("niche_index", "_m", "niche_index_per_donor.tsv.gz")) %>%
-    mutate(disease_group = dx_factor(lung_condition))
-
+## ---- load cell-level balance data ---------------------------------------
 ## NVU-pattern model: the interpretable program is in `state_program` (the six
 ## stable `pericyte_state` clusters collapse onto three programs); balance panels
 ## key on `state_program`.
 bal_cell <- fread(P("pathway_balance", "_m", "pathway_balance_metadata.tsv.gz"))
 
-## PANEL C DONOR SET -- READ, NEVER RE-DERIVED (defect P1-8, fixed 2026-09-07).
-##
-## This block used to rebuild the selection here as
-## `filter(state_program %in% c("inflammatory","fibroblast_like","activated_migratory"))`.
-## `pathway_balance/_h/01.balance_stats.R` ABANDONED that label set when the
-## basement-membrane panel landed -- `fibroblast_like` stops winning any cluster,
-## so only 220 cells (1.9%) carry an injury-program label -- and switched to a
-## continuous median split on the injury scores. The figure was never updated, so
-## panel C was drawn on 220 cells / **5 donors** (4 Healthy, 1 IPF), with a Wilcoxon
-## bracket computed on 4 versus 1, while the statistics module used 5,840 cells /
-## 59 donors.
-##
-## The fix is not to re-implement the median split here -- that is how the drift
-## happened. The module now writes the exact donor table it models, and this reads
-## it. If the file is missing the figure FAILS rather than falling back to a
-## selection the statistics no longer use.
-bal_f <- P("pathway_balance", "_m", "stats_data", "balance_donor_injury_selected.tsv")
-if (!file.exists(bal_f))
-    stop("missing ", bal_f, " -- re-run pathway_balance/_h/step_1.sh. Do NOT ",
-         "reconstruct the injury selection in this script: the label-based set it ",
-         "used to rebuild collapses to 5 donors (defect P1-8).")
-## The module already emits `disease_group` with the same regex this figure uses,
-## so it is re-levelled, not re-derived. `DISEASE_LEVELS` (not `dx_factor`, which
-## droplevels against a single value) keeps the panel's group order shared with
-## panels A and B.
-bal_donor <- fread(bal_f) %>%
-    mutate(disease_group = droplevels(factor(as.character(disease_group),
-                                             levels = DISEASE_LEVELS))) %>%
-    filter(!is.na(disease_group))
-message(sprintf("panel C: %d donors from the pathway_balance selection (%s)",
-                nrow(bal_donor),
-                paste(sprintf("%s=%d", names(table(bal_donor$disease_group)),
-                              as.integer(table(bal_donor$disease_group))),
-                      collapse = ", ")))
-if (nrow(bal_donor) < 20)
-    stop("panel C has only ", nrow(bal_donor), " donors -- that is the P1-8 ",
-         "signature, not a plausible donor set. Check the pathway_balance run.")
 bal_state <- bal_cell %>%
     group_by(donor_id, state_program) %>%
     summarise(balance = mean(AT1R_AT2R_balance, na.rm = TRUE), n = n(), .groups = "drop") %>%
     filter(n >= 5) %>%
     mutate(pericyte_state = factor(state_program, levels = STATE_LEVELS)) %>%
     filter(!is.na(pericyte_state))
-
-## ---- Panels -------------------------------------------------------------
-pA <- box_by_disease(niche, "niche_index", "Niche-stability index")
-pB <- box_by_disease(niche, "injury_stromal_score", "Injury-stromal score")
-## AT1R-AT2R balance by disease is retained as a COROLLARY of the injury-stromal
-## program (it is redundant with injury intensity: disease effect collapses when
-## adjusting for the injury-stromal score; see MECHANISM_ANALYSES). The by-state
-## balance panel (NS) is moved to the supplement (figureS_balance_by_state).
-pC <- box_by_disease(bal_donor, "balance", "AT1R-AT2R balance (corollary)")
-
-## D: state-program composition by disease (mean donor fraction, stacked).
-## Computed from the cell-level metadata (donor -> state_program fractions), since
-## the per-donor niche file carries only the collapsed injury_frac under the
-## NVU-pattern model.
-comp_donor <- bal_cell %>%
-    filter(!is.na(state_program)) %>%
-    group_by(donor_id, lung_condition, state_program) %>%
-    summarise(n = n(), .groups = "drop") %>%
-    group_by(donor_id) %>% mutate(frac = n / sum(n)) %>% ungroup() %>%
-    mutate(disease_group = dx_factor(lung_condition),
-           state = factor(state_program, levels = STATE_LEVELS))
-comp <- comp_donor %>%
-    filter(!is.na(disease_group), !is.na(state)) %>%
-    group_by(disease_group, state) %>%
-    summarise(frac = mean(frac, na.rm = TRUE), .groups = "drop")
-pD <- ggplot(comp, aes(disease_group, frac, fill = state)) +
-    geom_col(width = 0.7, colour = "white", linewidth = 0.2) +
-    scale_fill_manual(values = STATE_COL, labels = STATE_LABS, name = NULL) +
-    scale_x_discrete(labels = DISEASE_LABS) +
-    scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
-    labs(x = NULL, y = "Mean state fraction") +
-    theme_ms() + theme(legend.position = "right",
-                       legend.text = element_text(size = 5.5),
-                       legend.key.size = unit(2.6, "mm"),
-                       axis.text.x = element_text(angle = 30, hjust = 1))
 
 ## (SUPPLEMENT) AT1R-AT2R balance across pericyte states.
 ##
@@ -386,39 +280,6 @@ if (all(file.exists(c(acta2_f, agtr1_f, cor_f)))) {
     fwrite(rbindlist(list(tab_emm, tab_cor), fill = TRUE),
            file.path(OUT, "tableS_acta2_control.tsv"), sep = "\t")
 }
-
-## F: continuum donor-level trends (Spearman rho of feature vs pseudotime)
-nice_feat <- c(vascular_stabilizing = "Vascular-stabilizing",
-               synthetic_contractile = "Synthetic/contractile",
-               activated_migratory = "Activated/migratory",
-               inflammatory = "Inflammatory", fibroblast_like = "Fibroblast-like",
-               basement_membrane = "Basement-membrane", AGTR1 = "AGTR1")
-trend <- fread(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv")) %>%
-    filter(level == "donor") %>%
-    mutate(feature = sub("_score$", "", feature),
-           feature = recode(feature, AGTR1_expr = "AGTR1"),
-           feature = recode(feature, !!!nice_feat),
-           sig = ifelse(p_value < 0.05, "p < 0.05", "n.s.")) %>%
-    arrange(spearman_rho)
-trend$feature <- factor(trend$feature, levels = trend$feature)
-pF <- ggplot(trend, aes(spearman_rho, feature, colour = sig)) +
-    geom_vline(xintercept = 0, colour = "grey70", linewidth = 0.3) +
-    geom_segment(aes(x = 0, xend = spearman_rho, yend = feature), linewidth = 0.5) +
-    geom_point(size = 1.8) +
-    scale_colour_manual(values = c("p < 0.05" = "#D55E00", "n.s." = "grey60"), name = NULL) +
-    labs(x = "Spearman correlation", y = NULL) +
-    theme_ms() + theme(legend.position = c(0.72, 0.18),
-                       legend.background = element_blank(),
-                       legend.text = element_text(size = 6),
-                       plot.margin = margin(3, 9, 3, 3))
-
-## ---- assemble main figure ----------------------------------------------
-## Five panels (the by-state balance panel is now in the supplement): the empty
-## bottom-right cell keeps pD/pF aligned to the top-row panel widths.
-main <- (pA | pB | pC) / (pD | pF | plot_spacer()) +
-    plot_annotation(tag_levels = "A") &
-    theme(plot.tag = element_text(face = "bold", size = 10))
-save_fig("figure_mechanism_main", main, 7.2, 6.0)
 
 ## ---- Supplement S13: program x protein-category enrichment (dot-heatmap) --
 ## Numbered S3 until 2026-07-27, when figureS_state_annotation took that slot;
@@ -672,7 +533,9 @@ lt_f <- P("cell_communication", "_m", "nichenet", paste0("ligand_target_links_",
 fr_f <- P("cell_communication", "_m", "expressed_fraction_per_group.tsv.gz")
 if (all(file.exists(c(la_f, lt_f, fr_f)))) {
     TGF <- c("TGFB1", "TGFB2", "TGFB3", "CCN1", "CCN2")
-    la <- fread(la_f) %>% slice_max(aupr_corrected, n = 15)
+    ## Exclude the three prior-network non-ligands BEFORE the top-15 cut, so panel A
+    ## keeps 15 real ligands (NON_LIGANDS / drop_non_ligands live in _fig_common.R).
+    la <- drop_non_ligands(fread(la_f)) %>% slice_max(aupr_corrected, n = 15)
     la$test_ligand <- factor(la$test_ligand, levels = rev(la$test_ligand))
     keep_lig <- rev(levels(la$test_ligand))
 

@@ -19,9 +19,10 @@ The narrative arc the figures deliver:
 
 > niche signals (CCC/NicheNet) → drive pericyte target programs → reframed as interpretable
 > functional **states/programs** → arranged on a vascular-stabilizing ↔ basement-membrane
-> **axis** → summarized as a donor-level **niche-stability index** → with an
-> **AT1R/AT2R balance** axis rationalizing AGTR1 blockade → robust to smoking/cohort
-> confounders → and **conserved in mouse**.
+> **axis** → building **basement membrane, not interstitial collagen** → and, closing the
+> loop, the pericyte placed as the AT1R-responsive node of a **distributed multicellular
+> lung RAS** (Figure 5) → conserved in mouse. This repository makes no disease claims; the
+> disease layer lives in heart-gen/lung-pericyte-analysis.
 
 **Main figures:**
 
@@ -29,7 +30,13 @@ The narrative arc the figures deliver:
 |---|---|---|
 | `figure_pericyte_layer.{pdf,svg,png}` | **Main Fig — pericyte layer (where → what/why).** Ties the localization "where AGTR1 is" to the state/continuum "what/why" on one shared UMAP, with the four-lens subcluster reversal as the linchpin. Self-contained (no vector-editor assembly needed). | `pericyte_layer_figure.R` |
 | `figure_ccc_nichenet.{pdf,svg,png}` | **Main Fig — niche signaling.** Who signals to pericytes and what programs those signals drive. | `manuscript_mechanism_figure.R` |
-| `figure_mechanism_main.{pdf,svg,png}` | **Main Fig — disease phenotype.** Donor-level niche-stability/injury readouts, state composition, and the continuum. Assemble alongside the image panels (state UMAP, DPT UMAP, PAGA) listed in the `manifest` table inside `assemble_mechanism_figures.R`. | `manuscript_mechanism_figure.R` |
+| `figure_ras_circuit.{pdf,svg,png}` | **Main Fig 5 — the pericyte as the AT1R-responsive node of a distributed lung RAS.** RAS DAG annotated from data; niche-affinity decomposition; donor-level RAS covariance network; AT1R-response programme on the continuum; basement-membrane vs fibrillar consequence; incoming and outgoing pericyte communication. Built by the `ras_circuit/` module. | `ras_circuit_figure.R` |
+
+> **`figure_mechanism_main` was retired on 2026-09-22.** It was the donor-level disease
+> phenotype (niche-stability index, injury-stromal score and AT1R–AT2R balance by disease
+> group, state composition by disease, and a continuum-trend panel). Its disease panels are
+> superseded by the disease repository and its continuum panel by Figure 2F; the slot is
+> taken by Figure 5 above.
 
 > **The disease figures left this repository on 2026-09-10.** `figure_disease_main`,
 > `figureS_sensitivity` (S12) and `figureS_disease_robustness` (S16) are now in
@@ -45,8 +52,9 @@ suffix is the numbering of record, and by the legend headings below.
 > second, script-generated numbering that disagreed with the curated folder on **S01, S07, S08 and
 > S13** — with S13 naming two different figures depending on which you read. It has been removed,
 > and the curated folder is now the single authority. Two consequences to know: the folder stops at
-> **S13**, so **S14, S15 and S17** (`figureS_balance_by_state`, `figureS_bm_copd`,
-> `figureS_bm_associations`) have no curated counterpart and are
+> **S11** (its S12/S13 entries were the disease supplements and left with them on 2026-09-10), so
+> **S13, S14, S15 and S17** (`figureS_program_category`, `figureS_balance_by_state`,
+> `figureS_bm_copd`, `figureS_bm_associations`) have no curated counterpart and are
 > numbered only by the legend headings below; and the folder ships `.svg`/`.png` while the built
 > PDFs live in `figures/mechanism/`. The `manifest` table inside `assemble_mechanism_figures.R`
 > survives only to drive its existence check and **is not** the numbering of record.
@@ -102,10 +110,9 @@ when a new figure claims a slot:
   UMAPs) are still enumerated in the `manifest` table inside
   `figures/_h/assemble_mechanism_figures.R`, which prints them and their `exists` status to the
   log on every run.
-- `figureB_states_continuum_niche.{pdf,png}` — **working draft only** (legacy
-  `assemble_mechanism_figures.R`, `theme_bw`, in-panel titles). Superseded for submission by
-  `figure_mechanism_main` + the image panels listed in `assemble_mechanism_figures.R`; kept for
-  quick QC, not for the manuscript.
+- ~~`figureB_states_continuum_niche.{pdf,png}`~~ — **retired 2026-09-22** with
+  `figure_mechanism_main`; it was a `theme_bw` QC draft of injury-state fraction by disease
+  group plus the continuum trend. `assemble_mechanism_figures.R` now only prints the manifest.
 
 **State-model key (applies to every panel that mentions programs).** Six stable pericyte
 Leiden subclusters collapse onto three discrete dominant programs
@@ -170,7 +177,9 @@ basement-membrane axis (E–F).
 ### `figure_ccc_nichenet` — Niche signaling drives pericyte target programs
 
 **Figure.** Cell–cell communication and ligand–target inference identify the niche signals
-received by lung pericytes. **(A)** NicheNet ligand-activity ranking (top 15 ligands) for
+received by lung pericytes. **(A)** NicheNet ligand-activity ranking (top 15 ligands, after
+excluding three prior-network entries that are not ligands — COPA, MMP14 and SIRPB2; they are
+retained and flagged `excluded_non_ligand` in Table S10A) for
 predicting the pericyte target-gene program; bars show AUPR (corrected). TGF-β–family ligands
 (*TGFB1/2/3*, *CCN1*, *CCN2*) are highlighted (orange). **(B)** Ligand→target regulatory-potential
 heatmap for the prioritized ligands (rows) and their top predicted pericyte target genes
@@ -193,14 +202,17 @@ formerly shown as panel D is now Figure S9C.
 ### Figure S8 — `figureS_nichenet_specificity` — Specificity and donor-level validation of predicted niche regulation of pericyte injury programs
 
 **Figure S8.** The prioritized ligands act specifically on the pericyte injury program, and the
-prediction holds donor by donor. **(A)** For each of the 11 prioritized ligands, the observed
+prediction holds donor by donor. **(A)** For each of the 11 prioritized ligands (ranks 1–11 by
+corrected AUPR after excluding the prior-network non-ligands COPA and MMP14: *TGFB2, TGFB1,
+CCN2, TIMP2, VTN, COL4A1, COL1A1, COL5A1, AGT, ENG, VCAM1*), the observed
 corrected AUPR against the curated pericyte target program (orange) compared with a null built
-from 1,000 random gene sets of matched size (grey square = null mean, whiskers = mean ± 2 SD).
+from 10,000 random gene sets of matched size (grey square = null mean, whiskers = mean ± 2 SD).
 Every observation lies far outside its null, so the ranking reflects regulation of this specific
 target program rather than generic connectivity of the prior network. **(B)** The same result as
-a standardized distance: all 11 ligands lie 23.8–40.3 SD beyond their nulls and every one reaches
-the empirical floor of the permutation test (*P* = 9.99 × 10⁻⁴ = 1/1001), so the permutation
-resolves only that they are extreme, not how they rank against one another. **(C)** Donor-level
+a standardized distance: all 11 ligands lie 25.2–50.8 SD beyond their nulls and every one reaches
+the empirical floor of the permutation test (*P* = 9.999 × 10⁻⁵ = 1/10,001), so the permutation
+resolves only that they are extreme, not how they rank against one another. Ordered by *z*,
+TGFB1 (50.8) edges TGFB2 (50.5) — the reverse of the AUPR ordering in (A). **(C)** Donor-level
 validation: niche expression of the prioritized-ligand composite against pericyte target-program
 expression, one point per donor (*n* = 105), colored by disease group. Raw Spearman ρ = 0.54
 (*P* = 4.4 × 10⁻⁹); adjusted for study as a random intercept, β = 0.65 (*P* = 1.2 × 10⁻⁶).
@@ -256,37 +268,6 @@ so TGF-β's predicted regulatory target is fibrillar collagen, not basement memb
 therefore predicted to be governed by pericyte-proximal matrix turnover rather than by the
 TGF-β-dominated axis that drives the injury program.
 
-### `figure_mechanism_main` — Donor-level disease phenotype and the stabilizing↔basement-membrane axis
-
-**Figure.** Pericyte niche state across health and disease at the donor level. **(A)**
-Niche-stability index and **(B)** injury-stromal score per donor, grouped by disease
-(Healthy, COPD, Fibrotic/ILD); box = median and IQR, whiskers = 1.5×IQR, white diamond = mean,
-points = individual donors; brackets show Wilcoxon rank-sum comparisons versus Healthy. **(C)**
-AT1R–AT2R pathway balance per donor (shown as a **corollary** of injury intensity: the disease
-effect is redundant with the injury-stromal score and collapses after adjustment — see
-`MECHANISM_ANALYSES.md`). **(D)** Mean donor-level pericyte state-program composition by disease
-(stacked fractions across the three discrete programs — vascular-stabilizing, basement-membrane,
-activated/migratory — plus the continuous-program assignments).
-**(E)** Continuum trends: donor-level Spearman correlation between diffusion-pseudotime ordering
-and each of the six program scores / *AGTR1*; points colored by significance (orange, *P* < 0.05).
-The ordering reflects transcriptional similarity along a vascular-stabilizing ↔ basement-membrane
-**axis**, not a temporal axis. Vascular-stabilizing, inflammatory, synthetic/contractile
-and activated/migratory scores all *decline* along the axis (donor ρ ≈ −0.44 to −0.57,
-*P* < 1×10⁻¹⁰); the **basement-membrane score is the lone riser** (donor ρ = +0.14, *P* = 0.055,
-n.s.); *AGTR1* declines under both lenses (raw ρ = −0.30, denoised ρ = −0.37). Assemble with the state UMAP,
-DPT-pseudotime UMAP, and PAGA panels enumerated in `assemble_mechanism_figures.R`.
-
-**Donor counts differ by panel and are not interchangeable** (corrected 2026-09-07, P3-5 —
-the legend previously gave a single "*n* = 32 donors (donor-level mixed-model marginal means;
-df = 31)", which matched no panel): **A, B, D** plot all **89** donors passing the
-≥10-pericyte filter; **C** plots the **59** donors in the module's own injury selection
-(`balance_donor_injury_selected.tsv`); **E** plots donor-level Spearman correlations over
-**194** donors. Brackets in **A–B** are unadjusted `wilcox.test` on raw donor values, *not*
-the model contrasts in the supplementary tables — the two will not agree, and the tables are
-the inferential statement. **COPD (n = 1) is plotted but carries no bracket**, since a
-rank-sum test against one donor is not a comparison; the panel respects the same
-`small_groups` floor the stats tables use.
-
 ### Moved — the disease legends
 
 `figure_disease_main` (Figure 5), `figureS_sensitivity` (S12) and
@@ -298,6 +279,13 @@ with them. This repository makes no disease claims.
 Note that S12 and S16 are now vacant numbers here. The remaining supplements keep
 the numbers they already held rather than being renumbered into the gaps — see the
 append-only rule in `figures/_h/assemble_mechanism_figures.R`.
+
+**`figure_mechanism_main` — retired 2026-09-22.** The last disease-phenotype figure built
+here: donor-level niche-stability index (A), injury-stromal score (B) and AT1R–AT2R balance
+(C) by disease group, state composition by disease (D), and donor-level continuum trends (E).
+A–D are disease claims and belong to heart-gen/lung-pericyte-analysis; E duplicated Figure 2F.
+Its legend was removed with it; the `figureB_states_continuum_niche` QC draft went at the
+same time.
 
 ### `figureS_alluvial` (grant figure, unnumbered) — Stable subclusters → dominant program → effector class
 
@@ -738,7 +726,8 @@ takes cluster 5 to *P* = 0.51 and cluster 3 to *P* = 0.90 (read `p_excl_small_gr
 **`(1 | study)` is load-bearing**: without it, basement-membrane *P* = 0.0015 and
 vascular-stabilizing *P* = 0.0018 appear, both gone at 0.797/0.912 with study modelled. Intervals are nominal 95% while *P* values are
 BH-adjusted, so the two need not agree exactly at the 0.05 boundary. The disease signal in this
-study is therefore carried by the **continuous** injury-program score (disease main figure), not by
+study is therefore carried by the **continuous** injury-program score (the disease main figure in
+heart-gen/lung-pericyte-analysis), not by
 a shift in how many pericytes fall into each discrete cluster — the continuous result is not a
 relabelled abundance change.
 

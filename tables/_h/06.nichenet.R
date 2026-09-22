@@ -79,6 +79,8 @@ if (!is.null(la)) {
     }
 
     s10a[, prioritized_top11 := test_ligand %in% TOP11]
+    ## Flagged, not removed: the figures drop these at display (see _tab_common.R).
+    s10a[, excluded_non_ligand := test_ligand %in% NON_LIGANDS]
     s10a[, ligand_class := LIGAND_CLASS[test_ligand]]
     s10a[is.na(ligand_class), ligand_class := "other"]
     setorder(s10a, rank)
@@ -94,7 +96,12 @@ if (!is.null(la)) {
                        EXPR_THR, ", the same threshold 02.nichenet.R used. ",
                        "`ligand_class` is curated by hand: the repo's ",
                        "gene_program_detection.tsv covers only 34 panel genes and ",
-                       "is missing seven of the eleven prioritized ligands."))
+                       "is missing seven of the eleven prioritized ligands. ",
+                       "`excluded_non_ligand` marks ", paste(NON_LIGANDS, collapse = ", "),
+                       ", prior-network entries that are not ligands (COPI coat ",
+                       "subunit, membrane protease, myeloid immunoreceptor); they are ",
+                       "retained here for completeness but not drawn in Figures 4, ",
+                       "S8 or S9A."))
 }
 
 ## =========================================================================
@@ -102,12 +109,18 @@ if (!is.null(la)) {
 ## =========================================================================
 sp <- read_src(CC("nichenet", "nichenet_specificity_Pericytes.tsv"))
 if (!is.null(sp)) {
-    N_PERM <- 1000L   # 02b.nichenet_specificity.R:35
-    ## p_emp = (1 + #{null >= obs}) / (N_PERM + 1); invert for the raw count, which
-    ## the source never wrote out.
+    ## N_PERM is a --n-perm argument to 02b.nichenet_specificity.R (default 1,000; the
+    ## 2026-09-07 run used 10,000). It was hardcoded here as 1000L, which mis-stated
+    ## the floor and `n_null_ge_obs` for that run. Derive it from the data instead:
+    ## p_emp = (1 + #{null >= obs}) / (N_PERM + 1), and the floored ligands sit at
+    ## exactly 1 / (N_PERM + 1).
+    N_PERM <- as.integer(round(1 / min(sp$p_emp)) - 1L)
+    stopifnot(N_PERM >= 100L, abs(min(sp$p_emp) * (N_PERM + 1) - 1) < 1e-6)
+    message("  S10B: N_PERM derived from the p floor = ", N_PERM)
     sp[, n_null_ge_obs := round(p_emp * (N_PERM + 1) - 1)]
     sp[, n_permutations := N_PERM]
     sp[, prioritized_top11 := test_ligand %in% TOP11]
+    sp[, excluded_non_ligand := test_ligand %in% NON_LIGANDS]
     setnames(sp, c("z", "p_emp", "p_emp_adj"),
              c("z_distance_from_null", "p_empirical", "p_empirical_BH"))
     setorder(sp, rank)
@@ -119,8 +132,9 @@ if (!is.null(sp)) {
                        "sets. The empirical P floor is 1/(", N_PERM, "+1) = ",
                        signif(1 / (N_PERM + 1), 4), "; every prioritized ligand ",
                        "sits at the floor, i.e. no null replicate reached the ",
-                       "observed AUPR. Do NOT compare this floor with Table S11, ",
-                       "which used 10,000 permutations."))
+                       "observed AUPR. `excluded_non_ligand` marks COPA, MMP14 and ",
+                       "SIRPB2 (see S10A); they are retained here but not drawn in ",
+                       "Figure S8."))
 }
 
 ## =========================================================================

@@ -1,17 +1,18 @@
-## Assemble the two main mechanistic figures from module outputs.
+## Panel manifest for the mechanism figures.
 ##
-## Figure A (CCC + NicheNet + alluvial): liana edges into AGTR1+/AGTR2+
-##   receivers, NicheNet ligand->target heatmap, cluster->category->role alluvial.
-## Figure B (states + continuum): state UMAP, state-by-disease, DPT continuum
-##   trend. The donor-level "niche index by disease" panel was DROPPED 2026-09-10
-##   -- niche_index/_h/01.niche_disease_stats.R moved to
-##   heart-gen/lung-pericyte-analysis with the rest of the disease layer, so its
-##   emmeans table is not built here any more.
+## Records which per-module source panels (Figure A: liana dotplots, NicheNet
+## heatmap, alluvial; Figure B: state / DPT / PAGA UMAPs) and which finished
+## supplements exist on disk, and prints the report to the log.
 ##
-## Run AFTER the production module jobs (cell_communication, pericyte_states,
-## niche_index) have written their _m outputs. Panels are combined from the
-## per-module PDFs/PNGs; this script stitches the statistical panels it can
-## rebuild directly and records the panel manifest for the rest.
+## History. This script used to stitch a working draft
+## (`figureB_states_continuum_niche`: injury-state fraction by disease group +
+## continuum trends). Its niche panel vanished on 2026-09-10 when
+## niche_index/_h/01.niche_disease_stats.R moved to
+## heart-gen/lung-pericyte-analysis with the rest of the disease layer, and the
+## draft itself was RETIRED on 2026-09-22 with `figure_mechanism_main`: this
+## repository makes no disease claims, and the continuum trend is Figure 2F.
+##
+## Run LAST, after every module and figure script has written its outputs.
 
 suppressPackageStartupMessages({
     library(dplyr); library(ggplot2); library(patchwork)
@@ -25,43 +26,14 @@ outdir <- file.path(ROOT, "figures", "mechanism"); dir.create(outdir, showWarnin
 ## the panel simply vanished from the figure -- which is how the niche panel
 ## disappeared unannounced on 2026-09-10 when its module moved, leaving a
 ## three-panel figure silently rebuilt with two. A missing input is now an error.
+## (No panel is stitched here any more; the helper is kept because figure scripts
+## copy it -- see figures/_h/ras_circuit_figure.R.)
 read_req <- function(path) {
     if (!file.exists(path))
         stop("missing input: ", path, "\n  Run the producing module first. If this ",
              "input moved to another repository, remove its panel here rather than ",
              "letting the figure quietly lose it.", call. = FALSE)
     data.table::fread(path)
-}
-
-## ---- Figure B statistical panels (rebuildable from light tables) --------
-## No niche panel: see the header. It was `niche_index/_m/stats_data/
-## niche_index_emmeans.tsv`, which this repository no longer builds.
-injury <- read_req(P("pericyte_states", "_m", "stats_data", "injury_fraction_emmeans.tsv"))
-trend <- read_req(P("pericyte_states", "_m", "pseudotime_trend_correlations.tsv"))
-
-panels <- list()
-if (!is.null(injury)) {
-    panels$injury <- ggplot(injury, aes(disease_group, emmean)) +
-        geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL), color = "#B2182B") +
-        labs(x = "", y = "Injury-state fraction", title = "Injury states by disease") +
-        theme_bw(base_size = 12) + theme(axis.text.x = element_text(angle = 30, hjust = 1))
-}
-if (!is.null(trend)) {
-    td <- trend |> filter(level == "donor")
-    panels$trend <- ggplot(td, aes(reorder(feature, spearman_rho), spearman_rho)) +
-        geom_col(fill = "#2166AC") + coord_flip() +
-        labs(x = "", y = "Spearman rho (donor)", title = "Continuum trends") +
-        theme_bw(base_size = 11)
-}
-
-if (length(panels)) {
-    figB <- wrap_plots(panels, ncol = length(panels)) +
-        plot_annotation(title = "States, continuum, and niche-stability index",
-                        tag_levels = "A")
-    ggsave(file.path(outdir, "figureB_states_continuum_niche.pdf"), figB,
-           width = 5 * length(panels), height = 4.5)
-    ggsave(file.path(outdir, "figureB_states_continuum_niche.png"), figB,
-           width = 5 * length(panels), height = 4.5, dpi = 300)
 }
 
 ## ---- Panel manifest -----------------------------------------------------

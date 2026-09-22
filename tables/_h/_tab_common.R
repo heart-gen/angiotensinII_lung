@@ -24,6 +24,10 @@ DISEASE_LEVELS <- c("Healthy", "COPD", "Fibrotic_ILD", "Other")
 DISEASE_LABS   <- c(Healthy = "Healthy", COPD = "COPD",
                     Fibrotic_ILD = "Fibrotic/ILD", Other = "Other")
 
+## Keep identical to figures/_h/_fig_common.R. The tables do NOT drop these rows --
+## they flag them (`excluded_non_ligand`), so ranks and anchors are unchanged.
+NON_LIGANDS <- c("COPA", "MMP14", "SIRPB2")
+
 ## ---- numbering registry -------------------------------------------------
 ## write_part() appends here; 08.assemble_tables.R reads it to build the workbook.
 ## This file is the single authority for supplementary-TABLE numbering, exactly as

@@ -34,6 +34,26 @@ DISEASE_LABS   <- c(Healthy = "Healthy", COPD = "COPD",
 DISEASE_COL    <- c(Healthy = "#0072B2", COPD = "#E69F00",
                     Fibrotic_ILD = "#D55E00", Other = "#999999")
 
+## ---- non-ligand exclusion ------------------------------------------------
+## NicheNet's prior lr_network lists three entries as ligands that are not ligands in
+## the sense the figures claim (collaborator review, 2026-09-22):
+##   COPA    COPI coatomer subunit alpha -- an intracellular vesicle-coat protein
+##   MMP14   membrane-type matrix metalloproteinase -- an enzyme; it stays wherever it
+##           is a TARGET gene (02.nichenet.R TARGET_PROGRAM) and in the BM-target
+##           result (S9D / Table S11A), which are different claims
+##   SIRPB2  a myeloid immunoreceptor (receptor side of the CD47 axis)
+## Applied at the DISPLAY layer only, and BEFORE any top-N cut so a panel keeps its
+## advertised N. Upstream tables keep every candidate, so ranks, the S10A anchor and
+## the "all 321 candidates" note stay true; Tables S10A/B flag them instead.
+NON_LIGANDS <- c("COPA", "MMP14", "SIRPB2")
+drop_non_ligands <- function(dt, col = "test_ligand") {
+    n0 <- nrow(dt)
+    dt <- dt[!dt[[col]] %in% NON_LIGANDS, ]
+    message(sprintf("drop_non_ligands: removed %d of %d rows (%s)", n0 - nrow(dt), n0,
+                    paste(NON_LIGANDS, collapse = ", ")))
+    dt
+}
+
 ## ---- theme --------------------------------------------------------------
 ## `.theme_ms` is the parameterised base; `theme_ms` is the majority variant
 ## (pericyte_layer / disease_main / sensitivity) and is what a script gets for free.

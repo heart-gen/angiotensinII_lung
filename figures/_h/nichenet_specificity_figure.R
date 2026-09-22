@@ -38,7 +38,10 @@ CCC <- P("cell_communication", "_m")
 ## the data rather than hard-coding the membership.
 N_PRIORITIZED <- 11
 
-spec <- fread(file.path(CCC, "nichenet", "nichenet_specificity_Pericytes.tsv"))[
+## Non-ligands (COPA, MMP14, SIRPB2; _fig_common.R) are dropped BEFORE the top-N
+## cut so the panel still shows N_PRIORITIZED real ligands.
+spec <- drop_non_ligands(
+    fread(file.path(CCC, "nichenet", "nichenet_specificity_Pericytes.tsv")))[
     order(rank)][seq_len(N_PRIORITIZED)]
 spec[, test_ligand := factor(test_ligand, levels = rev(test_ligand))]
 
