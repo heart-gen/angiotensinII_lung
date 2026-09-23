@@ -50,5 +50,11 @@ log_message "**** 10 donor-level validation ****"
 conda activate /ocean/projects/bio250020p/shared/opt/env/R_env
 Rscript ../_h/10.outgoing_donor_validation.R --outdir ./stats_data --n-null 1000 \
     || { log_message "Error: 10"; exit 1; }
+
+## Last, because it reads the finished output of every other step: the evidence layer
+## that annotates the Figure 5A schematic.
+log_message "**** 11 DAG annotations ****"
+Rscript ../_h/11.dag_annotations.R --outdir ./stats_data \
+    || { log_message "Error: 11"; exit 1; }
 conda deactivate
 log_message "**** Job ends ****"

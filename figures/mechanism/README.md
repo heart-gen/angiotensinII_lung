@@ -316,7 +316,24 @@ alveolar macrophages (0.196); the chymase route in mast cells (*CTSG* 0.109, *CM
 (0.030, rank 1). Renin is effectively absent (maximum detection 0.023) and **no cell type
 carries more than one step** of the circuit at the 0.05 detection threshold, so Ang I, Ang II
 and Ang-(1–7) are drawn as latent nodes. *AGT → AGTR1* is a **forbidden** edge and is never
-drawn: angiotensinogen is renin's substrate, not the AT1R ligand. **(B)** The pericyte
+drawn: angiotensinogen is renin's substrate, not the AT1R ligand; it is tested as a negative
+control instead (ρ = +0.013, n.s., quoted in the panel).
+*Reading the edges.* An **arrow head** is a promoting or mass-flow link and a **bar head**
+(⊣) an antagonistic one; the head is the *prior* biology and never an estimate. The line
+tells you what was measured: **solid dark** = a supported donor-level estimate, **dotted** =
+tested and null, **thin grey** = a biochemical conversion no model can reach because the
+peptide is latent, **dashed green** = a ligand–receptor inference from panel F rather than a
+donor-level fit. Edge labels carry the estimate itself, so the panel doubles as the map of
+C–F onto the circuit: the two composite indices on the arrow into the response
+(ρ = +0.29, +0.30), the null *AGTR1* → response edge (+0.02), the three response branches
+(contractile +0.24, inflammatory +0.24, activated/migratory +0.53), the split matrix
+endpoint (fibrillar β = +0.47, basement membrane +0.10 n.s., with the claimed contrast
+−0.51 quoted underneath), the counter-regulatory *MAS1* ⊣ response edge (prior antagonism,
+measured +0.03 n.s.) and the top pericyte ligand of each outgoing edge (*COL4A1*/*SEMA5A* to
+epithelium, *PTN*/*COL18A1* to capillary endothelium, *EFEMP2*/*TIMP1* to fibroblasts). Two
+conclusions are written under the graph because they are the point of the figure: *AGTR1*
+abundance is not AT1R activity, and the matrix effect is a balance, not a basement-membrane
+effect. **(B)** The pericyte
 "airspace score" decomposed into its four constituent similarities (AT1, AT2, aerocyte and
 general capillary endothelium) and regressed on donor pericyte *AGTR1*. The compartment ×
 *AGTR1* interaction is null (LRT *P* = 0.505; 89 donors, 18 studies) and no axis is
@@ -357,7 +374,10 @@ tracer). **(F)** Communication in both directions. Counting supported LIANA edge
 donors, pericytes are net **senders** to endothelium and epithelium (outgoing vs incoming:
 18 vs 4 aerocyte capillary, 13 vs 5 general capillary, 12 vs 8 AT1, 29 vs 8 AT2) and net
 **receivers** from fibroblasts (14 vs 18 alveolar, 16 vs 21 adventitial). NicheNet run with
-the pericyte as sender ranks ligands by permutation *z* against 1,000 matched target sets.
+the pericyte as sender ranks ligands by permutation *z* against 1,000 matched target sets;
+the top three per receiver are shown, **each on its own *z* axis**, because the scale is a
+property of the receiver's programme and not comparable between them (≈1–12 for the
+capillary-endothelial barrier programme against ≈25–75 for epithelial repair).
 Donor-level validation of the top-5 ligand composites is **null for all six receivers** after
 correction; adventitial fibroblasts are the closest (β = 0.291, *P* = 0.016, BH = 0.098,
 empirical *P* = 0.070).

@@ -8,8 +8,10 @@
 ## ASCII only inside text (cairo_pdf mangles rho/beta glyphs).
 ##
 ## Layout: A spans the top row (the schematic needs the width), then B|C, D|E and
-## F. Panel A's coordinates are RECOMPUTED here from each node's tier, because the
-## stored x/y are a logical ordering and collide when drawn at page width.
+## F. Panel A's coordinates are RECOMPUTED here, because the stored x/y are a logical
+## ordering and collide when drawn at page width; the drawing order of the nodes is a
+## layout decision and lives here, while the graph itself and the estimates that
+## annotate its edges come from 07 and 11 respectively.
 
 suppressPackageStartupMessages({
     library(data.table); library(ggplot2); library(patchwork)
@@ -30,9 +32,16 @@ CLASS_COL <- c(substrate = OKABE[2], processing = OKABE[1], receptor = OKABE[4],
                matrix = OKABE[6], neighbor = OKABE[3], latent = "white")
 
 ## ================================ A: DAG ==========================================
+## Edge grammar, stated in the legend: an ARROW head is a promoting / mass-flow link,
+## a BAR head is an antagonistic one (prior biology, from edge_sign). A SOLID edge
+## carries a supported donor-level estimate, a DOTTED edge one that was tested and came
+## back null, and a THIN GREY edge is a biochemical conversion with no estimate at all
+## (the peptides are latent). Numbers come from 11.dag_annotations.R, never from here.
 nodes <- read_req(SD("ras_dag_nodes.tsv"))
 edges <- read_req(SD("ras_dag_edges.tsv"))[drawn == TRUE]
 scal  <- read_req(SD("ras_dag_scalars.tsv"))
+dann  <- read_req(SD("ras_dag_annotations.tsv"))
+dnote <- read_req(SD("ras_dag_notes.tsv"))
 
 ## Compact labels: gene, cell type abbreviated, detection.
 CELL_SHORT <- c("Vascular smooth muscle" = "VSMC", "Alveolar fibroblasts" = "Alv fib",
@@ -40,7 +49,8 @@ CELL_SHORT <- c("Vascular smooth muscle" = "VSMC", "Alveolar fibroblasts" = "Alv
                 "EC general capillary" = "gCap EC", "Alveolar macrophages" = "Alv mac",
                 "Mast cells" = "Mast", "Pericytes" = "Pericyte")
 NODE_LAB <- c(Peri_AT1R_response = "AT1R\nresponse", contractile = "Contractile",
-              inflammatory = "Inflammatory", matrix = "Matrix\nremodelling",
+              inflammatory = "Inflammatory", activated_migratory = "Activated /\nmigratory",
+              matrix = "Matrix\nremodelling",
               BM = "Basement\nmembrane", FIB = "Fibrillar\nECM",
               out_EC = "Capillary\nEC", out_FIB = "Fibroblasts", out_EPI = "AT1 / AT2",
               AngI = "Ang I", AngII = "Ang II", Ang17 = "Ang 1-7")
@@ -48,36 +58,110 @@ nodes[, lab := fifelse(
     !is.na(gene) & !is.na(cell_type),
     sprintf("%s\n%s\n%.2f", gene, CELL_SHORT[cell_type], detect),
     fifelse(node %in% names(NODE_LAB), NODE_LAB[node], label))]
-## Tier = drawing column; y is spread evenly inside each tier.
-TIER <- c(VSMC_AGT = 1, AlvFib_AGT = 1, AdvFib_AGT = 1, AngI = 2,
-          ECaero_ACE = 3, ECgcap_ACE = 3, AlvMac_ACE = 3, Mast_CMA1 = 3, Mast_CTSG = 3,
-          AngII = 4, Peri_AGTR1 = 5, Peri_ACE2 = 5, Peri_AT1R_response = 6, Ang17 = 6,
-          contractile = 7, inflammatory = 7, matrix = 7, Peri_MAS1 = 7,
-          BM = 8, FIB = 8, out_EC = 9, out_FIB = 9, out_EPI = 9)
-nodes[, tier := TIER[node]]
-setorder(nodes, tier, -y)
-nodes[, xx := tier]
-nodes[, yy := if (.N == 1) 0 else seq(1.6, -1.6, length.out = .N), by = tier]
-xy <- nodes[, .(node, xx, yy)]
-eg <- merge(merge(edges, xy, by.x = "from", by.y = "node"),
-            xy, by.x = "to", by.y = "node", suffixes = c("", "end"))
+## Coordinates are set node by node rather than spread evenly inside a tier: the
+## outgoing receivers have to sit level with the node that feeds them, or the
+## neighbour edges cross the matrix branch.
+## Columns widen towards the right, where the edges are short and every one of them
+## carries a label.
+XY <- data.table(matrix(byrow = TRUE, ncol = 3, c(
+    "VSMC_AGT", 1, 1.7,     "AlvFib_AGT", 1, 0.2,     "AdvFib_AGT", 1, -1.3,
+    "AngI", 2.1, 0.2,
+    "ECaero_ACE", 3.2, 2.2, "ECgcap_ACE", 3.2, 1.0,   "AlvMac_ACE", 3.2, -0.2,
+    "Mast_CMA1", 3.2, -1.4, "Mast_CTSG", 3.2, -2.6,
+    "AngII", 4.4, 0.6,      "Peri_ACE2", 4.4, -2.9,
+    "Peri_AGTR1", 5.8, 1.9, "Ang17", 5.8, -2.9,
+    "Peri_AT1R_response", 7.0, 0.4,                   "Peri_MAS1", 7.0, -2.9,
+    "contractile", 8.6, 2.7, "inflammatory", 8.6, 1.7, "activated_migratory", 8.6, 0.7,
+    "matrix", 8.6, -0.7,
+    "BM", 10.4, 0.0,        "FIB", 10.4, -1.6,
+    "out_EPI", 12.4, 2.6,   "out_EC", 12.4, 0.0,      "out_FIB", 12.4, -1.6)))
+setnames(XY, c("node", "xx", "yy")); XY[, c("xx", "yy") := lapply(.SD, as.numeric),
+                                        .SDcols = c("xx", "yy")]
+nodes <- merge(nodes, XY, by = "node")
+stopifnot(!anyNA(nodes$xx))
+eg <- merge(merge(edges, XY, by.x = "from", by.y = "node"),
+            XY, by.x = "to", by.y = "node", suffixes = c("", "end"))
+eg <- merge(eg, dann[, .(from, to, stat_label = label, stat_kind, measured_sign, show_in_panel)],
+            by = c("from", "to"), all.x = TRUE)
+## Solid where an estimate is supported, dotted where it was tested and null, thin grey
+## where the link is a conversion no model can reach.
+eg[, evidence := fifelse(stat_kind == "NicheNet z", "inferred",
+                  fifelse(is.na(measured_sign), "prior",
+                   fifelse(measured_sign == "null", "tested_null", "supported")))]
+eg[is.na(evidence), evidence := "prior"]
+eg[, head_shape := fifelse(edge_sign == "negative", "bar", "arrow")]
+## Shorten every edge at both ends so the head lands outside the label box; the
+## curved ones are trimmed less, because the arc runs longer than the chord.
+shrink <- function(a, b, f) a + (b - a) * f
+eg[, `:=`(dx = xxend - xx, dy = yyend - yy)]
+eg[, len := pmax(sqrt(dx^2 + dy^2), 1e-6)]
+eg[, `:=`(f0 = 0.14, f1 = 0.84)]
+## The outgoing edges run between short and long, so trim them by a fixed distance
+## rather than a fraction: a fraction either buries the head in the receiver box or
+## leaves it hanging in white space.
+eg[evidence == "inferred", `:=`(f0 = 0.30 / len, f1 = 1 - 0.55 / len)]
+eg[, `:=`(x0 = shrink(xx, xxend, f0), y0 = shrink(yy, yyend, f0),
+          x1 = shrink(xx, xxend, f1), y1 = shrink(yy, yyend, f1))]
+## Labels sit beside their edge, not on it: offset perpendicular to the segment, and
+## for a curved edge far enough out to clear the apex of the arc.
+eg[, off := fifelse(evidence == "inferred", 0.25 + 0.15 * len, 0.30)]
+eg[, lpos := fifelse(evidence == "inferred", 0.62, 0.50)]
+eg[, `:=`(lx = shrink(xx, xxend, lpos) - off * dy / len,
+          ly = shrink(yy, yyend, lpos) + off * dx / len)]
+elab <- eg[show_in_panel == TRUE & nzchar(stat_label)]
+elab[, stat_label := gsub("; ", "\n", stat_label)]
+TIER_CAP <- data.table(
+    xx = XY[match(c("VSMC_AGT", "ECaero_ACE", "Peri_AGTR1", "Peri_AT1R_response",
+                    "contractile", "BM", "out_EC"), node), xx], yy = 3.5,
+    cap = c("AGT source", "processing", "receptor", "response", "programmes",
+            "matrix", "neighbours"))
 max_ren <- scal[quantity == "max_REN_detect", value]
+notes <- dnote[show_in_panel == TRUE]
+arrow_h <- arrow(length = unit(1.6, "mm"), type = "closed")
+bar_h   <- arrow(length = unit(1.8, "mm"), angle = 90, type = "open")
 pA <- ggplot() +
-    geom_segment(data = eg, aes(xx, yy, xend = xxend, yend = yyend,
-                                linetype = edge_class == "counter_regulatory"),
-                 colour = "grey60", linewidth = 0.28,
-                 arrow = arrow(length = unit(1, "mm"), type = "closed")) +
+    geom_segment(data = eg[evidence == "prior" & head_shape == "arrow"],
+                 aes(x0, y0, xend = x1, yend = y1), colour = "grey72", linewidth = 0.22,
+                 arrow = arrow_h) +
+    geom_segment(data = eg[evidence == "supported" & head_shape == "arrow"],
+                 aes(x0, y0, xend = x1, yend = y1), colour = "grey35", linewidth = 0.42,
+                 arrow = arrow_h) +
+    geom_segment(data = eg[evidence == "tested_null" & head_shape == "arrow"],
+                 aes(x0, y0, xend = x1, yend = y1), colour = "grey55", linewidth = 0.3,
+                 linetype = "dotted", arrow = arrow_h) +
+    ## Ligand-receptor inference (NicheNet), not a donor-level estimate: S18E carries
+    ## the donor-level test, which is null for every receiver but adventitial fibroblasts.
+    ## Curved, so the long edge to the epithelium arcs over the programme column
+    ## instead of cutting through it.
+    geom_curve(data = eg[evidence == "inferred" & len > 3],
+               aes(x0, y0, xend = x1, yend = y1), colour = OKABE[3], linewidth = 0.35,
+               linetype = "dashed", curvature = -0.30, arrow = arrow_h) +
+    ## The short outgoing edges take a gentler arc; the same curvature over a short
+    ## chord turns the arrow head sideways.
+    geom_curve(data = eg[evidence == "inferred" & len <= 3],
+               aes(x0, y0, xend = x1, yend = y1), colour = OKABE[3], linewidth = 0.35,
+               linetype = "dashed", curvature = -0.10, arrow = arrow_h) +
+    ## Antagonistic links: bar head, and here the estimate behind it is null.
+    geom_segment(data = eg[head_shape == "bar"],
+                 aes(x0, y0, xend = x1, yend = y1), colour = "grey35", linewidth = 0.38,
+                 linetype = "dotted", arrow = bar_h) +
+    geom_label(data = elab, aes(lx, ly, label = stat_label), size = 1.5, colour = "grey15",
+               fill = "white", label.size = 0, lineheight = 0.9,
+               label.padding = unit(0.3, "mm"), alpha = 0.85) +
     geom_label(data = nodes[node_class != "latent"],
                aes(xx, yy, label = lab, fill = node_class), size = 1.75, label.size = 0.12,
                lineheight = 0.9, label.padding = unit(0.6, "mm"), alpha = 0.9) +
     geom_text(data = nodes[node_class == "latent"], aes(xx, yy, label = lab),
               size = 1.9, fontface = "italic", colour = "grey20") +
-    annotate("text", x = 1, y = -2.15, hjust = 0, size = 1.8, colour = "grey30",
+    geom_text(data = TIER_CAP, aes(xx, yy, label = cap), size = 1.75, fontface = "italic",
+              colour = "grey45") +
+    annotate("text", x = 0.55, y = -3.55 - 0.42 * seq_len(nrow(notes)), hjust = 0,
+             size = 1.6, colour = "grey30", label = notes$text) +
+    annotate("text", x = 0.55, y = -3.55, hjust = 0, size = 1.6, colour = "grey30",
              label = sprintf("REN max detection %s; no cell type carries >1 step", max_ren)) +
     scale_fill_manual(values = CLASS_COL, guide = "none") +
-    scale_linetype_manual(values = c(`FALSE` = "solid", `TRUE` = "dashed"), guide = "none") +
-    scale_x_continuous(expand = expansion(add = 0.55)) +
-    scale_y_continuous(expand = expansion(add = 0.45)) +
+    scale_x_continuous(expand = expansion(add = 0.62)) +
+    scale_y_continuous(expand = expansion(add = 0.30)) +
     theme_void(base_size = 8)
 
 ## ======================= B: niche-affinity decomposition =========================
@@ -203,29 +287,36 @@ SHORT <- c("EC aerocyte capillary" = "Aerocyte EC", "EC general capillary" = "Ge
            "Adventitial fibroblasts" = "Adv. fibroblast")
 tp <- rbindlist(lapply(nn$target, function(t) {
     f <- RC("nichenet_outgoing", paste0("specificity_", gsub("[^A-Za-z0-9]+", "_", t), ".tsv"))
-    x <- head(read_req(f)[!not_a_ligand & !substrate_not_ligand][order(rank_by_z)], 4)
+    x <- head(read_req(f)[!not_a_ligand & !substrate_not_ligand][order(rank_by_z)], 3)
     x[, target := t]
 }))
+## One small panel per receiver, each on its OWN x scale: the permutation z runs from
+## ~1 in the capillary EC programme to ~75 in the epithelial one, so a shared axis
+## flattens four of the six receivers into a single tick. Six stacked rows in a
+## half-width column also collided; a 2 x 3 grid of three ligands each does not.
 tp[, tgt := factor(SHORT[target], levels = SHORT)]
 tp[, row := factor(paste(test_ligand, target), levels = paste(test_ligand, target)[order(tgt, z)])]
 f2 <- ggplot(tp, aes(z, row)) +
     geom_segment(aes(x = 0, xend = z, yend = row), colour = "grey75", linewidth = 0.3) +
     geom_point(size = 1.3, colour = OKABE[3]) +
-    scale_y_discrete(labels = function(s) sub(" .*$", "", s)) +
-    facet_grid(tgt ~ ., scales = "free_y", space = "free_y", switch = "y") +
-    labs(x = "Pericyte ligand -> receiver programme (z)", y = NULL) +
-    theme_ms() + theme(axis.text.y = element_text(size = 5),
-                       strip.text.y.left = element_text(size = 5, angle = 0),
-                       strip.placement = "outside")
-pF <- f1 | f2
+    scale_y_discrete(labels = function(s) sub(" .*$", "", s),
+                     expand = expansion(add = 0.62)) +
+    scale_x_continuous(expand = expansion(mult = c(0.02, 0.18)), n.breaks = 4) +
+    facet_wrap(~ tgt, ncol = 2, scales = "free") +
+    labs(x = "Pericyte ligand -> receiver programme (permutation z)", y = NULL) +
+    theme_ms(base = 7) +
+    theme(axis.text.y = element_text(size = 6), axis.text.x = element_text(size = 5.5),
+          strip.text = element_text(size = 6), panel.spacing.x = unit(3, "mm"),
+          panel.spacing.y = unit(1.6, "mm"))
+pF <- f1 + f2 + plot_layout(widths = c(1, 1.45))
 
 ## ============================ assemble Figure 5 ==================================
 ## pF is two plots; wrap it so patchwork tags it once as panel F, not F and G.
 fig <- wrap_elements(full = pA) / (pB | pC) / (pD | pE) / wrap_elements(full = pF) +
-    plot_layout(heights = c(1.05, 1.15, 1.05, 1.25)) +
+    plot_layout(heights = c(1.4, 0.95, 0.9, 1.45)) +
     plot_annotation(tag_levels = "A") &
     theme(plot.tag = element_text(face = "bold", size = 10))
-save_fig("figure_ras_circuit", fig, 7.2, 9.2)
+save_fig("figure_ras_circuit", fig, 7.2, 9.8)
 
 ## ========================== Figure S18: robustness ===============================
 sa <- read_req(SD("niche_affinity_agtr1_models.tsv"))

@@ -5,6 +5,10 @@
 ##     agt_axis (ras_celltype_profile.tsv). Ang I, Ang II and Ang 1-7 are LATENT
 ##     (peptides; invisible to scRNA-seq). AGT -> AGTR1 is a FORBIDDEN edge and is
 ##     never drawn: angiotensinogen is renin's substrate, not the AT1R ligand.
+##     Each drawn edge carries a PRIOR edge_sign (positive / negative / flux) that
+##     the schematic renders as an arrow head or a bar head; the measured statistic
+##     for an edge is attached afterwards by 11.dag_annotations.R, so the drawn
+##     graph and the estimates that annotate it stay separable.
 ##
 ## (C) Donor-level covariance restricted to that DAG. One row per donor. Every node
 ##     is residualized on its own unit's sequencing depth with (1 | study) (arms:
@@ -39,7 +43,10 @@ opt <- parse_args(OptionParser(option_list = list(
     make_option("--min-cells", type = "integer", default = 5L, dest = "min_cells"),
     make_option("--min-pericytes", type = "integer", default = 10L, dest = "min_peri"),
     make_option("--nboot", type = "integer", default = 1000L),
-    make_option("--seed", type = "integer", default = 13L)
+    make_option("--seed", type = "integer", default = 13L),
+    ## The (A) tables are written before any model is fitted; --dag-only stops there
+    ## so the schematic can be re-cut without re-running the 1,000 donor bootstraps.
+    make_option("--dag-only", action = "store_true", default = FALSE, dest = "dag_only")
 )))
 dir.create(opt$outdir, showWarnings = FALSE, recursive = TRUE)
 set.seed(opt$seed)
@@ -77,6 +84,7 @@ N <- list(
     list("Peri_AT1R_response", "AT1R-response programme", "Pericytes", NA, "response", 6, 2),
     list("contractile", "contractile", "Pericytes", NA, "response_branch", 7, 3.2),
     list("inflammatory", "inflammatory", "Pericytes", NA, "response_branch", 7, 2.4),
+    list("activated_migratory", "activated / migratory", "Pericytes", NA, "response_branch", 7, 2.0),
     list("matrix", "matrix remodelling", "Pericytes", NA, "response_branch", 7, 1.6),
     list("BM", "basement membrane", "Pericytes", NA, "matrix", 8, 2.2),
     list("FIB", "fibrillar ECM", "Pericytes", NA, "matrix", 8, 1.2),
@@ -90,20 +98,37 @@ nodes <- rbindlist(lapply(N, function(z) {
                x = z[[6]], y = z[[7]], detect = v$detect, emmean = v$emmean,
                rank_in_gene = v$rank)
 }))
+## edge_sign is the PRIOR biology, and it is what the schematic renders as an arrow
+## head (activating / mass flow) or a bar head (antagonistic). It is not an estimate:
+## the measured statistic for an edge, where one exists, is attached downstream by
+## 11.dag_annotations.R, which may well contradict the prior sign -- pericyte ACE2
+## does. "flux" marks a biochemical conversion that scRNA-seq cannot estimate at all
+## (the peptides are latent), so those edges are drawn thin and carry no number.
 E <- rbind(
-    data.table(from = c("VSMC_AGT", "AlvFib_AGT", "AdvFib_AGT"), to = "AngI", edge_class = "substrate"),
-    data.table(from = "AngI", to = "AngII", edge_class = "processing"),
+    data.table(from = c("VSMC_AGT", "AlvFib_AGT", "AdvFib_AGT"), to = "AngI",
+               edge_class = "substrate", edge_sign = "flux"),
+    data.table(from = "AngI", to = "AngII", edge_class = "processing", edge_sign = "flux"),
     data.table(from = c("ECaero_ACE", "ECgcap_ACE", "AlvMac_ACE", "Mast_CMA1", "Mast_CTSG"),
-               to = "AngII", edge_class = "processing"),
-    data.table(from = c("AngII", "Peri_AGTR1"), to = "Peri_AT1R_response", edge_class = "receptor"),
-    data.table(from = "Peri_AT1R_response", to = c("contractile", "inflammatory", "matrix"),
-               edge_class = "response"),
-    data.table(from = "matrix", to = c("BM", "FIB"), edge_class = "matrix"),
-    data.table(from = c("BM", "FIB"), to = c("out_EC", "out_FIB"), edge_class = "neighbor"),
-    data.table(from = "Peri_AT1R_response", to = "out_EPI", edge_class = "neighbor"),
+               to = "AngII", edge_class = "processing", edge_sign = "flux"),
+    data.table(from = c("AngII", "Peri_AGTR1"), to = "Peri_AT1R_response",
+               edge_class = "receptor", edge_sign = "positive"),
+    data.table(from = "Peri_AT1R_response",
+               to = c("contractile", "inflammatory", "activated_migratory", "matrix"),
+               edge_class = "response", edge_sign = "positive"),
+    data.table(from = "matrix", to = c("BM", "FIB"), edge_class = "matrix",
+               edge_sign = "positive"),
+    data.table(from = c("BM", "FIB"), to = c("out_EC", "out_FIB"), edge_class = "neighbor",
+               edge_sign = "positive"),
+    data.table(from = "Peri_AT1R_response", to = "out_EPI", edge_class = "neighbor",
+               edge_sign = "positive"),
     data.table(from = c("AngII", "Peri_ACE2", "Ang17"), to = c("Ang17", "Ang17", "Peri_MAS1"),
-               edge_class = "counter_regulatory"),
-    data.table(from = "VSMC_AGT", to = "Peri_AGTR1", edge_class = "forbidden"))
+               edge_class = "counter_regulatory", edge_sign = "flux"),
+    ## The only antagonistic edge in the prior graph: MAS1 signalling opposes AT1R
+    ## signalling. Drawn with a bar head; the donor-level test of it is null.
+    data.table(from = "Peri_MAS1", to = "Peri_AT1R_response",
+               edge_class = "counter_regulatory", edge_sign = "negative"),
+    data.table(from = "VSMC_AGT", to = "Peri_AGTR1", edge_class = "forbidden",
+               edge_sign = "none"))
 E[, drawn := edge_class != "forbidden"]
 stopifnot(all(c(E$from, E$to) %in% nodes$node))
 write_tsv_safe(nodes, file.path(opt$outdir, "ras_dag_nodes.tsv"))
@@ -121,6 +146,10 @@ write_tsv_safe(scal, file.path(opt$outdir, "ras_dag_scalars.tsv"))
 sw <- file.path(opt$agt, "ras_autonomy_threshold_sweep.tsv")
 if (file.exists(sw)) file.copy(sw, file.path(opt$outdir, "ras_autonomy_threshold_sweep.tsv"),
                                overwrite = TRUE)
+if (opt$dag_only) {
+    message("--dag-only: schematic tables written, skipping the donor-level models")
+    quit(save = "no", status = 0)
+}
 
 ## ============================ (C) donor node table ===============================
 pb <- read_req(opt$pseudobulk)[n_cells >= opt$min_cells]

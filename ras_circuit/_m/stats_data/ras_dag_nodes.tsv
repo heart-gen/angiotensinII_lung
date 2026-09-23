@@ -16,6 +16,7 @@ Peri_MAS1	MAS1, pericyte	Pericytes	MAS1	counter_regulatory	7	0.5	0.0005341008198
 Peri_AT1R_response	AT1R-response programme	Pericytes	NA	response	6	2	NA	NA	NA
 contractile	contractile	Pericytes	NA	response_branch	7	3.2	NA	NA	NA
 inflammatory	inflammatory	Pericytes	NA	response_branch	7	2.4	NA	NA	NA
+activated_migratory	activated / migratory	Pericytes	NA	response_branch	7	2	NA	NA	NA
 matrix	matrix remodelling	Pericytes	NA	response_branch	7	1.6	NA	NA	NA
 BM	basement membrane	Pericytes	NA	matrix	8	2.2	NA	NA	NA
 FIB	fibrillar ECM	Pericytes	NA	matrix	8	1.2	NA	NA	NA

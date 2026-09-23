@@ -53,7 +53,8 @@ part(c(SD("niche_affinity_global.tsv"), SD("niche_affinity_agtr1_models.tsv"),
 
 ## ---- S15B RAS network -----------------------------------------------------------------------
 part(c(SD("ras_network_edges.tsv"), SD("ras_network_chain_models.tsv"),
-       SD("ras_dag_nodes.tsv"), SD("ras_dag_edges.tsv"), SD("ras_dag_scalars.tsv")),
+       SD("ras_dag_nodes.tsv"), SD("ras_dag_edges.tsv"), SD("ras_dag_scalars.tsv"),
+       SD("ras_dag_annotations.tsv"), SD("ras_dag_notes.tsv")),
      "15B", "Donor-level RAS covariance restricted to the proposed DAG",
      "Figure 5A, 5C; Figure S18D",
      function(df, xs) {
@@ -64,7 +65,11 @@ part(c(SD("ras_network_edges.tsv"), SD("ras_network_chain_models.tsv"),
                 "marginal_descriptive = individual RAS nodes, not tested as a family. ",
                 "Bootstrap: donors resampled with residuals held fixed. Leave-one-dataset-out ",
                 "over ", e$n_datasets_lodo[1], " datasets. Consistency with a pre-specified DAG, ",
-                "not causal mediation; Ang I / Ang II are latent. ", models_of(df))
+                "not causal mediation; Ang I / Ang II are latent. `ras_dag_edges` carries the ",
+                "PRIOR sign each drawn edge is given in Figure 5A (arrow head vs bar head); ",
+                "`ras_dag_annotations` carries the estimate that annotates it, with the panel ",
+                "it came from, so a prior and its estimate can disagree on the page. ",
+                models_of(df))
      })
 
 ## ---- S15C signature provenance -----------------------------------------------------------

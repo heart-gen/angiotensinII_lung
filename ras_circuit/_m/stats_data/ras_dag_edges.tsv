@@ -1,24 +1,26 @@
-from	to	edge_class	drawn
-VSMC_AGT	AngI	substrate	TRUE
-AlvFib_AGT	AngI	substrate	TRUE
-AdvFib_AGT	AngI	substrate	TRUE
-AngI	AngII	processing	TRUE
-ECaero_ACE	AngII	processing	TRUE
-ECgcap_ACE	AngII	processing	TRUE
-AlvMac_ACE	AngII	processing	TRUE
-Mast_CMA1	AngII	processing	TRUE
-Mast_CTSG	AngII	processing	TRUE
-AngII	Peri_AT1R_response	receptor	TRUE
-Peri_AGTR1	Peri_AT1R_response	receptor	TRUE
-Peri_AT1R_response	contractile	response	TRUE
-Peri_AT1R_response	inflammatory	response	TRUE
-Peri_AT1R_response	matrix	response	TRUE
-matrix	BM	matrix	TRUE
-matrix	FIB	matrix	TRUE
-BM	out_EC	neighbor	TRUE
-FIB	out_FIB	neighbor	TRUE
-Peri_AT1R_response	out_EPI	neighbor	TRUE
-AngII	Ang17	counter_regulatory	TRUE
-Peri_ACE2	Ang17	counter_regulatory	TRUE
-Ang17	Peri_MAS1	counter_regulatory	TRUE
-VSMC_AGT	Peri_AGTR1	forbidden	FALSE
+from	to	edge_class	edge_sign	drawn
+VSMC_AGT	AngI	substrate	flux	TRUE
+AlvFib_AGT	AngI	substrate	flux	TRUE
+AdvFib_AGT	AngI	substrate	flux	TRUE
+AngI	AngII	processing	flux	TRUE
+ECaero_ACE	AngII	processing	flux	TRUE
+ECgcap_ACE	AngII	processing	flux	TRUE
+AlvMac_ACE	AngII	processing	flux	TRUE
+Mast_CMA1	AngII	processing	flux	TRUE
+Mast_CTSG	AngII	processing	flux	TRUE
+AngII	Peri_AT1R_response	receptor	positive	TRUE
+Peri_AGTR1	Peri_AT1R_response	receptor	positive	TRUE
+Peri_AT1R_response	contractile	response	positive	TRUE
+Peri_AT1R_response	inflammatory	response	positive	TRUE
+Peri_AT1R_response	activated_migratory	response	positive	TRUE
+Peri_AT1R_response	matrix	response	positive	TRUE
+matrix	BM	matrix	positive	TRUE
+matrix	FIB	matrix	positive	TRUE
+BM	out_EC	neighbor	positive	TRUE
+FIB	out_FIB	neighbor	positive	TRUE
+Peri_AT1R_response	out_EPI	neighbor	positive	TRUE
+AngII	Ang17	counter_regulatory	flux	TRUE
+Peri_ACE2	Ang17	counter_regulatory	flux	TRUE
+Ang17	Peri_MAS1	counter_regulatory	flux	TRUE
+Peri_MAS1	Peri_AT1R_response	counter_regulatory	negative	TRUE
+VSMC_AGT	Peri_AGTR1	forbidden	none	FALSE
