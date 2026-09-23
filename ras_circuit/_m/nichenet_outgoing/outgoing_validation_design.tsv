@@ -1,0 +1,962 @@
+target	program	role	gene	matched_to	pericyte_detect
+EC aerocyte capillary	EC_barrier_angiogenic	ligand	PTN	PTN	0.557445788906206
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EPAS1	PTN	0.574098478495275
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPS11	PTN	0.566550856595193
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MT-ND5	PTN	0.561279501617358
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SRP14	PTN	0.576254941895298
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FOS	PTN	0.560680484006241
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TMEM59	PTN	0.566550856595193
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BTF3	PTN	0.549898167006124
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TBX2	PTN	0.545465436683854
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HSP90AB1	PTN	0.553612076195053
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CIRBP	PTN	0.555409129028406
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RHOB	PTN	0.55552893255063
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	JUNB	PTN	0.553132862106159
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CCDC102B	PTN	0.567868695339652
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ACTA2	PTN	0.549778363483901
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CFL1	PTN	0.573020246795263
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPL22	PTN	0.544507008506066
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	N4BP2L2	PTN	0.541032706361584
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TPM4	PTN	0.569426141128557
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TCF4	PTN	0.56882712351744
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DSTN	PTN	0.55552893255063
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BTG1	PTN	0.544866419072737
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPL31	PTN	0.540793099317137
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	UBA52	PTN	0.547262489517207
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LPP	PTN	0.563076554450711
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EPS8	PTN	0.57325985383971
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ZFP36	PTN	0.560201269917347
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PFN1	PTN	0.538876242961561
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FAM162B	PTN	0.545465436683854
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SKP1	PTN	0.569785551695228
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPL26	PTN	0.565712231939628
+EC aerocyte capillary	EC_barrier_angiogenic	ligand	COL18A1	COL18A1	0.544507008506066
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LPP	COL18A1	0.563076554450711
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MT-ND5	COL18A1	0.561279501617358
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BTF3	COL18A1	0.549898167006124
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DSTN	COL18A1	0.55552893255063
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPS29	COL18A1	0.537798011261549
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TBX2	COL18A1	0.545465436683854
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ACTA2	COL18A1	0.549778363483901
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DPYSL2	COL18A1	0.529052354139233
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FAM162B	COL18A1	0.545465436683854
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	N4BP2L2	COL18A1	0.541032706361584
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RAC1	COL18A1	0.53408410207262
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	UBA52	COL18A1	0.547262489517207
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	IFITM2	COL18A1	0.528333533005891
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BTG1	COL18A1	0.544866419072737
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PFN1	COL18A1	0.538876242961561
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CIRBP	COL18A1	0.555409129028406
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TSC22D1	COL18A1	0.532526656283714
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPL31	COL18A1	0.540793099317137
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RPL22	COL18A1	0.544507008506066
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RACK1	COL18A1	0.528692943572562
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	JUN	COL18A1	0.534323709117067
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PPIA	COL18A1	0.559242841739559
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	JUNB	COL18A1	0.553132862106159
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DST	COL18A1	0.525338444950303
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EEF1D	COL18A1	0.535881154905973
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EEF2	COL18A1	0.532287049239267
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SEPTIN11	COL18A1	0.542350545106043
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ZFP36	COL18A1	0.560201269917347
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HSP90AB1	COL18A1	0.553612076195053
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FOS	COL18A1	0.560680484006241
+EC aerocyte capillary	EC_barrier_angiogenic	ligand	COL12A1	COL12A1	0.128309572301427
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SPATA6	COL12A1	0.114172756679048
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DCAF5	COL12A1	0.125554091290286
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	AKIRIN2	COL12A1	0.113214328501259
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MTCH2	COL12A1	0.119683718701331
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ERGIC1	COL12A1	0.12267880675692
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FHL2	COL12A1	0.136336408290405
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ECHS1	COL12A1	0.136336408290405
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HSF1	COL12A1	0.134299748412604
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DENND6A	COL12A1	0.119324308134661
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BMPR1A	COL12A1	0.143764226668264
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DMXL1	COL12A1	0.119683718701331
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	COPZ1	COL12A1	0.143165209057147
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RARA	COL12A1	0.131544267401463
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RFX3	COL12A1	0.123038217323591
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CCNC	COL12A1	0.109500419312329
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HAX1	COL12A1	0.140050317479334
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	NPIPB5	COL12A1	0.109021205223435
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PARM1	COL12A1	0.137893854079311
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HYCC1	COL12A1	0.137654247034863
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CACNB2	COL12A1	0.132023481490357
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SLC25A13	COL12A1	0.133101713190369
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SEC61A1	COL12A1	0.13957110339044
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CEP112	COL12A1	0.125673894812509
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SAMD4B	COL12A1	0.118006469390201
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TMBIM1	COL12A1	0.140888942134899
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LSM4	COL12A1	0.128908589912545
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TENT2	COL12A1	0.14532167245717
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DENND4A	COL12A1	0.123876841979156
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ITIH5	COL12A1	0.144483047801605
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LINC00486	COL12A1	0.133580927279263
+EC aerocyte capillary	EC_barrier_angiogenic	ligand	ADAM17	ADAM17	0.102911225590033
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MED15	ADAM17	0.111417275667906
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ZNF703	ADAM17	0.0989577093566558
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ARFGAP2	ADAM17	0.10650533125674
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FGD5-AS1	ADAM17	0.10315083263448
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	NCBP2AS2	ADAM17	0.0845812866898289
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PRCP	ADAM17	0.0957230142566197
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SUPT20H	ADAM17	0.0985982987899851
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	R3HDM1	ADAM17	0.0956032107343962
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	C14orf119	ADAM17	0.119324308134661
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TSN	ADAM17	0.0898526416676654
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PTPN2	ADAM17	0.0996765304899971
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TXN2	ADAM17	0.111776686234576
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	KARS1	ADAM17	0.103270636156704
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MTCH2	ADAM17	0.119683718701331
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TRIM28	ADAM17	0.0968012459566317
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PNPLA2	ADAM17	0.113214328501259
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MRPL4	ADAM17	0.0984784952677616
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TIPARP	ADAM17	0.093207140289925
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	R3HCC1	ADAM17	0.0833832514675933
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EPM2AIP1	ADAM17	0.106026117167846
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MTA3	ADAM17	0.089972445189889
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	FBXO42	ADAM17	0.0940457649454899
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PRKRIP1	ADAM17	0.116449023601295
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ZNF326	ADAM17	0.109500419312329
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SNX9	ADAM17	0.113214328501259
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	STMN1	ADAM17	0.0999161375344443
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CD2AP	ADAM17	0.12100155744579
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MCMBP	ADAM17	0.0909308733676774
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RIN2	ADAM17	0.109979633401223
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	DMTF1	ADAM17	0.108661794656764
+EC aerocyte capillary	EC_barrier_angiogenic	ligand	ANGPT1	ANGPT1	0.148077153468312
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	C5orf15	ANGPT1	0.164490236012937
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PCNX1	ANGPT1	0.133461123757039
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	CARHSP1	ANGPT1	0.134778962501498
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MEAF6	ANGPT1	0.159338684557325
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TRAPPC12	ANGPT1	0.137055229423746
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	EIF4E	ANGPT1	0.160297112735113
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PIK3CA	ANGPT1	0.155504971846172
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PSMB8	ANGPT1	0.136336408290405
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	HOXB2	ANGPT1	0.140409728046005
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MRPL27	ANGPT1	0.13178387444591
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	COPS8	ANGPT1	0.153827722535042
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ERGIC2	ANGPT1	0.155385168323948
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SPG7	ANGPT1	0.133940337845934
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LRPPRC	ANGPT1	0.129028393434768
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	VPS26A	ANGPT1	0.160057505690666
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TMEM47	ANGPT1	0.161135737390678
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	TRPC3	ANGPT1	0.129028393434768
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PRDX4	ANGPT1	0.144602851323829
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	COMMD7	ANGPT1	0.144123637234935
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	LGMN	ANGPT1	0.146280100634959
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MOB4	ANGPT1	0.15646340002396
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	RNF180	ANGPT1	0.1490355816461
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	INTS6	ANGPT1	0.160297112735113
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	NHSL1	ANGPT1	0.15850005990176
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	MDM2	ANGPT1	0.132981909668145
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ARPC4	ANGPT1	0.154187133101713
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	BAD	ANGPT1	0.13921169282377
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	SMAP1	ANGPT1	0.151431652090571
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	ARF5	ANGPT1	0.16628728884629
+EC aerocyte capillary	EC_barrier_angiogenic	null_pool	PSMD2	ANGPT1	0.164849646579608
+EC aerocyte capillary	EC_barrier_angiogenic	program	CDH5		
+EC aerocyte capillary	EC_barrier_angiogenic	program	CLDN5		
+EC aerocyte capillary	EC_barrier_angiogenic	program	OCLN		
+EC aerocyte capillary	EC_barrier_angiogenic	program	TJP1		
+EC aerocyte capillary	EC_barrier_angiogenic	program	JAM2		
+EC aerocyte capillary	EC_barrier_angiogenic	program	S1PR1		
+EC aerocyte capillary	EC_barrier_angiogenic	program	KDR		
+EC aerocyte capillary	EC_barrier_angiogenic	program	FLT1		
+EC aerocyte capillary	EC_barrier_angiogenic	program	DLL4		
+EC aerocyte capillary	EC_barrier_angiogenic	program	NRP1		
+EC general capillary	EC_barrier_angiogenic	ligand	COL18A1	COL18A1	0.544507008506066
+EC general capillary	EC_barrier_angiogenic	null_pool	CIRBP	COL18A1	0.555409129028406
+EC general capillary	EC_barrier_angiogenic	null_pool	FOS	COL18A1	0.560680484006241
+EC general capillary	EC_barrier_angiogenic	null_pool	TBX2	COL18A1	0.545465436683854
+EC general capillary	EC_barrier_angiogenic	null_pool	HSP90AB1	COL18A1	0.553612076195053
+EC general capillary	EC_barrier_angiogenic	null_pool	TSC22D1	COL18A1	0.532526656283714
+EC general capillary	EC_barrier_angiogenic	null_pool	JUNB	COL18A1	0.553132862106159
+EC general capillary	EC_barrier_angiogenic	null_pool	JUN	COL18A1	0.534323709117067
+EC general capillary	EC_barrier_angiogenic	null_pool	IFITM2	COL18A1	0.528333533005891
+EC general capillary	EC_barrier_angiogenic	null_pool	ACTA2	COL18A1	0.549778363483901
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL27	COL18A1	0.53851683239489
+EC general capillary	EC_barrier_angiogenic	null_pool	PFN1	COL18A1	0.538876242961561
+EC general capillary	EC_barrier_angiogenic	null_pool	BTG1	COL18A1	0.544866419072737
+EC general capillary	EC_barrier_angiogenic	null_pool	RHOB	COL18A1	0.55552893255063
+EC general capillary	EC_barrier_angiogenic	null_pool	MT-ND5	COL18A1	0.561279501617358
+EC general capillary	EC_barrier_angiogenic	null_pool	RAC1	COL18A1	0.53408410207262
+EC general capillary	EC_barrier_angiogenic	null_pool	N4BP2L2	COL18A1	0.541032706361584
+EC general capillary	EC_barrier_angiogenic	null_pool	LPP	COL18A1	0.563076554450711
+EC general capillary	EC_barrier_angiogenic	null_pool	BTF3	COL18A1	0.549898167006124
+EC general capillary	EC_barrier_angiogenic	null_pool	DST	COL18A1	0.525338444950303
+EC general capillary	EC_barrier_angiogenic	null_pool	RPS29	COL18A1	0.537798011261549
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL31	COL18A1	0.540793099317137
+EC general capillary	EC_barrier_angiogenic	null_pool	DSTN	COL18A1	0.55552893255063
+EC general capillary	EC_barrier_angiogenic	null_pool	PPIA	COL18A1	0.559242841739559
+EC general capillary	EC_barrier_angiogenic	null_pool	UBA52	COL18A1	0.547262489517207
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL22	COL18A1	0.544507008506066
+EC general capillary	EC_barrier_angiogenic	null_pool	EEF1D	COL18A1	0.535881154905973
+EC general capillary	EC_barrier_angiogenic	null_pool	DPYSL2	COL18A1	0.529052354139233
+EC general capillary	EC_barrier_angiogenic	null_pool	RACK1	COL18A1	0.528692943572562
+EC general capillary	EC_barrier_angiogenic	null_pool	EEF2	COL18A1	0.532287049239267
+EC general capillary	EC_barrier_angiogenic	null_pool	ZFP36	COL18A1	0.560201269917347
+EC general capillary	EC_barrier_angiogenic	ligand	PTN	PTN	0.557445788906206
+EC general capillary	EC_barrier_angiogenic	null_pool	EPS8	PTN	0.57325985383971
+EC general capillary	EC_barrier_angiogenic	null_pool	FOS	PTN	0.560680484006241
+EC general capillary	EC_barrier_angiogenic	null_pool	TCF4	PTN	0.56882712351744
+EC general capillary	EC_barrier_angiogenic	null_pool	TPM4	PTN	0.569426141128557
+EC general capillary	EC_barrier_angiogenic	null_pool	CIRBP	PTN	0.555409129028406
+EC general capillary	EC_barrier_angiogenic	null_pool	PPIA	PTN	0.559242841739559
+EC general capillary	EC_barrier_angiogenic	null_pool	MT-ND5	PTN	0.561279501617358
+EC general capillary	EC_barrier_angiogenic	null_pool	N4BP2L2	PTN	0.541032706361584
+EC general capillary	EC_barrier_angiogenic	null_pool	TMEM59	PTN	0.566550856595193
+EC general capillary	EC_barrier_angiogenic	null_pool	CCDC102B	PTN	0.567868695339652
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL27	PTN	0.53851683239489
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL31	PTN	0.540793099317137
+EC general capillary	EC_barrier_angiogenic	null_pool	RHOB	PTN	0.55552893255063
+EC general capillary	EC_barrier_angiogenic	null_pool	EPAS1	PTN	0.574098478495275
+EC general capillary	EC_barrier_angiogenic	null_pool	RPL26	PTN	0.565712231939628
+EC general capillary	EC_barrier_angiogenic	null_pool	DSTN	PTN	0.55552893255063
+EC general capillary	EC_barrier_angiogenic	null_pool	JUNB	PTN	0.553132862106159
+EC general capillary	EC_barrier_angiogenic	null_pool	BTG1	PTN	0.544866419072737
+EC general capillary	EC_barrier_angiogenic	null_pool	TBX2	PTN	0.545465436683854
+EC general capillary	EC_barrier_angiogenic	null_pool	HSP90AB1	PTN	0.553612076195053
+EC general capillary	EC_barrier_angiogenic	null_pool	ZFP36	PTN	0.560201269917347
+EC general capillary	EC_barrier_angiogenic	null_pool	CFL1	PTN	0.573020246795263
+EC general capillary	EC_barrier_angiogenic	null_pool	FAM162B	PTN	0.545465436683854
+EC general capillary	EC_barrier_angiogenic	null_pool	RPS11	PTN	0.566550856595193
+EC general capillary	EC_barrier_angiogenic	null_pool	UBA52	PTN	0.547262489517207
+EC general capillary	EC_barrier_angiogenic	null_pool	LPP	PTN	0.563076554450711
+EC general capillary	EC_barrier_angiogenic	null_pool	UBB	PTN	0.568467712950769
+EC general capillary	EC_barrier_angiogenic	null_pool	SRP14	PTN	0.576254941895298
+EC general capillary	EC_barrier_angiogenic	null_pool	ACTA2	PTN	0.549778363483901
+EC general capillary	EC_barrier_angiogenic	null_pool	PFN1	PTN	0.538876242961561
+EC general capillary	EC_barrier_angiogenic	ligand	JAG1	JAG1	0.172157661435244
+EC general capillary	EC_barrier_angiogenic	null_pool	METAP2	JAG1	0.187492512279858
+EC general capillary	EC_barrier_angiogenic	null_pool	RAB18	JAG1	0.178507248113092
+EC general capillary	EC_barrier_angiogenic	null_pool	MED10	JAG1	0.161734755001796
+EC general capillary	EC_barrier_angiogenic	null_pool	CHD2	JAG1	0.174194321313044
+EC general capillary	EC_barrier_angiogenic	null_pool	TGFBR3	JAG1	0.156223792979513
+EC general capillary	EC_barrier_angiogenic	null_pool	CNOT4	JAG1	0.185336048879834
+EC general capillary	EC_barrier_angiogenic	null_pool	GOLM2	JAG1	0.161015933868455
+EC general capillary	EC_barrier_angiogenic	null_pool	DPYD	JAG1	0.17335569665748
+EC general capillary	EC_barrier_angiogenic	null_pool	PDE4D	JAG1	0.173834910746374
+EC general capillary	EC_barrier_angiogenic	null_pool	MAPK1	JAG1	0.189049958068764
+EC general capillary	EC_barrier_angiogenic	null_pool	COPS8	JAG1	0.153827722535042
+EC general capillary	EC_barrier_angiogenic	null_pool	FAM50A	JAG1	0.170121001557444
+EC general capillary	EC_barrier_angiogenic	null_pool	GNAI1	JAG1	0.18317958547981
+EC general capillary	EC_barrier_angiogenic	null_pool	USP11	JAG1	0.158979273990654
+EC general capillary	EC_barrier_angiogenic	null_pool	UBR2	JAG1	0.180064693901998
+EC general capillary	EC_barrier_angiogenic	null_pool	IAH1	JAG1	0.159338684557325
+EC general capillary	EC_barrier_angiogenic	null_pool	CCDC186	JAG1	0.160416916257337
+EC general capillary	EC_barrier_angiogenic	null_pool	H1-0	JAG1	0.161375344435125
+EC general capillary	EC_barrier_angiogenic	null_pool	PSMC2	JAG1	0.154306936623936
+EC general capillary	EC_barrier_angiogenic	null_pool	ZNF609	JAG1	0.166526895890738
+EC general capillary	EC_barrier_angiogenic	null_pool	USP3	JAG1	0.159099077512878
+EC general capillary	EC_barrier_angiogenic	null_pool	SLC25A4	JAG1	0.170480412124115
+EC general capillary	EC_barrier_angiogenic	null_pool	COX14	JAG1	0.188331136935423
+EC general capillary	EC_barrier_angiogenic	null_pool	FDPS	JAG1	0.171199233257456
+EC general capillary	EC_barrier_angiogenic	null_pool	TRIP11	JAG1	0.16796453815742
+EC general capillary	EC_barrier_angiogenic	null_pool	EIF6	JAG1	0.174793338924162
+EC general capillary	EC_barrier_angiogenic	null_pool	TRIP10	JAG1	0.156223792979513
+EC general capillary	EC_barrier_angiogenic	null_pool	HNRNPUL1	JAG1	0.179705283335327
+EC general capillary	EC_barrier_angiogenic	null_pool	EHMT1	JAG1	0.179705283335327
+EC general capillary	EC_barrier_angiogenic	null_pool	SAR1A	JAG1	0.167125913501855
+EC general capillary	EC_barrier_angiogenic	ligand	ANGPT1	ANGPT1	0.148077153468312
+EC general capillary	EC_barrier_angiogenic	null_pool	ITPRID2	ANGPT1	0.147358332334971
+EC general capillary	EC_barrier_angiogenic	null_pool	NFKBIZ	ANGPT1	0.1490355816461
+EC general capillary	EC_barrier_angiogenic	null_pool	LTBR	ANGPT1	0.164011021924043
+EC general capillary	EC_barrier_angiogenic	null_pool	GSDMD	ANGPT1	0.137893854079311
+EC general capillary	EC_barrier_angiogenic	null_pool	KDM6A	ANGPT1	0.130945249790345
+EC general capillary	EC_barrier_angiogenic	null_pool	FBXL3	ANGPT1	0.150473223912783
+EC general capillary	EC_barrier_angiogenic	null_pool	MRPS26	ANGPT1	0.155145561279501
+EC general capillary	EC_barrier_angiogenic	null_pool	ACYP2	ANGPT1	0.142566191446029
+EC general capillary	EC_barrier_angiogenic	null_pool	CD74	ANGPT1	0.152869294357254
+EC general capillary	EC_barrier_angiogenic	null_pool	MAX	ANGPT1	0.150832634479453
+EC general capillary	EC_barrier_angiogenic	null_pool	YWHAG	ANGPT1	0.135737390679287
+EC general capillary	EC_barrier_angiogenic	null_pool	TCAF1	ANGPT1	0.147238528812747
+EC general capillary	EC_barrier_angiogenic	null_pool	PPIL4	ANGPT1	0.166886306457408
+EC general capillary	EC_barrier_angiogenic	null_pool	ITIH5	ANGPT1	0.144483047801605
+EC general capillary	EC_barrier_angiogenic	null_pool	PSMB4	ANGPT1	0.166407092368514
+EC general capillary	EC_barrier_angiogenic	null_pool	USO1	ANGPT1	0.132981909668145
+EC general capillary	EC_barrier_angiogenic	null_pool	POLR1D	ANGPT1	0.158979273990654
+EC general capillary	EC_barrier_angiogenic	null_pool	SMARCC2	ANGPT1	0.130466035701451
+EC general capillary	EC_barrier_angiogenic	null_pool	VEZF1	ANGPT1	0.157901042290642
+EC general capillary	EC_barrier_angiogenic	null_pool	UPF3A	ANGPT1	0.143884030190488
+EC general capillary	EC_barrier_angiogenic	null_pool	PPP2R5C	ANGPT1	0.153348508446148
+EC general capillary	EC_barrier_angiogenic	null_pool	SWAP70	ANGPT1	0.14532167245717
+EC general capillary	EC_barrier_angiogenic	null_pool	ANKIB1	ANGPT1	0.140649335090452
+EC general capillary	EC_barrier_angiogenic	null_pool	PLP2	ANGPT1	0.145681083023841
+EC general capillary	EC_barrier_angiogenic	null_pool	NUTM2A-AS1	ANGPT1	0.158619863423984
+EC general capillary	EC_barrier_angiogenic	null_pool	USP3	ANGPT1	0.159099077512878
+EC general capillary	EC_barrier_angiogenic	null_pool	CDKAL1	ANGPT1	0.163172397268478
+EC general capillary	EC_barrier_angiogenic	null_pool	UBE2H	ANGPT1	0.166646699412961
+EC general capillary	EC_barrier_angiogenic	null_pool	WAPL	ANGPT1	0.157781238768419
+EC general capillary	EC_barrier_angiogenic	null_pool	PSMD6	ANGPT1	0.147478135857194
+EC general capillary	EC_barrier_angiogenic	ligand	ADAM10	ADAM10	0.178028034024198
+EC general capillary	EC_barrier_angiogenic	null_pool	PELI1	ADAM10	0.169162573379656
+EC general capillary	EC_barrier_angiogenic	null_pool	BAZ1B	ADAM10	0.161495147957349
+EC general capillary	EC_barrier_angiogenic	null_pool	SAR1A	ADAM10	0.167125913501855
+EC general capillary	EC_barrier_angiogenic	null_pool	SNRPD3	ADAM10	0.194560920091047
+EC general capillary	EC_barrier_angiogenic	null_pool	EIF6	ADAM10	0.174793338924162
+EC general capillary	EC_barrier_angiogenic	null_pool	CUEDC2	ADAM10	0.162812986701808
+EC general capillary	EC_barrier_angiogenic	null_pool	USP16	ADAM10	0.192045046124352
+EC general capillary	EC_barrier_angiogenic	null_pool	TPM3	ADAM10	0.183538996046481
+EC general capillary	EC_barrier_angiogenic	null_pool	POLR2G	ADAM10	0.178147837546421
+EC general capillary	EC_barrier_angiogenic	null_pool	PELI2	ADAM10	0.172157661435244
+EC general capillary	EC_barrier_angiogenic	null_pool	LTBR	ADAM10	0.164011021924043
+EC general capillary	EC_barrier_angiogenic	null_pool	EIF3J	ADAM10	0.180903318557563
+EC general capillary	EC_barrier_angiogenic	null_pool	ZC3H13	ADAM10	0.182700371390916
+EC general capillary	EC_barrier_angiogenic	null_pool	NNMT	ADAM10	0.174673535401939
+EC general capillary	EC_barrier_angiogenic	null_pool	FAM120A	ADAM10	0.172277464957468
+EC general capillary	EC_barrier_angiogenic	null_pool	C5orf15	ADAM10	0.164490236012937
+EC general capillary	EC_barrier_angiogenic	null_pool	DDX6	ADAM10	0.180543907990892
+EC general capillary	EC_barrier_angiogenic	null_pool	SECISBP2	ADAM10	0.164130825446267
+EC general capillary	EC_barrier_angiogenic	null_pool	CRK	ADAM10	0.182939978435363
+EC general capillary	EC_barrier_angiogenic	null_pool	GLO1	ADAM10	0.168563555768538
+EC general capillary	EC_barrier_angiogenic	null_pool	CMTM6	ADAM10	0.163651611357373
+EC general capillary	EC_barrier_angiogenic	null_pool	ARID2	ADAM10	0.169761590990773
+EC general capillary	EC_barrier_angiogenic	null_pool	STX12	ADAM10	0.196477776446624
+EC general capillary	EC_barrier_angiogenic	null_pool	PSMG2	ADAM10	0.187133101713187
+EC general capillary	EC_barrier_angiogenic	null_pool	LTBP4	ADAM10	0.179944890379774
+EC general capillary	EC_barrier_angiogenic	null_pool	CACNA1H	ADAM10	0.17742901641308
+EC general capillary	EC_barrier_angiogenic	null_pool	VPS26A	ADAM10	0.160057505690666
+EC general capillary	EC_barrier_angiogenic	null_pool	DNAJB14	ADAM10	0.172397268479691
+EC general capillary	EC_barrier_angiogenic	null_pool	NORAD	ADAM10	0.186294477057622
+EC general capillary	EC_barrier_angiogenic	null_pool	SOD2	ADAM10	0.167125913501855
+EC general capillary	EC_barrier_angiogenic	program	CDH5		
+EC general capillary	EC_barrier_angiogenic	program	CLDN5		
+EC general capillary	EC_barrier_angiogenic	program	OCLN		
+EC general capillary	EC_barrier_angiogenic	program	TJP1		
+EC general capillary	EC_barrier_angiogenic	program	JAM2		
+EC general capillary	EC_barrier_angiogenic	program	S1PR1		
+EC general capillary	EC_barrier_angiogenic	program	TEK		
+EC general capillary	EC_barrier_angiogenic	program	KDR		
+EC general capillary	EC_barrier_angiogenic	program	FLT1		
+EC general capillary	EC_barrier_angiogenic	program	DLL4		
+EC general capillary	EC_barrier_angiogenic	program	HEY1		
+EC general capillary	EC_barrier_angiogenic	program	NRP1		
+AT1	epithelial_repair	ligand	LAMA4	LAMA4	0.329220079070328
+AT1	epithelial_repair	null_pool	RERG	LAMA4	0.327782436803646
+AT1	epithelial_repair	null_pool	SBF2	LAMA4	0.333772612914824
+AT1	epithelial_repair	null_pool	TNRC6B	LAMA4	0.314244638792382
+AT1	epithelial_repair	null_pool	SH3BGRL3	LAMA4	0.319635797292443
+AT1	epithelial_repair	null_pool	LEPROT	LAMA4	0.343237091170486
+AT1	epithelial_repair	null_pool	SRRM1	LAMA4	0.335929076314848
+AT1	epithelial_repair	null_pool	CCNL1	LAMA4	0.328980472025881
+AT1	epithelial_repair	null_pool	HIP1	LAMA4	0.335809272792625
+AT1	epithelial_repair	null_pool	SNRPD2	LAMA4	0.315562477536841
+AT1	epithelial_repair	null_pool	COX8A	LAMA4	0.347669821492759
+AT1	epithelial_repair	null_pool	NDUFB11	LAMA4	0.328141847370316
+AT1	epithelial_repair	null_pool	LMCD1	LAMA4	0.323589313525821
+AT1	epithelial_repair	null_pool	DIAPH2	LAMA4	0.322870492392479
+AT1	epithelial_repair	null_pool	PSMD8	LAMA4	0.333053791781483
+AT1	epithelial_repair	null_pool	PAWR	LAMA4	0.326824008625857
+AT1	epithelial_repair	null_pool	NDUFB2	LAMA4	0.326105187492516
+AT1	epithelial_repair	null_pool	GABARAPL2	LAMA4	0.346471786270523
+AT1	epithelial_repair	null_pool	ASH1L	LAMA4	0.327542829759198
+AT1	epithelial_repair	null_pool	NUCB1	LAMA4	0.345153947526064
+AT1	epithelial_repair	null_pool	RBM25	LAMA4	0.312447585959028
+AT1	epithelial_repair	null_pool	TESC	LAMA4	0.324787348748056
+AT1	epithelial_repair	null_pool	HES1	LAMA4	0.319276386725772
+AT1	epithelial_repair	null_pool	IMPA2	LAMA4	0.31987540433689
+AT1	epithelial_repair	null_pool	NCOR1	LAMA4	0.345153947526064
+AT1	epithelial_repair	null_pool	ARID4B	LAMA4	0.334251827003718
+AT1	epithelial_repair	null_pool	TMEM165	LAMA4	0.344674733437169
+AT1	epithelial_repair	null_pool	TRMT112	LAMA4	0.334611237570389
+AT1	epithelial_repair	null_pool	FHL5	LAMA4	0.312207978914581
+AT1	epithelial_repair	null_pool	AKAP13	LAMA4	0.340601413681568
+AT1	epithelial_repair	null_pool	ARID1B	LAMA4	0.314723852881276
+AT1	epithelial_repair	ligand	FBLN1	FBLN1	0.133700730801487
+AT1	epithelial_repair	null_pool	YIPF6	FBLN1	0.138253264645981
+AT1	epithelial_repair	null_pool	MRPS18B	FBLN1	0.14532167245717
+AT1	epithelial_repair	null_pool	PIBF1	FBLN1	0.144842458368276
+AT1	epithelial_repair	null_pool	RTL8A	FBLN1	0.12806996525698
+AT1	epithelial_repair	null_pool	CSRNP1	FBLN1	0.132981909668145
+AT1	epithelial_repair	null_pool	CORO1C	FBLN1	0.150473223912783
+AT1	epithelial_repair	null_pool	PLEKHH3	FBLN1	0.146040493590512
+AT1	epithelial_repair	null_pool	UBQLN1	FBLN1	0.130226428657004
+AT1	epithelial_repair	null_pool	KXD1	FBLN1	0.114532167245718
+AT1	epithelial_repair	null_pool	SWAP70	FBLN1	0.14532167245717
+AT1	epithelial_repair	null_pool	C14orf119	FBLN1	0.119324308134661
+AT1	epithelial_repair	null_pool	MAP7D1	FBLN1	0.115969809512401
+AT1	epithelial_repair	null_pool	CACNB2	FBLN1	0.132023481490357
+AT1	epithelial_repair	null_pool	SUCLA2	FBLN1	0.124236252545826
+AT1	epithelial_repair	null_pool	JKAMP	FBLN1	0.113933149634601
+AT1	epithelial_repair	null_pool	PRRC2A	FBLN1	0.119923325745778
+AT1	epithelial_repair	null_pool	XYLT1	FBLN1	0.133221516712592
+AT1	epithelial_repair	null_pool	ZSWIM6	FBLN1	0.140888942134899
+AT1	epithelial_repair	null_pool	AP2A1	FBLN1	0.121720378579132
+AT1	epithelial_repair	null_pool	FKBP9	FBLN1	0.120881753923567
+AT1	epithelial_repair	null_pool	GRB10	FBLN1	0.114292560201271
+AT1	epithelial_repair	null_pool	CDC37L1	FBLN1	0.118246076434649
+AT1	epithelial_repair	null_pool	HYAL2	FBLN1	0.115490595423507
+AT1	epithelial_repair	null_pool	HAX1	FBLN1	0.140050317479334
+AT1	epithelial_repair	null_pool	HDAC5	FBLN1	0.128309572301427
+AT1	epithelial_repair	null_pool	UST	FBLN1	0.118126272912425
+AT1	epithelial_repair	null_pool	ENOX1	FBLN1	0.152989097879477
+AT1	epithelial_repair	null_pool	PRDM2	FBLN1	0.129148196956992
+AT1	epithelial_repair	null_pool	TRPM7	FBLN1	0.122199592668026
+AT1	epithelial_repair	null_pool	PCYOX1	FBLN1	0.125673894812509
+AT1	epithelial_repair	ligand	COL6A2	COL6A2	0.659039175751747
+AT1	epithelial_repair	null_pool	RPL21	COL6A2	0.670061099796311
+AT1	epithelial_repair	null_pool	RPL37A	COL6A2	0.64753803761829
+AT1	epithelial_repair	null_pool	LAPTM4A	COL6A2	0.639151791062644
+AT1	epithelial_repair	null_pool	NDUFA4L2	COL6A2	0.647897448184961
+AT1	epithelial_repair	null_pool	RPL18A	COL6A2	0.645980591829384
+AT1	epithelial_repair	null_pool	RPS4X	COL6A2	0.669581885707417
+AT1	epithelial_repair	null_pool	UBC	COL6A2	0.648616269318302
+AT1	epithelial_repair	null_pool	RPL18	COL6A2	0.651012339762772
+AT1	epithelial_repair	null_pool	RPL3	COL6A2	0.664789744818476
+AT1	epithelial_repair	null_pool	RPL30	COL6A2	0.646459805918278
+AT1	epithelial_repair	null_pool	SERF2	COL6A2	0.655085659518371
+AT1	epithelial_repair	null_pool	FAU	COL6A2	0.640230022762655
+AT1	epithelial_repair	null_pool	CD63	COL6A2	0.666826404696276
+AT1	epithelial_repair	null_pool	RPL35A	COL6A2	0.664550137774029
+AT1	epithelial_repair	null_pool	RPS28	COL6A2	0.662513477896229
+AT1	epithelial_repair	null_pool	RPS15A	COL6A2	0.642865700251573
+AT1	epithelial_repair	null_pool	LHFPL6	COL6A2	0.653408410207242
+AT1	epithelial_repair	null_pool	RPS6	COL6A2	0.645860788307161
+AT1	epithelial_repair	null_pool	RPLP2	COL6A2	0.674134419551911
+AT1	epithelial_repair	null_pool	RPL28	COL6A2	0.672217563196334
+AT1	epithelial_repair	null_pool	RPL19	COL6A2	0.676290882951934
+AT1	epithelial_repair	null_pool	RPS3	COL6A2	0.660117407451759
+AT1	epithelial_repair	null_pool	TXNIP	COL6A2	0.65400742781836
+AT1	epithelial_repair	null_pool	RPL8	COL6A2	0.670899724451876
+AT1	epithelial_repair	null_pool	RPL7A	COL6A2	0.647777644662737
+AT1	epithelial_repair	null_pool	RPS9	COL6A2	0.646699412962725
+AT1	epithelial_repair	null_pool	STOM	COL6A2	0.642626093207126
+AT1	epithelial_repair	null_pool	MYO1B	COL6A2	0.657601533485065
+AT1	epithelial_repair	null_pool	RPL15	COL6A2	0.671977956151887
+AT1	epithelial_repair	null_pool	TPM2	COL6A2	0.666466994129605
+AT1	epithelial_repair	ligand	COL1A2	COL1A2	0.609440517551212
+AT1	epithelial_repair	null_pool	CEBPD	COL1A2	0.621780280340234
+AT1	epithelial_repair	null_pool	CHN1	COL1A2	0.599736432251107
+AT1	epithelial_repair	null_pool	EGFL6	COL1A2	0.602611716784471
+AT1	epithelial_repair	null_pool	GAPDH	COL1A2	0.617946567629081
+AT1	epithelial_repair	null_pool	NACA	COL1A2	0.592188810351026
+AT1	epithelial_repair	null_pool	NOTCH3	COL1A2	0.599017611117766
+AT1	epithelial_repair	null_pool	NR2F2	COL1A2	0.597579968851084
+AT1	epithelial_repair	null_pool	PPP1R12A	COL1A2	0.613154426740141
+AT1	epithelial_repair	null_pool	RPL10A	COL1A2	0.604648376662271
+AT1	epithelial_repair	null_pool	RPL14	COL1A2	0.618665388762423
+AT1	epithelial_repair	null_pool	RPL23A	COL1A2	0.624535761351375
+AT1	epithelial_repair	null_pool	RPL24	COL1A2	0.605726608362283
+AT1	epithelial_repair	null_pool	RPL36	COL1A2	0.597939379417754
+AT1	epithelial_repair	null_pool	RPL39	COL1A2	0.610398945729
+AT1	epithelial_repair	null_pool	RPL5	COL1A2	0.62573379657361
+AT1	epithelial_repair	null_pool	RPL7	COL1A2	0.618425781717976
+AT1	epithelial_repair	null_pool	RPL9	COL1A2	0.614711872529047
+AT1	epithelial_repair	null_pool	RPLP0	COL1A2	0.599736432251107
+AT1	epithelial_repair	null_pool	RPS2	COL1A2	0.618785192284646
+AT1	epithelial_repair	null_pool	RPS5	COL1A2	0.609560321073435
+AT1	epithelial_repair	null_pool	SON	COL1A2	0.626452617706951
+AT1	epithelial_repair	ligand	CTSD	CTSD	0.331256738948129
+AT1	epithelial_repair	null_pool	TMEM50A	CTSD	0.326224991014739
+AT1	epithelial_repair	null_pool	MAP3K20	CTSD	0.312806996525699
+AT1	epithelial_repair	null_pool	SELENOW	CTSD	0.327183419192528
+AT1	epithelial_repair	null_pool	RERG	CTSD	0.327782436803646
+AT1	epithelial_repair	null_pool	ARHGAP29	CTSD	0.3483886426261
+AT1	epithelial_repair	null_pool	FOXP1	CTSD	0.350425302503901
+AT1	epithelial_repair	null_pool	VPS28	CTSD	0.311968371870134
+AT1	epithelial_repair	null_pool	TESC	CTSD	0.324787348748056
+AT1	epithelial_repair	null_pool	ANKRD11	CTSD	0.328381454414763
+AT1	epithelial_repair	null_pool	PARD3	CTSD	0.317119923325748
+AT1	epithelial_repair	null_pool	TMEM165	CTSD	0.344674733437169
+AT1	epithelial_repair	null_pool	XRCC5	CTSD	0.344914340481616
+AT1	epithelial_repair	null_pool	LBH	CTSD	0.315083263447947
+AT1	epithelial_repair	null_pool	NPC2	CTSD	0.325386366359174
+AT1	epithelial_repair	null_pool	CFDP1	CTSD	0.327303222714751
+AT1	epithelial_repair	null_pool	LDHB	CTSD	0.336288486881519
+AT1	epithelial_repair	null_pool	RBX1	CTSD	0.326105187492516
+AT1	epithelial_repair	null_pool	FHL5	CTSD	0.312207978914581
+AT1	epithelial_repair	null_pool	RBMX	CTSD	0.316760512759077
+AT1	epithelial_repair	null_pool	LMCD1	CTSD	0.323589313525821
+AT1	epithelial_repair	null_pool	AKAP13	CTSD	0.340601413681568
+AT1	epithelial_repair	null_pool	ARL6IP5	CTSD	0.32490715227028
+AT1	epithelial_repair	null_pool	LEPROT	CTSD	0.343237091170486
+AT1	epithelial_repair	null_pool	CDC42	CTSD	0.341799448903803
+AT1	epithelial_repair	null_pool	ELOB	CTSD	0.339283574937109
+AT1	epithelial_repair	null_pool	APOLD1	CTSD	0.324308134659162
+AT1	epithelial_repair	null_pool	SLC25A5	CTSD	0.336767700970414
+AT1	epithelial_repair	null_pool	SRRM1	CTSD	0.335929076314848
+AT1	epithelial_repair	null_pool	ASAH1	CTSD	0.346831196837194
+AT1	epithelial_repair	null_pool	SH3KBP1	CTSD	0.317599137414642
+AT1	epithelial_repair	program	KRT8		
+AT1	epithelial_repair	program	KRT18		
+AT1	epithelial_repair	program	KRT19		
+AT1	epithelial_repair	program	KRT7		
+AT1	epithelial_repair	program	CLDN4		
+AT1	epithelial_repair	program	SFN		
+AT1	epithelial_repair	program	SOX4		
+AT1	epithelial_repair	program	CDKN1A		
+AT1	epithelial_repair	program	TP53I3		
+AT2	epithelial_repair	ligand	COL4A1	COL4A1	0.799448903797708
+AT2	epithelial_repair	null_pool	ACTB	COL4A1	0.816700610997895
+AT2	epithelial_repair	null_pool	GPX3	COL4A1	0.781957589553075
+AT2	epithelial_repair	null_pool	MT-ATP6	COL4A1	0.795974601653226
+AT2	epithelial_repair	null_pool	MT-CO1	COL4A1	0.808793578531143
+AT2	epithelial_repair	null_pool	MT-CO2	COL4A1	0.805199472864437
+AT2	epithelial_repair	null_pool	MT-CYB	COL4A1	0.786390319875345
+AT2	epithelial_repair	null_pool	SPARCL1	COL4A1	0.798610279142144
+AT2	epithelial_repair	null_pool	TACC1	COL4A1	0.792979513597638
+AT2	epithelial_repair	ligand	SEMA5A	SEMA5A	0.334850844614836
+AT2	epithelial_repair	null_pool	ADGRG6	SEMA5A	0.330657721337011
+AT2	epithelial_repair	null_pool	FXYD1	SEMA5A	0.329699293159223
+AT2	epithelial_repair	null_pool	SH3BGRL3	SEMA5A	0.319635797292443
+AT2	epithelial_repair	null_pool	DYNLRB1	SEMA5A	0.317359530370195
+AT2	epithelial_repair	null_pool	TRA2B	SEMA5A	0.347669821492759
+AT2	epithelial_repair	null_pool	VAMP5	SEMA5A	0.318916976159101
+AT2	epithelial_repair	null_pool	DIAPH2	SEMA5A	0.322870492392479
+AT2	epithelial_repair	null_pool	ARID4B	SEMA5A	0.334251827003718
+AT2	epithelial_repair	null_pool	SYPL1	SEMA5A	0.322750688870256
+AT2	epithelial_repair	null_pool	NCOR1	SEMA5A	0.345153947526064
+AT2	epithelial_repair	null_pool	SRSF7	SEMA5A	0.340481610159344
+AT2	epithelial_repair	null_pool	LEPROT	SEMA5A	0.343237091170486
+AT2	epithelial_repair	null_pool	SERPINB6	SEMA5A	0.324667545225833
+AT2	epithelial_repair	null_pool	EDNRA	SEMA5A	0.315562477536841
+AT2	epithelial_repair	null_pool	ARL6IP5	SEMA5A	0.32490715227028
+AT2	epithelial_repair	null_pool	CYCS	SEMA5A	0.318078351503536
+AT2	epithelial_repair	null_pool	ASH1L	SEMA5A	0.327542829759198
+AT2	epithelial_repair	null_pool	CLTA	SEMA5A	0.337127111537084
+AT2	epithelial_repair	null_pool	HNRNPH1	SEMA5A	0.331496345992576
+AT2	epithelial_repair	null_pool	TAX1BP1	SEMA5A	0.342877680603816
+AT2	epithelial_repair	null_pool	NCALD	SEMA5A	0.32322990295915
+AT2	epithelial_repair	null_pool	PLS3	SEMA5A	0.315322870492394
+AT2	epithelial_repair	null_pool	DGKG	SEMA5A	0.352461962381701
+AT2	epithelial_repair	null_pool	SPCS1	SEMA5A	0.336168683359296
+AT2	epithelial_repair	null_pool	CFDP1	SEMA5A	0.327303222714751
+AT2	epithelial_repair	null_pool	TMEM165	SEMA5A	0.344674733437169
+AT2	epithelial_repair	null_pool	H2AZ1	SEMA5A	0.334251827003718
+AT2	epithelial_repair	null_pool	APLP2	SEMA5A	0.351503534203913
+AT2	epithelial_repair	null_pool	CLMN	SEMA5A	0.342158859470474
+AT2	epithelial_repair	null_pool	UBE2D2	SEMA5A	0.322151671259138
+AT2	epithelial_repair	ligand	LAMA4	LAMA4	0.329220079070328
+AT2	epithelial_repair	null_pool	GUCY1B1	LAMA4	0.333413202348154
+AT2	epithelial_repair	null_pool	KHDRBS1	LAMA4	0.31316640709237
+AT2	epithelial_repair	null_pool	MAP3K20	LAMA4	0.312806996525699
+AT2	epithelial_repair	null_pool	COMMD6	LAMA4	0.347310410926088
+AT2	epithelial_repair	null_pool	PRKAR1A	LAMA4	0.310291122559004
+AT2	epithelial_repair	null_pool	FHL5	LAMA4	0.312207978914581
+AT2	epithelial_repair	null_pool	ANKRD10	LAMA4	0.331975560081471
+AT2	epithelial_repair	null_pool	MYADM	LAMA4	0.324308134659162
+AT2	epithelial_repair	null_pool	ELOB	LAMA4	0.339283574937109
+AT2	epithelial_repair	null_pool	LDHB	LAMA4	0.336288486881519
+AT2	epithelial_repair	null_pool	SH3KBP1	LAMA4	0.317599137414642
+AT2	epithelial_repair	null_pool	UBE2E2	LAMA4	0.321792260692467
+AT2	epithelial_repair	null_pool	NCOR1	LAMA4	0.345153947526064
+AT2	epithelial_repair	null_pool	KIAA0040	LAMA4	0.330897328381458
+AT2	epithelial_repair	null_pool	COX7B	LAMA4	0.345992572181629
+AT2	epithelial_repair	null_pool	TANC1	LAMA4	0.328621061459211
+AT2	epithelial_repair	null_pool	ARID4B	LAMA4	0.334251827003718
+AT2	epithelial_repair	null_pool	SNRPD2	LAMA4	0.315562477536841
+AT2	epithelial_repair	null_pool	MRFAP1	LAMA4	0.336767700970414
+AT2	epithelial_repair	null_pool	RBMX	LAMA4	0.316760512759077
+AT2	epithelial_repair	null_pool	VAMP5	LAMA4	0.318916976159101
+AT2	epithelial_repair	null_pool	TXN	LAMA4	0.322990295914703
+AT2	epithelial_repair	null_pool	TCIM	LAMA4	0.313525817659041
+AT2	epithelial_repair	null_pool	NDUFB2	LAMA4	0.326105187492516
+AT2	epithelial_repair	null_pool	EDNRA	LAMA4	0.315562477536841
+AT2	epithelial_repair	null_pool	ACTN1	LAMA4	0.348987660237218
+AT2	epithelial_repair	null_pool	AKAP13	LAMA4	0.340601413681568
+AT2	epithelial_repair	null_pool	CDC42	LAMA4	0.341799448903803
+AT2	epithelial_repair	null_pool	PRDX6	LAMA4	0.324667545225833
+AT2	epithelial_repair	null_pool	LINC-PINT	LAMA4	0.325146759314727
+AT2	epithelial_repair	ligand	EDIL3	EDIL3	0.305618785192285
+AT2	epithelial_repair	null_pool	LRRFIP1	EDIL3	0.289565113214326
+AT2	epithelial_repair	null_pool	ARL6IP4	EDIL3	0.302863304181143
+AT2	epithelial_repair	null_pool	HES1	EDIL3	0.319276386725772
+AT2	epithelial_repair	null_pool	MCL1	EDIL3	0.293159218881033
+AT2	epithelial_repair	null_pool	RPS6KA2	EDIL3	0.319515993770219
+AT2	epithelial_repair	null_pool	FKBP8	EDIL3	0.300347430214448
+AT2	epithelial_repair	null_pool	PTP4A3	EDIL3	0.308853480292321
+AT2	epithelial_repair	null_pool	TESC	EDIL3	0.324787348748056
+AT2	epithelial_repair	null_pool	LMCD1	EDIL3	0.323589313525821
+AT2	epithelial_repair	null_pool	NDUFA13	EDIL3	0.290523541392115
+AT2	epithelial_repair	null_pool	SH3KBP1	EDIL3	0.317599137414642
+AT2	epithelial_repair	null_pool	PCM1	EDIL3	0.300227626692224
+AT2	epithelial_repair	null_pool	LINC-PINT	EDIL3	0.325146759314727
+AT2	epithelial_repair	null_pool	COMT	EDIL3	0.293279022403257
+AT2	epithelial_repair	null_pool	CTBP2	EDIL3	0.290403737869891
+AT2	epithelial_repair	null_pool	AKT3	EDIL3	0.295914699892176
+AT2	epithelial_repair	null_pool	ATP5MK	EDIL3	0.287049239247631
+AT2	epithelial_repair	null_pool	SH3BGRL3	EDIL3	0.319635797292443
+AT2	epithelial_repair	null_pool	MT1X	EDIL3	0.313885228225711
+AT2	epithelial_repair	null_pool	MAP3K20	EDIL3	0.312806996525699
+AT2	epithelial_repair	null_pool	ETS1	EDIL3	0.292560201269916
+AT2	epithelial_repair	null_pool	TUBB4B	EDIL3	0.301904876003354
+AT2	epithelial_repair	null_pool	GNB2	EDIL3	0.289924523780997
+AT2	epithelial_repair	null_pool	PREX2	EDIL3	0.305259374625614
+AT2	epithelial_repair	null_pool	BEX3	EDIL3	0.309692104947886
+AT2	epithelial_repair	null_pool	ISCU	EDIL3	0.30478016053672
+AT2	epithelial_repair	null_pool	AFF4	EDIL3	0.307535641547862
+AT2	epithelial_repair	null_pool	RAB1A	EDIL3	0.320833832514678
+AT2	epithelial_repair	null_pool	ATP5MC3	EDIL3	0.303222714747813
+AT2	epithelial_repair	null_pool	TNRC6B	EDIL3	0.314244638792382
+AT2	epithelial_repair	ligand	COL6A2	COL6A2	0.659039175751747
+AT2	epithelial_repair	null_pool	SERF2	COL6A2	0.655085659518371
+AT2	epithelial_repair	null_pool	RPL8	COL6A2	0.670899724451876
+AT2	epithelial_repair	null_pool	RPL7A	COL6A2	0.647777644662737
+AT2	epithelial_repair	null_pool	PAG1	COL6A2	0.652569785551678
+AT2	epithelial_repair	null_pool	RPL3	COL6A2	0.664789744818476
+AT2	epithelial_repair	null_pool	RPS28	COL6A2	0.662513477896229
+AT2	epithelial_repair	null_pool	RPS3	COL6A2	0.660117407451759
+AT2	epithelial_repair	null_pool	FAU	COL6A2	0.640230022762655
+AT2	epithelial_repair	null_pool	MYO1B	COL6A2	0.657601533485065
+AT2	epithelial_repair	null_pool	RPL21	COL6A2	0.670061099796311
+AT2	epithelial_repair	null_pool	TPM2	COL6A2	0.666466994129605
+AT2	epithelial_repair	null_pool	RPL28	COL6A2	0.672217563196334
+AT2	epithelial_repair	null_pool	RPL15	COL6A2	0.671977956151887
+AT2	epithelial_repair	null_pool	STOM	COL6A2	0.642626093207126
+AT2	epithelial_repair	null_pool	RPS9	COL6A2	0.646699412962725
+AT2	epithelial_repair	null_pool	RPL6	COL6A2	0.652569785551678
+AT2	epithelial_repair	null_pool	LAPTM4A	COL6A2	0.639151791062644
+AT2	epithelial_repair	null_pool	RPL19	COL6A2	0.676290882951934
+AT2	epithelial_repair	null_pool	UBC	COL6A2	0.648616269318302
+AT2	epithelial_repair	null_pool	RPLP2	COL6A2	0.674134419551911
+AT2	epithelial_repair	null_pool	RPS6	COL6A2	0.645860788307161
+AT2	epithelial_repair	null_pool	RPS12	COL6A2	0.666347190607382
+AT2	epithelial_repair	null_pool	RPL35A	COL6A2	0.664550137774029
+AT2	epithelial_repair	null_pool	RPS15A	COL6A2	0.642865700251573
+AT2	epithelial_repair	null_pool	LHFPL6	COL6A2	0.653408410207242
+AT2	epithelial_repair	null_pool	NDUFA4L2	COL6A2	0.647897448184961
+AT2	epithelial_repair	null_pool	RPS23	COL6A2	0.654726248951701
+AT2	epithelial_repair	null_pool	RPL37A	COL6A2	0.64753803761829
+AT2	epithelial_repair	null_pool	RPS4X	COL6A2	0.669581885707417
+AT2	epithelial_repair	null_pool	RPL30	COL6A2	0.646459805918278
+AT2	epithelial_repair	program	KRT8		
+AT2	epithelial_repair	program	KRT18		
+AT2	epithelial_repair	program	KRT19		
+AT2	epithelial_repair	program	KRT7		
+AT2	epithelial_repair	program	CLDN4		
+AT2	epithelial_repair	program	SFN		
+AT2	epithelial_repair	program	SOX4		
+AT2	epithelial_repair	program	CDKN1A		
+AT2	epithelial_repair	program	TP53I3		
+AT2	epithelial_repair	program	LCN2		
+Alveolar fibroblasts	fibroblast_matrix	ligand	EFEMP2	EFEMP2	0.256738948125068
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SETD5	EFEMP2	0.269797532047437
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ISYNA1	EFEMP2	0.257457769258409
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RAPH1	EFEMP2	0.269917335569661
+Alveolar fibroblasts	fibroblast_matrix	null_pool	EIF1B	EFEMP2	0.257098358691738
+Alveolar fibroblasts	fibroblast_matrix	null_pool	LZTS1	EFEMP2	0.264166766502929
+Alveolar fibroblasts	fibroblast_matrix	null_pool	KCNK17	EFEMP2	0.273391637714144
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DOCK6	EFEMP2	0.250149754402771
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PRDX2	EFEMP2	0.254941895291714
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SELENOS	EFEMP2	0.248232898047194
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PACSIN2	EFEMP2	0.258056786869527
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TPR	EFEMP2	0.276626332814181
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ATP5PF	EFEMP2	0.276147118725286
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HSD17B12	EFEMP2	0.269677728525213
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NDUFS4	EFEMP2	0.265604408769612
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TMEM106C	EFEMP2	0.239487240924876
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HNRNPH3	EFEMP2	0.250149754402771
+Alveolar fibroblasts	fibroblast_matrix	null_pool	IQGAP1	EFEMP2	0.269198514436319
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TMCO1	EFEMP2	0.240924883191558
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SERP1	EFEMP2	0.256978555169515
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SYF2	EFEMP2	0.239726847969323
+Alveolar fibroblasts	fibroblast_matrix	null_pool	BMPR2	EFEMP2	0.276506529291957
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ADH5	EFEMP2	0.266443033425177
+Alveolar fibroblasts	fibroblast_matrix	null_pool	THOC2	EFEMP2	0.263088534802917
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SARS1	EFEMP2	0.246555648736065
+Alveolar fibroblasts	fibroblast_matrix	null_pool	GNG11	EFEMP2	0.274709476458603
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SSB	EFEMP2	0.265484605247388
+Alveolar fibroblasts	fibroblast_matrix	null_pool	LITAF	EFEMP2	0.270276746136331
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MRPS21	EFEMP2	0.273870851803038
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CIAO2B	EFEMP2	0.248831915658312
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ATP5ME	EFEMP2	0.274949083503051
+Alveolar fibroblasts	fibroblast_matrix	ligand	TGFB1	TGFB1	0.106625134778963
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ENSG00000275443	TGFB1	0.107224152390081
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TRAPPC2	TGFB1	0.106625134778963
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DCLK2	TGFB1	0.0939259614232664
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DERL1	TGFB1	0.0935665508565957
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MRPL21	TGFB1	0.11561039894573
+Alveolar fibroblasts	fibroblast_matrix	null_pool	FAR2	TGFB1	0.115490595423507
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SREBF2	TGFB1	0.110578651012341
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NDUFAF8	TGFB1	0.0984784952677616
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CBX1	TGFB1	0.0934467473343721
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RC3H2	TGFB1	0.0938061579010428
+Alveolar fibroblasts	fibroblast_matrix	null_pool	AGPAT5	TGFB1	0.124595663112497
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TMEM115	TGFB1	0.0914100874565717
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MAPK10	TGFB1	0.104229064334492
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TRIM2	TGFB1	0.109260812267882
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RDH11	TGFB1	0.113813346112377
+Alveolar fibroblasts	fibroblast_matrix	null_pool	FKBP7	TGFB1	0.0884149994009827
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TOR1AIP2	TGFB1	0.0928477297232543
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TRAPPC9	TGFB1	0.101473583323351
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NICOL1	TGFB1	0.106145920690069
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DDX50	TGFB1	0.114532167245718
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HSPA12A	TGFB1	0.0885348029232063
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CHST3	TGFB1	0.0958428177788433
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RELCH	TGFB1	0.0876961782676414
+Alveolar fibroblasts	fibroblast_matrix	null_pool	STK24	TGFB1	0.123038217323591
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TRIM38	TGFB1	0.109500419312329
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NTMT1	TGFB1	0.118246076434649
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TUBGCP2	TGFB1	0.11021924044567
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CHORDC1	TGFB1	0.113094524979036
+Alveolar fibroblasts	fibroblast_matrix	null_pool	GPR20	TGFB1	0.119563915179108
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DLST	TGFB1	0.0881753923565356
+Alveolar fibroblasts	fibroblast_matrix	ligand	TIMP1	TIMP1	0.674254223074134
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CD63	TIMP1	0.666826404696276
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HIGD1B	TIMP1	0.687312806996497
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ITGA1	TIMP1	0.684197915418686
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MYO1B	TIMP1	0.657601533485065
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL13A	TIMP1	0.684796933029803
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL15	TIMP1	0.671977956151887
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL19	TIMP1	0.676290882951934
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL21	TIMP1	0.670061099796311
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL28	TIMP1	0.672217563196334
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL3	TIMP1	0.664789744818476
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL34	TIMP1	0.688990056307627
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL35A	TIMP1	0.664550137774029
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPL8	TIMP1	0.670899724451876
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPLP2	TIMP1	0.674134419551911
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS12	TIMP1	0.666347190607382
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS14	TIMP1	0.681442434407545
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS15	TIMP1	0.689469270396521
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS23	TIMP1	0.654726248951701
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS27	TIMP1	0.686474182340933
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS28	TIMP1	0.662513477896229
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS3	TIMP1	0.660117407451759
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS3A	TIMP1	0.659757996885089
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS4X	TIMP1	0.669581885707417
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RPS7	TIMP1	0.69114651970765
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SEPTIN7	TIMP1	0.680723613274204
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SERF2	TIMP1	0.655085659518371
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TMSB10	TIMP1	0.68467712950758
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TPM2	TIMP1	0.666466994129605
+Alveolar fibroblasts	fibroblast_matrix	ligand	PDGFA	PDGFA	0.140170121001558
+Alveolar fibroblasts	fibroblast_matrix	null_pool	STIP1	PDGFA	0.122798610279144
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ZFPM2	PDGFA	0.137893854079311
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SMARCE1	PDGFA	0.132622499101475
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RARA	PDGFA	0.131544267401463
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PCNX1	PDGFA	0.133461123757039
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PSPC1	PDGFA	0.140170121001558
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HAX1	PDGFA	0.140050317479334
+Alveolar fibroblasts	fibroblast_matrix	null_pool	HSF1	PDGFA	0.134299748412604
+Alveolar fibroblasts	fibroblast_matrix	null_pool	YIPF6	PDGFA	0.138253264645981
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NMD3	PDGFA	0.150832634479453
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ITIH5	PDGFA	0.144483047801605
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PCF11	PDGFA	0.150832634479453
+Alveolar fibroblasts	fibroblast_matrix	null_pool	WWTR1	PDGFA	0.12974721456811
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PCGF5	PDGFA	0.136216604768181
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CSNK2A1	PDGFA	0.141128549179346
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MAP3K2	PDGFA	0.151551455612795
+Alveolar fibroblasts	fibroblast_matrix	null_pool	GBP1	PDGFA	0.121121360968014
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SRP54	PDGFA	0.156942614112854
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TGFBR3	PDGFA	0.156223792979513
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SEC24B	PDGFA	0.124835270156944
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CCDC82	PDGFA	0.123397627890262
+Alveolar fibroblasts	fibroblast_matrix	null_pool	FRY	PDGFA	0.13382053432371
+Alveolar fibroblasts	fibroblast_matrix	null_pool	GRB2	PDGFA	0.145681083023841
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CYTH2	PDGFA	0.152030669701689
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CNIH1	PDGFA	0.135018569545946
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SH3BP2	PDGFA	0.127950161734756
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ENSG00000279483	PDGFA	0.157421828201748
+Alveolar fibroblasts	fibroblast_matrix	null_pool	LRBA	PDGFA	0.125194680723615
+Alveolar fibroblasts	fibroblast_matrix	null_pool	VPS26A	PDGFA	0.160057505690666
+Alveolar fibroblasts	fibroblast_matrix	null_pool	LAPTM4B	PDGFA	0.13010662513478
+Alveolar fibroblasts	fibroblast_matrix	ligand	TGFB2	TGFB2	0.112495507367918
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ZNF106	TGFB2	0.114651970767942
+Alveolar fibroblasts	fibroblast_matrix	null_pool	LATS2	TGFB2	0.0926081226788072
+Alveolar fibroblasts	fibroblast_matrix	null_pool	FKBP11	TGFB2	0.121959985623579
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CDK12	TGFB2	0.12603330537918
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NFU1	TGFB2	0.111776686234576
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MCU	TGFB2	0.111537079190129
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PKD1	TGFB2	0.0988379058344322
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PLEKHA3	TGFB2	0.110698454534564
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CHFR	TGFB2	0.093207140289925
+Alveolar fibroblasts	fibroblast_matrix	null_pool	MRPS2	TGFB2	0.0945249790343841
+Alveolar fibroblasts	fibroblast_matrix	null_pool	AASDHPPT	TGFB2	0.0969210494788553
+Alveolar fibroblasts	fibroblast_matrix	null_pool	THRA	TGFB2	0.0995567269677736
+Alveolar fibroblasts	fibroblast_matrix	null_pool	SNRNP27	TGFB2	0.107104348867858
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RAB28	TGFB2	0.106265724212293
+Alveolar fibroblasts	fibroblast_matrix	null_pool	IRF3	TGFB2	0.107343955912305
+Alveolar fibroblasts	fibroblast_matrix	null_pool	COQ10B	TGFB2	0.130346232179227
+Alveolar fibroblasts	fibroblast_matrix	null_pool	FOXS1	TGFB2	0.121121360968014
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CCDC66	TGFB2	0.110698454534564
+Alveolar fibroblasts	fibroblast_matrix	null_pool	DIS3L2	TGFB2	0.103390439678927
+Alveolar fibroblasts	fibroblast_matrix	null_pool	CHORDC1	TGFB2	0.113094524979036
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TM7SF3	TGFB2	0.10482808194561
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NT5C2	TGFB2	0.12603330537918
+Alveolar fibroblasts	fibroblast_matrix	null_pool	NAA35	TGFB2	0.0984784952677616
+Alveolar fibroblasts	fibroblast_matrix	null_pool	PRKX	TGFB2	0.0939259614232664
+Alveolar fibroblasts	fibroblast_matrix	null_pool	ZNF254	TGFB2	0.106864741823411
+Alveolar fibroblasts	fibroblast_matrix	null_pool	TMX4	TGFB2	0.0977596741344202
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RC3H2	TGFB2	0.0938061579010428
+Alveolar fibroblasts	fibroblast_matrix	null_pool	POLD2	TGFB2	0.106984545345634
+Alveolar fibroblasts	fibroblast_matrix	null_pool	KLHL20	TGFB2	0.0944051755121606
+Alveolar fibroblasts	fibroblast_matrix	null_pool	RIN2	TGFB2	0.109979633401223
+Alveolar fibroblasts	fibroblast_matrix	program	LOX		
+Alveolar fibroblasts	fibroblast_matrix	program	LOXL1		
+Alveolar fibroblasts	fibroblast_matrix	program	P4HA1		
+Alveolar fibroblasts	fibroblast_matrix	program	P4HA2		
+Alveolar fibroblasts	fibroblast_matrix	program	PLOD2		
+Alveolar fibroblasts	fibroblast_matrix	program	SERPINH1		
+Alveolar fibroblasts	fibroblast_matrix	program	PCOLCE		
+Alveolar fibroblasts	fibroblast_matrix	program	ADAMTS2		
+Alveolar fibroblasts	fibroblast_matrix	program	BMP1		
+Alveolar fibroblasts	fibroblast_matrix	program	ELN		
+Alveolar fibroblasts	fibroblast_matrix	program	FBLN2		
+Adventitial fibroblasts	fibroblast_matrix	ligand	EFEMP2	EFEMP2	0.256738948125068
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TCEAL9	EFEMP2	0.239008026835982
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ATRAID	EFEMP2	0.257337965736186
+Adventitial fibroblasts	fibroblast_matrix	null_pool	BRD4	EFEMP2	0.249191326224983
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RAPGEF2	EFEMP2	0.240086258535994
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MBNL2	EFEMP2	0.246555648736065
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PRDX2	EFEMP2	0.254941895291714
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GNG11	EFEMP2	0.274709476458603
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NFE2L2	EFEMP2	0.264166766502929
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MARK3	EFEMP2	0.242242721936017
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GDI2	EFEMP2	0.245237809991606
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RCN1	EFEMP2	0.257337965736186
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MYDGF	EFEMP2	0.252545824847243
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FBLIM1	EFEMP2	0.259374625613986
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PACSIN2	EFEMP2	0.258056786869527
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PAPOLA	EFEMP2	0.251827003713901
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NDUFAF3	EFEMP2	0.247873487480524
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GADD45GIP1	EFEMP2	0.249790343836101
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CD4	EFEMP2	0.248712112136089
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PPP2R1A	EFEMP2	0.258895411525092
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GTF2I	EFEMP2	0.257577572780633
+Adventitial fibroblasts	fibroblast_matrix	null_pool	BIRC6	EFEMP2	0.268958907391872
+Adventitial fibroblasts	fibroblast_matrix	null_pool	DENND2A	EFEMP2	0.264286570025153
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ADH5	EFEMP2	0.266443033425177
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ATP5F1C	EFEMP2	0.24943093326943
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SNRPB2	EFEMP2	0.241284293758229
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SKAP2	EFEMP2	0.273631244758591
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SNRPG	EFEMP2	0.246555648736065
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CTSA	EFEMP2	0.242602132502688
+Adventitial fibroblasts	fibroblast_matrix	null_pool	STAG1	EFEMP2	0.245477417036053
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NUMB	EFEMP2	0.254702288247267
+Adventitial fibroblasts	fibroblast_matrix	ligand	TIMP1	TIMP1	0.674254223074134
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CD63	TIMP1	0.666826404696276
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HIGD1B	TIMP1	0.687312806996497
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ITGA1	TIMP1	0.684197915418686
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MYO1B	TIMP1	0.657601533485065
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL13A	TIMP1	0.684796933029803
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL15	TIMP1	0.671977956151887
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL19	TIMP1	0.676290882951934
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL21	TIMP1	0.670061099796311
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL28	TIMP1	0.672217563196334
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL3	TIMP1	0.664789744818476
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL34	TIMP1	0.688990056307627
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL35A	TIMP1	0.664550137774029
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPL8	TIMP1	0.670899724451876
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPLP2	TIMP1	0.674134419551911
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS12	TIMP1	0.666347190607382
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS14	TIMP1	0.681442434407545
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS15	TIMP1	0.689469270396521
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS23	TIMP1	0.654726248951701
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS27	TIMP1	0.686474182340933
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS28	TIMP1	0.662513477896229
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS3	TIMP1	0.660117407451759
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS3A	TIMP1	0.659757996885089
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS4X	TIMP1	0.669581885707417
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS7	TIMP1	0.69114651970765
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SEPTIN7	TIMP1	0.680723613274204
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SERF2	TIMP1	0.655085659518371
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TMSB10	TIMP1	0.68467712950758
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TPM2	TIMP1	0.666466994129605
+Adventitial fibroblasts	fibroblast_matrix	ligand	TGFB1	TGFB1	0.106625134778963
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GALNT1	TGFB1	0.0867377500898529
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NXF1	TGFB1	0.0935665508565957
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SYNRG	TGFB1	0.0894932311009947
+Adventitial fibroblasts	fibroblast_matrix	null_pool	POLR2A	TGFB1	0.123637234934709
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SP110	TGFB1	0.0896130346232183
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PIKFYVE	TGFB1	0.0966814424344082
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PCNX4	TGFB1	0.09943692344555
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TSPAN14	TGFB1	0.0934467473343721
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CEP57	TGFB1	0.103749850245598
+Adventitial fibroblasts	fibroblast_matrix	null_pool	DAP3	TGFB1	0.124116449023603
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GCFC2	TGFB1	0.0997963340122207
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PDCL3	TGFB1	0.0940457649454899
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CRADD	TGFB1	0.0885348029232063
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CHCHD1	TGFB1	0.0869773571343
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FBH1	TGFB1	0.094285371989937
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ZCCHC24	TGFB1	0.100515155145562
+Adventitial fibroblasts	fibroblast_matrix	null_pool	STAT1	TGFB1	0.115490595423507
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TMCC1	TGFB1	0.123637234934709
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MED28	TGFB1	0.118246076434649
+Adventitial fibroblasts	fibroblast_matrix	null_pool	DOCK7	TGFB1	0.103390439678927
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HOOK2	TGFB1	0.0988379058344322
+Adventitial fibroblasts	fibroblast_matrix	null_pool	COPS4	TGFB1	0.10650533125674
+Adventitial fibroblasts	fibroblast_matrix	null_pool	GCLM	TGFB1	0.091050676889901
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TAF1	TGFB1	0.0977596741344202
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MTIF3	TGFB1	0.123876841979156
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SNX18	TGFB1	0.0885348029232063
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RUFY2	TGFB1	0.108901401701211
+Adventitial fibroblasts	fibroblast_matrix	null_pool	AK2	TGFB1	0.114651970767942
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CCDC59	TGFB1	0.111297472145682
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ECI2	TGFB1	0.0896130346232183
+Adventitial fibroblasts	fibroblast_matrix	ligand	PDGFA	PDGFA	0.140170121001558
+Adventitial fibroblasts	fibroblast_matrix	null_pool	IRF2BPL	PDGFA	0.128429375823651
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SLC39A7	PDGFA	0.13753444351264
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CASK	PDGFA	0.120402539834673
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CLSTN1	PDGFA	0.144483047801605
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RAP1GDS1	PDGFA	0.130825446268122
+Adventitial fibroblasts	fibroblast_matrix	null_pool	UBQLN1	PDGFA	0.130226428657004
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PI4KA	PDGFA	0.131304660357016
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MCRIP1	PDGFA	0.13585719420151
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ENOX1	PDGFA	0.152989097879477
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SNAP23	PDGFA	0.135737390679287
+Adventitial fibroblasts	fibroblast_matrix	null_pool	DNAJA2	PDGFA	0.128788786390321
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PTPN11	PDGFA	0.121241164490238
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CPNE1	PDGFA	0.150832634479453
+Adventitial fibroblasts	fibroblast_matrix	null_pool	LCOR	PDGFA	0.125554091290286
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ARHGAP21	PDGFA	0.12267880675692
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CHID1	PDGFA	0.136576015334852
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SH3BP2	PDGFA	0.127950161734756
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TGFBR3	PDGFA	0.156223792979513
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TNKS2	PDGFA	0.141847370312688
+Adventitial fibroblasts	fibroblast_matrix	null_pool	AZI2	PDGFA	0.137055229423746
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ZNF24	PDGFA	0.149634599257218
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ZKSCAN1	PDGFA	0.151551455612795
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NAA15	PDGFA	0.132742302623698
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CDYL	PDGFA	0.139930513957111
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HYCC1	PDGFA	0.137654247034863
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MCFD2	PDGFA	0.123757038456932
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SAP30BP	PDGFA	0.13585719420151
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FAM13B	PDGFA	0.127950161734756
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RAB13	PDGFA	0.154187133101713
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FRG1	PDGFA	0.140529531568229
+Adventitial fibroblasts	fibroblast_matrix	ligand	CTSD	CTSD	0.331256738948129
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TNRC6B	CTSD	0.314244638792382
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SNRPD2	CTSD	0.315562477536841
+Adventitial fibroblasts	fibroblast_matrix	null_pool	EIF4A1	CTSD	0.342039055948251
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SEC31A	CTSD	0.318557565592431
+Adventitial fibroblasts	fibroblast_matrix	null_pool	DYNC1I2	CTSD	0.314005031747935
+Adventitial fibroblasts	fibroblast_matrix	null_pool	LBH	CTSD	0.315083263447947
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NDUFB11	CTSD	0.328141847370316
+Adventitial fibroblasts	fibroblast_matrix	null_pool	AGAP1	CTSD	0.321432850125796
+Adventitial fibroblasts	fibroblast_matrix	null_pool	MT1X	CTSD	0.313885228225711
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RERG	CTSD	0.327782436803646
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FTX	CTSD	0.338444950281543
+Adventitial fibroblasts	fibroblast_matrix	null_pool	UACA	CTSD	0.339882592548226
+Adventitial fibroblasts	fibroblast_matrix	null_pool	SH3BGRL3	CTSD	0.319635797292443
+Adventitial fibroblasts	fibroblast_matrix	null_pool	EDNRA	CTSD	0.315562477536841
+Adventitial fibroblasts	fibroblast_matrix	null_pool	NR2F2-AS1	CTSD	0.323589313525821
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HIP1	CTSD	0.335809272792625
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FOXP1	CTSD	0.350425302503901
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HES1	CTSD	0.319276386725772
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ACTN1	CTSD	0.348987660237218
+Adventitial fibroblasts	fibroblast_matrix	null_pool	HSPA5	CTSD	0.350664909548348
+Adventitial fibroblasts	fibroblast_matrix	null_pool	TCEAL4	CTSD	0.313286210614593
+Adventitial fibroblasts	fibroblast_matrix	null_pool	FOXO3	CTSD	0.331855756559247
+Adventitial fibroblasts	fibroblast_matrix	null_pool	PDLIM1	CTSD	0.350904516592795
+Adventitial fibroblasts	fibroblast_matrix	null_pool	RPS6KA2	CTSD	0.319515993770219
+Adventitial fibroblasts	fibroblast_matrix	null_pool	VPS28	CTSD	0.311968371870134
+Adventitial fibroblasts	fibroblast_matrix	null_pool	APOLD1	CTSD	0.324308134659162
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CAP1	CTSD	0.321073439559126
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CDC42	CTSD	0.341799448903803
+Adventitial fibroblasts	fibroblast_matrix	null_pool	CTNNA1	CTSD	0.338924164370438
+Adventitial fibroblasts	fibroblast_matrix	null_pool	ERH	CTSD	0.349586677848336
+Adventitial fibroblasts	fibroblast_matrix	program	LOX		
+Adventitial fibroblasts	fibroblast_matrix	program	LOXL1		
+Adventitial fibroblasts	fibroblast_matrix	program	P4HA1		
+Adventitial fibroblasts	fibroblast_matrix	program	P4HA2		
+Adventitial fibroblasts	fibroblast_matrix	program	PLOD1		
+Adventitial fibroblasts	fibroblast_matrix	program	PLOD2		
+Adventitial fibroblasts	fibroblast_matrix	program	SERPINH1		
+Adventitial fibroblasts	fibroblast_matrix	program	PCOLCE		
+Adventitial fibroblasts	fibroblast_matrix	program	ADAMTS2		
+Adventitial fibroblasts	fibroblast_matrix	program	BMP1		
+Adventitial fibroblasts	fibroblast_matrix	program	ELN		
+Adventitial fibroblasts	fibroblast_matrix	program	FBLN2		
+Adventitial fibroblasts	fibroblast_matrix	program	MFAP5		
+Adventitial fibroblasts	fibroblast_matrix	program	CTHRC1		

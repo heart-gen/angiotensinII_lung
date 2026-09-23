@@ -1,0 +1,115 @@
+cells: 11680 of 11680 matched to AGTR1 counts
+units (>= 5 cells): 214 from 95 donors, 19 studies
+arbiter null: 1000 panels on 32 cores
+ARBITER signature: beta -0.073 (model NB GLMM, P 0.212); null centre 0.083, p_emp 0.000999
+                       score         family    kind n_donors  median_rho
+                      <char>         <char>  <char>    <int>       <num>
+1:       at1r_response_score      signature     raw       69 -0.18859540
+2:       at1r_response_score      signature partial       69 -0.09909195
+3: at1r_legacy_curated_score legacy_curated     raw       69 -0.13219062
+4: at1r_legacy_curated_score legacy_curated partial       69 -0.02923629
+          q25         q75     p_wilcox         p_BH  null_mean    null_sd
+        <num>       <num>        <num>        <num>      <num>      <num>
+1: -0.2727971 -0.07509849 3.057584e-10 3.057584e-10 -0.1704349 0.01078135
+2: -0.2420010 -0.02145506 1.296008e-07 1.296008e-07         NA         NA
+3: -0.2206950 -0.04688458 4.367279e-07 4.367279e-07         NA         NA
+4: -0.1472365  0.07735743 7.286364e-02 7.286364e-02         NA         NA
+        p_emp
+        <num>
+1: 0.06965174
+2:         NA
+3:         NA
+4:         NA
+
+Reproducibility information:
+R version 4.4.3 (2025-02-28)
+Platform: x86_64-conda-linux-gnu
+Running under: Red Hat Enterprise Linux 8.10 (Ootpa)
+
+Matrix products: default
+BLAS/LAPACK: /ocean/projects/bio250020p/shared/opt/env/R_env/lib/libopenblasp-r0.3.29.so;  LAPACK version 3.12.0
+
+locale:
+[1] C
+
+time zone: America/New_York
+tzcode source: system (glibc)
+
+attached base packages:
+[1] parallel  stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+[1] emmeans_2.0.1     lmerTest_3.2-0    lme4_1.1-37       Matrix_1.7-4     
+[5] data.table_1.17.8 optparse_1.7.5   
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6        dplyr_1.1.4         compiler_4.4.3     
+ [4] tidyselect_1.2.1    Rcpp_1.1.0          pbkrtest_0.5.5     
+ [7] tidyr_1.3.1         splines_4.4.3       scales_1.4.0       
+[10] boot_1.3-32         coda_0.19-4.1       lattice_0.22-7     
+[13] ggplot2_4.0.0       R6_2.6.1            generics_0.1.4     
+[16] backports_1.5.0     rbibutils_2.3       MASS_7.3-65        
+[19] tibble_3.3.0        nloptr_2.2.1        minqa_1.2.8        
+[22] pillar_1.11.1       RColorBrewer_1.1-3  R.utils_2.13.0     
+[25] rlang_1.1.6         getopt_1.20.4       broom_1.0.10       
+[28] S7_0.2.0            estimability_1.5.1  cli_3.6.5          
+[31] magrittr_2.0.4      Rdpack_2.6.4        grid_4.4.3         
+[34] xtable_1.8-4        mvtnorm_1.3-3       lifecycle_1.0.4    
+[37] nlme_3.1-168        R.oo_1.27.1         R.methodsS3_1.8.2  
+[40] reformulas_0.4.2    vctrs_0.6.5         glue_1.8.0         
+[43] farver_2.1.2        numDeriv_2016.8-1.1 purrr_1.1.0        
+[46] tools_4.4.3         pkgconfig_2.0.3    
+                      spec                    outcome   estimate         SE
+                    <char>                     <char>      <num>      <num>
+1:                 primary             bm_minus_fib_z -0.5149665 0.06705420
+2:             _tracer_adj             bm_minus_fib_z -0.5220198 0.07201403
+3:           _depth_spline             bm_minus_fib_z -0.5076831 0.06756191
+4: _fibrillar_ecm_contrast          bm_minus_fibecm_z -0.5433864 0.06599402
+5:               _bm_alone  basement_membrane_score_z  0.0981472 0.07493922
+6:              _fib_alone fibrillar_collagen_score_z  0.4728660 0.06693657
+        p_value   null_mean       p_emp claimable
+          <num>       <num>       <num>    <lgcl>
+1: 9.816689e-13 -0.10726172 0.000999001      TRUE
+2: 1.073208e-11          NA          NA      TRUE
+3: 2.729851e-12          NA          NA      TRUE
+4: 2.097718e-14          NA          NA      TRUE
+5: 1.919029e-01  0.08596552 0.740259740     FALSE
+6: 3.199984e-11          NA          NA     FALSE
+
+Reproducibility information:
+R version 4.4.3 (2025-02-28)
+Platform: x86_64-conda-linux-gnu
+Running under: Red Hat Enterprise Linux 8.10 (Ootpa)
+
+Matrix products: default
+BLAS/LAPACK: /ocean/projects/bio250020p/shared/opt/env/R_env/lib/libopenblasp-r0.3.29.so;  LAPACK version 3.12.0
+
+locale:
+[1] C
+
+time zone: America/New_York
+tzcode source: system (glibc)
+
+attached base packages:
+[1] parallel  splines   stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+[1] lmerTest_3.2-0    lme4_1.1-37       Matrix_1.7-4      data.table_1.17.8
+[5] optparse_1.7.5   
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6        dplyr_1.1.4         compiler_4.4.3     
+ [4] tidyselect_1.2.1    Rcpp_1.1.0          scales_1.4.0       
+ [7] boot_1.3-32         lattice_0.22-7      ggplot2_4.0.0      
+[10] R6_2.6.1            generics_0.1.4      rbibutils_2.3      
+[13] MASS_7.3-65         tibble_3.3.0        nloptr_2.2.1       
+[16] minqa_1.2.8         pillar_1.11.1       RColorBrewer_1.1-3 
+[19] R.utils_2.13.0      rlang_1.1.6         getopt_1.20.4      
+[22] S7_0.2.0            cli_3.6.5           magrittr_2.0.4     
+[25] Rdpack_2.6.4        grid_4.4.3          lifecycle_1.0.4    
+[28] nlme_3.1-168        R.oo_1.27.1         R.methodsS3_1.8.2  
+[31] reformulas_0.4.2    vctrs_0.6.5         glue_1.8.0         
+[34] farver_2.1.2        numDeriv_2016.8-1.1 tools_4.4.3        
+[37] pkgconfig_2.0.3    

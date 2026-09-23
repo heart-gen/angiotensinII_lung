@@ -76,6 +76,7 @@ suffix is the numbering of record, and by the legend headings below.
 | S14 | `figureS_balance_by_state` | `manuscript_mechanism_figure.R` |
 | S15 | `figureS_bm_copd` | `basement_membrane_figure.R` |
 | S17 | `figureS_bm_associations` | `basement_membrane_figure.R` |
+| S18 | `figureS_ras_circuit_robustness` | `ras_circuit_figure.R` |
 
 The tail of the list is where displaced figures land, so that the numbering above stays put
 when a new figure claims a slot:
@@ -88,6 +89,8 @@ when a new figure claims a slot:
   slot; **appended as S15 rather than shifting S7–S14**. It evaluates the basement-membrane
   claim in a disease cohort; it stayed here when the disease analyses moved out, because the
   claim it tests is here and `basement_membrane_figure.R` draws it.
+- `figureS_ras_circuit_robustness` is the robustness companion to Figure 5, **appended as
+  S18** on 2026-09-22 rather than reclaiming a vacant number.
 - **S12 and S16 are vacant** as of 2026-09-10. They held `figureS_sensitivity` and
   `figureS_disease_robustness`, which moved to **heart-gen/lung-pericyte-analysis**. By the
   same append-only rule the numbers are left empty rather than reclaimed — anything new goes
@@ -300,6 +303,87 @@ subcluster**, with hue families grouped by program (blues = vascular-stabilizing
 oranges = basement-membrane [P1, P3, P5]; pink = activated/migratory [P4]) so both the
 subcluster→program merge and the program grouping are legible. Cluster→program assignments are
 the canonical `state_program_map.tsv` used throughout the analysis.
+
+### `figure_ras_circuit` (Figure 5) — The pulmonary renin–angiotensin system is assembled across cells, and the pericyte *response* couples to matrix and neighbours
+
+**Figure 5.** A biology-constrained account of where the lung renin–angiotensin system is
+assembled and what the pericyte does downstream of it. **(A)** The circuit drawn as a
+directed acyclic graph and annotated from the data (`agt_axis`, 22 cell types): *AGT* is
+highest in vascular smooth muscle (detection 0.086) and adventitial/alveolar fibroblasts
+(0.036 / 0.017); *ACE* in aerocyte (0.351) and general capillary endothelium (0.144) and
+alveolar macrophages (0.196); the chymase route in mast cells (*CTSG* 0.109, *CMA1* 0.025);
+*AGTR1* in pericytes (0.342, rank 1 of 22); the counter-regulatory *ACE2* also in pericytes
+(0.030, rank 1). Renin is effectively absent (maximum detection 0.023) and **no cell type
+carries more than one step** of the circuit at the 0.05 detection threshold, so Ang I, Ang II
+and Ang-(1–7) are drawn as latent nodes. *AGT → AGTR1* is a **forbidden** edge and is never
+drawn: angiotensinogen is renin's substrate, not the AT1R ligand. **(B)** The pericyte
+"airspace score" decomposed into its four constituent similarities (AT1, AT2, aerocyte and
+general capillary endothelium) and regressed on donor pericyte *AGTR1*. The compartment ×
+*AGTR1* interaction is null (LRT *P* = 0.505; 89 donors, 18 studies) and no axis is
+individually significant (largest, AT2: slope +0.191, *P* = 0.076); both pre-specified
+contrasts are null. Grey bands are 177 genes matched to *AGTR1*'s pericyte detection. The
+published aggregate null (β = −0.0020, *P* = 0.79) was fitted with an age term that here acts
+as a study filter (47 donors); the study-guarded refit on all 89 donors is +0.0047,
+*P* = 0.38. **So the null is a property of the score, not of the aggregation.** **(C)**
+Donor-level partial Spearman correlations restricted to the DAG, each node residualized on
+its own unit's depth with study as a random intercept. The AGT-source index (ρ = 0.287,
+BH = 0.020) and the processing index (ρ = 0.302, BH = 0.018) both predict the pericyte
+AT1R-response programme, whereas **pericyte *AGTR1* abundance does not** (ρ = 0.017,
+*P* = 0.88). The response in turn predicts activated/migratory (0.528), contractile (0.243)
+and inflammatory (0.240) programmes, the basement-membrane−fibrillar contrast (−0.526) and
+the endothelial barrier readout (0.330), all BH ≤ 0.03. Every implied conditional
+independence is null (|ρ| ≤ 0.159, BH ≥ 0.59), including *AGT* → *AGTR1* (ρ = 0.013). Bars
+are 95% donor-bootstrap intervals; leave-one-dataset-out sign consistency is 1.00 for all
+allowed edges except the null *AGTR1* edge. Pericyte *ACE2* also predicts the response
+(ρ = 0.299, BH = 0.018), which is the **opposite** of the counter-regulatory expectation and
+is reported as such. **(D)** The AT1R-response programme against *AGTR1* and against the
+continuum. On the count-model arbiter (AGTR1 integer counts, library-size offset) the
+signature gives β = −0.073 (*P* = 0.21), which is **extreme against its own null** (matched
+panels centre at +0.083; empirical *P* = 0.001); the denoised lens agrees (−0.108, null centre
++0.247, empirical *P* = 0.001). Read this as receptor availability being *lower*, not higher,
+where the response programme is high — consistent with AngII-induced receptor
+down-regulation — and never as evidence of receptor activity. Along diffusion pseudotime the
+signature declines (median donor ρ = −0.189, *P* = 3.1 × 10⁻¹⁰), but that decline is **not
+distinguishable from matched panels** (empirical *P* = 0.070), so it is reported as a
+score-magnitude gradient rather than biology. **(E)** Matrix consequence. The
+basement-membrane−fibrillar contrast falls steeply with the response programme
+(β = −0.515, *P* = 9.8 × 10⁻¹³; null centre −0.107 ± 0.019, empirical *P* = 0.001), and the
+effect survives adjustment for the ambient tracer (−0.522), a depth spline (−0.508) and the
+alternative fibrillar-ECM contrast (−0.543). The decomposition shows the contrast is carried
+by **fibrillar ECM** (+0.473, *P* = 3.2 × 10⁻¹¹) with basement membrane flat (+0.098,
+*P* = 0.19; empirical *P* = 0.74), so the claim is made on the contrast only. Within donors
+the same sign holds (median ρ = −0.059, *P* = 4.6 × 10⁻⁴; −0.064 partialled on depth and
+tracer). **(F)** Communication in both directions. Counting supported LIANA edges in Healthy
+donors, pericytes are net **senders** to endothelium and epithelium (outgoing vs incoming:
+18 vs 4 aerocyte capillary, 13 vs 5 general capillary, 12 vs 8 AT1, 29 vs 8 AT2) and net
+**receivers** from fibroblasts (14 vs 18 alveolar, 16 vs 21 adventitial). NicheNet run with
+the pericyte as sender ranks ligands by permutation *z* against 1,000 matched target sets.
+Donor-level validation of the top-5 ligand composites is **null for all six receivers** after
+correction; adventitial fibroblasts are the closest (β = 0.291, *P* = 0.016, BH = 0.098,
+empirical *P* = 0.070).
+
+*Reading the figure.* The anchor is A with C: the circuit is multicellular, and what predicts
+the pericyte response is the **local capacity to generate Ang II**, not how much *AGTR1* the
+pericyte carries. B, the pseudotime half of D and the donor validation in F are reported
+nulls. Caveats that travel with the figure: Ang II is never measured, so C is consistency
+with a proposed DAG and not mediation; *AGTR1* transcript is receptor availability, not
+activity; and the response signature is a **reference programme** derived in mouse heart
+pericytes (E-MTAB-8810; AngII n = 4 vs vehicle n = 4), of whose 30 orthologous genes 15 were
+pruned for overlapping this study's state, matrix or RAS panels (Table S15C).
+
+### Figure S18 — `figureS_ras_circuit_robustness` — Robustness of the distributed-RAS circuit
+
+**Figure S18.** **(A)** Per-compartment *AGTR1* slopes of Figure 5B across arms: primary,
+detection-based exposure, a 20-cell donor floor, the labelled `_ageadj` restriction (47
+donors; five studies dropped), disease-adjusted, and Healthy-only. No arm makes any axis
+significant; the detection arm is the closest (interaction *P* = 0.097). **(B)** The
+count-model coefficient for 1,000 detection-matched null panels, with the AngII signature
+marked; the observed value sits below essentially the whole null. **(C)** The same for the
+basement-membrane−fibrillar contrast of Figure 5E. **(D)** Every allowed DAG edge refitted
+with each dataset left out (grey) against the all-data estimate (orange). **(E)** Outgoing
+donor-level validation across arms with the matched-composite null band. **(F)** Disposition
+of the 30 signature genes: kept, absent from the lung object, or pruned, by the panel they
+collided with.
 
 ### Figure S13 — `figureS_program_category` — Program × protein-category enrichment
 

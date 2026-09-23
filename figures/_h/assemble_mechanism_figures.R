@@ -91,7 +91,12 @@ manifest <- tibble::tribble(
     ##       categories are ASSOCIATED with (cluster, AGTR1 before/after
     ##       denoising, TGF-beta), plus the audit of the 13 -> 20 gene BM panel
     ##       expansion. Appended at the tail per the rule above.
-    "Supp", "S17", "Matrix-program associations with cluster, AGTR1 and TGF-b", SF("figureS_bm_associations")
+    "Supp", "S17", "Matrix-program associations with cluster, AGTR1 and TGF-b", SF("figureS_bm_associations"),
+    ##   S18 (2026-09-22) is the robustness companion to Figure 5
+    ##       (figure_ras_circuit, the distributed-RAS figure that took the retired
+    ##       disease figure's main slot). Appended at the tail; S12/S16 stay vacant.
+    "Supp", "S18", "Robustness of the distributed-RAS circuit (Figure 5)",  SF("figureS_ras_circuit_robustness"),
+    "5", "", "Figure 5: pericyte as the AT1R-responsive node of a distributed RAS", SF("figure_ras_circuit")
 )
 ## NOT numbered supplements, deliberately:
 ##   figureS_alluvial          -- grant figure, not a manuscript supplement (2026-07-27)

@@ -1,0 +1,89 @@
+direction	disease_group	partner	n_edges	n_supported	n_flagged	magnitude_thr
+outgoing	COPD	AT1	278	18	1	0.05
+outgoing	COPD	AT2 (either stratum)	377	25	1	0.05
+outgoing	COPD	AT2_AGTR2det	335	23	1	0.05
+outgoing	COPD	AT2_AGTR2undet	319	21	1	0.05
+outgoing	COPD	Adventitial fibroblasts	257	21	1	0.05
+outgoing	COPD	Alveolar fibroblasts	235	19	1	0.05
+outgoing	COPD	Alveolar macrophages	238	16	1	0.05
+outgoing	COPD	EC aerocyte capillary	205	18	1	0.05
+outgoing	COPD	EC general capillary	192	15	1	0.05
+outgoing	COPD	Interstitial macrophages	245	21	1	0.05
+outgoing	COPD	Vascular smooth muscle	214	11	1	0.05
+outgoing	Fibrotic_ILD	AT1	288	19	1	0.05
+outgoing	Fibrotic_ILD	AT2 (either stratum)	400	35	1	0.05
+outgoing	Fibrotic_ILD	AT2_AGTR2det	400	34	1	0.05
+outgoing	Fibrotic_ILD	AT2_AGTR2undet	327	21	1	0.05
+outgoing	Fibrotic_ILD	Adventitial fibroblasts	306	18	1	0.05
+outgoing	Fibrotic_ILD	Alveolar fibroblasts	269	16	1	0.05
+outgoing	Fibrotic_ILD	Alveolar macrophages	285	26	1	0.05
+outgoing	Fibrotic_ILD	EC aerocyte capillary	214	19	1	0.05
+outgoing	Fibrotic_ILD	EC general capillary	275	14	1	0.05
+outgoing	Fibrotic_ILD	Interstitial macrophages	304	29	1	0.05
+outgoing	Fibrotic_ILD	Vascular smooth muscle	198	9	1	0.05
+outgoing	Healthy	AT1	243	12	1	0.05
+outgoing	Healthy	AT2 (either stratum)	316	29	1	0.05
+outgoing	Healthy	AT2_AGTR2det	314	29	1	0.05
+outgoing	Healthy	AT2_AGTR2undet	285	17	1	0.05
+outgoing	Healthy	Adventitial fibroblasts	260	16	1	0.05
+outgoing	Healthy	Alveolar fibroblasts	244	14	1	0.05
+outgoing	Healthy	Alveolar macrophages	254	26	1	0.05
+outgoing	Healthy	EC aerocyte capillary	206	18	1	0.05
+outgoing	Healthy	EC general capillary	239	13	1	0.05
+outgoing	Healthy	Interstitial macrophages	215	23	1	0.05
+outgoing	Healthy	Vascular smooth muscle	228	9	1	0.05
+outgoing	Other	AT1	264	13	1	0.05
+outgoing	Other	AT2 (either stratum)	351	20	1	0.05
+outgoing	Other	AT2_AGTR2det	308	20	1	0.05
+outgoing	Other	AT2_AGTR2undet	310	14	1	0.05
+outgoing	Other	Adventitial fibroblasts	219	8	1	0.05
+outgoing	Other	Alveolar fibroblasts	266	23	1	0.05
+outgoing	Other	Alveolar macrophages	229	18	1	0.05
+outgoing	Other	EC aerocyte capillary	219	13	1	0.05
+outgoing	Other	EC general capillary	214	8	1	0.05
+outgoing	Other	Interstitial macrophages	199	25	1	0.05
+outgoing	Other	Vascular smooth muscle	193	10	0	0.05
+incoming	COPD	AT1	196	9	1	0.05
+incoming	COPD	AT2 (either stratum)	253	6	1	0.05
+incoming	COPD	AT2_AGTR2det	245	6	1	0.05
+incoming	COPD	AT2_AGTR2undet	203	2	1	0.05
+incoming	COPD	Adventitial fibroblasts	289	23	1	0.05
+incoming	COPD	Alveolar fibroblasts	250	24	1	0.05
+incoming	COPD	Alveolar macrophages	165	19	2	0.05
+incoming	COPD	EC aerocyte capillary	146	9	1	0.05
+incoming	COPD	EC general capillary	159	11	1	0.05
+incoming	COPD	Interstitial macrophages	178	20	2	0.05
+incoming	COPD	Vascular smooth muscle	207	10	1	0.05
+incoming	Fibrotic_ILD	AT1	213	8	1	0.05
+incoming	Fibrotic_ILD	AT2 (either stratum)	252	11	1	0.05
+incoming	Fibrotic_ILD	AT2_AGTR2det	252	10	1	0.05
+incoming	Fibrotic_ILD	AT2_AGTR2undet	220	4	1	0.05
+incoming	Fibrotic_ILD	Adventitial fibroblasts	319	26	1	0.05
+incoming	Fibrotic_ILD	Alveolar fibroblasts	300	24	1	0.05
+incoming	Fibrotic_ILD	Alveolar macrophages	201	17	2	0.05
+incoming	Fibrotic_ILD	EC aerocyte capillary	174	4	1	0.05
+incoming	Fibrotic_ILD	EC general capillary	191	9	1	0.05
+incoming	Fibrotic_ILD	Interstitial macrophages	197	10	2	0.05
+incoming	Fibrotic_ILD	Vascular smooth muscle	218	5	3	0.05
+incoming	Healthy	AT1	192	8	1	0.05
+incoming	Healthy	AT2 (either stratum)	235	8	1	0.05
+incoming	Healthy	AT2_AGTR2det	230	8	1	0.05
+incoming	Healthy	AT2_AGTR2undet	196	1	1	0.05
+incoming	Healthy	Adventitial fibroblasts	295	21	1	0.05
+incoming	Healthy	Alveolar fibroblasts	270	18	1	0.05
+incoming	Healthy	Alveolar macrophages	178	10	2	0.05
+incoming	Healthy	EC aerocyte capillary	154	4	1	0.05
+incoming	Healthy	EC general capillary	150	5	1	0.05
+incoming	Healthy	Interstitial macrophages	177	10	2	0.05
+incoming	Healthy	Vascular smooth muscle	182	8	2	0.05
+incoming	Other	AT1	177	4	0	0.05
+incoming	Other	AT2 (either stratum)	255	5	0	0.05
+incoming	Other	AT2_AGTR2det	244	5	0	0.05
+incoming	Other	AT2_AGTR2undet	188	0	0	0.05
+incoming	Other	Adventitial fibroblasts	262	23	0	0.05
+incoming	Other	Alveolar fibroblasts	264	21	0	0.05
+incoming	Other	Alveolar macrophages	167	8	1	0.05
+incoming	Other	EC aerocyte capillary	114	4	0	0.05
+incoming	Other	EC general capillary	125	4	0	0.05
+incoming	Other	Interstitial macrophages	155	9	0	0.05
+incoming	Other	Vascular smooth muscle	195	9	0	0.05

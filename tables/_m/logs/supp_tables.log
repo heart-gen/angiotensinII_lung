@@ -1,16 +1,16 @@
-2026-09-22 12:14:19 - **** Job starts ****
-Job id: 46788809
+2026-09-22 21:07:54 - **** Job starts ****
+Job id: 46822527
 
 Currently Loaded Modules:
   1) anaconda3/2024.10-1
 
  
 
-2026-09-22 12:14:21 - **** S3: curated program gene sets (scRNA_env) ****
-2026-09-22 12:19:08,257 [INFO] genes present in object: 102/102
-2026-09-22 12:19:10,687 [INFO] wrote tsv/tableS03.tsv (157 rows)
-2026-09-22 12:19:11,238 [INFO] registered part S03 in manifest_parts.tsv
-2026-09-22 12:19:11,306 [INFO] activated_migratory: 8 curated, 8 present, absent = none
+2026-09-22 21:10:09 - **** S3: curated program gene sets (scRNA_env) ****
+2026-09-22 21:16:04,373 [INFO] genes present in object: 102/102
+2026-09-22 21:16:07,532 [INFO] wrote tsv/tableS03.tsv (157 rows)
+2026-09-22 21:16:08,000 [INFO] registered part S03 in manifest_parts.tsv
+2026-09-22 21:16:08,012 [INFO] activated_migratory: 8 curated, 8 present, absent = none
 
 Reproducibility information:
 -----
@@ -22,8 +22,8 @@ session_info        v1.0.1
 Python 3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:45:41) [GCC 13.3.0]
 Linux-4.18.0-553.22.1.el8_10.x86_64-x86_64-with-glibc2.28
 -----
-Session information updated at 2026-09-22 12:19
-2026-09-22 12:19:34 - **** S1, S2: cohort characteristics and mouse cross-species ****
+Session information updated at 2026-09-22 21:16
+2026-09-22 21:18:57 - **** S1, S2: cohort characteristics and mouse cross-species ****
 Warning message:
 In fread(path, ...) :
   Detected 10 column names but the data has 11 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
@@ -34,7 +34,7 @@ In fread(path, ...) :
   [S02C2] Receptor specificity of the mouse mural signal (Agtr1a/Agt   18 x  6  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:19:40 EDT"
+[1] "2026-09-22 21:19:04 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -75,7 +75,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:12 - **** S4, S5: cluster characteristics and AGTR1 models ****
+2026-09-22 21:19:08 - **** S4, S5: cluster characteristics and AGTR1 models ****
 denoised merge: 11680 of 11680 cells (100.0%)
   [S04] Stable pericyte cluster characteristics and program assign    6 x 31  complete
   [S05A] AGTR1 dropout model: observed vs depth-matched expected un    1 x 10  complete
@@ -89,7 +89,7 @@ denoised merge: 11680 of 11680 cells (100.0%)
   [S05D4] AGTR1 abundance by pericyte subcluster from the count mode   90 x 14  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:20:15 EDT"
+[1] "2026-09-22 21:19:15 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -130,14 +130,14 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:15 - **** S6: ACTA2 benchmark and CoGAPS validation ****
+2026-09-22 21:19:15 - **** S6: ACTA2 benchmark and CoGAPS validation ****
   [S06A] ACTA2 benchmark: AGTR1 is not reducible to ACTA2+ contract   22 x 13  complete
   [S06B1] CoGAPS rank selection: cross-seed pattern reproducibility     7 x 12  complete
   [S06B2] CoGAPS per-pattern cross-seed reproducibility at the selec    8 x  5  complete
   [S06B3] CoGAPS pattern-to-program correspondence: score correlatio  394 x 12  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:20:17 EDT"
+[1] "2026-09-22 21:19:16 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -178,7 +178,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:17 - **** S7, S8, S9: correlations and basement membrane ****
+2026-09-22 21:19:16 - **** S7, S8, S9: correlations and basement membrane ****
 Warning message:
 In fread(path, ...) :
   Detected 4 column names but the data has 5 columns (i.e. invalid file). Added an extra default column name for the first column which is guessed to be row names or an index. Use setnames() afterwards if this guess is not correct, or fix the file write command that created the file to create a valid file.
@@ -195,7 +195,7 @@ donor x cluster units (>=5 cells): 214; donors: 95
   [S09D] Subpanel robustness of the basement-membrane program assig   37 x 24  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:20:20 EDT"
+[1] "2026-09-22 21:19:19 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -236,7 +236,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:20 - **** S10, S11: NicheNet injury and BM target sets ****
+2026-09-22 21:19:19 - **** S10, S11: NicheNet injury and BM target sets ****
   [S10A] NicheNet ligand prioritization for the pericyte injury pro  321 x 16  complete
   S10B: N_PERM derived from the p floor = 10000
   [S10B] Matched-gene-set specificity of the prioritized ligands (i   25 x 17  complete
@@ -248,7 +248,7 @@ Reproducibility information:
   [S11C] Full ligand-to-basement-membrane-target regulatory-potenti 3852 x 11  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:20:22 EDT"
+[1] "2026-09-22 21:19:21 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -289,7 +289,7 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:22 - **** S12, S13B-D: local RAS and pericyte composition by disease ****
+2026-09-22 21:19:21 - **** S12, S13B-D: local RAS and pericyte composition by disease ****
 RAS cohort: 4376 profiles, 417 donors, 22 cell types
   [S12A] Cell-type expression landscape of the local lung renin-ang  396 x 17  complete
   [S12B] Circuit-role classification: completeness of the angiotens   22 x 16  complete
@@ -299,7 +299,7 @@ RAS cohort: 4376 profiles, 417 donors, 22 cell types
   [S13D] Grouped injury-associated state fraction by disease group    16 x 26  complete
 
 Reproducibility information:
-[1] "2026-09-22 12:20:25 EDT"
+[1] "2026-09-22 21:19:24 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -340,7 +340,14 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:25 - **** Anchor checks + workbook ****
+2026-09-22 21:19:24 - **** S15A-F: distributed-RAS circuit (Figure 5, S18) ****
+  [S15A] Niche-affinity decomposition of the pericyte airspace scor   58 x 37  complete
+  [S15B] Donor-level RAS covariance restricted to the proposed DAG   137 x 36  complete
+  [S15C] AngII response signature: provenance and disjointness audi   60 x 17  complete
+  [S15D] Pericyte AT1R-response programme vs AGTR1, the continuum a  160 x 39  complete
+  [S15E] Basement-membrane versus fibrillar matrix along the AT1R-r   21 x 28  complete
+  [S15F] Outgoing pericyte communication: LIANA edges, NicheNet (pe  122 x 37  complete
+2026-09-22 21:19:26 - **** Anchor checks + workbook ****
 
 ==== anchor checks ====
                                     check     expected     observed passed
@@ -393,7 +400,7 @@ Reproducibility information:
     threshold_dependent
 all 21 anchor checks passed
 
-wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/tables/_m/supplementary_tables.xlsx with 44 sheets
+wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/tables/_m/supplementary_tables.xlsx with 50 sheets
       part n_rows n_cols   status
     <char>  <int>  <int>   <char>
  1:     01     37     26 complete
@@ -439,10 +446,16 @@ wrote /ocean/projects/bio260021p/kbenjamin/projects/angiotensinII_lung/tables/_m
 41:    13B    108     27 complete
 42:    13C     54     27 complete
 43:    13D     16     26 complete
+44:    15A     58     37 complete
+45:    15B    137     36 complete
+46:    15C     60     17 complete
+47:    15D    160     39 complete
+48:    15E     21     28 complete
+49:    15F    122     37 complete
       part n_rows n_cols   status
 
 Reproducibility information:
-[1] "2026-09-22 12:20:28 EDT"
+[1] "2026-09-22 21:19:27 EDT"
 - Session info -------------------------------------------------------------------------------------------------------
  setting  value
  version  R version 4.4.3 (2025-02-28)
@@ -481,4 +494,4 @@ Reproducibility information:
  * -- Packages attached to the search path.
 
 ----------------------------------------------------------------------------------------------------------------------
-2026-09-22 12:20:28 - **** Job ends ****
+2026-09-22 21:19:28 - **** Job ends ****

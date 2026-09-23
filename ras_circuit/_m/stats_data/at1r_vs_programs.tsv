@@ -1,0 +1,7 @@
+program	rho	p_value	n_donors	note
+vascular_stabilizing_score	0.777528089887641	0	89	descriptive; panel scores share a positive general-expression null
+inflammatory_score	0.722284644194757	0	89	descriptive; panel scores share a positive general-expression null
+synthetic_contractile_score	0.721535580524345	0	89	descriptive; panel scores share a positive general-expression null
+activated_migratory_score	0.797957099080695	0	89	descriptive; panel scores share a positive general-expression null
+fibroblast_like_score	0.663908750425605	0	89	descriptive; panel scores share a positive general-expression null
+basement_membrane_score	-0.308137555328567	0.00343254485313767	89	descriptive; panel scores share a positive general-expression null

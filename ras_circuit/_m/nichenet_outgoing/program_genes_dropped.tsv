@@ -1,0 +1,5 @@
+target	program	gene	reason
+EC aerocyte capillary	EC_barrier_angiogenic	ESAM	also a pericyte-expressed prior-network ligand or RAS gene
+EC general capillary	EC_barrier_angiogenic	ESAM	also a pericyte-expressed prior-network ligand or RAS gene
+Alveolar fibroblasts	fibroblast_matrix	FBLN1	also a pericyte-expressed prior-network ligand or RAS gene
+Adventitial fibroblasts	fibroblast_matrix	FBLN1	also a pericyte-expressed prior-network ligand or RAS gene

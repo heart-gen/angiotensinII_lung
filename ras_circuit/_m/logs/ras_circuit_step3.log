@@ -1,0 +1,140 @@
+2026-09-22 21:03:02 - **** Job starts ****
+Job id: 46821771
+Node: 
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+[1] TRUE
+donor node table: 105 pericyte-bearing donors; donors per node:
+            VSMC_AGT           AlvFib_AGT           AdvFib_AGT 
+                  94                   99                   90 
+          ECaero_ACE           ECgcap_ACE           AlvMac_ACE 
+                  88                   98                   99 
+          IntMac_ACE            Mast_CMA1            Mast_CTSG 
+                 102                   79                   79 
+          Peri_AGTR1            Peri_ACE2            Peri_MAS1 
+                 105                  105                  105 
+          EC_readout   Peri_AT1R_response          contractile 
+                  98                   89                   89 
+        inflammatory  activated_migratory vascular_stabilizing 
+                  89                   89                   89 
+                  BM                  FIB         BM_minus_FIB 
+                  89                   89                   89 
+LODO over 24 datasets
+Key: <from, to, family>
+                  family               from                  to partial_rho
+                  <char>             <char>              <char>       <num>
+ 1:            forbidden   AGT_source_index        BM_minus_FIB -0.09600536
+ 2:            forbidden   AGT_source_index          Peri_AGTR1 -0.15947822
+ 3:              allowed   AGT_source_index  Peri_AT1R_response  0.28683014
+ 4: marginal_descriptive         AdvFib_AGT  Peri_AT1R_response  0.23469583
+ 5: marginal_descriptive         AlvFib_AGT  Peri_AT1R_response  0.06156333
+ 6: marginal_descriptive         AlvMac_ACE  Peri_AT1R_response  0.34322656
+ 7:              allowed       BM_minus_FIB          EC_readout  0.13927017
+ 8: marginal_descriptive         ECaero_ACE  Peri_AT1R_response  0.25626794
+ 9: marginal_descriptive         ECgcap_ACE  Peri_AT1R_response  0.29905842
+10: marginal_descriptive         IntMac_ACE  Peri_AT1R_response  0.19009387
+11:            forbidden          Mast_CMA1        BM_minus_FIB -0.11989079
+12: marginal_descriptive          Mast_CMA1  Peri_AT1R_response  0.19048116
+13: marginal_descriptive          Mast_CTSG  Peri_AT1R_response  0.32875483
+14:              allowed          Peri_ACE2  Peri_AT1R_response  0.29861242
+15:              allowed         Peri_AGTR1  Peri_AT1R_response  0.01702519
+16:              allowed Peri_AT1R_response        BM_minus_FIB -0.52597889
+17:              allowed Peri_AT1R_response          EC_readout  0.32982934
+18:              allowed Peri_AT1R_response activated_migratory  0.52795369
+19:              allowed Peri_AT1R_response         contractile  0.24312223
+20:              allowed Peri_AT1R_response        inflammatory  0.23988764
+21: marginal_descriptive          Peri_MAS1  Peri_AT1R_response  0.02543412
+22:            forbidden           VSMC_AGT          Peri_AGTR1  0.01266481
+23: marginal_descriptive           VSMC_AGT  Peri_AT1R_response  0.14759308
+24:            forbidden   processing_index          EC_readout  0.06173275
+25:              allowed   processing_index  Peri_AT1R_response  0.30221314
+                  family               from                  to partial_rho
+         p_value         p_BH n_donors     boot_lo     boot_hi
+           <num>        <num>    <int>       <num>       <num>
+ 1: 3.938866e-01 6.564776e-01       82 -0.29589117  0.11643279
+ 2: 1.186841e-01 5.934204e-01       97 -0.35045445  0.03681783
+ 3: 1.200114e-02 2.000190e-02       79  0.06197404  0.50067864
+ 4: 4.127864e-02 8.255727e-02       76  0.00728063  0.44317250
+ 5: 5.803404e-01 6.448227e-01       83 -0.16455130  0.27876542
+ 6: 1.490078e-03 1.490078e-02       83  0.14252716  0.53283995
+ 7: 2.092251e-01 2.324723e-01       84 -0.07961379  0.35255189
+ 8: 2.544866e-02 6.362165e-02       76  0.03030684  0.48372082
+ 9: 5.720426e-03 2.345266e-02       84  0.09607415  0.49841776
+10: 7.958740e-02 1.326457e-01       86 -0.04917245  0.41359382
+11: 3.414661e-01 6.564776e-01       66 -0.36915466  0.17377442
+12: 1.255291e-01 1.793272e-01       66 -0.05610974  0.40478826
+13: 7.035797e-03 2.345266e-02       66  0.08511206  0.51710907
+14: 8.788553e-03 1.757711e-02       79  0.08715886  0.48200801
+15: 8.839428e-01 8.839428e-01       79 -0.21920098  0.24655884
+16: 1.201080e-07 6.005400e-07       89 -0.67515637 -0.33311976
+17: 2.326710e-03 7.755699e-03       84  0.10922569  0.51110577
+18: 1.055903e-07 6.005400e-07       89  0.33908164  0.68831050
+19: 2.169028e-02 2.944660e-02       89  0.03388577  0.43316382
+20: 2.355728e-02 2.944660e-02       89  0.03040080  0.42352198
+21: 8.129739e-01 8.129739e-01       89 -0.18448895  0.22968530
+22: 9.035708e-01 9.035708e-01       94 -0.18792467  0.20619466
+23: 1.857509e-01 2.321886e-01       82 -0.07039757  0.36402389
+24: 5.840478e-01 7.300597e-01       83 -0.15795151  0.27221673
+25: 7.970429e-03 1.757711e-02       79  0.03183660  0.50974148
+         p_value         p_BH n_donors     boot_lo     boot_hi
+    lodo_sign_consistency
+                    <num>
+ 1:             1.0000000
+ 2:             1.0000000
+ 3:             1.0000000
+ 4:             1.0000000
+ 5:             1.0000000
+ 6:             1.0000000
+ 7:             1.0000000
+ 8:             1.0000000
+ 9:             1.0000000
+10:             1.0000000
+11:             1.0000000
+12:             1.0000000
+13:             1.0000000
+14:             1.0000000
+15:             0.8750000
+16:             1.0000000
+17:             1.0000000
+18:             1.0000000
+19:             1.0000000
+20:             1.0000000
+21:             0.8333333
+22:             0.7083333
+23:             1.0000000
+24:             0.9583333
+25:             1.0000000
+    lodo_sign_consistency
+
+Reproducibility information:
+R version 4.4.3 (2025-02-28)
+Platform: x86_64-conda-linux-gnu
+Running under: Red Hat Enterprise Linux 8.10 (Ootpa)
+
+Matrix products: default
+BLAS/LAPACK: /ocean/projects/bio250020p/shared/opt/env/R_env/lib/libopenblasp-r0.3.29.so;  LAPACK version 3.12.0
+
+locale:
+[1] C
+
+time zone: America/New_York
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] lme4_1.1-37       Matrix_1.7-4      data.table_1.17.8 optparse_1.7.5   
+
+loaded via a namespace (and not attached):
+ [1] lattice_0.22-7    splines_4.4.3     getopt_1.20.4     R.utils_2.13.0   
+ [5] Rdpack_2.6.4      dagitty_0.3-4     R.methodsS3_1.8.2 nloptr_2.2.1     
+ [9] grid_4.4.3        reformulas_0.4.2  compiler_4.4.3    R.oo_1.27.1      
+[13] rbibutils_2.3     boot_1.3-32       tools_4.4.3       curl_7.0.0       
+[17] nlme_3.1-168      minqa_1.2.8       Rcpp_1.1.0        jsonlite_2.0.0   
+[21] V8_8.0.1          MASS_7.3-65      
+2026-09-22 21:05:17 - **** Job ends ****

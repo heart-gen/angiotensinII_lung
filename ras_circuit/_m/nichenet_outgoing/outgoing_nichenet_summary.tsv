@@ -1,0 +1,7 @@
+target	program	n_background	n_geneset	n_potential	status	top_ligands_by_z	top_z
+EC aerocyte capillary	EC_barrier_angiogenic	3299	10	99	run	PTN;COL18A1;COL12A1;ADAM17;ANGPT1	12.2;12.2;1.3;0.9;0.8
+EC general capillary	EC_barrier_angiogenic	3028	12	101	run	COL18A1;PTN;JAG1;ANGPT1;ADAM10	12.0;3.3;2.4;2.0;1.3
+AT1	epithelial_repair	4974	9	103	run	LAMA4;FBLN1;COL6A2;COL1A2;CTSD	33.3;31.6;31.3;30.7;30.4
+AT2	epithelial_repair	7621	10	121	run	COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	75.1;37.7;15.8;15.6;15.5
+Alveolar fibroblasts	fibroblast_matrix	4937	11	119	run	EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	25.4;4.3;2.3;1.5;0.4
+Adventitial fibroblasts	fibroblast_matrix	5986	14	125	run	EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	42.2;5.6;3.0;2.1;0.4

@@ -1,0 +1,6 @@
+detect_thr	is_default	n_autonomous	autonomous_types	n_with_substrate	n_with_protease	n_with_receptor	max_steps_held	n_types_at_max	any_detectable_agt
+0.01	FALSE	3	Adventitial fibroblasts|Peribronchial fibroblasts|Subpleural fibroblasts	7	15	7	3	3	TRUE
+0.02	FALSE	1	Adventitial fibroblasts	3	12	6	3	1	TRUE
+0.05	TRUE	0		1	6	3	1	10	TRUE
+0.1	FALSE	0		0	6	3	1	9	FALSE
+0.2	FALSE	0		0	1	1	1	2	FALSE

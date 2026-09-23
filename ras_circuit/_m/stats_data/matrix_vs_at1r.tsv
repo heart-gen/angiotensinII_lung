@@ -1,0 +1,7 @@
+level	model	spec	predictor	estimate	SE	z_value	p_value	n_units	n_donors	singular	note	outcome	covariates	claimable	null_mean	null_sd	p_emp
+pseudobulk	lmer(+1|donor)+(1|study)	primary	at1r_response_score_z	-0.514966504903915	0.0670541997292834	180.062890495647	9.81668893586126e-13	214	95	TRUE		bm_minus_fib_z	mean_log10_counts	TRUE	-0.107261715859901	0.0189867699100444	0.000999000999000999
+pseudobulk	lmer(+1|donor)+(1|study)	_tracer_adj	at1r_response_score_z	-0.522019813587659	0.0720140266628358	187.105590179748	1.07320775107962e-11	214	95	TRUE		bm_minus_fib_z	mean_log10_counts + ambient_tracer_score_z	TRUE	NA	NA	NA
+pseudobulk	lmer(+1|donor)+(1|study)	_depth_spline	at1r_response_score_z	-0.507683099833829	0.0675619104829446	177.009914082453	2.72985067494635e-12	214	95	TRUE		bm_minus_fib_z	ns(mean_log10_counts, 3)	TRUE	NA	NA	NA
+pseudobulk	lmer(+1|donor)+(1|study)	_fibrillar_ecm_contrast	at1r_response_score_z	-0.543386435843777	0.0659940208033494	205.148535986778	2.09771786470924e-14	214	95	TRUE		bm_minus_fibecm_z	mean_log10_counts	TRUE	NA	NA	NA
+pseudobulk	lmer(+1|donor)+(1|study)	_bm_alone	at1r_response_score_z	0.0981472032862387	0.0749392234422712	187.507718469671	0.191902887359397	214	95	TRUE		basement_membrane_score_z	mean_log10_counts	FALSE	0.0859655190039225	0.0274656717196443	0.74025974025974
+pseudobulk	lmer(+1|donor)+(1|study)	_fib_alone	at1r_response_score_z	0.472866048384614	0.0669365715864653	184.418275300522	3.19998411226894e-11	214	95	TRUE		fibrillar_collagen_score_z	mean_log10_counts	FALSE	NA	NA	NA

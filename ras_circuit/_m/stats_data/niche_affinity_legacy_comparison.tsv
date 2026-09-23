@@ -1,0 +1,5 @@
+source	model	estimate	SE	p_value	n_donors
+published (localization/01.airspace_analysis.py)	OLS mean_airspace_score ~ frac_AGTR1_pos + age + C(sex)	-0.00203101857335373	0.00772008608256799	0.793547048234737	NA
+refit here, same OLS on donors with age	lm(mean_airspace_score ~ frac_AGTR1_pos + age + sex)	0.00146064668005787	0.00682481222948648	0.831543063399582	47
+study-guarded refit, no age (primary convention)	lmer(mean_airspace_score ~ frac_AGTR1_pos + sex + mean_log10_total_counts + (1|study))	0.00470990011776777	0.00529502150401833	0.376372269798493	89
+study-guarded refit, no age (primary convention)	lmer(mean_airspace_score ~ AGTR1_z + sex + mean_log10_total_counts + (1|study))	0.000746703971793354	0.000874692304426951	0.396346790143284	89

@@ -1,0 +1,7 @@
+axis	class	n_cells	family
+AT1	AT1	32306	four_axis
+AT2	AT2	155346	four_axis
+EC_aerocyte	EC aerocyte capillary	17230	four_axis
+EC_gcap	EC general capillary	47353	four_axis
+SMC	Smooth muscle	16676	reference
+EC_arterial	EC arterial	14724	reference

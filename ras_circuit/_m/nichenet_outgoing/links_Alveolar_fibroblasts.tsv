@@ -1,0 +1,24 @@
+ligand	target	weight	target_cell
+EFEMP2	ELN	0.0651127848375566	Alveolar fibroblasts
+TGFB1	ELN	0.174098285616921	Alveolar fibroblasts
+TGFB1	P4HA2	0.213887610372507	Alveolar fibroblasts
+TGFB1	PLOD2	0.282912806438932	Alveolar fibroblasts
+TIMP1	ELN	0.0655295839423178	Alveolar fibroblasts
+PDGFA	P4HA1	0.0705265327444276	Alveolar fibroblasts
+PDGFA	PLOD2	0.0713321956286917	Alveolar fibroblasts
+TGFB2	LOX	0.0841715024658884	Alveolar fibroblasts
+KITLG			Alveolar fibroblasts
+COL18A1			Alveolar fibroblasts
+MIF			Alveolar fibroblasts
+COL12A1			Alveolar fibroblasts
+CTSD			Alveolar fibroblasts
+COL1A2			Alveolar fibroblasts
+SLIT3	LOX	0.00613796778685803	Alveolar fibroblasts
+IFITM1	LOX	0.01470679477105	Alveolar fibroblasts
+COL21A1			Alveolar fibroblasts
+COL1A1			Alveolar fibroblasts
+TGM2			Alveolar fibroblasts
+HSPG2			Alveolar fibroblasts
+LAMB1			Alveolar fibroblasts
+LAMB2			Alveolar fibroblasts
+SDC2			Alveolar fibroblasts

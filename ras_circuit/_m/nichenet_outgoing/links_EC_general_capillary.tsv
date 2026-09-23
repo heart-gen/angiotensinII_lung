@@ -1,0 +1,22 @@
+ligand	target	weight	target_cell
+COL18A1	KDR	0.0661396656487115	EC general capillary
+PTN	KDR	0.0658233712334947	EC general capillary
+JAG1	HEY1	0.0551404620815068	EC general capillary
+ANGPT1	CLDN5	0.0726768058625119	EC general capillary
+ANGPT1	HEY1	0.0705931403256254	EC general capillary
+ADAM10	HEY1	0.0161259318923858	EC general capillary
+ADAM17	KDR	0.0675880285231827	EC general capillary
+CALR	NRP1	0.0449236054518968	EC general capillary
+MPDZ			EC general capillary
+TGFB1			EC general capillary
+HGF	KDR	0.116753369655171	EC general capillary
+TGFB2	NRP1	0.0824372682148272	EC general capillary
+NID1	HEY1	0.0103797752365223	EC general capillary
+IFITM1			EC general capillary
+LAMA4			EC general capillary
+TIMP3			EC general capillary
+IGFBP4			EC general capillary
+ANGPT2			EC general capillary
+PTPRK			EC general capillary
+HMGB1			EC general capillary
+ADAM9			EC general capillary

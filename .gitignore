@@ -105,3 +105,6 @@ inputs/gtex/_m/gtex_v11_lung_sample_data.tsv
 ## Re-obtain with the download steps in each module's _h/.
 inputs/copd/
 inputs/gtex/_m/GTEx_Analysis_*
+
+# Downloaded external data (McLellan E-MTAB-8810, ~1 GB); re-fetch with ras_circuit/_h/00b
+ras_circuit/_m/external/

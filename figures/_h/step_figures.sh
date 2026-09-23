@@ -71,6 +71,10 @@ if [ $? -ne 0 ]; then log_message "Error: manuscript figures failed"; exit 1; fi
 ## are built there by `figures/_h/step_figures.sh`. The gaps at S12 and S16 in
 ## the manifest below are deliberate; it reports what exists on disk.
 
+log_message "**** Figure 5 + S18: RAS circuit (ras_circuit/_m) ****"
+Rscript ../_h/ras_circuit_figure.R
+if [ $? -ne 0 ]; then log_message "Error: RAS-circuit figure failed"; exit 1; fi
+
 ## Manifest last: it records which supplements actually exist on disk.
 log_message "**** Panel manifest ****"
 Rscript ../_h/assemble_mechanism_figures.R

@@ -1,0 +1,31 @@
+gene	direction	log2FoldChange	present_in_object	pericyte_detect	pruned_reason	kept	in_legacy_AT1R_PROGRAM
+ABCC9	down	-0.527110924951126	True	0.25702054794520546	pericyte_states.vascular_stabilizing	False	False
+ACTA2	up	0.646614251119529	True	0.5741438356164383	pericyte_states.synthetic_contractile	False	True
+ART3	down	-0.562167012490506	True	0.0027397260273972603		True	False
+BGN	up	0.872222187770059	True	0.7889554794520548	bm_panels.fibrillar_ecm	False	False
+COL1A1	up	1.27127652909886	True	0.14726027397260275	pericyte_states.fibroblast_like	False	True
+COL1A2	up	1.21626434824814	True	0.5835616438356165	pericyte_states.fibroblast_like	False	False
+COL3A1	up	1.20845652092057	True	0.2661815068493151	pericyte_states.fibroblast_like	False	True
+COL4A1	up	0.638206199197579	True	0.7939212328767123	pericyte_states.fibroblast_like	False	False
+COL4A2	up	0.702933995114737	True	0.8103595890410958	pericyte_states.basement_membrane	False	False
+COL5A2	up	1.31431475064197	True	0.3544520547945205	bm_panels.fibrillar_collagen	False	False
+COL6A1	up	0.693636851670236	True	0.43210616438356164		True	False
+COL8A1	up	2.52540851475381	True	0.04426369863013699		True	False
+CSRP2	up	0.863003851328447	True	0.31866438356164384		True	False
+ERRFI1	down	-0.651821924540652	True	0.049058219178082195		True	False
+FSTL1	up	0.769528362176937	True	0.28184931506849314		True	False
+G0S2	down	-0.691103265941484	True	0.0848458904109589		True	False
+C11orf96	up	0.689326001033584	True	0.37431506849315066		True	False
+ID3	up	0.641504921844251	True	0.5125856164383562	bm_panels.tgfb_response	False	False
+IGFBP7	up	0.751531252008384	True	0.8912671232876712		True	False
+KCNJ8	down	-0.658936303349292	True	0.21327054794520547	pericyte_states.vascular_stabilizing	False	False
+LDHB	down	-0.821964278881468	True	0.33210616438356166		True	False
+LOXL1	up	1.24755023399826	True	0.0175513698630137		True	False
+MFAP4	up	2.05596946164383	True	0.06892123287671233		True	False
+MFAP5	up	1.80841280165468	True	0.0053938356164383566		True	False
+PI16	up	0.763237271249672	True	0.0032534246575342467		True	False
+POSTN	up	0.851312210330888	True	0.032363013698630136	pericyte_states.activated_migratory	False	False
+SERPINE2	up	0.904023021083107	True	0.019263698630136987	bm_panels.tgfb_response	False	False
+SERPINF1	up	1.14470337209266	False		absent	False	False
+SPARC	up	0.868774568900851	True	0.8345890410958904		True	False
+VIM	up	0.535989929562422	True	0.7504280821917808	pericyte_states.synthetic_contractile	False	False

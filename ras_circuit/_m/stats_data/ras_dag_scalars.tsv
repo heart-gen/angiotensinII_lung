@@ -1,0 +1,7 @@
+quantity	value
+max_REN_detect	0.0229
+max_REN_cell_type	AT2_AGTR2det
+n_cell_types	22
+n_autonomous_circuit	0
+autonomy_detect_threshold	0.05 (agt_axis/_h/01.ras_landscape_stats.R --detect-thr default)
+max_steps_in_one_cell_type	1

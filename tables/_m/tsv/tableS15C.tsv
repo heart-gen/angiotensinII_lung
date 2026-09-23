@@ -1,0 +1,61 @@
+gene	direction	log2FoldChange	padj	mouse_gene	baseMean	cell_type	source_id	contrast	support_n	frozen_on	source_table	present_in_object	pericyte_detect	pruned_reason	kept	in_legacy_AT1R_PROGRAM
+ABCC9	down	-0.527110924951126	0.0294951162825005	Abcc9	133.851960518833	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+ACTA2	up	0.646614251119529	0.0427255877741705	Acta2	149.410032496794	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	11	2026-09-22	angii_response_signature.tsv					
+ART3	down	-0.562167012490506	0.0240311301479119	Art3	172.412990378128	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+BGN	up	0.872222187770059	1.29998371191586e-05	Bgn	224.664990481844	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL1A1	up	1.27127652909886	0.000586311018567477	Col1a1	48.0643511949016	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL1A2	up	1.21626434824814	2.49262253929436e-06	Col1a2	72.0199354057472	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL3A1	up	1.20845652092057	4.87259005692606e-11	Col3a1	150.32518470244	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	10	2026-09-22	angii_response_signature.tsv					
+COL4A1	up	0.638206199197579	0.0370882999445995	Col4a1	83.199853841555	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL4A2	up	0.702933995114737	0.0427255877741705	Col4a2	58.0762647315464	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL5A2	up	1.31431475064197	0.00830132171431231	Col5a2	20.9091315391039	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL6A1	up	0.693636851670236	0.0217671867997323	Col6a1	84.5867159771107	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+COL8A1	up	2.52540851475381	7.2078816964343e-06	Col8a1	16.8061696622981	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+CSRP2	up	0.863003851328447	0.0262694376382503	Csrp2	40.8089558490897	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+ERRFI1	down	-0.651821924540652	0.046191701188286	Errfi1	117.020172609805	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+FSTL1	up	0.769528362176937	0.00830132171431231	Fstl1	72.2789770268463	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	11	2026-09-22	angii_response_signature.tsv					
+G0S2	down	-0.691103265941484	0.00327458073030689	G0s2	124.27685503126	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+C11orf96	up	0.689326001033584	0.0344551887190377	Gm13889	69.7905098429225	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	8	2026-09-22	angii_response_signature.tsv					
+ID3	up	0.641504921844251	0.0441147710067848	Id3	116.30455010862	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+IGFBP7	up	0.751531252008384	2.49262253929436e-06	Igfbp7	619.815017890788	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+KCNJ8	down	-0.658936303349292	6.01035073922263e-06	Kcnj8	411.770401083279	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+LDHB	down	-0.821964278881468	0.0427255877741705	Ldhb	50.40628417979	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	11	2026-09-22	angii_response_signature.tsv					
+LOXL1	up	1.24755023399826	0.0240311301479119	Loxl1	19.0797938682492	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+MFAP4	up	2.05596946164383	0.000246714838341412	Mfap4	47.7982160848651	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+MFAP5	up	1.80841280165468	1.44762475992525e-09	Mfap5	70.7411212737807	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	11	2026-09-22	angii_response_signature.tsv					
+PI16	up	0.763237271249672	0.0327310373109957	Pi16	70.2405233554131	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	11	2026-09-22	angii_response_signature.tsv					
+POSTN	up	0.851312210330888	0.00830132171431231	Postn	104.519722009144	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+SERPINE2	up	0.904023021083107	0.0120256360690819	Serpine2	52.1298125553859	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+SERPINF1	up	1.14470337209266	0.0120256360690819	Serpinf1	29.0293114243806	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+SPARC	up	0.868774568900851	1.0421520658339e-06	Sparc	660.009410679598	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+VIM	up	0.535989929562422	0.0240311301479119	Vim	186.465269173878	pericyte	E-MTAB-8810 (McLellan 2020, doi:10.1161/CIRCULATIONAHA.119.045115)	AngII (n=4) vs saline+untreated (n=4), pseudobulk DESeq2	12	2026-09-22	angii_response_signature.tsv					
+ABCC9	down	-0.527110924951126									at1r_signature_audit.tsv	TRUE	0.257020547945205	pericyte_states.vascular_stabilizing	FALSE	FALSE
+ACTA2	up	0.646614251119529									at1r_signature_audit.tsv	TRUE	0.574143835616438	pericyte_states.synthetic_contractile	FALSE	TRUE
+ART3	down	-0.562167012490506									at1r_signature_audit.tsv	TRUE	0.00273972602739726		TRUE	FALSE
+BGN	up	0.872222187770059									at1r_signature_audit.tsv	TRUE	0.788955479452055	bm_panels.fibrillar_ecm	FALSE	FALSE
+COL1A1	up	1.27127652909886									at1r_signature_audit.tsv	TRUE	0.147260273972603	pericyte_states.fibroblast_like	FALSE	TRUE
+COL1A2	up	1.21626434824814									at1r_signature_audit.tsv	TRUE	0.583561643835616	pericyte_states.fibroblast_like	FALSE	FALSE
+COL3A1	up	1.20845652092057									at1r_signature_audit.tsv	TRUE	0.266181506849315	pericyte_states.fibroblast_like	FALSE	TRUE
+COL4A1	up	0.638206199197579									at1r_signature_audit.tsv	TRUE	0.793921232876712	pericyte_states.fibroblast_like	FALSE	FALSE
+COL4A2	up	0.702933995114737									at1r_signature_audit.tsv	TRUE	0.810359589041096	pericyte_states.basement_membrane	FALSE	FALSE
+COL5A2	up	1.31431475064197									at1r_signature_audit.tsv	TRUE	0.354452054794521	bm_panels.fibrillar_collagen	FALSE	FALSE
+COL6A1	up	0.693636851670236									at1r_signature_audit.tsv	TRUE	0.432106164383562		TRUE	FALSE
+COL8A1	up	2.52540851475381									at1r_signature_audit.tsv	TRUE	0.044263698630137		TRUE	FALSE
+CSRP2	up	0.863003851328447									at1r_signature_audit.tsv	TRUE	0.318664383561644		TRUE	FALSE
+ERRFI1	down	-0.651821924540652									at1r_signature_audit.tsv	TRUE	0.0490582191780822		TRUE	FALSE
+FSTL1	up	0.769528362176937									at1r_signature_audit.tsv	TRUE	0.281849315068493		TRUE	FALSE
+G0S2	down	-0.691103265941484									at1r_signature_audit.tsv	TRUE	0.0848458904109589		TRUE	FALSE
+C11orf96	up	0.689326001033584									at1r_signature_audit.tsv	TRUE	0.374315068493151		TRUE	FALSE
+ID3	up	0.641504921844251									at1r_signature_audit.tsv	TRUE	0.512585616438356	bm_panels.tgfb_response	FALSE	FALSE
+IGFBP7	up	0.751531252008384									at1r_signature_audit.tsv	TRUE	0.891267123287671		TRUE	FALSE
+KCNJ8	down	-0.658936303349292									at1r_signature_audit.tsv	TRUE	0.213270547945205	pericyte_states.vascular_stabilizing	FALSE	FALSE
+LDHB	down	-0.821964278881468									at1r_signature_audit.tsv	TRUE	0.332106164383562		TRUE	FALSE
+LOXL1	up	1.24755023399826									at1r_signature_audit.tsv	TRUE	0.0175513698630137		TRUE	FALSE
+MFAP4	up	2.05596946164383									at1r_signature_audit.tsv	TRUE	0.0689212328767123		TRUE	FALSE
+MFAP5	up	1.80841280165468									at1r_signature_audit.tsv	TRUE	0.00539383561643836		TRUE	FALSE
+PI16	up	0.763237271249672									at1r_signature_audit.tsv	TRUE	0.00325342465753425		TRUE	FALSE
+POSTN	up	0.851312210330888									at1r_signature_audit.tsv	TRUE	0.0323630136986301	pericyte_states.activated_migratory	FALSE	FALSE
+SERPINE2	up	0.904023021083107									at1r_signature_audit.tsv	TRUE	0.019263698630137	bm_panels.tgfb_response	FALSE	FALSE
+SERPINF1	up	1.14470337209266									at1r_signature_audit.tsv	FALSE		absent	FALSE	FALSE
+SPARC	up	0.868774568900851									at1r_signature_audit.tsv	TRUE	0.83458904109589		TRUE	FALSE
+VIM	up	0.535989929562422									at1r_signature_audit.tsv	TRUE	0.750428082191781	pericyte_states.synthetic_contractile	FALSE	FALSE

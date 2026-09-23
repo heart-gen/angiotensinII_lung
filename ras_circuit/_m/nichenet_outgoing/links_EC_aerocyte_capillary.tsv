@@ -1,0 +1,21 @@
+ligand	target	weight	target_cell
+PTN	KDR	0.0658233712334947	EC aerocyte capillary
+COL18A1	KDR	0.0661396656487115	EC aerocyte capillary
+COL12A1			EC aerocyte capillary
+ADAM17	KDR	0.0675880285231827	EC aerocyte capillary
+ANGPT1	CLDN5	0.0726768058625119	EC aerocyte capillary
+TGFB1			EC aerocyte capillary
+CALR	NRP1	0.0449236054518968	EC aerocyte capillary
+MPDZ			EC aerocyte capillary
+ADAM9			EC aerocyte capillary
+ANGPT2			EC aerocyte capillary
+TGFB2	NRP1	0.0824372682148272	EC aerocyte capillary
+COL4A1			EC aerocyte capillary
+PTPRK			EC aerocyte capillary
+LAMA4			EC aerocyte capillary
+NECTIN2			EC aerocyte capillary
+IFITM1			EC aerocyte capillary
+TGM2			EC aerocyte capillary
+PTPRM			EC aerocyte capillary
+TGFBI	NRP1	0.00854691416895035	EC aerocyte capillary
+ADAM10			EC aerocyte capillary

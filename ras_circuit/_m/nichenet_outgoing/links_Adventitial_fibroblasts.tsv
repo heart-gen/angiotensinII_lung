@@ -1,0 +1,25 @@
+ligand	target	weight	target_cell
+EFEMP2	ELN	0.0651127848375566	Adventitial fibroblasts
+TIMP1	ELN	0.0655295839423178	Adventitial fibroblasts
+TGFB1	ELN	0.174098285616921	Adventitial fibroblasts
+TGFB1	P4HA2	0.213887610372507	Adventitial fibroblasts
+TGFB1	PLOD2	0.282912806438932	Adventitial fibroblasts
+PDGFA	CTHRC1	0.0700308979422649	Adventitial fibroblasts
+PDGFA	P4HA1	0.0705265327444276	Adventitial fibroblasts
+PDGFA	PLOD2	0.0713321956286917	Adventitial fibroblasts
+CTSD			Adventitial fibroblasts
+COL1A2			Adventitial fibroblasts
+COL18A1			Adventitial fibroblasts
+LAMB1			Adventitial fibroblasts
+ENG			Adventitial fibroblasts
+LAMB2			Adventitial fibroblasts
+COL1A1			Adventitial fibroblasts
+CFH			Adventitial fibroblasts
+ESAM	PLOD2	0.00824436784001239	Adventitial fibroblasts
+TGFB2	LOX	0.0841715024658884	Adventitial fibroblasts
+LGALS3			Adventitial fibroblasts
+ADAM9			Adventitial fibroblasts
+COL21A1			Adventitial fibroblasts
+HSPG2			Adventitial fibroblasts
+SEMA6D	P4HA2	0.00733930064696984	Adventitial fibroblasts
+ANXA1			Adventitial fibroblasts

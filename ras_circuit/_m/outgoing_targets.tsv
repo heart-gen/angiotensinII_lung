@@ -1,0 +1,11 @@
+target	program
+EC aerocyte capillary	EC_barrier_angiogenic
+EC general capillary	EC_barrier_angiogenic
+AT1	epithelial_repair
+AT2_AGTR2det	epithelial_repair
+AT2_AGTR2undet	epithelial_repair
+Alveolar fibroblasts	fibroblast_matrix
+Adventitial fibroblasts	fibroblast_matrix
+Alveolar macrophages	
+Interstitial macrophages	
+Vascular smooth muscle	

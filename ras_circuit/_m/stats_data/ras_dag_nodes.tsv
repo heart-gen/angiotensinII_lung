@@ -1,0 +1,24 @@
+node	label	cell_type	gene	node_class	x	y	detect	emmean	rank_in_gene
+VSMC_AGT	AGT, VSMC	Vascular smooth muscle	AGT	substrate	1	3	0.085782387135785	2.62641483481721	1
+AlvFib_AGT	AGT, alveolar fibroblast	Alveolar fibroblasts	AGT	substrate	1	2	0.0166316297745315	0.365734709885298	3
+AdvFib_AGT	AGT, adventitial fibroblast	Adventitial fibroblasts	AGT	substrate	1	1	0.0358629683231323	0.711620494854549	2
+AngI	Ang I (latent)	NA	NA	latent	2	2	NA	NA	NA
+ECaero_ACE	ACE, aerocyte capillary EC	EC aerocyte capillary	ACE	processing	3	4	0.351321890461632	2.95862578946777	1
+ECgcap_ACE	ACE, general capillary EC	EC general capillary	ACE	processing	3	3	0.144127723227708	1.36186588716918	2
+AlvMac_ACE	ACE, alveolar macrophage	Alveolar macrophages	ACE	processing	3	2	0.196254595899843	0.7270316922653	3
+Mast_CMA1	CMA1, mast cell	Mast cells	CMA1	processing	3	1	0.0250321021435558	1.76897774935116	1
+Mast_CTSG	CTSG, mast cell	Mast cells	CTSG	processing	3	0	0.108612598993288	2.49497661310594	1
+AngII	Ang II (latent)	NA	NA	latent	4	2	NA	NA	NA
+Peri_AGTR1	AGTR1, pericyte	Pericytes	AGTR1	receptor	5	2	0.341761789254222	3.81033572648724	1
+Peri_ACE2	ACE2, pericyte	Pericytes	ACE2	counter_regulatory	5	0.5	0.0301495176871895	1.61245160752436	1
+Ang17	Ang 1-7 (latent)	NA	NA	latent	6	0.5	NA	NA	NA
+Peri_MAS1	MAS1, pericyte	Pericytes	MAS1	counter_regulatory	7	0.5	0.000534100819815106	-0.115272575015666	20
+Peri_AT1R_response	AT1R-response programme	Pericytes	NA	response	6	2	NA	NA	NA
+contractile	contractile	Pericytes	NA	response_branch	7	3.2	NA	NA	NA
+inflammatory	inflammatory	Pericytes	NA	response_branch	7	2.4	NA	NA	NA
+matrix	matrix remodelling	Pericytes	NA	response_branch	7	1.6	NA	NA	NA
+BM	basement membrane	Pericytes	NA	matrix	8	2.2	NA	NA	NA
+FIB	fibrillar ECM	Pericytes	NA	matrix	8	1.2	NA	NA	NA
+out_EC	capillary EC	NA	NA	neighbor	9	3	NA	NA	NA
+out_FIB	fibroblasts	NA	NA	neighbor	9	2	NA	NA	NA
+out_EPI	AT1 / AT2	NA	NA	neighbor	9	1	NA	NA	NA

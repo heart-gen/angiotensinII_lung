@@ -1,0 +1,123 @@
+direction	disease_group	partner	n_edges	n_supported	n_flagged	magnitude_thr	source_table	target	program	n_background	n_geneset	n_potential	status	top_ligands_by_z	top_z	gene	reason	level	model	spec	predictor	estimate	SE	z_value	p_value	n_units	n_donors	singular	note	ligands	n_studies	null_mean	null_sd	n_null	p_emp	p_BH
+outgoing	COPD	AT1	278	18	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	AT2 (either stratum)	377	25	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	AT2_AGTR2det	335	23	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	AT2_AGTR2undet	319	21	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	Adventitial fibroblasts	257	21	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	Alveolar fibroblasts	235	19	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	Alveolar macrophages	238	16	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	EC aerocyte capillary	205	18	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	EC general capillary	192	15	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	Interstitial macrophages	245	21	1	0.05	liana_direction_summary.tsv																													
+outgoing	COPD	Vascular smooth muscle	214	11	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	AT1	288	19	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	AT2 (either stratum)	400	35	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	AT2_AGTR2det	400	34	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	AT2_AGTR2undet	327	21	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	Adventitial fibroblasts	306	18	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	Alveolar fibroblasts	269	16	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	Alveolar macrophages	285	26	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	EC aerocyte capillary	214	19	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	EC general capillary	275	14	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	Interstitial macrophages	304	29	1	0.05	liana_direction_summary.tsv																													
+outgoing	Fibrotic_ILD	Vascular smooth muscle	198	9	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	AT1	243	12	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	AT2 (either stratum)	316	29	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	AT2_AGTR2det	314	29	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	AT2_AGTR2undet	285	17	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	Adventitial fibroblasts	260	16	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	Alveolar fibroblasts	244	14	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	Alveolar macrophages	254	26	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	EC aerocyte capillary	206	18	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	EC general capillary	239	13	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	Interstitial macrophages	215	23	1	0.05	liana_direction_summary.tsv																													
+outgoing	Healthy	Vascular smooth muscle	228	9	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	AT1	264	13	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	AT2 (either stratum)	351	20	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	AT2_AGTR2det	308	20	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	AT2_AGTR2undet	310	14	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	Adventitial fibroblasts	219	8	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	Alveolar fibroblasts	266	23	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	Alveolar macrophages	229	18	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	EC aerocyte capillary	219	13	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	EC general capillary	214	8	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	Interstitial macrophages	199	25	1	0.05	liana_direction_summary.tsv																													
+outgoing	Other	Vascular smooth muscle	193	10	0	0.05	liana_direction_summary.tsv																													
+incoming	COPD	AT1	196	9	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	AT2 (either stratum)	253	6	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	AT2_AGTR2det	245	6	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	AT2_AGTR2undet	203	2	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	Adventitial fibroblasts	289	23	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	Alveolar fibroblasts	250	24	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	Alveolar macrophages	165	19	2	0.05	liana_direction_summary.tsv																													
+incoming	COPD	EC aerocyte capillary	146	9	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	EC general capillary	159	11	1	0.05	liana_direction_summary.tsv																													
+incoming	COPD	Interstitial macrophages	178	20	2	0.05	liana_direction_summary.tsv																													
+incoming	COPD	Vascular smooth muscle	207	10	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	AT1	213	8	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	AT2 (either stratum)	252	11	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	AT2_AGTR2det	252	10	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	AT2_AGTR2undet	220	4	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	Adventitial fibroblasts	319	26	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	Alveolar fibroblasts	300	24	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	Alveolar macrophages	201	17	2	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	EC aerocyte capillary	174	4	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	EC general capillary	191	9	1	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	Interstitial macrophages	197	10	2	0.05	liana_direction_summary.tsv																													
+incoming	Fibrotic_ILD	Vascular smooth muscle	218	5	3	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	AT1	192	8	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	AT2 (either stratum)	235	8	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	AT2_AGTR2det	230	8	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	AT2_AGTR2undet	196	1	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	Adventitial fibroblasts	295	21	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	Alveolar fibroblasts	270	18	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	Alveolar macrophages	178	10	2	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	EC aerocyte capillary	154	4	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	EC general capillary	150	5	1	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	Interstitial macrophages	177	10	2	0.05	liana_direction_summary.tsv																													
+incoming	Healthy	Vascular smooth muscle	182	8	2	0.05	liana_direction_summary.tsv																													
+incoming	Other	AT1	177	4	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	AT2 (either stratum)	255	5	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	AT2_AGTR2det	244	5	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	AT2_AGTR2undet	188	0	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	Adventitial fibroblasts	262	23	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	Alveolar fibroblasts	264	21	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	Alveolar macrophages	167	8	1	0.05	liana_direction_summary.tsv																													
+incoming	Other	EC aerocyte capillary	114	4	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	EC general capillary	125	4	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	Interstitial macrophages	155	9	0	0.05	liana_direction_summary.tsv																													
+incoming	Other	Vascular smooth muscle	195	9	0	0.05	liana_direction_summary.tsv																													
+							outgoing_nichenet_summary.tsv	EC aerocyte capillary	EC_barrier_angiogenic	3299	10	99	run	PTN;COL18A1;COL12A1;ADAM17;ANGPT1	12.2;12.2;1.3;0.9;0.8																					
+							outgoing_nichenet_summary.tsv	EC general capillary	EC_barrier_angiogenic	3028	12	101	run	COL18A1;PTN;JAG1;ANGPT1;ADAM10	12.0;3.3;2.4;2.0;1.3																					
+							outgoing_nichenet_summary.tsv	AT1	epithelial_repair	4974	9	103	run	LAMA4;FBLN1;COL6A2;COL1A2;CTSD	33.3;31.6;31.3;30.7;30.4																					
+							outgoing_nichenet_summary.tsv	AT2	epithelial_repair	7621	10	121	run	COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	75.1;37.7;15.8;15.6;15.5																					
+							outgoing_nichenet_summary.tsv	Alveolar fibroblasts	fibroblast_matrix	4937	11	119	run	EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	25.4;4.3;2.3;1.5;0.4																					
+							outgoing_nichenet_summary.tsv	Adventitial fibroblasts	fibroblast_matrix	5986	14	125	run	EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	42.2;5.6;3.0;2.1;0.4																					
+							program_genes_dropped.tsv	EC aerocyte capillary	EC_barrier_angiogenic							ESAM	also a pericyte-expressed prior-network ligand or RAS gene																			
+							program_genes_dropped.tsv	EC general capillary	EC_barrier_angiogenic							ESAM	also a pericyte-expressed prior-network ligand or RAS gene																			
+							program_genes_dropped.tsv	Alveolar fibroblasts	fibroblast_matrix							FBLN1	also a pericyte-expressed prior-network ligand or RAS gene																			
+							program_genes_dropped.tsv	Adventitial fibroblasts	fibroblast_matrix							FBLN1	also a pericyte-expressed prior-network ligand or RAS gene																			
+							outgoing_donor_validation.tsv	EC aerocyte capillary	EC_barrier_angiogenic									donor	lmer(+1|study)	primary	ligand_z	0.104414763224615	0.0822849092508415	83.9999999974275	0.207966783576524	88	88	TRUE		PTN;COL18A1;COL12A1;ADAM17;ANGPT1	18	0.0990675975065291	0.0889719886908415	1000	0.967032967032967	0.623900350729571
+							outgoing_donor_validation.tsv	EC aerocyte capillary	EC_barrier_angiogenic									donor	lm(+dataset fixed)	_fixed	ligand_z	0.120716826454073	0.100323330360845	1.20327770240358	0.233443435585744	88	88			PTN;COL18A1;COL12A1;ADAM17;ANGPT1	18	0.0990675975065291	0.0889719886908415	1000		
+							outgoing_donor_validation.tsv	EC aerocyte capillary	EC_barrier_angiogenic									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	0.106583694529191	0.0844586033464319	80.9999999999511	0.210583566546879	88	88	TRUE		PTN;COL18A1;COL12A1;ADAM17;ANGPT1	18	0.0990675975065291	0.0889719886908415	1000		
+							outgoing_donor_validation.tsv	EC aerocyte capillary	EC_barrier_angiogenic									donor	lmer(+1|study)	_healthy	ligand_z	0.220761110236785	0.110719639571449	42.9999999988361	0.052532547312788	47	47	TRUE		PTN;COL18A1;COL12A1;ADAM17;ANGPT1	18	0.0990675975065291	0.0889719886908415	1000		
+							outgoing_donor_validation.tsv	EC general capillary	EC_barrier_angiogenic									donor	lmer(+1|study)	primary	ligand_z	0.0113436987722782	0.0788853666417352	93.9999999988218	0.885966405649225	98	98	TRUE		COL18A1;PTN;JAG1;ANGPT1;ADAM10	19	0.0425277405521763	0.0845495830306376	1000	0.713286713286713	0.983097825241309
+							outgoing_donor_validation.tsv	EC general capillary	EC_barrier_angiogenic									donor	lm(+dataset fixed)	_fixed	ligand_z	0.0616433855827365	0.0906524142062024	0.679997175171964	0.498717514142847	98	98			COL18A1;PTN;JAG1;ANGPT1;ADAM10	19	0.0425277405521763	0.0845495830306376	1000		
+							outgoing_donor_validation.tsv	EC general capillary	EC_barrier_angiogenic									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	0.0190920983170391	0.0805853232009543	90.9999999965767	0.8132530718716	98	98	TRUE		COL18A1;PTN;JAG1;ANGPT1;ADAM10	19	0.0425277405521763	0.0845495830306376	1000		
+							outgoing_donor_validation.tsv	EC general capillary	EC_barrier_angiogenic									donor	lmer(+1|study)	_healthy	ligand_z	0.0635918202773577	0.125540817996567	44.9999999987818	0.614948544855183	49	49	TRUE		COL18A1;PTN;JAG1;ANGPT1;ADAM10	19	0.0425277405521763	0.0845495830306376	1000		
+							outgoing_donor_validation.tsv	AT1	epithelial_repair									donor	lmer(+1|study)	primary	ligand_z	-0.00252019046442301	0.118613829443636	85.9999999997256	0.983097825241309	90	90	TRUE		LAMA4;FBLN1;COL6A2;COL1A2;CTSD	18	0.0762882691472534	0.150531289825342	1000	0.588411588411588	0.983097825241309
+							outgoing_donor_validation.tsv	AT1	epithelial_repair									donor	lm(+dataset fixed)	_fixed	ligand_z	-0.0219362726986292	0.135504468272356	-0.161885973048052	0.87190565172553	90	90			LAMA4;FBLN1;COL6A2;COL1A2;CTSD	18	0.0762882691472534	0.150531289825342	1000		
+							outgoing_donor_validation.tsv	AT1	epithelial_repair									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	-0.027636586012333	0.123286232259213	82.9999999982669	0.82317899953077	90	90	TRUE		LAMA4;FBLN1;COL6A2;COL1A2;CTSD	18	0.0762882691472534	0.150531289825342	1000		
+							outgoing_donor_validation.tsv	AT1	epithelial_repair									donor	lmer(+1|study)	_healthy	ligand_z	-0.117297187803206	0.144533861847917	43.9999999993171	0.421415677860282	48	48	TRUE		LAMA4;FBLN1;COL6A2;COL1A2;CTSD	18	0.0762882691472534	0.150531289825342	1000		
+							outgoing_donor_validation.tsv	AT2	epithelial_repair									donor	lmer(+1|study)	primary	ligand_z	-0.0767242039995373	0.11886688988235	94.9999999958181	0.520182984118853	99	99	TRUE		COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	19	0.0301762862836323	0.156254521514392	1000	0.473526473526474	0.891978898543415
+							outgoing_donor_validation.tsv	AT2	epithelial_repair									donor	lm(+dataset fixed)	_fixed	ligand_z	-0.109358503368754	0.131364202084285	-0.832483291746316	0.407889035567543	99	99			COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	19	0.0301762862836323	0.156254521514392	1000		
+							outgoing_donor_validation.tsv	AT2	epithelial_repair									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	-0.0415551495962854	0.118069165407772	92.0000000008885	0.725676167560798	99	99	TRUE		COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	19	0.0301762862836323	0.156254521514392	1000		
+							outgoing_donor_validation.tsv	AT2	epithelial_repair									donor	lmer(+1|study)	_healthy	ligand_z	-0.0553303673590965	0.130186440540938	44.9999999988446	0.672855807996506	49	49	TRUE		COL4A1;SEMA5A;LAMA4;EDIL3;COL6A2	19	0.0301762862836323	0.156254521514392	1000		
+							outgoing_donor_validation.tsv	Alveolar fibroblasts	fibroblast_matrix									donor	lmer(+1|study)	primary	ligand_z	0.0492605169572732	0.092264127065146	94.9999999995221	0.594652599028944	99	99	TRUE		EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	19	0.00970494728563435	0.0875626295787775	1000	0.648351648351648	0.891978898543415
+							outgoing_donor_validation.tsv	Alveolar fibroblasts	fibroblast_matrix									donor	lm(+dataset fixed)	_fixed	ligand_z	-0.0427662945582779	0.100832960845046	-0.424130107852316	0.672735484135332	99	99			EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	19	0.00970494728563435	0.0875626295787775	1000		
+							outgoing_donor_validation.tsv	Alveolar fibroblasts	fibroblast_matrix									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	0.044820709550592	0.0926118677998094	91.9999999983566	0.629562219548594	99	99	TRUE		EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	19	0.00970494728563435	0.0875626295787775	1000		
+							outgoing_donor_validation.tsv	Alveolar fibroblasts	fibroblast_matrix									donor	lmer(+1|study)	_healthy	ligand_z	0.0105549585266171	0.15673639065731	42.9999999991027	0.946621515403013	47	47	TRUE		EFEMP2;TGFB1;TIMP1;PDGFA;TGFB2	19	0.00970494728563435	0.0875626295787775	1000		
+							outgoing_donor_validation.tsv	Adventitial fibroblasts	fibroblast_matrix									donor	lmer(+1|study)	primary	ligand_z	0.290855500741184	0.118807294978587	85.9999999991094	0.0163920852200503	90	90	TRUE		EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	17	0.0728038387168709	0.120319740930578	1000	0.0699300699300699	0.0983525113203019
+							outgoing_donor_validation.tsv	Adventitial fibroblasts	fibroblast_matrix									donor	lm(+dataset fixed)	_fixed	ligand_z	0.302844555359004	0.137566494797959	2.20144124340586	0.0312608604951209	90	90			EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	17	0.0728038387168709	0.120319740930578	1000		
+							outgoing_donor_validation.tsv	Adventitial fibroblasts	fibroblast_matrix									donor	lmer(+1|study)+disease_group	_disease_adj	ligand_z	0.288054801129906	0.12075858684612	82.9999999977015	0.0193390263462786	90	90	TRUE		EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	17	0.0728038387168709	0.120319740930578	1000		
+							outgoing_donor_validation.tsv	Adventitial fibroblasts	fibroblast_matrix									donor	lmer(+1|study)	_healthy	ligand_z	0.4516945037978	0.235179616017855	35.9999999991035	0.0627257379448992	40	40	TRUE		EFEMP2;TIMP1;TGFB1;PDGFA;CTSD	17	0.0728038387168709	0.120319740930578	1000		

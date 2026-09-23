@@ -1,0 +1,112 @@
+2026-09-22 18:17:28 - **** Job starts ****
+Job id: 46814313
+Node: 
+
+Currently Loaded Modules:
+  1) anaconda3/2024.10-1
+
+ 
+
+2026-09-22 18:17:30 - **** 00 networks ****
+2026-09-22 18:21:52 | [INFO] Downloading data from `https://omnipathdb.org/queries/enzsub?format=json`
+2026-09-22 18:21:53 | [INFO] Downloading data from `https://omnipathdb.org/queries/interactions?format=json`
+2026-09-22 18:21:54 | [INFO] Downloading data from `https://omnipathdb.org/queries/complexes?format=json`
+2026-09-22 18:21:54 | [INFO] Downloading data from `https://omnipathdb.org/queries/annotations?format=json`
+2026-09-22 18:21:54 | [INFO] Downloading data from `https://omnipathdb.org/queries/intercell?format=json`
+2026-09-22 18:21:55 | [INFO] Downloading data from `https://omnipathdb.org/about?format=text`
+2026-09-22 18:21:56 | [INFO] progeny_human_top500.tsv: cached, not re-fetched
+2026-09-22 18:21:56 | [INFO] collectri_human.tsv: cached, not re-fetched
+2026-09-22 18:21:56 | [INFO] networks ready in networks
+2026-09-22 18:22:23 - **** 00b derive AngII signature (no frozen copy yet) ****
+2026-09-22 18:22:32,356 [INFO] full_count_matrix.tsv: 1020662543 bytes
+2026-09-22 18:22:43,109 [INFO] E-MTAB-8810.sdrf.txt: 10392 bytes
+2026-09-22 18:22:44,472 [INFO] sdrf treatments: {'AP18003': 'angiotensin II', 'AP18005': 'angiotensin II', 'AP18007': 'angiotensin II', 'AP18009': 'angiotensin II', 'AP18004': 'saline', 'AP18008': 'saline', 'AP18002': 'none', 'AP18006': 'none'}
+2026-09-22 18:23:04,117 [INFO]   read 2000 genes
+2026-09-22 18:23:16,089 [INFO]   read 4000 genes
+2026-09-22 18:23:28,322 [INFO]   read 6000 genes
+2026-09-22 18:23:40,357 [INFO]   read 8000 genes
+2026-09-22 18:23:52,333 [INFO]   read 10000 genes
+2026-09-22 18:24:04,209 [INFO]   read 12000 genes
+2026-09-22 18:24:16,333 [INFO]   read 14000 genes
+2026-09-22 18:24:28,439 [INFO]   read 16000 genes
+2026-09-22 18:24:36,216 [INFO]   read 17170 genes
+2026-09-22 18:24:37,415 [INFO] sample   treatment     
+AP18002  none              3816
+AP18003  angiotensin II    2602
+AP18004  saline            4555
+AP18005  angiotensin II    4360
+AP18006  none              3658
+AP18007  angiotensin II    3202
+AP18008  saline            3157
+AP18009  angiotensin II    4265
+2026-09-22 18:26:49.571300: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-09-22 18:28:40,015 [INFO] 
+                label  n_cells
+leiden                        
+0          macrophage     1872
+1          macrophage     2912
+2          fibroblast     4383
+3       cardiomyocyte      489
+4          fibroblast     2501
+5          fibroblast     2908
+6          fibroblast     2252
+7          fibroblast     2035
+8          fibroblast      267
+9         endothelial     3149
+10        endothelial     1313
+11      cardiomyocyte      246
+12         fibroblast     1334
+13           pericyte      421
+14        endothelial      729
+15        endothelial       41
+16      cardiomyocyte      318
+17      smooth_muscle      928
+18        endothelial      252
+19      cardiomyocyte      267
+20         macrophage      265
+21         macrophage      342
+22        endothelial      127
+23         fibroblast      263
+2026-09-22 18:28:40,121 [INFO] 
+sample         AP18002  AP18003  AP18004  AP18005  AP18006  AP18007  AP18008  AP18009
+celltype                                                                             
+cardiomyocyte      187      114      268      180      235       87      117      132
+endothelial        718      638      791      825      679      553      703      704
+fibroblast        1968     1213     2106     2408     1963     1897     1805     2583
+macrophage         756      523     1124      794      610      504      365      715
+pericyte            57       33       87       59       42       44       57       42
+smooth_muscle      130       81      179       94      129      117      109       89
+2026-09-22 18:28:40,154 [INFO] [pericyte] units: 8 (AngII 4, control 4)
+2026-09-22 18:29:12,692 [INFO] [pericyte] passing genes: 30 (24 up)
+2026-09-22 18:29:12,720 [INFO] signature cell type: pericyte; 30 mouse genes
+orthologs: 30 of 30 mouse genes mapped 1:1
+FROZE signature: ../_h/signatures/angii_response_signature.tsv (30 genes)
+2026-09-22 18:29:41 - **** 03 score ****
+2026-09-22 18:29:50,955 [INFO] pericytes: 11680 x 55329
+2026-09-22 18:29:51,115 [INFO] signature: 30 genes -> kept 11 up, 4 down; pruned 15
+2026-09-22 18:30:04,626 [INFO] wrote 11680 pericytes; score mode up_only; activities ['progeny_Androgen', 'progeny_EGFR', 'progeny_Estrogen', 'progeny_Hypoxia', 'progeny_JAK-STAT', 'progeny_MAPK', 'progeny_NFkB', 'progeny_PI3K', 'progeny_TGFb', 'progeny_TNFa', 'progeny_Trail', 'progeny_VEGF', 'progeny_WNT', 'progeny_p53', 'tf_FOS', 'tf_JUN', 'tf_NFKB1', 'tf_RELA', 'tf_SMAD2', 'tf_SMAD3', 'tf_AP1']
+2026-09-22 18:30:05 - **** 04 null panels ****
+2026-09-22 18:30:11,673 [INFO] null pool: 28901 genes; matching 11 up
+2026-09-22 18:30:22,473 [INFO] target detection up 0.2975, achieved 0.2941
+2026-09-22 18:30:41,765 [INFO] scored 100/1000
+2026-09-22 18:31:01,245 [INFO] scored 200/1000
+2026-09-22 18:31:20,411 [INFO] scored 300/1000
+2026-09-22 18:31:39,555 [INFO] scored 400/1000
+2026-09-22 18:31:58,836 [INFO] scored 500/1000
+2026-09-22 18:32:18,119 [INFO] scored 600/1000
+2026-09-22 18:32:37,425 [INFO] scored 700/1000
+2026-09-22 18:32:56,682 [INFO] scored 800/1000
+2026-09-22 18:33:15,960 [INFO] scored 900/1000
+2026-09-22 18:33:35,230 [INFO] scored 1000/1000
+2026-09-22 18:33:39,710 [INFO] null pseudobulk: 543 units x 1000 panels
+2026-09-22 18:33:42 - **** 05 Figure 5D statistics ****
+cells: 11680 of 11680 matched to AGTR1 counts
+units (>= 5 cells): 214 from 95 donors, 19 studies
+arbiter null: 1000 panels on 32 cores
+ARBITER signature: beta -0.073 (model NB GLMM, P 0.212); null centre 0.083, p_emp 0.000999
+Error in !length(null) || !is.finite(obs) : 
+  'length = 22' in coercion to 'logical(1)'
+Calls: [ -> [.data.table -> eval -> eval -> fifelse -> emp_p
+Execution halted
+2026-09-22 18:37:17 - Error: 05

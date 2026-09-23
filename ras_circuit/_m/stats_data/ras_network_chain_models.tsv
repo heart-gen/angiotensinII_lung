@@ -1,0 +1,11 @@
+child	parent	estimate	SE	p_value	n_donors	model
+Peri_AT1R_response	AGT_source_index	0.270586763447749	0.158125239407375	0.0912297687311188	79	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes
+Peri_AT1R_response	processing_index	0.377374340847586	0.150302678613075	0.0142307025296611	79	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes
+Peri_AT1R_response	Peri_AGTR1	0.00121066702452356	0.135948586379582	0.99291863313244	79	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes
+Peri_AT1R_response	Peri_ACE2	0.305849923447955	0.103520817758796	0.00419764286721904	79	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes
+contractile	Peri_AT1R_response	0.331556636811463	0.10114688287231	0.00150369187458136	89	lm(contractile ~ Peri_AT1R_response) on study/depth-residualized nodes
+inflammatory	Peri_AT1R_response	0.224270859725596	0.104480245147986	0.0346135002390194	89	lm(inflammatory ~ Peri_AT1R_response) on study/depth-residualized nodes
+activated_migratory	Peri_AT1R_response	0.565877857377837	0.0883945082374783	7.52455757360171e-09	89	lm(activated_migratory ~ Peri_AT1R_response) on study/depth-residualized nodes
+BM_minus_FIB	Peri_AT1R_response	-0.52690241726603	0.0911216089465197	1.13097218707136e-07	89	lm(BM_minus_FIB ~ Peri_AT1R_response) on study/depth-residualized nodes
+EC_readout	BM_minus_FIB	0.121110335498899	0.127108990540623	0.343522563000919	84	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes
+EC_readout	Peri_AT1R_response	0.355650763571549	0.123504821770201	0.0050915006533653	84	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes

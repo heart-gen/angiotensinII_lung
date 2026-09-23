@@ -9,7 +9,7 @@
 #SBATCH --time=02:00:00
 #SBATCH --output=logs/supp_tables.log
 
-## Builds supplementary Tables S1-S13 into tables/_m/tsv/*.tsv and
+## Builds supplementary Tables S1-S13 and S15 into tables/_m/tsv/*.tsv and
 ## tables/_m/supplementary_tables.xlsx. Submit from tables/_m:
 ##     sbatch -D tables/_m tables/_h/step_tables.sh
 ##
@@ -74,6 +74,13 @@ if [ $? -ne 0 ]; then log_message "Error: RAS/composition tables failed"; exit 1
 
 ## Manifest and workbook last: it verifies every registered part exists and that
 ## the tables still reproduce the manuscript's quoted values.
+log_message "**** S15A-F: distributed-RAS circuit (Figure 5, S18) ****"
+## Reads ras_circuit/_m. S14 is vacant (moved 2026-09-10); a missing source is
+## written as pending_upstream, so 08 refuses the final workbook rather than
+## shipping without it.
+Rscript ../_h/09.ras_circuit.R
+if [ $? -ne 0 ]; then log_message "Error: RAS-circuit tables failed"; exit 1; fi
+
 log_message "**** Anchor checks + workbook ****"
 Rscript ../_h/08.assemble_tables.R
 if [ $? -ne 0 ]; then log_message "Error: assembly/anchor checks failed"; exit 1; fi
