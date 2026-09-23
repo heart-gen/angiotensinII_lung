@@ -1,158 +1,163 @@
-from	to	family	given	partial_rho	p_value	n_donors	p_BH	arm	boot_lo	boot_hi	lodo_min	lodo_max	lodo_sign_consistency	n_lodo	n_datasets_lodo	source_table	child	parent	estimate	SE	model	node	label	cell_type	gene	node_class	x	y	detect	emmean	rank_in_gene	edge_class	edge_sign	drawn	quantity	value	kind	evidence_panel	stat_kind	p_kind	measured_sign	note	show_in_panel	id	text
-AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0960053594809377	0.393886563752382	82	0.65647760625397	primary	-0.295891166444332	0.11643279410156	-0.173467743056007	-0.00689028250927309	1	24	24	ras_network_edges.tsv																													
-AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0897991602582714	0.42530969525075	82	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																													
-AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.20308213839886	0.234865770836616	37	0.58716442709154	_healthy							24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AGTR1	forbidden		-0.159478224279402	0.118684084658947	97	0.593420423294734	primary	-0.350454450916194	0.0368178290946327	-0.213074066836037	-0.107421563943303	1	24	24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AGTR1	forbidden		-0.149537134441405	0.143765589931989	97	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AGTR1	forbidden		-0.21232256115977	0.17165383551244	43	0.58716442709154	_healthy							24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.286830136109818	0.0120011382051519	79	0.0200018970085864	primary	0.0619740361706073	0.500678638317044	0.158323426033052	0.339627044478061	1	24	24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.262755214122109	0.0218401748668908	79	0.0436803497337816	_disease_adj							24	ras_network_edges.tsv																													
-AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.444278574537307	0.00959168733274183	36	0.0319722911091395	_healthy							24	ras_network_edges.tsv																													
-AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.234695830485304	0.0412786374657149	76	0.0825572749314297	primary	0.00728063008501935	0.443172497786352	0.122533114478757	0.303067765567766	1	24	24	ras_network_edges.tsv																													
-AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.191196172248804	0.098028647771826	76	0.196057295543652	_disease_adj							24	ras_network_edges.tsv																													
-AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0224598930481283	0.899668822912894	34	0.960598978739719	_healthy							24	ras_network_edges.tsv																													
-AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0615633264766383	0.580340436798814	83	0.644822707554238	primary	-0.16455129770006	0.278765416797135	0.0197843413033286	0.10210027100271	1	24	24	ras_network_edges.tsv																													
-AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0118592838251963	0.915258335440971	83	0.915258335440971	_disease_adj							24	ras_network_edges.tsv																													
-AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.280487804878049	0.0795863458921433	40	0.247374604841259	_healthy							24	ras_network_edges.tsv																													
-AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.343226564795768	0.00149007769496465	83	0.0149007769496465	primary	0.142527159237751	0.532839950529883	0.275513959724486	0.396244131455399	1	24	24	ras_network_edges.tsv																													
-AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.253641744679065	0.0206832822537512	83	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																													
-AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.258781048254732	0.11669404425216	38	0.247374604841259	_healthy							24	ras_network_edges.tsv																													
-BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.139270172201877	0.209225092945138	84	0.232472325494598	primary	-0.0796137862896952	0.352551894618807	0.0939372811899965	0.193244465003243	1	24	24	ras_network_edges.tsv																													
-BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.143744472895081	0.194817602904275	84	0.216464003226972	_disease_adj							24	ras_network_edges.tsv																													
-BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.114188540730474	0.477157154485751	42	0.596446443107189	_healthy							24	ras_network_edges.tsv																													
-ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.256267942583732	0.0254486593907908	76	0.063621648476977	primary	0.0303068370906045	0.483720818587556	0.197165602309509	0.315897815623843	1	24	24	ras_network_edges.tsv																													
-ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.149145591250854	0.198485683583311	76	0.330809472638852	_disease_adj							24	ras_network_edges.tsv																													
-ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.00919324577861163	0.95510234375753	40	0.960598978739719	_healthy							24	ras_network_edges.tsv																													
-ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.299058418548142	0.00572042615256444	84	0.0234526577579811	primary	0.0960741479844241	0.498417762209013	0.241113317062684	0.355492430426312	1	24	24	ras_network_edges.tsv																													
-ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.22239546420978	0.0420236047458446	84	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																													
-ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.124058017988818	0.4337706979966	42	0.722951163327666	_healthy							24	ras_network_edges.tsv																													
-IntMac_ACE	Peri_AT1R_response	marginal_descriptive		0.190093872352469	0.0795873971042847	86	0.132645661840474	primary	-0.0491724475118102	0.413593816642458	0.15715676728335	0.236010243062844	1	24	24	ras_network_edges.tsv																													
-IntMac_ACE	Peri_AT1R_response	marginal_descriptive		0.0634841266097457	0.56144337846047	86	0.701804223075587	_disease_adj							24	ras_network_edges.tsv																													
-IntMac_ACE	Peri_AT1R_response	marginal_descriptive		-0.0628517823639775	0.700025623198062	40	0.960598978739719	_healthy							24	ras_network_edges.tsv																													
-Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.119890786023915	0.341466106562046	66	0.65647760625397	primary	-0.369154664876113	0.173774417274391	-0.175528020016613	-0.073985770383204	1	24	24	ras_network_edges.tsv																													
-Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0422819732823972	0.738060053035824	66	0.887933447759296	_disease_adj							24	ras_network_edges.tsv																													
-Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.157417698274297	0.389544881477377	33	0.649241469128962	_healthy							24	ras_network_edges.tsv																													
-Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.190481160630414	0.125529057897711	66	0.179327225568158	primary	-0.0561097395628618	0.404788262283543	0.145317840054682	0.253607312835235	1	24	24	ras_network_edges.tsv																													
-Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.145433670806805	0.243961864155723	66	0.34851694879389	_disease_adj							24	ras_network_edges.tsv																													
-Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.273395721925134	0.12368730242063	33	0.247374604841259	_healthy							24	ras_network_edges.tsv																													
-Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.32875482726229	0.00703579732739433	66	0.0234526577579811	primary	0.0851120567039335	0.517109071072709	0.255160628844839	0.408073329807862	1	24	24	ras_network_edges.tsv																													
-Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.257697526354243	0.0367106710834807	66	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																													
-Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.320855614973262	0.0686707217515798	33	0.247374604841259	_healthy							24	ras_network_edges.tsv																													
-Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.298612422949791	0.00878855346016584	79	0.0175771069203317	primary	0.0871588648486307	0.48200800744664	0.227494916297478	0.349256157024859	1	24	24	ras_network_edges.tsv																													
-Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.246713447799886	0.0316754336676991	79	0.0452506195252844	_disease_adj							24	ras_network_edges.tsv																													
-Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.337135905958284	0.055032910090723	36	0.110065820181446	_healthy							24	ras_network_edges.tsv																													
-Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0170251889664171	0.88394280616892	79	0.88394280616892	primary	-0.219200976965941	0.246558840342014	-0.134570299480042	0.0958622608972795	0.875	24	24	ras_network_edges.tsv																													
-Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0104179143827911	0.928828815802682	79	0.928828815802682	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0851662411191576	0.637472087732023	36	0.708302319702248	_healthy							24	ras_network_edges.tsv																													
-Peri_AT1R_response	BM_minus_FIB	allowed		-0.525978890023834	1.20108004358768e-07	89	6.00540021793842e-07	primary	-0.675156365621615	-0.333119757635773	-0.565644881434355	-0.475903342366757	1	24	24	ras_network_edges.tsv																													
-Peri_AT1R_response	BM_minus_FIB	allowed		-0.426642832822608	3.05746009340437e-05	89	0.000152873004670218	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AT1R_response	BM_minus_FIB	allowed		-0.400372741268941	0.00860602120056913	42	0.0319722911091395	_healthy							24	ras_network_edges.tsv																													
-Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.329829335919628	0.00232670983856065	84	0.00775569946186885	primary	0.109225693341426	0.511105765790543	0.261719352459818	0.436246736540548	1	24	24	ras_network_edges.tsv																													
-Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.368948204037399	0.000598624059267141	84	0.00199541353089047	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.353709523493406	0.0232866335803259	42	0.0582165839508147	_healthy							24	ras_network_edges.tsv																													
-Peri_AT1R_response	activated_migratory	allowed		0.527953694245829	1.05590302915774e-07	89	6.00540021793842e-07	primary	0.339081640000149	0.688310499966339	0.504137202012102	0.588750666623132	1	24	24	ras_network_edges.tsv																													
-Peri_AT1R_response	activated_migratory	allowed		0.501464078992169	5.56407065874283e-07	89	5.56407065874283e-06	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AT1R_response	activated_migratory	allowed		0.546876266104854	0.000178696857416269	42	0.00178696857416269	_healthy							24	ras_network_edges.tsv																													
-Peri_AT1R_response	contractile	allowed		0.243122233571672	0.0216902838675612	89	0.0294466007202131	primary	0.0338857682724011	0.433163823912487	0.140701403859299	0.349218807848945	1	24	24	ras_network_edges.tsv																													
-Peri_AT1R_response	contractile	allowed		0.286857337419135	0.00642078136425974	89	0.0160519534106494	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AT1R_response	contractile	allowed		0.00445668908516328	0.977653284111526	42	0.977653284111526	_healthy							24	ras_network_edges.tsv																													
-Peri_AT1R_response	inflammatory	allowed		0.239887640449438	0.0235572805761705	89	0.0294466007202131	primary	0.0304007977450083	0.423521982701707	0.180420054200542	0.293683664323789	1	24	24	ras_network_edges.tsv																													
-Peri_AT1R_response	inflammatory	allowed		0.206332992849847	0.052385297725576	89	0.06548162215697	_disease_adj							24	ras_network_edges.tsv																													
-Peri_AT1R_response	inflammatory	allowed		0.173972935742646	0.270515246143143	42	0.450858743571906	_healthy							24	ras_network_edges.tsv																													
-Peri_MAS1	Peri_AT1R_response	marginal_descriptive		0.0254341164453524	0.812973917496269	89	0.812973917496269	primary	-0.184488953850538	0.2296853015601	-0.0262569418733802	0.0704709790893102	0.833333333333333	24	24	ras_network_edges.tsv																													
-Peri_MAS1	Peri_AT1R_response	marginal_descriptive		0.0310691181477698	0.772557079151109	89	0.858396754612343	_disease_adj							24	ras_network_edges.tsv																													
-Peri_MAS1	Peri_AT1R_response	marginal_descriptive		-0.00785997893201523	0.960598978739719	42	0.960598978739719	_healthy							24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AGTR1	forbidden		0.0126648123397031	0.903570776786454	94	0.903570776786454	primary	-0.187924669230759	0.206194663335573	-0.0420007556357835	0.0736931465700199	0.708333333333333	24	24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AGTR1	forbidden		-0.0147310623848571	0.887933447759296	94	0.887933447759296	_disease_adj							24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AGTR1	forbidden		0.0191637630662021	0.905335584819602	41	0.905335584819602	_healthy							24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.147593082356526	0.185750881577294	82	0.232188601971618	primary	-0.0703975687186142	0.364023889866562	0.0126089872568746	0.21907040328093	1	24	24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.193021408125728	0.0823114857912571	82	0.196057295543652	_disease_adj							24	ras_network_edges.tsv																													
-VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.31389284020863	0.0584999865560641	37	0.247374604841259	_healthy							24	ras_network_edges.tsv																													
-processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.0617327466702898	0.584047760493064	83	0.73005970061633	primary	-0.157951513942652	0.272216726391893	-0.00223682648416403	0.221900257221701	0.958333333333333	24	24	ras_network_edges.tsv																													
-processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.116406967874025	0.300714495225925	83	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																													
-processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.0323111599883495	0.845182468319091	41	0.905335584819602	_healthy							24	ras_network_edges.tsv																													
-processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.302213137598351	0.00797042919377733	79	0.0175771069203317	primary	0.0318365962265975	0.509741478158565	0.255503797956835	0.329245691949184	1	24	24	ras_network_edges.tsv																													
-processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.252521360821743	0.0277541036015216	79	0.0452506195252844	_disease_adj							24	ras_network_edges.tsv																													
-processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.165488824154572	0.357377799175488	36	0.51053971310784	_healthy							24	ras_network_edges.tsv																													
-					0.0912297687311188	79										ras_network_chain_models.tsv	Peri_AT1R_response	AGT_source_index	0.270586763447749	0.158125239407375	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																								
-					0.0142307025296611	79										ras_network_chain_models.tsv	Peri_AT1R_response	processing_index	0.377374340847586	0.150302678613075	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																								
-					0.99291863313244	79										ras_network_chain_models.tsv	Peri_AT1R_response	Peri_AGTR1	0.00121066702452356	0.135948586379582	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																								
-					0.00419764286721904	79										ras_network_chain_models.tsv	Peri_AT1R_response	Peri_ACE2	0.305849923447955	0.103520817758796	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																								
-					0.00150369187458136	89										ras_network_chain_models.tsv	contractile	Peri_AT1R_response	0.331556636811463	0.10114688287231	lm(contractile ~ Peri_AT1R_response) on study/depth-residualized nodes																								
-					0.0346135002390194	89										ras_network_chain_models.tsv	inflammatory	Peri_AT1R_response	0.224270859725596	0.104480245147986	lm(inflammatory ~ Peri_AT1R_response) on study/depth-residualized nodes																								
-					7.52455757360171e-09	89										ras_network_chain_models.tsv	activated_migratory	Peri_AT1R_response	0.565877857377837	0.0883945082374783	lm(activated_migratory ~ Peri_AT1R_response) on study/depth-residualized nodes																								
-					1.13097218707136e-07	89										ras_network_chain_models.tsv	BM_minus_FIB	Peri_AT1R_response	-0.52690241726603	0.0911216089465197	lm(BM_minus_FIB ~ Peri_AT1R_response) on study/depth-residualized nodes																								
-					0.343522563000919	84										ras_network_chain_models.tsv	EC_readout	BM_minus_FIB	0.121110335498899	0.127108990540623	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes																								
-					0.0050915006533653	84										ras_network_chain_models.tsv	EC_readout	Peri_AT1R_response	0.355650763571549	0.123504821770201	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes																								
-																ras_dag_nodes.tsv						VSMC_AGT	AGT, VSMC	Vascular smooth muscle	AGT	substrate	1	3	0.085782387135785	2.62641483481721	1														
-																ras_dag_nodes.tsv						AlvFib_AGT	AGT, alveolar fibroblast	Alveolar fibroblasts	AGT	substrate	1	2	0.0166316297745315	0.365734709885298	3														
-																ras_dag_nodes.tsv						AdvFib_AGT	AGT, adventitial fibroblast	Adventitial fibroblasts	AGT	substrate	1	1	0.0358629683231323	0.711620494854549	2														
-																ras_dag_nodes.tsv						AngI	Ang I (latent)			latent	2	2																	
-																ras_dag_nodes.tsv						ECaero_ACE	ACE, aerocyte capillary EC	EC aerocyte capillary	ACE	processing	3	4	0.351321890461632	2.95862578946777	1														
-																ras_dag_nodes.tsv						ECgcap_ACE	ACE, general capillary EC	EC general capillary	ACE	processing	3	3	0.144127723227708	1.36186588716918	2														
-																ras_dag_nodes.tsv						AlvMac_ACE	ACE, alveolar macrophage	Alveolar macrophages	ACE	processing	3	2	0.196254595899843	0.7270316922653	3														
-																ras_dag_nodes.tsv						Mast_CMA1	CMA1, mast cell	Mast cells	CMA1	processing	3	1	0.0250321021435558	1.76897774935116	1														
-																ras_dag_nodes.tsv						Mast_CTSG	CTSG, mast cell	Mast cells	CTSG	processing	3	0	0.108612598993288	2.49497661310594	1														
-																ras_dag_nodes.tsv						AngII	Ang II (latent)			latent	4	2																	
-																ras_dag_nodes.tsv						Peri_AGTR1	AGTR1, pericyte	Pericytes	AGTR1	receptor	5	2	0.341761789254222	3.81033572648724	1														
-																ras_dag_nodes.tsv						Peri_ACE2	ACE2, pericyte	Pericytes	ACE2	counter_regulatory	5	0.5	0.0301495176871895	1.61245160752436	1														
-																ras_dag_nodes.tsv						Ang17	Ang 1-7 (latent)			latent	6	0.5																	
-																ras_dag_nodes.tsv						Peri_MAS1	MAS1, pericyte	Pericytes	MAS1	counter_regulatory	7	0.5	0.000534100819815106	-0.115272575015666	20														
-																ras_dag_nodes.tsv						Peri_AT1R_response	AT1R-response programme	Pericytes		response	6	2																	
-																ras_dag_nodes.tsv						contractile	contractile	Pericytes		response_branch	7	3.2																	
-																ras_dag_nodes.tsv						inflammatory	inflammatory	Pericytes		response_branch	7	2.4																	
-																ras_dag_nodes.tsv						activated_migratory	activated / migratory	Pericytes		response_branch	7	2																	
-																ras_dag_nodes.tsv						matrix	matrix remodelling	Pericytes		response_branch	7	1.6																	
-																ras_dag_nodes.tsv						BM	basement membrane	Pericytes		matrix	8	2.2																	
-																ras_dag_nodes.tsv						FIB	fibrillar ECM	Pericytes		matrix	8	1.2																	
-																ras_dag_nodes.tsv						out_EC	capillary EC			neighbor	9	3																	
-																ras_dag_nodes.tsv						out_FIB	fibroblasts			neighbor	9	2																	
-																ras_dag_nodes.tsv						out_EPI	AT1 / AT2			neighbor	9	1																	
-VSMC_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE											
-AlvFib_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE											
-AdvFib_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE											
-AngI	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-ECaero_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-ECgcap_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-AlvMac_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-Mast_CMA1	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-Mast_CTSG	AngII															ras_dag_edges.tsv																processing	flux	TRUE											
-AngII	Peri_AT1R_response															ras_dag_edges.tsv																receptor	positive	TRUE											
-Peri_AGTR1	Peri_AT1R_response															ras_dag_edges.tsv																receptor	positive	TRUE											
-Peri_AT1R_response	contractile															ras_dag_edges.tsv																response	positive	TRUE											
-Peri_AT1R_response	inflammatory															ras_dag_edges.tsv																response	positive	TRUE											
-Peri_AT1R_response	activated_migratory															ras_dag_edges.tsv																response	positive	TRUE											
-Peri_AT1R_response	matrix															ras_dag_edges.tsv																response	positive	TRUE											
-matrix	BM															ras_dag_edges.tsv																matrix	positive	TRUE											
-matrix	FIB															ras_dag_edges.tsv																matrix	positive	TRUE											
-BM	out_EC															ras_dag_edges.tsv																neighbor	positive	TRUE											
-FIB	out_FIB															ras_dag_edges.tsv																neighbor	positive	TRUE											
-Peri_AT1R_response	out_EPI															ras_dag_edges.tsv																neighbor	positive	TRUE											
-AngII	Ang17															ras_dag_edges.tsv																counter_regulatory	flux	TRUE											
-Peri_ACE2	Ang17															ras_dag_edges.tsv																counter_regulatory	flux	TRUE											
-Ang17	Peri_MAS1															ras_dag_edges.tsv																counter_regulatory	flux	TRUE											
-Peri_MAS1	Peri_AT1R_response															ras_dag_edges.tsv																counter_regulatory	negative	TRUE											
-VSMC_AGT	Peri_AGTR1															ras_dag_edges.tsv																forbidden	none	FALSE											
-																ras_dag_scalars.tsv																			max_REN_detect	0.0229									
-																ras_dag_scalars.tsv																			max_REN_cell_type	AT2_AGTR2det									
-																ras_dag_scalars.tsv																			n_cell_types	22									
-																ras_dag_scalars.tsv																			n_autonomous_circuit	0									
-																ras_dag_scalars.tsv																			autonomy_detect_threshold	0.05 (agt_axis/_h/01.ras_landscape_stats.R --detect-thr default)									
-																ras_dag_scalars.tsv																			max_steps_in_one_cell_type	1									
-AngII	Peri_AT1R_response				0.0200018970085864											ras_dag_annotations.tsv			0.286830136109818				AGT source +0.29*; ACE/chymase +0.30*														edge	C	partial rho	BH	positive	donor-level partial Spearman of each composite index with the response	TRUE		
-Peri_AGTR1	Peri_AT1R_response				0.88394280616892											ras_dag_annotations.tsv			0.0170251889664171				+0.02 n.s.														edge	C/D	partial rho	BH	null	count arbiter agrees: see the AGTR1 abundance note	TRUE		
-Peri_AT1R_response	contractile				0.0294466007202131											ras_dag_annotations.tsv			0.243122233571672				+0.24*														edge	C	partial rho	BH	positive		TRUE		
-Peri_AT1R_response	inflammatory				0.0294466007202131											ras_dag_annotations.tsv			0.239887640449438				+0.24*														edge	C	partial rho	BH	positive		TRUE		
-Peri_AT1R_response	activated_migratory				6.00540021793842e-07											ras_dag_annotations.tsv			0.527953694245829				+0.53*														edge	C	partial rho	BH	positive		TRUE		
-Peri_AT1R_response	matrix															ras_dag_annotations.tsv																					edge	E			null		FALSE		
-matrix	FIB				3.19998411226894e-11											ras_dag_annotations.tsv			0.472866048384614				beta +0.47*														edge	E	beta	raw	positive		TRUE		
-matrix	BM				0.191902887359397											ras_dag_annotations.tsv			0.0981472032862387				beta +0.10 n.s.														edge	E	beta	raw	null		TRUE		
-Peri_MAS1	Peri_AT1R_response				0.812973917496269											ras_dag_annotations.tsv			0.0254341164453524				+0.03 n.s.														edge	C	partial rho	BH	null	prior sign is antagonistic; the donor-level test is null	TRUE		
-Peri_AT1R_response	out_EPI															ras_dag_annotations.tsv			75.1				COL4A1, SEMA5A														edge	F	NicheNet z		null	donor validation, AT2: beta -0.08, p = 0.52 (p_emp 0.474)	TRUE		
-FIB	out_FIB															ras_dag_annotations.tsv			42.2				EFEMP2, TIMP1														edge	F	NicheNet z		null	donor validation, Adventitial fibroblasts: beta +0.29, p = 0.0164 (p_emp 0.0699)	TRUE		
-BM	out_EC															ras_dag_annotations.tsv			12.2				PTN, COL18A1														edge	F	NicheNet z		null	donor validation, EC aerocyte capillary: beta +0.10, p = 0.208 (p_emp 0.967)	TRUE		
-																ras_dag_notes.tsv																											TRUE	forbidden	AGT -> AGTR1 is not an edge (substrate, not ligand); tested as a control: rho +0.01, n.s.
-																ras_dag_notes.tsv																											TRUE	abundance_not_activity	AGTR1 abundance is not AT1R activity: count model beta -0.07 against a matched-null centre of +0.08 (p_emp 0.001)
-																ras_dag_notes.tsv																											TRUE	matrix_balance	matrix balance BM - fibrillar: beta -0.51 against its matched null (p_emp 0.001); donor rho -0.31
-																ras_dag_notes.tsv																											FALSE	ace2_not_antagonistic	pericyte ACE2 -> response rho +0.30*: the counter-regulatory arm does not oppose the response here
-																ras_dag_notes.tsv																											FALSE	no_compartment_affinity	AGTR1-high pericytes show no compartment-specific niche affinity (interaction LRT p = 0.50)
+from	to	family	given	partial_rho	p_value	n_donors	p_BH	arm	boot_lo	boot_hi	lodo_min	lodo_max	lodo_sign_consistency	n_lodo	n_datasets_lodo	source_table	child	parent	estimate	SE	model	node	label	cell_type	gene	node_class	x	y	detect	emmean	rank_in_gene	edge_class	edge_sign	drawn	quantity	value	kind	evidence_panel	stat_kind	p_kind	measured_sign	note	show_in_panel	prior_sign	contradicts_prior	id	text
+AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0960053594809377	0.393886563752382	82	0.65647760625397	primary	-0.295891166444332	0.11643279410156	-0.173467743056007	-0.00689028250927309	1	24	24	ras_network_edges.tsv																															
+AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0897991602582714	0.42530969525075	82	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																															
+AGT_source_index	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.20308213839886	0.234865770836616	37	0.58716442709154	_healthy							24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AGTR1	forbidden		-0.159478224279402	0.118684084658947	97	0.593420423294734	primary	-0.350454450916194	0.0368178290946327	-0.213074066836037	-0.107421563943303	1	24	24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AGTR1	forbidden		-0.149537134441405	0.143765589931989	97	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AGTR1	forbidden		-0.21232256115977	0.17165383551244	43	0.58716442709154	_healthy							24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.286830136109818	0.0120011382051519	79	0.0200018970085864	primary	0.0619740361706073	0.500678638317044	0.158323426033052	0.339627044478061	1	24	24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.262755214122109	0.0218401748668908	79	0.0436803497337816	_disease_adj							24	ras_network_edges.tsv																															
+AGT_source_index	Peri_AT1R_response	allowed	processing_index+Peri_AGTR1+Peri_ACE2	0.444278574537307	0.00959168733274183	36	0.0319722911091395	_healthy							24	ras_network_edges.tsv																															
+AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.234695830485304	0.0412786374657149	76	0.0825572749314297	primary	0.00728063008501935	0.443172497786352	0.122533114478757	0.303067765567766	1	24	24	ras_network_edges.tsv																															
+AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.191196172248804	0.098028647771826	76	0.196057295543652	_disease_adj							24	ras_network_edges.tsv																															
+AdvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0224598930481283	0.899668822912894	34	0.960598978739719	_healthy							24	ras_network_edges.tsv																															
+AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0615633264766383	0.580340436798814	83	0.644822707554238	primary	-0.16455129770006	0.278765416797135	0.0197843413033286	0.10210027100271	1	24	24	ras_network_edges.tsv																															
+AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.0118592838251963	0.915258335440971	83	0.915258335440971	_disease_adj							24	ras_network_edges.tsv																															
+AlvFib_AGT	Peri_AT1R_response	marginal_descriptive		0.280487804878049	0.0795863458921433	40	0.247374604841259	_healthy							24	ras_network_edges.tsv																															
+AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.343226564795768	0.00149007769496465	83	0.0149007769496465	primary	0.142527159237751	0.532839950529883	0.275513959724486	0.396244131455399	1	24	24	ras_network_edges.tsv																															
+AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.253641744679065	0.0206832822537512	83	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																															
+AlvMac_ACE	Peri_AT1R_response	marginal_descriptive		0.258781048254732	0.11669404425216	38	0.247374604841259	_healthy							24	ras_network_edges.tsv																															
+BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.139270172201877	0.209225092945138	84	0.232472325494598	primary	-0.0796137862896952	0.352551894618807	0.0939372811899965	0.193244465003243	1	24	24	ras_network_edges.tsv																															
+BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.143744472895081	0.194817602904275	84	0.216464003226972	_disease_adj							24	ras_network_edges.tsv																															
+BM_minus_FIB	EC_readout	allowed	Peri_AT1R_response	0.114188540730474	0.477157154485751	42	0.596446443107189	_healthy							24	ras_network_edges.tsv																															
+ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.256267942583732	0.0254486593907908	76	0.063621648476977	primary	0.0303068370906045	0.483720818587556	0.197165602309509	0.315897815623843	1	24	24	ras_network_edges.tsv																															
+ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.149145591250854	0.198485683583311	76	0.330809472638852	_disease_adj							24	ras_network_edges.tsv																															
+ECaero_ACE	Peri_AT1R_response	marginal_descriptive		0.00919324577861163	0.95510234375753	40	0.960598978739719	_healthy							24	ras_network_edges.tsv																															
+ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.299058418548142	0.00572042615256444	84	0.0234526577579811	primary	0.0960741479844241	0.498417762209013	0.241113317062684	0.355492430426312	1	24	24	ras_network_edges.tsv																															
+ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.22239546420978	0.0420236047458446	84	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																															
+ECgcap_ACE	Peri_AT1R_response	marginal_descriptive		0.124058017988818	0.4337706979966	42	0.722951163327666	_healthy							24	ras_network_edges.tsv																															
+IntMac_ACE	Peri_AT1R_response	marginal_descriptive		0.190093872352469	0.0795873971042847	86	0.132645661840474	primary	-0.0491724475118102	0.413593816642458	0.15715676728335	0.236010243062844	1	24	24	ras_network_edges.tsv																															
+IntMac_ACE	Peri_AT1R_response	marginal_descriptive		0.0634841266097457	0.56144337846047	86	0.701804223075587	_disease_adj							24	ras_network_edges.tsv																															
+IntMac_ACE	Peri_AT1R_response	marginal_descriptive		-0.0628517823639775	0.700025623198062	40	0.960598978739719	_healthy							24	ras_network_edges.tsv																															
+Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.119890786023915	0.341466106562046	66	0.65647760625397	primary	-0.369154664876113	0.173774417274391	-0.175528020016613	-0.073985770383204	1	24	24	ras_network_edges.tsv																															
+Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.0422819732823972	0.738060053035824	66	0.887933447759296	_disease_adj							24	ras_network_edges.tsv																															
+Mast_CMA1	BM_minus_FIB	forbidden	Peri_AT1R_response	-0.157417698274297	0.389544881477377	33	0.649241469128962	_healthy							24	ras_network_edges.tsv																															
+Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.190481160630414	0.125529057897711	66	0.179327225568158	primary	-0.0561097395628618	0.404788262283543	0.145317840054682	0.253607312835235	1	24	24	ras_network_edges.tsv																															
+Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.145433670806805	0.243961864155723	66	0.34851694879389	_disease_adj							24	ras_network_edges.tsv																															
+Mast_CMA1	Peri_AT1R_response	marginal_descriptive		0.273395721925134	0.12368730242063	33	0.247374604841259	_healthy							24	ras_network_edges.tsv																															
+Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.32875482726229	0.00703579732739433	66	0.0234526577579811	primary	0.0851120567039335	0.517109071072709	0.255160628844839	0.408073329807862	1	24	24	ras_network_edges.tsv																															
+Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.257697526354243	0.0367106710834807	66	0.140078682486149	_disease_adj							24	ras_network_edges.tsv																															
+Mast_CTSG	Peri_AT1R_response	marginal_descriptive		0.320855614973262	0.0686707217515798	33	0.247374604841259	_healthy							24	ras_network_edges.tsv																															
+Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.298612422949791	0.00878855346016584	79	0.0175771069203317	primary	0.0871588648486307	0.48200800744664	0.227494916297478	0.349256157024859	1	24	24	ras_network_edges.tsv																															
+Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.246713447799886	0.0316754336676991	79	0.0452506195252844	_disease_adj							24	ras_network_edges.tsv																															
+Peri_ACE2	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_AGTR1	0.337135905958284	0.055032910090723	36	0.110065820181446	_healthy							24	ras_network_edges.tsv																															
+Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0170251889664171	0.88394280616892	79	0.88394280616892	primary	-0.219200976965941	0.246558840342014	-0.134570299480042	0.0958622608972795	0.875	24	24	ras_network_edges.tsv																															
+Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0104179143827911	0.928828815802682	79	0.928828815802682	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AGTR1	Peri_AT1R_response	allowed	AGT_source_index+processing_index+Peri_ACE2	0.0851662411191576	0.637472087732023	36	0.708302319702248	_healthy							24	ras_network_edges.tsv																															
+Peri_AT1R_response	BM_minus_FIB	allowed		-0.525978890023834	1.20108004358768e-07	89	6.00540021793842e-07	primary	-0.675156365621615	-0.333119757635773	-0.565644881434355	-0.475903342366757	1	24	24	ras_network_edges.tsv																															
+Peri_AT1R_response	BM_minus_FIB	allowed		-0.426642832822608	3.05746009340437e-05	89	0.000152873004670218	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AT1R_response	BM_minus_FIB	allowed		-0.400372741268941	0.00860602120056913	42	0.0319722911091395	_healthy							24	ras_network_edges.tsv																															
+Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.329829335919628	0.00232670983856065	84	0.00775569946186885	primary	0.109225693341426	0.511105765790543	0.261719352459818	0.436246736540548	1	24	24	ras_network_edges.tsv																															
+Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.368948204037399	0.000598624059267141	84	0.00199541353089047	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AT1R_response	EC_readout	allowed	BM_minus_FIB	0.353709523493406	0.0232866335803259	42	0.0582165839508147	_healthy							24	ras_network_edges.tsv																															
+Peri_AT1R_response	activated_migratory	allowed		0.527953694245829	1.05590302915774e-07	89	6.00540021793842e-07	primary	0.339081640000149	0.688310499966339	0.504137202012102	0.588750666623132	1	24	24	ras_network_edges.tsv																															
+Peri_AT1R_response	activated_migratory	allowed		0.501464078992169	5.56407065874283e-07	89	5.56407065874283e-06	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AT1R_response	activated_migratory	allowed		0.546876266104854	0.000178696857416269	42	0.00178696857416269	_healthy							24	ras_network_edges.tsv																															
+Peri_AT1R_response	contractile	allowed		0.243122233571672	0.0216902838675612	89	0.0294466007202131	primary	0.0338857682724011	0.433163823912487	0.140701403859299	0.349218807848945	1	24	24	ras_network_edges.tsv																															
+Peri_AT1R_response	contractile	allowed		0.286857337419135	0.00642078136425974	89	0.0160519534106494	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AT1R_response	contractile	allowed		0.00445668908516328	0.977653284111526	42	0.977653284111526	_healthy							24	ras_network_edges.tsv																															
+Peri_AT1R_response	inflammatory	allowed		0.239887640449438	0.0235572805761705	89	0.0294466007202131	primary	0.0304007977450083	0.423521982701707	0.180420054200542	0.293683664323789	1	24	24	ras_network_edges.tsv																															
+Peri_AT1R_response	inflammatory	allowed		0.206332992849847	0.052385297725576	89	0.06548162215697	_disease_adj							24	ras_network_edges.tsv																															
+Peri_AT1R_response	inflammatory	allowed		0.173972935742646	0.270515246143143	42	0.450858743571906	_healthy							24	ras_network_edges.tsv																															
+Peri_MAS1	Peri_AT1R_response	marginal_descriptive		0.0254341164453524	0.812973917496269	89	0.812973917496269	primary	-0.184488953850538	0.2296853015601	-0.0262569418733802	0.0704709790893102	0.833333333333333	24	24	ras_network_edges.tsv																															
+Peri_MAS1	Peri_AT1R_response	marginal_descriptive		0.0310691181477698	0.772557079151109	89	0.858396754612343	_disease_adj							24	ras_network_edges.tsv																															
+Peri_MAS1	Peri_AT1R_response	marginal_descriptive		-0.00785997893201523	0.960598978739719	42	0.960598978739719	_healthy							24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AGTR1	forbidden		0.0126648123397031	0.903570776786454	94	0.903570776786454	primary	-0.187924669230759	0.206194663335573	-0.0420007556357835	0.0736931465700199	0.708333333333333	24	24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AGTR1	forbidden		-0.0147310623848571	0.887933447759296	94	0.887933447759296	_disease_adj							24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AGTR1	forbidden		0.0191637630662021	0.905335584819602	41	0.905335584819602	_healthy							24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.147593082356526	0.185750881577294	82	0.232188601971618	primary	-0.0703975687186142	0.364023889866562	0.0126089872568746	0.21907040328093	1	24	24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.193021408125728	0.0823114857912571	82	0.196057295543652	_disease_adj							24	ras_network_edges.tsv																															
+VSMC_AGT	Peri_AT1R_response	marginal_descriptive		0.31389284020863	0.0584999865560641	37	0.247374604841259	_healthy							24	ras_network_edges.tsv																															
+processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.0617327466702898	0.584047760493064	83	0.73005970061633	primary	-0.157951513942652	0.272216726391893	-0.00223682648416403	0.221900257221701	0.958333333333333	24	24	ras_network_edges.tsv																															
+processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.116406967874025	0.300714495225925	83	0.708849492084583	_disease_adj							24	ras_network_edges.tsv																															
+processing_index	EC_readout	forbidden	BM_minus_FIB+Peri_AT1R_response	0.0323111599883495	0.845182468319091	41	0.905335584819602	_healthy							24	ras_network_edges.tsv																															
+processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.302213137598351	0.00797042919377733	79	0.0175771069203317	primary	0.0318365962265975	0.509741478158565	0.255503797956835	0.329245691949184	1	24	24	ras_network_edges.tsv																															
+processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.252521360821743	0.0277541036015216	79	0.0452506195252844	_disease_adj							24	ras_network_edges.tsv																															
+processing_index	Peri_AT1R_response	allowed	AGT_source_index+Peri_AGTR1+Peri_ACE2	0.165488824154572	0.357377799175488	36	0.51053971310784	_healthy							24	ras_network_edges.tsv																															
+					0.0912297687311188	79										ras_network_chain_models.tsv	Peri_AT1R_response	AGT_source_index	0.270586763447749	0.158125239407375	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																										
+					0.0142307025296611	79										ras_network_chain_models.tsv	Peri_AT1R_response	processing_index	0.377374340847586	0.150302678613075	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																										
+					0.99291863313244	79										ras_network_chain_models.tsv	Peri_AT1R_response	Peri_AGTR1	0.00121066702452356	0.135948586379582	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																										
+					0.00419764286721904	79										ras_network_chain_models.tsv	Peri_AT1R_response	Peri_ACE2	0.305849923447955	0.103520817758796	lm(Peri_AT1R_response ~ AGT_source_index + processing_index + Peri_AGTR1 + Peri_ACE2) on study/depth-residualized nodes																										
+					0.00150369187458136	89										ras_network_chain_models.tsv	contractile	Peri_AT1R_response	0.331556636811463	0.10114688287231	lm(contractile ~ Peri_AT1R_response) on study/depth-residualized nodes																										
+					0.0346135002390194	89										ras_network_chain_models.tsv	inflammatory	Peri_AT1R_response	0.224270859725596	0.104480245147986	lm(inflammatory ~ Peri_AT1R_response) on study/depth-residualized nodes																										
+					7.52455757360171e-09	89										ras_network_chain_models.tsv	activated_migratory	Peri_AT1R_response	0.565877857377837	0.0883945082374783	lm(activated_migratory ~ Peri_AT1R_response) on study/depth-residualized nodes																										
+					1.13097218707136e-07	89										ras_network_chain_models.tsv	BM_minus_FIB	Peri_AT1R_response	-0.52690241726603	0.0911216089465197	lm(BM_minus_FIB ~ Peri_AT1R_response) on study/depth-residualized nodes																										
+					0.343522563000919	84										ras_network_chain_models.tsv	EC_readout	BM_minus_FIB	0.121110335498899	0.127108990540623	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes																										
+					0.0050915006533653	84										ras_network_chain_models.tsv	EC_readout	Peri_AT1R_response	0.355650763571549	0.123504821770201	lm(EC_readout ~ BM_minus_FIB + Peri_AT1R_response) on study/depth-residualized nodes																										
+																ras_dag_nodes.tsv						VSMC_AGT	AGT, VSMC	Vascular smooth muscle	AGT	substrate	1	3	0.085782387135785	2.62641483481721	1																
+																ras_dag_nodes.tsv						AlvFib_AGT	AGT, alveolar fibroblast	Alveolar fibroblasts	AGT	substrate	1	2	0.0166316297745315	0.365734709885298	3																
+																ras_dag_nodes.tsv						AdvFib_AGT	AGT, adventitial fibroblast	Adventitial fibroblasts	AGT	substrate	1	1	0.0358629683231323	0.711620494854549	2																
+																ras_dag_nodes.tsv						AngI	Ang I (latent)			latent	2	2																			
+																ras_dag_nodes.tsv						ECaero_ACE	ACE, aerocyte capillary EC	EC aerocyte capillary	ACE	processing	3	4	0.351321890461632	2.95862578946777	1																
+																ras_dag_nodes.tsv						ECgcap_ACE	ACE, general capillary EC	EC general capillary	ACE	processing	3	3	0.144127723227708	1.36186588716918	2																
+																ras_dag_nodes.tsv						AlvMac_ACE	ACE, alveolar macrophage	Alveolar macrophages	ACE	processing	3	2	0.196254595899843	0.7270316922653	3																
+																ras_dag_nodes.tsv						Mast_CMA1	CMA1, mast cell	Mast cells	CMA1	processing	3	1	0.0250321021435558	1.76897774935116	1																
+																ras_dag_nodes.tsv						Mast_CTSG	CTSG, mast cell	Mast cells	CTSG	processing	3	0	0.108612598993288	2.49497661310594	1																
+																ras_dag_nodes.tsv						AngII	Ang II (latent)			latent	4	2																			
+																ras_dag_nodes.tsv						Peri_AGTR1	AGTR1, pericyte	Pericytes	AGTR1	receptor	5	2	0.341761789254222	3.81033572648724	1																
+																ras_dag_nodes.tsv						Peri_ACE2	ACE2, pericyte	Pericytes	ACE2	counter_regulatory	5	0.5	0.0301495176871895	1.61245160752436	1																
+																ras_dag_nodes.tsv						Ang17	Ang 1-7 (latent)			latent	6	0.5																			
+																ras_dag_nodes.tsv						Peri_MAS1	MAS1, pericyte	Pericytes	MAS1	counter_regulatory	7	0.5	0.000534100819815106	-0.115272575015666	20																
+																ras_dag_nodes.tsv						Peri_AT1R_response	AT1R-response programme	Pericytes		response	6	2																			
+																ras_dag_nodes.tsv						contractile	contractile	Pericytes		response_branch	7	3.2																			
+																ras_dag_nodes.tsv						inflammatory	inflammatory	Pericytes		response_branch	7	2.4																			
+																ras_dag_nodes.tsv						activated_migratory	activated / migratory	Pericytes		response_branch	7	2																			
+																ras_dag_nodes.tsv						matrix	matrix remodelling	Pericytes		response_branch	7	1.6																			
+																ras_dag_nodes.tsv						BM	basement membrane	Pericytes		matrix	8	2.2																			
+																ras_dag_nodes.tsv						FIB	fibrillar ECM	Pericytes		matrix	8	1.2																			
+																ras_dag_nodes.tsv						out_EC	capillary EC			neighbor	9	3																			
+																ras_dag_nodes.tsv						EC_readout	EC barrier programme			readout	10	3																			
+																ras_dag_nodes.tsv						out_FIB	fibroblasts			neighbor	9	2																			
+																ras_dag_nodes.tsv						out_EPI	AT1 / AT2			neighbor	9	1																			
+VSMC_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE													
+AlvFib_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE													
+AdvFib_AGT	AngI															ras_dag_edges.tsv																substrate	flux	TRUE													
+AngI	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+ECaero_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+ECgcap_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+AlvMac_ACE	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+Mast_CMA1	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+Mast_CTSG	AngII															ras_dag_edges.tsv																processing	flux	TRUE													
+AngII	Peri_AT1R_response															ras_dag_edges.tsv																receptor	positive	TRUE													
+Peri_AGTR1	Peri_AT1R_response															ras_dag_edges.tsv																receptor	positive	TRUE													
+Peri_AT1R_response	contractile															ras_dag_edges.tsv																response	positive	TRUE													
+Peri_AT1R_response	inflammatory															ras_dag_edges.tsv																response	positive	TRUE													
+Peri_AT1R_response	activated_migratory															ras_dag_edges.tsv																response	positive	TRUE													
+Peri_AT1R_response	matrix															ras_dag_edges.tsv																response	positive	TRUE													
+matrix	BM															ras_dag_edges.tsv																matrix	positive	TRUE													
+matrix	FIB															ras_dag_edges.tsv																matrix	positive	TRUE													
+BM	out_EC															ras_dag_edges.tsv																neighbor	positive	TRUE													
+FIB	out_FIB															ras_dag_edges.tsv																neighbor	positive	TRUE													
+Peri_AT1R_response	out_EPI															ras_dag_edges.tsv																neighbor	positive	TRUE													
+Peri_AT1R_response	EC_readout															ras_dag_edges.tsv																neighbor	positive	TRUE													
+AngII	Ang17															ras_dag_edges.tsv																counter_regulatory	flux	TRUE													
+Peri_ACE2	Ang17															ras_dag_edges.tsv																counter_regulatory	flux	TRUE													
+Ang17	Peri_MAS1															ras_dag_edges.tsv																counter_regulatory	flux	TRUE													
+Peri_MAS1	Peri_AT1R_response															ras_dag_edges.tsv																counter_regulatory	negative	TRUE													
+Peri_ACE2	Peri_AT1R_response															ras_dag_edges.tsv																counter_regulatory	negative	TRUE													
+VSMC_AGT	Peri_AGTR1															ras_dag_edges.tsv																forbidden	none	FALSE													
+																ras_dag_scalars.tsv																			max_REN_detect	0.0229											
+																ras_dag_scalars.tsv																			max_REN_cell_type	AT2_AGTR2det											
+																ras_dag_scalars.tsv																			n_cell_types	22											
+																ras_dag_scalars.tsv																			n_autonomous_circuit	0											
+																ras_dag_scalars.tsv																			autonomy_detect_threshold	0.05 (agt_axis/_h/01.ras_landscape_stats.R --detect-thr default)											
+																ras_dag_scalars.tsv																			max_steps_in_one_cell_type	1											
+AngII	Peri_AT1R_response				0.0200018970085864											ras_dag_annotations.tsv			0.286830136109818				AGT source +0.29*; ACE/chymase +0.30*														edge	C	partial rho	BH	positive	donor-level partial Spearman of each composite index with the response	TRUE	positive	FALSE		
+Peri_ACE2	Peri_AT1R_response				0.0175771069203317											ras_dag_annotations.tsv			0.298612422949791				+0.30*														edge	C	partial rho	BH	positive	prior sign is antagonistic; the estimate is positive	TRUE	negative	TRUE		
+Peri_AT1R_response	EC_readout				0.00775569946186885											ras_dag_annotations.tsv			0.329829335919628				+0.33*														edge	C	partial rho	BH	positive	the matrix balance does not carry it: BM - fibrillar -> barrier is +0.14, BH 0.23	TRUE	positive	FALSE		
+Peri_AT1R_response	activated_migratory				6.00540021793842e-07											ras_dag_annotations.tsv			0.527953694245829				+0.53*														edge	C	partial rho	BH	positive		TRUE	positive	FALSE		
+Peri_AT1R_response	contractile				0.0294466007202131											ras_dag_annotations.tsv			0.243122233571672				+0.24*														edge	C	partial rho	BH	positive		TRUE	positive	FALSE		
+Peri_AT1R_response	inflammatory				0.0294466007202131											ras_dag_annotations.tsv			0.239887640449438				+0.24*														edge	C	partial rho	BH	positive		TRUE	positive	FALSE		
+Peri_MAS1	Peri_AT1R_response				0.812973917496269											ras_dag_annotations.tsv			0.0254341164453524				+0.03 n.s.														edge	C	partial rho	BH	null	prior sign is antagonistic; the donor-level test is null	TRUE	negative	FALSE		
+Peri_AGTR1	Peri_AT1R_response				0.88394280616892											ras_dag_annotations.tsv			0.0170251889664171				+0.02 n.s.														edge	C/D	partial rho	BH	null	count arbiter agrees: see the AGTR1 abundance note	TRUE	positive	FALSE		
+Peri_AT1R_response	matrix															ras_dag_annotations.tsv																					edge	E			null		FALSE	positive	FALSE		
+matrix	BM				0.191902887359397											ras_dag_annotations.tsv			0.0981472032862387				beta +0.10 n.s.														edge	E	beta	raw	null		TRUE	positive	FALSE		
+matrix	FIB				3.19998411226894e-11											ras_dag_annotations.tsv			0.472866048384614				beta +0.47*														edge	E	beta	raw	positive		TRUE	positive	FALSE		
+BM	out_EC															ras_dag_annotations.tsv			12.2				PTN, COL18A1														edge	F	NicheNet z		null	donor validation, EC aerocyte capillary: beta +0.10, p = 0.208 (p_emp 0.967)	TRUE	positive	FALSE		
+FIB	out_FIB															ras_dag_annotations.tsv			42.2				EFEMP2, TIMP1														edge	F	NicheNet z		null	donor validation, Adventitial fibroblasts: beta +0.29, p = 0.0164 (p_emp 0.0699)	TRUE	positive	FALSE		
+Peri_AT1R_response	out_EPI															ras_dag_annotations.tsv			75.1				COL4A1, SEMA5A														edge	F	NicheNet z		null	donor validation, AT2: beta -0.08, p = 0.52 (p_emp 0.474)	TRUE	positive	FALSE		
+																ras_dag_notes.tsv																											TRUE			forbidden	AGT -> AGTR1 is not an edge (substrate, not ligand); tested as a control: rho +0.01, n.s.
+																ras_dag_notes.tsv																											TRUE			abundance_not_activity	AGTR1 abundance is not AT1R activity: count model beta -0.07 against a matched-null centre of +0.08 (p_emp 0.001)
+																ras_dag_notes.tsv																											TRUE			matrix_balance	matrix balance BM - fibrillar: beta -0.51 against its matched null (p_emp 0.001); donor rho -0.31
+																ras_dag_notes.tsv																											TRUE			ace2_not_antagonistic	the counter-regulatory arm does not oppose the response: pericyte ACE2 -> response rho +0.30*, against its prior sign
+																ras_dag_notes.tsv																											FALSE			no_compartment_affinity	AGTR1-high pericytes show no compartment-specific niche affinity (interaction LRT p = 0.50)

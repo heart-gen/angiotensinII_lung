@@ -89,6 +89,10 @@ N <- list(
     list("BM", "basement membrane", "Pericytes", NA, "matrix", 8, 2.2),
     list("FIB", "fibrillar ECM", "Pericytes", NA, "matrix", 8, 1.2),
     list("out_EC", "capillary EC", NA, NA, "neighbor", 9, 3),
+    ## The barrier programme is measured IN the capillary endothelium, and it is the
+    ## child of the response in the fitted DAG below, so it is a node of its own rather
+    ## than a property of the cell node.
+    list("EC_readout", "EC barrier programme", NA, NA, "readout", 10, 3),
     list("out_FIB", "fibroblasts", NA, NA, "neighbor", 9, 2),
     list("out_EPI", "AT1 / AT2", NA, NA, "neighbor", 9, 1))
 nodes <- rbindlist(lapply(N, function(z) {
@@ -119,13 +123,17 @@ E <- rbind(
                edge_sign = "positive"),
     data.table(from = c("BM", "FIB"), to = c("out_EC", "out_FIB"), edge_class = "neighbor",
                edge_sign = "positive"),
-    data.table(from = "Peri_AT1R_response", to = "out_EPI", edge_class = "neighbor",
-               edge_sign = "positive"),
+    data.table(from = "Peri_AT1R_response", to = c("out_EPI", "EC_readout"),
+               edge_class = "neighbor", edge_sign = "positive"),
     data.table(from = c("AngII", "Peri_ACE2", "Ang17"), to = c("Ang17", "Ang17", "Peri_MAS1"),
                edge_class = "counter_regulatory", edge_sign = "flux"),
-    ## The only antagonistic edge in the prior graph: MAS1 signalling opposes AT1R
-    ## signalling. Drawn with a bar head; the donor-level test of it is null.
-    data.table(from = "Peri_MAS1", to = "Peri_AT1R_response",
+    ## The two antagonistic edges of the prior graph: MAS1 signalling opposes AT1R
+    ## signalling, and pericyte ACE2 consumes the Ang II that drives it. Both are drawn
+    ## with a bar head, and both are parents of the response in the fitted DAG below --
+    ## which is why they are drawn at all. The MAS1 test is null; the ACE2 estimate comes
+    ## back POSITIVE, against its own prior, and the schematic says so rather than
+    ## quietly flipping the head.
+    data.table(from = c("Peri_MAS1", "Peri_ACE2"), to = "Peri_AT1R_response",
                edge_class = "counter_regulatory", edge_sign = "negative"),
     data.table(from = "VSMC_AGT", to = "Peri_AGTR1", edge_class = "forbidden",
                edge_sign = "none"))

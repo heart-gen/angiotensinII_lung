@@ -22,6 +22,7 @@ opt <- parse_args(OptionParser(option_list = list(
 SD <- function(f) file.path(opt$outdir, f)
 
 net <- read_req(SD("ras_network_edges.tsv"))[arm == "primary"]
+dag <- read_req(SD("ras_dag_edges.tsv"))
 mx  <- read_req(SD("matrix_vs_at1r.tsv"))
 cnt <- read_req(SD("at1r_vs_agtr1_count.tsv"))[model == "NB GLMM" & spec == "primary" &
                                                  score == "at1r_response_score"]
@@ -88,12 +89,29 @@ ann[[length(ann) + 1]] <- row_edge("matrix", "FIB", fib$estimate, fib$p_value, "
 ann[[length(ann) + 1]] <- row_edge("matrix", "BM", bm$estimate, bm$p_value, "raw", "beta", "E",
                                    sprintf("beta %s n.s.", num(bm$estimate)))
 
+## ---- the endothelial barrier, the one cross-cell consequence with a donor model ----
+ec <- E("Peri_AT1R_response", "EC_readout")
+bmec <- E("BM_minus_FIB", "EC_readout")
+ann[[length(ann) + 1]] <- row_edge(
+    "Peri_AT1R_response", "EC_readout", ec$partial_rho, ec$p_BH, "BH", "partial rho", "C",
+    sprintf("%s%s", num(ec$partial_rho), star(ec$p_BH)),
+    note = sprintf(paste("the matrix balance does not carry it: BM - fibrillar ->",
+                         "barrier is %s, BH %.2f"), num(bmec$partial_rho), bmec$p_BH))
+
 ## ---- counter-regulatory arm --------------------------------------------------------
+## Both of these are parents of the response in the fitted DAG and both are drawn with
+## the antagonistic head their biology implies. MAS1 comes back null; ACE2 comes back
+## positive, i.e. against its own prior, which is the point of reporting it.
 ms <- E("Peri_MAS1", "Peri_AT1R_response")
 ann[[length(ann) + 1]] <- row_edge(
     "Peri_MAS1", "Peri_AT1R_response", ms$partial_rho, ms$p_BH, "BH", "partial rho", "C",
     sprintf("%s n.s.", num(ms$partial_rho)),
     note = "prior sign is antagonistic; the donor-level test is null")
+ac2 <- E("Peri_ACE2", "Peri_AT1R_response")
+ann[[length(ann) + 1]] <- row_edge(
+    "Peri_ACE2", "Peri_AT1R_response", ac2$partial_rho, ac2$p_BH, "BH", "partial rho", "C",
+    sprintf("%s%s", num(ac2$partial_rho), star(ac2$p_BH)),
+    note = "prior sign is antagonistic; the estimate is positive")
 
 ## ---- outgoing edges: name the ligands that carry them -------------------------------
 ## Panel F's top-ranked pericyte ligands per receiver programme, so the neighbour edges
@@ -123,6 +141,13 @@ for (nd in unique(top$node)) {
 }
 
 A <- rbindlist(ann, fill = TRUE)
+## Flag, rather than resolve, the edges where the estimate runs against the prior: the
+## schematic keeps the prior head and marks the edge.
+A <- merge(A, dag[, .(from, to, prior_sign = edge_sign)], by = c("from", "to"), all.x = TRUE)
+A[, contradicts_prior := measured_sign %in% c("positive", "negative") &
+                         prior_sign %in% c("positive", "negative") &
+                         measured_sign != prior_sign]
+setorderv(A, c("evidence_panel", "from", "to"))
 
 ## ---- panel-level notes ---------------------------------------------------------------
 vs <- E("VSMC_AGT", "Peri_AGTR1")
@@ -139,8 +164,8 @@ N <- rbindlist(list(
         "matrix balance BM - fibrillar: beta %s against its matched null (p_emp %s); donor rho %s",
         num(mx[spec == "primary", estimate]),
         formatC(mx[spec == "primary", p_emp], digits = 2, format = "g"), num(bmp$rho))),
-    data.table(id = "ace2_not_antagonistic", show_in_panel = FALSE, text = sprintf(
-        "pericyte ACE2 -> response rho %s%s: the counter-regulatory arm does not oppose the response here",
+    data.table(id = "ace2_not_antagonistic", show_in_panel = TRUE, text = sprintf(
+        "the counter-regulatory arm does not oppose the response: pericyte ACE2 -> response rho %s%s, against its prior sign",
         num(ac$partial_rho), star(ac$p_BH))),
     data.table(id = "no_compartment_affinity", show_in_panel = FALSE, text = sprintf(
         "AGTR1-high pericytes show no compartment-specific niche affinity (interaction LRT p = %.2f)",
@@ -148,5 +173,5 @@ N <- rbindlist(list(
 
 write_tsv_safe(A, SD("ras_dag_annotations.tsv"))
 write_tsv_safe(N, SD("ras_dag_notes.tsv"))
-message(sprintf("ras_dag_annotations: %d annotated edges (%d shown); %d notes",
-                nrow(A), sum(A$show_in_panel), nrow(N)))
+message(sprintf("ras_dag_annotations: %d annotated edges (%d shown, %d against prior); %d notes",
+                nrow(A), sum(A$show_in_panel), sum(A$contradicts_prior), nrow(N)))

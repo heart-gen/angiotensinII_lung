@@ -2,5 +2,5 @@ id	show_in_panel	text
 forbidden	TRUE	AGT -> AGTR1 is not an edge (substrate, not ligand); tested as a control: rho +0.01, n.s.
 abundance_not_activity	TRUE	AGTR1 abundance is not AT1R activity: count model beta -0.07 against a matched-null centre of +0.08 (p_emp 0.001)
 matrix_balance	TRUE	matrix balance BM - fibrillar: beta -0.51 against its matched null (p_emp 0.001); donor rho -0.31
-ace2_not_antagonistic	FALSE	pericyte ACE2 -> response rho +0.30*: the counter-regulatory arm does not oppose the response here
+ace2_not_antagonistic	TRUE	the counter-regulatory arm does not oppose the response: pericyte ACE2 -> response rho +0.30*, against its prior sign
 no_compartment_affinity	FALSE	AGTR1-high pericytes show no compartment-specific niche affinity (interaction LRT p = 0.50)

@@ -29,7 +29,8 @@ theme_ms <- function(base = 8) .theme_ms(base = base, legend = NULL)
 COMP_LAB <- c(AT1 = "AT1", AT2 = "AT2", EC_aerocyte = "Aerocyte EC", EC_gcap = "General cap. EC")
 CLASS_COL <- c(substrate = OKABE[2], processing = OKABE[1], receptor = OKABE[4],
                counter_regulatory = "grey75", response = OKABE[5], response_branch = OKABE[5],
-               matrix = OKABE[6], neighbor = OKABE[3], latent = "white")
+               matrix = OKABE[6], neighbor = OKABE[3], readout = "#9ED8C4",
+               latent = "white")
 
 ## ================================ A: DAG ==========================================
 ## Edge grammar, stated in the legend: an ARROW head is a promoting / mass-flow link,
@@ -53,6 +54,7 @@ NODE_LAB <- c(Peri_AT1R_response = "AT1R\nresponse", contractile = "Contractile"
               matrix = "Matrix\nremodelling",
               BM = "Basement\nmembrane", FIB = "Fibrillar\nECM",
               out_EC = "Capillary\nEC", out_FIB = "Fibroblasts", out_EPI = "AT1 / AT2",
+              EC_readout = "EC barrier\nprogramme",
               AngI = "Ang I", AngII = "Ang II", Ang17 = "Ang 1-7")
 nodes[, lab := fifelse(
     !is.na(gene) & !is.na(cell_type),
@@ -73,15 +75,17 @@ XY <- data.table(matrix(byrow = TRUE, ncol = 3, c(
     "Peri_AT1R_response", 7.0, 0.4,                   "Peri_MAS1", 7.0, -2.9,
     "contractile", 8.6, 2.7, "inflammatory", 8.6, 1.7, "activated_migratory", 8.6, 0.7,
     "matrix", 8.6, -0.7,
-    "BM", 10.4, 0.0,        "FIB", 10.4, -1.6,
-    "out_EPI", 12.4, 2.6,   "out_EC", 12.4, 0.0,      "out_FIB", 12.4, -1.6)))
+    "BM", 10.4, 0.2,        "FIB", 10.4, -1.4,
+    "out_EPI", 12.4, 2.6,   "out_EC", 12.4, 0.2,      "out_FIB", 12.4, -1.4,
+    "EC_readout", 14.1, 0.2)))
 setnames(XY, c("node", "xx", "yy")); XY[, c("xx", "yy") := lapply(.SD, as.numeric),
                                         .SDcols = c("xx", "yy")]
 nodes <- merge(nodes, XY, by = "node")
 stopifnot(!anyNA(nodes$xx))
 eg <- merge(merge(edges, XY, by.x = "from", by.y = "node"),
             XY, by.x = "to", by.y = "node", suffixes = c("", "end"))
-eg <- merge(eg, dann[, .(from, to, stat_label = label, stat_kind, measured_sign, show_in_panel)],
+eg <- merge(eg, dann[, .(from, to, stat_label = label, stat_kind, measured_sign,
+                         contradicts_prior, show_in_panel)],
             by = c("from", "to"), all.x = TRUE)
 ## Solid where an estimate is supported, dotted where it was tested and null, thin grey
 ## where the link is a conversion no model can reach.
@@ -90,22 +94,35 @@ eg[, evidence := fifelse(stat_kind == "NicheNet z", "inferred",
                    fifelse(measured_sign == "null", "tested_null", "supported")))]
 eg[is.na(evidence), evidence := "prior"]
 eg[, head_shape := fifelse(edge_sign == "negative", "bar", "arrow")]
+## An edge whose estimate runs against its prior sign keeps the prior head and is drawn
+## in vermillion, so the disagreement is the thing the eye lands on.
+eg[, against := !is.na(contradicts_prior) & contradicts_prior]
 ## Shorten every edge at both ends so the head lands outside the label box; the
 ## curved ones are trimmed less, because the arc runs longer than the chord.
 shrink <- function(a, b, f) a + (b - a) * f
 eg[, `:=`(dx = xxend - xx, dy = yyend - yy)]
 eg[, len := pmax(sqrt(dx^2 + dy^2), 1e-6)]
+## Curvature is a layout decision and lives here. The outgoing edges arc over the
+## programme column; the barrier edge arcs UNDER the matrix column, which is the only
+## way it reaches the endothelium without running through the basement-membrane node.
+CURVE <- c("Peri_AT1R_response|EC_readout" = 0.55)
+eg[, ekey := paste(from, to, sep = "|")]
+eg[, curv := 0]
+eg[evidence == "inferred", curv := fifelse(len > 3, -0.30, -0.10)]
+eg[ekey %in% names(CURVE), curv := CURVE[ekey]]
 eg[, `:=`(f0 = 0.14, f1 = 0.84)]
-## The outgoing edges run between short and long, so trim them by a fixed distance
-## rather than a fraction: a fraction either buries the head in the receiver box or
-## leaves it hanging in white space.
-eg[evidence == "inferred", `:=`(f0 = 0.30 / len, f1 = 1 - 0.55 / len)]
+## Curved edges run between short and long, so trim them by a fixed distance rather
+## than a fraction: a fraction either buries the head in the receiver box or leaves it
+## hanging in white space.
+eg[curv != 0, `:=`(f0 = 0.30 / len, f1 = 1 - 0.55 / len)]
 eg[, `:=`(x0 = shrink(xx, xxend, f0), y0 = shrink(yy, yyend, f0),
           x1 = shrink(xx, xxend, f1), y1 = shrink(yy, yyend, f1))]
 ## Labels sit beside their edge, not on it: offset perpendicular to the segment, and
 ## for a curved edge far enough out to clear the apex of the arc.
-eg[, off := fifelse(evidence == "inferred", 0.25 + 0.15 * len, 0.30)]
-eg[, lpos := fifelse(evidence == "inferred", 0.62, 0.50)]
+## Clear the apex of the bow, which is roughly |curvature| x chord / 2.
+eg[, off := fifelse(curv != 0, abs(curv) * len / 2 + 0.35, 0.30)]
+eg[, off := fifelse(curv > 0, -off, off)]          # follow the bow
+eg[, lpos := fifelse(curv != 0, 0.62, 0.50)]
 eg[, `:=`(lx = shrink(xx, xxend, lpos) - off * dy / len,
           ly = shrink(yy, yyend, lpos) + off * dx / len)]
 elab <- eg[show_in_panel == TRUE & nzchar(stat_label)]
@@ -119,6 +136,17 @@ max_ren <- scal[quantity == "max_REN_detect", value]
 notes <- dnote[show_in_panel == TRUE]
 arrow_h <- arrow(length = unit(1.6, "mm"), type = "closed")
 bar_h   <- arrow(length = unit(1.8, "mm"), angle = 90, type = "open")
+AGAINST <- OKABE[4]
+## Six line styles now, which is past what a reader should have to hold in their head
+## from the legend alone, so the panel carries its own key.
+KEY <- data.table(
+    style = c("supported", "tested_null", "prior", "inferred", "bar", "against"),
+    lab = c("supported estimate", "tested, null", "conversion, not estimable",
+            "ligand inference (F)", "antagonistic (prior)", "estimate against prior"),
+    kx = c(1.0, 5.6, 10.2, 1.0, 5.6, 10.2), ky = rep(c(-4.05, -4.65), each = 3))
+KEY[, `:=`(kx1 = kx + 0.55, lkx = kx + 0.72)]
+key_seg <- function(st, ...) geom_segment(data = KEY[style == st],
+                                          aes(kx, ky, xend = kx1, yend = ky), ...)
 pA <- ggplot() +
     geom_segment(data = eg[evidence == "prior" & head_shape == "arrow"],
                  aes(x0, y0, xend = x1, yend = y1), colour = "grey72", linewidth = 0.22,
@@ -141,13 +169,22 @@ pA <- ggplot() +
     geom_curve(data = eg[evidence == "inferred" & len <= 3],
                aes(x0, y0, xend = x1, yend = y1), colour = OKABE[3], linewidth = 0.35,
                linetype = "dashed", curvature = -0.10, arrow = arrow_h) +
-    ## Antagonistic links: bar head, and here the estimate behind it is null.
-    geom_segment(data = eg[head_shape == "bar"],
+    ## The response -> endothelial barrier edge, arcing under the matrix column.
+    geom_curve(data = eg[curv > 0 & against == FALSE],
+               aes(x0, y0, xend = x1, yend = y1), colour = "grey35", linewidth = 0.42,
+               curvature = CURVE[[1]], arrow = arrow_h) +
+    ## Antagonistic links keep their bar head whatever the estimate says. MAS1 is null
+    ## and dotted; pericyte ACE2 is supported in the opposite direction and vermillion.
+    geom_segment(data = eg[head_shape == "bar" & against == FALSE],
                  aes(x0, y0, xend = x1, yend = y1), colour = "grey35", linewidth = 0.38,
                  linetype = "dotted", arrow = bar_h) +
-    geom_label(data = elab, aes(lx, ly, label = stat_label), size = 1.5, colour = "grey15",
+    geom_segment(data = eg[against == TRUE],
+                 aes(x0, y0, xend = x1, yend = y1), colour = AGAINST, linewidth = 0.45,
+                 arrow = bar_h) +
+    geom_label(data = elab, aes(lx, ly, label = stat_label, colour = against), size = 1.5,
                fill = "white", label.size = 0, lineheight = 0.9,
-               label.padding = unit(0.3, "mm"), alpha = 0.85) +
+               label.padding = unit(0.3, "mm"), alpha = 0.85, show.legend = FALSE) +
+    scale_colour_manual(values = c(`FALSE` = "grey15", `TRUE` = AGAINST), guide = "none") +
     geom_label(data = nodes[node_class != "latent"],
                aes(xx, yy, label = lab, fill = node_class), size = 1.75, label.size = 0.12,
                lineheight = 0.9, label.padding = unit(0.6, "mm"), alpha = 0.9) +
@@ -155,12 +192,22 @@ pA <- ggplot() +
               size = 1.9, fontface = "italic", colour = "grey20") +
     geom_text(data = TIER_CAP, aes(xx, yy, label = cap), size = 1.75, fontface = "italic",
               colour = "grey45") +
-    annotate("text", x = 0.55, y = -3.55 - 0.42 * seq_len(nrow(notes)), hjust = 0,
+    key_seg("supported", colour = "grey35", linewidth = 0.42, arrow = arrow_h) +
+    key_seg("tested_null", colour = "grey55", linewidth = 0.3, linetype = "dotted",
+            arrow = arrow_h) +
+    key_seg("prior", colour = "grey72", linewidth = 0.22, arrow = arrow_h) +
+    key_seg("inferred", colour = OKABE[3], linewidth = 0.35, linetype = "dashed",
+            arrow = arrow_h) +
+    key_seg("bar", colour = "grey35", linewidth = 0.38, linetype = "dotted", arrow = bar_h) +
+    key_seg("against", colour = AGAINST, linewidth = 0.45, arrow = bar_h) +
+    geom_text(data = KEY, aes(lkx, ky, label = lab), hjust = 0, size = 1.6,
+              colour = "grey30") +
+    annotate("text", x = 0.9, y = -5.25 - 0.42 * seq_len(nrow(notes)), hjust = 0,
              size = 1.6, colour = "grey30", label = notes$text) +
-    annotate("text", x = 0.55, y = -3.55, hjust = 0, size = 1.6, colour = "grey30",
+    annotate("text", x = 0.9, y = -5.25, hjust = 0, size = 1.6, colour = "grey30",
              label = sprintf("REN max detection %s; no cell type carries >1 step", max_ren)) +
     scale_fill_manual(values = CLASS_COL, guide = "none") +
-    scale_x_continuous(expand = expansion(add = 0.62)) +
+    scale_x_continuous(expand = expansion(add = c(0.62, 1.15))) +
     scale_y_continuous(expand = expansion(add = 0.30)) +
     theme_void(base_size = 8)
 
@@ -313,10 +360,10 @@ pF <- f1 + f2 + plot_layout(widths = c(1, 1.45))
 ## ============================ assemble Figure 5 ==================================
 ## pF is two plots; wrap it so patchwork tags it once as panel F, not F and G.
 fig <- wrap_elements(full = pA) / (pB | pC) / (pD | pE) / wrap_elements(full = pF) +
-    plot_layout(heights = c(1.4, 0.95, 0.9, 1.45)) +
+    plot_layout(heights = c(1.85, 0.95, 0.9, 1.45)) +
     plot_annotation(tag_levels = "A") &
     theme(plot.tag = element_text(face = "bold", size = 10))
-save_fig("figure_ras_circuit", fig, 7.2, 9.8)
+save_fig("figure_ras_circuit", fig, 7.2, 10.3)
 
 ## ========================== Figure S18: robustness ===============================
 sa <- read_req(SD("niche_affinity_agtr1_models.tsv"))

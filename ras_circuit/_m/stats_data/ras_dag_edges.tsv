@@ -19,8 +19,10 @@ matrix	FIB	matrix	positive	TRUE
 BM	out_EC	neighbor	positive	TRUE
 FIB	out_FIB	neighbor	positive	TRUE
 Peri_AT1R_response	out_EPI	neighbor	positive	TRUE
+Peri_AT1R_response	EC_readout	neighbor	positive	TRUE
 AngII	Ang17	counter_regulatory	flux	TRUE
 Peri_ACE2	Ang17	counter_regulatory	flux	TRUE
 Ang17	Peri_MAS1	counter_regulatory	flux	TRUE
 Peri_MAS1	Peri_AT1R_response	counter_regulatory	negative	TRUE
+Peri_ACE2	Peri_AT1R_response	counter_regulatory	negative	TRUE
 VSMC_AGT	Peri_AGTR1	forbidden	none	FALSE

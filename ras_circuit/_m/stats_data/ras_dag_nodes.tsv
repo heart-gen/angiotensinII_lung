@@ -21,5 +21,6 @@ matrix	matrix remodelling	Pericytes	NA	response_branch	7	1.6	NA	NA	NA
 BM	basement membrane	Pericytes	NA	matrix	8	2.2	NA	NA	NA
 FIB	fibrillar ECM	Pericytes	NA	matrix	8	1.2	NA	NA	NA
 out_EC	capillary EC	NA	NA	neighbor	9	3	NA	NA	NA
+EC_readout	EC barrier programme	NA	NA	readout	10	3	NA	NA	NA
 out_FIB	fibroblasts	NA	NA	neighbor	9	2	NA	NA	NA
 out_EPI	AT1 / AT2	NA	NA	neighbor	9	1	NA	NA	NA

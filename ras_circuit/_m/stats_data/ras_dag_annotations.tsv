@@ -1,13 +1,15 @@
-from	to	kind	evidence_panel	stat_kind	estimate	p_value	p_kind	measured_sign	label	note	show_in_panel
-AngII	Peri_AT1R_response	edge	C	partial rho	0.286830136109818	0.0200018970085864	BH	positive	AGT source +0.29*; ACE/chymase +0.30*	donor-level partial Spearman of each composite index with the response	TRUE
-Peri_AGTR1	Peri_AT1R_response	edge	C/D	partial rho	0.0170251889664171	0.88394280616892	BH	null	+0.02 n.s.	count arbiter agrees: see the AGTR1 abundance note	TRUE
-Peri_AT1R_response	contractile	edge	C	partial rho	0.243122233571672	0.0294466007202131	BH	positive	+0.24*		TRUE
-Peri_AT1R_response	inflammatory	edge	C	partial rho	0.239887640449438	0.0294466007202131	BH	positive	+0.24*		TRUE
-Peri_AT1R_response	activated_migratory	edge	C	partial rho	0.527953694245829	6.00540021793842e-07	BH	positive	+0.53*		TRUE
-Peri_AT1R_response	matrix	edge	E		NA	NA		null			FALSE
-matrix	FIB	edge	E	beta	0.472866048384614	3.19998411226894e-11	raw	positive	beta +0.47*		TRUE
-matrix	BM	edge	E	beta	0.0981472032862387	0.191902887359397	raw	null	beta +0.10 n.s.		TRUE
-Peri_MAS1	Peri_AT1R_response	edge	C	partial rho	0.0254341164453524	0.812973917496269	BH	null	+0.03 n.s.	prior sign is antagonistic; the donor-level test is null	TRUE
-Peri_AT1R_response	out_EPI	edge	F	NicheNet z	75.1	NA		null	COL4A1, SEMA5A	donor validation, AT2: beta -0.08, p = 0.52 (p_emp 0.474)	TRUE
-FIB	out_FIB	edge	F	NicheNet z	42.2	NA		null	EFEMP2, TIMP1	donor validation, Adventitial fibroblasts: beta +0.29, p = 0.0164 (p_emp 0.0699)	TRUE
-BM	out_EC	edge	F	NicheNet z	12.2	NA		null	PTN, COL18A1	donor validation, EC aerocyte capillary: beta +0.10, p = 0.208 (p_emp 0.967)	TRUE
+from	to	kind	evidence_panel	stat_kind	estimate	p_value	p_kind	measured_sign	label	note	show_in_panel	prior_sign	contradicts_prior
+AngII	Peri_AT1R_response	edge	C	partial rho	0.286830136109818	0.0200018970085864	BH	positive	AGT source +0.29*; ACE/chymase +0.30*	donor-level partial Spearman of each composite index with the response	TRUE	positive	FALSE
+Peri_ACE2	Peri_AT1R_response	edge	C	partial rho	0.298612422949791	0.0175771069203317	BH	positive	+0.30*	prior sign is antagonistic; the estimate is positive	TRUE	negative	TRUE
+Peri_AT1R_response	EC_readout	edge	C	partial rho	0.329829335919628	0.00775569946186885	BH	positive	+0.33*	the matrix balance does not carry it: BM - fibrillar -> barrier is +0.14, BH 0.23	TRUE	positive	FALSE
+Peri_AT1R_response	activated_migratory	edge	C	partial rho	0.527953694245829	6.00540021793842e-07	BH	positive	+0.53*		TRUE	positive	FALSE
+Peri_AT1R_response	contractile	edge	C	partial rho	0.243122233571672	0.0294466007202131	BH	positive	+0.24*		TRUE	positive	FALSE
+Peri_AT1R_response	inflammatory	edge	C	partial rho	0.239887640449438	0.0294466007202131	BH	positive	+0.24*		TRUE	positive	FALSE
+Peri_MAS1	Peri_AT1R_response	edge	C	partial rho	0.0254341164453524	0.812973917496269	BH	null	+0.03 n.s.	prior sign is antagonistic; the donor-level test is null	TRUE	negative	FALSE
+Peri_AGTR1	Peri_AT1R_response	edge	C/D	partial rho	0.0170251889664171	0.88394280616892	BH	null	+0.02 n.s.	count arbiter agrees: see the AGTR1 abundance note	TRUE	positive	FALSE
+Peri_AT1R_response	matrix	edge	E		NA	NA		null			FALSE	positive	FALSE
+matrix	BM	edge	E	beta	0.0981472032862387	0.191902887359397	raw	null	beta +0.10 n.s.		TRUE	positive	FALSE
+matrix	FIB	edge	E	beta	0.472866048384614	3.19998411226894e-11	raw	positive	beta +0.47*		TRUE	positive	FALSE
+BM	out_EC	edge	F	NicheNet z	12.2	NA		null	PTN, COL18A1	donor validation, EC aerocyte capillary: beta +0.10, p = 0.208 (p_emp 0.967)	TRUE	positive	FALSE
+FIB	out_FIB	edge	F	NicheNet z	42.2	NA		null	EFEMP2, TIMP1	donor validation, Adventitial fibroblasts: beta +0.29, p = 0.0164 (p_emp 0.0699)	TRUE	positive	FALSE
+Peri_AT1R_response	out_EPI	edge	F	NicheNet z	75.1	NA		null	COL4A1, SEMA5A	donor validation, AT2: beta -0.08, p = 0.52 (p_emp 0.474)	TRUE	positive	FALSE
